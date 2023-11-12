@@ -363,7 +363,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         newg += 500;
                     } else {
                         // Unbashable and unopenable from here
-                        if( !is_door ) {
+                        if( !is_inside_door ) {
                             // Or anywhere else for that matter
                             layer.state[index] = ASL_CLOSED;
                         }
@@ -432,88 +432,122 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         if( !allow_stairs && stair_here ) {
             hit_non_wall_boundry = true;
         }
-
         if( !stair_here || !allow_stairs ) {
             // The part below is only for z-level pathing
             continue;
         }
 
+        const bool can_go_up = cur.z < max.z;
+        const bool can_go_down = cur.z > min.z;
+
         bool rope_ladder = false;
         const const_maptile &parent_tile = maptile_at_internal( cur );
         const ter_t &parent_terrain = parent_tile.get_ter_t();
-        if( settings.allow_climb_stairs && cur.z > min.z &&
-            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                               cur.z - 1, rope_ladder, false, cur );
-            if( !opt_dest ) {
-                continue;
-            }
-            tripoint dest = opt_dest.value();
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
-                if( !inbounds( dest ) ) {
+        const bool stairs_down = parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN );
+        if( stairs_down ) {
+            if( can_go_down ) {
+                std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                                   cur.z - 1, rope_ladder, false, cur );
+                if( !opt_dest ) {
+                    hit_non_wall_boundry = true;
                     continue;
                 }
-                path_data_layer &layer = pf.get_layer( dest.z );
-                pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                              cur, dest );
+                tripoint dest = opt_dest.value();
+                if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
+                    if( !inbounds( dest ) ) {
+                        hit_non_wall_boundry = true;
+                        continue;
+                    }
+                    path_data_layer &layer = pf.get_layer( dest.z );
+                    pf.add_point( layer.gscore[parent_index] + 2,
+                                  layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                                  cur, dest );
+                }
+            } else {
+                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
+                hit_non_wall_boundry = true;
             }
         }
-        if( settings.allow_climb_stairs && cur.z < max.z &&
-            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                               cur.z + 1, rope_ladder, false, cur );
-            if( !opt_dest ) {
-                continue;
-            }
-            tripoint dest = opt_dest.value();
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
-                if( !inbounds( dest ) ) {
+        const bool stairs_up = parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP );
+        if( stairs_up ) {
+            if( can_go_up ) {
+                std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                                   cur.z + 1, rope_ladder, false, cur );
+                if( !opt_dest ) {
+                    hit_non_wall_boundry = true;
                     continue;
                 }
-                path_data_layer &layer = pf.get_layer( dest.z );
-                pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                              cur, dest );
-            }
-        }
-        if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
-            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z + 1 );
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
-                if( !inbounds( above ) ) {
-                    continue;
+                tripoint dest = opt_dest.value();
+                if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
+                    if( !inbounds( dest ) ) {
+                        hit_non_wall_boundry = true;
+                        continue;
+                    }
+                    path_data_layer &layer = pf.get_layer( dest.z );
+                    pf.add_point( layer.gscore[parent_index] + 2,
+                                  layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                                  cur, dest );
                 }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
+            } else {
+                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
+                hit_non_wall_boundry = true;
             }
         }
-        if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
-            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z + 1 );
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
-                if( !inbounds( above ) ) {
-                    continue;
+        const bool ramp = parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP );
+        if( ramp ) {
+            if( can_go_up && valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
+                path_data_layer &layer = pf.get_layer( cur.z + 1 );
+                for( size_t it = 0; it < 8; it++ ) {
+                    const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                    if( !inbounds( above ) ) {
+                        hit_non_wall_boundry = true;
+                        continue;
+                    }
+                    pf.add_point( layer.gscore[parent_index] + 4,
+                                  layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                                  cur, above );
                 }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
+            } else {
+                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
+                hit_non_wall_boundry = true;
             }
         }
-        if( cur.z > min.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
-            valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z - 1 );
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
-                if( !inbounds( below ) ) {
-                    continue;
+        const bool ramp_up = parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP );
+        if( ramp_up ) {
+            if( can_go_up && valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
+                path_data_layer &layer = pf.get_layer( cur.z + 1 );
+                for( size_t it = 0; it < 8; it++ ) {
+                    const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                    if( !inbounds( above ) ) {
+                        hit_non_wall_boundry = true;
+                        continue;
+                    }
+                    pf.add_point( layer.gscore[parent_index] + 4,
+                                  layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                                  cur, above );
                 }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
-                              cur, below );
+            } else {
+                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
+                hit_non_wall_boundry = true;
+            }
+        }
+        const bool ramp_down = parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN );
+        if( ramp_down ) {
+            if( can_go_down && valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
+                path_data_layer &layer = pf.get_layer( cur.z - 1 );
+                for( size_t it = 0; it < 8; it++ ) {
+                    const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
+                    if( !inbounds( below ) ) {
+                        hit_non_wall_boundry = true;
+                        continue;
+                    }
+                    pf.add_point( layer.gscore[parent_index] + 4,
+                                  layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
+                                  cur, below );
+                }
+            } else {
+                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
+                hit_non_wall_boundry = true;
             }
         }
 
