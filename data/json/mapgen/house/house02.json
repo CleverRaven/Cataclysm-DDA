@@ -43,7 +43,6 @@
         ";": "t_fencegate_c",
         "/": "t_screened_porch_wall",
         "=": "t_screen_door_c",
-        "#": "t_wall_wood",
         "-": "t_linoleum_white",
         "Q": "t_linoleum_white",
         "8": "t_linoleum_white",

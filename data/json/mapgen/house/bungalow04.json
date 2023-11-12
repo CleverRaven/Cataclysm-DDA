@@ -39,7 +39,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_adobe_brick_wall",
         "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
         "=": "t_shrub_lilac",
         "_": "t_linoleum_gray",

@@ -38,7 +38,6 @@
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
-        "#": "t_rock_wall",
         "_": "t_region_soil"
       },
       "furniture": { "!": "f_region_flower" }

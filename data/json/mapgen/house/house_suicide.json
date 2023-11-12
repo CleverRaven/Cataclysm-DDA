@@ -34,11 +34,7 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "#": "t_rock_wall",
-        "!": "t_door_locked_interior"
-      },
+      "terrain": { "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ], "!": "t_door_locked_interior" },
       "place_nested": [ { "chunks": [ [ "bathroom_suicide", 100 ] ], "x": 18, "y": 13 } ]
     }
   },

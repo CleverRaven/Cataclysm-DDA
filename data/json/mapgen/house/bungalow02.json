@@ -39,7 +39,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_wall_b",
         "_": "t_linoleum_gray",
         "~": "t_floor_noroof",
         "!": "t_railing_v",

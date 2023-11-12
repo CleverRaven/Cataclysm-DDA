@@ -34,7 +34,6 @@
       ],
       "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
-        "#": "t_adobe_brick_wall",
         "p": "t_sidewalk",
         "X": "t_sidewalk",
         "B": "t_linoleum_gray",

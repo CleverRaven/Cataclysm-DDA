@@ -39,7 +39,6 @@
         "]": "t_door_glass_c",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "q": "t_thconc_floor",
         "U": "t_thconc_floor",

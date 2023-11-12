@@ -34,7 +34,6 @@
         ".................[......"
       ],
       "terrain": {
-        "#": "t_wall_p",
         "`": "t_carpet_red",
         "_": "t_linoleum_gray",
         "|": "t_wall",
