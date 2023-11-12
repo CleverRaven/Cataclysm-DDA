@@ -8960,5 +8960,55 @@
     "pre_terrain": "f_pipe_stack_mid",
     "post_terrain": "f_pipe_stack_tall",
     "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_bars_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_window_bars",
+    "post_terrain": "t_window_bars_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_window_bars_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_window_bars_taped",
+    "post_terrain": "t_window_bars"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_bars_noglass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_window_bars_noglass",
+    "post_terrain": "t_window_bars_noglass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_window_bars_noglass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_window_bars_noglass_taped",
+    "post_terrain": "t_window_bars_noglass"
   }
 ]

@@ -4295,5 +4295,71 @@
         { "item": "glass_shard", "count": [ 20, 50 ] }
       ]
     }
-  }
+  },
+  [
+    {
+      "type": "terrain",
+      "id": "t_window_bars_taped",
+      "name": "taped window with metal bars",
+      "looks_like": "t_bars",
+      "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods. This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+      "//": "Taped window with metal bars.",
+      "symbol": "\"",
+      "color": "dark_gray",
+      "move_cost": 0,
+      "roof": "t_flat_roof",
+      "hacksaw": {
+        "result": "t_window",
+        "duration": "10 minutes",
+        "message": "You finish cutting the metal.",
+        "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] }, { "item": "duct_tape", "count": [ 15, 25 ] } ]
+      },
+      "flags": [ "NOITEM", "CONNECT_WITH_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+      "oxytorch": { "result": "t_window", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
+      "bash": {
+        "str_min": 3,
+        "str_max": 6,
+        "sound": "glass breaking!",
+        "sound_fail": "whack!",
+        "sound_vol": 16,
+        "sound_fail_vol": 10,
+        "ter_set": "t_window_bars_noglass",
+        "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
+      },
+      "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
+    },
+    {
+      "type": "terrain",
+      "id": "t_window_bars_noglass_taped",
+      "name": "taped window frame with metal bars",
+      "looks_like": "t_bars",
+      "description": "A window frame blocked with thick security grilles, making it impossible to crawl through. Typically installed in high-value stores, or ones in bad neighborhoods. This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+      "//": "Taped empty frame with metal bars",
+      "symbol": "\"",
+      "color": "dark_gray",
+      "move_cost": 0,
+      "roof": "t_flat_roof",
+      "hacksaw": {
+        "result": "t_window_empty",
+        "duration": "10 minutes",
+        "message": "You finish cutting the metal.",
+        "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] }, { "item": "duct_tape", "count": [ 15, 25 ] } ]
+      },
+      "flags": [ "NOITEM", "CONNECT_WITH_WALL", "WINDOW", "BLOCK_WIND", "REDUCE_SCENT", "SUPPORTS_ROOF", "THIN_OBSTACLE" ],
+      "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
+      "bash": {
+        "str_min": 60,
+        "str_max": 250,
+        "sound": "metal screeching!",
+        "sound_fail": "clang!",
+        "ter_set": "t_window_empty",
+        "items": [
+          { "item": "steel_lump", "prob": 25 },
+          { "item": "steel_chunk", "count": [ 1, 4 ] },
+          { "item": "scrap", "count": [ 1, 5 ] }
+        ]
+      },
+      "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
+    }
+  ]
 ]
