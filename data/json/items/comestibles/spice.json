@@ -159,7 +159,7 @@
   {
     "type": "COMESTIBLE",
     "id": "thyme",
-    "name": { "str": "thyme" },
+    "name": { "str_sp": "thyme" },
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
