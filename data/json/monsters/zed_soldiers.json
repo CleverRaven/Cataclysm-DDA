@@ -302,7 +302,7 @@
     "id": "mon_zombie_military_pilot",
     "type": "MONSTER",
     "name": { "str": "zombie military pilot" },
-    "description": "Once a pilot, it is wearing a flightsuit and a sturdy-looking flight helmet. The head twitches and adjusts constantly, following any and every source of movement.",
+    "description": "Once a pilot, it is wearing a flight suit and a sturdy-looking flight helmet. The head twitches and adjusts constantly, following any and every source of movement.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
