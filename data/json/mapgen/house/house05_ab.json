@@ -40,6 +40,7 @@
       ],
       "terrain": {
         "+": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "#": "t_brick_wall",
         ">": "t_stairs_down",
         "^": "t_gutter_downspout",
         ".": "t_region_groundcover_urban",
