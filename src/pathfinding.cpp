@@ -293,6 +293,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 newg += 2;
             } else {
                 if( roughavoid ) {
+                    // If we don't escape due to it, it's because of choice. Others may
+                    // choose to cross it.
+                    hit_non_wall_boundry = true;
                     layer.state[index] = ASL_CLOSED; // Close all rough terrain tiles
                     continue;
                 }
@@ -388,6 +391,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                     pf.add_point( layer.gscore[parent_index] + 10,
                                                   layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
                                                   cur, below );
+                                } else {
+                                    // If we don't escape due to it, it's because of choice. Others may
+                                    // choose to cross it.
+                                    hit_non_wall_boundry = true;
                                 }
 
                                 // Close p, because we won't be walking on it
@@ -402,6 +409,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 }
 
                 if( sharpavoid && p_special & PF_SHARP ) {
+                    // If we don't escape due to it, it's because of choice. Others may
+                    // choose to cross it.
+                    hit_non_wall_boundry = true;
                     layer.state[index] = ASL_CLOSED; // Avoid sharp things
                 }
 
