@@ -57,7 +57,7 @@
     "type": "vehicle_part",
     "id": "ap_glass_fridge",
     "name": { "str": "glass door refrigerator" },
-    "looks_like": "f_fridge",
+    "looks_like": "f_glass_fridge",
     "categories": [ "cargo" ],
     "color": "light_blue",
     "broken_color": "light_blue",
