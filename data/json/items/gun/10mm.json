@@ -334,7 +334,7 @@
     "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "2011_17mag", "2011_22mag" ] } ],
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "2011_17_mag", "2011_22_mag" ] } ],
     "melee_damage": { "bash": 12 }
   }
 ]
