@@ -1022,7 +1022,7 @@
     "id": "alchemist_pocket",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "ethereal pocket" },
+    "name": { "str": "ethereal pocket" },
     "description": "A small ethereal pocket located under your left arm.  You can store your potions here, but it seems it has no real limitations.",
     "weight": "1 g",
     "volume": "1 ml",
