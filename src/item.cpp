@@ -1627,19 +1627,16 @@ ret_val<void> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     if( !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        return ret_val<void>::make_failure( result.str() );
     }
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
-    if( unseal_pockets && result.success() ) {
+    if( unseal_pockets ) {
         result.value()->unseal();
     }
     on_contents_changed();
-    if( result.success() ) {
-        return ret_val<void>::make_success( result.str() );
-    } else {
-        return ret_val<void>::make_failure( result.str() );
-    }
+    return ret_val<void>::make_success( result.str() );
 }
 
 void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
