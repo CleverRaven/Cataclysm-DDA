@@ -487,13 +487,9 @@ class liquid_inventory_selector_preset : public inventory_selector_preset
             if( location.get_item() == avoid ) {
                 return false;
             }
-            if( location.where() == item_location::type::character ) {
-                Character *character = get_creature_tracker().creature_at<Character>( location.position() );
-                if( character == nullptr ) {
-                    debugmsg( "Invalid location supplied to the liquid filter: no character found." );
-                    return false;
-                }
-                return location->get_remaining_capacity_for_liquid( liquid, *character ) > 0;
+            Character *carrier = location.carrier();
+            if( carrier != nullptr ) {
+                return location->get_remaining_capacity_for_liquid( liquid, *carrier ) > 0;
             }
             const bool allow_buckets = location.where() == item_location::type::map;
             return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
