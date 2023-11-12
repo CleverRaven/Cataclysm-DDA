@@ -114,7 +114,7 @@
       },
       "furniture": { "&": "f_table", "?": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [ { "item": "television", "x": 19, "y": 10 } ],
-      "monster": { "`": { "monster": "mon_cat" } }
+      "place_monsters": [ { "density": 0.1, "monster": "GROUP_PET_CATS", "x": [ 5, 19 ], "y": [ 5, 19 ] } ]
     }
   },
   {
