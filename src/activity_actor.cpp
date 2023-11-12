@@ -2107,7 +2107,11 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                        dest );
+                if( save_moved_items ) {
+                    who.items_hauled.insert( who.items_hauled.end(), dropped_items.begin(), dropped_items.end() );
+                }
             }
             // If we picked up a whole stack, remove the leftover item
             if( leftovers.charges <= 0 ) {
@@ -2133,6 +2137,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
     jsout.member( "relative_destination", relative_destination );
+    jsout.member( "save_moved_items", save_moved_items );
 
     jsout.end_object();
 }
@@ -2147,6 +2152,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValu
     data.read( "quantities", actor.quantities );
     data.read( "to_vehicle", actor.to_vehicle );
     data.read( "relative_destination", actor.relative_destination );
+    data.read( "save_moved_items", actor.save_moved_items );
 
     return actor.clone();
 }

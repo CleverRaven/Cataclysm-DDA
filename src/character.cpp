@@ -8636,6 +8636,8 @@ void Character::stop_hauling()
     if( hauling ) {
         add_msg( _( "You stop hauling items." ) );
         hauling = false;
+        hauling_selectively = false;
+        items_hauled.clear();
     }
     if( has_activity( ACT_MOVE_ITEMS ) ) {
         cancel_activity();
@@ -8645,6 +8647,25 @@ void Character::stop_hauling()
 bool Character::is_hauling() const
 {
     return hauling;
+}
+
+void Character::start_hauling_selectively()
+{
+    add_msg( _( "You are now ignoring new items as you haul." ) );
+    items_hauled = get_map().get_haulable_items( pos() );
+    hauling_selectively = true;
+}
+
+void Character::stop_hauling_selectively()
+{
+    add_msg( _( "You are now adding new items to the haul as you encounter them." ) );
+    items_hauled.clear();
+    hauling_selectively = false;
+}
+
+bool Character::is_hauling_selectively() const
+{
+    return hauling_selectively;
 }
 
 bool Character::knows_creature_type( const Creature *c ) const

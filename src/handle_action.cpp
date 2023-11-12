@@ -730,21 +730,84 @@ static void haul()
     Character &player_character = get_player_character();
     map &here = get_map();
 
-    if( player_character.is_hauling() ) {
-        player_character.stop_hauling();
-    } else {
-        if( here.veh_at( player_character.pos() ) ) {
-            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
-            add_msg( m_info, _( "You cannot haul while in deep water." ) );
-        } else if( !here.can_put_items( player_character.pos() ) ) {
-            add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_haulable_items( player_character.pos() ) ) {
-            add_msg( m_info, _( "There are no items to haul here." ) );
-        } else {
-            player_character.start_hauling();
+    bool exit = false;
+    do {
+        uilist menu;
+
+        bool hauling = player_character.is_hauling();
+        bool selective = player_character.is_hauling_selectively();
+
+        std::string header = hauling ? _( "You are currently hauling items." ) :
+                             _( "You are currently not hauling items." );
+
+        if( hauling ) {
+            header += '\n';
+            if( selective ) {
+                header += _( "Adding new items to haul according to filter." );
+                header += '\n';
+                if( player_character.hauling_filter.empty() ) {
+                    header += _( "Filter empty - ignoring new items." );
+                } else {
+                    header += _( "Filter: " ) + player_character.hauling_filter;
+                }
+            } else {
+                header += _( "Hauling everything." );
+            }
+
         }
-    }
+
+        menu.text = header;
+        menu.entries.emplace_back( 0, true, '\\', hauling ? _( "Stop hauling." ) : _( "Start hauling." ) );
+        if( hauling ) {
+            menu.entries.emplace_back( 1, true, 'p',
+                                       selective ? _( "Haul everything." ) : _( "Filter new items." ) );
+            if( selective ) {
+                menu.entries.emplace_back( 2, true, 'f', _( "Edit filter." ) );
+            }
+        }
+        menu.entries.emplace_back( 9, true, 'C', _( "Exit." ) );
+
+        menu.query();
+
+        switch( menu.ret ) {
+            case 0:
+                if( hauling ) {
+                    player_character.stop_hauling();
+                } else {
+                    if( here.veh_at( player_character.pos() ) ) {
+                        add_msg( m_info, _( "You cannot haul inside vehicles." ) );
+                    } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+                        add_msg( m_info, _( "You cannot haul while in deep water." ) );
+                    } else if( !here.can_put_items( player_character.pos() ) ) {
+                        add_msg( m_info, _( "You cannot haul items here." ) );
+                    } else if( !here.has_haulable_items( player_character.pos() ) ) {
+                        add_msg( m_info, _( "There are no items to haul here." ) );
+                    } else {
+                        player_character.start_hauling();
+                    }
+                }
+                exit = true;
+                break;
+            case 1:
+                selective ? player_character.stop_hauling_selectively() :
+                player_character.start_hauling_selectively();
+                break;
+            case 2:
+                string_input_popup()
+                .title( _( "Filter:" ) )
+                .width( 55 )
+                .description( item_filter_rule_string( item_filter_type::FILTER ) )
+                .desc_color( c_white )
+                .identifier( "item_filter" )
+                .max_length( 256 )
+                .edit( player_character.hauling_filter );
+                break;
+            case 9:
+            default:
+                exit = true;
+                return;
+        }
+    } while( !exit );
 }
 
 static void smash()

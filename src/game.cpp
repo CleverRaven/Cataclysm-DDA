@@ -102,6 +102,7 @@
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_search.h"
 #include "item_stack.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -12107,7 +12108,29 @@ void game::vertical_move( int movez, bool force, bool peeking )
 void game::start_hauling( const tripoint &pos )
 {
     // Find target items and quantities thereof for the new activity
-    const std::vector<item_location> target_items = m.get_haulable_items( pos );
+    std::vector<item_location> target_items;
+
+    if( u.hauling_selectively ) {
+        if( !u.hauling_filter.empty() ) {
+            std::function<bool( const item & )> filter = item_filter_from_string( u.hauling_filter );
+            std::vector<item_location> candidate_items = m.get_haulable_items( pos );
+            for( const item_location &item : u.items_hauled ) {
+                candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
+                                       candidate_items.end() );
+            }
+            target_items = u.items_hauled;
+            std::copy_if( candidate_items.begin(), candidate_items.end(), std::back_inserter( target_items ),
+            [&filter]( const item_location & item ) {
+                return filter( *item );
+            } );
+        } else {
+            target_items = u.items_hauled;
+        }
+        u.items_hauled.clear();
+    } else {
+        target_items = m.get_haulable_items( pos );
+    }
+
     // Quantity of 0 means move all
     const std::vector<int> quantities( target_items.size(), 0 );
 
@@ -12122,7 +12145,8 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
+                                           u.is_hauling_selectively() );
     u.assign_activity( actor );
 }
 
