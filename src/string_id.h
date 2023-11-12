@@ -128,9 +128,9 @@ class string_identity_static
 #endif
         {}
 
-        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_identity_static( S && id )
-            : _id( string_id_intern( std::forward<S>( id ) ) )
+        template<typename S, class = std::enable_if_t<std::is_convertible_v<S, std::string>>>
+                 explicit string_identity_static( S && id )
+                     : _id( string_id_intern( std::forward<S>( id ) ) )
 #ifdef CATA_STRING_ID_DEBUGGING
             , _string_id( str().c_str() )
 #endif
@@ -175,8 +175,8 @@ class string_identity_dynamic
 
         string_identity_dynamic() = default;
 
-        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_identity_dynamic( S && id ) : _id( std::forward<S>( id ) )  {}
+        template<typename S, class = std::enable_if_t<std::is_convertible_v<S, std::string>>>
+                 explicit string_identity_dynamic( S && id ) : _id( std::forward<S>( id ) )  {}
 
         inline const std::string &str() const {
             return _id;
@@ -196,169 +196,169 @@ class string_identity_dynamic
 template<typename T>
 class string_id
 {
-    public:
-        using value_type = T;
-        using This = string_id<T>;
-        // type of internal identity representation
-        using Identity = std::conditional_t<string_id_params<T>::dynamic,
-              string_identity_dynamic, string_identity_static>;
-        // type of lexicographic comparator for this string_id
-        using LexCmp = lexicographic<T>;
+public:
+    using value_type = T;
+    using This = string_id<T>;
+    // type of internal identity representation
+    using Identity = std::conditional_t<string_id_params<T>::dynamic,
+          string_identity_dynamic, string_identity_static>;
+    // type of lexicographic comparator for this string_id
+    using LexCmp = lexicographic<T>;
 
-        /**
-         * Forwarding constructor, forwards any parameter to the std::string
-         * constructor to create the id string. This allows plain C-strings,
-         * and std::strings to be used.
-         */
-        // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
-        // a std::string, otherwise a "no matching function to call..." error is generated.
-        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
+    /**
+     * Forwarding constructor, forwards any parameter to the std::string
+     * constructor to create the id string. This allows plain C-strings,
+     * and std::strings to be used.
+     */
+    // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
+    // a std::string, otherwise a "no matching function to call..." error is generated.
+    template<typename S, class = std::enable_if_t<std::is_convertible_v<S, std::string>>>
+             explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
 
-        // string_view is not implicitly convertible to std::string, so need a
-        // separate constructor for that
-        explicit string_id( const std::string_view id ) : string_id( std::string( id ) ) {}
-        /**
-         * Default constructor constructs an empty id string.
-         * Note that this id class does not enforce empty id strings (or any specific string at all)
-         * to be special. Every string (including the empty one) may be a valid id.
-         */
-        string_id() : _id() {} // NOLINT(clang-analyzer-optin.cplusplus.UninitializedObject)
-        /**
-         * Comparison, only useful when the id is used in std::map or std::set as key.
-         * Guarantees total order, but DOESN'T guarantee the same order after process restart!
-         * To have a predictable lexicographic order, use `LexCmp` (much slower!)
-         */
-        bool operator<( const This &rhs ) const {
-            return _id._id < rhs._id._id;
-        }
-        /**
-         * The usual comparator, compares the string id as usual.
-         */
-        bool operator==( const This &rhs ) const {
-            return _id._id == rhs._id._id;
-        }
-        /**
-         * The usual comparator, compares the string id as usual.
-         */
-        bool operator!=( const This &rhs ) const {
-            return ! operator==( rhs );
-        }
-        /**
-         * Interface to the plain C-string of the id. This function mimics the std::string
-         * object. Ids are often used in debug messages, where they are forwarded as C-strings
-         * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
-         */
-        const char *c_str() const {
-            return _id.str().c_str();
-        }
-        /**
-         * Returns the identifier as plain std::string. Use with care, the plain string does not
-         * have any information as what type of object it refers to (the T template parameter of
-         * the class).
-         */
-        const std::string &str() const {
-            return _id.str();
-        }
+    // string_view is not implicitly convertible to std::string, so need a
+    // separate constructor for that
+    explicit string_id( const std::string_view id ) : string_id( std::string( id ) ) {}
+    /**
+     * Default constructor constructs an empty id string.
+     * Note that this id class does not enforce empty id strings (or any specific string at all)
+     * to be special. Every string (including the empty one) may be a valid id.
+     */
+    string_id() : _id() {} // NOLINT(clang-analyzer-optin.cplusplus.UninitializedObject)
+    /**
+     * Comparison, only useful when the id is used in std::map or std::set as key.
+     * Guarantees total order, but DOESN'T guarantee the same order after process restart!
+     * To have a predictable lexicographic order, use `LexCmp` (much slower!)
+     */
+    bool operator<( const This &rhs ) const {
+        return _id._id < rhs._id._id;
+    }
+    /**
+     * The usual comparator, compares the string id as usual.
+     */
+    bool operator==( const This &rhs ) const {
+        return _id._id == rhs._id._id;
+    }
+    /**
+     * The usual comparator, compares the string id as usual.
+     */
+    bool operator!=( const This &rhs ) const {
+        return ! operator==( rhs );
+    }
+    /**
+     * Interface to the plain C-string of the id. This function mimics the std::string
+     * object. Ids are often used in debug messages, where they are forwarded as C-strings
+     * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
+     */
+    const char *c_str() const {
+        return _id.str().c_str();
+    }
+    /**
+     * Returns the identifier as plain std::string. Use with care, the plain string does not
+     * have any information as what type of object it refers to (the T template parameter of
+     * the class).
+     */
+    const std::string &str() const {
+        return _id.str();
+    }
 
-        explicit operator std::string() const {
-            return _id.str();
-        }
+    explicit operator std::string() const {
+        return _id.str();
+    }
 
-        // Those are optional, you need to implement them on your own if you want to use them.
-        // If you don't implement them, but use them, you'll get a linker error.
-        /**
-         * Translate the string based it to the matching integer based id.
-         * This may issue a debug message if the string is not a valid id.
-         */
-        int_id<T> id() const;
-        /**
-         * Translate the string based it to the matching integer based id.
-         * If this string_id is not valid, returns `fallback`.
-         * Does not produce debug message.
-         */
-        int_id<T> id_or( const int_id<T> &fallback ) const;
-        /**
-         * Returns the actual object this id refers to. May show a debug message if the id is invalid.
-         */
-        const T &obj() const;
+    // Those are optional, you need to implement them on your own if you want to use them.
+    // If you don't implement them, but use them, you'll get a linker error.
+    /**
+     * Translate the string based it to the matching integer based id.
+     * This may issue a debug message if the string is not a valid id.
+     */
+    int_id<T> id() const;
+    /**
+     * Translate the string based it to the matching integer based id.
+     * If this string_id is not valid, returns `fallback`.
+     * Does not produce debug message.
+     */
+    int_id<T> id_or( const int_id<T> &fallback ) const;
+    /**
+     * Returns the actual object this id refers to. May show a debug message if the id is invalid.
+     */
+    const T &obj() const;
 
-        const T &operator*() const {
-            return obj();
+    const T &operator*() const {
+        return obj();
 
-        }
-        const T *operator->() const {
-            return &obj();
-        }
+    }
+    const T *operator->() const {
+        return &obj();
+    }
 
-        /**
-         * Returns whether this id is valid, that means whether it refers to an existing object.
-         */
-        bool is_valid() const;
-        /**
-         * Returns whether this id is empty. An empty id can still be valid,
-         * and emptiness does not mean that it's null. Named is_empty() to
-         * keep consistency with the rest is_.. functions
-         */
-        bool is_empty() const {
-            return _id.is_empty();
-        }
-        /**
-         * Returns a null id whose `string_id<T>::is_null()` must always return true. See @ref is_null.
-         * Specializations are defined in string_id_null_ids.cpp to avoid instantiation ordering issues.
-         */
-        static const string_id<T> &NULL_ID();
-        /**
-         * Returns whether this represents the id of the null-object (in which case it's the null-id).
-         * Note that not all types assigned to T may have a null-object. As such, there won't be a
-         * definition of @ref NULL_ID and if you use any of the related functions, you'll get
-         * errors during the linking.
-         *
-         * Example: "mon_null" is the id of the null-object of monster type.
-         *
-         * Note: per definition the null-id shall be valid. This allows to use it in places
-         * that require a (valid) id, but it can still represent a "don't use it" value.
-         */
-        bool is_null() const {
-            return operator==( NULL_ID() );
-        }
-        /**
-         * Same as `!is_null`, basically one can use it to check for the id referring to an actual
-         * object. This avoids explicitly comparing it with NULL_ID. The id may still be invalid,
-         * but that should have been checked when the world data was loaded.
-         * \code
-         * string_id<X> id = ...;
-         * if( id ) {
-         *     apply_id( id );
-         * } else {
-         *     // was the null-id, ignore it.
-         * }
-         * \endcode
-         */
-        explicit operator bool() const {
-            return !is_null();
-        }
+    /**
+     * Returns whether this id is valid, that means whether it refers to an existing object.
+     */
+    bool is_valid() const;
+    /**
+     * Returns whether this id is empty. An empty id can still be valid,
+     * and emptiness does not mean that it's null. Named is_empty() to
+     * keep consistency with the rest is_.. functions
+     */
+    bool is_empty() const {
+        return _id.is_empty();
+    }
+    /**
+     * Returns a null id whose `string_id<T>::is_null()` must always return true. See @ref is_null.
+     * Specializations are defined in string_id_null_ids.cpp to avoid instantiation ordering issues.
+     */
+    static const string_id<T> &NULL_ID();
+    /**
+     * Returns whether this represents the id of the null-object (in which case it's the null-id).
+     * Note that not all types assigned to T may have a null-object. As such, there won't be a
+     * definition of @ref NULL_ID and if you use any of the related functions, you'll get
+     * errors during the linking.
+     *
+     * Example: "mon_null" is the id of the null-object of monster type.
+     *
+     * Note: per definition the null-id shall be valid. This allows to use it in places
+     * that require a (valid) id, but it can still represent a "don't use it" value.
+     */
+    bool is_null() const {
+        return operator==( NULL_ID() );
+    }
+    /**
+     * Same as `!is_null`, basically one can use it to check for the id referring to an actual
+     * object. This avoids explicitly comparing it with NULL_ID. The id may still be invalid,
+     * but that should have been checked when the world data was loaded.
+     * \code
+     * string_id<X> id = ...;
+     * if( id ) {
+     *     apply_id( id );
+     * } else {
+     *     // was the null-id, ignore it.
+     * }
+     * \endcode
+     */
+    explicit operator bool() const {
+        return !is_null();
+    }
 
-        friend std::ostream &operator<<( std::ostream &os, const string_id &s ) {
-            os << s.str();
-            return os;
-        }
+    friend std::ostream &operator<<( std::ostream &os, const string_id &s ) {
+        os << s.str();
+        return os;
+    }
 
-    private:
-        // generic_factory version that corresponds to the _cid
-        mutable int64_t _version = INVALID_VERSION;
-        // cached int_id counterpart of this string_id
-        mutable int _cid = INVALID_CID;
-        // structure that captures the actual "identity" of this string_id
-        Identity _id;
+private:
+    // generic_factory version that corresponds to the _cid
+    mutable int64_t _version = INVALID_VERSION;
+    // cached int_id counterpart of this string_id
+    mutable int _cid = INVALID_CID;
+    // structure that captures the actual "identity" of this string_id
+    Identity _id;
 
-        inline void set_cid_version( int cid, int64_t version ) const {
-            _cid = cid;
-            _version = version;
-        }
+    inline void set_cid_version( int cid, int64_t version ) const {
+        _cid = cid;
+        _version = version;
+    }
 
-        friend class generic_factory<T>;
-        friend struct std::hash<string_id<T>>;
+    friend class generic_factory<T>;
+    friend struct std::hash<string_id<T>>;
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.

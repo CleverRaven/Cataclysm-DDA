@@ -179,5 +179,10 @@
       { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "name": "GROUP_EGG_COCKATRICE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 1 } ]
   }
 ]

@@ -150,7 +150,7 @@ class is_std_array_helper<std::array<T, N>> : public std::true_type
 {
 };
 template<typename T>
-class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+class is_std_array : public is_std_array_helper<std::decay_t<T>>
 {
 };
 
@@ -160,8 +160,8 @@ class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline typename std::enable_if < !is_std_array<C>::value,
-       const V & >::type random_entry_ref( const C &container )
+inline std::enable_if_t < !is_std_array<C>::value,
+       const V & > random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();

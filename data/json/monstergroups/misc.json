@@ -521,8 +521,7 @@
       { "monster": "mon_mink", "weight": 5 },
       { "monster": "mon_muskrat", "weight": 10 },
       { "monster": "mon_otter", "weight": 10 },
-      { "monster": "mon_duck", "weight": 10 },
-      { "monster": "mon_cockatrice", "weight": 1 }
+      { "monster": "mon_duck", "weight": 10 }
     ]
   },
   {
