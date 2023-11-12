@@ -199,7 +199,7 @@ std::enable_if_t<std::is_constructible_v<T, std::string>, bool>assign(
     return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
+bool assign( const JsonObject &jo, std::string_view name, units::volume &val,
              bool strict = false,
              units::volume lo = units::volume_min,
              units::volume hi = units::volume_max );
