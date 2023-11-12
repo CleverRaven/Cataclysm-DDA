@@ -1036,9 +1036,9 @@
     "type": "effect_type",
     "id": "spell_karma_arms_eff",
     "name": [ "Karma" ],
-    "desc": [ "Ethereal hands appear behind you back, making you looks like an ancient god" ],
-    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow</color>.",
-    "remove_message": "The cyan arms grow dim, and finally disappear.",
+    "desc": [ "Ethereal hands appear behind your back, making you looks like an ancient god." ],
+    "apply_message": "Ethereal, transparent arms grow from your shoulders and <color_cyan>glow</color>.",
+    "remove_message": "The cyan arms grow dim and finally disappear.",
     "rating": "good",
     "enchantments": [
       {
@@ -1056,9 +1056,7 @@
     "type": "effect_type",
     "id": "stalker_eyes_eff",
     "name": [ "Stalker's Vision" ],
-    "desc": [
-      "Your own eyes transform into the orbits of an unknown creature.  You see much better, both in the light and in the dark"
-    ],
+    "desc": [ "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark." ],
     "apply_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
     "remove_message": "A great new world under your eyes disappears.",
     "blocks_effects": [ "glare" ],
@@ -1071,7 +1069,7 @@
     "id": "devil_tail_eff",
     "name": [ "Devil's Tail" ],
     "desc": [
-      "Not actually devil's, this long tail with triangle point in the end can stretch for a lot, and could easily kill someone nearby"
+      "While not actually a devil's, this long, triangular pointed tail can stretch very far, allowing it to easily kill someone nearby."
     ],
     "apply_message": "You feel like your spine stretched enormously.",
     "remove_message": "Your devil tail disappear in the air.",
