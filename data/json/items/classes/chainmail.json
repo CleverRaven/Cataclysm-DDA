@@ -93,5 +93,5 @@
       }
     ],
     "extend": { "flags": [ "UNDERSIZE" ] }
-  },
+  }
 ]
