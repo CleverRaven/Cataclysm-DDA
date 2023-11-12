@@ -68,9 +68,9 @@
     "base_energy_cost": 2250,
     "final_energy_cost": 500,
     "energy_increment": -125,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -12.5,
+    "base_casting_time": 125,
+    "final_casting_time": 65,
+    "casting_time_increment": -9.5,
     "learn_spells": { "photokinetic_rad_immunity": 5, "photokinetic_invisibility": 7, "photokinetic_light_image": 12 }
   },
   {
