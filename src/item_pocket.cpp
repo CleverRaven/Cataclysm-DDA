@@ -717,13 +717,15 @@ int item_pocket::ammo_consume( int qty )
             it++;
             continue;
         }
-        if( need >= it->charges ) {
-            need -= it->charges;
-            used += it->charges;
+        if( need >= it->count() ) {
+            need -= it->count();
+            used += it->count();
             it = contents.erase( it );
         } else {
-            it->charges -= need;
-            used += need;
+            if (it->count_by_charges()) {
+                it->charges -= need;
+                used += need;
+            }
             break;
         }
     }

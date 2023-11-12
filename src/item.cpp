@@ -10700,7 +10700,7 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
             if( e->is_ammo() ) {
-                ret += e->charges;
+                ret += e->count();
             }
         }
     }
@@ -10709,7 +10709,7 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     if( !( mag || is_magazine() || ammo.empty() ) ) {
         for( const item *e : contents.all_items_top( pocket_type::CONTAINER ) ) {
             if( e->is_ammo() && ammo.find( e->ammo_type() ) != ammo.end() ) {
-                ret += e->charges;
+                ret += e->count();
             }
         }
     }
