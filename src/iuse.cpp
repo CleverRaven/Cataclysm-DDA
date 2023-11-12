@@ -2276,7 +2276,7 @@ class exosuit_interact
                 } );
                 moves += to_moves<int>( 5_seconds );
             }
-            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            ret_val<item *> rval = pkt->insert_item( *candidates[ret] );
             if( rval.success() ) {
                 candidates[ret].remove_item();
                 moves += to_moves<int>( 5_seconds );

@@ -2177,23 +2177,28 @@ std::list<item> &item_pocket::edit_contents()
     return contents;
 }
 
-ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
+ret_val<item *> item_pocket::insert_item( const item &it,
         const bool into_bottom, bool restack_charges, bool ignore_contents )
 {
-    ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
+    ret_val<item_pocket::contain_code> containable = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it, ignore_contents );
 
-    if( ret.success() ) {
-        if( !into_bottom ) {
-            contents.push_front( it );
-        } else {
-            contents.push_back( it );
-        }
-        if( restack_charges ) {
-            restack();
-        }
+    if( !containable.success() ) {
+        return ret_val<item *>::make_failure( nullptr, containable.str() );
     }
-    return ret;
+
+    item *inserted = nullptr;
+    if( !into_bottom ) {
+        contents.push_front( it );
+        inserted = &contents.front();
+    } else {
+        contents.push_back( it );
+        inserted = &contents.back();
+    }
+    if( restack_charges ) {
+        restack( inserted );
+    }
+    return ret_val<item *>::make_success( inserted );
 }
 
 std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
