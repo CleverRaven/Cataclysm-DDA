@@ -18,6 +18,8 @@ struct pick_info {
     pick_info() = default;
     void serialize( JsonOut &jsout ) const;
     void deserialize( const JsonObject &jsobj );
+    void set_src( const item_location &src_ );
+    void set_dst( const item_location &dst_ );
 
     units::volume total_bulk_volume = 0_ml;
     item_location::type src_type = item_location::type::invalid;

@@ -317,17 +317,14 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
             }
             if( picked_up ) {
                 // Update info
-                info.dst = added_it;
+                info.set_dst( added_it );
             }
             break;
         }
     }
 
     if( picked_up ) {
-        // item_location of source may become invalid after the item is moved, so save the information separately.
-        info.src_pos = loc.position();
-        info.src_container = loc.parent_item();
-        info.src_type = loc.where();
+        info.set_src( loc );
         info.total_bulk_volume += loc->volume( false, false, quantity );
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
@@ -389,7 +386,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             info = Pickup::pick_info();
         }
     }
-    // Remember how much you picked up in total in this section
 
     if( !mapPickup.empty() ) {
         show_pickup_message( mapPickup );
@@ -503,6 +499,19 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
+}
+
+void Pickup::pick_info::set_src( const item_location &src_ )
+{
+    // item_location of source may become invalid after the item is moved, so save the information separately.
+    src_pos = src_.position();
+    src_container = src_.parent_item();
+    src_type = src_.where();
+}
+
+void Pickup::pick_info::set_dst( const item_location &dst_ )
+{
+    dst = dst_;
 }
 
 std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
