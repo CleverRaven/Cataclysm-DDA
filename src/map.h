@@ -2299,7 +2299,7 @@ class map
         template <typename CreaturePredicate>
         Creature *find_reachable_creature( const Creature &origin, CreaturePredicate f ) {
             return find_reachable_creature_matching_faction_and_creature_predicate( origin, [](
-            const mfaction_id & faction ) {
+            const mfaction_id & ) {
                 return true;
             }, std::move( f ) );
         }
