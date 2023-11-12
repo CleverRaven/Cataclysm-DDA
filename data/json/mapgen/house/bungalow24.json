@@ -38,7 +38,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_wall_g",
         "~": "t_door_glass_c",
         "_": "t_linoleum_gray",
         "?": "t_railing_v",

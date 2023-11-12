@@ -39,7 +39,6 @@
         "}}}}}}}}}}}}}}}}}}}}}}}}"
       ],
       "terrain": {
-        "#": "t_wall_b",
         "}": "t_privacy_fence",
         "/": "t_column",
         ")": "t_pavement",
@@ -97,7 +96,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_wall_b",
         "_": "t_linoleum_gray",
         ")": "t_railing_v",
         ",": "t_floor_noroof",

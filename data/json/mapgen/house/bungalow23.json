@@ -38,7 +38,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_adobe_brick_wall",
         "_": "t_linoleum_gray",
         ",": "t_floor_noroof",
         "6": "t_null",
