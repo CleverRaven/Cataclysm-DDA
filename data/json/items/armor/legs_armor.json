@@ -1866,7 +1866,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "tactical EOD trousers" },
-    "description": "This is a heavy pair of trousers armored in Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians in 'non-permissive environments'.  While it offers near complete coverage in fragmentation resistant materials, it still offers insufficient protection from ballistic threats.  Thsee trousers are lighter than normal EOD armor to provide more maneuverability.",
+    "description": "This is a heavy pair of trousers armored in Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians in 'non-permissive environments'.  While it offers near complete coverage in fragmentation resistant materials, it still offers insufficient protection from ballistic threats.  These trousers are lighter than normal EOD armor to provide more maneuverability.",
     "weight": "3000 g",
     "volume": "7 L",
     "price": 273440,
