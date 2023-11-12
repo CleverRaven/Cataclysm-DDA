@@ -1105,7 +1105,13 @@ Character *item_location::carrier() const
 
 bool item_location::held_by( Character const &who ) const
 {
-    return carrier() == &who;
+    if( where() == type::character &&
+        get_creature_tracker().creature_at<Character>( position() ) == &who ) {
+        return true;
+    } else if( has_parent() ) {
+        return parent_item().held_by( who );
+    }
+    return false;
 }
 
 units::volume item_location::volume_capacity() const
