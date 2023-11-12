@@ -19,9 +19,9 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
     "using": [ [ "volatile_explosive", 20, "LIST" ], [ "explosives_casting_standard", 1 ] ],
     "components": [
-      [ [ "delay_fuze", 1 ] ],
+      [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "can_medium", 1 ] ],
+      [ [ "small_grenade_case", 1, "LIST" ] ],
       [ [ "matrix_crystal_pyrokin_dust", 5 ], [ "matrix_crystal_pyrokin_dust_refined", 1 ] ]
     ]
   }
