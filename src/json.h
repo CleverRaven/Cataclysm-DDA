@@ -94,11 +94,15 @@ struct json_source_location {
     int offset = 0;
 };
 
-enum class json_error_output_colors_t {
-    unset,        // default value, will print a warning
-    no_colors,    // use when error output is a redirected pipe
-    color_tags,   // use when debugmsg will handle the errors in either SDL or curses mode
-    ansi_escapes, // use when error output will end up in stdout: in tooling, formatters or CI
+// careful when deleting values from this enum; they're used outside cdda code (in formatter tools)
+// please make sure to update or file an issue that an update is needed for:
+// * in CDDA repository; tools/format_emscripten/shell.html
+// * VS Code extension; https://github.com/cdda-toys/cdda-json-formatter-vscode-extension/issues/
+enum class json_error_output_colors_t : int32_t {
+    unset = 0,        // default value, will print a warning
+    no_colors = 1,    // use when error output is a redirected pipe
+    color_tags = 2,   // use when debugmsg will handle the errors in either SDL or curses mode
+    ansi_escapes = 3, // use when error output will end up in stdout: in tooling, formatters or CI
 };
 
 extern json_error_output_colors_t json_error_output_colors;

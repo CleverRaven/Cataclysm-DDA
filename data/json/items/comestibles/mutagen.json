@@ -830,6 +830,7 @@
     "price": "2500 USD",
     "price_postapoc": "35 USD",
     "comestible_type": "MED",
+    "category": "mutagen",
     "weight": "10 g",
     "volume": "10 ml",
     "charges": 1,
