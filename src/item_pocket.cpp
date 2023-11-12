@@ -2160,7 +2160,8 @@ int item_pocket::fill_with( const item &contained, Character &guy, int amount,
     }
 
     contained_item.handle_pickup_ownership( guy );
-    if( !insert_item( contained_item ).success() ) {
+    ret_val<item *> result = insert_item( contained_item );
+    if( !result.success() ) {
         debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
         return 0;
     }
@@ -2169,6 +2170,7 @@ int item_pocket::fill_with( const item &contained, Character &guy, int amount,
     if( allow_unseal ) {
         unseal();
     }
+    result.value()->on_pickup( guy );
     return num_contained;
 }
 
