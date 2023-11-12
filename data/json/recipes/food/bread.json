@@ -221,7 +221,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "buttered_toast_wheat_free",
     "copy-from": "buttered_toast",
-    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "butter", 1 ], ["raw_butter", 1] ] ]
+    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "butter", 1 ], [ "raw_butter", 1 ] ] ]
   },
   {
     "type": "recipe",
