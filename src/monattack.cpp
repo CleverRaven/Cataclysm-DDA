@@ -4523,6 +4523,7 @@ bool mattack::parrot_at_danger( monster *parrot )
                 }
             }
         }
+        return false;
     } ) ) {
         parrot_common( parrot );
         return true;
