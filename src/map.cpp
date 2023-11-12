@@ -10039,27 +10039,12 @@ void map::update_pathfinding_cache_point( pathfinding_cache &cache, const const_
     int part;
     const vehicle *veh = veh_at_internal( p, part );
 
-    const int old_cost = cache.move_costs[p.x][p.y];
     const int cost = move_cost_internal( furniture, terrain, field, veh, part );
     cache.move_costs[p.x][p.y] = cost;
 
-    const int old_min_bash = cache.bash_ranges[p.x][p.y].first;
     const std::pair<int, int> bash_range = cost == 0 ? bash_range_internal( furniture, terrain, false,
                                            veh, part ) : std::pair<int, int>();
     cache.bash_ranges[p.x][p.y] = bash_range;
-
-    if( old_cost <= 0 && cost > 0 ) {
-        // Knocked down an obstacle. Maybe we can get out now. Reset nearby zones.
-        for( int x = std::max( p.x - 1, 0 ); x < std::min( p.x + 1, MAPSIZE_X ); ++x ) {
-            for( int y = std::max( p.y - 1, 0 ); y < std::min( p.y + 1, MAPSIZE_Y ); ++y ) {
-                int &threshold = cache.stuck_threshold_by_zone[cache.zones[x][y]];
-                // Only reset if the wall that fell could have blocked us before.
-                if( old_min_bash >= threshold ) {
-                    threshold = std::numeric_limits<int>::min();
-                }
-            }
-        }
-    }
 
     if( cost > 2 ) {
         cur_value |= PF_SLOW;
@@ -10148,13 +10133,9 @@ void map::update_pathfinding_cache( int zlev ) const
         return;
     }
 
-    cache.stuck_threshold_by_zone.clear();
-    cache.stuck_threshold_by_zone.push_back( std::numeric_limits<int>::min() );
-
     std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE_X * MAPSIZE_Y, PF_NORMAL );
     std::uninitialized_fill_n( &cache.move_costs[0][0], MAPSIZE_X * MAPSIZE_Y,
                                std::numeric_limits<int>::max() );
-    std::uninitialized_fill_n( &cache.zones[0][0], MAPSIZE_X * MAPSIZE_Y, 0 );
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {

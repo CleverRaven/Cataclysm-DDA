@@ -52,9 +52,6 @@ struct pathfinding_cache {
     cata::mdarray<pf_special, point_bub_ms> special;
     cata::mdarray<int, point_bub_ms> move_costs;
     cata::mdarray<std::pair<int, int>, point_bub_ms> bash_ranges;
-
-    cata::mdarray<int, point_bub_ms> zones;
-    std::vector<int> stuck_threshold_by_zone;
 };
 
 struct pathfinding_settings {

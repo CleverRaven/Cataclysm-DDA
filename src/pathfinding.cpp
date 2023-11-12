@@ -194,26 +194,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     const bool roughavoid = settings.avoid_rough_terrain;
     const bool sharpavoid = settings.avoid_sharp;
 
-    const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
-    const pathfinding_cache &other_pf_cache = get_pathfinding_cache_ref( t.z );
-
-    // One of us might be stuck in a room we can't get out of.
-    const int zone = pf_cache.zones[f.x][f.y];
-    const int other_zone = other_pf_cache.zones[t.x][t.y];
-
-    // Are they stuck in here with us?
-    if( f.z != t.z || zone != other_zone ) {
-        // Not in same zone, check the max bash needed to reach.
-        const int bash_needed = std::max( pf_cache.stuck_threshold_by_zone[zone],
-                                          other_pf_cache.stuck_threshold_by_zone[other_zone] );
-        if( bash < bash_needed ) {
-            // Give up now.
-            return ret;
-        }
-    }
-
-    int min_bash_larger_than_ours = std::numeric_limits<int>::max();
-
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     tripoint min( std::min( f.x, t.x ) - pad, std::min( f.y, t.y ) - pad, std::min( f.z, t.z ) );
     tripoint max( std::max( f.x, t.x ) + pad, std::max( f.y, t.y ) + pad, std::max( f.z, t.z ) );
@@ -228,11 +208,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     pf.add_point( 0, 0, f, f );
 
     bool done = false;
-
-    // We need to check if we exited due to being stuck in walls, or if we just
-    // hit the edge of the padding, a stair case we wouldn't go up, or a door
-    // we wouldn't open.
-    bool hit_non_wall_boundry = false;
 
     do {
         tripoint cur = pf.get_next();
@@ -275,7 +250,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < min.x || p.x >= max.x || p.y < min.y || p.y >= max.y ) {
-                hit_non_wall_boundry = true;
                 continue;
             }
 
@@ -293,9 +267,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 newg += 2;
             } else {
                 if( roughavoid ) {
-                    // If we don't escape due to it, it's because of choice. Others may
-                    // choose to cross it.
-                    hit_non_wall_boundry = true;
                     layer.state[index] = ASL_CLOSED; // Close all rough terrain tiles
                     continue;
                 }
@@ -304,19 +275,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const std::pair<int, int> &bash_range = pf_cache.bash_ranges[p.x][p.y];
                 const int rating = cost == 0 ? bash_rating_from_range_internal( bash, bash_range ) : -1;
 
-                if( cost == 0 && bash_range.first > bash ) {
-                    min_bash_larger_than_ours = std::min( min_bash_larger_than_ours, bash_range.first );
-                }
-
                 const bool door_here = p_special & PF_DOOR;
                 const bool is_door = doors && door_here;
-
-                // There is a door here we just won't walk through. Since we're basically choosing to
-                // not escape, we won't mark the area for others if we're stuck.
-                if( !doors && door_here ) {
-                    hit_non_wall_boundry = true;
-                }
-
                 const bool is_inside_door = is_door && p_special & PF_INSIDE_DOOR;
                 const bool is_vehicle = p_special & PF_VEHICLE;
 
@@ -391,10 +351,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                     pf.add_point( layer.gscore[parent_index] + 10,
                                                   layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
                                                   cur, below );
-                                } else {
-                                    // If we don't escape due to it, it's because of choice. Others may
-                                    // choose to cross it.
-                                    hit_non_wall_boundry = true;
                                 }
 
                                 // Close p, because we won't be walking on it
@@ -409,9 +365,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 }
 
                 if( sharpavoid && p_special & PF_SHARP ) {
-                    // If we don't escape due to it, it's because of choice. Others may
-                    // choose to cross it.
-                    hit_non_wall_boundry = true;
                     layer.state[index] = ASL_CLOSED; // Avoid sharp things
                 }
 
@@ -426,12 +379,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
         const bool stair_here = cur_special & PF_UPDOWN;
         const bool allow_stairs = settings.allow_climb_stairs;
-
-        // There are stairs here we just won't walk up/down. Since we're basically choosing to
-        // not escape, we won't mark the area for others if we're stuck.
-        if( !allow_stairs && stair_here ) {
-            hit_non_wall_boundry = true;
-        }
         if( !stair_here || !allow_stairs ) {
             // The part below is only for z-level pathing
             continue;
@@ -443,114 +390,79 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         bool rope_ladder = false;
         const const_maptile &parent_tile = maptile_at_internal( cur );
         const ter_t &parent_terrain = parent_tile.get_ter_t();
-        const bool stairs_down = parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN );
-        if( stairs_down ) {
-            if( can_go_down ) {
-                std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                                   cur.z - 1, rope_ladder, false, cur );
-                if( !opt_dest ) {
-                    hit_non_wall_boundry = true;
+        if( can_go_down && parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                               cur.z - 1, rope_ladder, false, cur );
+            if( !opt_dest ) {
+                continue;
+            }
+            tripoint dest = opt_dest.value();
+            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
+                if( !inbounds( dest ) ) {
                     continue;
                 }
-                tripoint dest = opt_dest.value();
-                if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
-                    if( !inbounds( dest ) ) {
-                        hit_non_wall_boundry = true;
-                        continue;
-                    }
-                    path_data_layer &layer = pf.get_layer( dest.z );
-                    pf.add_point( layer.gscore[parent_index] + 2,
-                                  layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                                  cur, dest );
-                }
-            } else {
-                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
-                hit_non_wall_boundry = true;
+                path_data_layer &layer = pf.get_layer( dest.z );
+                pf.add_point( layer.gscore[parent_index] + 2,
+                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                              cur, dest );
             }
         }
-        const bool stairs_up = parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP );
-        if( stairs_up ) {
-            if( can_go_up ) {
-                std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                                   cur.z + 1, rope_ladder, false, cur );
-                if( !opt_dest ) {
-                    hit_non_wall_boundry = true;
+        if( can_go_up && parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
+            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                               cur.z + 1, rope_ladder, false, cur );
+            if( !opt_dest ) {
+                continue;
+            }
+            tripoint dest = opt_dest.value();
+            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
+                if( !inbounds( dest ) ) {
                     continue;
                 }
-                tripoint dest = opt_dest.value();
-                if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
-                    if( !inbounds( dest ) ) {
-                        hit_non_wall_boundry = true;
-                        continue;
-                    }
-                    path_data_layer &layer = pf.get_layer( dest.z );
-                    pf.add_point( layer.gscore[parent_index] + 2,
-                                  layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                                  cur, dest );
-                }
-            } else {
-                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
-                hit_non_wall_boundry = true;
+                path_data_layer &layer = pf.get_layer( dest.z );
+                pf.add_point( layer.gscore[parent_index] + 2,
+                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                              cur, dest );
             }
         }
-        const bool ramp = parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP );
-        if( ramp ) {
-            if( can_go_up && valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
-                path_data_layer &layer = pf.get_layer( cur.z + 1 );
-                for( size_t it = 0; it < 8; it++ ) {
-                    const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
-                    if( !inbounds( above ) ) {
-                        hit_non_wall_boundry = true;
-                        continue;
-                    }
-                    pf.add_point( layer.gscore[parent_index] + 4,
-                                  layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                                  cur, above );
+        if( can_go_up && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
+            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
+            path_data_layer &layer = pf.get_layer( cur.z + 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                if( !inbounds( above ) ) {
+                    continue;
                 }
-            } else {
-                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
-                hit_non_wall_boundry = true;
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              cur, above );
             }
         }
-        const bool ramp_up = parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP );
-        if( ramp_up ) {
-            if( can_go_up && valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
-                path_data_layer &layer = pf.get_layer( cur.z + 1 );
-                for( size_t it = 0; it < 8; it++ ) {
-                    const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
-                    if( !inbounds( above ) ) {
-                        hit_non_wall_boundry = true;
-                        continue;
-                    }
-                    pf.add_point( layer.gscore[parent_index] + 4,
-                                  layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                                  cur, above );
+        if( can_go_up && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
+            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
+            path_data_layer &layer = pf.get_layer( cur.z + 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                if( !inbounds( above ) ) {
+                    continue;
                 }
-            } else {
-                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
-                hit_non_wall_boundry = true;
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              cur, above );
             }
         }
-        const bool ramp_down = parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN );
-        if( ramp_down ) {
-            if( can_go_down && valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
-                path_data_layer &layer = pf.get_layer( cur.z - 1 );
-                for( size_t it = 0; it < 8; it++ ) {
-                    const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
-                    if( !inbounds( below ) ) {
-                        hit_non_wall_boundry = true;
-                        continue;
-                    }
-                    pf.add_point( layer.gscore[parent_index] + 4,
-                                  layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
-                                  cur, below );
+        if( can_go_down && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
+            valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
+            path_data_layer &layer = pf.get_layer( cur.z - 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
+                if( !inbounds( below ) ) {
+                    continue;
                 }
-            } else {
-                // We might be able to go up/down the stairs, but can't because we'll hit the padding.
-                hit_non_wall_boundry = true;
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
+                              cur, below );
             }
         }
-
     } while( !done && !pf.empty() );
 
     if( done ) {
@@ -578,30 +490,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         std::reverse( ret.begin(), ret.end() );
-    } else if( !hit_non_wall_boundry ) {
-        // The only way we can get to this point is if we're stuck in a room
-        // with no way out, but we want to get a target on the other side
-        // of unbreakable windows or bars.
-        //
-        // In that case we'll just end up A*'ing the whole room every turn
-        // for no reason, so we're gonna mark the whole area as hopeless
-        // for anyone with the same or less bash rating than the highest
-        // rating we saw that was too hard for us.
-        pathfinding_cache &pf_cache = get_pathfinding_cache( f.z );
-        const int zone_number = pf_cache.stuck_threshold_by_zone.size();
-        ff::flood_fill_visit_10_connected( tripoint_bub_ms( f ),
-        [&pf_cache, bash]( const tripoint_bub_ms & loc, int direction ) {
-            // Limit to one Z level for now.
-            if( direction != 0 ) {
-                return false;
-            }
-            return pf_cache.move_costs[loc.x()][loc.y()] > 0 ||
-                   pf_cache.bash_ranges[loc.x()][loc.y()].first <= bash;
-        },
-        [&pf_cache, zone_number]( const tripoint_bub_ms & loc ) {
-            pf_cache.zones[loc.x()][loc.y()] = zone_number;
-        } );
-        pf_cache.stuck_threshold_by_zone.push_back( min_bash_larger_than_ours );
     }
 
     return ret;
