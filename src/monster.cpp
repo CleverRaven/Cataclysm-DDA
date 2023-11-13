@@ -653,10 +653,9 @@ void monster::refill_udders()
 void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
-        if ( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
+        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
             add_effect( effect_critter_well_fed, 24_hours );
-        }
-        else if ( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
+        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
             add_effect( effect_critter_underfed, 24_hours );
         }
         amount_eaten = 0;
