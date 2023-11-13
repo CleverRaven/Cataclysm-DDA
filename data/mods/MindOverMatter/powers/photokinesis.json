@@ -3,7 +3,7 @@
     "id": "photokinetic_light_local",
     "type": "SPELL",
     "name": "[Ψ]Candle's Glow (toggle)",
-    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.",
+    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -376,7 +376,7 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_flash": 5, "photokinetic_light_disintegrate": 8 }
+    "learn_spells": { "photokinetic_light_flash": 6, "photokinetic_light_disintegrate": 12 }
   },
   {
     "id": "photokinetic_light_arms",
