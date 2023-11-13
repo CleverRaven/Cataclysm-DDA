@@ -572,7 +572,7 @@ bool mattack::browse( monster *z )
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
         // Don't forage for food if the player is right there.
         if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
-        continue;
+            continue;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && z->amount_eaten < z->stomach_size ) {
         const harvest_id harvest = here.get_harvest( p );
