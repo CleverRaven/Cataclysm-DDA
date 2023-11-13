@@ -741,8 +741,15 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( is_tool() ) {
                 charges = std::min( qty, ammo_capacity( ammo_type ) );
             } else if( is_gun() ) {
-                const item temp_ammo( ammo_default(), calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
-                put_in( temp_ammo, pocket_type::MAGAZINE );
+                item temp_ammo( ammo_default(), calendar::turn );
+                int count = std::min( qty, ammo_capacity( ammo_type ) );
+                if( temp_ammo.count_by_charges() ) {
+                    temp_ammo.charges = count;
+                    count = 1;
+                }
+                for( int i = 0; i < count; i++ ) {
+                    put_in( temp_ammo, pocket_type::MAGAZINE );
+                }
             }
         }
         return *this;
@@ -761,13 +768,19 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     if( is_magazine() ) {
         ammo_unset();
-        item set_ammo( ammo, calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
+        item set_ammo( ammo, calendar::turn );
+        int count = std::min( qty, ammo_capacity( ammo_type ) );
+        if( set_ammo.count_by_charges() ) {
+            set_ammo.charges = count;
+            count = 1;
+        }
         if( has_flag( flag_NO_UNLOAD ) ) {
             set_ammo.set_flag( flag_NO_DROP );
             set_ammo.set_flag( flag_IRREMOVABLE );
         }
-        put_in( set_ammo, pocket_type::MAGAZINE );
-
+        for( int i = 0; i < count; i++ ) {
+            put_in( set_ammo, pocket_type::MAGAZINE );
+        }
     } else {
         if( !magazine_current() ) {
             itype_id mag = magazine_default();
