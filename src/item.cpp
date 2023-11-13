@@ -11248,7 +11248,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
     for( const itype_id &testmod : mod.type->gunmod->blacklist_mod ) {
         if( gunmod_find( testmod ) ) {
             return ret_val<void>::make_failure( _( "cannot be installed on a weapon with a \"%s\"" ),
-                                                testmod.str() );
+                                                ( testmod->nname( 1 ) ) );
         }
     }
 
