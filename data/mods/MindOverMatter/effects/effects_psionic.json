@@ -768,36 +768,33 @@
   {
     "type": "effect_type",
     "id": "effect_photokin_dodge",
-    "name": [ "Trick of the light" ],
-    "desc": [ "Your enemies struggle to see where your real form is." ],
+    "name": [ "Trick of the Light" ],
+    "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
     "apply_message": "",
-    "remove_message": "Your illusionary form fades.",
-    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious.", "bad" ] ],
+    "remove_message": "The illusions around you suddenly vanish!.",
+    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
     "max_duration": "15 minutes",
     "max_intensity": 38,
     "dur_add_perc": 10,
     "int_dur_factor": "24 s",
     "blocks_effects": [ "grabbed" ],
+    "base_mods": { "dodge_mod": [ 6 ] },
     "enchantments": [
       {
         "values": [
           {
-            "value": "BONUS_DODGE",
-            "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
-            }
-          },
-          {
             "value": "EVASION",
             "add": {
-              "math": [ "(( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) + ( ( u_val('intelligence') + 10) / 100 ) )" ]
+              "math": [
+                "min(( 15 + (2 * ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) ) + ( ( u_val('intelligence') + 10) / 20 ) ), 0.85)"
+              ]
             }
           }
         ]
       }
     ],
-    "flags": [ "UNCANNY_DODGE" ]
+    "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
   },
   {
     "type": "effect_type",
