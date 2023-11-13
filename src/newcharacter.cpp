@@ -1019,22 +1019,21 @@ static const char *g_switch_msg( const avatar &u )
 {
     return  u.male ?
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_pink>female</color>). Curently: <color_light_cyan>male</color>." )
+            _( "Identity: <color_magenta>%2$s</color> (<color_light_cyan>male</color>) (press <color_light_green>%1$s</color> to switch)" )
             :
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>). Curently: <color_pink>female</color>." );
+            _( "Identity: <color_magenta>%2$s</color> (<color_pink>female</color>) (press <color_light_green>%1$s</color> to switch)" )
+            ;
+
 }
 
 static const char *dress_switch_msg()
 {
     return  outfit ?
             //~ Outfit switch message. 1s - change key name.
-            _( "Press <color_light_green>%1$s</color> to switch to <color_pink>Outfit (F)</color>.  Currently: <color_light_cyan>Outfit (M)</color>." )
-            :
+            _( "Outfit: <color_light_cyan>male</color> (press <color_light_green>%1$s</color> to change)" ) :
             //~ Outfit switch message. 1s - change key name.
-            _( "Press <color_light_green>%1$s</color> to switch to <color_light_cyan>Outfit (M)</color>.  Currently: <color_pink>Outfit (F)</color>." );
+            _( "Outfit: <color_pink>female</color> (press <color_light_green>%1$s</color> to change)" );
 }
 
 void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
@@ -1985,7 +1984,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
 
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
-                                sorted_profs[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
+                                sorted_profs[cur_id]->gender_appropriate_name( u.male ) ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_GENDER_DRESS" ) ) + "\n";
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
