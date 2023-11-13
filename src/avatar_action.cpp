@@ -891,7 +891,9 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         }
     }
-    if( you.has_active_mutation( trait_GRAZER ) && ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos() ) && !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos() ) ) ) {
+    if( you.has_active_mutation( trait_GRAZER ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
