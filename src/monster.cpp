@@ -654,10 +654,10 @@ void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
         if ( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
-            add_effect( effect_critter_well_fed, 24_hours )
+            add_effect( effect_critter_well_fed, 24_hours );
         }
-        if ( ( amount_eaten < (stomach_size / 10) ) && !has_effect( effect_critter_well_fed ) ) {
-            add_effect( effect_critter_underfed, 24_hours )
+        else if ( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
+            add_effect( effect_critter_underfed, 24_hours );
         }
         amount_eaten = 0;
         stomach_timer = calendar::turn;
@@ -3192,6 +3192,10 @@ void monster::process_effects()
         if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) ) ) {
             add_msg_if_player_sees( *this, m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
+    }
+
+    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
+        heal( 1 );
     }
 
     //Monster will regen morale and aggression if it is at/above max HP

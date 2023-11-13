@@ -484,7 +484,7 @@ bool mattack::eat_food( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 || !item.has_flag( flag_INEDIBLE ) ||
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.has_flag( flag_INEDIBLE ) ||
                 item.made_of( material_water ) ) {
                 continue;
             }
@@ -493,11 +493,13 @@ bool mattack::eat_food( monster *z )
                 z->amount_eaten < z->stomach_size ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    z->amount_eaten += 1;
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    z->amount_eaten += 1;
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
