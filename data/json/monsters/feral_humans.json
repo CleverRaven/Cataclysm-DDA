@@ -47,8 +47,7 @@
       },
       { "id": "feral_weapon_pipe" },
       [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ],
-      [ "EAT_CARRION", 100 ]
+      [ "EAT_FOOD", 100 ]
     ],
     "death_drops": "feral_humans_death_drops_pipe",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
