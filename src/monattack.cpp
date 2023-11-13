@@ -538,7 +538,7 @@ bool mattack::graze( monster *z )
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
         //Don't eat grass right next to the player.
         if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
-        continue;
+            continue;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) && !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
             z->amount_eaten < z->stomach_size ) {
