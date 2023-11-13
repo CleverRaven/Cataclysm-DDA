@@ -188,6 +188,21 @@
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
+    "copy-from": "box_abstract",
+    "id": "integrated_trashcan",
+    "//": "Volume based off of:",
+    "//2": "https://www.uline.com/Product/Detail/H-7938BL/Trash-Cans-with-Wheels/Uline-Trash-Can-with-Wheels-95-Gallon-Black?pricode=WB3072&utm_source=Bing&utm_medium=pla&utm_term=H-7938BL&utm_campaign=Facilities%2BMaintenance&utm_source=Bing&utm_medium=pla&utm_term=H-7938BL&utm_campaign=Facilities%2BMaintenance&msclkid=d3c8827d02691eb87066e72c65ff5790",
+    "type": "vehicle_part",
+    "name": { "str": "industrial trash can" },
+    "categories": [ "cargo" ],
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "size": "359614 ml",
+    "item": "trashcan_large",
+    "variants_bases": [ { "id": "trash can", "label": "Trash Can" } ],
+    "variants": [ { "symbols": ")", "symbols_broken": "#" } ]
+  },
+  {
     "id": "cargo_space_external",
     "type": "vehicle_part",
     "name": { "str": "external cargo rack" },
