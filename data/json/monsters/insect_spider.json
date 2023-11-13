@@ -3566,7 +3566,7 @@
     "speed": 30,
     "stomach_size": 600,
     "dissect": "dissect_insect_sample_large",
-    "special_attacks": [ [ "EAT_CROP", 100], [ "GRAZE", 100 ] ],
+    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 100 ] ],
     "upgrades": { "age_grow": 30, "into": "mon_moth_cocoon" },
     "extend": { "flags": [ "EATS" ] },
     "zombify_into": "mon_meat_cocoon_small"
