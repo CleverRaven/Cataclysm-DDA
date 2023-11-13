@@ -3436,11 +3436,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         std::string mod_black_str = _( "<bold>Incompatible with mod location: </bold> " );
 
         int iternum = 0;
-        for( const gunmod_location &black : mod.blacklist_mod ) {
+        for( const itype_id &black : mod.blacklist_mod ) {
             if( iternum != 0 ) {
                 mod_black_str += ", ";
             }
-            mod_black_str += string_format( "%s", black.name() );
+            mod_black_str += string_format( "%s", black.str() );
             iternum++;
         }
         mod_black_str += ".";
@@ -11245,10 +11245,10 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<void>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 
-    for( const gunmod_location &slot : mod.type->gunmod->blacklist_mod ) {
-        if( get_mod_locations().count( slot ) ) {
-            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
-                                                slot.name() );
+    for( const itype_id &testmod : mod.type->gunmod->blacklist_mod ) {
+        if( gunmod_find( testmod ) ) {
+            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with a \"%s\"" ),
+                                                testmod.str() );
         }
     }
 
