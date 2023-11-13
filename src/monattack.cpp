@@ -541,7 +541,8 @@ bool mattack::graze( monster *z )
         if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
             continue;
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) && !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+        if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
             z->amount_eaten < z->stomach_size ) {
             here.furn_set( p, f_null );
             z->amount_eaten += 50;
