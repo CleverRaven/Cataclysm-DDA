@@ -1378,6 +1378,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "pet_carrier", "prob": 30 },
+      { "item": "petpack", "prob": 15 },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },
       { "prob": 10, "group": "catfood_dry_bag_plastic_18" },
       { "item": "towel", "prob": 20 },
