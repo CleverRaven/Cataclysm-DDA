@@ -9314,6 +9314,16 @@ void Character::add_to_inv_search_caches( item &it ) const
             ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
             continue;
         }
+
+        // If item is already in the cache, remove it so it can be re-added in its current state.
+        for( auto iter = cache.second.items.begin(); iter != cache.second.items.end(); ) {
+            if( *iter && iter->get() == &it ) {
+                iter = inv_search_caches[cache.first].items.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+
         cache.second.items.push_back( it.get_safe_reference() );
     }
 }
