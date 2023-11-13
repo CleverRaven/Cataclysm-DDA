@@ -548,7 +548,8 @@ bool mattack::graze( monster *z )
             //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
             return true;
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) && !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+        if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
             z->amount_eaten < z->stomach_size ) {
             add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.tername( p ) );
             here.ter_set( p, t_dirt );
