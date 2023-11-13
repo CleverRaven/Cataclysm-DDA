@@ -3433,14 +3433,14 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
-        std::string mod_black_str = _( "<bold>Incompatible with mod location: </bold> " );
+        std::string mod_black_str = _( "<bold>Incompatible with gunmods: </bold> " );
 
         int iternum = 0;
         for( const itype_id &black : mod.blacklist_mod ) {
             if( iternum != 0 ) {
                 mod_black_str += ", ";
             }
-            mod_black_str += string_format( "%s", black.str() );
+            mod_black_str += string_format( "%s", ( black->nname( 1 ) )  );
             iternum++;
         }
         mod_black_str += ".";
