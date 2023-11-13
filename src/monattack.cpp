@@ -577,11 +577,11 @@ bool mattack::browse( monster *z )
         if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && z->amount_eaten < z->stomach_size ) {
         const harvest_id harvest = here.get_harvest( p );
             if( !harvest.is_null() || !harvest->empty() ) {
-            add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
-            here.ter_set( p, here.get_ter_transforms_into( p ) );
-            z->amount_eaten += 174;
-            //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
-            return true;
+                add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
+                here.ter_set( p, here.get_ter_transforms_into( p ) );
+                z->amount_eaten += 174;
+                //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
+                return true;
             }
         }
     }
