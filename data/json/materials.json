@@ -2051,6 +2051,13 @@
   },
   {
     "type": "material",
+    "id": "rhodonite",
+    "name": "Rhodonite",
+    "copy-from": "stone",
+    "density": 3.7
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2077,6 +2084,13 @@
     "cut_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
+  },
+  {
+    "type": "material",
+    "id": "anomaly",
+    "name": "Anomalous Material",
+    "copy-from": "monolith",
+    "density": 10000
   },
   {
     "type": "material",
