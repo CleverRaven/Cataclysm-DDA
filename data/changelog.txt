@@ -67,11 +67,9 @@ Ledges provide sight coverage
 Add foreach function to EoC
 Add Map related EoC functions
 Allow messages to parse nested tags
-[EoC]More armor information(coverage, encumbrance)
 Allow using snippets in item descriptions
 Infectious diseases (cold/flu) have an invisible incubation period, and start with milder symptoms
 Weapon Proficiency
-Furniture/terrain have semi-persistent damage from being bashed
 Fixes NPCs being too afraid, makes swarm danger assessment more robust
 
 
@@ -124,20 +122,8 @@ adds dried garlic/chili
 Adds more ways to learn bronze crafting
 Updates the Portal Dependent mechanics and introduces rewards for exploring the portal dungeons.
 Cyberhorse... CYBERHORSE!
-Adds some new recipes to craft the leather-padded armor from sheets
-Introduce new mutant frog monsters, and weakpoints for frogs
-Colored hoodie
 Make nuts and bolts craftable using thread cutting tool
 New map extra: civilians making a futile last stand against the horde
-Give logging camp NPCs some random missions.
-allow disassembly of blanks
-Adds weapon proficiencies to professions when adequate,
-Adds more cartridge casing recipes
-Adds 2 bayonets, 1 fighting knife and adjusts several other knives
-Glass door fridges can now be used as appliances
-Hobbies give weapon proficiency, Aftershock & baseball bats use weapon categories
-Miscellaneous typo, inconsistencies, punctuation errors, pluralization errors... fixes
-Buttered toast should be craftable with raw butter, too.
 
 
 ## Interface:
@@ -182,7 +168,6 @@ Allow scanning several books into ereader at once
 Add milling info to milleable items
 Add spell class selecter to spell casting menu
 'Learning is disabled' message on disabled skills
-Swaps UI widgets with ones that have proper labels
 Update gun mod removal UI to use inventory menu instead of a prompt; prevent removal of gun mods with other mods installed on it
 Show the mass of vitamins in food items
 
@@ -244,14 +229,7 @@ Add the HAS_MIND flag to appropriate monsters in in-repo mods
 XE: Add gossamer material and clothing
 XE:  transformation potions to top level alchemy perk
 MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
-Add a new power class to the mind over matter mod
-[MoM] Further Photokinesis integration + certain actions remove maintained powers
-Move the cockatrice to Mind Over Matter.
-Aftershock: Update Robot Dispatch mapgen
-[MoM] Add pyrokinetic fire to requirements lists
-[MoM] Add radiation attack to feral photokinetics
-Balance Mind Over Matter waves for Defense Mode.
-Mi-goify Mi-go Mages
+[MoM] Add a new power class Photokinesis
 
 
 ## Balance:
@@ -296,10 +274,7 @@ Touch up pawn shops with better loot
 Prevent staunching bleeding while driving
 Threatening to kill NPCs(recruitment) is more likely to make them hostile
 Backup generator is much more powerful
-Adds uncraft recipes and adds some fixes to leather clothing crafting
 Bulk unloading and dropping items saves time cost
-Brigandine coat allows tail
-Bulk loading items saves time cost for generic pick up(g) process
 Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
 
 
@@ -382,20 +357,8 @@ Your nemesis will still hunt you even if you spawn on a roof at the start
 Picky eaters won't drink unsavory drinks
 Corrects duplicates /the/ in martial arts techs messages
 Gas masks only use charges on fields with gas_absorption_factor set
-Adds in spawns for Long Skirts
-[MoM] Fix Momentum Alteration
-Changes the house full of zombie dogs to normal
 More background stories: actually access them
-Revert [MoM] Fix Momentum Alteration
-Fix Crustacean mutation/molt errors
-[MoM] Fix Mind Control practice recipe message
-recipe fix
-Fixes oxygen tanks spawning empty in the military base medical closet.
 All weapon proficiencies can be learned by hitting
-Mutagenic chelator should sort with 'mutagenic catalyst' and the various 'mutagenic primers'
-Fix semi-auto AK nested group
-[MoM] change Inferno Grenade fuse and casing
-add pecorino and marscapone to the cheese recipe component
 
 
 ## Performance:
@@ -437,10 +400,8 @@ Replaced the use of the arbitrary body temperature scale in game logic with unit
 [EoC] Simple if-else statement
 Allow specifying vitamins by weight (mass) in items
 Add more comment-commands which apply labels to issues and PRs
-Convert the New England Community Church functions from `arithmetic` and `compare_num` to `math`.
 Migrate arithmetics function with arguments to math
 Provide more options to name monsters placed via mapgen
-Convert the Kill Zombie Mom mission to JSON.
 
 
 ## Build:
