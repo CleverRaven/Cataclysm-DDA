@@ -170,7 +170,7 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature()
 {
-    if( !is_game_destructing ) {
+    if( !is_game_destructing && g ) {
         get_map().remove_creature_from_reachability( this );
     }
 }
