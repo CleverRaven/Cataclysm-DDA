@@ -3440,7 +3440,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( iternum != 0 ) {
                 mod_black_str += ", ";
             }
-            mod_black_str += string_format( "%s", ( black->nname( 1 ) )  );
+            mod_black_str += string_format( "%s", ( black->nname( 1 ) ) );
             iternum++;
         }
         mod_black_str += ".";
