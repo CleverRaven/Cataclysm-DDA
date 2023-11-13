@@ -880,7 +880,8 @@ bool avatar_action::eat_here( avatar &you )
         }
     }
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos() ) && !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos() )->name() );
             return true;
