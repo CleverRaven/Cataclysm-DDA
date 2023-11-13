@@ -7666,5 +7666,14 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_kevlar_patchwork", 30 ] ], [ [ "thread_kevlar", 90 ] ], [ [ "sheet_nomex_patchwork", 30 ] ] ],
     "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "tankard_wooden",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "splinter", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
