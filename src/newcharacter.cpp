@@ -95,7 +95,8 @@ static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-static bool dress_male = false;
+// Wether or not to use Outfit (M) at character creation
+static bool outfit = true;
 
 // Responsive screen behavior for small terminal sizes
 static bool isWide = false;
@@ -424,6 +425,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     *this = avatar();
 
     male = ( rng( 1, 100 ) > 50 );
+    outfit = male;
     if( !MAP_SHARING::isSharing() ) {
         play_now ? pick_name() : pick_name( true );
     } else {
@@ -609,7 +611,7 @@ void avatar::add_profession_items()
         return;
     }
 
-    std::list<item> prof_items = prof->items( dress_male, get_mutations() );
+    std::list<item> prof_items = prof->items( outfit, get_mutations() );
 
     for( item &it : prof_items ) {
         if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
@@ -1018,19 +1020,21 @@ static const char *g_switch_msg( const avatar &u )
     return  u.male ?
             //~ Gender switch message. 1s - change key name, 2s - profession name.
             _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+               "to <color_magenta>%2$s</color> (<color_pink>female</color>). Curently: <color_light_cyan>male</color>." )
+            :
             //~ Gender switch message. 1s - change key name, 2s - profession name.
             _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+               "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>). Curently: <color_pink>female</color>." );
 }
 
 static const char *dress_switch_msg()
 {
-    return  dress_male ?
-            //~ Gender gear switch message. 1s - change key name.
-            _( "Press <color_light_green>%1$s</color> to switch to <color_pink>Outfit A</color>." ) :
-            //~ Gender gear switch message. 1s - change key name.
-            _( "Press <color_light_green>%1$s</color> to switch to <color_light_cyan>Outfit B</color>." );
+    return  outfit ?
+            //~ Outfit switch message. 1s - change key name.
+            _( "Press <color_light_green>%1$s</color> to switch to <color_pink>Outfit (F)</color>.  Currently: <color_light_cyan>Outfit (M)</color>." )
+            :
+            //~ Outfit switch message. 1s - change key name.
+            _( "Press <color_light_green>%1$s</color> to switch to <color_light_cyan>Outfit (M)</color>.  Currently: <color_pink>Outfit (F)</color>." );
 }
 
 void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
@@ -2057,7 +2061,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession items
-    const auto prof_items = sorted_profs[cur_id]->items( dress_male, u.get_mutations() );
+    const auto prof_items = sorted_profs[cur_id]->items( outfit, u.get_mutations() );
     assembled += "\n" + colorize( _( "Profession items:" ), COL_HEADER ) + "\n";
     if( prof_items.empty() ) {
         assembled += pgettext( "set_profession_item", "None" ) + std::string( "\n" );
@@ -2398,7 +2402,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             // both the scenario and old profession require the same trait)
             u.add_traits();
         } else if( action == "CHANGE_GENDER_DRESS" ) {
-            dress_male = !dress_male;
+            outfit = !outfit;
             recalc_profs = true;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
