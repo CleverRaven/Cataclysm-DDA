@@ -2739,6 +2739,7 @@ class Character : public Creature, public visitable
         int activity_vehicle_part_index = -1;
 
         // Hauling items on the ground
+        void toggle_hauling();
         void start_hauling();
         void stop_hauling();
         bool is_hauling() const;

@@ -8622,6 +8622,27 @@ units::volume Character::volume_carried() const
     return volume_capacity() - free_space();
 }
 
+void Character::toggle_hauling()
+{
+    map &here = get_map();
+
+    if( hauling ) {
+        stop_hauling();
+    } else {
+        if( here.veh_at( pos() ) ) {
+            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
+        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+            add_msg( m_info, _( "You cannot haul while in deep water." ) );
+        } else if( !here.can_put_items( pos() ) ) {
+            add_msg( m_info, _( "You cannot haul items here." ) );
+        } else if( !here.has_haulable_items( pos() ) ) {
+            add_msg( m_info, _( "There are no items to haul here." ) );
+        } else {
+            start_hauling();
+        }
+    }
+}
+
 void Character::start_hauling()
 {
     add_msg( _( "You start hauling items along the ground." ) );

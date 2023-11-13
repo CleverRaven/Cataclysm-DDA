@@ -728,7 +728,6 @@ static void grab()
 static void haul()
 {
     Character &player_character = get_player_character();
-    map &here = get_map();
 
     bool exit = false;
     do {
@@ -771,21 +770,7 @@ static void haul()
 
         switch( menu.ret ) {
             case 0:
-                if( hauling ) {
-                    player_character.stop_hauling();
-                } else {
-                    if( here.veh_at( player_character.pos() ) ) {
-                        add_msg( m_info, _( "You cannot haul inside vehicles." ) );
-                    } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
-                        add_msg( m_info, _( "You cannot haul while in deep water." ) );
-                    } else if( !here.can_put_items( player_character.pos() ) ) {
-                        add_msg( m_info, _( "You cannot haul items here." ) );
-                    } else if( !here.has_haulable_items( player_character.pos() ) ) {
-                        add_msg( m_info, _( "There are no items to haul here." ) );
-                    } else {
-                        player_character.start_hauling();
-                    }
-                }
+                player_character.toggle_hauling();
                 exit = true;
                 break;
             case 1:
@@ -808,6 +793,11 @@ static void haul()
                 return;
         }
     } while( !exit );
+}
+
+static void haul_toggle()
+{
+    get_avatar().toggle_hauling();
 }
 
 static void smash()
@@ -2015,6 +2005,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_shell()
         { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're in your shell." ) },
         { ACTION_GRAB,               _( "You can't grab things while you're in your shell." ) },
         { ACTION_HAUL,               _( "You can't haul things while you're in your shell." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while you're in your shell." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while you're in your shell." ) },
         { ACTION_PEEK,               _( "You can't peek around corners while you're in your shell." ) },
         { ACTION_DROP,               _( "You can't drop things while you're in your shell." ) },
@@ -2036,6 +2027,7 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_PICKUP_ALL,
     ACTION_GRAB,
     ACTION_HAUL,
+    ACTION_HAUL_TOGGLE,
     ACTION_BUTCHER,
     ACTION_CRAFT,
     ACTION_RECRAFT,
@@ -2056,6 +2048,7 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
         { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're riding." ) },
         { ACTION_GRAB,               _( "You can't grab things while you're riding." ) },
         { ACTION_HAUL,               _( "You can't haul things while you're riding." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while you're riding." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while you're riding." ) },
         { ACTION_PEEK,               _( "You can't peek around corners while you're riding." ) },
         { ACTION_CRAFT,              _( "You can't craft while you're riding." ) },
@@ -2331,6 +2324,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_HAUL:
             haul();
+            break;
+
+        case ACTION_HAUL_TOGGLE:
+            haul_toggle();
             break;
 
         case ACTION_BUTCHER:

@@ -2467,6 +2467,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
+    ctxt.register_action( "haul_toggle" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
     ctxt.register_action( "look" );
