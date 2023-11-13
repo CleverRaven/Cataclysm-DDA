@@ -359,6 +359,11 @@ bool mattack::eat_crop( monster *z )
                 return true;
             }
         }
+        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && z->amount_eaten < z->stomach_size ) {
+            here.ter_set( p, here.get_ter_transforms_into( p ) );
+            z->amount_eaten += 70;
+            return true;
+        }
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //This prevents crop eaters from eating planted seeds
@@ -561,17 +566,27 @@ bool mattack::eat_carrion( monster *z )
 bool mattack::graze( monster *z )
 {
     map &here = get_map();
-    //Grazers eat grass and small leafy plants. Browsers eat larger things like bushes and crops.
+    //Grazers eat grass and entire plants or bushes. Toxic/inedible plants should be blacklisted via flags as with fungus.
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE_FURNITURE, p ) &&
+        if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) && !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
             z->amount_eaten < z->stomach_size ) {
             here.furn_set( p, f_null );
-            z->amount_eaten += 70;
+            z->amount_eaten += 50;
+            //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
+            return true;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) && !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+            z->amount_eaten < z->stomach_size ) {
+            add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.tername( p ) );
+            here.ter_set( p, t_dirt );
+            z->amount_eaten += 174;
+            //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
             return true;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && z->amount_eaten < z->stomach_size ) {
             here.ter_set( p, here.get_ter_transforms_into( p ) );
             z->amount_eaten += 70;
+            //Calorie amount is based on the "grass" dummy item, as with the grazer mutation.
             return true;
         }
     }
