@@ -9806,7 +9806,7 @@
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "components": [
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
-      [ [ "tortilla_corn", 3 ] ],
+      [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
