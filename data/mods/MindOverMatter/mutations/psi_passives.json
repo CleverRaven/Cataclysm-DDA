@@ -75,7 +75,7 @@
   {
     "type": "mutation",
     "id": "PYROKIN_ADAPTATION",
-    "name": { "str": "Fire Within" },
+    "name": { "str": "Internal Fire" },
     "points": 0,
     "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
     "bodytemp_modifiers": [ 250, 750 ],
