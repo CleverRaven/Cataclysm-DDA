@@ -115,15 +115,15 @@
       "furniture": { "&": "f_table", "?": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [ { "item": "television", "x": 19, "y": 10 } ],
       "items": {
-        "_": { "item": "catfood", "chance": 10, "repeat": 5 },
-        "=": { "item": "catfood", "chance": 10, "repeat": 3 },
-        "H": { "item": "catfood", "chance": 10, "repeat": 2 },
-        "E": { "item": "catfood", "chance": 10, "repeat": 5 },
-        "R": { "item": "catfood", "chance": 10, "repeat": 3 },
-        "?": { "item": "catfood", "chance": 10, "repeat": 4 },
-        "l": { "item": "catfood", "chance": 10, "repeat": 1 },
-        "s": { "item": "catfood", "chance": 10, "repeat": 3 },
-        "x": { "item": "catfood", "chance": 10, "repeat": 2 }
+        "_": { "item": "cat_hoarder", "chance": 10, "repeat": 5 },
+        "=": { "item": "cat_hoarder", "chance": 10, "repeat": 3 },
+        "H": { "item": "cat_hoarder", "chance": 10, "repeat": 2 },
+        "E": { "item": "cat_hoarder", "chance": 10, "repeat": 5 },
+        "R": { "item": "cat_hoarder", "chance": 10, "repeat": 3 },
+        "?": { "item": "cat_hoarder", "chance": 10, "repeat": 4 },
+        "l": { "item": "cat_hoarder", "chance": 10, "repeat": 1 },
+        "s": { "item": "cat_hoarder", "chance": 10, "repeat": 3 },
+        "x": { "item": "cat_hoarder", "chance": 10, "repeat": 2 }
       },
       "place_monsters": [ { "density": 0.1, "monster": "GROUP_PET_CATS", "x": [ 5, 19 ], "y": [ 5, 19 ] } ]
     }
