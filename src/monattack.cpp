@@ -353,12 +353,6 @@ bool mattack::eat_crop( monster *z )
                 z->amount_eaten += 350;
                 return true;
             }
-            if( !z->has_flag( mon_flag_EATS ) ) {
-                add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.furnname( p ) );
-                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-                here.i_clear( *target );
-                return true;
-            }
         }
         map_stack items = here.i_at( p );
         for( item &item : items ) {
@@ -380,17 +374,6 @@ bool mattack::eat_crop( monster *z )
                 } else {
                     int kcal = item.get_comestible()->default_nutrition.kcal();
                     z->amount_eaten += kcal;
-                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
-                    here.use_amount( p, 1, item.type->get_id(), consumed );
-                }
-                return true;
-            }
-            if( !z->has_flag( mon_flag_EATS ) ) {
-                int consumed = 1;
-                if( item.count_by_charges() ) {
-                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
-                    here.use_charges( p, 1, item.type->get_id(), consumed );
-                } else {
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -519,17 +502,6 @@ bool mattack::eat_food( monster *z )
                 }
                 return true;
             }
-            if( !z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() ) {
-                int consumed = 1;
-                if( item.count_by_charges() ) {
-                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
-                    here.use_charges( p, 1, item.type->get_id(), consumed );
-                } else {
-                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
-                    here.use_amount( p, 1, item.type->get_id(), consumed );
-                }
-                return true;
-            }
         }
     }
     return true;
@@ -597,7 +569,6 @@ bool mattack::browse( monster *z )
 {
     map &here = get_map();
     //Browsers eat fruit/nuts/etc off of seasonally harvestable plants and trees.
-    add_msg_if_player_sees( *z, _( "The %1s is trying to browse." ), z->name() );
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
         // Don't forage for food if the player is right there.
         if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
