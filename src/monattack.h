@@ -9,6 +9,7 @@ namespace mattack
 {
 bool none( monster *z );
 bool absorb_items( monster *z );
+bool browse( monster *z );
 bool eat_carrion( monster *z );
 bool eat_crop( monster *z );
 bool eat_food( monster *z );

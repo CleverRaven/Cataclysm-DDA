@@ -44,6 +44,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -505,7 +506,7 @@ bool mattack::eat_food( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || !item.has_flag( flag_INEDIBLE ) || item.made_of( material_water ) ) {
                 continue;
             }
             //Don't eat own eggs
@@ -588,6 +589,26 @@ bool mattack::graze( monster *z )
             z->amount_eaten += 70;
             //Calorie amount is based on the "grass" dummy item, as with the grazer mutation.
             return true;
+        }
+    }
+    return true;
+}
+
+bool mattack::browse( monster *z )
+{
+    map &here = get_map();
+    //Browsers eat fruit/nuts/etc off of seasonally harvestable plants and trees.
+    add_msg_if_player_sees( *z, _( "The %1s is trying to browse." ), z->name() );
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && z->amount_eaten < z->stomach_size ) {
+        const harvest_id harvest = here.get_harvest( p );
+            if( !harvest.is_null() || !harvest->empty() ) {
+            add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
+            here.ter_set( p, here.get_ter_transforms_into( p ) );
+            z->amount_eaten += 174;
+            //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
+            return true;
+            }
         }
     }
     return true;

@@ -93,6 +93,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BOOMER_GLOW``` Spits glowing bile.
 - ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
+- ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
 - ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.  Note: Legacy special attack.
@@ -103,7 +104,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```EAT_CARRION``` The monster will nibble on organic corpses, including zombies and plants, damaging them and filling its stomach if it has the EATS flag.
-- ```EAT_CROP``` The monster eats an adjacent planted crop.
+- ```EAT_CROP``` The monster eats an adjacent planted crop or CATTLE flagged comestible.
 - ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20). If paired with the EATS flag, this will fill its stomach.
 - ```EVOLVE_KILL_STRIKE``` Damages the target's torso (damage scales with monster's melee dice), if it succeeds in killing a fleshy target the monster will upgrade to its next evolution.
 - ```FEAR_PARALYZE``` Paralyzes the player with fear.
@@ -121,6 +122,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```FUNGUS_INJECT``` Performs a needle attack that can cause fungal infections.
 - ```FUNGUS_SPROUT``` Grows a fungal wall.
 - ```FUNGAL_TRAIL``` Spreads fungal terrain.
+- ```GRAZE``` The monster eats grass, shrubs and flowers.
 - ```GENE_STING``` Shoots a dart at the player that causes a mutation if it connects.
 - ```GENERATOR``` Regenerates health, hums.
 - ```GRENADIER``` Deploys tear gas/pacification/flashbang/c4 hacks from its ammo.
