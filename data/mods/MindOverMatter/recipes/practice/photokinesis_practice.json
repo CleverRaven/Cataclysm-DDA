@@ -51,6 +51,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_snuff_light')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -101,6 +102,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_dodge')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -151,6 +153,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_beam')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -202,6 +205,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_image')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -253,6 +257,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_arms')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -304,6 +309,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_rad_immunity')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -355,6 +361,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_invisibility')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -406,6 +413,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_flash')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -459,6 +467,7 @@
             "math": [ "u_val('spell_exp', 'spell: photokinetic_light_disintegrate')", "+=", "(contemplation_factor(1))" ]
           },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
