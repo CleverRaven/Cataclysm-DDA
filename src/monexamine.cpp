@@ -504,7 +504,7 @@ void milk_source( monster &source_mon )
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
             if ( !source_mon.has_effect( effect_critter_well_fed ) ) {
             add_msg( _( "It might not be getting enough to eat." ) );
-            }
+        }
     }
 }
 
