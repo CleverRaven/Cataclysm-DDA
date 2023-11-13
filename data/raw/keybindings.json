@@ -1486,7 +1486,7 @@
   },
   {
     "type": "keybinding",
-    "id": "CHANGE_GENDER_DRESS",
+    "id": "CHANGE_OUTFIT",
     "name": "Change outfit",
     "bindings": [ { "input_method": "keyboard_char", "key": "$" } ]
   },

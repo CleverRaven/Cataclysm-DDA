@@ -1985,7 +1985,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 sorted_profs[cur_id]->gender_appropriate_name( u.male ) ) + "\n";
-    assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_GENDER_DRESS" ) ) + "\n";
+    assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
@@ -2242,7 +2242,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
-    ctxt.register_action( "CHANGE_GENDER_DRESS" );
+    ctxt.register_action( "CHANGE_OUTFIT" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
@@ -2400,7 +2400,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits();
-        } else if( action == "CHANGE_GENDER_DRESS" ) {
+        } else if( action == "CHANGE_OUTFIT" ) {
             outfit = !outfit;
             recalc_profs = true;
         } else if( action == "CHANGE_GENDER" ) {
