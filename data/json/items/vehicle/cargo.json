@@ -155,7 +155,7 @@
     "type": "GENERIC",
     "name": "tied-down glass door fridge",
     "symbol": "F",
-    "looks_like": "fridge",
+    "looks_like": "glass_fridge",
     "material": [ "steel", "glass" ],
     "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "weight": "75 kg",

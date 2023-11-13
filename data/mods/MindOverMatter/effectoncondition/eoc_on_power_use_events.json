@@ -299,6 +299,13 @@
     ]
   },
   {
+    "id": "EOC_PHOTOKIN_DODGE_CANCEL_ATTACKED",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_photokin_dodge" },
+    "effect": [ { "u_lose_effect": "effect_photokin_dodge" } ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_BIOKINETIC_CHANNELING_FAILURE",
     "//": "Once focus becomes more persistant and doesn't immediately drop to 25 on doing basically anything, low focus should also make overload more likely",

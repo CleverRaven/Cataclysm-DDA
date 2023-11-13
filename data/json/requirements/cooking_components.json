@@ -236,7 +236,9 @@
         [ "can_cheese", 1 ],
         [ "cheese_rehydrated", 1 ],
         [ "cottage_cheese", 1 ],
-        [ "mozzarella_cheese", 1 ]
+        [ "mozzarella_cheese", 1 ],
+        [ "mascarpone", 1 ],
+        [ "pecorino_cheese", 1 ]
       ]
     ]
   },

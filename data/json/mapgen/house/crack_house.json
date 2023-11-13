@@ -247,7 +247,6 @@
         "{": "t_region_groundcover_urban",
         "W": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
-        "#": "t_adobe_brick_wall",
         "`": "t_concrete",
         "F": "t_linoleum_white",
         "J": "t_linoleum_white",

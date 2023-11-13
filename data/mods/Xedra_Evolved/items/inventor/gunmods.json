@@ -56,7 +56,7 @@
   {
     "id": "mod_inv_pistol_booster",
     "type": "GUNMOD",
-    "name": { "str": "pistol's booster" },
+    "name": { "str": "pistol booster" },
     "description": "A set of mechanisms, that alter the action of the blocky pistol enough to make it something in-between a machine pistol and a submachine gun.",
     "weight": "68 g",
     "volume": "119 ml",
@@ -169,7 +169,7 @@
   {
     "id": "inventor_lasmod_adv_cooler",
     "type": "GUNMOD",
-    "name": { "str_sp": "advanced heat exchanger" },
+    "name": { "str": "advanced heat exchanger" },
     "description": "A set of fins in mathematically precise order, that make heat transferring much more efficient than your original implementation.",
     "weight": "380 g",
     "volume": "250 ml",
@@ -186,7 +186,7 @@
   {
     "id": "inventor_lasmod_adv_adv_cooler",
     "type": "GUNMOD",
-    "name": { "str_sp": "freezing heat sink" },
+    "name": { "str": "freezing heat sink" },
     "description": "A small piece of completely frozen metal.  It grants a massive cooling improvement, but the weapon circuits don't work properly with this mod, making you spend more energy per shot.",
     "weight": "380 g",
     "volume": "250 ml",
@@ -204,7 +204,7 @@
   {
     "id": "inventor_lasmod_recuperator",
     "type": "GUNMOD",
-    "name": { "str_sp": "heat recuperator" },
+    "name": { "str": "heat recuperator" },
     "description": "Put some amount of the heat exchange from the gun back into platform loop.  Decrease amount of energy used, and increase the heat output of the weapon, but also its heat generation within the loop.",
     "weight": "380 g",
     "volume": "250 ml",
@@ -223,7 +223,7 @@
   {
     "id": "inventor_lasmod_mega_everything",
     "type": "GUNMOD",
-    "name": { "str_sp": "glass cannon energy conversion" },
+    "name": { "str": "glass cannon energy conversion" },
     "description": "Alter the energy loop in the platform - instead of doing multiple shots, it store all the power, and use most of it in a single shot.  Effectively transform the weapon into one or two shot recoilless rifle.",
     "weight": "380 g",
     "volume": "250 ml",
@@ -243,7 +243,7 @@
   {
     "id": "inventor_lasmod_radiator",
     "type": "GUNMOD",
-    "name": { "str_sp": "secondary radiator" },
+    "name": { "str": "secondary radiator" },
     "description": "Additional radiator for your energy weapon.  Someone may say it's because you don't know how to use your gun properly.",
     "weight": "380 g",
     "volume": "250 ml",
@@ -260,7 +260,7 @@
   {
     "id": "inventor_lasmod_chonky_radiator",
     "type": "GUNMOD",
-    "name": { "str_sp": "huge radiator" },
+    "name": { "str": "huge radiator" },
     "description": "Replace the entire radiator in the platform into this hefty and bulky piece of metal, trading a portability of a gun for a massive overheat buffer.",
     "weight": "1167 g",
     "volume": "1670 ml",
@@ -277,7 +277,7 @@
   {
     "id": "inventor_lasmod_spooky_heat_sink",
     "type": "GUNMOD",
-    "name": { "str_sp": "skeletonized heat sink" },
+    "name": { "str": "skeletonized heat sink" },
     "description": "Replace a large part of the weapon's radiator with an additional cooling unit.  The gun overheats faster, but recovers from it at a faster rate.",
     "weight": "380 g",
     "volume": "250 ml",
