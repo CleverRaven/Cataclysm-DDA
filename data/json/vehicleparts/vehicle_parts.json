@@ -3261,6 +3261,33 @@
   },
   {
     "type": "vehicle_part",
+    "id": "stowed_glass_fridge",
+    "name": { "str": "tied-down glass door fridge" },
+    "categories": [ "other" ],
+    "color": "white",
+    "damage_modifier": 5,
+    "durability": 100,
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.  Careful with the glass!",
+    "bonus": 300,
+    "item": "stowed_glass_fridge",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "damage_reduction": { "all": 16 },
+    "flags": [ "EXTRA_DRAG" ],
+    "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "stowed_freezer",
     "name": { "str": "tied-down freezer" },
     "categories": [ "other" ],

@@ -140,7 +140,7 @@
     "looks_like": "armor_larmor",
     "color": "light_gray",
     "longest_side": "60 cm",
-    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "VARSIZE" ],
+    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "VARSIZE", "ALLOWS_TAIL" ],
     "armor": [
       {
         "material": [
@@ -212,7 +212,7 @@
     "looks_like": "armor_larmor",
     "color": "light_gray",
     "longest_side": "60 cm",
-    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "VARSIZE" ],
+    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "VARSIZE", "ALLOWS_TAIL" ],
     "armor": [
       {
         "material": [
@@ -860,7 +860,7 @@
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "environmental_protection": 1,
-    "flags": [ "OUTER", "ALLOWS_TAIL", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "VARSIZE" ],
+    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "VARSIZE" ],
     "armor": [
       {
         "material": [
@@ -993,7 +993,7 @@
     "id": "lc_vambrace_brigandine",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel vambraces" },
+    "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel splint vambraces" },
     "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "600 g",
     "volume": "1400 ml",
@@ -1151,7 +1151,7 @@
     "looks_like": "legguard_metal",
     "color": "light_gray",
     "environmental_protection": 1,
-    "flags": [ "OUTER", "ALLOWS_TAIL", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "VARSIZE" ],
+    "flags": [ "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "VARSIZE" ],
     "armor": [
       {
         "material": [

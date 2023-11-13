@@ -42,7 +42,7 @@ std::string enum_to_string( E );
 template<typename E>
 std::unordered_map<std::string, E> build_enum_lookup_map()
 {
-    static_assert( std::is_enum<E>::value, "E should be an enum type" );
+    static_assert( std::is_enum_v<E>, "E should be an enum type" );
     static_assert( has_enum_traits<E>::value, "enum E needs a specialization of enum_traits" );
     std::unordered_map<std::string, E> result;
 

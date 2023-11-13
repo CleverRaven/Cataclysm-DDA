@@ -1447,7 +1447,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "1895sbl", "charges-min": 0, "charges-max": 30 },
+      { "item": "aksemi", "charges-min": 0, "charges-max": 30 },
       { "item": "akmag10" },
       { "item": "akmag10", "prob": 50 },
       { "group": "on_hand_762" }

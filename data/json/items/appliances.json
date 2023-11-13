@@ -16,6 +16,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "glass_fridge",
+    "looks_like": "minifridge",
+    "symbol": "F",
+    "color": "light_blue",
+    "name": { "str": "disconnected glass door refrigerator" },
+    "description": "A disconnected commercial refrigerator with a glass door.  If connected to a power source, it will cool its contents to extend the time before they spoil.",
+    "longest_side": "1700 mm",
+    "insulation": 9,
+    "material": [ "steel", "glass" ],
+    "volume": "800 L",
+    "weight": "70 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "500 L", "max_contains_weight": "400 kg" } ]
+  },
+  {
+    "type": "GENERIC",
     "id": "freezer",
     "looks_like": "minifreezer",
     "symbol": "F",

@@ -5033,6 +5033,18 @@
   },
   {
     "type": "construction",
+    "id": "app_glass_fridge",
+    "group": "place_glass_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "glass_fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_stereo",
     "group": "place_stereo",
     "category": "APPLIANCE",

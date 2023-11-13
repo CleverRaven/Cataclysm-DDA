@@ -297,5 +297,13 @@
       { "u_message": "As you run, a shower of light outlines your path, revealing your position!", "type": "bad" },
       { "u_lose_effect": "effect_photokin_invisibility" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_DODGE_CANCEL_ATTACKED",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_photokin_dodge" },
+    "effect": [ { "u_lose_effect": "effect_photokin_dodge" } ]
   }
 ]
