@@ -3263,12 +3263,6 @@
         "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
         "append": true
       },
-      {
-        "id": "condom_flavored_protein_ration",
-        "name": { "str": "protein ration flavored condom" },
-        "description": "This disgusting rubber is flavored after the Daizoom protein ration, all but guaranteeing your first time will be your last time.",
-        "append": true
-      }
     ],
     "pocket_data": [
       {
