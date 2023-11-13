@@ -521,8 +521,8 @@ bool mattack::eat_carrion( monster *z )
             if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
-                item.mod_damage( 600 );
-                z->amount_eaten += 150;
+                item.mod_damage( 700 );
+                z->amount_eaten += 100;
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
                 return true;
             }
