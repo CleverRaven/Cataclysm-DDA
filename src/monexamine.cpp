@@ -944,15 +944,14 @@ bool monexamine::mfriend_menu( monster &z )
     const std::string pet_name = z.get_name();
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
-        if ( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
-            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
-        }
-        else if ( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) && z.amount_eaten < z.stomach_size ) ) {
-            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
-        }
-        else if ( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
-            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
-        }
+    if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
+    } else if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) &&
+               z.amount_eaten < z.stomach_size ) ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
+    } else if( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
+    }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
