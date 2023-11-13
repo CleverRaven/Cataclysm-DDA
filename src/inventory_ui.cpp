@@ -3409,12 +3409,14 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
     } else {
+        size_t size_before = to_use.size();
         entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
         if( it->count_by_charges() ) {
-            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( const drop_location & drop ) {
+            auto iter = find_if( to_use.begin(),
+            to_use.begin() + size_before, [&it]( const drop_location & drop ) {
                 return drop.first == it;
             } );
-            if( iter == to_use.end() ) {
+            if( iter == to_use.begin() + size_before ) {
                 to_use.emplace_back( it, static_cast<int>( entry.chosen_count ) );
             }
         } else {
@@ -3422,10 +3424,11 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( const drop_location & drop ) {
+                auto iter = find_if( to_use.begin(),
+                to_use.begin() + size_before, [&loc]( const drop_location & drop ) {
                     return drop.first == loc;
                 } );
-                if( iter == to_use.end() ) {
+                if( iter == to_use.begin() + size_before ) {
                     to_use.emplace_back( loc, 1 );
                 }
                 count--;
