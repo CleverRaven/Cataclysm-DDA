@@ -66,6 +66,11 @@ Adds a confirmation prompt if you are the target, or in the AoE of, your own dam
 Ledges provide sight coverage
 Add foreach function to EoC
 Add Map related EoC functions
+Allow messages to parse nested tags
+Allow using snippets in item descriptions
+Infectious diseases (cold/flu) have an invisible incubation period, and start with milder symptoms
+Weapon Proficiency
+Fixes NPCs being too afraid, makes swarm danger assessment more robust
 
 
 ## Content:
@@ -117,6 +122,8 @@ adds dried garlic/chili
 Adds more ways to learn bronze crafting
 Updates the Portal Dependent mechanics and introduces rewards for exploring the portal dungeons.
 Cyberhorse... CYBERHORSE!
+Make nuts and bolts craftable using thread cutting tool
+New map extra: civilians making a futile last stand against the horde
 
 
 ## Interface:
@@ -160,6 +167,9 @@ Add favorite category to spell casting menu
 Allow scanning several books into ereader at once
 Add milling info to milleable items
 Add spell class selecter to spell casting menu
+'Learning is disabled' message on disabled skills
+Update gun mod removal UI to use inventory menu instead of a prompt; prevent removal of gun mods with other mods installed on it
+Show the mass of vitamins in food items
 
 
 ## Mods:
@@ -219,6 +229,7 @@ Add the HAS_MIND flag to appropriate monsters in in-repo mods
 XE: Add gossamer material and clothing
 XE:  transformation potions to top level alchemy perk
 MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
+[MoM] Add a new power class Photokinesis
 
 
 ## Balance:
@@ -262,6 +273,9 @@ Make safe place starts safer
 Touch up pawn shops with better loot
 Prevent staunching bleeding while driving
 Threatening to kill NPCs(recruitment) is more likely to make them hostile
+Backup generator is much more powerful
+Bulk unloading and dropping items saves time cost
+Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
 
 
 ## Bugfixes:
@@ -343,6 +357,8 @@ Your nemesis will still hunt you even if you spawn on a roof at the start
 Picky eaters won't drink unsavory drinks
 Corrects duplicates /the/ in martial arts techs messages
 Gas masks only use charges on fields with gas_absorption_factor set
+More background stories: actually access them
+All weapon proficiencies can be learned by hitting
 
 
 ## Performance:
@@ -355,6 +371,7 @@ Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
 Stop clearing weight carried cache unnecessarily
 Precalculate visitable zones to optimize inter-monster aggression checks
+Reduced wait times in high traffic areas by ~15-20%
 
 
 ## Infrastructure:
@@ -383,6 +400,8 @@ Replaced the use of the arbitrary body temperature scale in game logic with unit
 [EoC] Simple if-else statement
 Allow specifying vitamins by weight (mass) in items
 Add more comment-commands which apply labels to issues and PRs
+Migrate arithmetics function with arguments to math
+Provide more options to name monsters placed via mapgen
 
 
 ## Build:
