@@ -4287,7 +4287,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 }
 
 static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
-                                 int *charges_added )
+                                 int *charges_added, Character *carrier )
 {
     item &it = *holstered_item.first;
     ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
@@ -4306,7 +4306,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
             return ret;
         }
 
-        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true );
+        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
     }
 
     ret = holster->can_contain_partial_directly( it );
@@ -4319,7 +4319,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
-                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true );
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, carrier );
     if( *charges_added <= 0 ) {
         return ret_val<void>::make_failure( _( "item can't be stored there" ) );
     }
@@ -4331,6 +4331,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 {
     bool success = false;
     bool bulk_load = false;
+    Character *carrier = holster.carrier();
     drop_location &holstered_item = items.front();
     if( holstered_item.first ) {
         success = true;
@@ -4343,20 +4344,19 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
 
         if( !it.count_by_charges() ) {
-            ret = try_insert( holster, holstered_item, nullptr );
+            ret = try_insert( holster, holstered_item, nullptr, carrier );
 
             if( ret.success() ) {
                 //~ %1$s: item to put in the container, %2$s: container to put item in
                 who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
                                                       holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
-                who.add_to_inv_search_caches( *holstered_item.first );
                 handler.add_unsealed( holster );
                 handler.unseal_pocket_containing( holstered_item.first );
                 holstered_item.first.remove_item();
             }
         } else {
             int charges_added = 0;
-            ret = try_insert( holster, holstered_item, &charges_added );
+            ret = try_insert( holster, holstered_item, &charges_added, carrier );
 
             if( ret.success() ) {
                 item copy( it );
@@ -4570,10 +4570,9 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 2:
         default:
             // In player inventory and player is wielding something.
-            if( loc.held_by( who ) ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
-                         reloadable_name );
-            }
+            loc.carrier()->add_msg_if_player( m_neutral,
+                                              _( "The %s no longer fits in your inventory so you drop it instead." ),
+                                              reloadable_name );
             get_map().add_item_or_charges( loc.position(), reloadable );
             loc.remove_item();
             break;

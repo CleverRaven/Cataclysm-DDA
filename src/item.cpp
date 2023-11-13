@@ -648,7 +648,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
     }
-    if( carrier ) {
+    if( carrier && carrier->has_item( *this ) ) {
         carrier->on_item_acquire( *this );
     }
 
@@ -1614,25 +1614,22 @@ int item::insert_cost( const item &it ) const
 }
 
 ret_val<void> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
-                            const bool unseal_pockets )
+                            const bool unseal_pockets, Character *carrier )
 {
-    ret_val<item_pocket *> result = contents.insert_item( payload, pk_type );
+    ret_val<item *> result = contents.insert_item( payload, pk_type, false, unseal_pockets );
     if( !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        return ret_val<void>::make_failure( result.str() );
     }
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
-    if( unseal_pockets && result.success() ) {
-        result.value()->unseal();
+    if( carrier ) {
+        result.value()->on_pickup( *carrier );
     }
     on_contents_changed();
-    if( result.success() ) {
-        return ret_val<void>::make_success( result.str() );
-    } else {
-        return ret_val<void>::make_failure( result.str() );
-    }
+    return ret_val<void>::make_success( result.str() );
 }
 
 void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -12104,7 +12101,8 @@ int item::fill_with( const item &contained, const int amount,
                      const bool unseal_pockets,
                      const bool allow_sealed,
                      const bool ignore_settings,
-                     const bool into_bottom )
+                     const bool into_bottom,
+                     Character *carrier )
 {
     if( amount <= 0 ) {
         return 0;
@@ -12148,11 +12146,13 @@ int item::fill_with( const item &contained, const int amount,
             }
         }
 
-        if( !pocket->insert_item( contained_item, into_bottom ).success() ) {
+        ret_val<item *> result = pocket->insert_item( contained_item, into_bottom );
+        if( !result.success() ) {
             if( count_by_charges ) {
-                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+                debugmsg( "charges per remaining pocket volume does not fit in that very volume: %s",
+                          result.str() );
             } else {
-                debugmsg( "best pocket for item cannot actually contain the item" );
+                debugmsg( "best pocket for item cannot actually contain the item: %s", result.str() );
             }
             break;
         }
@@ -12163,6 +12163,9 @@ int item::fill_with( const item &contained, const int amount,
         }
         if( unseal_pockets ) {
             pocket->unseal();
+        }
+        if( carrier ) {
+            result.value()->on_pickup( *carrier );
         }
     }
     if( num_contained == 0 ) {
