@@ -484,7 +484,8 @@ bool mattack::eat_food( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 || !item.has_flag( flag_INEDIBLE ) || item.made_of( material_water ) ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || !item.has_flag( flag_INEDIBLE ) ||
+                item.made_of( material_water ) ) {
                 continue;
             }
             //Don't eat own eggs
