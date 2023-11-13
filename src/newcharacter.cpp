@@ -1022,9 +1022,7 @@ static const char *g_switch_msg( const avatar &u )
             _( "Identity: <color_magenta>%2$s</color> (<color_light_cyan>male</color>) (press <color_light_green>%1$s</color> to switch)" )
             :
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Identity: <color_magenta>%2$s</color> (<color_pink>female</color>) (press <color_light_green>%1$s</color> to switch)" )
-            ;
-
+            _( "Identity: <color_magenta>%2$s</color> (<color_pink>female</color>) (press <color_light_green>%1$s</color> to switch)" );
 }
 
 static const char *dress_switch_msg()
