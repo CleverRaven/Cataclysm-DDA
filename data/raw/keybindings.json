@@ -1486,6 +1486,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_GENDER_DRESS",
+    "name": "Change gender gear",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_GENDER",
     "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
