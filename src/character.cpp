@@ -12453,7 +12453,8 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
     }
     moves -= std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
                        pocket->obtain_cost( put ) );
-    pocket->insert_item( i_rem( &put ) );
+    ret_val<item *> result = pocket->insert_item( i_rem( &put ) );
+    result.value()->on_pickup( *this );
     calc_encumbrance();
 }
 
