@@ -47,10 +47,19 @@ class viewer;
 
 constexpr int DEFAULT_TILESET_ZOOM = 16;
 
-// The reference to the one and only game instance.
 class game;
 
+// The reference to the one and only game instance.
 extern std::unique_ptr<game> g;
+
+// Game has a non-trivial destructor, so on termination
+// the global variable may become destroyed while other
+// classes are trying to access it.
+//
+// TODO: Check if any destructor is flushing files, if not
+// then it is save to replace the global unique_ptr with a
+// raw pointer, and just let it leak on game close.
+extern bool is_game_destructing;
 
 extern const int savegame_version;
 extern int savegame_loading_version;

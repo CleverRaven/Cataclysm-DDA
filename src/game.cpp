@@ -357,6 +357,7 @@ extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bo
 
 //The one and only game instance
 std::unique_ptr<game> g;
+bool is_game_destructing = false;
 
 //The one and only uistate instance
 uistatedata uistate;
@@ -440,7 +441,10 @@ game::game() :
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
 
-game::~game() = default;
+game::~game()
+{
+    is_game_destructing = true;
+}
 
 // Load everything that will not depend on any mods
 void game::load_static_data()
