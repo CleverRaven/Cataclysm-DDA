@@ -1617,6 +1617,9 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
             if ( mon->has_flag( mon_flag_EATS ) ) {
                 int kcal = it->get_comestible()->default_nutrition.kcal();
                 mon->amount_eaten += kcal;
+                    if ( mon->amount_eaten >= mon->stomach_size ) {
+                        p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
+                    }
                 }
 
         if( petfood.feed.empty() ) {

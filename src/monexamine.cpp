@@ -41,6 +41,7 @@
 #include "value_ptr.h"
 
 static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_leashed( "leashed" );
@@ -62,6 +63,7 @@ static const itype_id itype_id_military( "id_military" );
 
 static const mon_flag_str_id mon_flag_CANPLAY( "CANPLAY" );
 static const mon_flag_str_id mon_flag_CAN_BE_CULLED( "CAN_BE_CULLED" );
+static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
 static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
@@ -500,6 +502,9 @@ void milk_source( monster &source_mon )
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
+            if !source_mon.has_effect( effect_critter_well_fed ) {
+            add_msg( _( "It might not be getting enough to eat." ) );
+            }
     }
 }
 
@@ -613,7 +618,15 @@ bool monexamine::pet_menu( monster &z )
     std::string pet_name = z.get_name();
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
-
+        if ( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
+            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
+        }
+        else if ( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) && z.amount_eaten < z.stomach_size ) ) {
+            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
+        }
+        else if ( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
+            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
+        }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
@@ -932,7 +945,15 @@ bool monexamine::mfriend_menu( monster &z )
     const std::string pet_name = z.get_name();
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
-
+        if ( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
+            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
+        }
+        else if ( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) && z.amount_eaten < z.stomach_size ) ) {
+            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
+        }
+        else if ( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
+            amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
+        }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
