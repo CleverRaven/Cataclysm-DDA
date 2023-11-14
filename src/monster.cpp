@@ -640,7 +640,6 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    
     if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
         if( calendar::turn - udder_timer > 1_days ) {
             // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
