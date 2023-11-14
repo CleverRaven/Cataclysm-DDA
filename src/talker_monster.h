@@ -32,6 +32,7 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
 
         // identity and location
         std::string disp_name() const override;
+        std::string get_name() const override;
 
         int posx() const override;
         int posy() const override;

@@ -23,6 +23,11 @@ std::string talker_monster_const::disp_name() const
     return me_mon_const->disp_name();
 }
 
+std::string talker_monster_const::get_name() const
+{
+    return me_mon_const->get_name();
+}
+
 int talker_monster_const::posx() const
 {
     return me_mon_const->posx();
