@@ -218,7 +218,8 @@
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 10
-      }, [ "EAT_FOOD", 120 ]
+      },
+      [ "EAT_FOOD", 120 ]
     ],
     "dodge": 9,
     "vision_night": 15,
