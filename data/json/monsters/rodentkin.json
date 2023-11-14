@@ -82,8 +82,8 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_multiplier": 0.7 } ]
       },
       { "id": "scratch", "max_mul": 1.5 },
-       [ "EAT_FOOD", 120 ],
-       [ "EAT_CARRION", 120]
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ],
@@ -104,10 +104,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "special_attacks": [
-       [ "EAT_FOOD", 120 ],
-       [ "EAT_CARRION", 120]
-    ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
@@ -146,7 +143,7 @@
         "infection_chance": 4
       },
       [ "EAT_FOOD", 120 ],
-      [ "EAT_CARRION", 120]
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "zombify_into": "mon_meat_cocoon_tiny",
@@ -188,8 +185,8 @@
         "max_mul": 2.1,
         "infection_chance": 4
       },
-       [ "EAT_FOOD", 120 ],
-       [ "EAT_CARRION", 120]
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG", "EATS" ],
@@ -222,7 +219,7 @@
     "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120] ],
+    "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
     "armor": { "bash": 15, "cut": 3, "bullet": 26 }
@@ -252,7 +249,13 @@
     "dodge": 4,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
-    "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120] ],
+    "special_attacks": [
+      { "id": "impale" },
+      { "type": "bite", "cooldown": 15 },
+      { "id": "longswipe" },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
+    ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
     "dissect": "dissect_rat_sample_small",
