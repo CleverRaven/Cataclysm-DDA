@@ -526,7 +526,7 @@ bool mattack::eat_carrion( monster *z )
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
                 item.mod_damage( 700 );
-                if( item.damage() >= item.max_damage() && item.can_revive() ){
+                if( item.damage() >= item.max_damage() && item.can_revive() ) {
                     item.set_flag( flag_PULPED );
                 }
                 z->amount_eaten += 100;
