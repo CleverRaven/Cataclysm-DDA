@@ -257,6 +257,21 @@ std::string weight_to_string( const units::mass &weight, const bool compact,
     return string_format( string_to_format, converted_weight, compact ? "" : " ", weight_units() );
 }
 
+std::pair<std::string, std::string> weight_to_string( const
+        units::quantity<int, units::mass_in_microgram_tag> &weight )
+{
+    using high_res_mass = units::quantity<int, units::mass_in_microgram_tag>;
+    static const high_res_mass gram = high_res_mass( 1'000'000, {} );
+    static const high_res_mass milligram = high_res_mass( 1'000, {} );
+
+    if( weight > gram ) {
+        return {string_format( "%.0f", weight.value() / 1'000'000.f ), "g"};
+    } else if( weight > milligram ) {
+        return {string_format( "%.0f", weight.value() / 1'000.f ), "mg"};
+    }
+    return {string_format( "%d", weight.value() ), "μg"};
+}
+
 double convert_volume( int volume )
 {
     return convert_volume( volume, nullptr );

@@ -34,7 +34,6 @@
         ".,......................"
       ],
       "terrain": {
-        "#": "t_adobe_brick_wall",
         "|": "t_wall",
         "~": "t_door_glass_c",
         "_": "t_linoleum_gray",

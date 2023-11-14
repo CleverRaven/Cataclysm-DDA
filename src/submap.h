@@ -317,7 +317,7 @@ class submap
 template<typename Submap>
 class maptile_impl
 {
-        static_assert( std::is_same<std::remove_const_t<Submap>, submap>::value,
+        static_assert( std::is_same_v<std::remove_const_t<Submap>, submap>,
                        "Submap should be either submap or const submap" );
     private:
         friend map; // To allow "sliding" the tile in x/y without bounds checks

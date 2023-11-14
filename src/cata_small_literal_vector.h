@@ -90,7 +90,7 @@ struct alignas( T * ) small_literal_vector {
         *end() = t;
         len_ += 1;
     }
-    template<typename ...US, typename std::enable_if<std::is_constructible<T, US...>::value>::type * = 0>
+    template<typename ...US, std::enable_if_t<std::is_constructible_v<T, US...>> * = 0>
     void push_back( US && ...us ) {
         ensure_capacity_for( size() + 1 );
         *end() = T( std::forward < US && > ( us )... );

@@ -39,6 +39,8 @@ jobs:
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: tx pull --force
+      - name: "Discard invalid translations"
+        run: ./lang/discard_invalid_po.sh
       - name: "Update stats"
         run: ./lang/update_stats.sh
       - name: Create Pull Request

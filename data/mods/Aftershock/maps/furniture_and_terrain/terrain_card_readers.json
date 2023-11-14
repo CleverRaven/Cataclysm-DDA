@@ -1,0 +1,25 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_afs_industrial_card_reader",
+    "name": "Old TSKBEM Card Reader",
+    "description": "A smartcard based lock system once fitted to TSKBEM prefab industrial facilities.  While an original key would be impossible to find, the machine is ancient and obsolete, and it can be hacked or masterkeys can be obtained to bypass it.",
+    "symbol": "6",
+    "color": "yellow",
+    "copy-from": "t_card_science_maintenance_yellow",
+    "looks_like": "t_card_science_maintenance_yellow",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "OLD_TSKBEM_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  }
+]

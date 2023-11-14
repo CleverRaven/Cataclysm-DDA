@@ -583,8 +583,18 @@
     "difficulty": 5,
     "value": 120000,
     "urgent": true,
-    "place": "near_town",
-    "start": "place_zombie_mom",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 60,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_zombie", "x": 12, "y": 12, "target": true, "random_name": "female" } ] }
+    },
     "end": { "effect": "npc_thankful" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {

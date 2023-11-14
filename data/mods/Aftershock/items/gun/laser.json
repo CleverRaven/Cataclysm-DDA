@@ -149,7 +149,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_archeotech_laspistol",
@@ -181,7 +182,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_explosive_pumped_laser",
@@ -268,7 +270,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_a7",

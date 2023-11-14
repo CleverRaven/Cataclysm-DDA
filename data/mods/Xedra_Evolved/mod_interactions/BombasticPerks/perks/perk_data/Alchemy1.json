@@ -135,7 +135,7 @@
     "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
     "effect": [
       {
-        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming wierdly doll-like?."
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming weirdly doll-like?"
       },
       { "u_add_trait": "HOMULLUS" },
       { "u_learn_recipe": "mutagen_dollkin" },
