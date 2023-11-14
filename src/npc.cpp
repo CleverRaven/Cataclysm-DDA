@@ -3196,6 +3196,7 @@ void npc::add_new_mission( class mission *miss )
 
 void npc::on_unload()
 {
+    get_map().remove_creature_from_reachability( this );
 }
 
 // A throtled version of player::update_body since npc's don't need to-the-turn updates.

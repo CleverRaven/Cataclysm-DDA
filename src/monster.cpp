@@ -3703,6 +3703,7 @@ bool monster::will_join_horde( int size )
 void monster::on_unload()
 {
     last_updated = calendar::turn;
+    get_map().remove_creature_from_reachability( this );
 }
 
 void monster::on_load()
