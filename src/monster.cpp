@@ -687,6 +687,9 @@ void monster::try_biosignature()
     if( !type->biosig_timer ) {
         return;
     }
+    if( has_effect( effect_critter_underfed ) ) {
+        return;
+    }
 
     if( !biosig_timer ) {
         biosig_timer.emplace( calendar::turn + *type->biosig_timer );
