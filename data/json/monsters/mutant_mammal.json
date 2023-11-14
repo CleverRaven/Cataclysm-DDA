@@ -33,7 +33,9 @@
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 8 } ]
-      }, [ "EAT_FOOD", 60 ], [ "BROWSE", 60 ]
+      },
+      [ "EAT_FOOD", 60 ],
+      [ "BROWSE", 60 ]
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
@@ -41,7 +43,19 @@
     "dissect": "dissect_ursine_sample_small",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE", "EATS" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "BASHES",
+      "PUSH_MON",
+      "STUMBLES",
+      "KEENNOSE",
+      "EATS"
+    ],
     "armor": { "bash": 8, "cut": 12, "electric": 1 }
   },
   {
@@ -140,7 +154,8 @@
         "attack_upper": false,
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 10 } ]
-      }, [ "EAT_FOOD", 60 ]
+      },
+      [ "EAT_FOOD", 60 ]
     ],
     "stomach_size": 500,
     "harvest": "mutant_mammal_fur",
@@ -238,7 +253,8 @@
         "type": "bite",
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 10 } ]
-      }, [ "EAT_FOOD", 60 ]
+      },
+      [ "EAT_FOOD", 60 ]
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_meat_cocoon_large",
