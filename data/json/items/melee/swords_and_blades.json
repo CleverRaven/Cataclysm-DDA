@@ -1013,6 +1013,7 @@
   {
     "id": "jian",
     "copy-from": "mc_jian",
+    "looks_like": "arming_sword",
     "type": "TOOL",
     "name": { "str_sp": "jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.",
@@ -1021,6 +1022,7 @@
   {
     "id": "lc_jian",
     "copy-from": "mc_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "name": { "str_sp": "mild steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
@@ -1055,6 +1057,7 @@
   },
   {
     "id": "hc_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "high steel jian" },
@@ -1065,6 +1068,7 @@
   },
   {
     "id": "ch_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "hardened steel jian" },
@@ -1075,6 +1079,7 @@
   },
   {
     "id": "qt_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "tempered steel jian" },
@@ -1085,6 +1090,7 @@
   },
   {
     "id": "jian_inferior",
+    "looks_like": "jian",
     "copy-from": "mc_jian",
     "type": "TOOL",
     "name": { "str_sp": "jian" },
@@ -1095,6 +1101,7 @@
   },
   {
     "id": "jian_fake",
+    "looks_like": "jian",
     "copy-from": "mc_jian",
     "type": "GENERIC",
     "name": { "str_sp": "jian" },
@@ -1107,6 +1114,7 @@
   {
     "id": "scimitar",
     "copy-from": "mc_scimitar",
+    "looks_like": "katana",
     "type": "TOOL",
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
