@@ -41,7 +41,19 @@
     "dissect": "dissect_ursine_sample_small",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE", "EATS" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "BASHES",
+      "PUSH_MON",
+      "STUMBLES",
+      "KEENNOSE",
+      "EATS"
+    ],
     "armor": { "bash": 8, "cut": 12, "electric": 1 }
   },
   {
