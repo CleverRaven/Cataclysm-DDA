@@ -11,7 +11,7 @@
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
         [ "flatbread_wheat_free", 1 ],
-        [ "tortilla_corn", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "bread", 1 ],
         [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
@@ -30,6 +30,7 @@
     "components": [
       [
         [ "flatbread", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "bread", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
@@ -45,7 +46,15 @@
     "id": "bread_sandwich_wheat_free",
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
+    "components": [
+      [
+        [ "cornbread", 1 ],
+        [ "bread_wheat_free", 1 ],
+        [ "flatbread_wheat_free", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "brown_bread_wheat_free", 1 ]
+      ]
+    ]
   },
   {
     "id": "any_bread",

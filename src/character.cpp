@@ -9042,8 +9042,7 @@ units::temperature_delta Character::bodytemp_modifier_traits_floor() const
 units::temperature Character::temp_corrected_by_climate_control( units::temperature temperature,
         int heat_strength, int chill_strength ) const
 {
-    const units::temperature_delta base_variation = units::from_celsius_delta( units::to_celsius(
-                BODYTEMP_NORM ) );
+    const units::temperature_delta base_variation = BODYTEMP_NORM - 27_C;
     const units::temperature_delta variation_heat = base_variation * ( heat_strength / 100.0f );
     const units::temperature_delta variation_chill = -base_variation * ( chill_strength / 100.0f );
 
@@ -9314,6 +9313,16 @@ void Character::add_to_inv_search_caches( item &it ) const
             ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
             continue;
         }
+
+        // If item is already in the cache, remove it so it can be re-added in its current state.
+        for( auto iter = cache.second.items.begin(); iter != cache.second.items.end(); ) {
+            if( *iter && iter->get() == &it ) {
+                iter = inv_search_caches[cache.first].items.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+
         cache.second.items.push_back( it.get_safe_reference() );
     }
 }
@@ -12453,7 +12462,8 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
     }
     moves -= std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
                        pocket->obtain_cost( put ) );
-    pocket->insert_item( i_rem( &put ) );
+    ret_val<item *> result = pocket->insert_item( i_rem( &put ) );
+    result.value()->on_pickup( *this );
     calc_encumbrance();
 }
 
