@@ -12109,35 +12109,35 @@ void game::vertical_move( int movez, bool force, bool peeking )
 void game::start_hauling( const tripoint &pos )
 {
     // Find target items and quantities thereof for the new activity
-    std::vector<item_location> target_items;
+    std::vector<item_location> target_items = u.haul_list;
 
-    if( u.hauling_selectively ) {
-        if( !u.hauling_filter.empty() ) {
+    if( u.is_autohauling() ) {
+        std::vector<item_location> candidate_items = m.get_haulable_items( pos );
+        for( const item_location &item : u.haul_list ) {
+            candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
+                                   candidate_items.end() );
+        }
+        if( u.hauling_filter.empty() ) {
+            target_items.insert( target_items.end(), candidate_items.begin(), candidate_items.end() );
+        } else {
             std::function<bool( const item & )> filter = item_filter_from_string( u.hauling_filter );
-            std::vector<item_location> candidate_items = m.get_haulable_items( pos );
-            for( const item_location &item : u.items_hauled ) {
-                candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
-                                       candidate_items.end() );
-            }
-            target_items = u.items_hauled;
             std::copy_if( candidate_items.begin(), candidate_items.end(), std::back_inserter( target_items ),
             [&filter]( const item_location & item ) {
                 return filter( *item );
             } );
-        } else {
-            target_items = u.items_hauled;
         }
-        u.items_hauled.clear();
-    } else {
-        target_items = m.get_haulable_items( pos );
     }
+
+    u.haul_list.clear();
 
     // Quantity of 0 means move all
     const std::vector<int> quantities( target_items.size(), 0 );
 
     if( target_items.empty() ) {
         // Nothing to haul
-        u.stop_hauling();
+        if( !u.is_autohauling() ) {
+            u.stop_hauling();
+        }
         return;
     }
 
@@ -12147,7 +12147,7 @@ void game::start_hauling( const tripoint &pos )
     const tripoint relative_destination{};
 
     const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
-                                           u.is_hauling_selectively() );
+                                           true );
     u.assign_activity( actor );
 }
 

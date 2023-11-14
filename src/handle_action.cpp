@@ -729,70 +729,92 @@ static void haul()
 {
     Character &player_character = get_player_character();
 
-    bool exit = false;
-    do {
-        uilist menu;
+    uilist menu;
 
-        bool hauling = player_character.is_hauling();
-        bool selective = player_character.is_hauling_selectively();
+    bool hauling = player_character.is_hauling();
+    bool autohaul = player_character.is_autohauling();
+    std::vector<item_location> &haul_list = player_character.haul_list;
+    int haul_qty = haul_list.size();
+    std::string &haul_filter = player_character.hauling_filter;
+    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
 
-        std::string header = hauling ? _( "You are currently hauling items." ) :
-                             _( "You are currently not hauling items." );
+    std::string help_header =
+        _( "Select items on current tile to haul with you as you move.\nIf autohaul is enabled, you will automatically add encountered items to the haul.\nYou can set a filter to limit which items are automatically added." );
 
-        if( hauling ) {
-            header += '\n';
-            if( selective ) {
-                header += _( "Adding new items to haul according to filter." );
-                header += '\n';
-                if( player_character.hauling_filter.empty() ) {
-                    header += _( "Filter empty - ignoring new items." );
-                } else {
-                    header += _( "Filter: " ) + player_character.hauling_filter;
-                }
-            } else {
-                header += _( "Hauling everything." );
-            }
-
+    std::string status_header;
+    if( hauling && autohaul ) {
+        if( haul_qty == 0 ) {
+            status_header =
+                _( "You are currently not hauling any items, but autohaul is enabled, so any new items encoutered on the ground will be hauled." );
+        } else {
+            status_header = string_format(
+                                _( "You are currently hauling %d items.\nAutohaul is enabled, so any new items encountered on the ground will be hauled." ),
+                                haul_qty );
         }
+    }
 
-        menu.text = header;
-        menu.entries.emplace_back( 0, true, '\\', hauling ? _( "Stop hauling." ) : _( "Start hauling." ) );
-        if( hauling ) {
-            menu.entries.emplace_back( 1, true, 'p',
-                                       selective ? _( "Haul everything." ) : _( "Filter new items." ) );
-            if( selective ) {
-                menu.entries.emplace_back( 2, true, 'f', _( "Edit filter." ) );
-            }
+    if( hauling && !autohaul ) {
+        if( haul_qty == 0 ) {
+            debugmsg( "Invalid hauling state: hauling enabled, nothing is being hauled, autohaul is off." );
+        } else {
+            status_header = string_format( _( "You are currently hauling %d items.\nAutohaul is disabled." ),
+                                           haul_qty );
         }
-        menu.entries.emplace_back( 9, true, 'C', _( "Exit." ) );
+    }
 
-        menu.query();
+    if( !hauling ) {
+        status_header =
+            _( "You are currently not hauling.  Select items to haul or enable autohaul to start." );
+    }
 
-        switch( menu.ret ) {
-            case 0:
-                player_character.toggle_hauling();
-                exit = true;
-                break;
-            case 1:
-                selective ? player_character.stop_hauling_selectively() :
-                player_character.start_hauling_selectively();
-                break;
-            case 2:
-                string_input_popup()
-                .title( _( "Filter:" ) )
-                .width( 55 )
-                .description( item_filter_rule_string( item_filter_type::FILTER ) )
-                .desc_color( c_white )
-                .identifier( "item_filter" )
-                .max_length( 256 )
-                .edit( player_character.hauling_filter );
-                break;
-            case 9:
-            default:
-                exit = true;
-                return;
-        }
-    } while( !exit );
+    if( status_header.empty() ) {
+        debugmsg( "Failed to construct status header for haul interface" );
+    }
+
+    status_header += haul_filter.empty() ? _( "\nAutohaul filter not set." ) : string_format(
+                         _( "\nAutohaul filter: %s" ), haul_filter );
+
+    menu.text = help_header + "\n\n" + status_header;
+
+    menu.entries.emplace_back( 0, hauling, hauling ? '\\' : 'h', _( "Stop hauling" ) );
+    menu.entries.emplace_back( 1, !haulable_items.empty(), !hauling ? '\\' : 'h',
+                               _( "Haul everything here" ) );
+    menu.entries.emplace_back( 2, !haulable_items.empty(), 'p', _( "Choose items to haul" ) );
+    menu.entries.emplace_back( 3, true, 'a',
+                               autohaul ? _( "Disable autohaul" ) : _( "Enable autohaul" ) );
+    menu.entries.emplace_back( 4, true, 'f', _( "Edit autohaul filter" ) );
+    menu.entries.emplace_back( 9, true, 'c', _( "Cancel" ) );
+
+    menu.query();
+
+    switch( menu.ret ) {
+        case 0:
+            player_character.stop_hauling();
+            break;
+        case 1:
+            player_character.start_hauling( haulable_items );
+            break;
+        case 2:
+            //TODO: Query player to trim haulable_items
+            player_character.start_hauling( haulable_items );
+            break;
+        case 3:
+            autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
+            break;
+        case 4:
+            string_input_popup()
+            .title( _( "Filter:" ) )
+            .width( 55 )
+            .description( item_filter_rule_string( item_filter_type::FILTER ) )
+            .desc_color( c_white )
+            .identifier( "item_filter" )
+            .max_length( 256 )
+            .edit( player_character.hauling_filter );
+            break;
+        case 9:
+        default:
+            break;
+    }
 }
 
 static void haul_toggle()

@@ -8629,27 +8629,33 @@ void Character::toggle_hauling()
     if( hauling ) {
         stop_hauling();
     } else {
-        if( here.veh_at( pos() ) ) {
-            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
-            add_msg( m_info, _( "You cannot haul while in deep water." ) );
-        } else if( !here.can_put_items( pos() ) ) {
-            add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_haulable_items( pos() ) ) {
-            add_msg( m_info, _( "There are no items to haul here." ) );
-        } else {
-            start_hauling();
-        }
+        start_hauling( here.get_haulable_items( pos() ) );
+        start_autohaul();
     }
 }
 
-void Character::start_hauling()
+void Character::start_hauling( const std::vector<item_location> &items_to_haul = {} )
 {
+    map &here = get_map();
+
+    if( here.veh_at( pos() ) ) {
+        add_msg( m_info, _( "You cannot haul inside vehicles." ) );
+        return;
+    } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+        add_msg( m_info, _( "You cannot haul while in deep water." ) );
+        return;
+    } else if( !here.can_put_items( pos() ) ) {
+        add_msg( m_info, _( "You cannot haul items here." ) );
+        return;
+    }
+
     add_msg( _( "You start hauling items along the ground." ) );
     if( is_armed() ) {
         add_msg( m_warning, _( "Your hands are not free, which makes hauling slower." ) );
     }
+
     hauling = true;
+    haul_list = items_to_haul;
 }
 
 void Character::stop_hauling()
@@ -8657,8 +8663,8 @@ void Character::stop_hauling()
     if( hauling ) {
         add_msg( _( "You stop hauling items." ) );
         hauling = false;
-        hauling_selectively = false;
-        items_hauled.clear();
+        autohaul = false;
+        haul_list.clear();
     }
     if( has_activity( ACT_MOVE_ITEMS ) ) {
         cancel_activity();
@@ -8670,23 +8676,22 @@ bool Character::is_hauling() const
     return hauling;
 }
 
-void Character::start_hauling_selectively()
+void Character::start_autohaul()
 {
-    add_msg( _( "You are now ignoring new items as you haul." ) );
-    items_hauled = get_map().get_haulable_items( pos() );
-    hauling_selectively = true;
+    autohaul = true;
+    if( !is_hauling() ) {
+        start_hauling();
+    }
 }
 
-void Character::stop_hauling_selectively()
+void Character::stop_autohaul()
 {
-    add_msg( _( "You are now adding new items to the haul as you encounter them." ) );
-    items_hauled.clear();
-    hauling_selectively = false;
+    autohaul = false;
 }
 
-bool Character::is_hauling_selectively() const
+bool Character::is_autohauling() const
 {
-    return hauling_selectively;
+    return autohaul;
 }
 
 bool Character::knows_creature_type( const Creature *c ) const
