@@ -2152,13 +2152,14 @@
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid",
+    "stomach_size": 300,
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "half_life": 30, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
-    "special_attacks": [ [ "EAT_FOOD", 30 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS" ],
     "armor": { "bash": 5, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2203,14 +2204,15 @@
     "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 10,
     "vision_night": 5,
+    "stomach_size": 300,
     "upgrades": { "half_life": 30, "into": "mon_ant_acid_soldier" },
-    "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ] ],
+    "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS" ],
     "armor": { "bash": 6, "cut": 10, "bullet": 8, "electric": 2 }
   },
   {
@@ -2555,7 +2557,9 @@
         "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       },
-      [ "EAT_CROP", 3 ],
+      [ "EAT_CROP", 30 ],
+      [ "BROWSE", 30 ],
+      [ "GRAZE", 90 ],
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "zombify_into": "mon_meat_cocoon_large",
@@ -2582,7 +2586,9 @@
         "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       },
-      [ "EAT_CROP", 120 ]
+      [ "EAT_CROP", 60 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 800 ],
     ]
   },
   {
@@ -2594,8 +2600,8 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
     "volume": "96 ml",
     "weight": "96 g",
-    "stomach_size": 10,
-    "special_attacks": [ [ "EAT_CROP", 600 ], [ "GRAZE", 600 ] ],
+    "stomach_size": 50,
+    "special_attacks": [ [ "EAT_CROP", 80 ], [ "GRAZE", 800 ] ],
     "delete": {
       "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
       "baby_flags": [ "SPRING", "SUMMER" ]
@@ -2624,7 +2630,7 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "stomach_size": 50,
+    "stomach_size": 150,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
     "weakpoint_sets": [ "wps_arthropod" ],
@@ -2635,7 +2641,7 @@
     "dissect": "dissect_insect_sample_single",
     "regen_morale": true,
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE", "PLAYER_CLOSE" ],
-    "special_attacks": [ [ "EAT_CROP", 80 ], [ "GRAZE", 600 ] ],
+    "special_attacks": [ [ "EAT_CROP", 80 ], [ "GRAZE", 800 ] ],
     "reproduction": { "baby_monster": "mon_aphid_small", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 600 },
@@ -2965,7 +2971,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1 },
     "volume": "750 ml",
     "weight": "1 kg",
-    "stomach_size": 10,
+    "stomach_size": 30,
     "delete": {
       "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -2999,7 +3005,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "vision_day": 20,
     "vision_night": 20,
-    "stomach_size": 200,
+    "stomach_size": 600,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
     "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
@@ -3007,7 +3013,7 @@
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
     "special_attacks": [
       [ "EAT_CROP", 80 ],
-      [ "GRAZE", 80 ],
+      [ "GRAZE", 300 ],
       [ "BROWSE", 80 ],
       {
         "type": "leap",
@@ -3527,7 +3533,7 @@
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },
     "stomach_size": 600,
-    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 100 ] ],
+    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 1000 ] ],
     "extend": { "flags": [ "EATS" ] },
     "zombify_into": "mon_meat_cocoon_small"
   },
@@ -3568,7 +3574,7 @@
     "speed": 30,
     "stomach_size": 600,
     "dissect": "dissect_insect_sample_large",
-    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 100 ] ],
+    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 1000 ] ],
     "upgrades": { "age_grow": 30, "into": "mon_moth_cocoon" },
     "extend": { "flags": [ "EATS" ] },
     "zombify_into": "mon_meat_cocoon_small"
