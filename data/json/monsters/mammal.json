@@ -125,7 +125,7 @@
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
-    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 } ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 }, [ "BROWSE", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER", "EATS" ],
     "armor": { "bash": 2, "electric": 1 }
   },
@@ -194,7 +194,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1", "EATS" ]
   },
   {
@@ -229,7 +229,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -281,7 +281,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 40 ], [ "EAT_CARRION", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
   },
   {
@@ -319,7 +319,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zpig_brute",
-    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ], [ "EAT_CARRION", 60 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -2827,7 +2827,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "vision_night": 5,
     "stomach_size": 200,
-    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
   },
@@ -2861,7 +2861,7 @@
     "harvest": "rat_with_skull",
     "dissect": "dissect_rat_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],

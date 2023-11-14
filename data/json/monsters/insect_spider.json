@@ -720,17 +720,19 @@
         "miss_msg_u": "%s thrusts its mouthpart at you, but you dodge!",
         "miss_msg_npc": "%s thrusts its mouthpart at <npcname>, but they dodge!",
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
-      }
+      },
+      [ "EAT_CARRION", 100 ]
     ],
     "dodge": 3,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "vision_day": 10,
     "vision_night": 5,
+    "stomach_size": 40,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
+    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE", "EATS" ],
     "upgrades": { "age_grow": 42, "into": "mon_dragonfly_giant" }
   },
   {
@@ -771,20 +773,22 @@
         "min_mul": 1,
         "max_mul": 2,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
-      }
+      },
+      [ "EAT_CARRION", 100 ]
     ],
     "dodge": 2,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_flying" ],
     "vision_day": 45,
     "vision_night": 5,
+    "stomach_size": 200,
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "age_grow": 60, "into": "mon_dragonfly_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "GRABS", "PATH_AVOID_FIRE", "EATS" ]
   },
   {
     "id": "mon_dragonfly_mega",
@@ -812,7 +816,8 @@
         "type": "bite",
         "cooldown": 6,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 40, "armor_penetration": 20 } ]
-      }
+      },
+      [ "EAT_CARRION", 100 ]
     ],
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_flying" ],
@@ -820,11 +825,12 @@
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
     "dissect": "dissect_insect_sample_large",
+    "stomach_size": 1000,
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH", "EATS" ],
     "armor": { "electric": 2 }
   },
   {
@@ -879,6 +885,7 @@
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "half_life": 30, "into": "mon_fly" },
+    "stomach_size": 100,
     "delete": {
       "reproduction": { "baby_egg": "egg_fly", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -912,12 +919,14 @@
     "vision_night": 5,
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
+    "stomach_size": 200,
     "reproduction": { "baby_egg": "egg_fly", "baby_count": 3, "baby_timer": 15 },
+    "special_attacks": [ [ "EAT_CARRION", 100 ] ],
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_fly_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE", "EATS" ]
   },
   {
     "id": "mon_fly_larva",
@@ -930,8 +939,11 @@
     "weight": "20 kg",
     "hp": 15,
     "speed": 15,
+    "stomach_size": 150,
     "color": "light_green",
+    "special_attacks": [ [ "EAT_CARRION", 100 ] ],
     "dissect": "dissect_insect_sample_single",
+    "extend": { "flags": [ "EATS" ] },
     "upgrades": { "age_grow": 30, "into": "mon_fly" }
   },
   {
@@ -946,6 +958,7 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "dodge": 2,
+    "stomach_size": 3000,
     "dissect": "dissect_insect_sample_small",
     "special_attacks": [ [ "ACID", 10 ] ],
     "zombify_into": "mon_meat_cocoon_large",
