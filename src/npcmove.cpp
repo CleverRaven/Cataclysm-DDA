@@ -1644,7 +1644,7 @@ item_location npc::find_reloadable()
     item_location reloadable;
     visit_items( [this, &reloadable]( item * node, item * parent ) {
         if( !wants_to_reload( *this, *node ) ) {
-            debugmsg( "%s doesn't want to reload %s", name, node->tname() );
+            add_msg_debug( debugmode::DF_NPC, "%s doesn't want to reload %s", name, node.getitem()->tname() );
             return VisitResponse::NEXT;
         }
 
@@ -1653,7 +1653,7 @@ item_location npc::find_reloadable()
         const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node_loc;
-            debugmsg( "%s identified a reloadable %s", name, node->tname() );
+            add_msg_debug( debugmode::DF_NPC, "%s identified a reloadable %s", name, node.getitem()->tname() );
             return VisitResponse::ABORT;
         }
 
