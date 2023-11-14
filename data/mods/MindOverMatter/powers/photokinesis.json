@@ -77,13 +77,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
       ]
     },
-    "max_range": 40,
+    "max_range": 70,
     "min_aoe": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_aoe": 50,
@@ -109,13 +109,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
       ]
     },
-    "max_range": 40,
+    "max_range": 70,
     "min_aoe": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_aoe": 50,
@@ -141,13 +141,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
       ]
     },
-    "max_range": 40,
+    "max_range": 70,
     "min_aoe": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_aoe": 50,
@@ -176,13 +176,16 @@
     "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 5000)" ] },
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 10000)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
-    "max_range": 40,
+    "max_range": 70,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
-    "max_aoe": 50,
     "energy_source": "STAMINA",
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
