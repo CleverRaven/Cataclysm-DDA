@@ -2324,8 +2324,7 @@
       {
         "id": "tardis_case",
         "name": { "str": "police call box smartphone case" },
-        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
-        "weight": 1
+        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box."
       },
       {
         "id": "black_smart_phone_case",
@@ -2462,7 +2461,7 @@
       {
         "id": "insta_case",
         "name": { "str": "Instagram Overlay smartphone case" },
-        "description": "Inspired by Instagram's popular filter overlays, this waterproof smartphone case features a colorful gradient background with geometric shapes layered over it.  The colors of these shapes are similar to those found in Instagram's color palette.  The overlay design gives the case an interesting depth and texture, and the colors make it stand out.",
+        "description": "Inspired by Instagram's popular filter overlays, this waterproof smartphone case features a colorful gradient background with geometric shapes layered over it.  The colors of these shapes are similar to those found in Instagram's color palette.  The overlay design gives the case an interesting depth and texture, and the colors make it stand out.",
         "weight": 5
       },
       {
@@ -2480,7 +2479,7 @@
       {
         "id": "ghostface_case",
         "name": { "str": "Scream smartphone case" },
-        "description": "The design on this case is inspired by the scream mask worn by the killers from the Scream movie series.  The case features the classic ghostly white mask together with the classic knife they wield, both designed in a gradient graphic with the case’s background color and dark, smoky design lines to add an air of mystery and suspense.",
+        "description": "The design on this case is inspired by the scream mask worn by the killers from the Scream movie series.  The case features the classic ghostly white mask together with the classic knife they wield, both designed in a gradient graphic with the case's background color and dark, smoky design lines to add an air of mystery and suspense.",
         "weight": 5
       },
       {
@@ -2606,7 +2605,7 @@
       {
         "id": "you'renext_case",
         "name": { "str": "You're Next smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the masked assailants who terrorize the family in the movie 'You're Next'.  This case features a graphic of an animal mask with a sharp graphic design printed onto the case, with a bloody-red background to create a sense of urgency and horror.",
+        "description": "The design of this waterproof smartphone case is inspired by the masked assailants who terrorize the family in the movie 'You're Next'.  This case features a graphic of an animal mask with a sharp graphic design printed onto the case, with a bloody-red background to create a sense of urgency and horror.",
         "weight": 5
       },
       {
@@ -2636,7 +2635,7 @@
       {
         "id": "descent_case",
         "name": { "str": "The Descent smartphone case" },
-        "description": "The design of this waterproof smartphone case features the shadows of the Deformed humanoid creatures lurking in the cave that the characters must navigate, with corresponding blood dripping from them against a black background.",
+        "description": "The design of this waterproof smartphone case features the shadows of the deformed humanoid creatures lurking in the cave that the characters must navigate, with corresponding blood dripping from them against a black background.",
         "weight": 5
       },
       {
@@ -2714,7 +2713,7 @@
       {
         "id": "day_case",
         "name": { "str": "Day of the Dead smartphone case" },
-        "description": "This waterproof smartphone case features an underground military bunker setting and a graphic of a zombie breaking through a chain-link fence, alongside a recognizable smart zombie behind it.  The sides include a dark, military-colored camo pattern and texture.",
+        "description": "This waterproof smartphone case features an underground military bunker setting and a graphic of a zombie breaking through a chain-link fence, alongside a recognizable smart zombie behind it.  The sides include a dark, military-colored camo pattern and texture.",
         "weight": 5
       },
       {
@@ -2870,20 +2869,17 @@
       {
         "id": "bspace_case",
         "name": { "str": "Black Universe smartphone case" },
-        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies.",
-        "weight": 1
+        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies."
       },
       {
         "id": "wspace_case",
         "name": { "str": "White Universe smartphone case" },
-        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots.",
-        "weight": 1
+        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots."
       },
       {
         "id": "zombie_case",
         "name": { "str": "zombie smartphone case" },
-        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?",
-        "weight": 1
+        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?"
       }
     ],
     "pocket_data": [
@@ -3265,7 +3261,6 @@
         "id": "condom_flavored_jalapeno",
         "name": { "str": "jalapeno flavored condom" },
         "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "weight": 1,
         "append": true
       }
     ],
@@ -3279,7 +3274,7 @@
       }
     ],
     "flags": [ "BANK_NOTE_SHAPED" ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "balloon",
@@ -4348,5 +4343,36 @@
       }
     ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "tankard_wooden",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden tankard" },
+    "//1": "https://www.amazon.com/Handmade-Wooden-Coffee-Unique-Glasses/dp/B07GWB6R3P/",
+    "//2": "requested by Myfharad",
+    "description": "A low-tech solution for all your guzzling needs.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": 1500,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

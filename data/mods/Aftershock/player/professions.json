@@ -87,30 +87,6 @@
   },
   {
     "type": "profession",
-    "id": "afs_speed_freak",
-    "name": "Speed Freak",
-    "description": "Were you a mercenary, a criminal, a pirate or a very dedicated adrenaline junkie?  Whatever you were before, now you've got a speed freak rig pumping drugs into your veins 24/7.  Statistically you'll die young, your body burned out by all the drugs, but what other chance did you have to become an immortal legend?  None.",
-    "points": 3,
-    "CBMs": [ "afs_bio_chemical_enhancement_rig", "bio_adrenaline", "bio_metabolics", "bio_power_storage_mkII" ],
-    "skills": [
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "cutting" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "dodge" }
-    ],
-    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
-    "//": "replace esapu armor with an XL environmentally controlled armor once those exist",
-    "items": {
-      "both": {
-        "items": [ "boots_combat", "gloves_tactical", "wristwatch" ],
-        "entries": [ { "item": "sheath", "contents-item": "knife_hunting" }, { "item": "police_belt" } ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "afs_captain_bearman",
     "name": "Captain Schwarz Walder, Cannibal",
     "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends.  Eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
@@ -126,7 +102,14 @@
       "bio_power_storage_mkII",
       "afs_bio_missiles"
     ],
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming" ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_traps",
+      "prof_disarming",
+      "prof_knives_familiar",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar"
+    ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
@@ -294,6 +277,13 @@
       { "level": 2, "name": "dodge" },
       { "level": 1, "name": "firstaid" }
     ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_spotting",
+      "prof_wp_syn_armored",
+      "prof_auto_pistols_familiar",
+      "prof_knives_familiar"
+    ],
     "items": {
       "both": {
         "items": [
@@ -351,6 +341,7 @@
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" }
     ],
+    "proficiencies": [ "prof_batons_familiar", "prof_auto_pistols_familiar" ],
     "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS", "HUGE_OK" ],
     "//": "Need to add XL gear for MASTODON's in more items.",
     "items": {
@@ -401,6 +392,7 @@
       { "level": 1, "name": "melee" },
       { "level": 2, "name": "dodge" }
     ],
+    "proficiencies": [ "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
         "items": [

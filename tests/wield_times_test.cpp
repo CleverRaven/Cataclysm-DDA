@@ -91,7 +91,7 @@ TEST_CASE( "Wield_time_test", "[wield]" )
         // This is kind of bad, on linux/OSX this value is 112.
         // On mingw-64 on wine, and probably on VS this is 111.
         // Most likely this is due to floating point differences, but I wasn't able to find where.
-        CHECK( ( knife_obtain_cost == 112 || knife_obtain_cost == 111 ) );
+        CHECK( ( knife_obtain_cost == Approx( 105 ).margin( 1 ) ) );
     }
 
     SECTION( "Wielding without hand encumbrance" ) {

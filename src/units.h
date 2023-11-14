@@ -197,29 +197,29 @@ inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
 // "quantity / scalar" or "quantity / other_quanity" is meant.
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
-operator*( const st &factor, const quantity<lvt, ut> &rhs )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
+         operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     return { factor * rhs.value(), ut{} };
 }
 
 // same as above only with inverse order of operands: quantity * scalar
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
-operator*( const quantity<lvt, ut> &lhs, const st &factor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
+         operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     return { lhs.value() *factor, ut{} };
 }
 
 // quantity<foo, unit> * quantity<bar, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
-// operator *=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator*=( quantity<lvt, ut> &lhs, const st &factor )
+         // operator *=
+         template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+                  inline quantity<lvt, ut> &
+                  operator*=( quantity<lvt, ut> &lhs, const st &factor )
 {
     lhs = lhs * factor;
     return lhs;
@@ -227,29 +227,29 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 
 // and the revers of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
-operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<rvt>>>
+         inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
+         operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return { lhs.value() / divisor, ut{} };
 }
 
 // scalar / quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator/( lvt, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator/( lvt, quantity<rvt, ut> ) = delete;
 
-// quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
-operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+         // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
+         template<typename lvt, typename ut, typename rvt>
+         inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
+         operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return lhs.value() / rhs.value();
 }
 
 // operator /=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator/=( quantity<lvt, ut> &lhs, const st &divisor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline quantity<lvt, ut> &
+         operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs / divisor;
     return lhs;
@@ -257,29 +257,29 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<rvt>>>
+         inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+         operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return { lhs.value() % divisor, ut{} };
 }
 
 // scalar % quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator%( lvt, quantity<rvt, ut> ) = delete;
 
-// quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+         // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
+         template<typename lvt, typename ut, typename rvt>
+         inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+         operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return { lhs.value() % rhs.value(), ut{} };
 }
 
 // operator %=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator%=( quantity<lvt, ut> &lhs, const st &divisor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline quantity<lvt, ut> &
+         operator%=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs % divisor;
     return lhs;
@@ -443,6 +443,21 @@ inline constexpr value_type to_fahrenheit( const
     return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
 }
 
+// Conversions from legacy temperature units. Do not use without a good reason.
+
+inline constexpr units::temperature from_legacy_bodypart_temp( int temp )
+{
+    return units::from_celsius( 37.0 + ( temp - 5000.0 ) * 0.002 );
+}
+
+template<typename value_type>
+inline constexpr int to_legacy_bodypart_temp( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    const auto c = units::to_celsius( v );
+    return static_cast<int>( ( c - 37.0 ) * 500.0 + 5000.0 );
+}
+
 // Temperature delta
 // Absolute zero - possibly should just be INT_MIN
 const temperature_delta temperature_delta_min = units::temperature_delta( 0,
@@ -485,7 +500,7 @@ from_fahrenheit_delta(
 
 template<typename value_type>
 inline constexpr value_type to_celsius_delta( const
-        quantity<value_type, temperature_in_kelvin_tag> &v )
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
 {
     return v.value();
 }
@@ -495,6 +510,20 @@ inline constexpr value_type to_fahrenheit_delta( const
         quantity<value_type, temperature_delta_in_kelvin_tag> &v )
 {
     return ( v * 1.8f ).value();
+}
+
+// Conversions from legacy temperature units. Do not use without a good reason.
+
+inline constexpr units::temperature_delta from_legacy_bodypart_temp_delta( int temp )
+{
+    return units::from_kelvin_delta( temp * 0.002 );
+}
+
+template<typename value_type>
+inline constexpr int to_legacy_bodypart_temp_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return static_cast<int>( units::to_kelvin_delta( v ) * 500.0 );
 }
 
 // Energy
@@ -747,8 +776,8 @@ inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_f
     const quantity<value_type, volume_in_milliliter_tag> &v )
 {
     return units::from_centimeter<int>(
-               std::round(
-                   std::cbrt( units::to_milliliter( v ) ) ) );
+        std::round(
+            std::cbrt( units::to_milliliter( v ) ) ) );
 }
 
 // Streaming operators for debugging and tests
@@ -789,14 +818,19 @@ inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
     return o << "rad";
 }
 
+inline std::ostream &operator<<( std::ostream &o, temperature )
+{
+    return o << "K";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
     return o << v.value() << tag_type{};
 }
 
-template<typename value_type, typename tag_type>
-inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
+          template<typename value_type, typename tag_type>
+          inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
 {
     std::ostringstream os;
     os << v;
@@ -871,10 +905,30 @@ inline constexpr units::temperature operator"" _K( const unsigned long long v )
     return units::from_kelvin( v );
 }
 
+inline constexpr units::temperature operator"" _C( const unsigned long long v )
+{
+    return units::from_celsius( v );
+}
+
+inline constexpr units::temperature_delta operator"" _C_delta( const unsigned long long v )
+{
+    return units::from_celsius_delta( v );
+}
+
 inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
     const long double v )
 {
     return units::from_kelvin( v );
+}
+
+inline constexpr units::temperature operator"" _C( const long double v )
+{
+    return units::from_celsius( v );
+}
+
+inline constexpr units::temperature_delta operator"" _C_delta( const long double v )
+{
+    return units::from_celsius_delta( v );
 }
 
 inline constexpr units::energy operator"" _mJ( const unsigned long long v )
@@ -1133,9 +1187,16 @@ units::energy operator*( const time_duration &time, const units::power &power );
 units::power operator/( const units::energy &energy, const time_duration &time );
 time_duration operator/( const units::energy &energy, const units::power &power );
 
+constexpr inline units::temperature_delta abs( units::temperature_delta x )
+{
+    return from_kelvin_delta( std::abs( to_kelvin_delta( x ) ) );
+}
+
 units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 );
 
 units::temperature operator+( const units::temperature &T,
+                              const units::temperature_delta &T_delta );
+units::temperature operator-( const units::temperature &T,
                               const units::temperature_delta &T_delta );
 units::temperature operator+( const units::temperature_delta &T_delta,
                               const units::temperature &T );

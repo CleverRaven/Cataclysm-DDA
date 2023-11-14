@@ -177,6 +177,10 @@
           "inventor_lasmod_long_range",
           "inventor_lasmod_capasitor",
           "inventor_lasmod_energy_safe",
+          "inventor_lasmod_adv_cooler",
+          "inventor_lasmod_radiator",
+          "inventor_lasmod_chonky_radiator",
+          "inventor_lasmod_spooky_heat_sink",
           "inventor_research_energy_3"
         ],
         "type": "recipe",
@@ -215,6 +219,10 @@
           "inventor_glauncher_direct",
           "death_ray",
           "inventor_lasmod_mega_capasitor",
+          "inventor_lasmod_adv_adv_cooler",
+          "inventor_lasmod_recuperator",
+          "inventor_lasmod_mega_everything",
+          "inventor_lasmod_more_capacitors",
           "inventor_research_ai_1",
           "inventor_research_dimesnion_1"
         ],

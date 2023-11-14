@@ -214,14 +214,14 @@
     "charges": 1,
     "time": "1 m",
     "batch_time_factors": [ 20, 2 ],
-    "components": [ [ [ "toast", 1 ] ], [ [ "butter", 1 ] ] ]
+    "components": [ [ [ "toast", 1 ] ], [ [ "butter", 1 ], [ "raw_butter", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "buttered_toast_wheat_free",
     "copy-from": "buttered_toast",
-    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "butter", 1 ] ] ]
+    "components": [ [ [ "toast_wheat_free", 1 ] ], [ [ "butter", 1 ], [ "raw_butter", 1 ] ] ]
   },
   {
     "type": "recipe",

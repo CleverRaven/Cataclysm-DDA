@@ -11,6 +11,7 @@
       [ "vac_mold", 20 ],
       [ "polycarbonate_sheet", 20 ],
       [ "wax", 30 ],
+      [ "wax_paraffin", 30 ],
       [ "straw_pile", 15 ],
       { "item": "charcoal", "prob": 25, "charges": [ 200, 400 ] },
       [ "clay_lump", 100 ]

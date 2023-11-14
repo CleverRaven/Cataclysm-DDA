@@ -11,8 +11,7 @@
       {
         "id": "american_180",
         "name": { "str_sp": "American-180" },
-        "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
-        "weight": 1
+        "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon."
       }
     ],
     "weight": "2585 g",
@@ -65,8 +64,7 @@
       {
         "id": "marlin_9a",
         "name": { "str_sp": "Marlin 39A" },
-        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
-        "weight": 1
+        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
       }
     ],
     "ascii_picture": "marlin_39a",
@@ -119,14 +117,13 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": ".22 deringer pistol" },
-    "description": "A four barrelled, adorably tiny pocket pistol, firing the equally miniscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
+    "description": "A four barreled, adorably tiny pocket pistol, firing the equally minuscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "moss_brownie",
         "name": { "str_sp": "Mossberg Brownie" },
-        "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
-        "weight": 1
+        "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges."
       }
     ],
     "weight": "286 g",
@@ -211,8 +208,7 @@
       {
         "id": "ruger_1022",
         "name": { "str_sp": "Ruger 10/22" },
-        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
-        "weight": 1
+        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
       }
     ],
     "ascii_picture": "ruger1022",
@@ -266,8 +262,7 @@
       {
         "id": "ruger_lcr_22",
         "name": { "str_sp": "Ruger LCR .22" },
-        "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
-        "weight": 1
+        "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame."
       }
     ],
     "weight": "422 g",
@@ -295,8 +290,7 @@
       {
         "id": "sig_mosquito",
         "name": { "str_sp": "SIG Mosquito" },
-        "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail.",
-        "weight": 1
+        "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail."
       }
     ],
     "ascii_picture": "sig_mosquito",
@@ -345,8 +339,7 @@
       {
         "id": "sw_22",
         "name": { "str_sp": "S&W 22A" },
-        "description": "A popular .22 pistol from Smith & Wesson.  It's quite light for its size, and an integrated rail makes it easy to mount optics to the gun.",
-        "weight": 1
+        "description": "A popular .22 pistol from Smith & Wesson.  It's quite light for its size, and an integrated rail makes it easy to mount optics to the gun."
       }
     ],
     "ascii_picture": "sw_22a",
@@ -379,8 +372,7 @@
       {
         "id": "j22",
         "name": { "str": "Jennings J-22" },
-        "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
-        "weight": 1
+        "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues."
       }
     ],
     "weight": "340 g",
@@ -412,8 +404,7 @@
       {
         "id": "walther_p22",
         "name": { "str": "Walther P22" },
-        "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy.",
-        "weight": 1
+        "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy."
       }
     ],
     "weight": "480 g",

@@ -21,6 +21,11 @@
     "aoe": { "field_type": "fd_elect_anomaly", "intensity_min": 2, "intensity_max": 3, "radius": 0 }
   },
   {
+    "id": "SMALL_ELECTRIC_BURST",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_electricity", "intensity_min": 1, "intensity_max": 2, "chance": 10, "radius": 1 }
+  },
+  {
     "id": "TACTICAL_LASER_EXPLOSION",
     "type": "ammo_effect",
     "trigger_chance": 5,

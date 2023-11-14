@@ -11,8 +11,7 @@
       {
         "id": "sw_610",
         "name": { "str_sp": "S&W 610" },
-        "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-        "weight": 1
+        "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round."
       }
     ],
     "ascii_picture": "sw_610",
@@ -52,8 +51,7 @@
       {
         "id": "glock_29",
         "name": { "str": "Glock 29" },
-        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely.",
-        "weight": 1
+        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely."
       }
     ],
     "ascii_picture": "glock_19",
@@ -92,15 +90,13 @@
       {
         "id": "glock_20",
         "name": { "str": "Glock 20" },
-        "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one.",
-        "weight": 1
+        "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one."
       },
       {
         "id": "glock_40",
         "name": { "str": "Glock 40 MOS" },
         "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
-        "ascii_picture": "glock_40mos",
-        "weight": 1
+        "ascii_picture": "glock_40mos"
       }
     ],
     "ascii_picture": "glock_20",
@@ -133,8 +129,7 @@
       {
         "id": "hk_mp5_10_semi",
         "name": { "str": "BA10" },
-        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace.",
-        "weight": 1
+        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace."
       }
     ],
     "weight": "2667 g",
@@ -163,8 +158,7 @@
       {
         "id": "m1911_10",
         "name": { "str": "Colt Delta Elite" },
-        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911s, like this one, are slotted to prevent such crack formation.",
-        "weight": 1
+        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911s, like this one, are slotted to prevent such crack formation."
       }
     ],
     "weight": "1077 g",
@@ -197,8 +191,7 @@
       {
         "id": "witness_10",
         "name": { "str": "EAA Witness 10mm" },
-        "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto.",
-        "weight": 1
+        "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto."
       }
     ],
     "weight": "936 g",
@@ -228,8 +221,7 @@
       {
         "id": "p220_10",
         "name": { "str": "SIG P220 10mm" },
-        "description": "The SIG Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other SIG Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto.",
-        "weight": 1
+        "description": "The SIG Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other SIG Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto."
       }
     ],
     "weight": "964 g",
@@ -260,8 +252,7 @@
       {
         "id": "xd_10",
         "name": { "str": "XD-M Competition 10mm" },
-        "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
-        "weight": 1
+        "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto."
       }
     ],
     "weight": "930 g",
@@ -297,8 +288,7 @@
       {
         "id": "TDI_10",
         "name": { "str": "Vector SDP 10mm" },
-        "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto.",
-        "weight": 1
+        "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto."
       }
     ],
     "weight": "2867 g",

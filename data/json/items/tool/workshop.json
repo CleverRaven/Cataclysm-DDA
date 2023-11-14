@@ -276,6 +276,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
@@ -801,7 +802,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 1, "stab": 4 }
+    "melee_damage": { "bash": 1, "stab": 4 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "oxy_torch",
@@ -1047,7 +1049,14 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "3000 g",
         "max_item_length": "60 cm",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
+        "item_restriction": [
+          "robofac_gun_ar",
+          "robofac_gun_smg",
+          "robofac_gun_dmr",
+          "robofac_gun_shotgun",
+          "robofac_gun_shotgun_breach",
+          "robofac_gun_exodii"
+        ]
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -1544,8 +1553,9 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 7 ], [ "FABRIC_CUT", 1 ] ],
-    "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "cut": 6 }
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "cut": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "wrench_small",
@@ -1740,6 +1750,22 @@
     "price_postapoc": 200,
     "material": [ "epoxy", "kevlar" ],
     "symbol": "#",
+    "color": "light_gray"
+  },
+  {
+    "id": "thread_cutting_set",
+    "type": "TOOL",
+    "name": { "str": "thread cutting set" },
+    "description": "This is a set of a external thread cutting die inserted into a manual grip and an internal thread cutting die used as a drill bit.",
+    "weight": "1500 g",
+    "volume": "750 ml",
+    "longest_side": "40 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "qualities": [ [ "THREAD_TAP", 2 ], [ "THREAD_CUT", 2 ] ],
+    "symbol": "p",
     "color": "light_gray"
   }
 ]

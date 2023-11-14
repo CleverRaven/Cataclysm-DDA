@@ -22,6 +22,7 @@
       ],
       "-": "t_wall_metal",
       "|": "t_concrete_wall",
+      ")": "t_reinforced_glass",
       "]": [ [ "t_door_glass_c", 5 ], "t_door_glass_o", 5 ],
       "+": [ [ "t_door_locked", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 1 ] ],
       ":": [ [ "t_door_locked_interior", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ] ],
@@ -85,7 +86,8 @@
       "k": { "item": "SUS_office_desk", "chance": 60 },
       "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
       "@": { "item": "bed", "chance": 50 },
-      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
+      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "%": { "item": "afs_tools_space_emergency" }
     }
   },
   {

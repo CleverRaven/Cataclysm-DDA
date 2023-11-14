@@ -86,8 +86,11 @@
   "required_char_flags": [ "" ],    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
   "required_char_flags_all": [ ""], // This technique requires all of the listed character flags to trigger
   "forbidden_char_flags": [ "" ],   // List of character flags disabling this technique
+  "needs_ammo": true,         // Technique works only if weapon is loaded; Consume 1 charge per attack 
   "crit_tec": true,           // This technique only works on a critical hit
   "crit_ok": true,            // This technique works on both normal and critical hits
+  "reach_tec": true,          // This technique only works on a reach attack hit
+  "reach_ok": true,           // This technique works on both normal and reach attack hits
   "attack_override": false,   // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
   "condition": "u_is_outside",// Optional (array of) dialog conditions the attack requires to trigger.  Failing these will disqualify the tech from being selected
   "condition_desc": "Needs X",// Description string describing the conditions of this attack (since dialog conditions can't be automatically evaluated)       
@@ -95,11 +98,11 @@
   "repeat_max": 1,
   "knockback_dist": 1,        // Distance target is knocked back
   "knockback_spread": 1,      // The knockback may not send the target straight back
-  "knockback_follow": 1,      // Attacker will follow target if they are knocked back
+  "knockback_follow": true,   // Attacker will follow target if they are knocked back
   "stun_dur": 2,              // Duration that target is stunned for
   "down_dur": 2,              // Duration that target is downed for
   "side_switch": true,        // Technique moves the target behind user
-  "disarms": true,            // This technique can disarm the opponent
+  "disarms": true,            // This technique can disarm the opponent, triggers only against armed NPCs or monsters with the "WIELDED_WEAPON" flag
   "take_weapon": true,        // Technique will disarm and equip target's weapon if hands are free
   "grab_break": true,         // This technique may break a grab against the user
   "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets

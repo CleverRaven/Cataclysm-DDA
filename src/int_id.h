@@ -32,7 +32,7 @@ class int_id
         /**
          * Prevent accidental construction from other int ids.
          */
-        template < typename S, typename std::enable_if_t < !std::is_same<S, T>::value, int > = 0 >
+        template < typename S, typename std::enable_if_t < !std::is_same_v<S, T>, int > = 0 >
         int_id( const int_id<S> &id ) = delete;
 
         /**
@@ -55,7 +55,7 @@ class int_id
          * and std::strings to be used.
          */
         template<typename S, class =
-                 typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
+                 std::enable_if_t< std::is_convertible_v<S, std::string >> >
         explicit int_id( S && id ) : int_id( string_id<T>( std::forward<S>( id ) ) ) {}
 
         /**

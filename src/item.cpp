@@ -314,7 +314,9 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else {
         if( type->tool && type->tool->rand_charges.size() > 1 ) {
             const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
-            charges = rng( type->tool->rand_charges[charge_roll - 1], type->tool->rand_charges[charge_roll] );
+            const int charge_count = rng( type->tool->rand_charges[charge_roll - 1],
+                                          type->tool->rand_charges[charge_roll] );
+            ammo_set( ammo_default(), charge_count );
         } else {
             charges = type->charges_default();
         }
@@ -377,6 +379,14 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( !type->snippet_category.empty() ) {
         snip_id = SNIPPET.random_id_from_category( type->snippet_category );
+    }
+
+    if( type->expand_snippets ) {
+        set_var( "description", SNIPPET.expand( type->description.translated() ) );
+    }
+
+    if( has_itype_variant() && itype_variant().expand_snippets ) {
+        set_var( "description", SNIPPET.expand( variant_description() ) );
     }
 
     if( current_phase == phase_id::PNULL ) {
@@ -638,7 +648,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
     }
-    if( carrier ) {
+    if( carrier && carrier->has_item( *this ) ) {
         carrier->on_item_acquire( *this );
     }
 
@@ -1506,9 +1516,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
         std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_shelf_life() - rot );
+            clipped_time( std::max( get_shelf_life() - rot, 0_seconds ) );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_shelf_life() - rhs.rot );
+            clipped_time( std::max( rhs.get_shelf_life() - rhs.rot, 0_seconds ) );
         if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
             my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
@@ -1604,25 +1614,22 @@ int item::insert_cost( const item &it ) const
 }
 
 ret_val<void> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
-                            const bool unseal_pockets )
+                            const bool unseal_pockets, Character *carrier )
 {
-    ret_val<item_pocket *> result = contents.insert_item( payload, pk_type );
+    ret_val<item *> result = contents.insert_item( payload, pk_type, false, unseal_pockets );
     if( !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        return ret_val<void>::make_failure( result.str() );
     }
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
-    if( unseal_pockets && result.success() ) {
-        result.value()->unseal();
+    if( carrier ) {
+        result.value()->on_pickup( *carrier );
     }
     on_contents_changed();
-    if( result.success() ) {
-        return ret_val<void>::make_success( result.str() );
-    } else {
-        return ret_val<void>::make_failure( result.str() );
-    }
+    return ret_val<void>::make_success( result.str() );
 }
 
 void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -2272,13 +2279,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else if( has_itype_variant() ) {
-            // append the description instead of fully overwriting it
-            if( itype_variant().append ) {
-                info.emplace_back( "DESCRIPTION", _( string_format( "%s  %s", type->description.translated(),
-                                                     itype_variant().alt_description.translated() ) ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
-            }
+            info.emplace_back( "DESCRIPTION", variant_description() );
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.emplace_back( "DESCRIPTION",
@@ -2568,16 +2569,32 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const int max_value = v.second;
         const int min_rda = player_character.vitamin_RDA( v.first, min_value );
         const int max_rda = player_character.vitamin_RDA( v.first, max_value );
+        std::pair<std::string, std::string> weight_and_units = v.first->mass_str_from_units( v.second );
+        std::string weight_str;
+        if( !weight_and_units.first.empty() ) {
+            if( min_value != max_value ) {
+                std::pair<std::string, std::string> min_weight_and_units = v.first->mass_str_from_units(
+                            min_nutr.get_vitamin( v.first ) );
+                const bool show_first_unit = ( min_value != 0 ) &&
+                                             ( min_weight_and_units.second != weight_and_units.second );
+                std::string first_string = string_format( !show_first_unit ? "%s" : "%s %s",
+                                           min_weight_and_units.first, min_weight_and_units.second );
+                weight_str = string_format( "%s-%s %s ", first_string, weight_and_units.first,
+                                            weight_and_units.second );
+            } else {
+                weight_str = string_format( "%s %s ", weight_and_units.first, weight_and_units.second );
+            }
+        }
         std::string format;
         if( is_vitamin ) {
-            format = min_value == max_value ? "%s (%i%%)" : "%s (%i-%i%%)";
-            return string_format( format, v.first->name(), min_rda, max_rda );
+            format = min_value == max_value ? "%s%s (%i%%)" : "%s%s (%i-%i%%)";
+            return string_format( format, weight_str, v.first->name(), min_rda, max_rda );
         }
-        format = min_value == max_value ? "%s (%i U)" : "%s (%i-%i U)";
-        return string_format( format, v.first->name(), min_value, max_value );
+        format = min_value == max_value ? "%s%s (%i U)" : "%s%s (%i-%i U)";
+        return string_format( format, weight_str, v.first->name(), min_value, max_value );
     };
 
-    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
+    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins() );
     const std::string required_vits = enumerate_as_string( max_nutr_vitamins,
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
@@ -5616,6 +5633,36 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                               "<info>sickly green glow</info>." ) );
     }
 
+    if( type->milling_data ) {
+        if( parts->test( iteminfo_parts::DESCRIPTION_MILLEABLE ) ) {
+
+            const islot_milling &mdata = *type->milling_data;
+            const int conv_rate = mdata.conversion_rate_;
+            std::string rate_info;
+            if( conv_rate < 1 ) {
+                const int ratio = int( 1 / mdata.conversion_rate_ );
+                rate_info = string_format(
+                                _( "* You need at least <neutral>%i %s</neutral> to produce <neutral>1 %s</neutral>." ), ratio,
+                                type->nname( ratio ),
+                                mdata.into_->nname( 1 ) );
+            } else {
+                const int ratio = int( mdata.conversion_rate_ );
+                rate_info = string_format(
+                                _( "* <neutral>1 %s</neutral> can be turned into <neutral>%i %s</neutral>." ),
+                                type->nname( 1 ), ratio,
+                                mdata.into_->nname( ratio ) );
+            }
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "* This item can be <info>milled</info>." ) ) );
+            info.emplace_back( "DESCRIPTION", rate_info );
+            info.emplace_back( "DESCRIPTION",
+                               string_format(
+                                   _( "* It has a conversion rate of <neutral>1 %s</neutral> for <neutral>%.3f %s</neutral>." ),
+                                   type->nname( 1 ),
+                                   mdata.conversion_rate_, mdata.into_->nname( mdata.conversion_rate_ ) ) );
+        }
+    }
+
     if( is_brewable() ) {
         const item &brewed = *this;
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_DURATION ) ) {
@@ -6455,11 +6502,17 @@ std::string item::overheat_symbol() const
     if( !is_gun() || type->gun->overheat_threshold <= 0.0 ) {
         return "";
     }
+    double modifier = 0;
+    float multiplier = 1.0f;
+    for( const item *mod : gunmods() ) {
+        modifier += mod->type->gunmod->overheat_threshold_modifier;
+        multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+    }
     if( faults.count( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
-                                           0 ) / ( type->gun->overheat_threshold ) * 5.0 ) ) ) {
+                                           0 ) / std::max( type->gun->overheat_threshold * multiplier + modifier, 5.0 ) * 5.0 ) ) ) {
         case 1:
             return "";
         case 2:
@@ -8904,6 +8957,10 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
+    // Fragile items take damage if the block more than 15% of their armor value
+    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > 0.15f ) {
+        return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    }
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
@@ -8934,11 +8991,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    const int damage = has_flag( flag_FRAGILE )
-                       ? rng( 2 * itype::damage_scale, 3 * itype::damage_scale )
-                       : itype::damage_scale;
-
-    return mod_damage( damage ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 
 item::armor_status item::damage_armor_transforms( damage_unit &du ) const
@@ -9303,11 +9356,29 @@ void item::set_itype_variant( const std::string &variant )
     for( const itype_variant_data &option : type->variants ) {
         if( option.id == variant ) {
             _itype_variant = &option;
+            if( option.expand_snippets ) {
+                set_var( "description", SNIPPET.expand( variant_description() ) );
+            }
             return;
         }
     }
 
     debugmsg( "item '%s' has no variant '%s'!", typeId().str(), variant );
+}
+
+std::string item::variant_description() const
+{
+    if( !has_itype_variant() ) {
+        return "";
+    }
+
+    // append the description instead of fully overwriting it
+    if( itype_variant().append ) {
+        return _( string_format( "%s  %s", type->description.translated(),
+                                 itype_variant().alt_description.translated() ) );
+    } else {
+        return itype_variant().alt_description.translated();
+    }
 }
 
 void item::clear_itype_variant()
@@ -9853,7 +9924,7 @@ bool item::is_emissive() const
 
 bool item::is_deployable() const
 {
-    return type->can_use( "deploy_furn" );
+    return type->can_use( "deploy_furn" ) || type->can_use( "deploy_appliance" );
 }
 
 bool item::is_tool() const
@@ -12030,7 +12101,8 @@ int item::fill_with( const item &contained, const int amount,
                      const bool unseal_pockets,
                      const bool allow_sealed,
                      const bool ignore_settings,
-                     const bool into_bottom )
+                     const bool into_bottom,
+                     Character *carrier )
 {
     if( amount <= 0 ) {
         return 0;
@@ -12074,11 +12146,13 @@ int item::fill_with( const item &contained, const int amount,
             }
         }
 
-        if( !pocket->insert_item( contained_item, into_bottom ).success() ) {
+        ret_val<item *> result = pocket->insert_item( contained_item, into_bottom );
+        if( !result.success() ) {
             if( count_by_charges ) {
-                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+                debugmsg( "charges per remaining pocket volume does not fit in that very volume: %s",
+                          result.str() );
             } else {
-                debugmsg( "best pocket for item cannot actually contain the item" );
+                debugmsg( "best pocket for item cannot actually contain the item: %s", result.str() );
             }
             break;
         }
@@ -12089,6 +12163,9 @@ int item::fill_with( const item &contained, const int amount,
         }
         if( unseal_pockets ) {
             pocket->unseal();
+        }
+        if( carrier ) {
+            result.value()->on_pickup( *carrier );
         }
     }
     if( num_contained == 0 ) {
@@ -12205,11 +12282,22 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents() const
 {
-    if( type->category_force == item_category_container && contents_only_one_type() ) {
-        return contents.first_item().get_category_of_contents();
-    } else {
-        return this->get_category_shallow();
+    if( type->category_force == item_category_container ) {
+        const std::list<const item *> items = contents.all_items_top( item_pocket::pocket_type::CONTAINER );
+        if( !items.empty() ) {
+            const item_category &category_of_first_item = items.front()->get_category_of_contents();
+            if( items.size() == 1 ) {
+                return category_of_first_item;
+            }
+            const auto has_same_category = [&category_of_first_item]( const item * i ) {
+                return i->get_category_of_contents() == category_of_first_item;
+            };
+            if( std::all_of( ++items.begin(), items.end(), has_same_category ) ) {
+                return category_of_first_item;
+            }
+        }
     }
+    return this->get_category_shallow();
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
@@ -13610,8 +13698,19 @@ bool item::process_blackpowder_fouling( Character *carrier )
 bool item::process_gun_cooling( Character *carrier )
 {
     double heat = get_var( "gun_heat", 0 );
-    double threshold = type->gun->overheat_threshold;
-    heat -= type->gun->cooling_value;
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    double cooling_modifier = 0;
+    float cooling_multiplier = 1.0f;
+    for( const item *mod : gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+        cooling_modifier += mod->type->gunmod->cooling_value_modifier;
+        cooling_multiplier *= mod->type->gunmod->cooling_value_multiplier;
+    }
+    double threshold = std::max( ( type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
+    heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
     if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
         faults.erase( fault_overheat_safety );

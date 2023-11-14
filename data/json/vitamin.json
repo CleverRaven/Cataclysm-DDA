@@ -6,6 +6,11 @@
     "name": { "str": "Calcium" },
     "min": -48000,
     "max": 0,
+    "//": [
+      "96 units are consumed per day, with RDA of 1000mg / 96 = 10.42mg",
+      "1000mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/calcium-HealthProfessional/#h2"
+    ],
+    "weight_per_unit": "10 mg 420 μg",
     "rate": "15 m"
   },
   {
@@ -16,6 +21,12 @@
     "deficiency": "anemia",
     "min": -24000,
     "max": 3600,
+    "//": [
+      "96 units are consumed per day, with RDA of 18mg / 96 = 0.1875mg",
+      "18mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/iron-HealthProfessional/#h2",
+      "As it varies with sex, the max value was chosen"
+    ],
+    "weight_per_unit": "188 ug",
     "rate": "15 m",
     "disease": [ [ -9600, -11200 ], [ -11201, -12800 ], [ -12801, -24000 ] ]
   },
@@ -27,6 +38,12 @@
     "deficiency": "scurvy",
     "min": -5600,
     "max": 0,
+    "//": [
+      "96 units are consumed per day, with RDA of 90mg / 96 = 0.9375mg",
+      "90mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/#h2",
+      "As it varies with sex, the max value was chosen"
+    ],
+    "weight_per_unit": "938 mcg",
     "rate": "15 m",
     "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
   },

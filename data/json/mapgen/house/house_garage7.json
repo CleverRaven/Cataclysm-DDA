@@ -40,7 +40,6 @@
         "/": "t_region_groundcover_urban",
         "`": "t_concrete",
         "?": "t_fencegate_c",
-        "#": "t_rock_wall",
         "$": "t_fence",
         "_": "t_linoleum_white",
         "Q": "t_linoleum_white",

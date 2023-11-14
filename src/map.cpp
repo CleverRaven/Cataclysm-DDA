@@ -46,6 +46,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flood_fill.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -241,6 +242,7 @@ void map::set_transparency_cache_dirty( const tripoint &p, bool field )
         if( !field ) {
             get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
             get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
+            set_visitable_zones_cache_dirty();
         }
     }
 }
@@ -1774,6 +1776,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
+        set_visitable_zones_cache_dirty();
     }
 
     if( old_f.has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) != new_f.has_flag(
@@ -1788,6 +1791,9 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         player_character.memorize_clear_decoration( getglobal( p ), "f_" );
     }
 
+    if( ( old_f.movecost < 0 ) != ( new_f.movecost < 0 ) ) {
+        set_visitable_zones_cache_dirty();
+    }
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
@@ -2232,6 +2238,9 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         player_character.memorize_clear_decoration( getglobal( p ), "t_" );
     }
 
+    if( ( old_t.movecost == 0 ) != ( new_t.movecost == 0 ) ) {
+        set_visitable_zones_cache_dirty();
+    }
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
@@ -7256,6 +7265,102 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
+int map::ledge_coverage( const Creature &viewer, const tripoint &target_p ) const
+{
+    tripoint viewer_p = viewer.pos();
+    creature_size viewer_size = viewer.get_size();
+
+    // Viewer eye level from ground in grids
+    float eye_level = 1.0f;
+    switch( viewer_size ) {
+        case creature_size::medium:
+            break;
+        case creature_size::tiny:
+            eye_level = 0.4f;
+            break;
+        case creature_size::small:
+            eye_level = 0.7f;
+            break;
+        case creature_size::large:
+            eye_level = 1.3f;
+            break;
+        case creature_size::huge:
+            eye_level = 1.6f;
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Creature has invalid size class." );
+            break;
+    }
+    // Viewer eye level crouch / prone multipliers
+    const Character *viewer_ch = viewer.as_character();
+    if( viewer_ch ) {
+        if( viewer_ch->is_crouching() ) {
+            eye_level *= 0.5;
+        } else if( viewer_ch->is_prone() ) {
+            eye_level *= 0.275;
+        }
+    }
+    // Viewer eye level is higher when standing on furniture
+    const furn_id viewer_furn = furn( viewer_p );
+    if( viewer_furn.obj().id ) {
+        eye_level += viewer_furn->coverage * 0.01f;
+    }
+
+    return ledge_coverage( viewer_p, target_p, eye_level );
+}
+
+int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
+                         const float &eye_level ) const
+{
+    if( viewer_p.z == target_p.z ) {
+        return 0;
+    }
+
+    // Find ledge between viewer and target
+    // Only the first ledge found is calculated for performance reasons
+    tripoint high_p;
+    tripoint low_p;
+    if( viewer_p.z > target_p.z ) {
+        high_p = viewer_p;
+        low_p = target_p;
+    } else {
+        high_p = target_p;
+        low_p = viewer_p;
+    }
+    tripoint ledge_p = high_p;
+    for( tripoint p : line_to( tripoint( low_p.xy(), high_p.z ), high_p ) ) {
+        if( dont_draw_lower_floor( p ) ) {
+            ledge_p = p;
+            break;
+        }
+    }
+
+    // Height of each z-level in grids
+    const float zlevel_to_grid_ratio = 2.0f;
+    float dist_to_ledge_base = trig_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) );
+    // Adjustment to ledge distance because ledge is assumed to be between two grids
+    dist_to_ledge_base += ( viewer_p.z < target_p.z ) ? -0.5f : 0.5f;
+    const float flat_dist = trig_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
+    // Absolute level of viewer's eye
+    const float abs_eye_z = viewer_p.z * zlevel_to_grid_ratio + eye_level;
+    // "Opposite" of the angle between the eye level and ledge
+    const float eye_ledge_z_delta = ( ledge_p.z * zlevel_to_grid_ratio ) - abs_eye_z;
+    const float tangent = eye_ledge_z_delta / dist_to_ledge_base;
+    // Absolute level concealed by ledge, anything below this point is invisible
+    const float covered_z = abs_eye_z + ( tangent * flat_dist );
+    // Ledge coverage given by comparing covered_z and the absolute z of the target space
+    float ledge_coverage = ( covered_z - target_p.z * zlevel_to_grid_ratio ) * 100;
+
+    // Target has a coverage penalty when standing on furniture
+    const furn_id target_furn = furn( target_p );
+    if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
+                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
+        ledge_coverage -= target_furn->coverage;
+    }
+
+    return ledge_coverage >= 0 ? ledge_coverage : 0;
+}
+
 int map::coverage( const tripoint &p ) const
 {
     if( const furn_id obstacle_f = furn( p ) ) {
@@ -9197,16 +9302,14 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     bool seen_cache_dirty = false;
     bool camera_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
-        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
-        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
-        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
+        seen_cache_dirty |= floor_cache_was_dirty;
         if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
             get_cache( z - 1 ).r_up_cache->invalidate();
         }
-        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
@@ -10167,5 +10270,68 @@ tripoint drawsq_params::center() const
         return player_character.pos() + player_character.view_offset;
     } else {
         return view_center;
+    }
+}
+
+/** This is lazily evaluated on demand. Each creature in a zone is visited
+ * as it flood fills, then the zone number is incremented. At the end all creatures in
+ * the same zone will have the same zone number assigned, which can be used to have creatures in
+ * different zones ignore each other very cheaply.
+ */
+void map::flood_fill_zone( const Creature &origin )
+{
+    creature_tracker &tracker = get_creature_tracker();
+
+    ff::flood_fill_visit_10_connected( origin.pos_bub(),
+    [this]( const tripoint_bub_ms & loc, int direction ) {
+        if( direction == 0 ) {
+            return inbounds( loc ) && ( is_transparent_wo_fields( loc.raw() ) ||
+                                        passable( loc ) );
+        }
+        if( direction == 1 ) {
+            const maptile &up = maptile_at( loc );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
+                  is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        if( direction == -1 ) {
+            const maptile &up = maptile_at( loc + tripoint_above );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            const maptile &down = maptile_at( loc );
+            const ter_t &down_ter = up.get_ter_t();
+            if( down_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
+                  is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    },
+    [&tracker, this]( const tripoint_bub_ms & loc ) {
+        Creature *creature = tracker.creature_at<Creature>( loc );
+        if( creature ) {
+            const int n = zone_number * zone_tick;
+            creatures_by_zone[n].push_back( creature );
+            creature->set_reachable_zone( n );
+        }
+    } );
+    if( zone_number == std::numeric_limits<int>::max() ) {
+        zone_number = 1;
+    } else {
+        zone_number++;
     }
 }

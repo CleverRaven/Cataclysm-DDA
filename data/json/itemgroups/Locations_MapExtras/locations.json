@@ -125,7 +125,11 @@
       { "group": "softdrugs", "prob": 20 },
       { "group": "harddrugs", "prob": 5 },
       { "item": "left_leg_prosthetic", "prob": 5 },
-      { "item": "right_leg_prosthetic", "prob": 5 }
+      { "item": "right_leg_prosthetic", "prob": 5 },
+      { "item": "right_arm_prosthetic", "prob": 5 },
+      { "item": "right_arm_prosthetic", "prob": 5 },
+      { "item": "right_arm_neuroprosthetic", "prob": 2 },
+      { "item": "right_arm_neuroprosthetic", "prob": 2 }
     ]
   },
   {
@@ -197,6 +201,10 @@
       [ "weak_antibiotic", 15 ],
       { "item": "left_leg_prosthetic", "prob": 5 },
       { "item": "right_leg_prosthetic", "prob": 5 },
+      { "item": "left_arm_prosthetic", "prob": 5 },
+      { "item": "right_arm_prosthetic", "prob": 5 },
+      { "item": "left_arm_neuroprosthetic", "prob": 2 },
+      { "item": "right_arm_neuroprosthetic", "prob": 2 },
       [ "crutches", 5 ]
     ]
   },
@@ -243,6 +251,7 @@
       [ "recipe_medicalmut", 1 ],
       [ "survnote", 1 ],
       [ "badge_doctor", 1 ],
+      [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
       [ "left_leg_prosthetic", 40 ],
@@ -288,6 +297,7 @@
       { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
       { "group": "adhesive_bandages_box_used", "prob": 15 },
       { "item": "duct_tape", "prob": 20, "charges": [ 50, 200 ] },
+      { "item": "superglue", "prob": 10 },
       { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
       { "item": "mouthpiece", "prob": 10 },
       { "item": "cigar", "prob": 20, "count": [ 1, 5 ] },
@@ -1058,7 +1068,11 @@
       { "item": "bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "large_bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] }
+      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "left_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "right_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "left_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "right_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1162,7 +1176,15 @@
       { "item": "ceramic_cup", "prob": 90, "damage": [ 2, 4 ] },
       { "group": "tinware", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "crown_golden", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "fluid_preserved_brain", "prob": 20 }
+      { "item": "fluid_preserved_brain", "prob": 20 },
+      { "item": "left_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "left_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "left_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "left_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1456,7 +1478,6 @@
     "items": [
       [ "tonfa", 50 ],
       [ "tonfa_wood", 10 ],
-      [ "blackjack", 50 ],
       { "item": "shocktonfa_off", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "tazer", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ] },
@@ -1509,8 +1530,10 @@
       { "item": "textbook_anarch", "prob": 3 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
-      { "item": "knife_combat", "prob": 14 },
-      { "item": "knife_rm42", "prob": 2 },
+      { "item": "knife_combat", "prob": 3 },
+      { "item": "knife_combat_army", "prob": 1 },
+      { "item": "knife_combat_marine", "prob": 1 },
+      { "item": "knife_KABAR", "prob": 6 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },
       { "group": "knife_rambo_cont", "prob": 20 },
@@ -1651,7 +1674,7 @@
       { "item": "throwing_knife", "prob": 5 },
       { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "item": "leg_sheath6", "prob": 2 },
-      { "item": "knife_combat", "container-item": "gartersheath1", "prob": 1 },
+      { "item": "punch_dagger", "container-item": "gartersheath1", "prob": 1 },
       { "item": "gartersheath1", "prob": 10 },
       { "item": "gartersheath2", "prob": 5 },
       { "item": "tazer", "prob": 1, "charges": [ 0, 100 ] },
@@ -1684,7 +1707,11 @@
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "item": "badge_doctor", "prob": 2 },
       { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2 }
+      { "item": "right_leg_prosthetic", "prob": 2 },
+      { "item": "left_arm_prosthetic", "prob": 2 },
+      { "item": "right_arm_prosthetic", "prob": 2 },
+      { "item": "left_arm_neuroprosthetic", "prob": 1 },
+      { "item": "right_arm_neuroprosthetic", "prob": 1 }
     ]
   },
   {
@@ -1744,6 +1771,8 @@
       { "item": "bead_bracelet", "prob": 3 },
       { "item": "bead_necklace", "prob": 3 },
       { "item": "cassock", "prob": 40 },
+      { "item": "nun_habit", "prob": 35 },
+      { "item": "nun_wimple", "prob": 35 },
       { "item": "thawb", "prob": 10 },
       { "item": "kufi", "prob": 10 },
       { "item": "icon", "prob": 20 }
@@ -1983,6 +2012,7 @@
       [ "barometer", 3 ],
       [ "sextant", 2 ],
       [ "badge_doctor", 5 ],
+      [ "lanyard", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
       { "group": "writing_utensils", "prob": 10 }
@@ -2059,6 +2089,7 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 20 ],
       [ "roller_shoes_off", 20 ],
+      [ "folded_skateboard_generic", 20 ],
       [ "survnote", 3 ],
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },
@@ -2440,6 +2471,8 @@
       { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 10 ],
+      { "item": "duct_tape", "prob": 10, "charges": [ 25, 400 ] },
+      { "item": "superglue", "prob": 5 },
       [ "boots", 70 ],
       [ "boots_winter", 60 ],
       [ "boots_hiking", 30 ],
@@ -2650,7 +2683,11 @@
       { "item": "blanket", "prob": 50 },
       { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
       { "item": "left_leg_prosthetic", "prob": 20 },
-      { "item": "right_leg_prosthetic", "prob": 20 }
+      { "item": "right_leg_prosthetic", "prob": 20 },
+      { "item": "left_arm_prosthetic", "prob": 20 },
+      { "item": "right_arm_prosthetic", "prob": 20 },
+      { "item": "left_arm_neuroprosthetic", "prob": 10 },
+      { "item": "right_arm_neuroprosthetic", "prob": 10 }
     ]
   },
   {

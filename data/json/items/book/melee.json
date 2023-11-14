@@ -9,36 +9,31 @@
       {
         "id": "mag_melee",
         "name": { "str": "CQB Monthly", "str_pl": "issues of CQB Monthly" },
-        "description": "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section.",
-        "weight": 1
+        "description": "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section."
       },
       {
         "id": "mag_melee_1",
         "name": { "str": "Savage Street Fighting", "str_pl": "copies of Savage Street Fighting" },
         "description": "A barbaric guide detailing how to win a fight in the worst possible scenarios - mostly about how to retreat from such a fight, but it still has some information in case you have no another way.",
-        "//": "978-1941845073",
-        "weight": 1
+        "//": "978-1941845073"
       },
       {
         "id": "mag_melee_2",
         "name": { "str": "Maximum Damage", "str_pl": "copies of Maximum Damage" },
         "description": "This book teaches how to predict enemy attacks, with a nice explanation of how to react to each of them - both defense and counterattacks.",
-        "//": "978-1941845011",
-        "weight": 1
+        "//": "978-1941845011"
       },
       {
         "id": "mag_melee_3",
         "name": { "str": "Out of the Cage", "str_pl": "copies of Out of the Cage" },
         "description": "This book shows lot of techniques to defeat an experienced martial artist - brutal and dirty.",
-        "//": "978-0989038201",
-        "weight": 1
+        "//": "978-0989038201"
       },
       {
         "id": "mag_melee_4",
         "name": { "str": "Combat Pressure Points", "str_pl": "copies of Combat Pressure Points" },
         "description": "An illustrated handbook about the human body, how it works, and how to destroy it with fairly easy steps.",
-        "//": "978-1941845677",
-        "weight": 1
+        "//": "978-1941845677"
       }
     ],
     "weight": "70 g",
@@ -65,29 +60,25 @@
       {
         "id": "manual_melee",
         "name": { "str": "Close Quarter Fighting Manual", "str_pl": "copies of Close Quarter Fighting Manual" },
-        "description": "A well-thumbed hardbound book which illustrates simple strategies and techniques for close quarters combat encounters.",
-        "weight": 1
+        "description": "A well-thumbed hardbound book which illustrates simple strategies and techniques for close quarters combat encounters."
       },
       {
         "id": "manual_melee_1",
         "name": { "str": "Survival Weapons", "str_pl": "copies of Survival Weapons" },
         "description": "\"Will You Be The Last One Standing?\", asks the author on the first page.  You don't know the answer, but this book contains plenty of info to reach this target.",
-        "//": "978-1941845417",
-        "weight": 1
+        "//": "978-1941845417"
       },
       {
         "id": "manual_melee_2",
         "name": { "str": "Facing Violence", "str_pl": "copies of Facing Violence" },
         "description": "Different techniques to end the fight fast, easy, and without going to prison.  Luckily no one can imprison you anymore!",
-        "//": "978-1594392139",
-        "weight": 1
+        "//": "978-1594392139"
       },
       {
         "id": "manual_melee_3",
         "name": { "str": "Training for Sudden Violence", "str_pl": "copies of Training for Sudden Violence" },
         "description": "This book contains professional instructions to prepare and prevail in dangerous situations, both physically and psychologically.",
-        "//": "978-1594392139",
-        "weight": 1
+        "//": "978-1594392139"
       }
     ],
     "weight": "564 g",

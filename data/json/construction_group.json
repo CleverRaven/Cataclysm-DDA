@@ -781,8 +781,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_stone_fireplace",
-    "name": "Build Stone Fireplace"
+    "id": "build_brick_fireplace",
+    "name": "Build Brick Fireplace"
   },
   {
     "type": "construction_group",
@@ -1203,6 +1203,11 @@
     "type": "construction_group",
     "id": "place_fridge",
     "name": "Place Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_glass_fridge",
+    "name": "Place Glass Door Fridge"
   },
   {
     "type": "construction_group",
@@ -1646,8 +1651,8 @@
   },
   {
     "type": "construction_group",
-    "id": "advanced_object_deconstruction",
-    "name": "Advanced Object Deconstruction"
+    "id": "deconstruct_fireplace",
+    "name": "Deconstruct Fireplace"
   },
   {
     "type": "construction_group",

@@ -1760,27 +1760,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "foldable_solar_panel",
-    "copy-from": "solar_panel",
-    "name": { "str": "collapsible solar array" },
-    "color": "light_blue",
-    "broken_color": "light_gray",
-    "proportional": { "epower": 0.68, "durability": 0.5 },
-    "folded_volume": "2 L",
-    "description": "A small array of solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "advanced_foldable_solar_panel",
-    "copy-from": "foldable_solar_panel",
-    "name": { "str": "advanced collapsible solar array" },
-    "proportional": { "epower": 2 },
-    "description": "A small array of high-performance solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel_v2"
-  },
-  {
-    "type": "vehicle_part",
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "name": { "str": "reinforced solar panel" },
@@ -3277,6 +3256,33 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 },
+    "flags": [ "EXTRA_DRAG" ],
+    "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "stowed_glass_fridge",
+    "name": { "str": "tied-down glass door fridge" },
+    "categories": [ "other" ],
+    "color": "white",
+    "damage_modifier": 5,
+    "durability": 100,
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.  Careful with the glass!",
+    "bonus": 300,
+    "item": "stowed_glass_fridge",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "damage_reduction": { "all": 16 },
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },

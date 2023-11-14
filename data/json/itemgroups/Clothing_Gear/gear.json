@@ -23,7 +23,7 @@
       [ "bandolier_shotgun", 15 ],
       [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
-      [ "knife_combat", 10 ],
+      [ "pockknife", 10 ],
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
@@ -57,7 +57,7 @@
       {
         "distribution": [
           { "item": "PR24-retracted", "prob": 20 },
-          { "collection": [ { "item": "knife_combat" }, { "item": "sheath" } ], "prob": 30 },
+          { "group": "infantry_knives", "prob": 14 },
           { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 }
         ]
       }
@@ -74,6 +74,7 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
+      [ "superglue", 5 ],
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
@@ -272,5 +273,11 @@
       { "item": "mask_dust", "prob": 20 },
       { "item": "glasses_bal", "prob": 20 }
     ]
+  },
+  {
+    "id": "full_oxygen_tank",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "oxygen_tank", "charges": 24 } ]
   }
 ]

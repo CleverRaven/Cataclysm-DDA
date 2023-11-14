@@ -1,38 +1,80 @@
 [
   {
-    "id": "mon_frog_small",
+    "id": "mon_pattern_bigfrog",
     "type": "MONSTER",
-    "copy-from": "mon_frog_small",
+    "copy-from": "mon_pattern_bigfrog",
+    "name": { "str": "staticskin frog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pattern_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_giganfrog",
+    "name": { "str": "stuntongue" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_bigfrog",
     "name": { "str": "mutant bullfrog" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_frog_giant",
+    "id": "mon_strange_giganfrog",
     "type": "MONSTER",
-    "copy-from": "mon_frog_giant",
+    "copy-from": "mon_strange_giganfrog",
     "name": { "str": "giant bullfrog" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_frog_mega",
+    "id": "mon_strange_megafrog",
     "type": "MONSTER",
-    "copy-from": "mon_frog_mega",
+    "copy-from": "mon_strange_megafrog",
     "name": { "str": "colossal croaker" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
-    "id": "mon_toad_small",
+    "id": "mon_foul_bigfrog",
     "type": "MONSTER",
-    "copy-from": "mon_toad_small",
-    "name": { "str": "huge toad" },
+    "copy-from": "mon_foul_bigfrog",
+    "name": { "str": "greasy stinktoad" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_toad_giant",
+    "id": "mon_foul_giganfrog",
     "type": "MONSTER",
-    "copy-from": "mon_toad_giant",
+    "copy-from": "mon_foul_giganfrog",
+    "name": { "str": "foul hogtoad" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_megafrog",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_megafrog",
+    "name": { "str": "great beaked toad" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_odd_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_bigfrog",
+    "name": { "str": "oversized toad" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_giganfrog",
     "name": { "str": "giant toad" },
     "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_megafrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_megafrog",
+    "name": { "str": "gargantuan toad" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_leo_frog",

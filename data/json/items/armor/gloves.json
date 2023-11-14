@@ -1002,6 +1002,7 @@
   {
     "id": "gloves_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of cut-resistant gloves", "str_pl": "pairs of cut-resistant gloves" },
     "description": "A pair of cut-resistant gloves, useful for butchery or routine work with bladed objects.",
     "weight": "240 g",
@@ -1336,20 +1337,26 @@
     "id": "gloves_eod",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of EOD gloves", "str_pl": "pairs of EOD gloves" },
-    "description": "A pair of armored gloves constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.",
-    "weight": "800 g",
-    "volume": "1500 ml",
+    "name": { "str": "pair of EOD overhand protectors", "str_pl": "pairs of EOD overhand protectors" },
+    "description": "A pair of fragmentation resistant pads for wearing over the backs of one's hands, providing protection from shrapnel in case things go wrong.  Sold as an accessory for explosive ordnance disposal suits, but not often used due to the difficulty in armoring the entire hand and retaining dexterity.",
+    "weight": "610 g",
+    "volume": "1000 ml",
     "price": 70000,
     "price_postapoc": 8000,
-    "warmth": 40,
-    "material": [ "kevlar_layered", "nomex" ],
+    "warmth": 10,
+    "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "environmental_protection": 2,
-    "material_thickness": 5,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "STURDY", "OUTER", "ONLY_ONE", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 40,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "material": [ { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3, "ignore_sheet_thickness": true } ]
+      }
+    ]
   },
   {
     "id": "lc_demi_gaunt",

@@ -1,4 +1,10 @@
 abcdefghijklmnopqrstuvwxyz
+moulinet
+backswings
+backswing
+buttstroke
+spraining
+parrying
 aberrance
 aboveground
 abso
@@ -33,7 +39,7 @@ affordability
 affordably
 afterbirth
 aftereffect
-aftereffects 
+aftereffects
 afterglow
 afterimage
 afterlife
@@ -569,7 +575,6 @@ coalesces
 coati
 coatings
 coatis
-cockatrice
 cods
 coeculus
 coelophysis
@@ -637,6 +642,7 @@ coverplate
 crablike
 cracklins
 craftable
+crafter
 craftsfolk
 craftswoman
 craftwork
@@ -977,6 +983,7 @@ everfrost
 eviscerations
 exactingly
 exchangeable
+exchanger
 excreta
 excretions
 exhorts
@@ -2471,6 +2478,7 @@ reclines
 recolherem
 recrafted
 recursively
+recuperator
 recurve
 recutita
 recycler
@@ -3000,7 +3008,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-thaumaturge 
+thaumaturge
 thaumaturgical
 thawb
 themm
@@ -3140,6 +3148,7 @@ uncleaned
 uncluttered
 uncoiling
 uncoils
+uncontacted
 uncured
 undecipherable
 underbarrel
@@ -3459,6 +3468,7 @@ zuniceratops
 zuul
 zweitimber
 zygomaticus
+shivs
 zzz
 zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus

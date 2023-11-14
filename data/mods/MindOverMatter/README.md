@@ -1,15 +1,16 @@
 # Mind Over Matter
 A Psionics mod for Cataclysm: Dark Days Ahead
 
-This mod adds (currently) seven separate psionic power paths to Cataclysm, including:
+This mod adds (currently) eight separate psionic power paths to Cataclysm, including:
 
 1) Biokinesis - Control of the body. Biokinetics can become stronger and faster than an ordinary human, and even change their form in limited ways. (starting profession: Star Athlete)
 2) Clairsentience - Extending the senses beyond the body. Clairsentients can see in the dark and through walls, and eventually gain a bird's eye view of their surroundings, as well as perform in combat by anticipating their enemies' movements. (starting profession: Doomseer)
-3) Pyrokinesis - Manipulating fire and heat. Pyrokinetics can start fires and protect themselves from heat, and even cover their whole body in raging flames to discourage attack (starting profession: Firestarter)
-4) Telekinesis - Moving objects at a distance. Telekinetics can pull objects to them and hurl their enemies away, and even collapse buildings or shield themselves with a barrier of telekinetic force. (starting profession: Test Subject, Project ONYX LIGHTNING)
-5) Telepathy - Control of the mind. Telepaths can become more persuasive and shield their presence from their enemies, and a powerful one can seize control of their enemies' minds. (starting profession: Government Interrogater (DECEASED))
-6) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division)
-7) Vitakinesis - Control of health and injury. Vitakinetics can bind their own wounds and speed healing, eventually recovering from even near-crippling injuries. (starting profession: Faith Healer)
+3) Photokinesis - Control of light. Photokinetics can create or block light, focus light into damaging beams, shield themselves from harmful radiation, and even turn themselves invisible (starting profession: Magician)
+4) Pyrokinesis - Manipulating fire and heat. Pyrokinetics can start fires and protect themselves from heat, and even cover their whole body in raging flames to discourage attack (starting profession: Firestarter)
+5) Telekinesis - Moving objects at a distance. Telekinetics can pull objects to them and hurl their enemies away, and even collapse buildings or shield themselves with a barrier of telekinetic force. (starting profession: Test Subject, Project ONYX LIGHTNING)
+6) Telepathy - Control of the mind. Telepaths can become more persuasive and shield their presence from their enemies, and a powerful one can seize control of their enemies' minds. (starting profession: Government Interrogater (DECEASED))
+7) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division)
+8) Vitakinesis - Control of health and injury. Vitakinetics can bind their own wounds and speed healing, eventually recovering from even near-crippling injuries. (starting profession: Faith Healer)
 
 If you would like a random power path, pick the profession "Awakening Psion."
 
@@ -38,9 +39,3 @@ Listen to the voices.
 Bathe in the energies of the Nether.
 
 We have such sights to show you. 
-
-WAIT, STAMINA?
-
-I realize it's a bit counterintuitive that taking Indefatiguable or mutating mouse will make you a better psychic, but this was the best solution I could think of for compatibility. There's no way to implement cooldowns for individual powers and I don't want to use mana and make it regenerate very fast for psychics because that breaks compatibility with every single magic mod out there. Fatigue or Weariness would also fit but it's not currently possible to use Fatigue as a spell power source without adding a custom extra effect for every single power, and not possible to interact with Weariness at all, so until that's an option or there's a way to make a custom power pool, Stamina it is. 
-
-Weariness is still my goal here, but until it's possible to use it in spells Drain (described above) is the substitute. 

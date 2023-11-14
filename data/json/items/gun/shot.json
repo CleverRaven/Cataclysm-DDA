@@ -107,8 +107,7 @@
       {
         "id": "ksg",
         "name": { "str_sp": "Kel-Tec KSG" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
-        "weight": 1
+        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations."
       }
     ],
     "ascii_picture": "ksg",
@@ -151,8 +150,7 @@
       {
         "id": "ksg-25",
         "name": { "str_sp": "Kel-Tec KSG-25" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes.",
-        "weight": 1
+        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes."
       }
     ],
     "ascii_picture": "ksg-25",
@@ -197,8 +195,7 @@
       {
         "id": "mossberg_500",
         "name": { "str_sp": "Mossberg 500 Field" },
-        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with a 28 inch barrel with sight rib.",
-        "weight": 1
+        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with a 28 inch barrel with sight rib."
       },
       {
         "id": "mossberg_500_security",
@@ -234,8 +231,7 @@
       {
         "id": "mossberg_590",
         "name": { "str_sp": "Mossberg 590A1" },
-        "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance.",
-        "weight": 1
+        "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance."
       },
       {
         "id": "SPAS_12",
@@ -266,8 +262,7 @@
       {
         "id": "mossberg_930",
         "name": { "str": "Mossberg 930 SPX" },
-        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed Picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
-        "weight": 1
+        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed Picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun."
       },
       {
         "id": "m1014",
@@ -374,8 +369,7 @@
       {
         "id": "remington_870",
         "name": { "str_sp": "Remington 870 Wingmaster" },
-        "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game.",
-        "weight": 1
+        "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game."
       },
       {
         "id": "remington_1100",
@@ -421,8 +415,7 @@
       {
         "id": "remington_870_breacher",
         "name": { "str": "Remington 870 MCS" },
-        "description": "This Remington 870 Modular Combat System shotgun is currently set up for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
-        "weight": 1
+        "description": "This Remington 870 Modular Combat System shotgun is currently set up for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights."
       }
     ],
     "ascii_picture": "remington870mcs",
@@ -466,8 +459,7 @@
       {
         "id": "remington_870_express",
         "name": { "str": "Remington 870 Express", "str_pl": "Remington 870 Expresses" },
-        "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
-        "weight": 1
+        "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model."
       }
     ],
     "ascii_picture": "remington870xpress",
@@ -527,8 +519,7 @@
       {
         "id": "saiga_12",
         "name": { "str": "Saiga-12" },
-        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK-47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
-        "weight": 1
+        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK-47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order."
       }
     ],
     "weight": "3225 g",
@@ -629,8 +620,7 @@
       {
         "id": "streetsweeper",
         "name": { "str": "Cobray Streetsweeper" },
-        "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",
-        "weight": 1
+        "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch."
       }
     ],
     "weight": "4200 g",
@@ -648,7 +638,6 @@
     "barrel_volume": "505 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -676,8 +665,7 @@
       {
         "id": "tavor_12",
         "name": { "str": "Tavor TS12" },
-        "description": "A triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights.",
-        "weight": 1
+        "description": "A triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights."
       }
     ],
     "weight": "3429 g",
@@ -720,8 +708,7 @@
       {
         "id": "winchester_1887",
         "name": { "str": "1887 bootleg shotgun" },
-        "description": "One of the first commercially successful repeating shotguns, the Winchester 1887 was specifically made lever-action at Winchester's request.  Though later overshadowed in success by pump designs, the 1887 remains popular today.  This one has a very short barrel, no stock, and would pair nicely with a motorcycle jacket and a Harley Davidson.",
-        "weight": 1
+        "description": "One of the first commercially successful repeating shotguns, the Winchester 1887 was specifically made lever-action at Winchester's request.  Though later overshadowed in success by pump designs, the 1887 remains popular today.  This one has a very short barrel, no stock, and would pair nicely with a motorcycle jacket and a Harley Davidson."
       }
     ],
     "weight": "2994 g",
@@ -732,7 +719,6 @@
     "price_postapoc": 2250,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 860,
     "durability": 6,
     "clip_size": 6,
@@ -764,8 +750,7 @@
       {
         "id": "winchester_1897",
         "name": { "str": "M1897 Trench Gun" },
-        "description": "The Winchester 1897 was one of the first commercially-successful pump-action shotguns.  In its 'trench' configuration it has become a heavily-romanticized American icon of World War I.  With its barrel shroud, bayonet lug, and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
-        "weight": 1
+        "description": "The Winchester 1897 was one of the first commercially-successful pump-action shotguns.  In its 'trench' configuration it has become a heavily-romanticized American icon of World War I.  With its barrel shroud, bayonet lug, and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice."
       }
     ],
     "weight": "3629 g",

@@ -90,6 +90,18 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_basic_amphibian",
+    "category": "prof_weakpoint",
+    "name": { "str": "Amphibian Biology" },
+    "description": "Basic familiarity with various types of frogs and salamanders.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_basic_bird",
     "category": "prof_weakpoint",
     "name": { "str": "Bird Biology" },
@@ -205,6 +217,40 @@
     "time_to_learn": "6 h",
     "required_proficiencies": [ "prof_intro_biology" ],
     "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_netherium_abomination",
+    "category": "prof_weakpoint",
+    "name": { "str": "Netherium Abominations" },
+    "description": "You have extensive experience with netherium abominations which provides you with a vague sense of where more vulnerable spots might be.",
+    "can_learn": true,
+    "time_to_learn": "24 h",
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_mi-go_basic",
+    "category": "prof_weakpoint",
+    "name": { "str": "Mi-go basic anatomy" },
+    "description": "You have studied mi-go sufficiently to get a sense for where some sensitive points might be.  However, its biology remains too different from life originating on Earth to be understood to any extent.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_mi-go_advanced",
+    "category": "prof_weakpoint",
+    "name": { "str": "Mi-go detailed anatomy" },
+    "description": "Your understanding of the mi-go body is advanced enough to have a decent idea of where it is more sensitive to harm.  This does not mean you have any significant understanding of how it works internally; if anything, your dissections have just left you more confused.",
+    "can_learn": true,
+    "time_to_learn": "24 h",
+    "required_proficiencies": [ "prof_wp_mi-go_basic" ],
+    "default_weakpoint_bonus": 2,
     "default_weakpoint_penalty": -2
   }
 ]

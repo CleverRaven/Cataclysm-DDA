@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
@@ -44,6 +45,7 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "submap.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
@@ -597,49 +599,40 @@ void monster::plan()
                                  turns_since_target );
     int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
     if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
-        for( const auto &fac_list : factions ) {
-            mf_attitude faction_att = faction.obj().attitude( fac_list.first );
+        here.visit_reachable_creatures( *this, [this, &seen_levels, &mon_plan,
+              &valid_targets]( Creature & other ) {
+            mf_attitude faction_att = faction.obj().attitude( other.get_monster_faction() );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
-                continue;
+                return;
             }
-
-            for( const auto &fac : fac_list.second ) {
-                if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
-                    continue;
-                }
-                for( const weak_ptr_fast<monster> &weak : fac.second ) {
-                    const shared_ptr_fast<monster> shared = weak.lock();
-                    if( !shared ) {
-                        continue;
-                    }
-                    monster &mon = *shared;
-                    float rating = rate_target( mon, mon_plan.dist, mon_plan.smart_planning );
-                    if( rating == mon_plan.dist ) {
-                        ++valid_targets;
-                        if( one_in( valid_targets ) ) {
-                            mon_plan.target = &mon;
-                        }
-                    }
-                    if( rating < mon_plan.dist ) {
-                        mon_plan.target = &mon;
-                        mon_plan.dist = rating;
-                        valid_targets = 1;
-                    }
-                    if( rating <= 5 ) {
-                        if( anger <= 30 ) {
-                            anger += mon_plan.angers_hostile_near;
-                        }
-                        morale -= mon_plan.fears_hostile_near;
-                    }
-                    if( !mon_plan.fleeing && anger <= 20 && valid_targets != 0 ) {
-                        anger += mon_plan.angers_hostile_seen;
-                    }
-                    if( !mon_plan.fleeing && valid_targets != 0 ) {
-                        morale -= mon_plan.fears_hostile_seen;
-                    }
+            if( !seen_levels.test( other.posz() + OVERMAP_DEPTH ) ) {
+                return;
+            }
+            float rating = rate_target( other, mon_plan.dist, mon_plan.smart_planning );
+            if( rating == mon_plan.dist ) {
+                ++valid_targets;
+                if( one_in( valid_targets ) ) {
+                    mon_plan.target = &other;
                 }
             }
-        }
+            if( rating < mon_plan.dist ) {
+                mon_plan.target = &other;
+                mon_plan.dist = rating;
+                valid_targets = 1;
+            }
+            if( rating <= 5 ) {
+                if( anger <= 30 ) {
+                    anger += mon_plan.angers_hostile_near;
+                }
+                morale -= mon_plan.fears_hostile_near;
+            }
+            if( !mon_plan.fleeing && anger <= 20 && valid_targets != 0 ) {
+                anger += mon_plan.angers_hostile_seen;
+            }
+            if( !mon_plan.fleeing && valid_targets != 0 ) {
+                morale -= mon_plan.fears_hostile_seen;
+            }
+        } );
     }
     if( mon_plan.target == nullptr ) {
         // Just avoiding overflow.

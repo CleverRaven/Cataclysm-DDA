@@ -16,6 +16,14 @@
     "components": [ [ [ "matrix_crystal_clair_dust", 10 ] ] ]
   },
   {
+    "result": "matrix_crystal_photokinesis",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 10 ] ] ]
+  },
+  {
     "result": "matrix_crystal_pyrokinesis",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",

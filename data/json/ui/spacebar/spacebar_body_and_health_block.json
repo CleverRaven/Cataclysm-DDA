@@ -145,12 +145,12 @@
     "arrange": "rows",
     "width": 12,
     "widgets": [
-      "hp_head_num_no_label",
-      "hp_torso_num_no_label",
-      "hp_left_arm_num_no_label",
-      "hp_right_arm_num_no_label",
-      "hp_left_leg_num_no_label",
-      "hp_right_leg_num_no_label"
+      "hp_head_num_label",
+      "hp_torso_num_label",
+      "hp_left_arm_num_label",
+      "hp_right_arm_num_label",
+      "hp_left_leg_num_label",
+      "hp_right_leg_num_label"
     ]
   },
   {

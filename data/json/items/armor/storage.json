@@ -1595,8 +1595,7 @@
       {
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
-        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
-        "weight": 1
+        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
       }
     ]
   },
@@ -2154,7 +2153,7 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
     "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]

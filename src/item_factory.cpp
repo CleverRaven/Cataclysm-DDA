@@ -358,6 +358,12 @@ void Item_factory::finalize_pre( itype &obj )
         return string_starts_with( f.str(), "LIGHT_" );
     } );
 
+    // Finalize vitamins in food
+    if( obj.comestible ) {
+        obj.comestible->default_nutrition.finalize_vitamins();
+    }
+
+
     // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
         if( obj.ammo->loudness < 0 ) {
@@ -611,11 +617,11 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
-        std::map<vitamin_id, int> &vitamins = obj.comestible->default_nutrition.vitamins;
+        std::map<vitamin_id, int> vitamins = obj.comestible->default_nutrition.vitamins();
         if( get_option<bool>( "NO_VITAMINS" ) ) {
             for( auto &vit : vitamins ) {
                 if( vit.first->type() == vitamin_type::VITAMIN ) {
-                    vit.second = 0;
+                    obj.comestible->default_nutrition.set_vitamin( vit.first, 0 );
                 }
             }
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -637,7 +643,7 @@ void Item_factory::finalize_pre( itype &obj )
                 if( !vitamins.count( v.first ) ) {
                     for( const auto &m : mat ) {
                         double amount = m.first->vitamin( v.first ) * healthy / mat.size();
-                        vitamins[v.first] += std::ceil( amount );
+                        obj.comestible->default_nutrition.add_vitamin( v.first, std::ceil( amount ) );
                     }
                 }
             }
@@ -1832,6 +1838,7 @@ void Item_factory::init()
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
+    add_actor( std::make_unique<deploy_appliance_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
     add_actor( std::make_unique<change_scent_iuse>() );
     add_actor( std::make_unique<place_npc_iuse>() );
@@ -2700,6 +2707,7 @@ void itype_variant_data::load( const JsonObject &jo )
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
     optional( jo, false, "append", append );
+    optional( jo, false, "expand_snippets", expand_snippets );
 }
 
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
@@ -3315,15 +3323,26 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
+        slot.default_nutrition.finalized = false;
         for( JsonArray pair : jo.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
-            slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
+            if( pair.has_int( 1 ) ) {
+                slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
+            } else {
+                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
+                slot.default_nutrition.set_vitamin( vit, val );
+            }
         }
 
     } else if( relative.has_array( "vitamins" ) ) {
         for( JsonArray pair : relative.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
-            slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
+            if( pair.has_int( 1 ) ) {
+                slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
+            } else {
+                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
+                slot.default_nutrition.add_vitamin( vit, val );
+            }
         }
     }
 
@@ -3369,6 +3388,8 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
+    optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
+              ter_furn_flag::TFLAG_PLANTABLE );
 }
 
 void islot_seed::deserialize( const JsonObject &jo )
@@ -3402,6 +3423,12 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     assign( jo, "overwrite_min_cycle_recoil", slot.overwrite_min_cycle_recoil );
+    assign( jo, "overheat_threshold_modifier", slot.overheat_threshold_modifier );
+    assign( jo, "overheat_threshold_multiplier", slot.overheat_threshold_multiplier );
+    assign( jo, "cooling_value_modifier", slot.cooling_value_modifier );
+    assign( jo, "cooling_value_multiplier", slot.cooling_value_multiplier );
+    assign( jo, "heat_per_shot_modifier", slot.heat_per_shot_modifier );
+    assign( jo, "heat_per_shot_multiplier", slot.heat_per_shot_multiplier );
     // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
     if( slot.aim_speed >= 0 && slot.field_of_view <= 0 ) {
         if( slot.aim_speed > 6 ) {
@@ -4286,9 +4313,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_qualities_from_json( jo, "charged_qualities", def );
     }
 
-    if( jo.has_member( "properties" ) ) {
-        set_properties_from_json( jo, "properties", def );
-    }
+    optional( jo, def.was_loaded, "properties", def.properties );
 
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();
@@ -4409,6 +4434,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
+
+    optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
 
     // potentially replace materials and update their values
     JsonObject replace_val = jo.get_object( "replace_materials" );
@@ -4630,22 +4657,6 @@ void Item_factory::relative_qualities_from_json( const JsonObject &jo,
         } else {
             jo.throw_error_at( member, "Quality specified wasn't inherited" );
         }
-    }
-}
-
-void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string_view member,
-        itype &def )
-{
-    if( jo.has_array( member ) ) {
-        for( JsonArray curr : jo.get_array( member ) ) {
-            const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
-            if( def.properties.count( prop.first ) > 0 ) {
-                curr.throw_error( 0, "Duplicated property" );
-            }
-            def.properties.insert( prop );
-        }
-    } else {
-        jo.throw_error_at( member, "Properties list is not an array" );
     }
 }
 

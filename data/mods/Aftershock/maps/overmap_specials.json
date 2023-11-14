@@ -55,7 +55,27 @@
     "city_distance": [ 35, -1 ],
     "city_sizes": [ 0, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "MAN_MADE" ]
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_maintenance_outpost",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "maintenance_outpost_a1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "maintenance_outpost_a1_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "maintenance_outpost_a2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "maintenance_outpost_a2_roof_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "maintenance_outpost_b1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "maintenance_outpost_b1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "maintenance_outpost_b2_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "maintenance_outpost_b2_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 35, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
   },
   {
     "type": "overmap_special",
@@ -108,7 +128,8 @@
     "occurrences": [ 0, 3 ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "robot_dispatch_first_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "robot_dispatch_second_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "robot_dispatch_second_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "robot_dispatch_roof_north" }
     ],
     "flags": [ "MAN_MADE", "EXOPLANET" ]
   },

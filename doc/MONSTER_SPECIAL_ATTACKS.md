@@ -200,9 +200,9 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `blockable`                 | Boolean, default true.  The attack can be blocked (after the dodge checks).
 | `effects_require_dmg`       | Boolean, default true.  Effects will only be applied if the attack successfully damaged the target.
 | `effects`				      | Array, defines additional effects for the attack to add.  See [MONSTERS.md](MONSTERS.md#attack_effs) for the exact syntax. Duration is in turns, not in movement points
-| `self_effect_always`        | Array of `effects` the monster applies to itself when doing this attack.
-| `self_effect_onhit`         | Array of `effects` the monster applies to itself when successfully hitting with the attack.
-| `self_effect_ondmg`         | Array of `effects` the monster applies to itself when damaging its target.
+| `self_effects_always`        | Array of `effects` the monster applies to itself when doing this attack.
+| `self_effects_onhit`         | Array of `effects` the monster applies to itself when successfully hitting with the attack.
+| `self_effects_ondmg`         | Array of `effects` the monster applies to itself when damaging its target.
 | `throw_strength`		      | Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
 | `miss_msg_u`			      | String, message for missed attack against the player.
 | `miss_msg_npc`		      | String, message for missed attack against an NPC.
@@ -260,10 +260,11 @@ The monster fires a gun at a target.  If the monster is friendly, it will avoid 
 | `fake_per`                  | Perception stat of the fake NPC that will execute the attack.  8 if not specified.                                    |
 | `fake_skills`               | Array of 2 element arrays of skill id and skill level pairs.                                                          |
 | `move_cost`                 | Move cost of executing the attack.                                                                                    |
+| `condition`                 | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the monster.
 | `require_targeting_player`  | If true, the monster will need to "target" the player, wasting `targeting_cost` moves, putting the attack on cooldown and making warning sounds, unless it attacked something that needs to be targeted recently.  Gives "grace period" to player.                                                               |
 | `require_targeting_npc`     | As above, but with NPCs.                                                                                              |
 | `require_targeting_monster` | As above, but with monsters.                                                                                          |
-| 'target_moving_vehicles'    | If true, the monster will "target" moving vehicles even if it cannot see the player.
+| `target_moving_vehicles`    | If true, the monster will "target" moving vehicles even if it cannot see the player.
 | `targeting_timeout`         | Targeting status will be applied for this many turns.  Note that targeting applies to turret, not targets.            |
 | `targeting_timeout_extend`  | Successfully attacking will extend the targeting for this many turns.  Can be negative.                               |
 | `targeting_cost`            | Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns. |
