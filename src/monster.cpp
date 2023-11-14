@@ -3222,7 +3222,8 @@ void monster::process_effects()
         if( amount_eaten > 0 ) {
             if( has_flag( mon_flag_EATS ) ) {
                 digest_food();
-            } else { amount_eaten = 0;
+            } else {
+                amount_eaten = 0;
             }
         }
 
