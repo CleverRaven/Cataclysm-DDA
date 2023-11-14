@@ -82,7 +82,6 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_critter_fed( "critter_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disarmed( "disarmed" );
@@ -641,7 +640,8 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_fed ) ) {
+    
+    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
         if( calendar::turn - udder_timer > 1_days ) {
             // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
             ammo.begin()->second = type->starting_ammo.begin()->second;
@@ -650,17 +650,21 @@ void monster::refill_udders()
     }
 }
 
-void monster::digest_food()
+void monster::reset_digestion()
 {
     if( calendar::turn - stomach_timer > 3_days ) {
         //If the player hasn't been around, assume critters have been operating at a subsistence level.
-        //Otherwise everything will constantly be underfed.
+        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
         remove_effect( effect_critter_underfed );
         remove_effect( effect_critter_well_fed );
         amount_eaten = 0;
         stomach_timer = calendar::turn;
     }
-    else if( calendar::turn - stomach_timer > 1_days ) {
+}
+
+void monster::digest_food()
+{
+    if( calendar::turn - stomach_timer > 1_days ) {
         if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
             add_effect( effect_critter_well_fed, 24_hours );
         } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
@@ -3749,6 +3753,7 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+    reset_digestion();
 
     if( has_flag( mon_flag_EATS ) ) {
         digest_food();

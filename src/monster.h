@@ -118,6 +118,7 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void digest_food();
+        void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;

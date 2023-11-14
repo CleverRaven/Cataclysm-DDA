@@ -479,13 +479,15 @@ void stop_leading( monster &z )
  */
 void milk_source( monster &source_mon )
 {
+
     itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
     auto milkable_ammo = source_mon.ammo.find( milked_item );
     if( milkable_ammo == source_mon.ammo.end() ) {
         debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
         return;
     }
-    if( milkable_ammo->second > 0 ) {
+
+    else if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
         std::vector<tripoint> coords{};
         std::vector<std::string> str_values{};
