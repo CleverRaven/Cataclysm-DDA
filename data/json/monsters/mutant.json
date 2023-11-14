@@ -175,7 +175,8 @@
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 2
-      }, [ "EAT_CARRION", 120 ]
+      },
+      [ "EAT_CARRION", 120 ]
     ],
     "dodge": 7,
     "bleed_rate": 50,
