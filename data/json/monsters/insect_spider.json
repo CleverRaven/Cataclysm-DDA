@@ -1831,7 +1831,8 @@
         "min_mul": 0.2,
         "max_mul": 0.5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
-      }
+      },
+      [ "EAT_CARRION", 100 ], [ "EAT_FOOD", 100 ]
     ],
     "//": "sting 3-5 dmg, 40 hits to max intensity, 50 to max duration",
     "dodge": 8,
@@ -1839,13 +1840,14 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_hymenoptera", "prof_wp_flying" ],
     "vision_day": 15,
     "vision_night": 5,
+    "stomach_size": 60,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "half_life": 30, "into": "mon_wasp" },
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT", "EATS" ],
     "armor": { "bash": 1, "cut": 6, "stab": 4 }
   },
   {
@@ -1856,6 +1858,7 @@
     "copy-from": "mon_wasp_small",
     "aggression": 0,
     "melee_skill": 6,
+    "stomach_size": 180,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
     "upgrades": { "half_life": 30, "into": "mon_wasp_guard" }
@@ -1868,6 +1871,7 @@
     "copy-from": "mon_wasp_guard",
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_large",
+    "stomach_size": 800,
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
     "upgrades": { "half_life": 30, "into": "mon_wasp_mega" },
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 3 }
@@ -1912,7 +1916,8 @@
         "min_mul": 0.5,
         "max_mul": 1.5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
-      }
+      },
+      [ "EAT_CARRION", 100 ], [ "EAT_FOOD", 100 ]
     ],
     "//": "sting 5-15 damage, 8 hits to max intensity, 9 to max duration",
     "dodge": 7,
@@ -1921,12 +1926,13 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_hymenoptera", "prof_wp_flying" ],
     "vision_day": 17,
     "vision_night": 7,
+    "stomach_size": 800,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE", "EATS" ],
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12 }
   },
   {
@@ -1937,6 +1943,7 @@
     "copy-from": "mon_wasp",
     "aggression": 4,
     "melee_skill": 8,
+    "stomach_size": 1200,
     "dissect": "dissect_insect_sample_small",
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
@@ -1956,6 +1963,7 @@
     "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 5,
+    "stomach_size": 8000,
     "special_attacks": [
       {
         "id": "sting",
