@@ -1621,8 +1621,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
             if( mon->amount_eaten >= mon->stomach_size ) {
                 p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
             }
-        }
-        else if( !mon->has_flag( mon_flag_EATS ) ) {
+        } else if( !mon->has_flag( mon_flag_EATS ) ) {
             mon->add_effect( effect_critter_well_fed, 24_hours );
         }
 
