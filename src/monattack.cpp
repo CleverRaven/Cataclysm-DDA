@@ -522,7 +522,8 @@ bool mattack::eat_carrion( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //TODO: Completely eaten corpses should leave bones and other inedibles.
-            if( item.has_flag( flag_CORPSE ) && item.damage() < item.max_damage() && z->amount_eaten < z->stomach_size &&
+            if( item.has_flag( flag_CORPSE ) && item.damage() < item.max_damage() &&
+                z->amount_eaten < z->stomach_size &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
                 item.mod_damage( 700 );
