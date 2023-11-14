@@ -932,7 +932,7 @@ void overmap::unserialize_view( const JsonObject &jsobj )
 template<typename MdArray>
 static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
-    static_assert( std::is_same<typename MdArray::value_type, bool>::value,
+    static_assert( std::is_same_v<typename MdArray::value_type, bool>,
                    "This implementation assumes bool, in that the initial value of lastval has "
                    "to not be a valid value of the content" );
     int count = 0;

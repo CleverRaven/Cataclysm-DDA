@@ -45,7 +45,6 @@
         "~": "t_dirtmoundfloor",
         "&": "t_dirtmound",
         "(": "t_region_soil",
-        "#": "t_adobe_brick_wall",
         "'": "t_linoleum_gray",
         "Ŧ": "t_privacy_fence",
         "ɤ": "t_privacy_fencegate_c",

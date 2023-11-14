@@ -39,7 +39,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_wall_r",
         "_": "t_linoleum_gray",
         ",": "t_floor_noroof",
         "~": "t_shrub_lilac",

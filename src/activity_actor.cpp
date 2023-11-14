@@ -660,34 +660,6 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
     who.i_add_or_drop( mod );
     gun.remove_item( mod );
 
-    // TODO: If a mod's added mod location allowed another mod to be added, remove both mods
-    // when the 'base' mod is removed. Also make sure to factor in time to remove both mods
-    // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
-    if( !modtype->gunmod->add_mod.empty() ) {
-        std::map<gunmod_location, int> mod_locations_added = modtype->gunmod->add_mod;
-        std::map<gunmod_location, int> mod_locations_gun_free = gun.get_mod_locations();
-
-        std::for_each( mod_locations_gun_free.begin(), mod_locations_gun_free.end(),
-        [&gun]( std::pair<const gunmod_location, int> &slot ) {
-            slot.second = gun.get_free_mod_locations( slot.first );
-        }
-                     );
-
-        for( item *the_mod : gun.gunmods() ) {
-            gunmod_location curr_gunmod_loc = the_mod->type->gunmod->location;
-            // If the gunmod's location does not exist in the gun, and it was added by the removed mod
-            // Remove it
-            if( mod_locations_gun_free.find( curr_gunmod_loc ) == mod_locations_gun_free.end() &&
-                mod_locations_added[curr_gunmod_loc] > 0 ) {
-                gunmod_remove( who, gun, *the_mod );
-            } else if( mod_locations_gun_free[curr_gunmod_loc] < 0 ) {
-                // Otherwise remove if there are no free slots in the current gunmod's location
-                gunmod_remove( who, gun, *the_mod );
-                mod_locations_gun_free[the_mod->type->gunmod->location]++;
-            }
-        }
-    }
-
     //~ %1$s - gunmod, %2$s - gun.
     who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
                            gun.tname() );
@@ -2205,7 +2177,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     }
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
+    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup,
+                            stash_successful, info );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
@@ -2238,6 +2211,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "starting_pos", starting_pos );
     jsout.member( "stash_successful", stash_successful );
     jsout.member( "autopickup", autopickup );
+    jsout.member( "info", info );
 
     jsout.end_object();
 }
@@ -2253,6 +2227,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "starting_pos", actor.starting_pos );
     data.read( "stash_successful", actor.stash_successful );
     data.read( "autopickup", actor.autopickup );
+    data.read( "info", actor.info );
 
     return actor.clone();
 }
@@ -4312,7 +4287,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 }
 
 static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
-                                 int *charges_added )
+                                 int *charges_added, Character *carrier )
 {
     item &it = *holstered_item.first;
     ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
@@ -4331,7 +4306,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
             return ret;
         }
 
-        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true );
+        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
     }
 
     ret = holster->can_contain_partial_directly( it );
@@ -4344,7 +4319,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
-                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true );
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, carrier );
     if( *charges_added <= 0 ) {
         return ret_val<void>::make_failure( _( "item can't be stored there" ) );
     }
@@ -4356,6 +4331,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 {
     bool success = false;
     bool bulk_load = false;
+    Character *carrier = holster.carrier();
     drop_location &holstered_item = items.front();
     if( holstered_item.first ) {
         success = true;
@@ -4368,20 +4344,19 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
 
         if( !it.count_by_charges() ) {
-            ret = try_insert( holster, holstered_item, nullptr );
+            ret = try_insert( holster, holstered_item, nullptr, carrier );
 
             if( ret.success() ) {
                 //~ %1$s: item to put in the container, %2$s: container to put item in
                 who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
                                                       holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
-                who.add_to_inv_search_caches( *holstered_item.first );
                 handler.add_unsealed( holster );
                 handler.unseal_pocket_containing( holstered_item.first );
                 holstered_item.first.remove_item();
             }
         } else {
             int charges_added = 0;
-            ret = try_insert( holster, holstered_item, &charges_added );
+            ret = try_insert( holster, holstered_item, &charges_added, carrier );
 
             if( ret.success() ) {
                 item copy( it );
@@ -4595,10 +4570,9 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 2:
         default:
             // In player inventory and player is wielding something.
-            if( loc.held_by( who ) ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
-                         reloadable_name );
-            }
+            loc.carrier()->add_msg_if_player( m_neutral,
+                                              _( "The %s no longer fits in your inventory so you drop it instead." ),
+                                              reloadable_name );
             get_map().add_item_or_charges( loc.position(), reloadable );
             loc.remove_item();
             break;
