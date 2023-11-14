@@ -8629,7 +8629,12 @@ void Character::toggle_hauling()
     if( hauling ) {
         stop_hauling();
     } else {
-        start_hauling( here.get_haulable_items( pos() ) );
+        std::vector<item_location> items = here.get_haulable_items( pos() );
+        if( items.empty() ) {
+            add_msg( m_info, _( "There are no items to haul here." ) );
+            return;
+        }
+        start_hauling( items );
         start_autohaul();
     }
 }
