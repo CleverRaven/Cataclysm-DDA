@@ -22,6 +22,13 @@
   },
   {
     "type": "GUN",
+    "id": "v29_turret",
+    "copy-from": "v29_turret",
+    "name": { "str": "mounted laser" },
+    "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 10, "armor_penetration": 4 }
+  },
+  {
+    "type": "GUN",
     "id": "recon_mech_laser_single",
     "copy-from": "recon_mech_laser_single",
     "name": { "str": "salvaged RMES marksman laser" },
