@@ -3219,8 +3219,11 @@ void monster::process_effects()
         try_reproduce();
         try_biosignature();
 
-        if( has_flag( mon_flag_EATS ) ) {
-            digest_food();
+        if( amount_eaten > 0 ) {
+            if( has_flag( mon_flag_EATS ) ) {
+                digest_food();
+            } else { amount_eaten = 0;
+            }
         }
 
         if( has_flag( mon_flag_MILKABLE ) ) {
@@ -3757,8 +3760,12 @@ void monster::on_load()
     try_biosignature();
     reset_digestion();
 
-    if( has_flag( mon_flag_EATS ) ) {
-        digest_food();
+    //Clean up runaway values for monsters which eat but don't digest yet.
+    if( amount_eaten > 0 ) {
+        if( has_flag( mon_flag_EATS ) ) {
+            digest_food();
+        } else { amount_eaten = 0;
+        }
     }
 
     if( has_flag( mon_flag_MILKABLE ) ) {
