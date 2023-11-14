@@ -40,43 +40,42 @@ template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
 bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
-    T out;
-    double scalar;
+    T out = val;
+    optional( jo, false, name, out, val );
 
-    // Object via which to report errors which differs for proportional/relative values
-    const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    std::string_view report_name = name;
+    if( !jo.has_member( name ) ) {
+        report_name = "id";
+    } else if( !jo.has_member( "id" ) ) {
+        report_name = "type";
+    }
 
-    // Do not require strict parsing for relative and proportional values as rules
-    // such as +10% are well-formed independent of whether they affect base value
-    if( relative.read( name, out ) ) {
-        err = &relative;
-        strict = false;
-        out += val;
-
-    } else if( proportional.read( name, scalar ) ) {
-        err = &proportional;
-        if( scalar <= 0 || scalar == 1 ) {
-            err->throw_error_at( name, "multiplier must be a positive number other than 1" );
+    bool read = jo.has_member( name );
+    std::string_view other_method_name = jo.has_object( "proportional" ) ? "proportional" : "relative";
+    if( jo.has_object( other_method_name ) ) {
+        const JsonObject other = jo.get_object( other_method_name );
+        other.allow_omitted_members();
+        if( other.has_member( name ) ) {
+            read = true;
+            strict = false;
         }
-        strict = false;
-        out = val * scalar;
+    }
 
-    } else if( !jo.read( name, out ) ) {
+    if( read && ( out < lo || out > hi ) ) {
+        jo.throw_error_at( report_name,
+                           string_format( "value for %s (%s) outside supported range %s to %s",
+                                          name, std::to_string( out ), std::to_string( lo ),
+                                          std::to_string( hi ) ) );
+    }
+
+    if( !read ) {
         return false;
     }
 
-    if( out < lo || out > hi ) {
-        err->throw_error_at( name, "value outside supported range" );
-    }
-
     if( strict && out == val ) {
-        report_strict_violation( *err,
-                                 "cannot assign explicit value the same as default or inherited value",
-                                 name );
+        report_strict_violation( jo,
+                                 string_format( "cannot assign explicit value for %s the same as default or inherited value", name ),
+                                 report_name );
     }
 
     val = out;
