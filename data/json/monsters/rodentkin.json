@@ -108,7 +108,6 @@
        [ "EAT_FOOD", 120 ],
        [ "EAT_CARRION", 120]
     ],
-    "stomach_size": 60,
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
