@@ -147,7 +147,7 @@
         "infection_chance": 4
       },
       [ "EAT_FOOD", 120 ],
-      [ "EAT_CARRION", 120]
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "zombify_into": "mon_meat_cocoon_tiny",
