@@ -4539,7 +4539,7 @@
       "prac_cutting_beg_bionic_sword",
       "prac_cutting_int_bionic_sword"
     ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_axes_practice",
@@ -4551,7 +4551,7 @@
     "description": "Recipes for combat practice with axes.",
     "skill_used": "cutting",
     "nested_category_data": [ "prac_cutting_beg_great_axe", "prac_cutting_int_great_axe", "prac_cutting_beg_hand_axe", "prac_cutting_int_hand_axe" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_cutting_swords_practice",
@@ -4572,7 +4572,7 @@
       "prac_cutting_beg_great_sword",
       "prac_cutting_int_great_sword"
     ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_stabbing_swords_practice",
@@ -4584,7 +4584,7 @@
     "description": "Recipes for combat practice of thrusting swords, which require a different training from just slashing with your sword.",
     "skill_used": "stabbing",
     "nested_category_data": [ "prac_stabbing_beg_fencing", "prac_stabbing_int_fencing", "prac_stabbing_beg_thrust", "prac_stabbing_int_thrust" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_spears_polearms_practice",
@@ -4596,7 +4596,7 @@
     "description": "Recipes for combat practice with long pointed objects, like spears and polearms.",
     "skill_used": "stabbing",
     "nested_category_data": [ "prac_stabbing_beg_spear", "prac_stabbing_int_spear", "prac_stabbing_beg_polearm", "prac_stabbing_int_polearm" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_knives_shivs_practice",
@@ -4608,7 +4608,7 @@
     "description": "Recipes for combat practice with small pointed objects, like knives and shivs.",
     "skill_used": "stabbing",
     "nested_category_data": [ "prac_stabbing_beg_knife", "prac_stabbing_int_knife", "prac_stabbing_beg_shiv", "prac_stabbing_int_shiv" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_batons_and_staffs_practice",
@@ -4620,7 +4620,7 @@
     "description": "Recipes for combat practice with thin, stick-like bludgeons like batons and quarterstaves.",
     "skill_used": "bashing",
     "nested_category_data": [ "prac_bashing_beg_baton", "prac_bashing_int_baton", "prac_bashing_beg_staff", "prac_bashing_int_staff" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_maces_and_hammers_practice",
@@ -4632,7 +4632,7 @@
     "description": "Recipes for combat practice with weighty, smashing bludgeons, like maces and great hammers.",
     "skill_used": "bashing",
     "nested_category_data": [ "prac_bashing_beg_mace", "prac_bashing_int_mace", "prac_bashing_beg_great_hammer", "prac_bashing_int_great_hammer" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_firearm_cqc_practice",
@@ -4644,7 +4644,7 @@
     "description": "Recipes for CQC practice with firearms.",
     "skill_used": "bashing",
     "nested_category_data": [ "prac_bashing_beg_rifle", "prac_bashing_int_rifle", "prac_bashing_beg_pistol", "prac_bashing_int_pistol" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_arming_sword",
