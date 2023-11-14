@@ -36,7 +36,9 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       },
       { "id": "scratch", "max_mul": 1.5 },
-      [ "EAT_CARRION", 120 ], [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ]
+      [ "EAT_CARRION", 120 ],
+      [ "EAT_FOOD", 120 ],
+      [ "BROWSE", 120 ]
     ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
