@@ -84,7 +84,9 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
       },
       { "id": "impale", "move_cost": 110, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 },
-      [ "EAT_CARRION", 120 ], [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ]
+      [ "EAT_CARRION", 120 ],
+      [ "EAT_FOOD", 120 ],
+      [ "BROWSE", 120 ]
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 3,
