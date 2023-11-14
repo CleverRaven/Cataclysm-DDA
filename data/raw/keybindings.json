@@ -1488,7 +1488,7 @@
     "type": "keybinding",
     "id": "CHANGE_OUTFIT",
     "name": "Change outfit",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", mod: [ "shift" ] } ]
   },
   {
     "type": "keybinding",
