@@ -82,8 +82,8 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_multiplier": 0.7 } ]
       },
       { "id": "scratch", "max_mul": 1.5 },
-       [ "EAT_FOOD", 120 ],
-       [ "EAT_CARRION", 120]
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ],
