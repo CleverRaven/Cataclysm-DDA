@@ -223,7 +223,7 @@
     "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120] ],
+    "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
     "armor": { "bash": 15, "cut": 3, "bullet": 26 }
