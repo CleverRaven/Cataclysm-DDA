@@ -189,8 +189,8 @@
         "max_mul": 2.1,
         "infection_chance": 4
       },
-       [ "EAT_FOOD", 120 ],
-       [ "EAT_CARRION", 120]
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG", "EATS" ],
