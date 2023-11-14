@@ -60,7 +60,7 @@
     "drop": "handflare_lit",
     "effects": [ "NO_EMBED" ],
     "extend": { "flags": [ "CASELESS_ROUNDS" ] }
-  },	
+  },
   {
     "id": "20x66_frag",
     "copy-from": "20x66_slug",
