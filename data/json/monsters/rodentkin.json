@@ -253,7 +253,13 @@
     "dodge": 4,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
-    "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120] ],
+    "special_attacks": [
+      { "id": "impale" },
+      { "type": "bite", "cooldown": 15 },
+      { "id": "longswipe" },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
+    ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
     "dissect": "dissect_rat_sample_small",
