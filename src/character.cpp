@@ -9042,8 +9042,7 @@ units::temperature_delta Character::bodytemp_modifier_traits_floor() const
 units::temperature Character::temp_corrected_by_climate_control( units::temperature temperature,
         int heat_strength, int chill_strength ) const
 {
-    const units::temperature_delta base_variation = units::from_celsius_delta( units::to_celsius(
-                BODYTEMP_NORM ) );
+    const units::temperature_delta base_variation = BODYTEMP_NORM - 27_C;
     const units::temperature_delta variation_heat = base_variation * ( heat_strength / 100.0f );
     const units::temperature_delta variation_chill = -base_variation * ( chill_strength / 100.0f );
 
