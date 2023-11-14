@@ -1644,6 +1644,7 @@ item_location npc::find_reloadable()
     item_location reloadable;
     visit_items( [this, &reloadable]( item * node, item * parent ) {
         if( !wants_to_reload( *this, *node ) ) {
+            debugmsg( "%s doesn't want to reload %s", name, node->tname() );
             return VisitResponse::NEXT;
         }
 
@@ -1652,6 +1653,7 @@ item_location npc::find_reloadable()
         const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node_loc;
+            debugmsg( "%s identified a reloadable %s", name, node->tname() );
             return VisitResponse::ABORT;
         }
 
@@ -1966,7 +1968,11 @@ npc_action npc::address_needs( float danger )
     item_location reloadable = find_reloadable();
     if( reloadable ) {
         do_reload( reloadable );
+        debugmsg( "%s is trying to do a reload on a reloadable", name );
         return npc_noop;
+    }
+    if( !reloadable ) {
+        debugmsg( "%s tried to find a reloadable and couldn't", name );
     }
 
     // Extreme thirst or hunger, bypass safety check.
