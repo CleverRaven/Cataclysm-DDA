@@ -101,7 +101,6 @@ struct mission_place {
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
-    static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
     static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank

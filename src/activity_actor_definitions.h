@@ -20,6 +20,7 @@
 #include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "pickup.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -495,6 +496,7 @@ class pickup_activity_actor : public activity_actor
         /** Target items and the quantities thereof */
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        Pickup::pick_info info;
 
         /**
          * Position of the character when the activity is started. This is
@@ -1037,6 +1039,7 @@ class drop_activity_actor : public activity_actor
         contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
+        bool current_bulk_unload = false;
 };
 
 class stash_activity_actor: public activity_actor
@@ -1071,6 +1074,7 @@ class stash_activity_actor: public activity_actor
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
         tripoint placement;
+        bool current_bulk_unload = false;
 };
 
 class harvest_activity_actor : public activity_actor

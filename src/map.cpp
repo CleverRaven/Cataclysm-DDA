@@ -46,6 +46,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flood_fill.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -1888,36 +1889,6 @@ ter_id map::ter( const tripoint &p ) const
 ter_id map::ter( const tripoint_bub_ms &p ) const
 {
     return ter( p.raw() );
-}
-
-int map::get_map_damage( const tripoint_bub_ms &p ) const
-{
-    if( !inbounds( p ) ) {
-        return 0;
-    }
-
-    point_sm_ms l;
-    const submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Called get_map_damage for unloaded submap" );
-        return 0;
-    }
-    return current_submap->get_map_damage( l );
-}
-
-void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
-{
-    if( !inbounds( p ) ) {
-        return;
-    }
-
-    point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Called set_map_damage for unloaded submap" );
-        return;
-    }
-    return current_submap->set_map_damage( l, dmg );
 }
 
 uint8_t map::get_known_connections( const tripoint &p,
@@ -4001,18 +3972,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
         // Linear interpolation from str_min to str_max
         const int resistance = smin + ( params.roll * ( smax - smin ) );
-        // Semi-persistant map damage. Increment by one for each bash over smin
-        // Gradually makes hard bashes easier
-        int damage = get_map_damage( tripoint_bub_ms( p ) );
-        add_msg_debug( debugmode::DF_MAP, "Bashing diff. %d to %d, roll %g. Strength is %d + %d vs %d",
-                       smin, smax, params.roll, params.strength, damage, resistance );
-        if( params.strength + damage >= resistance ) {
-            damage = 0;
+        if( params.strength >= resistance ) {
             success = true;
-        } else if( params.strength >= smin ) {
-            damage += 1;
         }
-        set_map_damage( tripoint_bub_ms( p ), damage );
     }
 
     if( smash_furn ) {
@@ -10308,5 +10270,68 @@ tripoint drawsq_params::center() const
         return player_character.pos() + player_character.view_offset;
     } else {
         return view_center;
+    }
+}
+
+/** This is lazily evaluated on demand. Each creature in a zone is visited
+ * as it flood fills, then the zone number is incremented. At the end all creatures in
+ * the same zone will have the same zone number assigned, which can be used to have creatures in
+ * different zones ignore each other very cheaply.
+ */
+void map::flood_fill_zone( const Creature &origin )
+{
+    creature_tracker &tracker = get_creature_tracker();
+
+    ff::flood_fill_visit_10_connected( origin.pos_bub(),
+    [this]( const tripoint_bub_ms & loc, int direction ) {
+        if( direction == 0 ) {
+            return inbounds( loc ) && ( is_transparent_wo_fields( loc.raw() ) ||
+                                        passable( loc ) );
+        }
+        if( direction == 1 ) {
+            const maptile &up = maptile_at( loc );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
+                  is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        if( direction == -1 ) {
+            const maptile &up = maptile_at( loc + tripoint_above );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            const maptile &down = maptile_at( loc );
+            const ter_t &down_ter = up.get_ter_t();
+            if( down_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
+                  is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    },
+    [&tracker, this]( const tripoint_bub_ms & loc ) {
+        Creature *creature = tracker.creature_at<Creature>( loc );
+        if( creature ) {
+            const int n = zone_number * zone_tick;
+            creatures_by_zone[n].push_back( creature );
+            creature->set_reachable_zone( n );
+        }
+    } );
+    if( zone_number == std::numeric_limits<int>::max() ) {
+        zone_number = 1;
+    } else {
+        zone_number++;
     }
 }

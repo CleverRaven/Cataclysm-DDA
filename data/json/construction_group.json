@@ -1206,6 +1206,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_glass_fridge",
+    "name": "Place Glass Door Fridge"
+  },
+  {
+    "type": "construction_group",
     "id": "place_stereo",
     "name": "Place Stereo System"
   },

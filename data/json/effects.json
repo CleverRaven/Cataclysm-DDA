@@ -3928,7 +3928,7 @@
     "miss_messages": [
       [ "Did the world just oppose you?", 1 ],
       [ "For a moment you felt a great hostility all around you.", 1 ],
-      [ "Did your enemy just vanish for a moment?.", 2 ],
+      [ "Did your enemy just vanish for a moment?", 2 ],
       [ "You felt weird for a moment.", 3 ],
       [ "Was that a spark?", 5 ],
       [ "Your grip suddenly failed you.", 6 ],

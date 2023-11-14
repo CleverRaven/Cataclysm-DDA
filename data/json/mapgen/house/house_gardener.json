@@ -36,7 +36,6 @@
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "$": "t_fence",
-        "#": "t_adobe_brick_wall",
         "=": "t_shrub_blueberry",
         "!": "t_dirtmound",
         "&": "t_shrub_strawberry"

@@ -23,7 +23,7 @@
     "move_cost": 100,
     "damage_max_instance": [ { "damage_type": "cut", "amount": 15 }, { "damage_type": "acid", "amount": 16 } ],
     "effects": [ { "id": "corroding", "duration": [ 10, 30 ], "affect_hit_bp": true } ],
-    "effects_require_dmg": false,
+    "effects_require_dmg": true,
     "self_effects_always": [ { "id": "maimed_acid_gland", "duration": 5 } ],
     "condition": {
       "and": [

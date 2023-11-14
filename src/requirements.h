@@ -231,10 +231,10 @@ struct requirement_data {
         template <
             typename Container,
             typename = std::enable_if_t <
-                std::is_same <
-                    typename Container::value_type, std::pair<requirement_id, int >>::value ||
-                std::is_same <
-                    typename Container::value_type, std::pair<const requirement_id, int >>::value
+                std::is_same_v <
+                    typename Container::value_type, std::pair<requirement_id, int >> ||
+                std::is_same_v <
+                    typename Container::value_type, std::pair<const requirement_id, int >>
                 >
             >
         explicit requirement_data( const Container &cont ) :
