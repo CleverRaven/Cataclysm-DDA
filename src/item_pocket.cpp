@@ -2167,7 +2167,7 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
             contents.push_back( it );
         }
         if( restack_charges ) {
-            restack();
+            inserted = restack( inserted );
         }
     }
     return ret;
