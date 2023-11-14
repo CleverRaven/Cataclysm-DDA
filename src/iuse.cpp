@@ -1614,13 +1614,13 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
-            if ( mon->has_flag( mon_flag_EATS ) ) {
-                int kcal = it->get_comestible()->default_nutrition.kcal();
-                mon->amount_eaten += kcal;
-                    if ( mon->amount_eaten >= mon->stomach_size ) {
-                        p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
-                    }
-                }
+        if( mon->has_flag( mon_flag_EATS ) ) {
+            int kcal = it->get_comestible()->default_nutrition.kcal();
+            mon->amount_eaten += kcal;
+            if( mon->amount_eaten >= mon->stomach_size ) {
+                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
+            }
+        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
