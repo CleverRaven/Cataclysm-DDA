@@ -1917,7 +1917,8 @@
         "max_mul": 1.5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
-      [ "EAT_CARRION", 100 ], [ "EAT_FOOD", 100 ]
+      [ "EAT_CARRION", 100 ],
+      [ "EAT_FOOD", 100 ]
     ],
     "//": "sting 5-15 damage, 8 hits to max intensity, 9 to max duration",
     "dodge": 7,
