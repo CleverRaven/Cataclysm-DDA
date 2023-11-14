@@ -2347,5 +2347,10 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "UNDERFED",
+    "type": "json_flag",
+    "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
   }
 ]

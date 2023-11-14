@@ -652,7 +652,15 @@ void monster::refill_udders()
 
 void monster::digest_food()
 {
-    if( calendar::turn - stomach_timer > 1_days ) {
+    if( calendar::turn - stomach_timer > 3_days ) {
+        //If the player hasn't been around, assume critters have been operating at a subsistence level.
+        //Otherwise everything will constantly be underfed.
+        remove_effect( effect_critter_underfed );
+        remove_effect( effect_critter_well_fed );
+        amount_eaten = 0;
+        stomach_timer = calendar::turn;
+    }
+    else if( calendar::turn - stomach_timer > 1_days ) {
         if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
             add_effect( effect_critter_well_fed, 24_hours );
         } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
@@ -3195,6 +3203,23 @@ void monster::process_effects()
 
     if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
         heal( 1 );
+    }
+
+    //We already check these timers on_load, but adding a random chance for them to go off here
+    //will make it so that the player needn't leave the area and return for critters to poop,
+    //become hungry, evolve, have babies, or refill udders.
+    if( one_in( 30000 ) ) {
+        try_upgrade( false );
+        try_reproduce();
+        try_biosignature();
+
+        if( has_flag( mon_flag_EATS ) ) {
+            digest_food();
+        }
+
+        if( has_flag( mon_flag_MILKABLE ) ) {
+            refill_udders();
+        }
     }
 
     //Monster will regen morale and aggression if it is at/above max HP
