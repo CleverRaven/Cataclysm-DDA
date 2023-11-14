@@ -103,7 +103,7 @@
     "color": "light_blue",
     "symbol": "&",
     "material": [ "steel", "plastic" ],
-    "volume": "722 ml",
+    "volume": "749 ml",
     "weight": "3252 g",
     "//": "volume is cylinder with length 9m and diameter 5 mm, stats are calculated using <https://www.amazon.com/dp/B0C8V24Q27> as an example, and resized",
     "category": "tools",
