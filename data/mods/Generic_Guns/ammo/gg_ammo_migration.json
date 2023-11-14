@@ -470,15 +470,7 @@
     "replace": "grenade_ammo_teargas"
   },
   {
-    "id": [
-      "shot_00",
-      "shot_paper_00",
-      "410shot_000",
-      "20x66_exp",
-      "20x66_frag",
-      "20x66_shot",
-      "20x66_flare"
-    ],
+    "id": [ "shot_00", "shot_paper_00", "410shot_000", "20x66_exp", "20x66_frag", "20x66_shot", "20x66_flare" ],
     "type": "MIGRATION",
     "replace": "shot_buck"
   },
