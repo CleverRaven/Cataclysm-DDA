@@ -2787,9 +2787,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     reqs = vpi.repair_requirements();
                 }
             }
-            const std::string ran_str = random_string( 10 );
-            const requirement_id req_id( ran_str );
-            requirement_data::save_requirement( reqs, req_id );
+            const requirement_id req_id( std::to_string( reqs.make_hash() ) );
+            if( requirement_data::all().count( req_id )  == 0 ) {
+                requirement_data::save_requirement( reqs, req_id );
+            }
             what_we_need = req_id;
         } else if( reason == do_activity_reason::NEEDS_MINING ) {
             what_we_need = requirement_data_mining_standard;
@@ -2838,9 +2839,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
             // this is an activity that only requires this one tool, so we will fetch and wield it.
             requirement_data reqs_data = requirement_data( tool_comp_vector, quality_comp_vector,
                                          requirement_comp_vector );
-            const std::string ran_str = random_string( 10 );
-            const requirement_id req_id( ran_str );
-            requirement_data::save_requirement( reqs_data, req_id );
+            const requirement_id req_id( std::to_string( reqs_data.make_hash() ) );
+            if( requirement_data::all().count( req_id )  == 0 ) {
+                requirement_data::save_requirement( reqs_data, req_id );
+            }
             what_we_need = req_id;
         }
         bool tool_pickup = reason == do_activity_reason::NEEDS_TILLING ||

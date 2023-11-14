@@ -1495,6 +1495,15 @@ void requirement_data::dump( JsonOut &jsout ) const
     jsout.end_object();
 }
 
+uint64_t requirement_data::make_hash() const
+{
+    std::ostringstream stream;
+    JsonOut json( stream );
+    dump( json );
+    std::hash<std::string> hasher;
+    return hasher( stream.str() );
+}
+
 /// Helper function for deduped_requirement_data constructor below.
 ///
 /// The goal of this function is to consolidate a particular item_comp that
