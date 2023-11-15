@@ -58,6 +58,7 @@
         "_": "t_region_soil",
         ";": "t_chainfence_posts"
       },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 50, "status": -1 } ],
       "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
       "place_items": [
         { "chance": 35, "item": "harddrugs", "x": 9, "y": 6 },
@@ -247,6 +248,7 @@
         "{": "t_region_groundcover_urban",
         "W": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
+        "#": "t_adobe_brick_wall",
         "`": "t_concrete",
         "F": "t_linoleum_white",
         "J": "t_linoleum_white",
