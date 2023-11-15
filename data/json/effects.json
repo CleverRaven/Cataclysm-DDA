@@ -2828,10 +2828,7 @@
     "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
     "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
     "int_dur_factor": "50 m",
-    "base_mods": { 
-    "per_mod": [ -2 ],
-    "pain_min": [ 1 ],
-    "pain_chance": [ 400, 1000 ] },
+    "base_mods": { "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
       { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
