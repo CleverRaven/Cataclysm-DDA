@@ -168,7 +168,7 @@
     ],
     "description_affix": "illuminated_by",
     "priority": 4,
-    "half_life": "15 minutes",
+    "half_life": "30 minutes",
     "phase": "plasma",
     "display_field": true
   }
