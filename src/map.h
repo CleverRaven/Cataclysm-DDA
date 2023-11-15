@@ -2236,59 +2236,14 @@ class map
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
 
-        // Tracks the dirtiness of the visitable zones cache. This must be flipped when
+        // Tracks the dirtiness of the visitable zones cache, but that cache does not live here,
+        // it is distributed among the active monsters. This must be flipped when
         // persistent visibility from terrain or furniture changes
         // (this excludes vehicles and fields) or when persistent traversability changes,
         // which means walls and floors.
         bool visitable_cache_dirty = false;
-        int zone_number = 1;
-        int zone_tick = 1;
-        std::unordered_map<int, std::vector<Creature *>> creatures_by_zone;
-        std::unordered_set<Creature *> to_remove;
-
-        void flood_fill_zone( const Creature &origin );
-
-        void flood_fill_if_needed( const Creature &origin ) {
-            if( get_visitable_zones_cache_dirty() ) {
-                creatures_by_zone.clear();
-                to_remove.clear();
-                zone_tick = zone_tick > 0 ? -1 : 1;
-                set_visitable_zones_cache_dirty( false );
-                zone_number = 1;
-            }
-            // This check insures we only flood fill when the target monster has an uninitialized zone,
-            // or if it has a zone from last turn.  In other words it only triggers on
-            // the first monster in a zone each turn. We can detect this because the sign
-            // of the zone numbers changes on every invalidation.
-            int old_zone = origin.get_reachable_zone();
-            // Compare with zone_tick == old_zone && old_zone != 0
-            if( old_zone * zone_tick <= 0 ) {
-                flood_fill_zone( origin );
-            }
-        }
 
     public:
-        // Only call from the Creature destructor.
-        void remove_creature_from_reachability( Creature *creature ) {
-            to_remove.insert( creature );
-        }
-
-        template <typename Functor>
-        void visit_reachable_creatures( const Creature &origin, Functor f ) {
-            flood_fill_if_needed( origin );
-            const auto map_iter = creatures_by_zone.find( origin.get_reachable_zone() );
-            if( map_iter != creatures_by_zone.end() ) {
-                auto vector_iter = map_iter->second.begin();
-                const auto vector_end = map_iter->second.end();
-                for( ; vector_iter != vector_end; ++vector_iter ) {
-                    Creature *other = *vector_iter;
-                    if( to_remove.count( other ) == 0 ) {
-                        f( *other );
-                    }
-                }
-            }
-        }
-
         void queue_main_cleanup();
         bool is_main_cleanup_queued() const;
         void main_cleanup_override( bool over );
