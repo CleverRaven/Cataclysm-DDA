@@ -85,7 +85,7 @@
         "l": { "item": "afs_colonist_outfit", "chance": 20 },
         "3": { "item": "nuclear_reactor" },
         "2": { "item": "old_industrial_bot_storage", "chance": 20 },
-        "H": { "item": "afs_exosuit_worker", "chance": 75 }
+        "H": { "item": "afs_exosuit_light_worker", "chance": 75 }
       },
       "place_monster": [
         { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 24, 47 ], "y": [ 0, 23 ], "pack_size": [ 1, 4 ], "chance": 20 },
