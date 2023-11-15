@@ -23,8 +23,14 @@
     "dodge": 3,
     "upgrades": { "half_life": 2, "into": "mon_feral_human_bio" },
     "special_attacks": [
-      { "id": "smash", "attack_upper": true, "throw_strength": 40, "cooldown": 10 },
-      { "id": "bio_op_takedown", "cooldown": 20 }
+      {
+        "id": "smash",
+        "attack_upper": true,
+        "throw_strength": 40,
+        "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
+      { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
     ]
   },
   {
@@ -91,6 +97,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 0 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       }
     ]
@@ -123,6 +130,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 0 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s summons a blast of flame!"
       }
     ]
@@ -159,6 +167,7 @@
         "throw_strength": 40,
         "blockable": false,
         "effects_require_dmg": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -203,6 +212,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_blink_monster", "min_level": 0 },
         "cooldown": 5,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s suddenly vanishes!"
       }
     ]
