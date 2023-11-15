@@ -12108,11 +12108,16 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
 void game::start_hauling( const tripoint &pos )
 {
+    std::vector<item_location> candidate_items = m.get_haulable_items( pos );
+    // Forget about items that didn't actually end up on the previous tile (e.g. because they overflowed)
+    u.haul_list.erase( std::remove_if( u.haul_list.begin(),
+    u.haul_list.end(), [&candidate_items]( const item_location & it ) {
+        return std::count( candidate_items.begin(), candidate_items.end(), it ) == 0;
+    } ), u.haul_list.end() );
     // Find target items and quantities thereof for the new activity
     std::vector<item_location> target_items = u.haul_list;
 
     if( u.is_autohauling() ) {
-        std::vector<item_location> candidate_items = m.get_haulable_items( pos );
         for( const item_location &item : u.haul_list ) {
             candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
                                    candidate_items.end() );
