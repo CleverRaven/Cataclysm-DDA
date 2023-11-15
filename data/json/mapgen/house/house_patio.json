@@ -76,7 +76,10 @@
           "y": 17
         }
       ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 5, "y": 4, "chance": 10, "rotation": 90 } ]
+      "place_vehicles": [
+        { "vehicle": "rolling_trash_can", "x": 15, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "suburban_home", "x": 5, "y": 4, "chance": 10, "rotation": 90 }
+      ]
     }
   },
   {
