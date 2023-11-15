@@ -183,7 +183,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ] ]
+    "components": [ [ [ "bread_toastable", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -200,7 +200,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
+    "components": [ [ [ "bread_toastable_wheat_free", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
