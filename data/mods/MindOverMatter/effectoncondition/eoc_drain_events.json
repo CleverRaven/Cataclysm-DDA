@@ -109,7 +109,7 @@
     "effect": [
       { "u_message": "As you unleash your powers, blood drips from your nose!", "type": "bad" },
       { "u_add_effect": "bleed", "intensity": 1, "bodypart": "head" },
-      { "u_set_hp": { "math": { "u_hp('head') - 1" } }, "target_part": "head" }
+      { "u_set_hp": { "math": [ "u_hp('head') - 1" ] }, "target_part": "head" }
     ]
   },
   {
