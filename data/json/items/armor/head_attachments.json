@@ -173,6 +173,23 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
+    "id": "face_shield_eod",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "EOD face shield" },
+    "description": "A thick polycarbonate and plexiglass face shield with a mounting bracket intended to be attached to a ballistic helmet for protection from blast and fragmentation in 'non-permissive environments'.",
+    "weight": "229 g",
+    "volume": "250 ml",
+    "price": 83600,
+    "price_postapoc": 2400,
+    "material": [ "thermo_resin" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "material_thickness": 4.5,
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
+  },
+  {
     "id": "face_shield_plastic",
     "type": "ARMOR",
     "category": "armor",
