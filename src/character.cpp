@@ -10723,7 +10723,7 @@ void Character::process_effects()
         if ( has_trait_flag( json_flag_EYE_MEMBRANE ) ) {
             checked_health -= 50;
         }
-        if ( has_trait( trait_INFRESIST ) ) {
+        if( has_trait( trait_INFRESIST ) ) {
             checked_health += 50;
         }
         add_msg( _( "Checked health is %s!" ), checked_health );
