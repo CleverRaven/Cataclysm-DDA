@@ -3764,8 +3764,10 @@ void inventory_multiselector::on_input( const inventory_input &input )
     }
 }
 
+static const haul_selector_preset haul_preset {};
+
 inventory_haul_selector::inventory_haul_selector( Character &p ) :
-    inventory_multiselector( p, default_preset, _( "ITEMS TO HAUL" ) ) {}
+    inventory_multiselector( p, haul_preset, _( "ITEMS TO HAUL" ) ) {}
 
 void inventory_haul_selector::apply_selection( std::vector<item_location> &items )
 {
@@ -3777,6 +3779,23 @@ void inventory_haul_selector::apply_selection( std::vector<item_location> &items
             set_chosen_count( *entry, entry->chosen_count + 1 );
         }
     }
+}
+
+bool haul_selector_preset::is_shown( const item_location &item ) const
+{
+    if( item.where() == item_location::type::container ) {
+        return false;
+    }
+
+    return true;
+}
+
+std::string haul_selector_preset::get_denial( const item_location &item ) const
+{
+    if( item.where() == item_location::type::container ) {
+        return _( "Cannot haul contents of containers" );
+    }
+    return "";
 }
 
 drop_locations inventory_drop_selector::execute()

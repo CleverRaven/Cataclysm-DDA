@@ -982,6 +982,13 @@ class inventory_haul_selector : public inventory_multiselector
         void apply_selection( std::vector<item_location> &items );
 };
 
+class haul_selector_preset : public inventory_selector_preset
+{
+    public:
+        bool is_shown( const item_location &item ) const override;
+        std::string get_denial( const item_location &item ) const override;
+};
+
 class inventory_compare_selector : public inventory_multiselector
 {
     public:
