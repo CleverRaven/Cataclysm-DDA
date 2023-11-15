@@ -8692,6 +8692,9 @@ void Character::start_autohaul()
 void Character::stop_autohaul()
 {
     autohaul = false;
+    if( haul_list.empty() ) {
+        stop_hauling();
+    }
 }
 
 bool Character::is_autohauling() const
