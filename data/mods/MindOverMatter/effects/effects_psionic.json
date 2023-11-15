@@ -850,7 +850,7 @@
   },
   {
     "type": "effect_type",
-    "id": "photokinetic_blinding_glare",
+    "id": "effect_photokin_blinding_glare",
     "name": [ "Blinding Radiance" ],
     "desc": [ "You are glowing like the sun." ],
     "apply_message": "",

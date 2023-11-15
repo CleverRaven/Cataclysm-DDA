@@ -468,6 +468,7 @@
             "math": [ "u_val('spell_exp', 'spell: photokinetic_blinding_glare')", "+=", "(contemplation_factor(1))" ]
           },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {

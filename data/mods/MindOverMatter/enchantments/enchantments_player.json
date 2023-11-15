@@ -74,18 +74,23 @@
     "type": "SPELL",
     "name": "Photokinetic Blinding Radiance burst",
     "description": "Blind nearby targets.",
-    "flags": [ "RANDOM_DURATION" ],
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "shape": "blast",
     "effect": "attack",
     "effect_str": "blind",
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.5) + 10) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
       ]
     },
     "max_aoe": 40,
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
+    },
     "min_duration": 500,
     "max_duration": 2000
   },
