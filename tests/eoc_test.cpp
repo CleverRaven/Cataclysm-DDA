@@ -1132,8 +1132,8 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
 
     CHECK( effect_on_condition_EOC_map_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "10" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "14" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )
