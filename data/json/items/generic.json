@@ -691,7 +691,7 @@
     "price": 200000,
     "price_postapoc": 1000,
     "material": [ "stone" ],
-    "weight": "907 g",
+    "weight": "700 g",
     "volume": "250 ml",
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -1857,9 +1857,9 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "weight": "30 g",
+    "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
-    "volume": "20 ml",
+    "volume": "18 ml",
     "to_hit": -1
   },
   {
@@ -1981,7 +1981,7 @@
     "price": 6000,
     "price_postapoc": 50,
     "material": [ "glass" ],
-    "weight": "15 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -2135,7 +2135,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "weight": "21000 g",
+    "weight": "2100 g",
     "volume": "2 L",
     "to_hit": 1,
     "melee_damage": { "bash": 4 }
