@@ -48,7 +48,8 @@
         "9": "t_linoleum_white",
         "t": "t_linoleum_white"
       },
-      "furniture": { "!": "f_region_flower" }
+      "furniture": { "!": "f_region_flower" },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 7, "y": 1, "chance": 80, "status": 0 } ]
     }
   },
   {

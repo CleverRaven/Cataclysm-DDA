@@ -114,7 +114,8 @@
       "items": { "֎": { "item": "liquor_and_spirits", "chance": 30 } },
       "place_vehicles": [
         { "vehicle": "suburban_home", "x": 12, "y": 7, "chance": 20, "status": 80, "rotation": 90 },
-        { "vehicle": "suv_electric", "x": 6, "y": 8, "chance": 20, "status": 80, "rotation": 90 }
+        { "vehicle": "suv_electric", "x": 6, "y": 8, "chance": 20, "status": 80, "rotation": 90 },
+        { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 }
       ]
     }
   },
