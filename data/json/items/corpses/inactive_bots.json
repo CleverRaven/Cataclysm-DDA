@@ -179,32 +179,6 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "id": "bot_mininuke_hack",
-    "type": "TOOL",
-    "name": { "str": "inactive mininuke hack" },
-    "description": "An inactive mininuke hack.  Many times as large as a normal manhack, a mininuke hack contains a mininuke and attacks by flying at its target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "25000 g",
-    "volume": "18750 ml",
-    "price": 2677500,
-    "price_postapoc": 10000,
-    "to_hit": -3,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ",",
-    "color": "magenta",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_mininuke_hack",
-      "friendly_msg": "The mininuke hack floats from your hand and surveys the area!",
-      "hostile_msg": "You misprogram the mininuke hack.  Pray.",
-      "difficulty": 5,
-      "moves": 60,
-      "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
     "id": "bot_rifleturret",
     "type": "TOOL",
     "name": { "str": "inactive autonomous M249 CROWS II", "str_pl": "inactive autonomous M249 CROWS II turrets" },

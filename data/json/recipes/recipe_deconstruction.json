@@ -1099,26 +1099,6 @@
     ]
   },
   {
-    "result": "broken_mininuke_hack",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": "25 m",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module_basic", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "quad_rotors", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_molebot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -3237,33 +3217,6 @@
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "mininuke",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "3 h",
-    "skill_used": "electronics",
-    "difficulty": 8,
-    "skills_required": [ [ "fabrication", 4 ], [ "mechanics", 6 ] ],
-    "using": [ [ "soldering_standard", 150 ], [ "welding_standard", 6 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "SAW_M_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "cable", 12 ] ],
-      [ [ "chem_rdx", 20 ] ],
-      [ [ "circuit", 6 ] ],
-      [ [ "plutonium", 6 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "scrap", 200 ] ],
-      [ [ "plut_cell", 1 ] ]
-    ]
   },
   {
     "result": "months_old_newspaper",
