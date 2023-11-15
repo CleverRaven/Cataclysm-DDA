@@ -1589,34 +1589,26 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-static bool wants_to_reload( const npc &npc, const item &container, const item_location &reloadable )
-{
-    if( !npc.can_reload( container ) ) {
+static bool wants_to_reload( const npc &npc, const item &candidate )
+{	
+    if( !candidate.is_reloadable() ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.", name, candidate->tname() );
+        return false;
+    }
+	
+    if( !npc.can_reload( candidate ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s doesn't think they can reload %s.", name, candidate->tname() );
         return false;
     }
 
-    const int required = container.ammo_required();
+    const int required = candidate.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
-    if( required < 1 && !container.is_magazine() ) {
+    if( required < 1 && !candidate.is_magazine() ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s couldn't find requirements to reload %s.", name, candidate->tname() );
         return false;
     }
-
-    const int remaining = container.ammo_remaining();
-    // return early just in case there is no ammo
-    if( remaining < required ) {
-        return true;
-    }
-
-    if( !container.ammo_data() ) {
-		std::vector<item::reload_option> ammo_list;
-        npc.list_ammo( reloadable, ammo_list, false );
-		if( !ammo_list.empty() ) {
-			reload( reloadable, false, false );
-            return false;
-        }
-    }
-
-    return remaining < container.ammo_capacity( container.ammo_data()->ammo->type );
+	add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s might try reloading %s.", name, candidate->tname() );
+    return true;
 }
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
@@ -1638,6 +1630,7 @@ item_location npc::find_reloadable()
 {
     auto cached_value = cached_info.find( "reloadables" );
     if( cached_value != cached_info.end() ) {
+		add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s found %s in cached reloadables!", name, item_location()->tname() );
         return item_location();
     }
     // Check wielded gun, non-wielded guns, mags and tools
@@ -1648,8 +1641,7 @@ item_location npc::find_reloadable()
     // TODO: Make it understand smaller and bigger magazines
     item_location reloadable;
     visit_items( [this, &reloadable]( item * node, item * parent ) {
-        if( !wants_to_reload( *this, *node, &reloadable ) ) {
-            add_msg_debug( debugmode::DF_NPC, "%s doesn't want to reload %s", name, node.getitem()->tname() );
+        if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
 
@@ -1658,7 +1650,7 @@ item_location npc::find_reloadable()
         const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node_loc;
-            add_msg_debug( debugmode::DF_NPC, "%s identified a reloadable %s", name, node.getitem()->tname() );
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s has decided to reload %s!", name, node->tname() );
             return VisitResponse::ABORT;
         }
 
@@ -1970,14 +1962,13 @@ npc_action npc::address_needs( float danger )
         return npc_reload;
     }
 
-    item_location reloadable = find_reloadable();
-    if( reloadable ) {
-        do_reload( reloadable );
-        debugmsg( "%s is trying to do a reload on a reloadable", name );
-        return npc_noop;
-    }
-    if( !reloadable ) {
-        debugmsg( "%s tried to find a reloadable and couldn't", name );
+    if( one_in( 3 ) {
+		add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s decided to look into reloading items.", name );
+		item_location reloadable = find_reloadable();
+        if( reloadable ) {
+            do_reload( reloadable );
+            return npc_noop;
+		}
     }
 
     // Extreme thirst or hunger, bypass safety check.
