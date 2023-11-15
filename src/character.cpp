@@ -10727,7 +10727,7 @@ void Character::process_effects()
             checked_health += 50;
         }
         add_msg( _( "Checked health is %s!" ), checked_health );
-        int pinkeye_chance = round( 4 + 96 * log ( checked_health + 1 ) / log ( 401 ) ); 
+        int pinkeye_chance = round( 4 + 96 * log( checked_health + 1 ) / log( 401 ) );
         add_msg( _( "Pinkeye chance is 1 in %s!" ), pinkeye_chance );
         if( one_in( ( pinkeye_chance ) ) ) {
             if( one_in( 2 ) ) {
