@@ -95,7 +95,7 @@
         "max_radius": 0,
         "true_eocs": [ { "id": "EOC_AFS_AUGUSTMOON_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "Port_augustmoon_cargo" } } ] } ]
       },
-      { "u_cast_spell": { "id": "AFS_AUGUSTMOON_NPC_TP_SPELL", "message": "magoc.", "hit_self": true } },
+      { "u_run_npc_eocs": [ "EOC_AFS_TEST_AUGUSTMOON_TP" ] },
       { "u_teleport": { "global_val": "Port_augustmoon" } }
     ]
   },
