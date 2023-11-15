@@ -1256,6 +1256,12 @@ void Character::load( const JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+
+    data.read( "hauling", hauling );
+    data.read( "autohaul", autohaul );
+    data.read( "hauling_filter", hauling_filter );
+    data.read( "haul_list", haul_list );
+
     //load queued_eocs
     for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
         queued_eoc temp;
@@ -1487,6 +1493,12 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    // Hauling state
+    json.member( "hauling", hauling );
+    json.member( "autohaul", autohaul );
+    json.member( "hauling_filter", hauling_filter );
+    json.member( "haul_list", haul_list );
 
     //save queued effect_on_conditions
     queued_eocs temp_queued( queued_effect_on_conditions );
