@@ -2802,7 +2802,10 @@
         ],
         "prob": 100
       },
-      { "collection": [ { "item": "jacket_eod_light" }, { "item": "trousers_eod_light" } ], "prob": 20 }
+      {
+        "collection": [ { "item": "jacket_eod_light" }, { "item": "face_shield_eod" }, { "item": "trousers_eod_light" } ],
+        "prob": 20
+      }
     ]
   },
   {
