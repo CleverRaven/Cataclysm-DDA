@@ -550,7 +550,7 @@
         { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "100" ] }, 
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "100" ] },
             { "math": [ "_success", "==", "false" ] }
           ] 
         },
