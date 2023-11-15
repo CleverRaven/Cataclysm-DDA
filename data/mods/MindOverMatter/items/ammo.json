@@ -29,7 +29,7 @@
     "range": 40,
     "dispersion": 0,
     "recoil": 0,
-    "damage": { "damage_type": "heat", "amount": 55, "armor_penetration": 5 }
+    "damage": { "damage_type": "psi_photokinetic_damage", "amount": 55, "armor_penetration": 4 }
   },
   {
     "type": "AMMO",
