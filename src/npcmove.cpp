@@ -1589,25 +1589,29 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-static bool wants_to_reload( const npc &npc, const item &candidate )
-{	
+static bool wants_to_reload( const npc &guy, const item &candidate )
+{
     if( !candidate.is_reloadable() ) {
-        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.", name, candidate->tname() );
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.",
+                       guy.name, candidate.tname() );
         return false;
     }
-	
-    if( !npc.can_reload( candidate ) ) {
-        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s doesn't think they can reload %s.", name, candidate->tname() );
+
+    if( !guy.can_reload( candidate ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s doesn't think they can reload %s.", guy.name,
+                       candidate.tname() );
         return false;
     }
 
     const int required = candidate.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
     if( required < 1 && !candidate.is_magazine() ) {
-        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s couldn't find requirements to reload %s.", name, candidate->tname() );
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s couldn't find requirements to reload %s.", guy.name,
+                       candidate.tname() );
         return false;
     }
-	add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s might try reloading %s.", name, candidate->tname() );
+    add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s might try reloading %s.", guy.name,
+                   candidate.tname() );
     return true;
 }
 
@@ -1630,7 +1634,8 @@ item_location npc::find_reloadable()
 {
     auto cached_value = cached_info.find( "reloadables" );
     if( cached_value != cached_info.end() ) {
-		add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s found %s in cached reloadables!", name, item_location()->tname() );
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s found %s in cached reloadables!", name,
+                       item_location()->tname() );
         return item_location();
     }
     // Check wielded gun, non-wielded guns, mags and tools
@@ -1962,13 +1967,13 @@ npc_action npc::address_needs( float danger )
         return npc_reload;
     }
 
-    if( one_in( 3 ) {
-		add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s decided to look into reloading items.", name );
-		item_location reloadable = find_reloadable();
+    if( one_in( 3 ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s decided to look into reloading items.", name );
+        item_location reloadable = find_reloadable();
         if( reloadable ) {
             do_reload( reloadable );
             return npc_noop;
-		}
+        }
     }
 
     // Extreme thirst or hunger, bypass safety check.
