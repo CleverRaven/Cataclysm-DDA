@@ -60,6 +60,7 @@
 class gun_mode;
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -79,7 +80,12 @@ static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const trait_id trait_AQUEOUS( "AQUEOUS" );
+static const trait_id trait_CLUMSY( "CLUMSY" );
+static const trait_id trait_DEFT( "DEFT" );
+static const trait_id trait_GASTROPOD_BALANCE( "GASTROPOD_BALANCE" );
 static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );

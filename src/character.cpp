@@ -256,6 +256,10 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_pre_conjunctivitis_viral( "pre_conjunctivitis_viral" );
+static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
+static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
+static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_ridden( "ridden" );
@@ -309,7 +313,7 @@ static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARIN
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_INFRARED( "INFRARED" );
 static const json_character_flag json_flag_INSECTBLOOD( "INSECTBLOOD" );
-static const json_character_flag json_flag_INVERTERBRATEBLOOD( "INVERTERBRATEBLOOD" );
+static const json_character_flag json_flag_INVERTEBRATEBLOOD( "INVERTEBRATEBLOOD" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
@@ -431,6 +435,7 @@ static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -747,7 +752,7 @@ field_type_id Character::bloodType() const
     if( has_flag( json_flag_INSECTBLOOD ) ) {
         return fd_blood_insect;
     }
-    if( has_flag( json_flag_INVERTERBRATEBLOOD ) ) {
+    if( has_flag( json_flag_INVERTEBRATEBLOOD ) ) {
         return fd_blood_invertebrate;
     }
     return fd_blood;
@@ -7982,14 +7987,19 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
 
     map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( pos() );
+    const field &fields = get_map().field_at( pos() );
+    bool slippery = false;
+    for( const auto &field : fields ) {
+        slippery = field.first.obj().slippery;
+    }
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
-    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
+    if( ( ( slippery && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) || worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
             rolls += 2;
         }
-        if( has_trait( trait_PROF_SKATER ) ) {
+        if( !slippery || has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
         if( has_trait( trait_DEFT ) ) {
@@ -10704,6 +10714,30 @@ void Character::process_effects()
         remove_effect( effect.eff_id, effect.bp );
 
         terminating_effects.pop();
+    }
+
+    if ( has_effect( effect_boomered ) && one_in( 30 ) && !has_effect( effect_pre_conjunctivitis_bacterial ) && !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) && !has_effect( effect_conjunctivitis_viral ) && !has_trait_flag( json_flag_INFECTION_IMMUNE ) ) {
+        //Washing your eyes out in time may save you from getting pinkeye.
+        float checked_health = get_lifestyle() + 200.0;
+        //Some animal eyes are more vulnerable to infection.
+        if ( has_trait_flag( json_flag_EYE_MEMBRANE ) ) {
+            checked_health -= 50;
+        }
+        if ( has_trait( trait_INFRESIST ) ) {
+            checked_health += 50;
+        }
+        add_msg( _( "Checked health is %s!" ), checked_health );
+        int pinkeye_chance = round( 4 + 96 * log ( checked_health + 1 ) / log ( 401 ) ); 
+        add_msg( _( "Pinkeye chance is 1 in %s!" ), pinkeye_chance );
+            if( one_in( ( pinkeye_chance ) ) ) {
+                if( one_in( 2 ) ) {
+                add_msg( _( "Got bacterial pinkeye with a probability of 1 in %s!" ), pinkeye_chance );
+                add_effect( effect_pre_conjunctivitis_bacterial, 70_hours );
+                } else {
+                    add_msg( _( "Got viral pinkeye with a resistance probability of 1 in %s!" ), pinkeye_chance );
+                    add_effect( effect_pre_conjunctivitis_viral, 70_hours );
+                }
+            }
     }
 
     Creature::process_effects();

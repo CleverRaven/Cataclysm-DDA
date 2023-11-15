@@ -24,6 +24,7 @@
     "is_splattering": true,
     "half_life": "1 days",
     "phase": "liquid",
+    "slippery": true,
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_acid"
@@ -186,6 +187,7 @@
     "is_splattering": true,
     "half_life": "1 days",
     "phase": "liquid",
+    "slippery": true,
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_veggy"

@@ -205,6 +205,7 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+        bool slippery = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
         map_bash_info bash_info;
 

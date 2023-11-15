@@ -134,6 +134,8 @@ static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
+static const efftype_id effect_pre_conjunctivitis_viral( "pre_conjunctivitis_viral" );
 static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_shrieking( "shrieking" );
