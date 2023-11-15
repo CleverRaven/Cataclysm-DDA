@@ -10733,10 +10733,9 @@ void Character::process_effects()
                 if( one_in( 2 ) ) {
                 add_msg( _( "Got bacterial pinkeye with a probability of 1 in %s!" ), pinkeye_chance );
                 add_effect( effect_pre_conjunctivitis_bacterial, 70_hours );
-                } else {
-                    add_msg( _( "Got viral pinkeye with a resistance probability of 1 in %s!" ), pinkeye_chance );
-                    add_effect( effect_pre_conjunctivitis_viral, 70_hours );
-                }
+            } else {
+                add_msg( _( "Got viral pinkeye with a resistance probability of 1 in %s!" ), pinkeye_chance );
+                add_effect( effect_pre_conjunctivitis_viral, 70_hours );
             }
         }
     }
