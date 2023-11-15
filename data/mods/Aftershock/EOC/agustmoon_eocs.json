@@ -1,5 +1,16 @@
 [
   {
+    "id": "MISSION_REACH_AUGUSTMOON_SHUTTLE",
+    "type": "mission_definition",
+    "name": { "str": "Reach the Port Augustmoon shuttle" },
+    "goal": "MGOAL_GO_TO",
+    "description": "Your shuttle has landed nearby.  It will wait for up to 3 hours before returning to port, you might what to reach it before then.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "landing_site" } } }
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_AFS_FIND_PORT_AUGUSTMOON",
     "eoc_type": "EVENT",
@@ -23,8 +34,55 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_CALL_AUGUSTMOON_SHUTTLE",
+    "condition": { "math": [ "augustmoon_shuttle_inprogress", "!=", "1" ] },
+    "effect": [
+      { "u_consume_item": "afs_shuttle_radiobeacon", "count": 1 },
+      { "u_message": "Order Received: Shuttle inbound to your location.", "popup": true },
+      { "queue_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "30 minutes" },
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "1" ] }
+    ],
+    "false_effect": [ { "u_message": "WARNING: Cannot schedule landing, shuttle already inbound.", "popup": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE",
+    "condition": "u_is_outside",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "landing_site" },
+        "target_params": {
+          "om_terrain": "afs_landed_shuttle",
+          "om_terrain_replace": "field",
+          "z": 0,
+          "random": true,
+          "min_distance": 4,
+          "search_range": 10
+        }
+      },
+      { "u_message": "You see the engine plume of a landing drone shuttle close by." },
+      { "assign_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
+      { "mapgen_update": "augustmoon_shuttle_ground", "target_var": { "global_val": "landing_site" } },
+      { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "4 hours" }
+    ],
+    "false_effect": [ { "queue_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "10 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL",
+    "condition": { "not": { "u_near_om_location": "afs_landed_shuttle", "range": 4 } },
+    "effect": [
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "remove_active_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
+      { "mapgen_update": "augustmoon_shuttle_ground_left", "target_var": { "global_val": "landing_site" } }
+    ],
+    "false_effect": [ { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "10 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP",
     "effect": [
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
       {
         "u_location_variable": { "context_val": "crate_loc" },
         "terrain": "t_intermodal_crate_scripted_source",
@@ -37,7 +95,8 @@
         "max_radius": 0,
         "true_eocs": [ { "id": "EOC_AFS_AUGUSTMOON_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "Port_augustmoon_cargo" } } ] } ]
       },
-      { "u_cast_spell": { "id": "AFS_AUGUSTMOON_NPC_TP_SPELL", "hit_self": true } }
+      { "u_cast_spell": { "id": "AFS_AUGUSTMOON_NPC_TP_SPELL", "message": "magoc.", "hit_self": true } },
+      { "u_teleport": { "global_val": "Port_augustmoon" } }
     ]
   },
   {
@@ -50,8 +109,8 @@
     "type": "SPELL",
     "name": "Augustmoon NPC TP Spell",
     "description": "Sends an NPCs to Port Augustmoon",
-    "valid_targets": [ "ally", "self" ],
-    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "valid_targets": [ "ally" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "IGNORE_WALLS", "NO_PROJECTILE" ],
     "shape": "blast",
     "min_aoe": 15,
     "max_aoe": 15,

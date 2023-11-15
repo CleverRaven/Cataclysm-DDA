@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "afs_shuttle_beacon",
+    "name": "signaling payload",
+    "default": "afs_shuttle_beacon"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_25mm_smart",
     "name": "25mm microjet",
     "default": "afs_25mm_smart"
