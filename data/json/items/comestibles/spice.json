@@ -179,7 +179,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mustard powder" },
     "description": "A fragrant yellow powder.  Not edible in this form.",
-    "color": "red"
+    "color": "yellow"
   },
   {
     "id": "artificial_sweetener",

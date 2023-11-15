@@ -370,7 +370,7 @@
     "id": "mon_cat",
     "type": "MONSTER",
     "name": { "str": "shorthair cat" },
-    "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
+    "description": "In the absence of human stewardship, this small, domesticated predator has grown wary of humans.  Harried by the elements and the rigors of survival, it has become very skittish but is still motivated by food.",
     "default_faction": "cat",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
