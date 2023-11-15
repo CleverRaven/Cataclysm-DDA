@@ -2817,7 +2817,9 @@
     "type": "effect_type",
     "id": "conjunctivitis_viral",
     "name": [ "Conjunctivitis" ],
-    "desc": [ "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis." ],
+    "desc": [
+      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
+    ],
     "apply_memorial_log": "Got pinkeye.",
     "remove_memorial_log": "Got over a pinkeye infection.",
     "apply_message": "Your eye leaks a filmy discharge.",
