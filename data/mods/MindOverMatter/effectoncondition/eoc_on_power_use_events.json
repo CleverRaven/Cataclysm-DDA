@@ -646,7 +646,7 @@
           "or": [
             { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "100" ] },
             { "math": [ "_success", "==", "false" ] }
-          ] 
+          ]
         },
         {
           "x_in_y_chance": {
