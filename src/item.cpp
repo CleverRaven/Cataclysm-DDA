@@ -5434,9 +5434,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.emplace_back( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) );
+            info.emplace_back( "BASE",
+                               _( "You don't know enough about fighting to know how effectively you could use this." ) );
         }
-        info.emplace_back( "BASE",
-                           _( "You don't know enough about fighting to know how effectively you could use this." ) );
     }
 }
 
