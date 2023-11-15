@@ -19,11 +19,15 @@
     "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 5000)" ] },
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 10000)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
     },
     "max_range": 40,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
     "max_aoe": 50,
     "energy_source": "STAMINA",
@@ -95,7 +99,9 @@
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+      ]
     },
     "max_range": 30,
     "energy_source": "STAMINA",
@@ -134,9 +140,11 @@
     "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 5000)" ] },
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+      ]
     },
-    "max_range": 20,
+    "max_range": 30,
     "min_aoe": 3,
     "max_aoe": 3,
     "energy_source": "STAMINA",
@@ -281,11 +289,15 @@
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
     "max_range": 50,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+      ]
     },
     "max_aoe": 30,
     "energy_source": "STAMINA",
@@ -315,8 +327,10 @@
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "shape": "blast",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [
         "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )"
@@ -330,13 +344,11 @@
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_range": 50,
     "energy_source": "STAMINA",
-    "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 7000,
     "final_energy_cost": 3000,
     "energy_increment": -150,

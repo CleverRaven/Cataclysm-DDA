@@ -2198,7 +2198,7 @@ ret_val<item *> item_pocket::insert_item( const item &it,
         inserted = &contents.back();
     }
     if( restack_charges ) {
-        restack( inserted );
+        inserted = restack( inserted );
     }
     return ret_val<item *>::make_success( inserted );
 }
