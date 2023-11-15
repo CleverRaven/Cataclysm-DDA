@@ -57,7 +57,7 @@
     "id": "choke_wideshot",
     "type": "GUNMOD",
     "name": { "str": "wide-shot shotgun choke" },
-    "description": "A choke that makes the pellets spread out wide to hit multiple enemies. The pellets will have shorter range but somehow deals higher damage.",
+    "description": "A choke that makes the pellets spread out wide to hit multiple enemies.  The pellets will have shorter range but somehow deals higher damage.",
     "weight": "300 g",
     "volume": "150 ml",
     "longest_side": "4 cm",
