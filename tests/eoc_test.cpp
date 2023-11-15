@@ -1070,6 +1070,15 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
            "character_ranged_attacks_monster" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
     CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+
+    // character_kills_monster
+    clear_map();
+    monster &victim = spawn_test_monster( "mon_zombie", target_pos );
+    victim.die( &get_avatar() );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_kills_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+    CHECK( globvars.get_global_value( "npctalk_var_test_exp" ) == "4" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )

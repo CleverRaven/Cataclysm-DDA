@@ -20,10 +20,10 @@ TEST_CASE( "construct_event", "[event]" )
     CHECK( e.time() == calendar::turn );
     CHECK( e.get<cata_variant_type::character_id>( "killer" ) == character_id( 7 ) );
     CHECK( e.get<cata_variant_type::mtype_id>( "victim_type" ) == zombie );
-    CHECK( e.get<cata_variant_type::int_>( "xp" ) == 100 );
+    CHECK( e.get<cata_variant_type::int_>( "exp" ) == 100 );
     CHECK( e.get<character_id>( "killer" ) == character_id( 7 ) );
     CHECK( e.get<mtype_id>( "victim_type" ) == zombie );
-    CHECK( e.get<int>( "xp" ) == 100 );
+    CHECK( e.get<int>( "exp" ) == 100 );
 }
 
 struct test_subscriber : public event_subscriber {

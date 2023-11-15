@@ -1057,7 +1057,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_gets_headshot |  | { "character", `character_id` } | character / NONE |
 | character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
-| character_kills_monster |  | { "killer", `character_id` },<br/> { "victim_type", `mtype_id` }, | character / NONE |
+| character_kills_monster |  | { "killer", `character_id` },<br/> { "victim_type", `mtype_id` },<br/> { "exp", `int` }, | character / monster |
 | character_learns_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
 | character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
 | character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
