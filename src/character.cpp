@@ -10738,6 +10738,7 @@ void Character::process_effects()
                     add_effect( effect_pre_conjunctivitis_viral, 70_hours );
                 }
             }
+        }
     }
 
     Creature::process_effects();
