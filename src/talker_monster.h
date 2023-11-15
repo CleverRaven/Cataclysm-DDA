@@ -32,6 +32,7 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
 
         // identity and location
         std::string disp_name() const override;
+        std::string get_name() const override;
 
         int posx() const override;
         int posy() const override;
@@ -62,6 +63,7 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
         std::vector<std::string> get_topics( bool radio_contact ) override;
         int get_cur_hp( const bodypart_id & ) const override;
         int get_hp_max( const bodypart_id & ) const override;
+        double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
 
         int get_volume() const override;
         int get_weight() const override;
