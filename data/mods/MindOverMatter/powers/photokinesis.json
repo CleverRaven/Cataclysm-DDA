@@ -117,7 +117,12 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_image": 5, "photokinetic_light_flash": 12, "photokinetic_light_disintegrate": 15 }
+    "learn_spells": {
+      "photokinetic_light_image": 5,
+      "photokinetic_light_flash": 12,
+      "photokinetic_blinding_glare": 15,
+      "photokinetic_light_disintegrate": 18
+    }
   },
   {
     "id": "photokinetic_light_image",
@@ -141,10 +146,10 @@
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000)" ] },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
       ]
     },
-    "max_range": 30,
+    "max_range": 40,
     "min_aoe": 3,
     "max_aoe": 3,
     "energy_source": "STAMINA",
@@ -276,6 +281,8 @@
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "line",
@@ -296,24 +303,58 @@
     "max_range": 50,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 20)"
       ]
     },
-    "max_aoe": 30,
-    "energy_source": "STAMINA",
-    "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_aoe": 20,
     "field_id": "fd_laser",
     "min_field_intensity": 2,
     "max_field_intensity": 3,
     "field_chance": 1,
+    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1500,
     "energy_increment": -125,
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_arms": 5, "photokinetic_light_disintegrate": 7 }
+    "learn_spells": { "photokinetic_light_arms": 5, "photokinetic_blinding_glare": 7, "photokinetic_light_disintegrate": 11 }
+  },
+  {
+    "id": "photokinetic_blinding_glare",
+    "type": "SPELL",
+    "name": "[Ψ]Blinding Radiance",
+    "description": "You can emit so much light that anyone trying to attack you risks being blinded.",
+    "message": "You begin glowing as brightly as the sun!",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_photokin_blinding_glare",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6500,
+    "final_energy_cost": 2500,
+    "energy_increment": -125,
+    "base_casting_time": 125,
+    "final_casting_time": 150,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "photokinetic_light_disintegrate": 7 }
   },
   {
     "id": "photokinetic_light_disintegrate",
@@ -326,11 +367,11 @@
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
     "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
-    "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [
         "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )"

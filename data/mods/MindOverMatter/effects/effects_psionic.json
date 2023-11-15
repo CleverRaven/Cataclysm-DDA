@@ -850,6 +850,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_blinding_glare",
+    "name": [ "Blinding Radiance" ],
+    "desc": [ "You are glowing like the sun." ],
+    "apply_message": "",
+    "remove_message": "The last light finally dies.",
+    "decay_messages": [ [ "The light you are emitting is dimming rapidly.", "bad" ], [ "The intense glow has started to flicker.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 10,
+    "int_dur_factor": "20 s",
+    "base_mods": { "dodge_mod": [ 4 ] },
+    "enchantments": [ "enchant_photokin_blinding_glare" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
