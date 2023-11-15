@@ -1589,29 +1589,34 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-static bool wants_to_reload( const npc &who, const item &it )
+static bool wants_to_reload( const npc &npc, const item &container, const item_location &reloadable )
 {
-    if( !who.can_reload( it ) ) {
+    if( !npc.can_reload( container ) ) {
         return false;
     }
 
-    const int required = it.ammo_required();
+    const int required = container.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
-    if( required < 1 && !it.is_magazine() ) {
+    if( required < 1 && !container.is_magazine() ) {
         return false;
     }
 
-    const int remaining = it.ammo_remaining();
+    const int remaining = container.ammo_remaining();
     // return early just in case there is no ammo
     if( remaining < required ) {
         return true;
     }
 
-    if( !it.ammo_data() || !it.ammo_data()->ammo ) {
-        return false;
+    if( !container.ammo_data() ) {
+		std::vector<item::reload_option> ammo_list;
+        npc.list_ammo( reloadable, ammo_list, false );
+		if( !ammo_list.empty() ) {
+			reload( reloadable, false, false );
+            return false;
+        }
     }
 
-    return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
+    return remaining < container.ammo_capacity( container.ammo_data()->ammo->type );
 }
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
@@ -1643,7 +1648,7 @@ item_location npc::find_reloadable()
     // TODO: Make it understand smaller and bigger magazines
     item_location reloadable;
     visit_items( [this, &reloadable]( item * node, item * parent ) {
-        if( !wants_to_reload( *this, *node ) ) {
+        if( !wants_to_reload( *this, *node, &reloadable ) ) {
             add_msg_debug( debugmode::DF_NPC, "%s doesn't want to reload %s", name, node.getitem()->tname() );
             return VisitResponse::NEXT;
         }
