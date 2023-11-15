@@ -3764,6 +3764,21 @@ void inventory_multiselector::on_input( const inventory_input &input )
     }
 }
 
+inventory_haul_selector::inventory_haul_selector( Character &p ) :
+    inventory_multiselector( p, default_preset, _( "ITEMS TO HAUL" ) ) {}
+
+void inventory_haul_selector::apply_selection( std::vector<item_location> &items )
+{
+    for( item_location &item : items ) {
+        inventory_entry *entry = find_entry_by_location( item );
+        if( entry->locations.size() == 1 && entry->locations[0]->count_by_charges() ) {
+            set_chosen_count( *entry, inventory_multiselector::max_chosen_count );
+        } else {
+            set_chosen_count( *entry, entry->chosen_count + 1 );
+        }
+    }
+}
+
 drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();

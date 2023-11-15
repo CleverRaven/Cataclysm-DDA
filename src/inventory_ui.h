@@ -975,6 +975,13 @@ class inventory_multiselector : public inventory_selector
         GetStats get_stats;
 };
 
+class inventory_haul_selector : public inventory_multiselector
+{
+    public:
+        explicit inventory_haul_selector( Character &p );
+        void apply_selection( std::vector<item_location> &items );
+};
+
 class inventory_compare_selector : public inventory_multiselector
 {
     public:

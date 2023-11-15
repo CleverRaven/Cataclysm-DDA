@@ -794,10 +794,22 @@ static void haul()
         case 1:
             player_character.start_hauling( haulable_items );
             break;
-        case 2:
-            //TODO: Query player to trim haulable_items
-            player_character.start_hauling( haulable_items );
-            break;
+        case 2: {
+            inventory_haul_selector selector( player_character );
+            selector.add_map_items( player_character.pos() );
+            selector.apply_selection( player_character.haul_list );
+            selector.set_title( _( "Select items to haul" ) );
+            selector.set_hint( _( "To select x items, type a number before selecting." ) );
+            drop_locations result = selector.execute();
+            haulable_items.clear();
+            for( const drop_location &dl : result ) {
+                haulable_items.push_back( dl.first );
+            }
+            if( !haulable_items.empty() ) {
+                player_character.start_hauling( haulable_items );
+            }
+        }
+        break;
         case 3:
             autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
             break;
