@@ -312,7 +312,7 @@
     "id": "photokinetic_blinding_glare",
     "type": "SPELL",
     "name": "[Ψ]Blinding Radiance",
-    "description": "Emit so much light that anyone trying to attack you risks being blinded.",
+    "description": "You can emit so much light that anyone trying to attack you risks being blinded.",
     "message": "You begin glowing as brightly as the sun!",
     "teachable": false,
     "valid_targets": [ "self" ],
