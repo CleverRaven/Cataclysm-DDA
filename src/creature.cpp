@@ -168,7 +168,12 @@ Creature::Creature( Creature && ) noexcept( map_is_noexcept &&list_is_noexcept )
 Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
-Creature::~Creature() = default;
+Creature::~Creature()
+{
+    if( g ) {
+        get_map().remove_creature_from_reachability( this );
+    }
+}
 
 tripoint Creature::pos() const
 {
