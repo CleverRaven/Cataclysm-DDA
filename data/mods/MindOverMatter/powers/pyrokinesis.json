@@ -23,7 +23,9 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 26) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) ), 5)"
+      ]
     },
     "max_range": 5,
     "field_id": "fd_fire",
@@ -68,15 +70,17 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 1.5) + 3 ) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flash') * 1.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
-    "max_range": 75,
+    "max_range": 50,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flash') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ), 8)"
+      ]
     },
-    "max_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 0.25) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
+    "max_aoe": 8,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 150) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -135,11 +139,15 @@
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
     "max_range": 70,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
     "max_aoe": 50,
     "energy_source": "STAMINA",
@@ -210,14 +218,17 @@
       ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 0.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 0.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 20)"
+      ]
     },
     "max_range": 20,
-    "range_increment": 0.2,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) ), 145)"
+      ]
     },
-    "max_aoe": 180,
+    "max_aoe": 145,
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
@@ -502,13 +513,17 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_blast') * 5) + 115) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_blast') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_blast') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
     "max_range": 80,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_blast') * 0.4) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_blast') * 0.4) + 2) * (scaling_factor(u_val('intelligence') ) ), 25)"
+      ]
     },
-    "max_aoe": 20,
+    "max_aoe": 25,
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
@@ -552,9 +567,11 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 8) + 120) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
     },
-    "max_aoe": 30,
+    "max_aoe": 35,
     "field_id": "fd_fire",
     "min_field_intensity": 2,
     "max_field_intensity": 2,
