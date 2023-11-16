@@ -770,12 +770,11 @@ void npc::assess_danger()
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s semi-randomly adjusted ally strength to %i.", 
             name, static_cast<int>( my_diff ) );
         if( my_diff < assessment ) {
-            time_duration run_away_for = std::max( 1_turns, 5_turns - 1_turns * personality.bravery
-                                         + 1_turns * ( static_cast<int>( get_pain() / 5 ) + mem_combat.panic );
+            time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
             // Each time NPC decides to run away, their panic increases, which increases likelihood
             // and duration of running away.
             // if they run to a more advantageous position, they'll reassess and rally.
-            mem_combat.panic += rng ( 1, 3 );
+            mem_combat.panic += std::min( rng ( 1, 3 ) + static_cast<int>( get_pain() / 5 ) - personality.bravery, 1 );
             if( my_diff * 5 < assessment ){
                 // Things are looking more than a little grim, NPC should remember to keep running even
                 // if the worst baddy goes out of LOS.
