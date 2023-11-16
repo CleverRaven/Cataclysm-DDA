@@ -256,12 +256,12 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
-struct npc_logic_token {
+struct npc_combat_logic {
     int panic; // Tracks how many times NPC has had to try to run
     int hostile_count; // for tallying nearby threatening enemies
     int swarm_count; // for tallying swarming enemies if you're using a ranged weapon
     int friendly_count; // for counting how many allies are nearby
-    npc_logic_token_reset() {
+    npc_combat_logic_reset() {
         panic = 0;
         hostile_count = 0;
         swarm_count = 0;
@@ -1364,6 +1364,7 @@ class npc : public Character
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
+        npc_logic_combat remember_combat;
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
