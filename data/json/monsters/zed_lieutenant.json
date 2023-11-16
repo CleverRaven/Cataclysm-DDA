@@ -315,7 +315,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
-    "recurrence": 1,
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
     "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],
@@ -325,6 +327,8 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
     "recurrence": [ "3 hours", "6 hours" ],
+    "global": true,
+    "run_for_npcs": false,
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
     "condition": {
       "and": [
@@ -373,7 +377,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
-    "recurrence": 1,
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
     "condition": {
       "and": [
@@ -398,7 +404,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_CHECK_POS",
-    "recurrence": 1,
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
     "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
     "effect": [
       {
