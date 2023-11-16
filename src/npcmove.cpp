@@ -650,6 +650,14 @@ void npc::assess_danger()
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
+        if( dist < 8 && foe_threat > bravery_vs_pain ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.", name, bogey );
+            mem_combat.hostile_count += 1;
+        }
+        if( dist < 4 && npc_ranged ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.", name, bogey );
+            mem_combat.swarm_count += 1;
+        }
 
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
@@ -695,6 +703,10 @@ void npc::assess_danger()
             continue;
         }
         float guy_threat = evaluate_enemy( *guy.lock() );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assessed friendly %s at threat level %i.",
+                                          name, guy.lock()->name, static_cast<int>( guy_threat );
+        // TODO: pick the strongest friendly guy around and declare them the leader
+        // if you don't have a player character, regroup on them instead of the player
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
