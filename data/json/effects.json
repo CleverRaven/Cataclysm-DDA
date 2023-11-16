@@ -60,6 +60,20 @@
   },
   {
     "type": "effect_type",
+    "id": "critter_well_fed",
+    "name": [ "Well Fed" ],
+    "show_in_info": true,
+    "desc": [ "AI tag for when critter has had enough to eat.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "critter_underfed",
+    "name": [ "Underfed" ],
+    "show_in_info": true,
+    "desc": [ "AI tag for when critter has not had enough to eat.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
     "show_in_info": true,

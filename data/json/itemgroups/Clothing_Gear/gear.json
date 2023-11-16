@@ -81,6 +81,64 @@
     ]
   },
   {
+    "id": "gear_eod",
+    "type": "item_group",
+    "//": "gear needed for bomb defusal.  Based on ATP 4-32.  Intentionally stripped of more military items for placement in civilian locations.",
+    "subtype": "collection",
+    "items": [
+      { "item": "EOD_hotstick", "prob": 50 },
+      { "item": "multitool", "container-item": "sheath", "prob": 30 },
+      { "item": "light_disposable_cell", "prob": 30, "count": [ 1, 8 ] },
+      { "item": "light_minus_disposable_cell", "prob": 20, "count": [ 1, 6 ] },
+      { "item": "cordless_drill", "prob": 30 },
+      { "item": "rope_30", "prob": 50 },
+      { "item": "pliers", "prob": 50 },
+      { "item": "laptop", "prob": 70 },
+      { "item": "cable", "prob": 40 },
+      { "item": "manual_traps_mil", "prob": 80 },
+      { "group": "gear_eod_light_or_heavy", "prob": 100 }
+    ]
+  },
+  {
+    "id": "gear_eod_light_or_heavy",
+    "type": "item_group",
+    "container-item": "duffelbag",
+    "on_overflow": "spill",
+    "subtype": "distribution",
+    "items": [ { "group": "eod_duffle", "prob": 90 }, { "group": "eod_duffle_light", "prob": 10 } ]
+  },
+  {
+    "id": "eod_duffle",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "trousers_eod", "prob": 100 },
+      { "item": "eod_plate", "container-item": "jacket_eod", "prob": 100 },
+      { "item": "helmet_eod", "prob": 100 },
+      { "item": "foot_protectors_eod", "prob": 80 },
+      { "item": "gloves_eod", "prob": 20 },
+      { "item": "eod_plate", "prob": 5 }
+    ]
+  },
+  {
+    "id": "eod_duffle_light",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "jacket_eod_light", "contents-group": "eod_tactical_plates_set", "prob": 100 },
+      { "item": "trousers_eod_light", "prob": 100 },
+      { "item": "face_shield_eod", "prob": 100 },
+      { "item": "eod_plate", "prob": 5 }
+    ]
+  },
+  {
+    "id": "eod_tactical_plates_set",
+    "type": "item_group",
+    "//": "complete EOD plate set for the tactical EOD jacket",
+    "subtype": "collection",
+    "entries": [ { "item": "eod_plate" }, { "item": "deltoid_plates" } ]
+  },
+  {
     "type": "item_group",
     "id": "fireman_gear",
     "items": [

@@ -1834,38 +1834,64 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "EOD trousers" },
-    "description": "Thick armored trousers constructed from Kevlar and Nomex, for use by explosive ordnance disposal technicians.",
+    "description": "This is a heavy pair of trousers armored in Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians.  While it offers near complete coverage in fragmentation resistant materials, it still offers insufficient protection from ballistic threats.",
     "weight": "6400 g",
-    "volume": "12 L",
-    "price": 200000,
+    "volume": "7 L",
+    "price": 1006000,
     "price_postapoc": 12000,
     "warmth": 65,
-    "material": [ "kevlar_layered", "nomex" ],
+    "material": [ "kevlar", "nomex" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_green",
     "environmental_protection": 2,
     "material_thickness": 15,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 7.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 80
+      }
+    ]
   },
   {
     "id": "trousers_eod_light",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "light EOD trousers" },
-    "description": "Armored trousers constructed from Kevlar and Nomex, for use by explosive ordnance disposal technicians.  They are lighter than normal EOD armor to provide more maneuverability.",
+    "name": { "str_sp": "tactical EOD trousers" },
+    "description": "This is a heavy pair of trousers armored in Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians in 'non-permissive environments'.  While it offers near complete coverage in fragmentation resistant materials, it still offers insufficient protection from ballistic threats.  These trousers are lighter than normal EOD armor to provide more maneuverability.",
     "weight": "3000 g",
-    "volume": "12 L",
-    "price": 200000,
-    "price_postapoc": 12000,
+    "volume": "7 L",
+    "price": 273440,
+    "price_postapoc": 3300,
     "warmth": 40,
-    "material": [ "kevlar_layered", "nomex" ],
+    "material": [ "kevlar", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 7,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "encumbrance": 40,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "armor_lc_light_leg_guard",

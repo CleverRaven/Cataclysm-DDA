@@ -13,6 +13,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "psionics_kcal_cost",
+    "num_args": 1,
+    "return": "( (5 * _0) * rng( 0.3, 1.7) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionics_contemplation_kcal_cost",
+    "num_args": 1,
+    "return": "( (25 * _0) * rng( 0.3, 1.7) )"
+  },
+  {
+    "type": "jmath_function",
     "id": "matrix_awakening_odds",
     "num_args": 1,
     "return": "(100 - (100 * (e ^ (_0 / -1.7) ) ) )"

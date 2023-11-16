@@ -1373,6 +1373,24 @@
     ]
   },
   {
+    "id": "cat_hoarder",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pet_carrier", "prob": 30 },
+      { "item": "petpack", "prob": 15 },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
+      { "prob": 10, "group": "catfood_dry_bag_plastic_18" },
+      { "item": "towel", "prob": 20 },
+      { "item": "soap", "prob": 10 },
+      { "item": "gloves_medical", "prob": 20 },
+      { "item": "cotton_patchwork", "prob": 15 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "missing_poster_cat", "prob": 40 },
+      { "item": "rope_6", "prob": 15 }
+    ]
+  },
+  {
     "id": "untidy_floor_clutter",
     "//": "Items you might find on the floor in a disorganised house.",
     "type": "item_group",
