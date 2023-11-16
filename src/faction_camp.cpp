@@ -5424,7 +5424,7 @@ void basecamp::place_results( const item &result )
             // We've processed the last spot and haven't found anywhere to put it, we'll end up using dumping_spot.
             // Throw a warning to let players know what's going on. Unfortunately we can't back out of finishing the mission this deep in the process.
             if( potential_spot == get_liquid_dumping_spot().back() ) {
-                popup( _( "No eligible locations found to place resulting liquids, placing them at random.  \nEligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile." ) );
+                popup( _( "No eligible locations found to place resulting liquids, placing them at random.\n\nEligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile." ) );
             }
         }
     }
