@@ -256,6 +256,13 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
+struct npc_logic_token {
+    int panic; // Tracks how many times NPC has had to try to run
+    npc_logic_token_reset() {
+        panic = 0;
+    }
+};
+
 enum class combat_engagement : int {
     NONE = 0,
     CLOSE,
