@@ -22,12 +22,14 @@
     "type": "mutation",
     "id": "karma_arms",
     "name": { "str": "Karma" },
+    "active": true,
     "points": 1,
     "visibility": 10,
     "description": "Ethereal hands appear behind your back, making you looks like an ancient god.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
+    "activated_eocs": [ "EOC_KARMA_ARMS_INITIATE" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -44,18 +46,21 @@
     "type": "mutation",
     "id": "devil_tail",
     "name": { "str": "Devil's Tail" },
+    "active": true,
     "points": 1,
     "visibility": 6,
     "description": "While not actually a devil's, this long, triangular pointed tail can stretch very far, allowing it to easily kill someone nearby.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
+    "activated_eocs": [ "EOC_DEVIL_TAIL_INITIATE" ],
     "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
   },
   {
     "type": "mutation",
     "id": "stalker_eyes",
     "name": { "str": "Stalker's Vision" },
+    "active": true,
     "points": 1,
     "visibility": 1,
     "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
@@ -63,6 +68,7 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
+    "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
     "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
   }
 ]
