@@ -182,7 +182,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u for roasting a veggy",
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ] ]
   },
   {
     "type": "recipe",
