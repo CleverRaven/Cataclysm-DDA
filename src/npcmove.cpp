@@ -446,13 +446,15 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
-
+    bool npc_blind = is_blind();
     // reset enemy counters at the beginning of danger assessment
-    // we could skip this step if the NPC is blind, allowing them to guess how many
-    // friends/enemies are around based on memory.
     mem_combat.hostile_count = 0;
     mem_combat.swarm_count = 0;
     mem_combat.friendly_count = 1;
+
+    if ( blind ) {
+        assessment = mem_combat.old_danger_assessment;
+    }
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -528,9 +530,9 @@ void npc::assess_danger()
     npc_danger_fire( cur_threat_map, here );
 
     // find our Character's friends and enemies
-    npc_identify_friend_or_foe( player_character, here );
-
-
+    if ( !blind ) {
+        assessment = npc_count_friend_or_foe( player_character, here, assessment );
+    }
 
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
         ai_cache.danger_assessment = assessment;
@@ -622,6 +624,7 @@ void npc::assess_danger()
         }
     }
 
+
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
     // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
@@ -630,6 +633,8 @@ void npc::assess_danger()
         assessment *= std::min( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ), 1.0f );
     }
 
+    mem_combat.old_danger_assessment = assessment; // store the raw danger level to be checked later.
+    
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
@@ -682,8 +687,7 @@ void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here 
     }
 }
 
-void npc::npc_identify_friend_or_foe( Character &player_character, map &here ) {
-    npc_logic_token remember;
+float npc::npc_count_friend_or_foe( Character &player_character, map &here, float assessment ) {
     const bool clairvoyant = clairvoyance();
 
     for( const npc &guy : g->all_npcs() ) {
@@ -787,6 +791,7 @@ void npc::npc_identify_friend_or_foe( Character &player_character, map &here ) {
             ai_cache.danger = critter_danger;
         }
     }
+    return assessment;
 }
 
 bool npc::is_safe() const
