@@ -2867,25 +2867,29 @@ void map::drop_items( const tripoint &p )
 
             int creature_hit_chance = rng( 0, 100 );
             creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
-
             if( creature_hit_chance < 15 ) {
-                add_msg( _( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the head!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 30 ) {
-                add_msg( _( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the torso!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 65 ) {
-                add_msg( _( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the left arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 100 ) {
-                add_msg( _( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the right arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
                                              damage ) );
             } else {
-                add_msg( _( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s misses the %s!" ), i.tname(),
+                                        creature_below->get_name() );
             }
         }
 
