@@ -283,9 +283,20 @@ return true if alpha talker is female
 "condition": "npc_female",
 ```
 
-return true if beta talker is male or female; return false, if talker is not capable to have a gender (if monster, for example, can be used if you want to target only player or NPC)
+### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
+- type: simple string
+- return true if alpha or beta talker is avatar / NPC / character / monster / item /furniture
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+return true if alpha talker is character (avatar or NPC)
 ```json
-"condition": { "or": [ "npc_male", "npc_female" ] },
+"condition": "u_is_character",
 ```
 
 ### `u_at_om_location`, `npc_at_om_location`
@@ -2805,12 +2816,12 @@ adds [ your strength stat ] amount of faction trust
 #### `u_lose_faction_trust`
 same as `u_add_faction_trust`, not used in favor of `u_add_faction_trust` with negative number
 
-#### `u_message`, `npc_message`
-Display a text message in the log
+#### `u_message`, `npc_message`, `message`
+Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_message" / "npc_message" | **mandatory** | string or [variable object](##variable-object) | default true |
+| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](##variable-object) | default true |
 | "type" | optional | string or [variable object](##variable-object) | default neutral; how the message would be displayed in log (usually means the color); could be any of good (green), neutral (white), bad (red), mixed (purple), warning (yellow), info (blue), debug (appear only if debug mode is on), headshot (purple), critical (yellow), grazing (blue) | 
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
