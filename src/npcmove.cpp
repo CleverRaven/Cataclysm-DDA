@@ -494,18 +494,18 @@ void npc::assess_danger()
                 // Either close to player or close enough that we can reach it and close to us
                 if  ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
                        too_close( foe.pos(), player_character.pos(), def_radius ){
-                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a CLOSE opponent: %s.", name, foe.name() );
+                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a CLOSE opponent: %s.", name, foe.type->nname() );
                     return true;
                 }
             case combat_engagement::WEAK:
                 if ( foe.get_hp() <= average_damage_dealt() ){
-                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a WEAK opponent: %s.", name, foe.name() );
+                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a WEAK opponent: %s.", name, foe.type->nname() );
                     return true;
                 }
                 return foe.get_hp() <= average_damage_dealt();
             case combat_engagement::HIT:
                 if ( foe.has_effect( effect_hit_by_player ) ){
-                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified an opponent that was HIT: %s.", name, foe.name() );
+                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified an opponent that was HIT: %s.", name, foe.type->nname() );
                     return true;
                 }
             case combat_engagement::NO_MOVE:
@@ -534,6 +534,8 @@ void npc::assess_danger()
         npc_count_friend_or_foe( player_character, here );
     }
 
+    // check how scary the nearby monsters are.
+    const bool clairvoyant = clairvoyance();
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 5.0f;
     for( const monster &critter : g->all_monsters() ) {
         if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
@@ -555,8 +557,7 @@ void npc::assess_danger()
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
 
         // ignore targets behind glass even if we can see them.
-        // soft obstacles that can be shot through are included here.
-        if( !obstacle_in_between( pos(), critter.pos(), true ) ) {
+        if( !obstacle_in_between( pos(), critter.pos(), false ) ) {
             if( is_enemy() || !critter.friendly ) {
                 // still warn about enemies behind impassable glass walls, but not as often.
                 if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
@@ -635,6 +636,17 @@ void npc::assess_danger()
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
+        
+        if( !obstacle_in_between( pos(), foe.pos(), true ) ) {
+            // still warn about enemies behind impassable glass walls, but not as often.
+            // since NPC threats have a higher chance of ignoring soft obstacles, we'll ignore them here.
+            if( foe_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
+            }
+        return 0.0f;
+        } else {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, bogey );
+        }
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
@@ -642,10 +654,6 @@ void npc::assess_danger()
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         if( must_retreat || no_fighting ) {
-            return 0.0f;
-        }
-        // ignore targets behind glass even if we can see them
-        if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
