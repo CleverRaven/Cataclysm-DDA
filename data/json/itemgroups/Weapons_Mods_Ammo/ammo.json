@@ -528,13 +528,7 @@
     "id": "ammo_shotgun_milspec",
     "//": "Military specification shotgun ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "20x66_exp", "prob": 10 },
-      { "item": "20x66_flechette", "prob": 60 },
-      { "item": "20x66_inc", "prob": 20 },
-      { "item": "shot_flechette", "prob": 100 },
-      { "item": "shot_he", "prob": 10 }
-    ]
+    "entries": [ { "item": "shot_he", "prob": 10 } ]
   },
   {
     "type": "item_group",
