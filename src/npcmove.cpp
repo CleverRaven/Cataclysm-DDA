@@ -531,7 +531,99 @@ void npc::assess_danger()
 
     // find our Character's friends and enemies
     if ( !blind ) {
-        assessment = npc_count_friend_or_foe( player_character, here, assessment, must_retreat, no_fighting );
+        npc_count_friend_or_foe( player_character, here );
+    }
+
+    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 5.0f;
+    for( const monster &critter : g->all_monsters() ) {
+        if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
+            continue;
+        }
+        Creature::Attitude att = critter.attitude_to( *this );
+        if( att == Attitude::FRIENDLY ) {
+            ai_cache.friends.emplace_back( g->shared_from( critter ) );
+            mem_combat.friendly_count += 1;
+            continue;
+        }
+        if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+            ai_cache.neutral_guys.emplace_back( g->shared_from( critter ) );
+            continue;
+        }
+        if( !sees( critter ) ) {
+            continue;
+        }
+        ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
+
+        // ignore targets behind glass even if we can see them.
+        // soft obstacles that can be shot through are included here.
+        if( !obstacle_in_between( pos(), critter.pos(), true ) ) {
+            if( is_enemy() || !critter.friendly ) {
+                // still warn about enemies behind impassable glass walls, but not as often.
+                if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+                }
+            continue;
+        } else {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, critter.type->nname() );
+        }
+        
+        float critter_threat = evaluate_enemy( critter );
+        // warn and consider the odds for distant enemies
+        int dist = rl_dist( pos(), critter.pos() );
+        if( is_enemy() || !critter.friendly ) {
+            assessment += critter_threat;
+            if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+            }
+            if( dist < 8 && critter_threat > bravery_vs_pain ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.", name, critter.type->nname() );
+                mem_combat.hostile_count += 1;
+            }
+            if( dist < 4 && npc_ranged ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.", name, critter.type->nname() );
+                mem_combat.swarm_count += 1;
+            }
+        }
+        if( must_retreat || no_fighting ) {
+            continue;
+        }
+
+        float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
+        float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
+        float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
+                                         NPC_DANGER_VERY_LOW );
+        ai_cache.total_danger += critter_danger / scaled_distance;
+
+        // don't ignore monsters that are too close or too close to an ally if we can move
+        bool is_too_close = dist <= def_radius;
+        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
+            if( is_too_close || self_defense_only ) {
+                break;
+            }
+            // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
+            // friendly NPC when the NPC is riding a creature - I don't know why.
+            // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
+            // because the horse the NPC is riding is still in the ai_cache.friends vector,
+            // so either one would count as a friendly for this purpose.
+            if( guy.lock() ) {
+                is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
+            }
+        }
+        // ignore distant monsters that our rules prevent us from attacking
+        if( !is_too_close && is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
+            continue;
+        }
+        // prioritize the biggest, nearest threats, or the biggest threats that are threatening
+        // us or an ally
+        // critter danger is always at least NPC_DANGER_VERY_LOW
+        float priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
+                                   is_too_close ? critter_danger : 0.0f );
+        cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
+        if( priority > highest_priority ) {
+            highest_priority = priority;
+            ai_cache.target = g->shared_from( critter );
+            ai_cache.danger = critter_danger;
+        }
     }
 
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
@@ -687,9 +779,8 @@ void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here 
     }
 }
 
-float npc::npc_count_friend_or_foe( Character &player_character, map &here, float assessment, bool must_retreat, bool no_fighting ) {
+void npc::npc_count_friend_or_foe( Character &player_character, map &here ) {
     const bool clairvoyant = clairvoyance();
-    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 5.0f;
     
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
@@ -711,98 +802,6 @@ float npc::npc_count_friend_or_foe( Character &player_character, map &here, floa
         // Unlike allies, hostile npcs should not see invisible players
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
-
-    for( const monster &critter : g->all_monsters() ) {
-        if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
-            continue;
-        }
-        Creature::Attitude att = critter.attitude_to( *this );
-        if( att == Attitude::FRIENDLY ) {
-            ai_cache.friends.emplace_back( g->shared_from( critter ) );
-            mem_combat.friendly_count += 1;
-            continue;
-        }
-        if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
-            ai_cache.neutral_guys.emplace_back( g->shared_from( critter ) );
-            continue;
-        }
-        if( !sees( critter ) ) {
-            continue;
-        }
-        ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
-
-        // ignore targets behind glass even if we can see them.
-        // soft obstacles that can be shot through are included here.
-        if( !obstacle_in_between( pos(), critter.pos(), true ) ) {
-            if( is_enemy() || !critter.friendly ) {
-                // still warn about enemies behind impassable glass walls, but not as often.
-                if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
-                }
-            continue;
-        } else {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, critter.type->nname() );
-        }
-        
-        float critter_threat = evaluate_enemy( critter );
-        // warn and consider the odds for distant enemies
-        int dist = rl_dist( pos(), critter.pos() );
-        if( is_enemy() || !critter.friendly ) {
-            assessment += critter_threat;
-            if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
-            }
-            if( dist < 8 && critter_threat > bravery_vs_pain ) {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.", name, critter.type->nname() );
-                mem_combat.hostile_count += 1;
-            }
-            if( dist < 4 && npc_ranged ) {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.", name, critter.type->nname() );
-                mem_combat.swarm_count += 1;
-            }
-        }
-        if( must_retreat || no_fighting ) {
-            continue;
-        }
-
-        float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
-        float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
-        float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
-                                         NPC_DANGER_VERY_LOW );
-        ai_cache.total_danger += critter_danger / scaled_distance;
-
-        // don't ignore monsters that are too close or too close to an ally if we can move
-        bool is_too_close = dist <= def_radius;
-        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
-            if( is_too_close || self_defense_only ) {
-                break;
-            }
-            // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
-            // friendly NPC when the NPC is riding a creature - I don't know why.
-            // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
-            // because the horse the NPC is riding is still in the ai_cache.friends vector,
-            // so either one would count as a friendly for this purpose.
-            if( guy.lock() ) {
-                is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
-            }
-        }
-        // ignore distant monsters that our rules prevent us from attacking
-        if( !is_too_close && is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
-            continue;
-        }
-        // prioritize the biggest, nearest threats, or the biggest threats that are threatening
-        // us or an ally
-        // critter danger is always at least NPC_DANGER_VERY_LOW
-        float priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
-                                   is_too_close ? critter_danger : 0.0f );
-        cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
-        if( priority > highest_priority ) {
-            highest_priority = priority;
-            ai_cache.target = g->shared_from( critter );
-            ai_cache.danger = critter_danger;
-        }
-    }
-    return assessment;
 }
 
 bool npc::is_safe() const
