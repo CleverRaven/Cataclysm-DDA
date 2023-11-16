@@ -43,7 +43,7 @@
         "allow_no_target": true,
         "max_range": 7,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "message": "%1$s moves so quickly your eyes can barely follow them!"
+        "message": "%1$s moves so quickly your eyes can barely follow it!"
       },
       {
         "id": "psi_juggernaut_speed_boost",
@@ -51,7 +51,7 @@
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
         "cooldown": 18,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s moves so quickly they're nothing but a blur!"
+        "monster_message": "%1$s moves so quickly it's nothing but a blur!"
       }
     ],
     "flags": [
