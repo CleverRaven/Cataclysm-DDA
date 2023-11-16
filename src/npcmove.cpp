@@ -451,7 +451,7 @@ void npc::assess_danger()
     mem_combat.swarm_count = 0;
     mem_combat.friendly_count = 1;
 
-    if ( blind ) {
+    if( blind ) {
         assessment = mem_combat.old_danger_assessment;
     }
 
@@ -478,7 +478,6 @@ void npc::assess_danger()
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s set their def_radius to %i.", name, def_radius );
-    
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & foe,
     int dist, int scaled_dist ) {
@@ -491,20 +490,23 @@ void npc::assess_danger()
                 return false;
             case combat_engagement::CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
-                if  ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
-                       too_close( foe.pos(), player_character.pos(), def_radius ){
-                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a CLOSE opponent: %s.", name, foe.type->nname() );
+                if( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
+                    too_close( foe.pos(), player_character.pos(), def_radius ) {
+                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a CLOSE opponent: %s.", name,
+                                   foe.type->nname() );
                     return true;
                 }
             case combat_engagement::WEAK:
-                if ( foe.get_hp() <= average_damage_dealt() ){
-                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a WEAK opponent: %s.", name, foe.type->nname() );
+                if( foe.get_hp() <= average_damage_dealt() ) {
+                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a WEAK opponent: %s.", name,
+                                   foe.type->nname() );
                     return true;
                 }
                 return foe.get_hp() <= average_damage_dealt();
             case combat_engagement::HIT:
-                if ( foe.has_effect( effect_hit_by_player ) ){
-                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified an opponent that was HIT: %s.", name, foe.type->nname() );
+                if( foe.has_effect( effect_hit_by_player ) ) {
+                    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified an opponent that was HIT: %s.", name,
+                                   foe.type->nname() );
                     return true;
                 }
             case combat_engagement::NO_MOVE:
@@ -516,7 +518,6 @@ void npc::assess_danger()
 
         return true;
     };
-    
     std::map<direction, float> cur_threat_map;
     // start with a decayed version of last turn's map
     for( direction threat_dir : npc_threat_dir ) {
@@ -524,12 +525,11 @@ void npc::assess_danger()
     }
     map &here = get_map();
     // cache string_id -> int_id conversion before hot loop
-    
     // first, check if we're about to be consumed by fire
     npc_danger_fire( cur_threat_map, here );
 
     // find our Character's friends and enemies
-    if ( !blind ) {
+    if( !blind ) {
         npc_count_friend_or_foe( player_character, here );
     }
 
