@@ -389,7 +389,7 @@
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "effect": [
-      { "math": [ "Shadow_Lurking", "+=", "1" ] },
+      { "math": [ "Shadow_Lurking", "=", "1" ] },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
         "u_location_variable": { "global_val": "Shadow_monster" },
@@ -430,25 +430,6 @@
         "success_message": "You can't outrun your own shadow!",
         "force": true
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LIEUTENANT_SHADOW_MIGRATE_VARS",
-    "//1": "FIXME / TODO : Remove this after 0.H",
-    "//2": "Migrate's player character's (ONLY PC's) shadow-related npctalkvars to global ones next time the game is loaded and then never again.",
-    "//3": "Only migrates if player character actually has relevant npctalkvar (expects_vars)",
-    "eoc_type": "EVENT",
-    "required_event": "game_load",
-    "global": true,
-    "run_for_npcs": false,
-    "condition": {
-      "and": [ { "math": [ "Shadow_Vars_Fixed", "!=", "1" ] }, { "expects_vars": [ "u_Shadow_Lurking", "u_Lieutenants_active" ] } ]
-    },
-    "effect": [
-      { "math": [ "Shadow_Vars_Fixed", "=", "1" ] },
-      { "math": [ "Shadow_Lurking", "=", "u_Shadow_Lurking" ] },
-      { "math": [ "Lieutenants_active", "=", "u_Lieutenants_active" ] }
     ]
   }
 ]
