@@ -446,7 +446,6 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
     bool npc_blind = is_blind();
-    
     // reset memory counters at the beginning of danger assessment
     mem_combat.hostile_count = 0;
     mem_combat.swarm_count = 0;
