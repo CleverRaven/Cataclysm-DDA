@@ -2256,7 +2256,8 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
     const Creature *target = current_target();
     if( target == nullptr ) {
-        // No target, plenty of time to reload
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s can't see anyone around. Great time to reload.",
+                       name );
         return true;
     }
 
@@ -2264,17 +2265,21 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
-        const Character &c = dynamic_cast<const Character &>( *target );
-        const item_location weapon = c.get_wielded_item();
+        const Character &foe = dynamic_cast<const Character &>( *target );
+        const item_location weapon = foe.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
-        if( sees( c ) && weapon && weapon->is_gun() && rltime > 200 &&
+        if( sees( foe ) && weapon && weapon->is_gun() && rltime > 200 &&
             weapon->gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s is shy about reloading with &s standing right there.",
+                           name, foe.name );
             return false;
         }
     }
 
     // TODO: Handle monsters with ranged attacks and players with CBMs
+    add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s turns to reload: %i./nTurns til reached: %i.", name,
+                   static_cast<int>( turns_til_reloaded ), static_cast<int>( turns_til_reached ) );
     return turns_til_reloaded < turns_til_reached;
 }
 
@@ -2963,6 +2968,8 @@ void npc::find_item()
 
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "%s considered picking something up but player said not to.", name );
         return;
     }
 
@@ -2979,6 +2986,8 @@ void npc::find_item()
     const item *wanted = nullptr;
 
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
+                       name );
         return;
     }
 
@@ -3034,6 +3043,8 @@ void npc::find_item()
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s didn't pick up an item because it's in a no-pickup zone.", name );
             continue;
         }
 
