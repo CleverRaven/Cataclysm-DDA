@@ -444,10 +444,10 @@ void npc::assess_danger()
     float assessment = 0.0f;
     float highest_priority = 1.0f;
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
-    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
     bool npc_blind = is_blind();
-    // reset enemy counters at the beginning of danger assessment
+    
+    // reset memory counters at the beginning of danger assessment
     mem_combat.hostile_count = 0;
     mem_combat.swarm_count = 0;
     mem_combat.friendly_count = 1;
@@ -531,7 +531,7 @@ void npc::assess_danger()
 
     // find our Character's friends and enemies
     if ( !blind ) {
-        assessment = npc_count_friend_or_foe( player_character, here, assessment );
+        assessment = npc_count_friend_or_foe( player_character, here, assessment, must_retreat, no_fighting );
     }
 
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
@@ -687,9 +687,10 @@ void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here 
     }
 }
 
-float npc::npc_count_friend_or_foe( Character &player_character, map &here, float assessment ) {
+float npc::npc_count_friend_or_foe( Character &player_character, map &here, float assessment, bool must_retreat, bool no_fighting ) {
     const bool clairvoyant = clairvoyance();
-
+    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 5.0f;
+    
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
             continue;
@@ -729,6 +730,20 @@ float npc::npc_count_friend_or_foe( Character &player_character, map &here, floa
             continue;
         }
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
+
+        // ignore targets behind glass even if we can see them.
+        // soft obstacles that can be shot through are included here.
+        if( !obstacle_in_between( pos(), critter.pos(), true ) ) {
+            if( is_enemy() || !critter.friendly ) {
+                // still warn about enemies behind impassable glass walls, but not as often.
+                if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+                }
+            continue;
+        } else {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, critter.type->nname() );
+        }
+        
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
@@ -738,19 +753,15 @@ float npc::npc_count_friend_or_foe( Character &player_character, map &here, floa
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
             if( dist < 8 && critter_threat > bravery_vs_pain ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.", name, critter.type->nname() );
                 mem_combat.hostile_count += 1;
             }
             if( dist < 4 && npc_ranged ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.", name, critter.type->nname() );
                 mem_combat.swarm_count += 1;
             }
         }
         if( must_retreat || no_fighting ) {
-            continue;
-        }
-        // ignore targets behind glass even if we can see them.
-        // soft obstacles are included here because the enemy still shouldn't be able
-        // to get to us.
-        if( !obstacle_in_between( pos(), critter.pos(), false ) ) {
             continue;
         }
 
