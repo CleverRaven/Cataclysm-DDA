@@ -83,6 +83,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_critter_underfed( "critter_underfed" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disarmed( "disarmed" );
@@ -123,7 +124,6 @@ static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
