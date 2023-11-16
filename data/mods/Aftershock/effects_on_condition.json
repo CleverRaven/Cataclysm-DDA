@@ -65,5 +65,23 @@
       },
       { "u_teleport": { "global_val": "new_map" }, "force": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CRASHING_SHIP_SETUP",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "queue_eocs": "EOC_CRASHING_SHIP_U_DIE", "time_in_future": "7 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CRASHING_SHIP_U_DIE",
+    "condition": { "u_near_om_location": "crashing_ship_5", "range": 1 },
+    "effect": [
+      {
+        "u_message": "A large boom rocks the hull, fire engulfs the decks.  You can do nothing but watch as a wall of burning gas rushes towards you, consumes you as fast as it came, and then all is black.",
+        "popup": true
+      },
+      "u_die"
+    ]
   }
 ]
