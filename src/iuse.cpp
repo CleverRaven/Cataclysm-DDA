@@ -167,6 +167,7 @@ static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
@@ -308,6 +309,7 @@ static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
+static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
 static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
 static const mon_flag_str_id mon_flag_SEES( "SEES" );
@@ -1613,6 +1615,15 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
+        if( mon->has_flag( mon_flag_EATS ) ) {
+            int kcal = it->get_comestible()->default_nutrition.kcal();
+            mon->amount_eaten += kcal;
+            if( mon->amount_eaten >= mon->stomach_size ) {
+                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
+            }
+        } else if( !mon->has_flag( mon_flag_EATS ) ) {
+            mon->add_effect( effect_critter_well_fed, 24_hours );
+        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
