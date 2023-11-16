@@ -34,7 +34,8 @@
       "structured_overmap_compass_5x5_layout",
       "structured_weapon_compass_layout",
       "separator_disabled",
-      "separator_disabled"
+      "separator_disabled",
+      "vital_numbers_layout"
     ]
   }
 ]
