@@ -1592,7 +1592,11 @@ npc_action npc::address_needs()
 static bool wants_to_reload( const npc &guy, const item &candidate )
 {
     if( !candidate.is_reloadable() ) {
-        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.",
+        if( !candidate.is_magazine() || !candidate.is_gun() ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.",
+        } else {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but feels it is inappropriate.",
+        }
                        guy.name, candidate.tname() );
         return false;
     }
