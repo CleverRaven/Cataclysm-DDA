@@ -48,7 +48,7 @@
     "name": { "str": "fear hawk" },
     "description": "A hawk with striking golden eyes.  It's call seems to pierce deep into your psyche even when it's not directed at you.",
     "bodytype": "bird",
-    "default_faction": "Fear Hawk",
+    "default_faction": "fear_hawk",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
     "volume": "3000 ml",
