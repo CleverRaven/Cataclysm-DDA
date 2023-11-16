@@ -46,7 +46,7 @@
     "id": "mon_fear_hawk",
     "type": "MONSTER",
     "name": { "str": "fear hawk" },
-    "description": "A hawk with striking golden eyes.",
+    "description": "A hawk with striking golden eyes.  It's call seems to pierce deep into your psyche even when it's not directed at you.",
     "bodytype": "bird",
     "default_faction": "Fear Hawk",
     "categories": [ "WILDLIFE" ],
@@ -213,6 +213,7 @@
   {
     "id": "mon_pigeon_passenger",
     "type": "MONSTER",
+    "//": "Intentionally unable to be culled when friendly.",
     "name": { "str": "pigeon passenger" },
     "description": "A gentle, plump, small-billed bird with a third eye, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles. Is it following you?",
     "bodytype": "bird",
@@ -253,39 +254,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY", "KEEP_DISTANCE" ]
-  },
-  {
-    "id": "mon_fear_hawk",
-    "type": "MONSTER",
-    "name": { "str": "fear hawk" },
-    "description": "A hawk with striking golden eyes.",
-    "bodytype": "bird",
-    "default_faction": "Fear Hawk",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "3000 ml",
-    "weight": "1500 g",
-    "hp": 8,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "dark_gray",
-    "aggression": 80,
-    "morale": 90,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "melee_skill": 2,
-    "dodge": 3,
-    "armor": { "psi_telekinetic_damage": 15, "psi_telepathic_damage": 35 },
-    "families": [ "prof_intro_biology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "mutant_bird",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "special_attacks": [ { "type": "psychic_shriek", "cooldown": 30 } ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY", "KEEP_DISTANCE", "HARDTOSHOOT" ]
   }
 ]
