@@ -254,7 +254,7 @@
       "pet": "The %s runs around your leg."
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY", "KEEP_DISTANCE" ]
-  }
+  },
   {
     "id": "mon_fear_hawk",
     "type": "MONSTER",

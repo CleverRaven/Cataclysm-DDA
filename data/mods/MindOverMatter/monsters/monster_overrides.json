@@ -111,7 +111,7 @@
     "id": "mon_pigeon",
     "copy-from": "mon_pigeon",
     "type": "MONSTER",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_PIGEON_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_PIGEON_UPGRADE" }
   },
   {
     "id": "mon_zombie_regenerating",
