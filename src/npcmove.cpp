@@ -250,22 +250,23 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
     return sound_a.volume < sound_b.volume;
 }
 
-static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true )
+static bool obstacle_in_between( const tripoint &from, const tripoint &to, bool ignore_soft = true )
 {
     std::vector<tripoint> path = line_to( from, to );
     path.pop_back();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &p : path ) {
-        Creature *inter = creatures.creature_at( p );
-        if( check_ally && inter != nullptr ) {
+	map &here = get_map();
+    for( const tripoint &candidate : path ) {
+        Creature *inter = creatures.creature_at( candidate );
+        if( ignore_soft && here.( has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE ) ) ) {
+            // if the terrain is a thin obstacle and can be shot or attacked through, it doesn't matter if it's impassible,
+            // it's still not an obstacle.
             return false;
-        }
-        if( get_map().impassable( p ) ) {
-            return false;
+        } else if( here.impassable( candidate ) ) {
+            return true;
         }
     }
-
-    return true;
+    return false;
 }
 
 tripoint npc::good_escape_direction( bool include_pos )
@@ -442,12 +443,17 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
-    int hostile_count = 0; // for tallying nearby threatening enemies
-    int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
-    int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
+    npc_logic_token remember;
+
+    // reset enemy counters at the beginning of danger assessment
+    // we could skip this step if the NPC is blind, allowing them to guess how many
+    // friends/enemies are around based on memory.
+    remember.hostile_count = 0;
+    remember.swarm_count = 0;
+    remember.friendly_count = 1;
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -505,22 +511,9 @@ void npc::assess_danger()
     }
     map &here = get_map();
     // cache string_id -> int_id conversion before hot loop
-    const field_type_id fd_fire = ::fd_fire;
+    
     // first, check if we're about to be consumed by fire
-    // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
-    for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
-        if( pt == pos() || !here.get_field( pt, fd_fire ) ||
-            here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
-            continue;
-        }
-        int dist = rl_dist( pos(), pt );
-        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
-        if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
-            warn_about( "fire_bad", 1_minutes );
-            add_effect( effect_npc_fire_bad, 5_turns );
-            path.clear();
-        }
-    }
+    npc_danger_fire( cur_threat_map, here );
 
     // find our Character friends and enemies
     const bool clairvoyant = clairvoyance();
@@ -552,7 +545,7 @@ void npc::assess_danger()
         Creature::Attitude att = critter.attitude_to( *this );
         if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
-            friendly_count += 1;
+            remember.friendly_count += 1;
             continue;
         }
         if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
@@ -573,17 +566,19 @@ void npc::assess_danger()
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
             if( dist < 8 && critter_threat > bravery_vs_pain ) {
-                hostile_count += 1;
+                remember.hostile_count += 1;
             }
             if( dist < 4 && npc_ranged ) {
-                swarm_count += 1;
+                remember.swarm_count += 1;
             }
         }
         if( must_retreat || no_fighting ) {
             continue;
         }
-        // ignore targets behind glass even if we can see them
-        if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
+        // ignore targets behind glass even if we can see them.
+        // soft obstacles are included here because the enemy still shouldn't be able
+        // to get to us.
+        if( !obstacle_in_between( pos(), critter.pos(), false ) ) {
             continue;
         }
 
@@ -754,6 +749,25 @@ void npc::assess_danger()
         assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
     ai_cache.danger_assessment = assessment;
+}
+
+void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here ) 
+{
+    // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
+    const field_type_id fd_fire = ::fd_fire;
+    for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
+        if( pt == pos() || !here.get_field( pt, fd_fire ) ||
+            here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
+            continue;
+        }
+        int dist = rl_dist( pos(), pt );
+        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
+        if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
+            warn_about( "fire_bad", 1_minutes );
+            add_effect( effect_npc_fire_bad, 5_turns );
+            path.clear();
+        }
+    }
 }
 
 bool npc::is_safe() const
