@@ -69,7 +69,23 @@
     "harvest": "mutant_bird",
     "dissect": "dissect_bird_sample_single",
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "special_attacks": [ { "type": "psychic_shriek", "cooldown": 30 } ],
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "psychic_shriek",
+        "cooldown": 5,
+        "move_cost": 100,
+        "range": 3,
+        "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 10 } ],
+        "hit_dmg_u": "%1$s shrieks at your %2$s!",
+        "hit_dmg_npc": "%1$s shrieks at <npcname>!",
+        "no_dmg_msg_u": "%1$s's shriek radiates out at you without doing any damage.",
+        "no_dmg_msg_npc": "%1$s's shriek radiates out at <npcname> without doing any damage.",
+        "miss_msg_u": "%s's shriek radiates at you, but you dodge!",
+        "miss_msg_npc": "%s's shriek radiates at <npcname>, but they dodge!"
+      }
+    ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "HIT_AND_RUN" ]
   }
