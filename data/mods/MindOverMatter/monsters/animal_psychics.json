@@ -215,7 +215,7 @@
     "type": "MONSTER",
     "//": "Intentionally unable to be culled when friendly.",
     "name": { "str": "pigeon passenger" },
-    "description": "A gentle, plump, small-billed bird with a third eye, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles. Is it following you?",
+    "description": "A gentle, plump, small-billed bird with a third eye, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles.  Is it following you?",
     "bodytype": "bird",
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
