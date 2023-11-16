@@ -286,6 +286,9 @@ return true if alpha talker is female
 ### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
 - type: simple string
 - return true if alpha or beta talker is avatar / NPC / character / monster / item /furniture
+- `avatar` is you, player, that control specific NPC (yes, your character is still NPC, you just can control it, as you can control another NPC using faction succession)
+- `npc` is any NPC, except Avatar
+- `character` is both NPC or Avatar
 
 #### Valid talkers:
 
