@@ -258,8 +258,14 @@ struct npc_opinion {
 
 struct npc_logic_token {
     int panic; // Tracks how many times NPC has had to try to run
+    int hostile_count; // for tallying nearby threatening enemies
+    int swarm_count; // for tallying swarming enemies if you're using a ranged weapon
+    int friendly_count; // for counting how many allies are nearby
     npc_logic_token_reset() {
         panic = 0;
+        hostile_count = 0;
+        swarm_count = 0;
+        friendly_count = 1; // count yourself as a friendly
     }
 };
 
