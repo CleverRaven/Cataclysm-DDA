@@ -24,6 +24,7 @@
         [ "real_knives", 1, "LIST" ],
         [ "basic_thrusting_swords", 1, "LIST" ],
         [ "real_thrusting_swords", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
         [ "real_short_swords", 1, "LIST" ],
         [ "basic_medium_swords", 1, "LIST" ],
         [ "real_medium_swords", 1, "LIST" ],
@@ -76,6 +77,7 @@
         [ "real_knives", 1, "LIST" ],
         [ "basic_thrusting_swords", 1, "LIST" ],
         [ "real_thrusting_swords", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
         [ "real_short_swords", 1, "LIST" ],
         [ "basic_medium_swords", 1, "LIST" ],
         [ "real_medium_swords", 1, "LIST" ],
@@ -127,6 +129,7 @@
         [ "real_hooks", 1, "LIST" ],
         [ "basic_knives", 1, "LIST" ],
         [ "real_knives", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
         [ "real_short_swords", 1, "LIST" ],
         [ "basic_medium_swords", 1, "LIST" ],
         [ "real_medium_swords", 1, "LIST" ],
@@ -164,6 +167,7 @@
         [ "real_claws", 1, "LIST" ],
         [ "real_hooks", 1, "LIST" ],
         [ "real_knives", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
         [ "real_short_swords", 1, "LIST" ],
         [ "real_medium_swords", 1, "LIST" ],
         [ "real_long_swords", 1, "LIST" ],
@@ -904,7 +908,7 @@
     "autolearn": [ [ "cutting", 2 ] ],
     "book_learn": [ [ "mag_cutting", 1 ], [ "manual_swords", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_short_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ [ "real_short_swords", 1, "LIST" ] ] ]
+    "tools": [ [ [ "basic_short_swords", 1, "LIST" ], [ "real_short_swords", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_short_sword",
