@@ -54,8 +54,10 @@ ID_WHITELIST = {
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
+    'exodiisapramag5',
     'bio_shotgun_gun',
     'gasfilter_med',
+
     'gasfilter_sm',
     "rebreather_cartridge",
     "rebreather_cartridge_air",
