@@ -54,6 +54,27 @@
     "min_skills": [ [ "weapon", 4 ], [ "deduction", 4 ] ]
   },
   {
+    "id": "choke_wideshot",
+    "type": "GUNMOD",
+    "name": { "str": "wide-shot shotgun choke" },
+    "description": "A choke that makes the pellets spread out wide to hit multiple enemies.  The pellets will have shorter range but somehow deals higher damage.",
+    "weight": "300 g",
+    "volume": "150 ml",
+    "longest_side": "4 cm",
+    "integral_longest_side": "4 cm",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "yellow",
+    "location": "muzzle",
+    "mod_targets": [ "shotgun" ],
+    "install_time": "60 m",
+    "shot_spread_multiplier_modifier": 3,
+    "damage_modifier": { "damage_type": "bullet", "amount": 25 },
+    "range_modifier": -6,
+    "flags": [ "CHOKE" ],
+    "min_skills": [ [ "weapon", 4 ], [ "deduction", 4 ] ]
+  },
+  {
     "id": "mod_inv_pistol_booster",
     "type": "GUNMOD",
     "name": { "str": "pistol booster" },
