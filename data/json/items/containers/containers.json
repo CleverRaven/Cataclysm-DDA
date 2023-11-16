@@ -3627,7 +3627,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1769 ml",
+        "max_contains_volume": "1255 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 50,
@@ -4343,5 +4343,36 @@
       }
     ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "tankard_wooden",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden tankard" },
+    "//1": "https://www.amazon.com/Handmade-Wooden-Coffee-Unique-Glasses/dp/B07GWB6R3P/",
+    "//2": "requested by Myfharad",
+    "description": "A low-tech solution for all your guzzling needs.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": 1500,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

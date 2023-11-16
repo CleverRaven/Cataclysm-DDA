@@ -1081,7 +1081,7 @@
     "symbol": "%",
     "quench": -15,
     "calories": 3,
-    "description": "Dehyddrated garlic.  You definitely don't want to eat these like this, but they can be milled or grounded into garlic powder.",
+    "description": "Dehydrated garlic.  You definitely don't want to eat these like this, but they can be milled or grounded into garlic powder.",
     "price": "5 cent",
     "price_postapoc": "3 cent",
     "material": [ "garlic" ],

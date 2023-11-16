@@ -27,6 +27,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
+    "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
@@ -44,7 +45,9 @@
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
       },
-      { "id": "feral_weapon_pipe" }
+      { "id": "feral_weapon_pipe" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
     ],
     "death_drops": "feral_humans_death_drops_pipe",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
@@ -62,7 +65,8 @@
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO",
-      "WIELDED_WEAPON"
+      "WIELDED_WEAPON",
+      "EATS"
     ]
   },
   {

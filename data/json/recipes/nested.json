@@ -8,7 +8,7 @@
     "name": "bows",
     "description": "Recipes related to constructing bows to launch arrows with.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "selfbow", "shortbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
+    "nested_category_data": [ "selfbow", "shortbow", "reflexbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
     "difficulty": 1
   },
   {
@@ -4525,6 +4525,128 @@
     ]
   },
   {
+    "id": "nested_bionic_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "bionic weaponry",
+    "description": "Recipes for practice with bionic weaponry for combat.",
+    "skill_used": "cutting",
+    "nested_category_data": [
+      "prac_cutting_beg_bionics",
+      "prac_cutting_int_bionics",
+      "prac_cutting_beg_bionic_sword",
+      "prac_cutting_int_bionic_sword"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_axes_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "axes",
+    "description": "Recipes for combat practice with axes.",
+    "skill_used": "cutting",
+    "nested_category_data": [ "prac_cutting_beg_great_axe", "prac_cutting_int_great_axe", "prac_cutting_beg_hand_axe", "prac_cutting_int_hand_axe" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_cutting_swords_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "cutting swords",
+    "description": "Recipes for combat practice of slashing swords of all sizes.",
+    "skill_used": "cutting",
+    "nested_category_data": [
+      "prac_cutting_beg_short_sword",
+      "prac_cutting_int_short_sword",
+      "prac_cutting_beg_med_sword",
+      "prac_cutting_int_med_sword",
+      "prac_cutting_beg_long_sword",
+      "prac_cutting_int_long_sword",
+      "prac_cutting_beg_great_sword",
+      "prac_cutting_int_great_sword"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_stabbing_swords_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "stabbing swords",
+    "description": "Recipes for combat practice of thrusting swords, which require a different training from just slashing with your sword.",
+    "skill_used": "stabbing",
+    "nested_category_data": [ "prac_stabbing_beg_fencing", "prac_stabbing_int_fencing", "prac_stabbing_beg_thrust", "prac_stabbing_int_thrust" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_spears_polearms_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "spears and polearms",
+    "description": "Recipes for combat practice with long pointed objects, like spears and polearms.",
+    "skill_used": "stabbing",
+    "nested_category_data": [ "prac_stabbing_beg_spear", "prac_stabbing_int_spear", "prac_stabbing_beg_polearm", "prac_stabbing_int_polearm" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_knives_shivs_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "knives and shivs",
+    "description": "Recipes for combat practice with small pointed objects, like knives and shivs.",
+    "skill_used": "stabbing",
+    "nested_category_data": [ "prac_stabbing_beg_knife", "prac_stabbing_int_knife", "prac_stabbing_beg_shiv", "prac_stabbing_int_shiv" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_batons_and_staffs_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "batons and quarterstaves",
+    "description": "Recipes for combat practice with thin, stick-like bludgeons like batons and quarterstaves.",
+    "skill_used": "bashing",
+    "nested_category_data": [ "prac_bashing_beg_baton", "prac_bashing_int_baton", "prac_bashing_beg_staff", "prac_bashing_int_staff" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_maces_and_hammers_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "maces and great hammers",
+    "description": "Recipes for combat practice with weighty, smashing bludgeons, like maces and great hammers.",
+    "skill_used": "bashing",
+    "nested_category_data": [ "prac_bashing_beg_mace", "prac_bashing_int_mace", "prac_bashing_beg_great_hammer", "prac_bashing_int_great_hammer" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_firearm_cqc_practice",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "firearms CQC",
+    "description": "Recipes for CQC practice with firearms.",
+    "skill_used": "bashing",
+    "nested_category_data": [ "prac_bashing_beg_rifle", "prac_bashing_int_rifle", "prac_bashing_beg_pistol", "prac_bashing_int_pistol" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_arming_sword",
     "type": "nested_category",
     "activity_level": "fake",
@@ -5188,7 +5310,6 @@
       "bot_dispatch_military",
       "bot_turret_searchlight",
       "bot_molebot",
-      "bot_mininuke_hack",
       "bot_nursebot",
       "bot_skitterbot",
       "bot_secubot",

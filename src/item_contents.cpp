@@ -698,8 +698,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it,
-                        into_bottom, restack_charges, ignore_contents );
+                const ret_val<item *> inserted = current_pocket_iter->insert_item( *it,
+                                                 into_bottom, restack_charges, ignore_contents );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
                     debugmsg( "error: item %s cannot fit into pocket while loading: %s",
@@ -812,8 +812,8 @@ int item_contents::insert_cost( const item &it ) const
     }
 }
 
-ret_val<item_pocket *> item_contents::insert_item( const item &it,
-        item_pocket::pocket_type pk_type, bool ignore_contents )
+ret_val<item *> item_contents::insert_item( const item &it,
+        item_pocket::pocket_type pk_type, bool ignore_contents, const bool unseal_pockets )
 {
     if( pk_type == item_pocket::pocket_type::LAST ) {
         // LAST is invalid, so we assume it will be a regular container
@@ -822,18 +822,20 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( !pocket.success() ) {
-        return pocket;
+        return ret_val<item *>::make_failure( nullptr, pocket.str() );
     }
     if( pocket.value()->is_forbidden() ) {
-        return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
+        return ret_val<item *>::make_failure( nullptr, _( "Can't store anything in this." ) );
     }
 
-    ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it, false,
-            true, ignore_contents );
-    if( pocket_contain_code.success() ) {
-        return pocket;
+    ret_val<item *> inserted = pocket.value()->insert_item( it, false, true, ignore_contents );
+    if( inserted.success() ) {
+        if( unseal_pockets ) {
+            pocket.value()->unseal();
+        }
+        return inserted;
     }
-    return ret_val<item_pocket *>::make_failure( nullptr, pocket_contain_code.str() );
+    return ret_val<item *>::make_failure( nullptr, inserted.str() );
 }
 
 void item_contents::force_insert_item( const item &it, item_pocket::pocket_type pk_type )

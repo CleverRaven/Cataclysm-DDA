@@ -691,7 +691,7 @@
     "price": 200000,
     "price_postapoc": 1000,
     "material": [ "stone" ],
-    "weight": "907 g",
+    "weight": "700 g",
     "volume": "250 ml",
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -1732,23 +1732,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_mininuke_hack",
-    "symbol": ",",
-    "color": "magenta",
-    "name": { "str": "broken mininuke hack" },
-    "category": "other",
-    "description": "A broken mininuke hack.  Just looking at the wreck makes you shiver.  Could be gutted for parts.",
-    "price": 18000,
-    "price_postapoc": 10,
-    "material": [ "aluminum", "plastic" ],
-    "weight": "25000 g",
-    "volume": "18750 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_gasbomb_hack",
     "symbol": ",",
     "color": "dark_gray",
@@ -1857,9 +1840,9 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "weight": "30 g",
+    "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
-    "volume": "20 ml",
+    "volume": "18 ml",
     "to_hit": -1
   },
   {
@@ -1981,7 +1964,7 @@
     "price": 6000,
     "price_postapoc": 50,
     "material": [ "glass" ],
-    "weight": "15 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -2135,7 +2118,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "weight": "21000 g",
+    "weight": "2100 g",
     "volume": "2 L",
     "to_hit": 1,
     "melee_damage": { "bash": 4 }

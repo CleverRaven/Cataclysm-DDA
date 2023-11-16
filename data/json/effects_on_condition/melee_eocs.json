@@ -252,7 +252,7 @@
         "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_maces_familiar', 'format: percent')", ">=", "100" ] },
         "then": [
           {
-            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_macess_pro', 'format: percent')", ">=", "100" ] },
+            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_maces_pro', 'format: percent')", ">=", "100" ] },
             "then": [
               {
                 "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_maces_master', 'format: percent')", ">=", "100" ] },
@@ -406,14 +406,14 @@
                 "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_quarterstaves_master', 'format: percent')", ">=", "100" ] },
                 "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
-                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_quaterstaves_master', 'format: 6400')", "+=", "rand(4)" ] },
+                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_quarterstaves_master', 'format: 6400')", "+=", "rand(4)" ] },
                   { "math": [ "u_prof_level", "=", "2" ] },
                   { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
-              { "math": [ "u_val('proficiency', 'proficiency_id: prof_quaterstaves_pro', 'format: 3200')", "+=", "rand(4)" ] },
+              { "math": [ "u_val('proficiency', 'proficiency_id: prof_quarterstaves_pro', 'format: 3200')", "+=", "rand(4)" ] },
               { "math": [ "u_prof_level", "=", "1" ] },
               { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
             ]
@@ -622,20 +622,20 @@
         "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_familiar', 'format: percent')", ">=", "100" ] },
         "then": [
           {
-            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_pro', 'format: percent')", ">=", "100" ] },
+            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_pro', 'format: percent')", ">=", "100" ] },
             "then": [
               {
-                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_master', 'format: percent')", ">=", "100" ] },
+                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_master', 'format: percent')", ">=", "100" ] },
                 "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
-                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_master', 'format: 6400')", "+=", "rand(4)" ] },
+                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_master', 'format: 6400')", "+=", "rand(4)" ] },
                   { "math": [ "u_prof_level", "=", "2" ] },
                   { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
-              { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_pro', 'format: 3200')", "+=", "rand(4)" ] },
+              { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_pro', 'format: 3200')", "+=", "rand(4)" ] },
               { "math": [ "u_prof_level", "=", "1" ] },
               { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
             ]
@@ -656,30 +656,32 @@
     "condition": { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORD" },
     "effect": [
       {
-        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_familiar', 'format: percent')", ">=", "100" ] },
+        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_swords_familiar', 'format: percent')", ">=", "100" ] },
         "then": [
           {
-            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_pro', 'format: percent')", ">=", "100" ] },
+            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_swords_pro', 'format: percent')", ">=", "100" ] },
             "then": [
               {
-                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_master', 'format: percent')", ">=", "100" ] },
+                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_swords_master', 'format: percent')", ">=", "100" ] },
                 "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
-                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_master', 'format: 6400')", "+=", "rand(4)" ] },
+                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_swords_master', 'format: 6400')", "+=", "rand(4)" ] },
                   { "math": [ "u_prof_level", "=", "2" ] },
                   { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
-              { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_pro', 'format: 3200')", "+=", "rand(4)" ] },
+              { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_swords_pro', 'format: 3200')", "+=", "rand(4)" ] },
               { "math": [ "u_prof_level", "=", "1" ] },
               { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
-          { "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_familiar', 'format: 1600')", "+=", "rand(4)" ] },
+          {
+            "math": [ "u_val('proficiency', 'proficiency_id: prof_thrusting_swords_familiar', 'format: 1600')", "+=", "rand(4)" ]
+          },
           { "math": [ "u_prof_level", "=", "0" ] },
           { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
         ]
@@ -878,30 +880,30 @@
     "condition": { "u_has_wielded_with_weapon_category": "HAND_AXES" },
     "effect": [
       {
-        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_familiar', 'format: percent')", ">=", "100" ] },
+        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_hand_axes_familiar', 'format: percent')", ">=", "100" ] },
         "then": [
           {
-            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_pro', 'format: percent')", ">=", "100" ] },
+            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_hand_axes_pro', 'format: percent')", ">=", "100" ] },
             "then": [
               {
-                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_master', 'format: percent')", ">=", "100" ] },
+                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_hand_axes_master', 'format: percent')", ">=", "100" ] },
                 "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
-                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_master', 'format: 6400')", "+=", "rand(4)" ] },
+                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_hand_axes_master', 'format: 6400')", "+=", "rand(4)" ] },
                   { "math": [ "u_prof_level", "=", "2" ] },
                   { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
-              { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_pro', 'format: 3200')", "+=", "rand(4)" ] },
+              { "math": [ "u_val('proficiency', 'proficiency_id: prof_hand_axes_pro', 'format: 3200')", "+=", "rand(4)" ] },
               { "math": [ "u_prof_level", "=", "1" ] },
               { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
-          { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_familiar', 'format: 1600')", "+=", "rand(4)" ] },
+          { "math": [ "u_val('proficiency', 'proficiency_id: prof_hand_axes_familiar', 'format: 1600')", "+=", "rand(4)" ] },
           { "math": [ "u_prof_level", "=", "0" ] },
           { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
         ]

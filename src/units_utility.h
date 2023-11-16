@@ -108,6 +108,13 @@ std::string weight_to_string( const units::mass &weight, bool compact = false,
                               bool remove_trailing_zeroes = false );
 
 /**
+ * Convert high-definition weight/mass to readable format
+ * Always metric units. First is value as string, second is unit
+ */
+std::pair<std::string, std::string> weight_to_string( const
+        units::quantity<int, units::mass_in_microgram_tag> &weight );
+
+/**
  * Convert volume from ml to units defined by user.
  */
 double convert_volume( int volume );

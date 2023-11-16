@@ -6004,7 +6004,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
 
-Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`
+Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`; Using a migration means you can remove the item safely from the game, and it won't cause any harm
 
 ```C++
 
@@ -6045,6 +6045,8 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
     "to": null
   }
 ```
+
+For mutations, see MUTATIONS.md#trait-migrations
 
 Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
 

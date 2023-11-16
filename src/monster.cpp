@@ -117,11 +117,13 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_tpollen( "tpollen" );
+static const efftype_id effect_critter_underfed( "critter_underfed" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
@@ -598,7 +600,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && amount_eaten == 0 ) {
+        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -638,17 +640,36 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( calendar::turn - udder_timer > 1_days ) {
-        // You milk once a day.
-        ammo.begin()->second = type->starting_ammo.begin()->second;
-        udder_timer = calendar::turn;
+    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
+        if( calendar::turn - udder_timer > 1_days ) {
+            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
+            ammo.begin()->second = type->starting_ammo.begin()->second;
+            udder_timer = calendar::turn;
+        }
+    }
+}
+
+void monster::reset_digestion()
+{
+    if( calendar::turn - stomach_timer > 3_days ) {
+        //If the player hasn't been around, assume critters have been operating at a subsistence level.
+        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
+        remove_effect( effect_critter_underfed );
+        remove_effect( effect_critter_well_fed );
+        amount_eaten = 0;
+        stomach_timer = calendar::turn;
     }
 }
 
 void monster::digest_food()
 {
-    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
-        amount_eaten -= 1;
+    if( calendar::turn - stomach_timer > 1_days ) {
+        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
+            add_effect( effect_critter_well_fed, 24_hours );
+        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
+            add_effect( effect_critter_underfed, 24_hours );
+        }
+        amount_eaten = 0;
         stomach_timer = calendar::turn;
     }
 }
@@ -663,6 +684,9 @@ void monster::try_biosignature()
         return;
     }
     if( !type->biosig_timer ) {
+        return;
+    }
+    if( has_effect( effect_critter_underfed ) ) {
         return;
     }
 
@@ -3183,6 +3207,31 @@ void monster::process_effects()
         }
     }
 
+    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
+        heal( 1 );
+    }
+
+    //We already check these timers on_load, but adding a random chance for them to go off here
+    //will make it so that the player needn't leave the area and return for critters to poop,
+    //become hungry, evolve, have babies, or refill udders.
+    if( one_in( 30000 ) ) {
+        try_upgrade( false );
+        try_reproduce();
+        try_biosignature();
+
+        if( amount_eaten > 0 ) {
+            if( has_flag( mon_flag_EATS ) ) {
+                digest_food();
+            } else {
+                amount_eaten = 0;
+            }
+        }
+
+        if( has_flag( mon_flag_MILKABLE ) ) {
+            refill_udders();
+        }
+    }
+
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3710,9 +3759,15 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+    reset_digestion();
 
-    if( has_flag( mon_flag_EATS ) ) {
-        digest_food();
+    //Clean up runaway values for monsters which eat but don't digest yet.
+    if( amount_eaten > 0 ) {
+        if( has_flag( mon_flag_EATS ) ) {
+            digest_food();
+        } else {
+            amount_eaten = 0;
+        }
     }
 
     if( has_flag( mon_flag_MILKABLE ) ) {
