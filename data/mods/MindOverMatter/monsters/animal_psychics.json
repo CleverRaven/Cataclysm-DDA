@@ -254,6 +254,18 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY", "KEEP_DISTANCE", "HARDTOSHOOT" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FLIES",
+      "SWARMS",
+      "CANPLAY",
+      "KEEP_DISTANCE",
+      "HARDTOSHOOT"
+    ]
   }
 ]
