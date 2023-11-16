@@ -67,7 +67,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "STUN_IMMUNE"
     ],
     "armor": { "bash": 22, "cut": 30, "bullet": 26, "electric": 6 }
   },
@@ -143,8 +144,7 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER",
-      "TEEP_IMMUNE"
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
   },
