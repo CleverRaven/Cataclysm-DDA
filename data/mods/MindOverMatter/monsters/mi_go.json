@@ -33,9 +33,9 @@
     "special_attacks": [
       [ "PARROT", 100 ],
       { "id": "stretch_attack" },
-      { "id": "longswipe", "cooldown": 12 },
+      { "id": "longswipe", "cooldown": 12, "armor_multiplier": 0.6 },
       { "id": "cut_throat", "cooldown": 12 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.4 } ] },
       {
         "type": "leap",
         "cooldown": 5,
