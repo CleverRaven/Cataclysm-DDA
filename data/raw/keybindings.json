@@ -1486,6 +1486,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_OUTFIT",
+    "name": "Change outfit",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_GENDER",
     "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
