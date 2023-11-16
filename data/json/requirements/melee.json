@@ -221,7 +221,8 @@
         [ "sword_xiphos", -1 ],
         [ "sword_bronze", -1 ],
         [ "sword_bayonet", -1 ],
-        [ "bio_blade_weapon", -1 ]
+        [ "survivor_machete", -1 ],
+        [ "survivor_machete_qt", -1 ]
       ]
     ]
   },
