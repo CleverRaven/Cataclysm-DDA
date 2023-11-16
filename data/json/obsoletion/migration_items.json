@@ -251,6 +251,11 @@
     "sealed": false
   },
   {
+    "id": "bot_mininuke_hack",
+    "type": "MIGRATION",
+    "replace": "broken_mininuke_hack",
+  },
+  {
     "id": "20x66_bootleg_flechette",
     "type": "MIGRATION",
     "replace": "20x66_shot"

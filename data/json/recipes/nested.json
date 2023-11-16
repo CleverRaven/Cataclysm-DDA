@@ -8,7 +8,7 @@
     "name": "bows",
     "description": "Recipes related to constructing bows to launch arrows with.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "selfbow", "shortbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
+    "nested_category_data": [ "selfbow", "shortbow", "reflexbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
     "difficulty": 1
   },
   {
@@ -5310,7 +5310,6 @@
       "bot_dispatch_military",
       "bot_turret_searchlight",
       "bot_molebot",
-      "bot_mininuke_hack",
       "bot_nursebot",
       "bot_skitterbot",
       "bot_secubot",
