@@ -73,10 +73,7 @@
     "name": "GROUP_PIGEON_UPGRADE",
     "default": "mon_pigeon",
     "//": "pigeon upgrades",
-    "monsters": [
-      { "monster": "mon_pigeon", "weight": 500 },
-      { "monster": "mon_pigeon_passenger", "weight": 50 }
-    ]
+    "monsters": [ { "monster": "mon_pigeon", "weight": 500 }, { "monster": "mon_pigeon_passenger", "weight": 50 } ]
   },
   {
     "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
