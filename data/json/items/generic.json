@@ -1732,23 +1732,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_mininuke_hack",
-    "symbol": ",",
-    "color": "magenta",
-    "name": { "str": "broken mininuke hack" },
-    "category": "other",
-    "description": "A broken mininuke hack.  Just looking at the wreck makes you shiver.  Could be gutted for parts.",
-    "price": 18000,
-    "price_postapoc": 10,
-    "material": [ "aluminum", "plastic" ],
-    "weight": "25000 g",
-    "volume": "18750 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_gasbomb_hack",
     "symbol": ",",
     "color": "dark_gray",
