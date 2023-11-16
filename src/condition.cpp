@@ -1166,6 +1166,48 @@ void conditional_t::set_is_valid( bool is_npc )
     };
 }
 
+void conditional_t::set_is_avatar( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character() && d.actor( is_npc )->get_character()->is_avatar();
+    };
+}
+
+void conditional_t::set_is_npc( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_npc();
+    };
+}
+
+void conditional_t::set_is_character( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character();
+    };
+}
+
+void conditional_t::set_is_monster( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_monster();
+    };
+}
+
+void conditional_t::set_is_item( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_item();
+    };
+}
+
+void conditional_t::set_is_furniture( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_computer();
+    };
+}
+
 void conditional_t::set_no_assigned_mission()
 {
     condition = []( dialogue const & d ) {
