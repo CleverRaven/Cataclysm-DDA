@@ -1000,7 +1000,7 @@
     "replace_materials": { "steel": "budget_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
-    "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
+    "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
