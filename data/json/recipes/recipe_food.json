@@ -727,12 +727,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 5 ],
+        [ "seed_sunflower", 5 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 5 ]
       ]
     ]
   },
@@ -768,12 +768,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 5 ],
+        [ "seed_sunflower", 5 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 5 ]
       ]
     ]
   },
@@ -9350,6 +9350,7 @@
         [ "seed_thyme", 3 ],
         [ "seed_canola", 1 ],
         [ "seed_watermelon", 3 ],
+        [ "seed_wintergreen", 3 ],
         [ "seed_pumpkin", 3 ],
         [ "seed_sunflower", 3 ],
         [ "seed_dogbane", 3 ],

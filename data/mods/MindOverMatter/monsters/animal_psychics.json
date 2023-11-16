@@ -30,6 +30,7 @@
       {
         "id": "ranged_pull",
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
         "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
         "miss_msg_u": "",
@@ -80,6 +81,7 @@
       {
         "id": "psi_hodag_speed_boost",
         "type": "spell",
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
         "cooldown": 18,
         "monster_message": "%1$s moves too quickly for the eye to follow!"
@@ -131,6 +133,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
         "cooldown": 18,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares and lets out a silent cry!"
       }
     ],

@@ -38,6 +38,7 @@
         "!": "t_region_groundcover_urban",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "q": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -69,6 +70,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 3, "y": 14, "chance": 60, "rotation": 270 },
+        { "vehicle": "rolling_trash_can", "x": 11, "y": 1, "chance": 80, "status": 0 },
         { "vehicle": "tricycle", "x": 4, "y": 7, "chance": 40, "status": 0 }
       ]
     }

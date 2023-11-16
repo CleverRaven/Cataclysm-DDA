@@ -80,6 +80,7 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 3,
+    "stomach_size": 500,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
     "harvest": "mammal_fur",
@@ -112,6 +113,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "vision_day": 30,
+    "stomach_size": 3000,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
@@ -123,8 +125,8 @@
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
-    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER" ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 }, [ "BROWSE", 40 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER", "EATS" ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -180,6 +182,7 @@
     "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 1,
+    "stomach_size": 30,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
@@ -191,8 +194,8 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1" ]
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1", "EATS" ]
   },
   {
     "id": "mon_lab_rat",
@@ -218,6 +221,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
+    "stomach_size": 30,
     "vision_day": 30,
     "vision_night": 15,
     "harvest": "rat_with_skull",
@@ -225,13 +229,25 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s lets out a happy squeak as you give its head a small scritch."
     },
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "KEENNOSE",
+      "CANPLAY",
+      "WARM",
+      "SWIMS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "CAN_BE_CULLED",
+      "EATS"
+    ]
   },
   {
     "id": "mon_boar_wild_piglet",
@@ -258,14 +274,15 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 4,
+    "stomach_size": 300,
     "harvest": "mammal_small_boar",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "special_attacks": [ [ "EAT_FOOD", 40 ], [ "EAT_CARRION", 60 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
   },
   {
     "id": "mon_boar_wild",
@@ -292,6 +309,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 2,
+    "stomach_size": 1700,
     "harvest": "boar_with_skull",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_boar_wild_piglet", "baby_count": 8, "baby_timer": 154 },
@@ -301,8 +319,19 @@
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zpig_brute",
-    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CORNERED_FIGHTER" ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ], [ "EAT_CARRION", 60 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "PET_MOUNTABLE",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "KEENNOSE",
+      "CORNERED_FIGHTER",
+      "EATS"
+    ],
     "armor": { "bash": 2, "cut": 1 }
   },
   {
@@ -370,7 +399,7 @@
     "id": "mon_cat",
     "type": "MONSTER",
     "name": { "str": "shorthair cat" },
-    "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
+    "description": "In the absence of human stewardship, this small, domesticated predator has grown wary of humans.  Harried by the elements and the rigors of survival, it has become very skittish but is still motivated by food.",
     "default_faction": "cat",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -735,6 +764,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
+    "stomach_size": 2000,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -746,9 +776,9 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "upgrades": { "age_grow": 180, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "special_attacks": [ [ "GRAZE", 20 ], [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED", "EATS" ],
     "armor": { "bash": 2 }
   },
   {
@@ -775,6 +805,7 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
+    "stomach_size": 6000,
     "starting_ammo": { "milk_raw": 40 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
@@ -787,7 +818,7 @@
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "special_attacks": [ [ "GRAZE", 20 ], [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [
       "SEES",
@@ -800,7 +831,8 @@
       "PET_WONT_FOLLOW",
       "MILKABLE",
       "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "armor": { "bash": 2, "electric": 1 }
   },
@@ -824,16 +856,18 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 3,
+    "stomach_size": 250,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "fear_triggers": [ "SOUND" ],
     "harvest": "mammal_fur_canis",
     "dissect": "dissect_lupine_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "EATS" ],
     "armor": { "bash": 1 }
   },
   {
@@ -859,13 +893,15 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
     "vision_night": 5,
+    "stomach_size": 250,
     "harvest": "mammal_small_fur",
     "dissect": "dissect_lupine_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "fear_triggers": [ "SOUND" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
     "armor": { "bash": 1 }
   },
   {
@@ -924,6 +960,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
+    "stomach_size": 400,
     "vision_night": 12,
     "harvest": "deer_with_skull",
     "dissect": "dissect_cattle_sample_single",
@@ -935,8 +972,8 @@
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS" ]
   },
   {
     "id": "mon_dog",
@@ -964,6 +1001,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 3,
+    "stomach_size": 250,
     "vision_night": 5,
     "zombify_into": "mon_zombie_dog",
     "death_drops": "mon_dog_death_drops",
@@ -995,7 +1033,8 @@
       "SMELLS",
       "SWARMS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1016,6 +1055,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
+    "stomach_size": 150,
     "vision_night": 4,
     "harvest": "dog_small_with_skull",
     "upgrades": { "age_grow": 42, "into": "mon_dog" },
@@ -1035,6 +1075,7 @@
     "melee_skill": 4,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "vision_night": 4,
     "harvest": "dog_with_skull_leather",
     "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
@@ -1057,7 +1098,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1082,6 +1124,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "stomach_size": 150,
     "vision_night": 3,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1104,7 +1147,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1170,6 +1214,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
+    "stomach_size": 150,
     "vision_night": 4,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
@@ -1192,7 +1237,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1208,6 +1254,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 1,
+    "stomach_size": 115,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "delete": { "zombify_into": "mon_zombie_dog" },
     "fear_triggers": [ "HURT" ],
@@ -1234,7 +1281,8 @@
       "SMELLS",
       "SWARMS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1260,6 +1308,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
+    "stomach_size": 100,
     "vision_night": 4,
     "harvest": "dog_tiny_with_skull",
     "families": [ "prof_intro_biology", "prof_physiology" ],
@@ -1285,7 +1334,8 @@
       "SEES",
       "SMELLS",
       "SWARMS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1323,7 +1373,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1349,6 +1400,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
+    "stomach_size": 100,
     "vision_night": 4,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1372,7 +1424,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1418,6 +1471,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
+    "stomach_size": 150,
     "vision_night": 3,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1444,7 +1498,8 @@
       "SEES",
       "SMELLS",
       "SWARMS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1462,6 +1517,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "stomach_size": 115,
     "vision_night": 6,
     "harvest": "dog_tiny_with_skull",
     "fear_triggers": [ "HURT" ],
@@ -1485,7 +1541,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1511,6 +1568,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
+    "stomach_size": 100,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
@@ -1535,7 +1593,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1551,6 +1610,7 @@
     "morale": 10,
     "melee_skill": 3,
     "melee_dice_sides": 2,
+    "stomach_size": 115,
     "vision_night": 6,
     "fear_triggers": [ "HURT" ],
     "harvest": "dog_small_with_skull_leather",
@@ -1576,7 +1636,8 @@
       "SEES",
       "SMELLS",
       "STUMBLES",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1602,6 +1663,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
+    "stomach_size": 100,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_tiny_with_skull",
@@ -1627,7 +1689,8 @@
       "SEES",
       "SMELLS",
       "STUMBLES",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1663,7 +1726,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1689,6 +1753,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
+    "stomach_size": 150,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1712,7 +1777,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1733,6 +1799,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 2,
     "vision_night": 6,
+    "stomach_size": 650,
     "harvest": "mammal_fur_canis",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
@@ -1754,7 +1821,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1780,6 +1848,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
+    "stomach_size": 200,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1804,7 +1873,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1824,6 +1894,7 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 6,
+    "stomach_size": 650,
     "harvest": "dog_with_skull_leather",
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
@@ -1846,7 +1917,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1872,6 +1944,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
+    "stomach_size": 200,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1895,7 +1968,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1935,7 +2009,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1961,6 +2036,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
+    "stomach_size": 150,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "dog_small_with_skull",
@@ -1984,7 +2060,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "EATS"
     ]
   },
   {
@@ -1997,6 +2074,7 @@
     "weight": "24 kg",
     "morale": 10,
     "aggression": -20,
+    "stomach_size": 650,
     "reproduction": { "baby_monster": "mon_dog_samoyed_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "delete": { "flags": [ "GROUP_MORALE", "SWARMS" ] }
@@ -2008,6 +2086,7 @@
     "name": { "str": "Samoyed puppy", "str_pl": "Samoyed puppies" },
     "description": "An adorable, defenseless Samoyed puppy.  Much safer to tame than an adult dog.",
     "aggression": -30,
+    "stomach_size": 200,
     "upgrades": { "age_grow": 42, "into": "mon_dog_samoyed" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -2100,8 +2179,10 @@
     "harvest": "mammal_small_fur",
     "dissect": "dissect_mouse_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
+    "stomach_size": 30,
+    "special_attacks": [ [ "GRAZE", 100 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS" ]
   },
   {
     "id": "mon_hare",
@@ -2147,6 +2228,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
+    "stomach_size": 2750,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -2154,9 +2236,20 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "upgrades": { "age_grow": 450, "into": "mon_horse" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
-    "special_attacks": [ [ "EAT_CROP", 100 ] ],
+    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 50 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CAN_BE_CULLED" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "NO_BREED",
+      "CAN_BE_CULLED",
+      "EATS"
+    ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -2184,6 +2277,7 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
+    "stomach_size": 11000,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -2193,10 +2287,21 @@
     "reproduction": { "baby_monster": "mon_horse_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 50 ] ],
     "zombify_into": "mon_zombie_horse",
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "MILKABLE",
+      "EATS"
+    ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -2232,9 +2337,10 @@
     "dodge": 2,
     "harvest": "mammal_tiny",
     "dissect": "dissect_mouse_sample_single",
+    "special_attacks": [ [ "GRAZE", 50 ] ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ]
   },
   {
     "id": "mon_mink",
@@ -2288,6 +2394,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
+    "stomach_size": 8000,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
@@ -2299,8 +2406,8 @@
     "dissect": "dissect_cattle_sample_large",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER", "EATS" ],
     "armor": { "bash": 4, "cut": 1, "bullet": 1, "electric": 1 }
   },
   {
@@ -2327,6 +2434,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
+    "stomach_size": 2000,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -2336,8 +2444,8 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "upgrades": { "age_grow": 180, "into": "mon_moose" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "EATS" ],
     "armor": { "bash": 2 }
   },
   {
@@ -2363,8 +2471,9 @@
     "melee_dice": 5,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "special_attacks": [ { "id": "smash", "throw_strength": 72 } ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 }, [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
     "dodge": 1,
+    "stomach_size": 9000,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
@@ -2375,7 +2484,7 @@
     "dissect": "dissect_cattle_sample_large",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER", "EATS" ],
     "armor": { "bash": 14, "cut": 1, "bullet": 10, "electric": 1 }
   },
   {
@@ -2402,6 +2511,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
+    "stomach_size": 2500,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -2412,8 +2522,8 @@
     "upgrades": { "age_grow": 120, "into": "mon_tusked_moose" },
     "//": "Baby mutant moose need to grow quicker to be able to survive in the world after the cataclysm.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "EATS" ],
     "armor": { "bash": 2 }
   },
   {
@@ -2468,11 +2578,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "vision_night": 5,
+    "stomach_size": 50,
+    "special_attacks": [ [ "BROWSE", 150 ] ],
     "harvest": "opossum_with_skull",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
   },
   {
     "id": "mon_otter",
@@ -2525,6 +2637,7 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 4,
+    "stomach_size": 300,
     "harvest": "mammal_small_pig",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
@@ -2533,7 +2646,18 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_WONT_FOLLOW",
+      "WARM",
+      "KEENNOSE",
+      "CAN_BE_CULLED",
+      "EATS"
+    ]
   },
   {
     "id": "mon_pig",
@@ -2559,6 +2683,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
+    "stomach_size": 1700,
     "harvest": "pig_with_skull",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_pig_piglet", "baby_count": 8, "baby_timer": 154 },
@@ -2580,7 +2705,8 @@
       "WARM",
       "KEENNOSE",
       "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -2604,6 +2730,8 @@
     "morale": -7,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
+    "stomach_size": 100,
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
     "harvest": "rabbit_with_skull",
     "dissect": "dissect_rabbit_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
@@ -2617,7 +2745,8 @@
       "PET_WONT_FOLLOW",
       "WARM",
       "CAN_BE_CULLED",
-      "GOODHEARING"
+      "GOODHEARING",
+      "EATS"
     ]
   },
   {
@@ -2631,6 +2760,7 @@
     "speed": 125,
     "attack_cost": 125,
     "dodge": 8,
+    "stomach_size": 25,
     "harvest": "mammal_tiny"
   },
   {
@@ -2696,8 +2826,10 @@
     "harvest": "raccoon_with_skull",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "vision_night": 5,
+    "stomach_size": 200,
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
   },
   {
     "id": "mon_sewer_rat",
@@ -2725,13 +2857,15 @@
     "dodge": 2,
     "vision_day": 1,
     "vision_night": 30,
+    "stomach_size": 30,
     "harvest": "rat_with_skull",
     "dissect": "dissect_rat_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "EATS" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -2756,14 +2890,16 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "anger_triggers": [  ],
+    "stomach_size": 250,
     "harvest": "mammal_small_wool",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
+    "special_attacks": [ [ "GRAZE", 60 ], [ "EAT_CROP", 120 ] ],
     "upgrades": { "age_grow": 240, "into": "mon_sheep" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CAN_BE_CULLED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CAN_BE_CULLED", "EATS" ]
   },
   {
     "id": "mon_sheep",
@@ -2786,6 +2922,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
+    "stomach_size": 550,
     "starting_ammo": { "milk_raw": 5 },
     "anger_triggers": [  ],
     "shearing": [ { "result": "wool_staple", "amount": 22 } ],
@@ -2797,10 +2934,21 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "special_attacks": [ [ "EAT_CROP", 120 ] ],
+    "special_attacks": [ [ "EAT_CROP", 120 ], [ "GRAZE", 60 ] ],
     "zombify_into": "mon_zombie_sheep",
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "PET_WONT_FOLLOW",
+      "MILKABLE",
+      "CAN_BE_CULLED",
+      "EATS"
+    ]
   },
   {
     "id": "mon_goat_kid",
@@ -2832,7 +2980,7 @@
     "reproduction": { "baby_monster": "mon_goat_kid", "baby_count": 1, "baby_timer": 275 },
     "//": "Timer copied from sheep",
     "baby_flags": [ "SPRING" ],
-    "special_attacks": [ [ "EAT_CROP", 100 ] ],
+    "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 60 ] ],
     "zombify_into": "mon_zombie_goat",
     "flags": [
       "SEES",
@@ -2844,7 +2992,8 @@
       "PET_WONT_FOLLOW",
       "MILKABLE",
       "CLIMBS",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "EATS"
     ]
   },
   {
@@ -2869,11 +3018,13 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
+    "stomach_size": 30,
     "harvest": "rat_with_skull",
     "dissect": "dissect_mouse_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
+    "special_attacks": [ [ "BROWSE", 120 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS" ]
   },
   {
     "id": "mon_squirrel_red",
@@ -2898,11 +3049,13 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
+    "stomach_size": 30,
+    "special_attacks": [ [ "BROWSE", 120 ] ],
     "harvest": "rat_with_skull",
     "dissect": "dissect_mouse_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS" ]
   },
   {
     "id": "mon_weasel",
@@ -3017,6 +3170,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 5,
+    "stomach_size": 450,
     "vision_night": 13,
     "harvest": "deer_with_skull",
     "dissect": "dissect_cattle_sample_small",
@@ -3028,8 +3182,8 @@
     "reproduction": { "baby_monster": "mon_reindeer_fawn", "baby_count": 5, "baby_timer": 340 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "WINTER", "AUTUMN" ],
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER", "EATS" ],
     "armor": { "electric": 1 }
   },
   {
@@ -3045,11 +3199,12 @@
     "symbol": "r",
     "morale": 42,
     "melee_dice_sides": 4,
+    "stomach_size": 200,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 4,
     "harvest": "mammal_fur",
     "dissect": "dissect_cattle_sample_single",
-    "special_attacks": [ [ "EAT_FOOD", 60 ] ],
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
     "upgrades": { "age_grow": 500, "into": "mon_reindeer" }
   },
   {
@@ -3075,14 +3230,16 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "anger_triggers": [  ],
+    "stomach_size": 200,
     "harvest": "mammal_small_wool",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "upgrades": { "age_grow": 240, "into": "mon_llama" },
+    "special_attacks": [ [ "EAT_CROP", 150 ], [ "GRAZE", 150 ] ],
     "//": "Puberty reached in 6-9 months, copied from lamb but it probably applies the same on llamas.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS" ]
   },
   {
     "id": "mon_llama",
@@ -3106,6 +3263,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
+    "stomach_size": 400,
     "starting_ammo": { "milk_raw": 5 },
     "anger_triggers": [  ],
     "shearing": [ { "result": "wool_staple", "amount": 22 } ],
@@ -3117,7 +3275,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "special_attacks": [ [ "EAT_CROP", 120 ] ],
+    "special_attacks": [ [ "EAT_CROP", 120 ], [ "GRAZE", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [
       "SEES",
@@ -3129,7 +3287,8 @@
       "PET_WONT_FOLLOW",
       "MILKABLE",
       "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
