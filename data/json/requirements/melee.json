@@ -232,8 +232,6 @@
     "//": "Any basic thing that can be used like a medium sword.",
     "tools": [
       [
-        [ "makeshift_machete", -1 ],
-        [ "machete_gimmick", -1 ],
         [ "cavalry_sabre_fake", -1 ],
         [ "jian_fake", -1 ],
         [ "jian_inferior", -1 ],
