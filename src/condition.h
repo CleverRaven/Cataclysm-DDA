@@ -184,6 +184,7 @@ struct conditional_t {
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
         void set_is_alive( bool is_npc = false );
+        void set_is_valid( bool is_npc = false );
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_is_male( bool is_npc = false ) {
             set_is_gender( true, is_npc );

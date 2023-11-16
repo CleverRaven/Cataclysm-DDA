@@ -1159,6 +1159,13 @@ void conditional_t::set_is_alive( bool is_npc )
     };
 }
 
+void conditional_t::set_is_valid( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return is_npc ? d.has_beta : d.has_alpha;
+    };
+}
+
 void conditional_t::set_no_assigned_mission()
 {
     condition = []( dialogue const & d ) {
@@ -3476,6 +3483,7 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_t::set_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_t::set_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_t::set_is_alive },
+    {"u_is_valid", "npc_is_valid", &conditional_t::set_is_valid },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
