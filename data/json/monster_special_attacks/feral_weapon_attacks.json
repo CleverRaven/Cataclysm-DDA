@@ -467,7 +467,6 @@
     "cooldown": 1,
     "move_cost": 196,
     "accuracy": 3,
-    "range": 2,
     "//1": "Feral melee skill + weapon's to hit, so 4-1=3",
     "damage_max_instance": [ { "damage_type": "bash", "amount": 12 }, { "damage_type": "stab", "amount": 22 } ],
     "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
