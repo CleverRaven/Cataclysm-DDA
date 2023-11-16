@@ -2256,7 +2256,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
     const Creature *target = current_target();
     if( target == nullptr ) {
-        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s can't see anyone around. Great time to reload.",
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s can't see anyone around: great time to reload.",
                        name );
         return true;
     }
