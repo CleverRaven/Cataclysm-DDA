@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_rose_hips",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -19,7 +19,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_elderberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -32,7 +32,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_mulberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -45,7 +45,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_huckleberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -58,7 +58,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_raspberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -71,7 +71,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_strawberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -84,7 +84,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_blueberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -97,7 +97,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_apple",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -110,7 +110,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_banana",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -123,7 +123,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_orange",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -136,7 +136,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_lemon",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -149,7 +149,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_grapefruit",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -162,7 +162,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_pear",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -175,7 +175,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_cherries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -188,7 +188,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_plums",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -201,7 +201,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_grapes",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -214,7 +214,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_pineapple",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -227,7 +227,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_peach",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -240,7 +240,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_watermelon",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -253,7 +253,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_melon",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -266,7 +266,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_blackberries",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -279,7 +279,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_mango",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -292,7 +292,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_pomegranate",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -305,7 +305,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_papaya",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -318,7 +318,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_guayaba",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -331,7 +331,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_maracuya",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -344,7 +344,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_kiwi",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -357,7 +357,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_lulo",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -370,7 +370,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_plantain",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -383,7 +383,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_apricot",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -396,7 +396,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_lettuce",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -409,7 +409,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_cabbage",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -422,7 +422,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_tomato",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -435,7 +435,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_broccoli",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -448,7 +448,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_zucchini",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -461,7 +461,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_onion",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -474,7 +474,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_carrot",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -487,7 +487,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_corn",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -500,7 +500,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_pumpkin",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -513,7 +513,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_potato",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -526,7 +526,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_cucumber",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -539,7 +539,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_celery",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -552,7 +552,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_rhubarb",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -565,7 +565,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "irradiated_eggplant",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
