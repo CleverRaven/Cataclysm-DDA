@@ -47,7 +47,7 @@
       [ "pouch_autoclave", 10 ],
       [ "mask_dust", 65 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
-      [ "contacts", 30 ],
+      { "item": "contacts", "prob": 30, "count": 6 },
       { "group": "clothing_glasses", "prob": 30 },
       [ "file", 10 ],
       [ "textbook_computer", 8 ],
