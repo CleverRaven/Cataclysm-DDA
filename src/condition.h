@@ -184,7 +184,6 @@ struct conditional_t {
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
         void set_is_alive( bool is_npc = false );
-        void set_is_valid( bool is_npc = false );
         void set_is_avatar( bool is_npc = false );
         void set_is_npc( bool is_npc = false );
         void set_is_character( bool is_npc = false );

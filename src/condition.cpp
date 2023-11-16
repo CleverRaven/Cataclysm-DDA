@@ -1159,13 +1159,6 @@ void conditional_t::set_is_alive( bool is_npc )
     };
 }
 
-void conditional_t::set_is_valid( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return is_npc ? d.has_beta : d.has_alpha;
-    };
-}
-
 void conditional_t::set_is_avatar( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
@@ -3525,7 +3518,12 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_t::set_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_t::set_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_t::set_is_alive },
-    {"u_is_valid", "npc_is_valid", &conditional_t::set_is_valid },
+    {"u_is_avatar", "npc_is_avatar", &conditional_t::set_is_avatar },
+    {"u_is_npc", "npc_is_npc", &conditional_t::set_is_npc },
+    {"u_is_character", "npc_is_character", &conditional_t::set_is_character },
+    {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
+    {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
+    {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

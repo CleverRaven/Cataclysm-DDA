@@ -3875,7 +3875,10 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, std::string_view memb
                          popup_w_interrupt_query_msg, interrupt_type, global,
              is_npc]( dialogue const & d ) {
         Character *target = d.actor( is_npc )->get_character();
-        if( !global && ( !target || target->is_npc() ) ) {
+        if( global ) {
+            target = &get_player_character();
+        }
+        if( !target || target->is_npc() ) {
             return;
         }
         game_message_type type = m_neutral;
@@ -3924,7 +3927,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, std::string_view memb
         talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
         talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
         parse_tags( translated_message, alpha, beta, d );
-        if( sound && target ) {
+        if( sound ) {
             bool display = false;
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
@@ -3960,8 +3963,6 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, std::string_view memb
             //}
             // I leave this to contributors who might actually wish to implement such interrupts,
             // so as to not overcomplicate the code.
-        } else if( global ) {
-            add_msg( type, translated_message );
         } else {
             target->add_msg_if_player( type, translated_message );
         }
