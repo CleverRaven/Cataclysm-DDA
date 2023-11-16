@@ -385,6 +385,8 @@ struct requirement_data {
          */
         void dump( JsonOut &jsout ) const;
 
+        uint64_t make_hash() const;
+
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
