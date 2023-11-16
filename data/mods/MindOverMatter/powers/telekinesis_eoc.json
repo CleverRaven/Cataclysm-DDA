@@ -103,7 +103,6 @@
     ],
     "false_effect": [
       { "run_eocs": "EOC_TELEKIN_REMOVE_JACKING_TOOL" },
-      { "u_message": "You let the vehicle settle gently to the ground.", "type": "bad" },
       {
         "math": [ "u_val('stamina')", "+=", "max( (6000 - (u_val('spell_level', 'spell: biokin_enhance_mobility') * 250) ), 2750)" ]
       }
@@ -134,31 +133,32 @@
         { "u_has_item": "telekin_lifting_jack_18" },
         { "u_has_item": "telekin_lifting_jack_19" },
         { "u_has_item": "telekin_lifting_jack_20" }
-      ],
-      "effect": [
-        { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-        { "u_remove_item_with": "telekin_lifting_jack_1" },
-        { "u_remove_item_with": "telekin_lifting_jack_2" },
-        { "u_remove_item_with": "telekin_lifting_jack_3" },
-        { "u_remove_item_with": "telekin_lifting_jack_4" },
-        { "u_remove_item_with": "telekin_lifting_jack_5" },
-        { "u_remove_item_with": "telekin_lifting_jack_6" },
-        { "u_remove_item_with": "telekin_lifting_jack_7" },
-        { "u_remove_item_with": "telekin_lifting_jack_8" },
-        { "u_remove_item_with": "telekin_lifting_jack_9" },
-        { "u_remove_item_with": "telekin_lifting_jack_10" },
-        { "u_remove_item_with": "telekin_lifting_jack_11" },
-        { "u_remove_item_with": "telekin_lifting_jack_12" },
-        { "u_remove_item_with": "telekin_lifting_jack_13" },
-        { "u_remove_item_with": "telekin_lifting_jack_14" },
-        { "u_remove_item_with": "telekin_lifting_jack_15" },
-        { "u_remove_item_with": "telekin_lifting_jack_16" },
-        { "u_remove_item_with": "telekin_lifting_jack_17" },
-        { "u_remove_item_with": "telekin_lifting_jack_18" },
-        { "u_remove_item_with": "telekin_lifting_jack_19" },
-        { "u_remove_item_with": "telekin_lifting_jack_20" }
       ]
-    }
+    },
+    "effect": [
+      { "u_message": "You let the vehicle settle gently to the ground.", "type": "bad" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_remove_item_with": "telekin_lifting_jack_1" },
+      { "u_remove_item_with": "telekin_lifting_jack_2" },
+      { "u_remove_item_with": "telekin_lifting_jack_3" },
+      { "u_remove_item_with": "telekin_lifting_jack_4" },
+      { "u_remove_item_with": "telekin_lifting_jack_5" },
+      { "u_remove_item_with": "telekin_lifting_jack_6" },
+      { "u_remove_item_with": "telekin_lifting_jack_7" },
+      { "u_remove_item_with": "telekin_lifting_jack_8" },
+      { "u_remove_item_with": "telekin_lifting_jack_9" },
+      { "u_remove_item_with": "telekin_lifting_jack_10" },
+      { "u_remove_item_with": "telekin_lifting_jack_11" },
+      { "u_remove_item_with": "telekin_lifting_jack_12" },
+      { "u_remove_item_with": "telekin_lifting_jack_13" },
+      { "u_remove_item_with": "telekin_lifting_jack_14" },
+      { "u_remove_item_with": "telekin_lifting_jack_15" },
+      { "u_remove_item_with": "telekin_lifting_jack_16" },
+      { "u_remove_item_with": "telekin_lifting_jack_17" },
+      { "u_remove_item_with": "telekin_lifting_jack_18" },
+      { "u_remove_item_with": "telekin_lifting_jack_19" },
+      { "u_remove_item_with": "telekin_lifting_jack_20" }
+    ]
   },
   {
     "type": "effect_on_condition",

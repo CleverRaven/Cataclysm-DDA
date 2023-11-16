@@ -29,6 +29,7 @@
     "vit_type": "counter",
     "name": { "str": "Maintained Powers Counter" },
     "min": 0,
-    "max": 100
+    "max": 100,
+    "rate": "0 h"
   }
 ]

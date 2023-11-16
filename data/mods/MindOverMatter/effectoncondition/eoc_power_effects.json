@@ -157,7 +157,8 @@
       { "u_lose_effect": "effect_vita_health" },
       { "u_lose_effect": "effect_vitakin_purge_rads" },
       { "u_lose_effect": "effect_vita_super_heal" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] }
+      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   },
   {
@@ -221,7 +222,8 @@
       { "u_lose_effect": "effect_telekinetic_levitation" },
       { "u_lose_effect": "effect_telepathic_learning_bonus" },
       { "u_lose_effect": "effect_vita_health" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] }
+      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   }
 ]

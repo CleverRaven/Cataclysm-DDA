@@ -6,10 +6,22 @@
     "desc": [
       "You're a little short of breath and your control over your powers isn't as sure as it was.  There might be unexpected results of you channeling psionics now."
     ],
-    "apply_message": "You feel a little tired.  All that psionic channeling is starting to wear you down.",
+    "apply_message": [
+      [ "You feel a little tired.  All that psionic channeling is starting to wear you down.", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ]
+    ],
     "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
     "max_intensity": 12,
-    "rating": "bad",
     "base_mods": {
       "health_amount": [ -1 ],
       "health_chance": [ 200 ],
@@ -62,25 +74,25 @@
     "max_intensity": 10,
     "max_duration": "24 hours",
     "base_mods": {
-      "per_mod": [ -2 ],
-      "int_mod": [ -2 ],
-      "pain_chance": [ 10 ],
-      "pain_min": [ 2 ],
-      "pain_max": [ 3 ],
-      "pain_max_val": [ 50 ],
-      "vomit_chance": [ 25 ],
-      "hurt_chance": [ -10 ],
+      "per_mod": [ -1 ],
+      "pain_chance": [ 100 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_max_val": [ 40 ],
+      "pain_tick": [ 200 ],
+      "vomit_chance": [ 100 ],
+      "hurt_chance": [ 300 ],
       "hurt_amount": [ 0 ],
       "hurt_tick": [ 200 ]
     },
     "scaling_mods": {
-      "per_mod": [ -1.2 ],
+      "per_mod": [ -0.8 ],
       "int_mod": [ -0.6 ],
-      "pain_min": [ 1 ],
-      "pain_max": [ 4 ],
-      "pain_max_val": [ 30 ],
+      "pain_min": [ 0 ],
+      "pain_max": [ 0 ],
+      "pain_max_val": [ 20 ],
       "vomit_chance": [ -2 ],
-      "hurt_chance": [ 8 ],
+      "hurt_chance": [ -5 ],
       "hurt_amount": [ 2, 1 ],
       "hurt_tick": [ -15 ]
     }
@@ -189,6 +201,19 @@
     ],
     "max_duration": "24 hours",
     "flags": [ "NO_SPELLCASTING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_nether_attention",
+    "name": [ "Observed" ],
+    "desc": [ "You have the strong impression that someone, or something, is watching you." ],
+    "remove_message": "The endless feeling of being watched finally fades away.",
+    "rating": "bad",
+    "show_intensity": false,
+    "max_intensity": 10,
+    "max_duration": "21 days",
+    "dur_add_perc": 25,
+    "int_dur_factor": "3 days"
   },
   {
     "type": "effect_type",
