@@ -6,6 +6,7 @@
       {
         "run_eocs": [
           "EOC_CLAIR_REMOVE_SPEED_READ",
+          "EOC_PHOTO_REMOVE_LIGHT_LOCAL",
           "EOC_PYRO_REMOVE_FIRE_TOOL",
           "EOC_PYRO_REMOVE_TORCH_WELD",
           "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
@@ -26,6 +27,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -65,6 +67,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -104,6 +107,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -143,6 +147,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -184,6 +189,7 @@
           "or": [
             { "u_has_trait": "CLAIR_SPEED_READ" },
             { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_photokin_light_local" },
             { "u_has_item": "pyrokinetic_fire_tool" },
             { "u_has_item": "pyrokinetic_torch_weld" },
             { "u_has_effect": "effect_telekinetic_strength" },

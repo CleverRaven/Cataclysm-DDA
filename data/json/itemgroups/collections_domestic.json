@@ -260,7 +260,7 @@
       [ "glasses_bifocal", 20 ],
       { "group": "cotton_ball_bag_used", "prob": 20 },
       { "group": "cotton_ball_bag_full", "prob": 3 },
-      [ "contacts", 20 ],
+      { "item": "contacts", "prob": 20, "count": 6 },
       { "item": "pride_flag", "prob": 5 },
       { "item": "national_flag", "prob": 1 },
       { "prob": 20, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
