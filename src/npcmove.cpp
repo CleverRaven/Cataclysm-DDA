@@ -628,11 +628,14 @@ void npc::assess_danger()
     }
 
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
+        if ( mem_combat.panic > 0 ) {
+            mem_combat.panic -=1;
+        }
         ai_cache.danger_assessment = assessment;
         return;
     }
 
-    // Warn about sufficiently risky nearby hostiles
+    // Assess nearby hostile NPCs
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
@@ -720,18 +723,27 @@ void npc::assess_danger()
         float player_diff = evaluate_enemy( player_character );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as an enemy of threat level %i", name, static_cast<int>( player_diff ) );
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as a friend of threat level %i", name, static_cast<int>( player_diff ) );
             if( dist <= 3 ) {
-                assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
+                player_diff = player_diff * ( 4 - dist ) / 2;
+                assessment = std::max( min_danger, assessment - player_diff );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "Player is very close to %s.  Bolstering morale by %i.",
+                    name, static_cast<int>(player_diff) );
+                if ( mem_combat.panic > 0 ) {
+                    mem_combat.panic -= 1;
+                }
                 mem_combat.swarm_count = 0;
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
                 mem_combat.friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses raw danger level as %i.", name, static_cast<int>( assessment ) );
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
@@ -743,26 +755,44 @@ void npc::assess_danger()
     // large crowds of minor creatures, until they start getting hurt.
     if( mem_combat.hostile_count > mem_combat.friendly_count ) {
         assessment *= std::min( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ), 1.0f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s adjusted danger level to %i after counting %i major hostiles vs %i friendlies.", 
+                        name, static_cast<int>( assessment ), mem_combat.hostile_count, mem_combat.friendly_count );
     }
 
-    mem_combat.old_danger_assessment = assessment; // store the raw danger level to be checked later.
+    mem_combat.old_danger_assessment = assessment;
     
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
+        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s evaluated final enemy danger as %i, ally strength as %i.", 
+                        name, static_cast<int>( assessment ), static_cast<int>( my_diff ) );
         float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
-                        + rng( -5, 5 ) + rng( -3, 3 );
-        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
+                        - static_cast<float>( mem_combat.panic ) + rng( -5, 5 ) + rng( -3, 3 );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s semi-randomly adjusted ally strength to %i.", 
+            name, static_cast<int>( my_diff ) );
         if( my_diff < assessment ) {
-            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery
-                                         + 1_turns * static_cast<int>( get_pain() / 5 );
+            time_duration run_away_for = std::max( 1_turns, 5_turns - 1_turns * personality.bravery
+                                         + 1_turns * ( static_cast<int>( get_pain() / 5 ) + mem_combat.panic );
+            // Each time NPC decides to run away, their panic increases, which increases likelihood
+            // and duration of running away.
+            // if they run to a more advantageous position, they'll reassess and rally.
+            mem_combat.panic += rng ( 1, 3 );
+            if( my_diff * 5 < assessment ){
+                // Things are looking more than a little grim, NPC should remember to keep running even
+                // if the worst baddy goes out of LOS.
+                mem_combat.panic += 10;
+            }
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
         } else if( npc_ranged && my_diff < assessment * mem_combat.swarm_count ) {
-            // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided to reposition/kite due to %i nearby enemies.",
+                        name, mem_combat.swarm_count );
             time_duration run_away_for = 2_turns;
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
+        } else if ( mem_combat.panic > 0 ) {
+            // Drop panic if you're fighting and seem to be doing OK.
+            mem_combat.panic -= 1;
         }
     }
 
@@ -2029,6 +2059,10 @@ npc_action npc::address_needs( float danger )
 
     if( one_in( 3 ) && can_reload_current() ) {
         return npc_reload;
+    }
+    
+    if( mem_combat.panic > 0 ) {
+        mem_combat.panic = 0;
     }
 
     item_location reloadable = find_reloadable();
