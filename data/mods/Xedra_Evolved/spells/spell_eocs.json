@@ -79,8 +79,7 @@
     ],
     "false_effect": [
       { "u_lose_trait": "karma_arms" },
-      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" },
-      { "math": [ "u_val('mana')", "+=", "200" ] }
+      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
     ]
   },
   {
@@ -112,11 +111,7 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       }
     ],
-    "false_effect": [
-      { "u_lose_trait": "devil_tail" },
-      { "u_message": "Your devil tail disappear in the air.", "type": "neutral" },
-      { "math": [ "u_val('mana')", "+=", "100" ] }
-    ]
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail disappear in the air.", "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
@@ -149,8 +144,7 @@
     ],
     "false_effect": [
       { "u_lose_trait": "stalker_eyes" },
-      { "u_message": "A great new world under your eyes disappears.", "type": "neutral" },
-      { "math": [ "u_val('mana')", "+=", "200" ] }
+      { "u_message": "A great new world under your eyes disappears.", "type": "neutral" }
     ]
   },
   {
