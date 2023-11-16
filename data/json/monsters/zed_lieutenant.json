@@ -318,10 +318,10 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
+    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "Lieutenants_active", "<", "1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
-    "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],
-    "deactivate_condition": { "math": [ "u_Lieutenants_active", ">=", "1" ] }
+    "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
+    "deactivate_condition": { "math": [ "Lieutenants_active", ">=", "1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -335,8 +335,8 @@
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_Lieutenants_active", ">", "0" ] },
-        { "math": [ "u_Shadow_Lurking", ">", "0" ] },
+        { "math": [ "Lieutenants_active", ">", "0" ] },
+        { "math": [ "Shadow_Lurking", ">", "0" ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -344,7 +344,7 @@
       ]
     },
     "effect": [
-      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       {
         "u_message": "You shiver as the night closes in…",
@@ -389,7 +389,7 @@
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "effect": [
-      { "u_adjust_var": "Shadow_Lurking", "adjustment": 1 },
+      { "math": [ "Shadow_Lurking", "+=", "1" ] },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
         "u_location_variable": { "global_val": "Shadow_monster" },
@@ -430,6 +430,25 @@
         "success_message": "You can't outrun your own shadow!",
         "force": true
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_MIGRATE_VARS",
+    "//1": "FIXME / TODO : Remove this after 0.H",
+    "//2": "Migrate's player character's (ONLY PC's) shadow-related npctalkvars to global ones next time the game is loaded and then never again.",
+    "//3": "Only migrates if player character actually has relevant npctalkvar (expects_vars)",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "global": true,
+    "run_for_npcs": false,
+    "condition": {
+      "and": [ { "math": [ "Shadow_Vars_Fixed", "!=", "1" ] }, { "expects_vars": [ "u_Shadow_Lurking", "u_Lieutenants_active" ] } ]
+    },
+    "effect": [
+      { "math": [ "Shadow_Vars_Fixed", "=", "1" ] },
+      { "math": [ "Shadow_Lurking", "=", "u_Shadow_Lurking" ] },
+      { "math": [ "Lieutenants_active", "=", "u_Lieutenants_active" ] }
     ]
   }
 ]
