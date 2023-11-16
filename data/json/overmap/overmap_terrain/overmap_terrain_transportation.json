@@ -6,6 +6,7 @@
     "copy-from": "generic_transportation",
     "color": "dark_gray",
     "see_cost": 2,
+    "travel_cost_type": "road",
     "extras": "road",
     "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },
@@ -17,6 +18,7 @@
     "sym": "┼",
     "color": "yellow",
     "see_cost": 2,
+    "travel_cost_type": "road",
     "extras": "road_nesw_manhole",
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
@@ -28,6 +30,7 @@
     "sym": "┼",
     "color": "dark_gray",
     "see_cost": 2,
+    "travel_cost_type": "road",
     "extras": "city_center",
     "flags": [ "NO_ROTATE" ]
   },
@@ -45,12 +48,14 @@
     "id": "bridge",
     "copy-from": "generic_bridge",
     "color": "blue",
+    "travel_cost_type": "water",
     "flags": [ "RIVER" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridge_road",
     "copy-from": "generic_bridge",
+    "travel_cost_type": "road",
     "name": "bridge (overpass)"
   },
   {
@@ -59,6 +64,7 @@
     "copy-from": "generic_bridge",
     "name": "bridgehead (ground)",
     "sym": "v",
+    "travel_cost_type": "road",
     "extras": "bridgehead_ground"
   },
   {
@@ -72,6 +78,7 @@
     "type": "overmap_terrain",
     "id": "bridgehead_ramp",
     "copy-from": "generic_bridge",
+    "travel_cost_type": "road",
     "name": "bridgehead (ramp)",
     "sym": "^"
   },
@@ -109,6 +116,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "forest_trail_straight" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "forest_trail_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "forest_trail_four_way" } ],
+    "travel_cost_type": "trail",
     "flags": [ "LINEAR" ],
     "land_use_code": "forest"
   },
@@ -180,6 +188,7 @@
     "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
     "spawns": { "group": "GROUP_SUBWAY", "population": [ 1, 3 ], "chance": 66 },
+    "travel_cost_type": "dirt_road",
     "flags": [ "LINEAR" ]
   },
   {
@@ -195,6 +204,7 @@
     "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
     "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 3 ], "chance": 50 },
+    "travel_cost_type": "dirt_road",
     "flags": [ "LINEAR" ]
   },
   {
