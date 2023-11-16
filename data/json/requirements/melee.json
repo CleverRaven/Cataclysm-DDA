@@ -209,7 +209,7 @@
     "id": "basic_short_swords",
     "type": "requirement",
     "//": "Any basic thing you could use as a short sword, exlcudes high-quality things.",
-    "tools": [ [ [ "null", -1 ] ] ]
+    "tools": [ [ [ "makeshift_machete", -1 ], [ "machete_gimmick", -1 ], [ "machete", -1 ] ] ]
   },
   {
     "id": "real_short_swords",
