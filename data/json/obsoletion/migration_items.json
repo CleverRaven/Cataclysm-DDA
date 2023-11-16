@@ -249,5 +249,11 @@
     "type": "MIGRATION",
     "replace": "bag_zipper",
     "sealed": false
+  },
+  {
+    "id": "bot_mininuke_hack",
+    "type": "MIGRATION",
+    "replace": "broken_mininuke_hack",
+    "sealed": false
   }
 ]
