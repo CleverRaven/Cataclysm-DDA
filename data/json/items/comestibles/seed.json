@@ -301,7 +301,7 @@
   {
     "type": "COMESTIBLE",
     "id": "seed_lotus_boiled",
-    "name": { "str": "boiled lotus seed"},
+    "name": { "str": "boiled lotus seed" },
     "weight": "30 g",
     "flags": [ "EATEN_HOT" ],
     "color": "white",
