@@ -253,7 +253,7 @@
   {
     "id": "bot_mininuke_hack",
     "type": "MIGRATION",
-    "replace": "broken_mininuke_hack",
+    "replace": "broken_mininuke_hack"
   },
   {
     "id": "knife_combat_marine_mod",
