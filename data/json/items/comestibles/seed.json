@@ -286,23 +286,14 @@
     "symbol": "%",
     "calories": 27,
     "color": "white",
-    "vitamins": [
-      [
-        "calcium",
-        1
-      ],
-      [
-        "iron",
-        2
-      ]
-    ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "description": "Some lotus seeds, which can be used for planting, or cooked and eaten after picking off the bitter internal ingredients.  Must be planted in shallow water.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "RAW" ],
     "seed_data": {
       "plant_name": "lotus",
       "fruit": "lotus_rhizome",
       "seeds": true,
-      "byproducts": [ "withered" , "lotus" ],
+      "byproducts": [ "withered", "lotus" ],
       "grow": "91 days",
       "required_terrain_flag": "SHALLOW_WATER"
     }

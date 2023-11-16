@@ -231,22 +231,9 @@
     "price_postapoc": 10,
     "material": [ "veggy" ],
     "volume": "500 ml",
-    "flags": [ "SMOKABLE" , "FREEZERBURN" ],
+    "flags": [ "SMOKABLE", "FREEZERBURN" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [
-      [
-        "vitC",
-        94
-      ],
-      [
-        "calcium",
-        9
-      ],
-      [
-        "iron",
-        12
-      ]
-    ]
+    "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -642,7 +642,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lotus_rhizome_boiled",
-    "name": { "str": "boiled lotus rhizome"},
+    "name": { "str": "boiled lotus rhizome" },
     "weight": "200 g",
     "flags": [ "EATEN_HOT" ],
     "color": "white",
