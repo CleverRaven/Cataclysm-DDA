@@ -254,13 +254,11 @@ static bool obstacle_in_between( const tripoint &from, const tripoint &to, bool 
 {
     std::vector<tripoint> path = line_to( from, to );
     path.pop_back();
-    creature_tracker &creatures = get_creature_tracker();
     map &here = get_map();
     for( const tripoint &candidate : path ) {
-        Creature *inter = creatures.creature_at( candidate );
-        if( ignore_soft && here.( has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE ) ) ) {
-            // if the terrain is a thin obstacle and can be shot or attacked through, it doesn't matter if it's impassible,
-            // it's still not an obstacle.
+        if( ignore_soft && here.( has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, candidate ) ) ) {
+            // if the terrain is a thin obstacle and can be shot or attacked through, 
+            // it doesn't matter if it's impassible, it's still not an obstacle.
             return false;
         } else if( here.impassable( candidate ) ) {
             return true;
