@@ -5,6 +5,7 @@
     "effect": [
       { "u_lose_trait": "CLAIR_SPEED_READ" },
       { "u_lose_effect": "effect_clair_speed_reader" },
+      { "u_lose_effect": "effect_photokin_light_local" },
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_remove_item_with": "pyrokinetic_torch_weld" },
       { "u_lose_effect": "effect_telekinetic_strength" },
@@ -42,6 +43,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -81,6 +83,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -120,6 +123,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -159,6 +163,7 @@
       "or": [
         { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_photokin_light_local" },
         { "u_has_item": "pyrokinetic_fire_tool" },
         { "u_has_item": "pyrokinetic_torch_weld" },
         { "u_has_effect": "effect_telekinetic_strength" },
@@ -200,6 +205,7 @@
           "or": [
             { "u_has_trait": "CLAIR_SPEED_READ" },
             { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_photokin_light_local" },
             { "u_has_item": "pyrokinetic_fire_tool" },
             { "u_has_item": "pyrokinetic_torch_weld" },
             { "u_has_effect": "effect_telekinetic_strength" },
