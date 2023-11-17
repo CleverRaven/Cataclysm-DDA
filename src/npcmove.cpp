@@ -257,7 +257,7 @@ static bool obstacle_in_between( const tripoint &from, const tripoint &to, bool 
     map &here = get_map();
     for( const tripoint &candidate : path ) {
         if( ignore_soft && here.( has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, candidate ) ) ) {
-            // if the terrain is a thin obstacle and can be shot or attacked through, 
+            // if the terrain is a thin obstacle and can be shot or attacked through,
             // it doesn't matter if it's impassible, it's still not an obstacle.
             return false;
         } else if( here.impassable( candidate ) ) {
@@ -444,7 +444,7 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
     bool blind = is_blind();
-    if( !blind ){
+    if( !blind ) {
         // reset memory counters at the beginning of danger assessment
         mem_combat.hostile_count = 0;
         mem_combat.swarm_count = 0;
@@ -749,11 +749,11 @@ void npc::assess_danger()
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
     // large crowds of minor creatures, until they start getting hurt.
     if( mem_combat.hostile_count > mem_combat.friendly_count ) {
-        assessment *= std::min( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ), 1.0f );
+        assessment *= std::min( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ),
+                                1.0f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s adjusted danger level to %i after counting %i major hostiles vs %i friendlies.", 
                         name, static_cast<int>( assessment ), mem_combat.hostile_count, mem_combat.friendly_count );
     }
-    
     bool failed_reposition = false;
     if( mem_combat.repositioning ) {
         // this check runs each turn that the NPC is fleeing and assesses if the situation is 
@@ -846,7 +846,7 @@ void npc::assess_danger()
     }
 }
 
-void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here ) 
+void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here )
 {
     // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
     const field_type_id fd_fire = ::fd_fire;
@@ -867,7 +867,6 @@ void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here 
 
 void npc::npc_count_friend_or_foe( Character &player_character, map &here ) {
     const bool clairvoyant = clairvoyance();
-    
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
             continue;
