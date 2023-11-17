@@ -734,9 +734,11 @@ static void haul()
     bool hauling = player_character.is_hauling();
     bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
+    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
+    player_character.trim_haul_list( haulable_items );
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
-    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
+
 
     std::string help_header =
         _( "Select items on current tile to haul with you as you move.\nIf autohaul is enabled, you will automatically add encountered items to the haul.\nYou can set a filter to limit which items are automatically added." );

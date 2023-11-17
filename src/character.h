@@ -2751,6 +2751,7 @@ class Character : public Creature, public visitable
         void start_autohaul();
         void stop_autohaul();
         bool is_autohauling() const;
+        void trim_haul_list( const std::vector<item_location> &valid_items );
 
         /**
          * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.

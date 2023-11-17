@@ -8702,6 +8702,14 @@ bool Character::is_autohauling() const
     return autohaul;
 }
 
+void Character::trim_haul_list( const std::vector<item_location> &valid_items )
+{
+    haul_list.erase( std::remove_if( haul_list.begin(),
+    haul_list.end(), [&valid_items]( const item_location & it ) {
+        return std::count( valid_items.begin(), valid_items.end(), it ) == 0;
+    } ), haul_list.end() );
+}
+
 bool Character::knows_creature_type( const Creature *c ) const
 {
     if( const monster *mon = dynamic_cast<const monster *>( c ) ) {
