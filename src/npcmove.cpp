@@ -443,7 +443,7 @@ void npc::assess_danger()
     float highest_priority = 1.0f;
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
-    bool npc_blind = is_blind();
+    bool blind = is_blind();
     if( !blind ){
         // reset memory counters at the beginning of danger assessment
         mem_combat.hostile_count = 0;
@@ -764,7 +764,6 @@ void npc::assess_danger()
         bool range_reposition_fail = npc_ranged && mem_combat.old_danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
         if( melee_reposition_fail || range_reposition_fail ){
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s tried to reposition last turn, and the situation has not improved.", name );
-            mem_combat.panic += 1;
             failed_reposition = true;
             mem_combat.failed_repositions += 1;
         } else {
