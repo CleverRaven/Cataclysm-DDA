@@ -265,6 +265,7 @@ enum debug_filter : int {
     DF_MONSTER, // monster generic
     DF_MUTATION, // mutation/purification logic
     DF_NPC, // npc generic
+    DF_NPC_COMBATAI, // npc combat logic decisions
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic

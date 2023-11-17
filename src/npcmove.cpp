@@ -256,7 +256,7 @@ static bool obstacle_in_between( const tripoint &from, const tripoint &to, bool 
     path.pop_back();
     map &here = get_map();
     for( const tripoint &candidate : path ) {
-        if( ignore_soft && here.( has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, candidate ) ) ) {
+        if( ignore_soft && here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, candidate ) ) {
             // if the terrain is a thin obstacle and can be shot or attacked through,
             // it doesn't matter if it's impassible, it's still not an obstacle.
             return false;
@@ -489,22 +489,24 @@ void npc::assess_danger()
                 if( ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
                     too_close( foe.pos(), player_character.pos(), def_radius ) ) {
                     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a CLOSE opponent: %s.", name,
-                                   foe.type->nname() );
+                                   foe.disp_name() );
                     return true;
                 }
+                return false;
             case combat_engagement::WEAK:
                 if( foe.get_hp() <= average_damage_dealt() ) {
                     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a WEAK opponent: %s.", name,
-                                   foe.type->nname() );
+                                   foe.disp_name() );
                     return true;
                 }
-                return foe.get_hp() <= average_damage_dealt();
+                return false;
             case combat_engagement::HIT:
                 if( foe.has_effect( effect_hit_by_player ) ) {
                     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified an opponent that was HIT: %s.", name,
-                                   foe.type->nname() );
+                                   foe.disp_name() );
                     return true;
                 }
+                return false;
             case combat_engagement::NO_MOVE:
             case combat_engagement::FREE_FIRE:
                 return dist <= max_range;
@@ -521,16 +523,48 @@ void npc::assess_danger()
     }
     map &here = get_map();
     // cache string_id -> int_id conversion before hot loop
-    // first, check if we're about to be consumed by fire
-    npc_danger_fire( cur_threat_map, here );
+    // first, check if we're about to be consumed by fire    // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
+    const field_type_id fd_fire = ::fd_fire;
+    for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
+        if( pt == pos() || !here.get_field( pt, fd_fire ) ||
+            here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
+            continue;
+        }
+        int dist = rl_dist( pos(), pt );
+        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
+        if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
+            warn_about( "fire_bad", 1_minutes );
+            add_effect( effect_npc_fire_bad, 5_turns );
+            path.clear();
+        }
+    }
 
+    const bool clairvoyant = clairvoyance();
     // find our Character's friends and enemies
     if( !blind ) {
-        npc_count_friend_or_foe( player_character, here );
+        for( const npc &guy : g->all_npcs() ) {
+            if( &guy == this ) {
+                continue;
+            }
+            if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
+                continue;
+            }
+
+            if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+                ai_cache.friends.emplace_back( g->shared_from( guy ) );
+            } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
+                ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
+            }
+        }
+        if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+            ai_cache.friends.emplace_back( g->shared_from( player_character ) );
+        } else if( is_enemy() && sees( player_character ) ) {
+            // Unlike allies, hostile npcs should not see invisible players
+            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
+        }
     }
 
     // check how scary the nearby monsters are.
-    const bool clairvoyant = clairvoyance();
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 5.0f;
     for( const monster &critter : g->all_monsters() ) {
         if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
@@ -551,6 +585,9 @@ void npc::assess_danger()
         }
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
 
+        float critter_threat = evaluate_enemy( critter );
+        int dist = rl_dist( pos(), critter.pos() );
+
         // ignore targets behind glass even if we can see them.
         if( obstacle_in_between( pos(), critter.pos(), false ) ) {
             if( is_enemy() || !critter.friendly ) {
@@ -561,23 +598,24 @@ void npc::assess_danger()
             }
             continue;
         } else {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, critter.type->nname() );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.",
+                           name, critter.type->nname() );
         }
-        
-        float critter_threat = evaluate_enemy( critter );
+
         // warn and consider the odds for distant enemies
-        int dist = rl_dist( pos(), critter.pos() );
         if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
             if( dist < 8 && critter_threat > bravery_vs_pain ) {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.", name, critter.type->nname() );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.", name,
+                               critter.type->nname() );
                 mem_combat.hostile_count += 1;
             }
             if( dist < 4 && npc_ranged ) {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.", name, critter.type->nname() );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.", name,
+                               critter.type->nname() );
                 mem_combat.swarm_count += 1;
             }
         }
@@ -624,8 +662,8 @@ void npc::assess_danger()
     }
 
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
-        if ( mem_combat.panic > 0 ) {
-            mem_combat.panic -=1;
+        if( mem_combat.panic > 0 ) {
+            mem_combat.panic -= 1;
         }
         ai_cache.danger_assessment = assessment;
         return;
@@ -635,16 +673,17 @@ void npc::assess_danger()
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
-        
+
         if( obstacle_in_between( pos(), foe.pos(), true ) ) {
             // still warn about enemies behind impassable glass walls, but not as often.
             // since NPC threats have a higher chance of ignoring soft obstacles, we'll ignore them here.
             if( foe_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
             }
-        return 0.0f;
+            return 0.0f;
         } else {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, bogey );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.",
+                           name, bogey );
         }
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
@@ -703,7 +742,7 @@ void npc::assess_danger()
         }
         float guy_threat = evaluate_enemy( *guy.lock() );
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assessed friendly %s at threat level %i.",
-                                          name, guy.lock()->name, static_cast<int>( guy_threat );
+                       name, guy.lock()->disp_name(), static_cast<int>( guy_threat ) );
         // TODO: pick the strongest friendly guy around and declare them the leader
         // if you don't have a player character, regroup on them instead of the player
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
@@ -719,18 +758,20 @@ void npc::assess_danger()
         float player_diff = evaluate_enemy( player_character );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as an enemy of threat level %i", name, static_cast<int>( player_diff ) );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as an enemy of threat level %i",
+                           name, static_cast<int>( player_diff ) );
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as a friend of threat level %i", name, static_cast<int>( player_diff ) );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as a friend of threat level %i",
+                           name, static_cast<int>( player_diff ) );
             if( dist <= 3 ) {
                 player_diff = player_diff * ( 4 - dist ) / 2;
                 assessment = std::max( min_danger, assessment - player_diff );
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "Player is very close to %s.  Bolstering morale by %i.",
-                    name, static_cast<int>(player_diff) );
-                if ( mem_combat.panic > 0 ) {
+                               name, static_cast<int>( player_diff ) );
+                if( mem_combat.panic > 0 ) {
                     mem_combat.panic -= 1;
                 }
                 mem_combat.swarm_count = 0;
@@ -739,7 +780,8 @@ void npc::assess_danger()
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses raw danger level as %i.", name, static_cast<int>( assessment ) );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses raw danger level as %i.", name,
+                           static_cast<int>( assessment ) );
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
@@ -752,61 +794,68 @@ void npc::assess_danger()
     if( mem_combat.hostile_count > mem_combat.friendly_count ) {
         assessment *= std::min( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ),
                                 1.0f );
-        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s adjusted danger level to %i after counting %i major hostiles vs %i friendlies.", 
-                        name, static_cast<int>( assessment ), mem_combat.hostile_count, mem_combat.friendly_count );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s adjusted danger level to %i after counting %i major hostiles vs %i friendlies.",
+                       name, static_cast<int>( assessment ), mem_combat.hostile_count, mem_combat.friendly_count );
     }
     bool failed_reposition = false;
     if( mem_combat.repositioning ) {
-        // this check runs each turn that the NPC is fleeing and assesses if the situation is 
+        // this check runs each turn that the NPC is fleeing and assesses if the situation is
         // getting any better.
         // The longer they try to flee without improving, the more likely they become to stop
         // and stand their ground.
         bool melee_reposition_fail = !npc_ranged && mem_combat.old_danger_assessment <= assessment;
-        bool range_reposition_fail = npc_ranged && mem_combat.old_danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
-        if( melee_reposition_fail || range_reposition_fail ){
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s tried to reposition last turn, and the situation has not improved.", name );
+        bool range_reposition_fail = npc_ranged &&
+                                     mem_combat.old_danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
+        if( melee_reposition_fail || range_reposition_fail ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "%s tried to reposition last turn, and the situation has not improved.", name );
             failed_reposition = true;
             mem_combat.failed_repositions += 1;
         } else {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s tried to reposition last turn, and it worked out!", name ); 
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s tried to reposition last turn, and it worked out!",
+                           name );
             mem_combat.failed_repositions = 0;
         }
     }
-    
+
     mem_combat.old_danger_assessment = assessment;
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s evaluated final enemy danger as %i, ally strength as %i.", 
-                        name, static_cast<int>( assessment ), static_cast<int>( my_diff ) );
         float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
                         - static_cast<float>( mem_combat.panic ) + rng( -5, 5 ) + rng( -3, 3 );
-        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s semi-randomly adjusted ally strength to %i.", 
-            name, static_cast<int>( my_diff ) );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s evaluated final enemy danger as %i, ally strength as %i.",
+                       name, static_cast<int>( assessment ), static_cast<int>( my_diff ) );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s semi-randomly adjusted ally strength to %i.",
+                       name, static_cast<int>( my_diff ) );
         if( my_diff < assessment ) {
             time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
             // Each time NPC decides to run away, their panic increases, which increases likelihood
             // and duration of running away.
             // if they run to a more advantageous position, they'll reassess and rally.
-            mem_combat.panic += std::min( rng ( 1, 3 ) + static_cast<int>( get_pain() / 5 ) - personality.bravery, 1 );
-            if( my_diff * 5 < assessment ){
+            mem_combat.panic += std::min( rng( 1,
+                                               3 ) + static_cast<int>( get_pain() / 5 ) - personality.bravery, 1 );
+            if( my_diff * 5 < assessment ) {
                 // Things are looking more than a little grim, NPC should remember to keep running even
                 // if the worst baddy goes out of LOS.
                 mem_combat.panic += 10;
             }
-            if( !(mem_combat.panic - personality.bravery < mem_combat.failed_repositions ) ) {
+            if( !( mem_combat.panic - personality.bravery < mem_combat.failed_repositions ) ) {
                 mem_combat.repositioning = true;
                 warn_about( "run_away", run_away_for );
                 add_effect( effect_npc_run_away, run_away_for );
                 path.clear();
             } else {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped. );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped." );
             }
-        } else if( failed_reposition || npc_ranged && my_diff < assessment * mem_combat.swarm_count ) {
-            if( failed_reposition ){
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again. );
-            } else {   
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided to reposition/kite due to %i nearby enemies.",
-                        name, mem_combat.swarm_count );
+        } else if( failed_reposition || ( npc_ranged && my_diff < assessment * mem_combat.swarm_count ) ) {
+            if( failed_reposition ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s decided to reposition/kite due to %i nearby enemies.",
+                               name, mem_combat.swarm_count );
             }
             mem_combat.repositioning = true;
             time_duration run_away_for = 2_turns;
@@ -814,7 +863,7 @@ void npc::assess_danger()
             path.clear();
         } else {
             // Things seem to be going okay, reset/reduce "worry" memories.
-            if ( mem_combat.panic > 0 ) {
+            if( mem_combat.panic > 0 ) {
                 mem_combat.panic -= 1;
             }
             mem_combat.repositioning = false;
@@ -834,59 +883,17 @@ void npc::assess_danger()
         assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
     ai_cache.danger_assessment = assessment;
-    
-    if( mem_combat.failed_repositions > 0 && has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
+
+    if( mem_combat.failed_repositions > 0 && has_effect( effect_npc_run_away ) &&
+        !has_effect( effect_npc_fire_bad ) ) {
         // NPC is fleeing, but hasn't been able to reposition safely.
         // Consider cancelling fleeing.
         // Note that panic will still increment prior to this, and a truly panicked NPC will not stand and fight for any reason.
-        if ( mem_combat.panic - personality.bravery < mem_combat.failed_repositions ) {
+        if( mem_combat.panic - personality.bravery < mem_combat.failed_repositions ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided running away was futile.", name );
             remove_effect( effect_npc_run_away );
             mem_combat.repositioning = false;
         }
-    }
-}
-
-void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here )
-{
-    // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
-    const field_type_id fd_fire = ::fd_fire;
-    for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
-        if( pt == pos() || !here.get_field( pt, fd_fire ) ||
-            here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
-            continue;
-        }
-        int dist = rl_dist( pos(), pt );
-        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
-        if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
-            warn_about( "fire_bad", 1_minutes );
-            add_effect( effect_npc_fire_bad, 5_turns );
-            path.clear();
-        }
-    }
-}
-
-void npc::npc_count_friend_or_foe( Character &player_character, map &here ) {
-    const bool clairvoyant = clairvoyance();
-    for( const npc &guy : g->all_npcs() ) {
-        if( &guy == this ) {
-            continue;
-        }
-        if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
-            continue;
-        }
-
-        if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
-            ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
-            ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
-        }
-    }
-    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
-        ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-    } else if( is_enemy() && sees( player_character ) ) {
-        // Unlike allies, hostile npcs should not see invisible players
-        ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 }
 
@@ -2096,7 +2103,7 @@ npc_action npc::address_needs( float danger )
     if( one_in( 3 ) && can_reload_current() ) {
         return npc_reload;
     }
-    
+
     if( mem_combat.panic > 0 ) {
         mem_combat.panic = 0;
     }
