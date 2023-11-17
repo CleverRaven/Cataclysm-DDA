@@ -167,7 +167,6 @@
         [ "real_claws", 1, "LIST" ],
         [ "real_hooks", 1, "LIST" ],
         [ "real_knives", 1, "LIST" ],
-        [ "basic_short_swords", 1, "LIST" ],
         [ "real_short_swords", 1, "LIST" ],
         [ "real_medium_swords", 1, "LIST" ],
         [ "real_long_swords", 1, "LIST" ],
