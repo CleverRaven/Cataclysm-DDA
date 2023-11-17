@@ -675,6 +675,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_character_kills_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_kills_monster" },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
+      { "math": [ "test_exp", "=", "_exp" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_character_wields_item_event_test",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
