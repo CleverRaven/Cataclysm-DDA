@@ -636,13 +636,6 @@ class known_magic
         // current mana
         int mana = 0;
 
-        // Data from effects
-        float casting_time_multiplier;
-        float casting_cost_multiplier;
-        float casting_aoe_multiplier;
-        float casting_range_multiplier;
-        float spell_duration_multiplier;
-
     public:
         // ignores all distractions when casting a spell when true
         bool casting_ignore = false; // NOLINT(cata-serialize)
@@ -709,11 +702,6 @@ class known_magic
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
-
-        // processes magical bonuses from effects active on the character
-        void reset_effect_bonuses();
-        void process_one_effect(effect& it, bool is_new, bool reduced);
-
     private:
         // gets length of longest spell name
         int get_spellname_max_width();

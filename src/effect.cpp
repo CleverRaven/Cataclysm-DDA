@@ -440,7 +440,7 @@ void effect_type::load_mod_data( const JsonObject &j )
         {"thirst_tick",        mod_action::TICK},
     } );
 
-    // Then perspiration
+    // Then thirst
     extract_effect( to_extract, "PERSPIRATION", {
         {"perspiration_amount",      mod_action::AMOUNT},
         {"perspiration_min",         mod_action::MIN},
@@ -500,13 +500,6 @@ void effect_type::load_mod_data( const JsonObject &j )
     extract_effect( to_extract, "BASH",  { {"bash_mod",  mod_action::MIN} } );
     extract_effect( to_extract, "CUT",   { {"cut_mod",   mod_action::MIN} } );
     extract_effect( to_extract, "SIZE",  { {"size_mod",  mod_action::MIN} } );
-
-    // Magic and spellcasting
-    extract_effect(to_extract, "SPELLCASTING_SPEED", { {"casting_time_multiplier",  mod_action::MIN} });
-    extract_effect(to_extract, "SPELLCASTING_COST", { {"casting_cost_multiplier",  mod_action::MIN} });
-    extract_effect(to_extract, "SPELLCASTING_AOE", { {"casting_aoe_multiplier",  mod_action::MIN} });
-    extract_effect(to_extract, "SPELLCASTING_RANGE", { {"casting_range_multiplier",  mod_action::MIN} });
-    extract_effect(to_extract, "SPELLCASTING_DURATION", { {"spell_duration_multiplier",  mod_action::MIN} });
 }
 
 double effect_type::get_mod_value( const std::string &type, mod_action action,

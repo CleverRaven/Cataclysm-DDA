@@ -10619,9 +10619,6 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
-    // Handle magic
-    magic->process_one_effect(it, is_new, reduced);
-
     // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
 }
 
@@ -10676,10 +10673,6 @@ void Character::process_effects()
     dex_bonus_hardcoded = 0;
     int_bonus_hardcoded = 0;
     per_bonus_hardcoded = 0;
-
-    // Clear magic effects
-    magic->reset_effect_bonuses();
-
     //Human only effects
     for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
