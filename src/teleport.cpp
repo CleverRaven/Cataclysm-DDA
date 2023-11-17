@@ -59,7 +59,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     Character *const p = critter.as_character();
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
-    const tripoint_abs_ms abs_ms( here.getabs( target ) );
+    tripoint_abs_ms abs_ms( here.getabs( target ) );
     //The teleportee is dimensionally anchored so nothing happens
     if( !force && p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                          p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
@@ -72,22 +72,27 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         here.unboard_vehicle( p->pos() );
     }
     map tm;
-    map *dest = &tm;
-    if( here.inbounds( target ) ) {
-        dest = &here;
-    } else {
-        dest->load( project_to<coords::sm>( abs_ms ), false );
-        target = dest->getlocal( abs_ms );
+    map *dest = &here;
+    tripoint dest_target = target;
+    if( !here.inbounds( target ) ) {
+        if( c_is_u ) {
+            g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
+        } else {
+            dest = &tm;
+            dest->load( project_to<coords::sm>( abs_ms ), false );
+            dest->spawn_monsters( true, true );
+        }
+        dest_target = dest->getlocal( abs_ms );
     }
     //handles teleporting into solids.
-    if( dest->impassable( target ) ) {
+    if( dest->impassable( dest_target ) ) {
         if( force ) {
             const std::optional<tripoint> nt =
-                random_point( points_in_radius( target, 5 ),
-            []( const tripoint & el ) {
-                return get_map().passable( el );
+                random_point( points_in_radius( dest_target, 5 ),
+            [dest]( const tripoint & el ) {
+                return dest->passable( el );
             } );
-            target = nt ? *nt : target;
+            dest_target = nt ? *nt : dest_target;
         } else {
             if( safe ) {
                 if( c_is_u && display_message ) {
@@ -97,7 +102,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             }
             critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
             if( c_is_u ) {
-                get_event_bus().send<event_type::teleports_into_wall>( p->getID(), dest->obstacle_name( target ) );
+                get_event_bus().send<event_type::teleports_into_wall>( p->getID(),
+                        dest->obstacle_name( dest_target ) );
                 if( display_message ) {
                     add_msg( m_bad, _( "You die after teleporting into a solid." ) );
                 }
@@ -105,11 +111,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             critter.check_dead_state();
         }
     }
+    //update pos
+    abs_ms = dest->getglobal( dest_target );
+    target = here.getlocal( abs_ms );
     //handles telefragging other creatures
     int tfrag_attempts = 5;
     bool collision = false;
     int collision_angle = 0;
-    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( abs_ms ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
             if( p && display_message ) {
@@ -197,7 +206,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         p->add_effect( effect_teleglow, 30_minutes );
     }
     if( c_is_u ) {
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ), true );
+        g->place_player( p->pos() );
         g->update_map( *p );
     }
     for( const effect &grab : critter.get_effects_with_flag( json_flag_GRAB ) ) {
