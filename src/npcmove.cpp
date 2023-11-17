@@ -258,6 +258,7 @@ static bool obstacle_in_between( const tripoint &from, const tripoint &to, bool 
     for( const tripoint &candidate : path ) {
         if( ignore_soft && here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, candidate ) ) {
             // if the terrain is a thin obstacle and can be shot or attacked through,
+            // if the terrain is a thin obstacle and can be shot or attacked through,
             // it doesn't matter if it's impassible, it's still not an obstacle.
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "detected a soft obstacle at {%d, %d, %d).  Ignored.",
                            candidate.x, candidate.y, candidate.z );
@@ -744,7 +745,9 @@ void npc::assess_danger()
                                           "kill_npc" );
         }
     }
-
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "Before checking allies, %s assesses danger level as %i.", name,
+                   static_cast<int>( assessment ) );
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
@@ -778,8 +781,8 @@ void npc::assess_danger()
             if( dist <= 3 ) {
                 player_diff = player_diff * ( 4 - dist ) / 2;
                 assessment = std::max( min_danger, assessment - player_diff );
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "Player is very close to %s.  Bolstering morale by %i.",
-                               name, static_cast<int>( player_diff ) );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "Player is %i tiles from %s.  Reducing threat by %i.",
+                               dist, name, static_cast<int>( player_diff ) );
                 if( mem_combat.panic > 0 ) {
                     mem_combat.panic -= 1;
                 }
@@ -787,9 +790,12 @@ void npc::assess_danger()
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
                 mem_combat.friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s sees friendly player, reducing danger by %i",
+                               name, static_cast<int>( player_diff * 0.5f ) );
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses raw danger level as %i.", name,
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "After checking allies, %s assesses danger level as %i.",
+                           name,
                            static_cast<int>( assessment ) );
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
@@ -801,10 +807,10 @@ void npc::assess_danger()
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
     // large crowds of minor creatures, until they start getting hurt.
     if( mem_combat.hostile_count > mem_combat.friendly_count ) {
-        assessment *= std::min( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ),
+        assessment *= std::max( mem_combat.hostile_count / static_cast<float>( mem_combat.friendly_count ),
                                 1.0f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s adjusted danger level to %i after counting %i major hostiles vs %i friendlies.",
+                       "Crowd adjustment: %s set danger level to %i after counting %i major hostiles vs %i friendlies.",
                        name, static_cast<int>( assessment ), mem_combat.hostile_count, mem_combat.friendly_count );
     }
     bool failed_reposition = false;
@@ -833,13 +839,16 @@ void npc::assess_danger()
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s evaluated final enemy danger as %i, ally strength as %i.",
-                       name, static_cast<int>( assessment ), static_cast<int>( my_diff ) );
+                       "%s initially assesses final ally strength as %i.",
+                       name, static_cast<int>( my_diff ) );
         my_diff += personality.bravery - ( get_pain() / 5.0f ) - static_cast<float>
                    ( mem_combat.panic ) + rng( -5, 5 ) + rng( -3, 3 );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s adjusted ally strength to %i based on the situation.",
+                       "%s randomized ally strength to %i based on their stats and memories.",
                        name, static_cast<int>( my_diff ) );
+        add_msg_debug( debugmode::DF_NPC,
+                       "%s evaluated final enemy danger as %i, ally strength as %i.",
+                       name, static_cast<int>( assessment ), static_cast<int>( my_diff ) );
         if( my_diff < assessment ) {
             time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
             // Each time NPC decides to run away, their panic increases, which increases likelihood
@@ -913,28 +922,46 @@ bool npc::is_safe() const
     return ai_cache.total_danger <= 0;
 }
 
-float npc::character_danger( const Character &uc ) const
+float npc::character_danger( const Character &candidate ) const
 {
     // TODO: Remove this when possible
-    float ret = 0.0f;
-    bool u_gun = uc.get_wielded_item() && uc.get_wielded_item()->is_gun();
+    // TODO: Find out who left the above TODO and why
+    float danger = 0.0f;
+    bool enemy = !has_faction_relationship( candidate, npc_factions::watch_your_back ) &&
+                 attitude_to( candidate ) != Attitude::NEUTRAL;
+    bool u_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     bool my_gun = get_wielded_item() && get_wielded_item()->is_gun();
-    const item &u_weap = uc.get_wielded_item() ? *uc.get_wielded_item() : null_item_reference();
-    double u_weap_val = uc.weapon_value( u_weap );
+    const item &u_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
+                         null_item_reference();
+    double u_weap_val = candidate.weapon_value( u_weap );
     const double &my_weap_val = ai_cache.my_weapon_value;
-    if( u_gun && !my_gun ) {
+    if( enemy && u_gun && !my_gun ) {
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s has a gun and %s doesn't; %s adjusts threat accordingly.",
+                       candidate.disp_name(), name, name );
         u_weap_val *= 1.5f;
     }
-    ret += u_weap_val;
+    danger += u_weap_val;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s weapon value as %i.",
+                   name, candidate.disp_name(), static_cast<int>( u_weap_val ) );
 
-    ret += hp_percentage() * get_hp_max( bodypart_id( "torso" ) ) / 100.0 / my_weap_val;
+    if( enemy ) {
+        float my_health =  hp_percentage() * std::min( get_hp_max( bodypart_id( "torso" ) ),
+                           get_hp_max( bodypart_id( "head" ) ) );
+        danger += my_health / 100.0 / my_weap_val;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses own health as %i, weapon value as %i, so adds %i to %s danger.",
+                       name, static_cast<int>( my_health ), static_cast<int>( my_weap_val ),
+                       static_cast<int>( my_health / 100.0 / my_weap_val ), candidate.disp_name() );
+    }
 
-    ret += my_gun ? uc.get_dodge() / 2 : uc.get_dodge();
+    danger += my_gun ? candidate.get_dodge() / 2 : candidate.get_dodge();
 
-    ret *= std::max( 0.5, uc.get_speed() / 100.0 );
+    danger *= std::max( 0.5, candidate.get_speed() / 100.0 );
 
-    add_msg_debug( debugmode::DF_NPC, "%s danger: %1f", uc.disp_name(), ret );
-    return ret;
+    add_msg_debug( debugmode::DF_NPC, "%s assesses %s danger as %1f", name, candidate.disp_name(),
+                   danger );
+    return danger;
 }
 
 void npc::regen_ai_cache()
