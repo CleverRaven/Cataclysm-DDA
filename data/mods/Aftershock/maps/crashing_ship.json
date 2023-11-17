@@ -150,7 +150,8 @@
         "j": "t_chaingate_l",
         "W": "t_reinforced_glass_shutter",
         "P": "t_foamcrete_wall_seal",
-        "p": "t_foamcrete_floor_seal"
+        "p": "t_foamcrete_floor_seal",
+        "z": "t_escape_pod_floor"
       },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
       "set": [ { "point": "trap", "id": "tr_escape_pod", "x": 68, "y": 42 } ],
