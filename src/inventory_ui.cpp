@@ -3771,12 +3771,22 @@ inventory_haul_selector::inventory_haul_selector( Character &p ) :
 
 void inventory_haul_selector::apply_selection( std::vector<item_location> &items )
 {
+    // Finding an entry is cheap, changing it is expensive, so find everything first then modify once
+    std::unordered_map<inventory_entry *, int> counts;
     for( item_location &item : items ) {
         inventory_entry *entry = find_entry_by_location( item );
-        if( entry->locations.size() == 1 && entry->locations[0]->count_by_charges() ) {
-            set_chosen_count( *entry, inventory_multiselector::max_chosen_count );
+        if( counts.count( entry ) ) {
+            counts.at( entry ) += 1;
         } else {
-            set_chosen_count( *entry, entry->chosen_count + 1 );
+            counts.emplace( entry, 1 );
+        }
+    }
+    for( std::pair<inventory_entry *, int> count : counts ) {
+        // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better
+        if( count.first->locations.size() == 1 && count.first->locations[0]->count_by_charges() ) {
+            set_chosen_count( *count.first, inventory_multiselector::max_chosen_count );
+        } else {
+            set_chosen_count( *count.first, count.second );
         }
     }
 }
