@@ -381,7 +381,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_teleport_test_do",
-    "effect": [ { "u_teleport": { "global_val": "teleport_test_pos" }, "force": false, "safe": false } ]
+    "effect": [ { "u_teleport": { "global_val": "teleport_test_pos" } } ]
   },
   {
     "type": "effect_on_condition",
