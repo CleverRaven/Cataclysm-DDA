@@ -113,7 +113,6 @@
         "effects": [
           {
             "effect_id": "effect_psi_null",
-            "body_part": "mouth",
             "intensity": 10,
             "min_duration": "100 seconds",
             "max_duration": "350 seconds",
@@ -130,5 +129,47 @@
     "priority": 8,
     "half_life": "1 minutes",
     "phase": "gas"
+  },
+  {
+    "id": "fd_photokin_light_1",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "*", "color": "yellow", "light_emitted": 30 },
+      { "name": "glow", "color": "yellow", "light_emitted": 60 },
+      { "name": "shine", "color": "yellow", "light_emitted": 90 }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "5 minutes",
+    "phase": "plasma",
+    "display_field": true
+  },
+  {
+    "id": "fd_photokin_light_2",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "*", "color": "yellow", "light_emitted": 50 },
+      { "name": "glow", "color": "yellow", "light_emitted": 100 },
+      { "name": "shine", "color": "yellow", "light_emitted": 150 }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "15 minutes",
+    "phase": "plasma",
+    "display_field": true
+  },
+  {
+    "id": "fd_photokin_light_3",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "*", "color": "yellow", "light_emitted": 80 },
+      { "name": "glow", "color": "yellow", "light_emitted": 160 },
+      { "name": "shine", "color": "yellow", "light_emitted": 240 }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "30 minutes",
+    "phase": "plasma",
+    "display_field": true
   }
 ]

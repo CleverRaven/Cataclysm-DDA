@@ -42,7 +42,7 @@
     "name": "Newly-Awakened Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie while scavenging in a ruined house to ash.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
     "points": 5,
-    "traits": [ "PYROKINETIC", "PYROGLOW_WEAK", "PYROGLOW_STRONG" ]
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ]
   },
   {
     "type": "profession",

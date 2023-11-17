@@ -470,17 +470,7 @@
     "replace": "grenade_ammo_teargas"
   },
   {
-    "id": [
-      "shot_00",
-      "shot_paper_00",
-      "410shot_000",
-      "20x66_exp",
-      "20x66_flechette",
-      "20x66_frag",
-      "20x66_inc",
-      "20x66_shot",
-      "20x66_flare"
-    ],
+    "id": [ "shot_00", "shot_paper_00", "410shot_000", "20x66_exp", "20x66_frag", "20x66_shot", "20x66_flare" ],
     "type": "MIGRATION",
     "replace": "shot_buck"
   },
@@ -510,12 +500,12 @@
     "replace": "shot_explosive"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "shot_scrap" ],
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "shot_scrap" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },

@@ -1094,6 +1094,7 @@
   {
     "type": "GENERIC",
     "id": "lc_mace",
+    "looks_like": "mace",
     "name": { "str": "mild carbon steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with low carbon steel, which technically still works fine but tends to blunt more easily, and the grip is kind of bad.",
     "weight": "1400 g",
@@ -1116,6 +1117,7 @@
   {
     "type": "GENERIC",
     "id": "mc_mace",
+    "looks_like": "mace",
     "name": { "str": "medium steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with medium carbon steel which is passable, but hardly the pinnacle of weapon making.",
     "weight": "1500 g",
@@ -1138,6 +1140,7 @@
   {
     "type": "GENERIC",
     "id": "hc_mace",
+    "looks_like": "mace",
     "name": { "str": "high steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with high carbon steel and is a solid, dependable weapon.",
     "weight": "1500 g",
@@ -1160,6 +1163,7 @@
   {
     "type": "GENERIC",
     "id": "ch_mace",
+    "looks_like": "mace",
     "name": { "str": "case hardened steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with case hardened steel and can pulverize bones.",
     "weight": "1500 g",
@@ -1182,6 +1186,7 @@
   {
     "type": "GENERIC",
     "id": "qt_mace",
+    "looks_like": "mace",
     "name": { "str": "tempered steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with tempered steel and will crack skulls like watermelons.",
     "weight": "1500 g",

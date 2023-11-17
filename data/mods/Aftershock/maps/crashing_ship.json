@@ -202,72 +202,6 @@
         { "group": "afs_escapepod_shootout_corpse", "x": 52, "y": 32 }
       ],
       "place_rubble": [ { "x": [ 1, 4 ], "y": [ 24, 29 ], "repeat": [ 5, 20 ] } ],
-      "place_item": [
-        { "item": "afs_set_us_up_the_bomb_act", "x": 59, "y": 8, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 25,
-          "y": 71,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 1,
-          "y": 16,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 30,
-          "y": 4,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 69,
-          "y": 37,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 41,
-          "y": 62,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 60,
-          "y": 57,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 17,
-          "y": 42,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 7,
-          "y": 68,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        },
-        {
-          "item": "afs_set_us_up_the_bomb_act",
-          "x": 40,
-          "y": 31,
-          "amount": 1,
-          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
-        }
-      ],
       "place_graffiti": [
         { "text": "Barracks", "x": 10, "y": 23 },
         { "text": "Barracks", "x": 13, "y": 23 },
@@ -283,49 +217,5 @@
       "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 }, "x": { "field": "fd_blood", "intensity": 3 } },
       "computers": { "^": { "name": "Escape Pod", "security": 0, "options": [ { "name": "Ready Escape Pod", "action": "unlock" } ] } }
     }
-  },
-  {
-    "id": "afs_set_us_up_the_bomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "ship self-destruct system" },
-    "description": "You shouldn't be seeing this!",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "price": 0,
-    "material": [ "steel" ],
-    "looks_like": "t_foamcrete_wall_seal",
-    "symbol": " ",
-    "color": "white",
-    "explode_in_fire": false,
-    "explosion": { "power": 90000000, "shrapnel": { "casing_mass": 1200000, "fragment_mass": 60000 } },
-    "use_action": {
-      "target": "afs_set_us_up_the_bomb_act",
-      "target_timer": "420 seconds",
-      "menu_text": "Activate fuze",
-      "type": "transform"
-    },
-    "flags": [ "BOMB", "HIDDEN_ITEM" ]
-  },
-  {
-    "id": "afs_set_us_up_the_bomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "active ship self-destruct system" },
-    "description": "You shouldn't be seeing this!",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "price": 0,
-    "material": [ "steel" ],
-    "looks_like": "t_foamcrete_wall_seal",
-    "symbol": " ",
-    "color": "white",
-    "explode_in_fire": false,
-    "use_action": { "type": "message", "message": "You should be running!" },
-    "countdown_action": {
-      "type": "explosion",
-      "explosion": { "power": 90000000, "shrapnel": { "casing_mass": 1260000, "fragment_mass": 60000 } }
-    },
-    "flags": [ "BOMB", "HIDDEN_ITEM" ]
   }
 ]

@@ -1,5 +1,162 @@
 [
   {
+    "id": "photokinetic_light_local",
+    "type": "SPELL",
+    "name": "[Ψ]Candle's Glow (toggle)",
+    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_LIGHT_LOCAL_INITIATE",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 450,
+    "energy_increment": -80,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "photokinetic_create_light": 4, "photokinetic_light_beam": 8, "photokinetic_light_image": 12 }
+  },
+  {
+    "id": "photokinetic_create_light",
+    "type": "SPELL",
+    "name": "[Ψ]Field of Light",
+    "description": "Create photons to illuminate an entire area.",
+    "message": "Sudden light bursts forth!",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_CREATE_LIGHT_SWITCH",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1000,
+    "energy_increment": -150,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "photokinetic_light_beam": 6, "photokinetic_light_image": 9, "photokinetic_invisibility": 12 }
+  },
+  {
+    "id": "photokinetic_create_light_01",
+    "type": "SPELL",
+    "name": "[Ψ]Field of Light Subspell #1",
+    "description": "The first create light subspell.  If you have this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ground", "ally", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
+    },
+    "max_aoe": 50,
+    "field_id": "fd_photokin_light_1",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_chance": 3
+  },
+  {
+    "id": "photokinetic_create_light_02",
+    "type": "SPELL",
+    "name": "[Ψ]Field of Light Subspell #2",
+    "description": "The second create light subspell.  If you have this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ground", "ally", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
+    },
+    "max_aoe": 50,
+    "field_id": "fd_photokin_light_2",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_chance": 3
+  },
+  {
+    "id": "photokinetic_create_light_03",
+    "type": "SPELL",
+    "name": "[Ψ]Field of Light Subspell #3",
+    "description": "The third create light subspell.  If you have this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ground", "ally", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
+    },
+    "max_aoe": 50,
+    "field_id": "fd_photokin_light_3",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_chance": 3
+  },
+  {
     "id": "photokinetic_snuff_light",
     "type": "SPELL",
     "name": "[Ψ]Snuff Light",
@@ -19,15 +176,18 @@
     "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 5000)" ] },
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 10000)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
-    "max_range": 40,
+    "max_range": 70,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
-    "max_aoe": 50,
     "energy_source": "STAMINA",
-    "difficulty": 1,
+    "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 2000,
     "final_energy_cost": 500,
@@ -86,6 +246,7 @@
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "difficulty": 3,
     "shape": "line",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -95,23 +256,29 @@
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+      ]
     },
     "max_range": 30,
-    "energy_source": "STAMINA",
-    "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "field_id": "fd_laser",
     "min_field_intensity": 2,
     "max_field_intensity": 2,
     "field_chance": 1,
+    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
-    "final_energy_cost": 1000,
+    "final_energy_cost": 800,
     "energy_increment": -125,
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_image": 5, "photokinetic_light_flash": 12, "photokinetic_light_disintegrate": 15 }
+    "learn_spells": {
+      "photokinetic_light_image": 5,
+      "photokinetic_light_flash": 12,
+      "photokinetic_blinding_glare": 15,
+      "photokinetic_light_disintegrate": 18
+    }
   },
   {
     "id": "photokinetic_light_image",
@@ -134,9 +301,11 @@
     "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 5000)" ] },
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
     },
-    "max_range": 20,
+    "max_range": 40,
     "min_aoe": 3,
     "max_aoe": 3,
     "energy_source": "STAMINA",
@@ -149,42 +318,6 @@
     "final_casting_time": 90,
     "casting_time_increment": -12.5,
     "learn_spells": { "photokinetic_light_arms": 7, "photokinetic_invisibility": 12 }
-  },
-  {
-    "id": "photokinetic_light_arms",
-    "type": "SPELL",
-    "name": "[Ψ]Refraction of Arms",
-    "description": "Create the illusion of extra arms and wielded items to trick your enemies.",
-    "message": "Your arms shimmer and waver, and then double and double again.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "PHOTOKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_photokin_arms",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
-    "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "energy_source": "STAMINA",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "base_energy_cost": 2500,
-    "final_energy_cost": 1000,
-    "energy_increment": -125,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_rad_immunity": 5, "photokinetic_light_disintegrate": 12 }
   },
   {
     "id": "photokinetic_rad_immunity",
@@ -255,7 +388,43 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_flash": 5, "photokinetic_light_disintegrate": 8 }
+    "learn_spells": { "photokinetic_light_flash": 6, "photokinetic_light_disintegrate": 12 }
+  },
+  {
+    "id": "photokinetic_light_arms",
+    "type": "SPELL",
+    "name": "[Ψ]Refraction of Arms",
+    "description": "Create the illusion of extra arms and wielded items to trick your enemies, forcing them off balance.",
+    "message": "Light around your arms shimmers and refracts, creating the illusion of multiple arms.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_photokin_arms",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1500,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_light_flash": 6, "photokinetic_light_disintegrate": 12 }
   },
   {
     "id": "photokinetic_light_flash",
@@ -268,6 +437,8 @@
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "line",
@@ -281,27 +452,65 @@
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
     "max_range": 50,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 20)"
+      ]
     },
-    "max_aoe": 30,
-    "energy_source": "STAMINA",
-    "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "max_aoe": 20,
     "field_id": "fd_laser",
     "min_field_intensity": 2,
     "max_field_intensity": 3,
     "field_chance": 1,
+    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1500,
     "energy_increment": -125,
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_arms": 5, "photokinetic_light_disintegrate": 7 }
+    "learn_spells": { "photokinetic_light_arms": 5, "photokinetic_blinding_glare": 7, "photokinetic_light_disintegrate": 11 }
+  },
+  {
+    "id": "photokinetic_blinding_glare",
+    "type": "SPELL",
+    "name": "[Ψ]Blinding Radiance",
+    "description": "You can emit so much light that anyone trying to attack you risks being blinded.",
+    "message": "You begin glowing as brightly as the sun!",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_photokin_blinding_glare",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6500,
+    "final_energy_cost": 2500,
+    "energy_increment": -125,
+    "base_casting_time": 125,
+    "final_casting_time": 150,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "photokinetic_light_disintegrate": 7 }
   },
   {
     "id": "photokinetic_light_disintegrate",
@@ -314,9 +523,11 @@
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "shape": "blast",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "min_damage": {
       "math": [
         "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )"
@@ -330,13 +541,11 @@
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) )"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_range": 50,
     "energy_source": "STAMINA",
-    "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 7000,
     "final_energy_cost": 3000,
     "energy_increment": -150,

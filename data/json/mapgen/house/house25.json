@@ -39,8 +39,10 @@
         "_": "t_window_boarded",
         "=": "t_door_metal_c_peep",
         "/": "t_door_boarded_peep",
-        ",": "t_thconc_floor"
+        ",": "t_thconc_floor",
+        "#": "t_wall_log"
       },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 } ],
       "furniture": { "%": "f_safe_o" },
       "place_items": [
         { "chance": 10, "item": "ammo_rifle_common", "x": 9, "y": 17 },
