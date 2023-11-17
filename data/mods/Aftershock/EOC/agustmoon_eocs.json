@@ -95,7 +95,7 @@
         "max_radius": 0,
         "true_eocs": [ { "id": "EOC_AFS_AUGUSTMOON_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "Port_augustmoon_cargo" } } ] } ]
       },
-      { "u_run_npc_eocs": [ "EOC_AFS_TEST_AUGUSTMOON_TP" ] },
+      { "u_run_npc_eocs": [ "EOC_AFS_TEST_AUGUSTMOON_TP" ], "local": true },
       { "u_teleport": { "global_val": "Port_augustmoon" } }
     ]
   },
@@ -103,21 +103,6 @@
     "type": "effect_on_condition",
     "id": "EOC_AFS_TEST_AUGUSTMOON_CARGO_TP",
     "effect": [ { "u_teleport": { "global_val": "Port_augustmoon_cargo" }, "force": true } ]
-  },
-  {
-    "id": "AFS_AUGUSTMOON_NPC_TP_SPELL",
-    "type": "SPELL",
-    "name": "Augustmoon NPC TP Spell",
-    "description": "Sends an NPCs to Port Augustmoon",
-    "valid_targets": [ "ally" ],
-    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "shape": "blast",
-    "min_aoe": 15,
-    "max_aoe": 15,
-    "min_range": 10,
-    "max_range": 10,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_AFS_TEST_AUGUSTMOON_TP"
   },
   {
     "type": "effect_on_condition",
