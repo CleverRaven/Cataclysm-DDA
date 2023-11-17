@@ -9863,7 +9863,14 @@
         [ "irradiated_onion", 1 ],
         [ "salsa", 1 ]
       ],
-      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "garlic_powder", 20 ], [ "chili_pepper", 2 ], [ "rehydrated_chili", 2 ] ]
+      [
+        [ "pepper", 20 ],
+        [ "chilly-p", 20 ],
+        [ "garlic_clove", 6 ],
+        [ "garlic_powder", 20 ],
+        [ "chili_pepper", 2 ],
+        [ "rehydrated_chili", 2 ]
+      ]
     ]
   },
   {
