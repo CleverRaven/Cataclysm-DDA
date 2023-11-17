@@ -202,6 +202,7 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, std::string_view member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
+        void set_player_see( bool is_npc = false );
         void set_get_option( const JsonObject &jo, std::string_view member );
         void set_compare_string( const JsonObject &jo, std::string_view member );
         void set_get_condition( const JsonObject &jo, std::string_view member );

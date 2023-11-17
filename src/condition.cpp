@@ -1201,6 +1201,18 @@ void conditional_t::set_is_furniture( bool is_npc )
     };
 }
 
+void conditional_t::set_player_see( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        const Creature *c = d.actor( is_npc )->get_creature();
+        if( c ) {
+            return get_player_view().sees( *c );
+        } else {
+            return get_player_view().sees( d.actor( is_npc )->pos() );
+        }
+    };
+}
+
 void conditional_t::set_no_assigned_mission()
 {
     condition = []( dialogue const & d ) {
@@ -3524,6 +3536,7 @@ parsers_simple = {
     {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
     {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
     {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
+    {"player_see", &conditional_t::set_player_see },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
