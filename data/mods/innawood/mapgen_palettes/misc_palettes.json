@@ -35,7 +35,7 @@
   },
   {
     "type": "palette",
-    "id": "medow_palette",
+    "id": "meadow_palette",
     "terrain": {
       " ": "t_null",
       "1": [
