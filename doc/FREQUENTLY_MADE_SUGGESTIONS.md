@@ -277,12 +277,6 @@ In addition to "appliances", there may also be "facilities".  Again, under the h
 
 ### User interface
 
-#### Nestable container model for inventory: Will go in as soon an there’s a good implementation/someone is working on it.
-
-KorGgenT implemented this in spring 2020 and although there are still some teething issues, it's working fairly well and will be a headline feature for the 0.F release.
-
-~~This is a really old and good one, the problem being the most straightforward implementation of it where you manually manage all those containers is a terrible interface. (see DF adventure mode) For this to go in, it must default to the inventory system doing all the work for the player, and the player only specifies what goes where occasionally.~~
-
 #### The ability to select MP3s to play while listening to music: Too complicated
 
 CDDA runs across a wide variety of platforms, each of which has their own special code for finding files on the local filesystem.  They also each have their own way to play an MP3, and generally they have multiple ways to play an MP3.  Adding support for selecting MP3s to play from inside the game requires that CDDA present a way to browse the local filesystem to find the MP3 files and a way to play them.  This code would be different for each platform and for each MP3 player; supporting it would be a maintenance nightmare full of weird and obscure bugs.
