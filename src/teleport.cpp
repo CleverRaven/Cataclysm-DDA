@@ -59,6 +59,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     Character *const p = critter.as_character();
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
+    const tripoint_abs_ms abs_ms( here.getabs( target ) );
     //The teleportee is dimensionally anchored so nothing happens
     if( !force && p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                          p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
@@ -70,16 +71,16 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     if( p && p->in_vehicle ) {
         here.unboard_vehicle( p->pos() );
     }
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    bool shifted = false;
-    if( !here.inbounds( target ) ) {
-        const tripoint_abs_ms abs_ms( here.getabs( target ) );
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
-        shifted = true;
-        target = here.getlocal( abs_ms );
+    map tm;
+    map *dest = &tm;
+    if( here.inbounds( target ) ) {
+        dest = &here;
+    } else {
+        dest->load( project_to<coords::sm>( abs_ms ), false );
+        target = dest->getlocal( abs_ms );
     }
     //handles teleporting into solids.
-    if( here.impassable( target ) ) {
+    if( dest->impassable( target ) ) {
         if( force ) {
             const std::optional<tripoint> nt =
                 random_point( points_in_radius( target, 5 ),
@@ -92,14 +93,11 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 if( c_is_u && display_message ) {
                     add_msg( m_bad, _( "You cannot teleport safely." ) );
                 }
-                if( shifted ) {
-                    g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
-                }
                 return false;
             }
             critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
             if( c_is_u ) {
-                get_event_bus().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( target ) );
+                get_event_bus().send<event_type::teleports_into_wall>( p->getID(), dest->obstacle_name( target ) );
                 if( display_message ) {
                     add_msg( m_bad, _( "You die after teleporting into a solid." ) );
                 }
@@ -135,9 +133,6 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         } else if( safe ) {
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
-            }
-            if( shifted ) {
-                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         } else if( !collision ) {
@@ -183,7 +178,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             }
         }
     }
-    critter.setpos( target );
+    critter.move_to( abs_ms );
     //there was a collision with a creature at some point, so handle that.
     if( collision ) {
         //throw the thing that teleported in the opposite direction as the thing it teleported into.
@@ -198,18 +193,13 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         critter.check_dead_state();
     }
     //player and npc exclusive teleporting effects
-    if( p ) {
-        if( add_teleglow ) {
-            p->add_effect( effect_teleglow, 30_minutes );
-        }
+    if( p && add_teleglow ) {
+        p->add_effect( effect_teleglow, 30_minutes );
     }
     if( c_is_u ) {
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ), true );
         g->update_map( *p );
-   } else {
-        if( shifted ) {
-            g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
-        }
-   }
+    }
     for( const effect &grab : critter.get_effects_with_flag( json_flag_GRAB ) ) {
         critter.remove_effect( grab.get_id() );
     }
