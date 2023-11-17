@@ -1,0 +1,11 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "medow_core", "medow_end" ],
+    "copy-from": "generic_open_land",
+    "name": "medow",
+    "sym": ",",
+    "color": "brown",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  }
+]
