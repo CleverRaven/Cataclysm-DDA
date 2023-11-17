@@ -390,10 +390,7 @@
       {
         "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
         "then": {
-          "run_eoc_with": {
-            "id": "EOC_teleport_test_other_do",
-            "effect": { "npc_teleport": { "global_val": "teleport_test_pos" }, "force": false, "safe": false }
-          },
+          "run_eoc_with": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
           "beta_loc": { "context_val": "loc" }
         },
         "else": { "u_message": "Canceled" }
