@@ -775,6 +775,33 @@ void conditional_t::set_has_bionics( const JsonObject &jo, std::string_view memb
     };
 }
 
+void conditional_t::set_has_any_effect( const JsonObject &jo, std::string_view member,
+                                        bool is_npc )
+{
+    std::vector<str_or_var> effects_to_check;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        effects_to_check.emplace_back( get_str_or_var( jv, member ) );
+    }
+    dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
+    str_or_var bp;
+    if( jo.has_member( "bodypart" ) ) {
+        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
+    } else {
+        bp.str_val = "";
+    }
+    condition = [effects_to_check, intensity, bp, is_npc]( dialogue & d ) {
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
+                          bodypart_id( bp.evaluate( d ) );
+        for( const str_or_var &effect_id : effects_to_check ) {
+            effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
+            if( !target.is_null() && intensity.evaluate( d ) <= target.get_intensity() ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_has_effect( const JsonObject &jo, std::string_view member,
                                     bool is_npc )
 {
@@ -782,13 +809,13 @@ void conditional_t::set_has_effect( const JsonObject &jo, std::string_view membe
     dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
     str_or_var bp;
     if( jo.has_member( "bodypart" ) ) {
-        bp = get_str_or_var( jo.get_member( "target_part" ), "target_part", true );
+        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
     } else {
         bp.str_val = "";
     }
     condition = [effect_id, intensity, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) : bodypart_id( bp.evaluate(
-                              d ) );
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
+                          bodypart_id( bp.evaluate( d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
         return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
     };
@@ -3373,6 +3400,7 @@ parsers = {
     {"u_has_items", "npc_has_items", jarg::member, &conditional_t::set_has_items },
     {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_t::set_has_item_category },
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_t::set_has_bionics },
+    {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_t::set_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
     {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
