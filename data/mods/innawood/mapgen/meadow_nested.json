@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "medow_12x12_pond",
+    "nested_mapgen_id": "meadow_12x12_pond",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -30,7 +30,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "medow_12x12_shrubs",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -54,7 +54,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "medow_12x12_trees",
+    "nested_mapgen_id": "meadow_12x12_trees",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
