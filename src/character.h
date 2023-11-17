@@ -2636,6 +2636,8 @@ class Character : public Creature, public visitable
         bool hauling = false;
         // Means player is automatically including new items in the haul
         bool autohaul = false;
+        // Skip autohaul on the stop the hauling selection is modified manually
+        bool suppress_autohaul = false;
         std::string hauling_filter;
         // Items currently being hauled
         std::vector<item_location> haul_list;

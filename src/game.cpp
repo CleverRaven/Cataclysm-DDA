@@ -12117,7 +12117,7 @@ void game::start_hauling( const tripoint &pos )
     // Find target items and quantities thereof for the new activity
     std::vector<item_location> target_items = u.haul_list;
 
-    if( u.is_autohauling() ) {
+    if( u.is_autohauling() && !u.suppress_autohaul ) {
         for( const item_location &item : u.haul_list ) {
             candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
                                    candidate_items.end() );
@@ -12133,6 +12133,7 @@ void game::start_hauling( const tripoint &pos )
         }
     }
 
+    u.suppress_autohaul = false;
     u.haul_list.clear();
 
     // Quantity of 0 means move all

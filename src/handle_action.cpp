@@ -805,6 +805,9 @@ static void haul()
             for( const drop_location &dl : result ) {
                 haulable_items.push_back( dl.first );
             }
+            if( haulable_items != player_character.haul_list ) {
+                player_character.suppress_autohaul = true;
+            }
             if( !haulable_items.empty() ) {
                 player_character.start_hauling( haulable_items );
             }

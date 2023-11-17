@@ -1261,6 +1261,7 @@ void Character::load( const JsonObject &data )
     data.read( "autohaul", autohaul );
     data.read( "hauling_filter", hauling_filter );
     data.read( "haul_list", haul_list );
+    data.read( "suppress_autohaul", suppress_autohaul );
 
     //load queued_eocs
     for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
@@ -1499,6 +1500,7 @@ void Character::store( JsonOut &json ) const
     json.member( "autohaul", autohaul );
     json.member( "hauling_filter", hauling_filter );
     json.member( "haul_list", haul_list );
+    json.member( "suppress_autohaul", suppress_autohaul );
 
     //save queued effect_on_conditions
     queued_eocs temp_queued( queued_effect_on_conditions );
