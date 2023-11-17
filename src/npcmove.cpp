@@ -1640,8 +1640,6 @@ item_location npc::find_reloadable()
 {
     auto cached_value = cached_info.find( "reloadables" );
     if( cached_value != cached_info.end() ) {
-        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s found %s in cached reloadables!", name,
-                       item_location()->tname() );
         return item_location();
     }
     // Check wielded gun, non-wielded guns, mags and tools
