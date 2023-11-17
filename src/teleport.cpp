@@ -199,14 +199,17 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     //player and npc exclusive teleporting effects
     if( p ) {
-        g->place_player( p->pos() );
         if( add_teleglow ) {
             p->add_effect( effect_teleglow, 30_minutes );
         }
     }
     if( c_is_u ) {
         g->update_map( *p );
-    }
+   } else {
+        if( shifted ) {
+            g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+        }
+   }
     for( const effect &grab : critter.get_effects_with_flag( json_flag_GRAB ) ) {
         critter.remove_effect( grab.get_id() );
     }
