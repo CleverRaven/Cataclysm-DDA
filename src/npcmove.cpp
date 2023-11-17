@@ -444,13 +444,11 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
     bool npc_blind = is_blind();
-    // reset memory counters at the beginning of danger assessment
-    mem_combat.hostile_count = 0;
-    mem_combat.swarm_count = 0;
-    mem_combat.friendly_count = 1;
-
-    if( blind ) {
-        assessment = mem_combat.old_danger_assessment;
+    if( !blind ){
+        // reset memory counters at the beginning of danger assessment
+        mem_combat.hostile_count = 0;
+        mem_combat.swarm_count = 0;
+        mem_combat.friendly_count = 1;
     }
 
     if( !confident_range_cache ) {
@@ -755,9 +753,27 @@ void npc::assess_danger()
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s adjusted danger level to %i after counting %i major hostiles vs %i friendlies.", 
                         name, static_cast<int>( assessment ), mem_combat.hostile_count, mem_combat.friendly_count );
     }
-
-    mem_combat.old_danger_assessment = assessment;
     
+    bool failed_reposition = false;
+    if( mem_combat.repositioning ) {
+        // this check runs each turn that the NPC is fleeing and assesses if the situation is 
+        // getting any better.
+        // The longer they try to flee without improving, the more likely they become to stop
+        // and stand their ground.
+        bool melee_reposition_fail = !npc_ranged && mem_combat.old_danger_assessment <= assessment;
+        bool range_reposition_fail = npc_ranged && mem_combat.old_danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
+        if( melee_reposition_fail || range_reposition_fail ){
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s tried to reposition last turn, and the situation has not improved.", name );
+            mem_combat.panic += 1;
+            failed_reposition = true;
+            mem_combat.failed_repositions += 1;
+        } else {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s tried to reposition last turn, and it worked out!", name ); 
+            mem_combat.failed_repositions = 0;
+        }
+    }
+    
+    mem_combat.old_danger_assessment = assessment;
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s evaluated final enemy danger as %i, ally strength as %i.", 
@@ -777,18 +793,32 @@ void npc::assess_danger()
                 // if the worst baddy goes out of LOS.
                 mem_combat.panic += 10;
             }
-            warn_about( "run_away", run_away_for );
-            add_effect( effect_npc_run_away, run_away_for );
-            path.clear();
-        } else if( npc_ranged && my_diff < assessment * mem_combat.swarm_count ) {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided to reposition/kite due to %i nearby enemies.",
+            if( !(mem_combat.panic - personality.bravery < mem_combat.failed_repositions ) ) {
+                mem_combat.repositioning = true;
+                warn_about( "run_away", run_away_for );
+                add_effect( effect_npc_run_away, run_away_for );
+                path.clear();
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped. );
+            }
+        } else if( failed_reposition || npc_ranged && my_diff < assessment * mem_combat.swarm_count ) {
+            if( failed_reposition ){
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again. );
+            } else {   
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided to reposition/kite due to %i nearby enemies.",
                         name, mem_combat.swarm_count );
+            }
+            mem_combat.repositioning = true;
             time_duration run_away_for = 2_turns;
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
-        } else if ( mem_combat.panic > 0 ) {
-            // Drop panic if you're fighting and seem to be doing OK.
-            mem_combat.panic -= 1;
+        } else {
+            // Things seem to be going okay, reset/reduce "worry" memories.
+            if ( mem_combat.panic > 0 ) {
+                mem_combat.panic -= 1;
+            }
+            mem_combat.repositioning = false;
+            mem_combat.failed_repositions = 0;
         }
     }
 
@@ -804,6 +834,17 @@ void npc::assess_danger()
         assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
     ai_cache.danger_assessment = assessment;
+    
+    if( mem_combat.failed_repositions > 0 && has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
+        // NPC is fleeing, but hasn't been able to reposition safely.
+        // Consider cancelling fleeing.
+        // Note that panic will still increment prior to this, and a truly panicked NPC will not stand and fight for any reason.
+        if ( mem_combat.panic - personality.bravery < mem_combat.failed_repositions ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided running away was futile.", name );
+            remove_effect( effect_npc_run_away );
+            mem_combat.repositioning = false;
+        }
+    }
 }
 
 void npc::npc_danger_fire( std::map<direction, float> cur_threat_map, map &here ) 
