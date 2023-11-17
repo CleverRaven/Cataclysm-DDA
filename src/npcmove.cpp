@@ -552,12 +552,13 @@ void npc::assess_danger()
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
 
         // ignore targets behind glass even if we can see them.
-        if( !obstacle_in_between( pos(), critter.pos(), false ) ) {
+        if( obstacle_in_between( pos(), critter.pos(), false ) ) {
             if( is_enemy() || !critter.friendly ) {
                 // still warn about enemies behind impassable glass walls, but not as often.
                 if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                     warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
                 }
+            }
             continue;
         } else {
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.", name, critter.type->nname() );
