@@ -636,7 +636,7 @@ void npc::assess_danger()
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
         
-        if( !obstacle_in_between( pos(), foe.pos(), true ) ) {
+        if( obstacle_in_between( pos(), foe.pos(), true ) ) {
             // still warn about enemies behind impassable glass walls, but not as often.
             // since NPC threats have a higher chance of ignoring soft obstacles, we'll ignore them here.
             if( foe_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
