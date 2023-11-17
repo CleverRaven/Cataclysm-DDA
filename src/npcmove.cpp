@@ -486,8 +486,8 @@ void npc::assess_danger()
                 return false;
             case combat_engagement::CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
-                if( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
-                    too_close( foe.pos(), player_character.pos(), def_radius ) {
+                if( ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
+                    too_close( foe.pos(), player_character.pos(), def_radius ) ) {
                     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified a CLOSE opponent: %s.", name,
                                    foe.type->nname() );
                     return true;
