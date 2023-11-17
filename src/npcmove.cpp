@@ -404,14 +404,14 @@ std::vector<sphere> npc::find_dangerous_explosives() const
     return result;
 }
 
-float npc::evaluate_enemy( const Creature &target ) const
+float npc::evaluate_enemy( const Creature &target, bool self = false, bool enemy = true ) const
 {
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
         return std::min( diff, NPC_MONSTER_DANGER_MAX );
     } else if( target.is_npc() || target.is_avatar() ) {
-        return std::min( character_danger( dynamic_cast<const Character &>( target ) ),
+        return std::min( character_danger( dynamic_cast<const Character &>( target ), self, enemy ),
                          NPC_CHARACTER_DANGER_MAX );
     } else {
         return 0.0f;
@@ -752,7 +752,7 @@ void npc::assess_danger()
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
         }
-        float guy_threat = evaluate_enemy( *guy.lock() );
+        float guy_threat = evaluate_enemy( *guy.lock(), false, false );
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assessed friendly %s at threat level %i.",
                        name, guy.lock()->disp_name(), static_cast<int>( guy_threat ) );
         // TODO: pick the strongest friendly guy around and declare them the leader
@@ -767,14 +767,16 @@ void npc::assess_danger()
         // NPC will try hard not to break and run while in formation.
         // This code should eventually remove the 'player' special case and be applied to
         // whoever the NPC perceives as their closest leader.
-        float player_diff = evaluate_enemy( player_character );
+        float player_diff = 0.0f;
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
+            player_diff = evaluate_enemy( player_character );
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as an enemy of threat level %i",
                            name, static_cast<int>( player_diff ) );
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
+            player_diff = evaluate_enemy( player_character, false, false );
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as a friend of threat level %i",
                            name, static_cast<int>( player_diff ) );
@@ -922,40 +924,58 @@ bool npc::is_safe() const
     return ai_cache.total_danger <= 0;
 }
 
-float npc::character_danger( const Character &candidate ) const
+float npc::character_danger( const Character &candidate, bool self = false,
+                             bool enemy = true ) const
 {
     // TODO: Remove this when possible
     // TODO: Find out who left the above TODO and why
     float danger = 0.0f;
-    bool enemy = !has_faction_relationship( candidate, npc_factions::watch_your_back ) &&
-                 attitude_to( candidate ) != Attitude::NEUTRAL;
-    bool u_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
+    bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     bool my_gun = get_wielded_item() && get_wielded_item()->is_gun();
-    const item &u_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
-                         null_item_reference();
-    double u_weap_val = candidate.weapon_value( u_weap );
+    const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
+                                 null_item_reference();
+    double candidate_weap_val = candidate.weapon_value( candidate_weap );
     const double &my_weap_val = ai_cache.my_weapon_value;
-    if( enemy && u_gun && !my_gun ) {
+    float my_health =  hp_percentage() * std::min( get_hp_max( bodypart_id( "torso" ) ),
+                       get_hp_max( bodypart_id( "head" ) ) ) / ( get_pain() / 10.0f );
+    float perception_fuzz = std::min( ( 20 - get_per() ), 0 ) / 20;
+    float candidate_health =  hp_percentage() * std::min( get_hp_max( bodypart_id( "torso" ) ),
+                              get_hp_max( bodypart_id( "head" ) ) );
+    if( self ) {
+        perception_fuzz = 0.0f;
+    }
+
+    if( enemy && candidate_gun && !my_gun ) {
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s has a gun and %s doesn't; %s adjusts threat accordingly.",
                        candidate.disp_name(), name, name );
-        u_weap_val *= 1.5f;
+        candidate_weap_val *= 1.5f;
     }
-    danger += u_weap_val;
-    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s weapon value as %i.",
-                   name, candidate.disp_name(), static_cast<int>( u_weap_val ) );
+    danger += rng( perception_fuzz * -1.0f, perception_fuzz ) * candidate_weap_val;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s weapon value as %i±%i/%.",
+                   name, candidate.disp_name(), static_cast<int>( candidate_weap_val ),
+                   static_cast<int>( perception_fuzz * 100 ) );
 
     if( enemy ) {
-        float my_health =  hp_percentage() * std::min( get_hp_max( bodypart_id( "torso" ) ),
-                           get_hp_max( bodypart_id( "head" ) ) );
-        danger += my_health / 100.0 / my_weap_val;
+        danger += rng( perception_fuzz * -1.0f, perception_fuzz ) * candidate_health / 100.0 / my_weap_val;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s assesses own health as %i, weapon value as %i, so adds %i to %s danger.",
-                       name, static_cast<int>( my_health ), static_cast<int>( my_weap_val ),
-                       static_cast<int>( my_health / 100.0 / my_weap_val ), candidate.disp_name() );
+                       "%s assesses enemy health as %i, weapon value as %i, so adds %i±%i/% to %s danger.",
+                       name, static_cast<int>( candidate_health ), static_cast<int>( my_weap_val ),
+                       static_cast<int>( candidate_health / 100.0 / my_weap_val ), candidate.disp_name() );
+    } else if( self ) {
+        danger += my_health / 100.0;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses own health as %i, so adds %i to %s danger.",
+                       name, static_cast<int>( my_health ), static_cast<int>( my_health / 100.0 ), candidate.disp_name() );
+    } else {
+        danger += rng( perception_fuzz * -1.0f, perception_fuzz ) * candidate_health / 200.0;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses friend's health as %i, so adds %i±%i/% to %s danger.",
+                       name, static_cast<int>( candidate_health ), static_cast<int>( candidate_health / 200.0 ),
+                       static_cast<int>( perception_fuzz * 100 ), candidate.disp_name() );
     }
 
-    danger += my_gun ? candidate.get_dodge() / 2 : candidate.get_dodge();
+    danger += my_gun && enemy ? candidate.get_dodge() / 2 : candidate.get_dodge();
 
     danger *= std::max( 0.5, candidate.get_speed() / 100.0 );
 
