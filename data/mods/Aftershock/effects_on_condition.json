@@ -65,7 +65,7 @@
         "true_eocs": [ { "id": "EOC_AFS_ESCAPE_POD_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "new_map" } } ] } ]
       },
       {
-        "u_message": "You make sure there are no lose items in the pod outside the cargo space that would become projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
+        "u_message": "You make sure that all equipment is strapped down and loose items are put away to avoid projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
         "popup": true
       },
       { "u_teleport": { "global_val": "new_map" }, "force": true }
