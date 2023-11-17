@@ -2686,6 +2686,29 @@ void known_magic::on_mutation_loss( const trait_id &mid )
     }
 }
 
+void known_magic::reset_effect_bonuses() {
+    casting_time_multiplier = 1;
+    casting_cost_multiplier = 1;
+    casting_aoe_multiplier = 1;
+    casting_range_multiplier = 1;
+    spell_duration_multiplier = 1;
+}
+
+
+void known_magic::process_one_effect(effect& it, bool is_new, bool reduced) {
+    const auto get_effect = [&it, is_new](const std::string& arg, bool reduced) {
+        if (is_new) {
+            return it.get_amount(arg, reduced);
+        }
+        return it.get_mod(arg, reduced);
+    };
+    casting_time_multiplier += get_effect("SPELLCASTING_SPEED", reduced);
+    casting_cost_multiplier += get_effect("SPELLCASTING_COST", reduced);
+    casting_aoe_multiplier += get_effect("SPELLCASTING_AOE", reduced);
+    casting_range_multiplier += get_effect("SPELLCASTING_RANGE", reduced);
+    spell_duration_multiplier += get_effect("SPELLCASTING_DURATION", reduced);
+}
+
 void spellbook_callback::add_spell( const spell_id &sp )
 {
     spells.emplace_back( sp.obj() );
