@@ -353,5 +353,22 @@
         "else": { "u_message": "Canceled" }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_player_see_test",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_player_see_test_nest",
+            "condition": "player_see_u",
+            "effect": { "message": "You can see <u_name>." },
+            "false_effect": { "message": "You cant see <u_name>." }
+          }
+        ],
+        "local": true
+      }
+    ]
   }
 ]

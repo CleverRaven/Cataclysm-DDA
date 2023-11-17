@@ -1032,6 +1032,22 @@ Check the location is in a city.
 },
 ```
 
+### `player_see_u`, `player_see_npc`
+- type: simple string
+- return true if player can see alpha or beta talker
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+return true if player can see NPC.
+```json
+"condition": "player_see_npc",
+```
+
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
 
