@@ -259,11 +259,16 @@ static bool obstacle_in_between( const tripoint &from, const tripoint &to, bool 
         if( ignore_soft && here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, candidate ) ) {
             // if the terrain is a thin obstacle and can be shot or attacked through,
             // it doesn't matter if it's impassible, it's still not an obstacle.
-            return false;
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "detected a soft obstacle at {%d, %d, %d).  Ignored.",
+                           candidate.x, candidate.y, candidate.z );
+            continue;
         } else if( here.impassable( candidate ) ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "detected an obstacle at {%d, %d, %d).", candidate.x,
+                           candidate.y, candidate.z );
             return true;
         }
     }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "No obstacles detected in path." );
     return false;
 }
 
@@ -473,7 +478,7 @@ void npc::assess_danger()
             def_radius = 1;
         }
     }
-    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s set their def_radius to %i.", name, def_radius );
+    //add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s set their def_radius to %i.", name, def_radius );
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & foe,
     int dist, int scaled_dist ) {
@@ -592,14 +597,18 @@ void npc::assess_danger()
         if( obstacle_in_between( pos(), critter.pos(), false ) ) {
             if( is_enemy() || !critter.friendly ) {
                 // still warn about enemies behind impassable glass walls, but not as often.
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s ignored %s because there's an obstacle in between.  Might warn about it.",
+                               name, critter.type->nname() );
                 if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                     warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
                 }
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s ignored %s because there's an obstacle in between, and it's not worth warning about.",
+                               name, critter.type->nname() );
             }
             continue;
-        } else {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.",
-                           name, critter.type->nname() );
         }
 
         // warn and consider the odds for distant enemies
@@ -822,12 +831,14 @@ void npc::assess_danger()
     mem_combat.old_danger_assessment = assessment;
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
-                        - static_cast<float>( mem_combat.panic ) + rng( -5, 5 ) + rng( -3, 3 );
+        float my_diff = evaluate_enemy( *this ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s evaluated final enemy danger as %i, ally strength as %i.",
                        name, static_cast<int>( assessment ), static_cast<int>( my_diff ) );
-        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s semi-randomly adjusted ally strength to %i.",
+        my_diff += personality.bravery - ( get_pain() / 5.0f ) - static_cast<float>
+                   ( mem_combat.panic ) + rng( -5, 5 ) + rng( -3, 3 );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s adjusted ally strength to %i based on the situation.",
                        name, static_cast<int>( my_diff ) );
         if( my_diff < assessment ) {
             time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
