@@ -4515,6 +4515,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "pepper", 1 ]
@@ -4554,6 +4555,7 @@
         [ "seasoning_salt", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "pepper", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
@@ -5062,6 +5064,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "onion", 1 ],
         [ "veggy_potatolike", 1, "LIST" ]
@@ -5151,6 +5154,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5184,6 +5188,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5607,6 +5612,7 @@
         [ "mustard_powder", 20 ],
         [ "garlic_powder", 20 ],
         [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 6 ],
         [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
@@ -5633,7 +5639,7 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [
       [ [ "salt", 10 ] ],
-      [ [ "garlic_clove", 3 ], [ "garlic_powder", 20 ] ],
+      [ [ "garlic_clove", 3 ], [ "rehydrated_garlic", 3 ], [ "garlic_powder", 20 ] ],
       [ [ "thyme", 1 ] ],
       [ [ "wild_herbs", 100 ] ]
     ],
@@ -7989,6 +7995,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 2 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
@@ -8018,6 +8025,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -8027,6 +8035,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -9867,6 +9876,7 @@
         [ "pepper", 20 ],
         [ "chilly-p", 20 ],
         [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 20 ],
         [ "chili_pepper", 2 ],
         [ "rehydrated_chili", 2 ]
@@ -10399,6 +10409,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "tomato", 1 ]
@@ -10423,7 +10434,14 @@
     "//": "90g of snail meat.  treating it like scrap of meat, that's 6u + 1u for butter and aromatics",
     "components": [
       [ [ "gastropod_purged", 6 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "garlic_powder", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ]
+      ],
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],
