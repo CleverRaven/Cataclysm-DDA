@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": "medow_core",
+    "om_terrain": "meadow_core",
     "type": "mapgen",
     "method": "json",
     "weight": 1,
@@ -35,18 +35,18 @@
       ],
       "place_nested": [
         {
-          "chunks": [ [ "null", 500 ], [ "medow_12x12_pond", 20 ], [ "medow_12x12_shrubs", 20 ], [ "medow_12x12_trees", 20 ] ],
+          "chunks": [ [ "null", 500 ], [ "meadow_12x12_pond", 20 ], [ "meadow_12x12_shrubs", 20 ], [ "meadow_12x12_trees", 20 ] ],
           "x": 8,
           "y": 8
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "medow_palette" ],
+      "palettes": [ "meadow_palette" ],
       "place_monster": [ { "group": "GROUP_STREAM_LARGE", "x": 10, "y": 10, "chance": 5, "use_pack_size": true } ]
     }
   },
   {
-    "om_terrain": "medow_end",
+    "om_terrain": "meadow_end",
     "type": "mapgen",
     "method": "json",
     "weight": 10,
@@ -80,11 +80,11 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "medow_palette" ]
+      "palettes": [ "meadow_palette" ]
     }
   },
   {
-    "om_terrain": "medow_end",
+    "om_terrain": "meadow_end",
     "type": "mapgen",
     "method": "json",
     "weight": 2,
@@ -118,11 +118,11 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "medow_palette" ]
+      "palettes": [ "meadow_palette" ]
     }
   },
   {
-    "om_terrain": "medow_end",
+    "om_terrain": "meadow_end",
     "type": "mapgen",
     "method": "json",
     "weight": 2,
@@ -156,7 +156,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "medow_palette" ]
+      "palettes": [ "meadow_palette" ]
     }
   }
 ]
