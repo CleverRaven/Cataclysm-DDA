@@ -32,6 +32,13 @@
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 100,
+    "bash": {
+      "str_min": 4000,
+      "str_max": 8000,
+      "sound": "whump!",
+      "sound_fail": "whump!",
+      "ter_set": "t_afs_augustmoon_diamond_glass"
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ]
   },
   {
@@ -41,7 +48,7 @@
     "description": "The ancient hull of Port Augustmoon, spun into orbit several lifetimes ago.",
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL",  "BLOCK_WIND" ],
     "symbol": "LINE_OXOX",
     "color": "white"
   },
