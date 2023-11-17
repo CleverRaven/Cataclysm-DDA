@@ -286,6 +286,9 @@ return true if alpha talker is female
 ### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
 - type: simple string
 - return true if alpha or beta talker is avatar / NPC / character / monster / item /furniture
+- `avatar` is you, player, that control specific NPC (yes, your character is still NPC, you just can control it, as you can control another NPC using faction succession)
+- `npc` is any NPC, except Avatar
+- `character` is both NPC or Avatar
 
 #### Valid talkers:
 
@@ -2821,7 +2824,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](##variable-object) | default true |
+| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](##variable-object) | message, that would be printed; If `snippet` is true, id of a snippet that would be printed |
 | "type" | optional | string or [variable object](##variable-object) | default neutral; how the message would be displayed in log (usually means the color); could be any of good (green), neutral (white), bad (red), mixed (purple), warning (yellow), info (blue), debug (appear only if debug mode is on), headshot (purple), critical (yellow), grazing (blue) | 
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
