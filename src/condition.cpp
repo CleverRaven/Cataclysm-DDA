@@ -3536,7 +3536,7 @@ parsers_simple = {
     {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
     {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
     {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
-    {"player_see", &conditional_t::set_player_see },
+    {"player_see_u", "player_see_npc", &conditional_t::set_player_see },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
