@@ -237,7 +237,7 @@
     "type": "ammunition_type",
     "id": "762",
     "name": "7.62x39mm",
-    "default": "762_m43"
+    "default": "762_m87"
   },
   {
     "type": "ammunition_type",
