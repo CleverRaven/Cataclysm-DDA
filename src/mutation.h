@@ -170,6 +170,8 @@ struct mutation_branch {
         bool debug = false;
         // True if the mutation should be displayed in the `@` menu
         bool player_display = true;
+        // True if the mutation is assigned to NPCs based on personality score
+        bool personality_score = false;
         // True if mutation is purely comestic and can be changed anytime without any effect
         bool vanity = false;
         // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
