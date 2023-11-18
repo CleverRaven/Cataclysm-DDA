@@ -106,7 +106,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "273x44" ],
-    "skill": "shotgun",
+    "skill": "launcher",
     "dispersion": 300,
     "durability": 7,
     "blackpowder_tolerance": 110,
