@@ -10744,7 +10744,7 @@ void Character::process_effects()
     }
 
     map &here = get_map();
-    if( is_running() && has_effect( effect_slippery_terrain ) && !has_effect( effect_downed ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) && has_trait_flag( json_flag_NON_SLIP ) ) {
+    if( is_running() && has_effect( effect_slippery_terrain ) && !has_effect( effect_downed ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) && !has_trait_flag( json_flag_NON_SLIP ) ) {
         int rolls = 5;
         bool u_see = get_player_view().sees( *this );
         if( has_trait( trait_DEFT ) ) {
