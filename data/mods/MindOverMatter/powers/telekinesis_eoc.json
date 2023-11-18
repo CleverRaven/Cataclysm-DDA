@@ -36,10 +36,10 @@
         "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 30) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 30) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
           }
         ]
       }
