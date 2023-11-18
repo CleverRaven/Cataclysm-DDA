@@ -251,7 +251,8 @@
       { "item": "3006", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "762_m87", "prob": 15, "charges": [ 1, 30 ] },
+      { "item": "762_jhp", "prob": 5, "charges": [ 1, 30 ] },
       { "item": "30carbine", "prob": 20, "charges": [ 1, 50 ] }
     ]
   },
@@ -342,7 +343,7 @@
       { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 20 },
       { "item": "762_54R", "prob": 35 },
-      { "item": "762_m43", "prob": 20 },
+      { "item": "762_m87", "prob": 20 },
       { "item": "300blk_ss", "prob": 15 },
       { "item": "50beowulf_xtp", "prob": 15 },
       { "item": "50beowulf_penetrator", "prob": 10 },
@@ -447,7 +448,7 @@
       { "item": "reloaded_762_51", "prob": 10 },
       { "item": "reloaded_762_51_incendiary", "prob": 5 },
       { "item": "reloaded_762_54R", "prob": 40 },
-      { "item": "reloaded_762_m43", "prob": 20 },
+      { "item": "reloaded_762_m87", "prob": 2 },
       { "item": "reloaded_300blk", "prob": 10 },
       { "item": "reloaded_50beowulf_xtp", "prob": 10 },
       { "item": "reloaded_50beowulf_penetrator", "prob": 5 },

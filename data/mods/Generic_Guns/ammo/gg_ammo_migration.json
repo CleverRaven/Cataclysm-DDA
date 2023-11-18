@@ -236,6 +236,7 @@
       "545",
       "762_54R",
       "762_m87",
+      "762_jhp",
       "8mm_bootleg",
       "8mm_civilian",
       "8mm_jhp",
@@ -277,6 +278,7 @@
       "reloaded_303",
       "reloaded_303sp",
       "reloaded_762_54R",
+      "reloaded_762_jhp",
       "reloaded_762_m87",
       "reloaded_30carbine"
     ],
@@ -299,6 +301,7 @@
       "bp_303sp",
       "bp_762_54R",
       "bp_762_m87",
+      "bp_762_jhp",
       "bp_30carbine"
     ],
     "type": "MIGRATION",
@@ -323,7 +326,6 @@
       "556_m995",
       "762_51",
       "762_51_incendiary",
-      "762_m43",
       "762_51_m993",
       "8mm_caseless",
       "8mm_fmj",
@@ -347,8 +349,7 @@
       "reloaded_556",
       "reloaded_556_incendiary",
       "reloaded_762_51",
-      "reloaded_762_51_incendiary",
-      "reloaded_762_m43"
+      "reloaded_762_51_incendiary"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_AP"
@@ -366,8 +367,7 @@
       "bp_556",
       "bp_556_incendiary",
       "bp_762_51",
-      "bp_762_51_incendiary",
-      "bp_762_m43"
+      "bp_762_51_incendiary"
     ],
     "type": "MIGRATION",
     "replace": "bp_rifle_AP"
