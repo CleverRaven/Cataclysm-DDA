@@ -68,7 +68,8 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "special_attacks": [
-      [ "EAT_CROP", 40 ],
+      [ "GRAZE", 20 ],
+      [ "EAT_CROP", 60 ],
       {
         "id": "scratch",
         "move_cost": 140,
@@ -88,6 +89,7 @@
       }
     ],
     "dodge": 2,
+    "stomach_size": 6000,
     "vision_day": 35,
     "vision_night": 8,
     "path_settings": { "max_dist": 10 },
@@ -100,7 +102,7 @@
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 16, "cut": 10, "stab": 10, "bullet": 4, "electric": 1 }
   },
   {
