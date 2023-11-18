@@ -45,21 +45,27 @@ constexpr std::string_view _str_type_of( T /* t */ )
     return "cookies";
 }
 
+template<class C, class R = C>
+constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
+{
+    return std::visit( overloaded{
+        []( C const & v ) -> R
+        {
+            return v;
+        },
+        []( auto const & v ) -> R
+        {
+            throw std::invalid_argument( string_format( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) ) );
+        },
+    },
+    data );
+}
+
 } // namespace
 
 double diag_value::dbl() const
 {
-    return std::visit( overloaded{
-        []( double v )
-        {
-            return v;
-        },
-        []( auto const & v ) -> double
-        {
-            throw std::invalid_argument( string_format( "Expected number, got %s", _str_type_of( v ) ) );
-        },
-    },
-    data );
+    return _diag_value_at_parse_time<double>( data );
 }
 
 double diag_value::dbl( dialogue const &d ) const
@@ -97,17 +103,7 @@ double diag_value::dbl( dialogue const &d ) const
 
 std::string_view diag_value::str() const
 {
-    return std::visit( overloaded{
-        []( std::string const & v ) -> std::string const &
-        {
-            return v;
-        },
-        []( auto const & v ) -> std::string const &
-        {
-            throw std::invalid_argument( string_format( "Expected string, got %s", _str_type_of( v ) ) );
-        },
-    },
-    data );
+    return _diag_value_at_parse_time<std::string, std::string_view>( data );
 }
 
 std::string diag_value::str( dialogue const &d ) const
@@ -137,17 +133,7 @@ std::string diag_value::str( dialogue const &d ) const
 
 var_info diag_value::var() const
 {
-    return std::visit( overloaded{
-        []( var_info const & v )
-        {
-            return v;
-        },
-        []( auto const & v ) -> var_info
-        {
-            throw std::invalid_argument( string_format( "Expected variable, got %s", _str_type_of( v ) ) );
-        },
-    },
-    data );
+    return _diag_value_at_parse_time<var_info>( data );
 }
 
 std::function<double( dialogue & )> u_val( char scope,
@@ -311,13 +297,9 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
 std::function<double( dialogue & )> hp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value bp_val( std::string{} );
-    if( !params.empty() ) {
-        bp_val = params[0];
-    }
-    return[bp_val, beta = is_beta( scope )]( dialogue const & d ) {
+    return[bp_val = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         std::string const bp_str = bp_val.str( d );
-        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
+        bodypart_id const bp = bp_str == "ALL" ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         return d.actor( beta )->get_cur_hp( bp );
     };
 }
@@ -325,13 +307,9 @@ std::function<double( dialogue & )> hp_eval( char scope,
 std::function<void( dialogue &, double )> hp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value bp_val( std::string{} );
-    if( !params.empty() ) {
-        bp_val = params[0];
-    }
-    return [bp_val, beta = is_beta( scope )]( dialogue const & d, double val ) {
+    return [bp_val = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
         std::string const bp_str = bp_val.str( d );
-        if( bp_str.empty() ) {
+        if( bp_str == "ALL" ) {
             d.actor( beta )->set_all_parts_hp_cur( val );
         } else {
             d.actor( beta )->set_part_hp_cur( bodypart_id( bp_str ), val );
@@ -471,8 +449,7 @@ std::function<double( dialogue & )> school_level_adjustment_eval( char scope,
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
             const trait_id school( school_value.str( d ) );
-            std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
-                        school );
+            auto it = ch->magic->caster_level_adjustment_by_school.find( school );
             if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
                 return it->second;
             } else {
@@ -490,8 +467,7 @@ std::function<void( dialogue &, double )> school_level_adjustment_ass( char scop
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
             const trait_id school( school_value.str( d ) );
-            std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
-                        school );
+            auto it = ch->magic->caster_level_adjustment_by_school.find( school );
             if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
                 it->second = val;
             } else {
@@ -519,21 +495,18 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
 }
 
 std::function<double( dialogue & )> skill_exp_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value format_value( std::string( "percentage" ) );
-    if( params.empty() ) {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "skill_exp" ) );
-    } else if( params.size() > 1 ) {
-        format_value = params[1];
+    if( kwargs.count( "format" ) != 0 ) {
+        format_value = *kwargs.at( "format" );
     }
 
     return[skill_value = params[0], format_value, beta = is_beta( scope )]( dialogue const & d ) {
         skill_id skill( skill_value.str( d ) );
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percentage" ) {
-            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+            debugmsg( R"(Unknown format type "%s" for skill_exp, assumning "percentage")", format );
         }
         bool raw = format == "raw";
         return d.actor( beta )->get_skill_exp( skill, raw );
@@ -541,14 +514,11 @@ std::function<double( dialogue & )> skill_exp_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> skill_exp_ass( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value format_value( std::string( "percentage" ) );
-    if( params.empty() ) {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "skill_exp" ) );
-    } else if( params.size() > 1 ) {
-        format_value = params[1];
+    if( kwargs.count( "format" ) != 0 ) {
+        format_value = *kwargs.at( "format" );
     }
 
     return [skill_value = params[0], format_value, beta = is_beta( scope ) ]( dialogue const & d,
@@ -556,7 +526,7 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
         skill_id skill( skill_value.str( d ) );
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percentage" ) {
-            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+            debugmsg( R"(Unknown format type "%s" for skill_exp, assumning "percentage")", format );
         }
         bool raw = format == "raw";
         return d.actor( beta )->set_skill_exp( skill, val, raw );
@@ -666,20 +636,15 @@ std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope
 std::function<double( dialogue & )> proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    std::string format = "time_spent";
-    if( kwargs.count( "format" ) ) {
-        format = kwargs.at( "format" )->str();
+    diag_value fmt_val( std::string{"time_spent"} );
+    if( kwargs.count( "format" ) != 0 ) {
+        fmt_val = *kwargs.at( "format" );
     }
-    if( format != "time_spent" && format != "percent" && format != "permille" &&
-        format != "total_time_required" && format != "time_left" ) {
-        throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
-    }
-    return [beta = is_beta( scope ), prof_value = params[0], format]( dialogue const & d ) {
+    return [beta = is_beta( scope ), prof_value = params[0], fmt_val]( dialogue const & d ) {
         proficiency_id prof( prof_value.str( d ) );
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
-        if( format == "time_spent" ) {
-            return to_turns<int>( raw );
-        } else if( format == "percent" ) {
+        std::string const format = fmt_val.str( d );
+        if( format == "percent" ) {
             return static_cast<int>( raw * 100  / prof->time_to_learn() );
         } else if( format == "permille" ) {
             return static_cast<int>( raw * 1000  / prof->time_to_learn() );
@@ -687,6 +652,11 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
             return to_turns<int>( prof->time_to_learn() );
         } else if( format == "time_left" ) {
             return to_turns<int>( prof->time_to_learn() - raw );
+        } else {
+            if( format != "time_spent" ) {
+                debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
+            }
+            return to_turns<int>( raw );
         }
         return 0;
     };
@@ -695,26 +665,26 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
 std::function<void( dialogue &, double )> proficiency_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    std::string format = "time_spent";
-    if( kwargs.count( "format" ) ) {
-        format = kwargs.at( "format" )->str();
+    diag_value fmt_val( std::string{"time_spent"} );
+    if( kwargs.count( "format" ) != 0 ) {
+        fmt_val = *kwargs.at( "format" );
     }
-    if( format != "time_spent" && format != "percent" && format != "permille" &&
-        format != "total_time_required" && format != "time_left" ) {
-        throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
-    }
-    return [prof_value = params[0], format, beta = is_beta( scope )]( dialogue const & d,
+    return [prof_value = params[0], fmt_val, beta = is_beta( scope )]( dialogue const & d,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
+        std::string const format = fmt_val.str( d );
         int to_write = 0;
-        if( format == "time_spent" ) {
-            to_write = val;
-        } else if( format == "percent" ) {
+        if( format == "percent" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 100;
         } else if( format == "permille" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 1000;
         } else if( format == "time_left" ) {
             to_write = to_turns<int>( prof->time_to_learn() ) - val;
+        } else {
+            if( format != "time_spent" ) {
+                debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
+            }
+            to_write = val;
         }
         d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
         return 0;
