@@ -426,7 +426,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             // avoid friendly fire
             if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
-                origin->avoid_friendly_fire() ) {
+                origin->check_avoid_friendly_fire() ) {
                 continue;
             }
             attack.missed_by = cur_missed_by;
