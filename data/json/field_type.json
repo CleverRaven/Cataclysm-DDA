@@ -17,7 +17,29 @@
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
-    "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "intensity_levels": [
+      {
+        "name": "bile splatter",
+        "color": "pink",
+        "sym": "}",
+        "effects": [
+          { "effect_id": "bile_slip", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "bile stain",
+        "effects": [
+          { "effect_id": "bile_slip", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "puddle of bile",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "bile_slip", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      }
+    ],
     "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,

@@ -2347,5 +2347,10 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "NON_SLIP",
+    "type": "json_flag",
+    "info": "The character can't slip on slippery surfaces."
   }
 ]

@@ -4455,5 +4455,15 @@
         ]
       }
     ]
+  },
+  {
+    "id": "slip",
+    "type": "effect_type",
+    "max_duration": "1 s",
+    "name": [ "Slippery Terrain" ],
+    "desc": [ "There's a slippery surface here, running may be a bad idea." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true
   }
 ]

@@ -209,6 +209,7 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_slip( "slip" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -318,6 +319,7 @@ static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
+static const json_character_flag json_flag_NON_SLIP( "NON_SLIP" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
@@ -402,6 +404,7 @@ static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
+static const trait_id trait_AQUEOUS( "AQUEOUS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_BOOMING_VOICE( "BOOMING_VOICE" );
@@ -1850,12 +1853,18 @@ void Character::dismount()
     }
 }
 
+float Character::balance_roll() const
+{
+    /** @EFFECT_DEX improves player balance roll */
+    /** Balance and reaction scores influence stability rolls */
+    return ( get_dex() ) * ( ( get_limb_score( limb_score_balance ) * 3 + get_limb_score(
+            limb_score_reaction ) ) / 3.0f );
+}
+
 float Character::stability_roll() const
 {
     /** @EFFECT_STR improves player stability roll */
-
     /** Balance and reaction scores influence stability rolls */
-
     /** @EFFECT_MELEE improves player stability roll */
     return ( get_melee() + get_str() ) * ( ( get_limb_score( limb_score_balance ) * 3 + get_limb_score(
             limb_score_reaction ) ) / 4.0f );
@@ -10737,6 +10746,30 @@ void Character::process_effects()
                 add_msg( _( "Got viral pinkeye with a resistance probability of 1 in %s!" ), pinkeye_chance );
                 add_effect( effect_pre_conjunctivitis_viral, 70_hours );
             }
+        }
+    }
+
+    if( is_running() && has_effect( effect_slip ) && !has_effect( effect_downed ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) && has_trait_flag( json_flag_NON_SLIP ) ) {
+            int rolls = 5;
+        if( has_trait( trait_DEFT ) ) {
+            rolls--;
+        }
+        //We're used to everything being slippery.
+        if( has_trait( trait_SLIMY ) || has_trait( trait_AQUEOUS ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_CLUMSY ) ) {
+            rolls++;
+        }
+            if( balance_roll() < dice( rolls, 10 ) ) {
+            if( !is_avatar() ) {
+                if( u_see ) {
+                    add_msg( _( "%1$s slips and falls!" ), get_name() );
+                }
+            } else {
+                add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
+            }
+            add_effect( effect_downed, rng( 1_turns, 3_turns ) );
         }
     }
 

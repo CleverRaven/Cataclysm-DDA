@@ -5480,7 +5480,7 @@
     "prereqs": [ "GASTROPOD_FOOT" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "category": [ "GASTROPOD" ],
-    "flags": [ "WALK_UNDERWATER" ]
+    "flags": [ "WALK_UNDERWATER", "NON_SLIP" ]
   },
   {
     "type": "mutation",
