@@ -1589,29 +1589,36 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-static bool wants_to_reload( const npc &who, const item &it )
+static bool wants_to_reload( const npc &guy, const item &candidate )
 {
-    if( !who.can_reload( it ) ) {
+    if( !candidate.is_reloadable() ) {
+        if( !candidate.is_magazine() || !candidate.is_gun() ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.",
+                           guy.name, candidate.tname() );
+        } else {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s considered reloading %s, but feels it is inappropriate.", guy.name, candidate.tname() );
+        }
+
         return false;
     }
 
-    const int required = it.ammo_required();
+    if( !guy.can_reload( candidate ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s doesn't think they can reload %s.", guy.name,
+                       candidate.tname() );
+        return false;
+    }
+
+    const int required = candidate.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
-    if( required < 1 && !it.is_magazine() ) {
+    if( required < 1 && !candidate.is_magazine() ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s couldn't find requirements to reload %s.", guy.name,
+                       candidate.tname() );
         return false;
     }
-
-    const int remaining = it.ammo_remaining();
-    // return early just in case there is no ammo
-    if( remaining < required ) {
-        return true;
-    }
-
-    if( !it.ammo_data() || !it.ammo_data()->ammo ) {
-        return false;
-    }
-
-    return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
+    add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s might try reloading %s.", guy.name,
+                   candidate.tname() );
+    return true;
 }
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
@@ -1652,6 +1659,7 @@ item_location npc::find_reloadable()
         const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node_loc;
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s has decided to reload %s!", name, node->tname() );
             return VisitResponse::ABORT;
         }
 
@@ -1963,10 +1971,13 @@ npc_action npc::address_needs( float danger )
         return npc_reload;
     }
 
-    item_location reloadable = find_reloadable();
-    if( reloadable ) {
-        do_reload( reloadable );
-        return npc_noop;
+    if( one_in( 3 ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s decided to look into reloading items.", name );
+        item_location reloadable = find_reloadable();
+        if( reloadable ) {
+            do_reload( reloadable );
+            return npc_noop;
+        }
     }
 
     // Extreme thirst or hunger, bypass safety check.
@@ -2249,7 +2260,8 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
     const Creature *target = current_target();
     if( target == nullptr ) {
-        // No target, plenty of time to reload
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s can't see anyone around: great time to reload.",
+                       name );
         return true;
     }
 
@@ -2257,17 +2269,21 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
-        const Character &c = dynamic_cast<const Character &>( *target );
-        const item_location weapon = c.get_wielded_item();
+        const Character &foe = dynamic_cast<const Character &>( *target );
+        const item_location weapon = foe.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
-        if( sees( c ) && weapon && weapon->is_gun() && rltime > 200 &&
+        if( sees( foe ) && weapon && weapon->is_gun() && rltime > 200 &&
             weapon->gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s is shy about reloading with &s standing right there.",
+                           name, foe.name );
             return false;
         }
     }
 
     // TODO: Handle monsters with ranged attacks and players with CBMs
+    add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s turns to reload: %i./nTurns til reached: %i.", name,
+                   static_cast<int>( turns_til_reloaded ), static_cast<int>( turns_til_reached ) );
     return turns_til_reloaded < turns_til_reached;
 }
 
@@ -2956,6 +2972,8 @@ void npc::find_item()
 
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "%s considered picking something up but player said not to.", name );
         return;
     }
 
@@ -2972,6 +2990,8 @@ void npc::find_item()
     const item *wanted = nullptr;
 
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
+                       name );
         return;
     }
 
@@ -3027,6 +3047,8 @@ void npc::find_item()
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s didn't pick up an item because it's in a no-pickup zone.", name );
             continue;
         }
 
