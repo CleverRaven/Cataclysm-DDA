@@ -767,6 +767,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_light_local",
+    "name": [ "Candle's Light" ],
+    "desc": [ "The air above your hand glows faintly." ],
+    "apply_message": "A faint light springs up over your hand.",
+    "remove_message": "The glow above your hand fades.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_dodge",
     "name": [ "Trick of the Light" ],
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
@@ -825,9 +835,13 @@
     "id": "effect_photokin_arms",
     "name": [ "refraction of arms" ],
     "desc": [ "Your arms refract light to create the illusion of having multiple arms and their wielded items." ],
-    "apply_message": "Light around your arms shimmers and refracts, creating the illusion of multiple arms.",
+    "apply_message": "",
+    "decay_messages": [
+      [ "Your illusionary arms are obviously translucent.", "bad" ],
+      [ "Your illusionary arms are losing some of their solid appearance.", "bad" ]
+    ],
     "remove_message": "The light around your arms returns to normal.",
-    "rating": "neutral",
+    "rating": "good",
     "show_in_info": true,
     "base_mods": { "hit_mod": [ 4 ] },
     "max_duration": "45 m",

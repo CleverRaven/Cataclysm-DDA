@@ -126,6 +126,15 @@ def items_for_which_all_ancestors(items, pred):
     return result
 
 
+def blacklisted_items(data):
+    blacklists = items_of_type(data, 'ITEM_BLACKLIST')
+    items = set()
+    for blacklist in blacklists:
+        if 'items' in blacklist:
+            items.update(set(blacklist['items']))
+    return items
+
+
 def main():
     core_data, core_errors = util.import_data()
     print('Importing Generic Guns data from %r' % GG_DIR)
@@ -136,6 +145,7 @@ def main():
         sys.exit(1)
 
     gg_migrations = get_ids(items_of_type(gg_data, 'MIGRATION'))
+    gg_blacklist = blacklisted_items(gg_data)
 
     core_guns = items_of_type(core_data, 'GUN')
 
@@ -192,7 +202,7 @@ def main():
     returncode = 0
 
     def check_missing(items, name):
-        ids = get_ids(items) - ID_WHITELIST
+        ids = get_ids(items) - ID_WHITELIST - gg_blacklist
 
         missing_migrations = ids - gg_migrations
         if missing_migrations:

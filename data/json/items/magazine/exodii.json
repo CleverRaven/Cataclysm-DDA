@@ -24,7 +24,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "PA md. 68 Exodii 60-round magazine" },
-    "description": "An unreasonably large magazine for the already heavy PA md. 68 battle rifle, custom designed and manufactured by the Exodii.",
+    "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine.",
     "weight": "600 g",
     "volume": "1250 ml",
     "longest_side": "255 mm",

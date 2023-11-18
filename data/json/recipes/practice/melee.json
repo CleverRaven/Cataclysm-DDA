@@ -12,7 +12,45 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
     "autolearn": [ [ "melee", 0 ] ],
     "//": "At this level, anything will do that isn't like, a microwave, but I don't want to bloat out the list.",
-    "tools": [ [ "stick", "2x4", "stick_long", "pipe" ] ]
+    "tools": [
+      [
+        [ "improvised_melee_weapons", 1, "LIST" ],
+        [ "basic_shivs", 1, "LIST" ],
+        [ "real_shivs", 1, "LIST" ],
+        [ "real_claws", 1, "LIST" ],
+        [ "basic_hooks", 1, "LIST" ],
+        [ "real_hooks", 1, "LIST" ],
+        [ "basic_knives", 1, "LIST" ],
+        [ "real_knives", 1, "LIST" ],
+        [ "basic_thrusting_swords", 1, "LIST" ],
+        [ "real_thrusting_swords", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
+        [ "real_short_swords", 1, "LIST" ],
+        [ "basic_medium_swords", 1, "LIST" ],
+        [ "real_medium_swords", 1, "LIST" ],
+        [ "basic_long_swords", 1, "LIST" ],
+        [ "real_long_swords", 1, "LIST" ],
+        [ "basic_great_swords", 1, "LIST" ],
+        [ "real_great_swords", 1, "LIST" ],
+        [ "basic_axes", 1, "LIST" ],
+        [ "real_axes", 1, "LIST" ],
+        [ "real_great_axes", 1, "LIST" ],
+        [ "basic_batons", 1, "LIST" ],
+        [ "real_batons", 1, "LIST" ],
+        [ "basic_flails", 1, "LIST" ],
+        [ "real_flails", 1, "LIST" ],
+        [ "basic_great_hammers", 1, "LIST" ],
+        [ "real_great_hammers", 1, "LIST" ],
+        [ "basic_maces", 1, "LIST" ],
+        [ "real_maces", 1, "LIST" ],
+        [ "basic_quarterstaves", 1, "LIST" ],
+        [ "real_quarterstaves", 1, "LIST" ],
+        [ "basic_polearms", 1, "LIST" ],
+        [ "real_polearms", 1, "LIST" ],
+        [ "basic_spears", 1, "LIST" ],
+        [ "real_spears", 1, "LIST" ]
+      ]
+    ]
   },
   {
     "id": "prac_melee_int",
@@ -27,7 +65,45 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "melee", 3 ] ],
     "book_learn": [ [ "mag_melee", 1 ], [ "manual_melee", 1 ] ],
-    "tools": [ [ "stick", "2x4", "stick_long", "pipe" ] ]
+    "tools": [
+      [
+        [ "improvised_melee_weapons", 1, "LIST" ],
+        [ "basic_shivs", 1, "LIST" ],
+        [ "real_shivs", 1, "LIST" ],
+        [ "real_claws", 1, "LIST" ],
+        [ "basic_hooks", 1, "LIST" ],
+        [ "real_hooks", 1, "LIST" ],
+        [ "basic_knives", 1, "LIST" ],
+        [ "real_knives", 1, "LIST" ],
+        [ "basic_thrusting_swords", 1, "LIST" ],
+        [ "real_thrusting_swords", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
+        [ "real_short_swords", 1, "LIST" ],
+        [ "basic_medium_swords", 1, "LIST" ],
+        [ "real_medium_swords", 1, "LIST" ],
+        [ "basic_long_swords", 1, "LIST" ],
+        [ "real_long_swords", 1, "LIST" ],
+        [ "basic_great_swords", 1, "LIST" ],
+        [ "real_great_swords", 1, "LIST" ],
+        [ "basic_axes", 1, "LIST" ],
+        [ "real_axes", 1, "LIST" ],
+        [ "real_great_axes", 1, "LIST" ],
+        [ "basic_batons", 1, "LIST" ],
+        [ "real_batons", 1, "LIST" ],
+        [ "basic_flails", 1, "LIST" ],
+        [ "real_flails", 1, "LIST" ],
+        [ "basic_great_hammers", 1, "LIST" ],
+        [ "real_great_hammers", 1, "LIST" ],
+        [ "basic_maces", 1, "LIST" ],
+        [ "real_maces", 1, "LIST" ],
+        [ "basic_quarterstaves", 1, "LIST" ],
+        [ "real_quarterstaves", 1, "LIST" ],
+        [ "basic_polearms", 1, "LIST" ],
+        [ "real_polearms", 1, "LIST" ],
+        [ "basic_spears", 1, "LIST" ],
+        [ "real_spears", 1, "LIST" ]
+      ]
+    ]
   },
   {
     "id": "prac_cutting_beg",
@@ -43,7 +119,31 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "book_learn": [ [ "mag_cutting", 0 ], [ "manual_cutting", 0 ] ],
-    "tools": [ [ "bokken", "bokken_fake", "bokken_inferior", "sword_wood" ] ]
+    "//": "Can use any weapon that cuts.",
+    "tools": [
+      [
+        [ "basic_shivs", 1, "LIST" ],
+        [ "real_shivs", 1, "LIST" ],
+        [ "real_claws", 1, "LIST" ],
+        [ "basic_hooks", 1, "LIST" ],
+        [ "real_hooks", 1, "LIST" ],
+        [ "basic_knives", 1, "LIST" ],
+        [ "real_knives", 1, "LIST" ],
+        [ "basic_short_swords", 1, "LIST" ],
+        [ "real_short_swords", 1, "LIST" ],
+        [ "basic_medium_swords", 1, "LIST" ],
+        [ "real_medium_swords", 1, "LIST" ],
+        [ "basic_long_swords", 1, "LIST" ],
+        [ "real_long_swords", 1, "LIST" ],
+        [ "basic_great_swords", 1, "LIST" ],
+        [ "real_great_swords", 1, "LIST" ],
+        [ "basic_axes", 1, "LIST" ],
+        [ "real_axes", 1, "LIST" ],
+        [ "real_great_axes", 1, "LIST" ],
+        [ "basic_polearms", 1, "LIST" ],
+        [ "real_polearms", 1, "LIST" ]
+      ]
+    ]
   },
   {
     "id": "prac_cutting_int",
@@ -63,30 +163,17 @@
     "//": "Only real and powerful cutting weapons.",
     "tools": [
       [
-        "katana",
-        "scimitar",
-        "arming_sword",
-        "broadsword",
-        "cavalry_sabre",
-        "cutlass",
-        "dao",
-        "jian",
-        "longsword",
-        "nodachi",
-        "wakizashi",
-        "zweihander",
-        "butterfly_swords",
-        "sword_xiphos",
-        "khopesh",
-        "glaive",
-        "halberd",
-        "poleaxe",
-        "battleaxe",
-        "fire_ax",
-        "ax",
-        "ji",
-        "naginata",
-        "scythe_war"
+        [ "real_shivs", 1, "LIST" ],
+        [ "real_claws", 1, "LIST" ],
+        [ "real_hooks", 1, "LIST" ],
+        [ "real_knives", 1, "LIST" ],
+        [ "real_short_swords", 1, "LIST" ],
+        [ "real_medium_swords", 1, "LIST" ],
+        [ "real_long_swords", 1, "LIST" ],
+        [ "real_great_swords", 1, "LIST" ],
+        [ "real_axes", 1, "LIST" ],
+        [ "real_great_axes", 1, "LIST" ],
+        [ "real_polearms", 1, "LIST" ]
       ],
       [ "water", "water_clean" ]
     ],
@@ -108,7 +195,20 @@
     "autolearn": [ [ "bashing", 2 ] ],
     "book_learn": [ [ "mag_bashing", 0 ], [ "manual_bashing", 0 ] ],
     "//": "Only training weapons or light and easy to use weapons, a war hammer is a good weapon but you should not start your training with one.",
-    "tools": [ [ "cudgel", "q_staff", "bat", "bat_metal", "baton-extended", "PR24-extended" ] ]
+    "tools": [
+      [
+        [ "basic_batons", 1, "LIST" ],
+        [ "real_batons", 1, "LIST" ],
+        [ "basic_flails", 1, "LIST" ],
+        [ "real_flails", 1, "LIST" ],
+        [ "basic_great_hammers", 1, "LIST" ],
+        [ "real_great_hammers", 1, "LIST" ],
+        [ "basic_maces", 1, "LIST" ],
+        [ "real_maces", 1, "LIST" ],
+        [ "basic_quarterstaves", 1, "LIST" ],
+        [ "real_quarterstaves", 1, "LIST" ]
+      ]
+    ]
   },
   {
     "id": "prac_bashing_int",
@@ -128,21 +228,11 @@
     "//": "Only large, top-heavy bashing weapons or axes.",
     "tools": [
       [
-        "warhammer",
-        "mace",
-        "morningstar",
-        "2h_flail_steel",
-        "glaive",
-        "halberd",
-        "lucern_hammer",
-        "poleaxe",
-        "fire_ax",
-        "ax",
-        "battleaxe",
-        "hammer_sledge",
-        "hammer_sledge_short",
-        "hammer_sledge_heavy",
-        "hammer_sledge_engineer"
+        [ "real_batons", 1, "LIST" ],
+        [ "real_flails", 1, "LIST" ],
+        [ "real_great_hammers", 1, "LIST" ],
+        [ "real_maces", 1, "LIST" ],
+        [ "real_quarterstaves", 1, "LIST" ]
       ],
       [ "pseudo_training_dummy_heavy" ]
     ],
@@ -224,7 +314,7 @@
     "autolearn": [ [ "cutting", 2 ] ],
     "book_learn": [ [ "mag_cutting", 1 ], [ "manual_swords", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_long_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "bokken", "katana", "longsword" ] ]
+    "tools": [ [ [ "basic_long_swords", 1, "LIST" ], [ "real_long_swords", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_long_sword",
@@ -244,7 +334,7 @@
       { "proficiency": "prof_long_swords_familiar", "required": true },
       { "proficiency": "prof_long_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "katana", "longsword" ], [ "water", "water_clean" ] ],
+    "tools": [ [ [ "real_long_swords", 1, "LIST" ] ], [ "water", "water_clean" ] ],
     "//1": "Standard Blade Training Cost",
     "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
@@ -263,7 +353,7 @@
     "autolearn": [ [ "cutting", 2 ] ],
     "book_learn": [ [ "mag_cutting", 1 ], [ "manual_swords", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_great_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "zweihander", "sword_wood_large", "nodachi", "kriegsmesser" ] ]
+    "tools": [ [ [ "basic_great_swords", 1, "LIST" ], [ "real_great_swords", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_great_sword",
@@ -283,7 +373,7 @@
       { "proficiency": "prof_great_swords_familiar", "required": true },
       { "proficiency": "prof_great_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "zweihander", "nodachi", "kriegsmesser" ], [ "water", "water_clean" ] ],
+    "tools": [ [ [ "real_great_swords", 1, "LIST" ] ], [ "water", "water_clean" ] ],
     "//1": "Standard Blade Training Cost",
     "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
@@ -338,7 +428,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_great_axes_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "battleaxe", "fire_ax", "ax", "primitive_axe" ] ]
+    "tools": [ [ [ "real_great_axes", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_great_axe",
@@ -357,7 +447,7 @@
       { "proficiency": "prof_great_axes_familiar", "required": true },
       { "proficiency": "prof_great_axes_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "battleaxe", "fire_ax", "ax" ], [ "pseudo_training_dummy_heavy" ] ],
+    "tools": [ [ [ "real_great_axes", 1, "LIST" ] ], [ "pseudo_training_dummy_heavy" ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
@@ -374,7 +464,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_hand_axes_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "hatchet", "copper_ax", "iceaxe", "crash_axe" ] ]
+    "tools": [ [ [ "basic_axes", 1, "LIST" ], [ "real_axes", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_hand_axe",
@@ -393,7 +483,7 @@
       { "proficiency": "prof_hand_axes_familiar", "required": true },
       { "proficiency": "prof_hand_axes_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "hatchet", "copper_ax", "iceaxe", "crash_axe" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ [ "real_axes", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_bashing_beg_great_hammer",
@@ -409,7 +499,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "bashing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_great_hammers_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "club_wooden_large", "mace_pipe_large", "warhammer", "hammer_sledge", "hammer_sledge_heavy" ] ]
+    "tools": [ [ [ "basic_great_hammers", 1, "LIST" ], [ "real_great_hammers", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_bashing_int_great_hammer",
@@ -428,7 +518,7 @@
       { "proficiency": "prof_great_hammers_familiar", "required": true },
       { "proficiency": "prof_great_hammers_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "warhammer", "hammer_sledge", "hammer_sledge_heavy" ], [ "pseudo_training_dummy_heavy" ] ],
+    "tools": [ [ [ "real_great_hammers", 1, "LIST" ] ], [ "pseudo_training_dummy_heavy" ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
@@ -445,7 +535,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "bashing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_flails_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "2h_flail_wood", "2h_flail_steel" ] ]
+    "tools": [ [ [ "basic_flails", 1, "LIST" ], [ "real_flails", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_bashing_int_flail",
@@ -464,7 +554,7 @@
       { "proficiency": "prof_flails_familiar", "required": true },
       { "proficiency": "prof_flails_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "2h_flail_wood", "2h_flail_steel" ], [ "pseudo_training_dummy_heavy" ] ],
+    "tools": [ [ [ "basic_flails", 1, "LIST" ], [ "real_flails", 1, "LIST" ] ], [ "pseudo_training_dummy_heavy" ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
@@ -481,7 +571,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "bashing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_maces_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "club_wooden", "mace", "mace_simple", "mace_trench", "morningstar" ] ]
+    "tools": [ [ [ "basic_maces", 1, "LIST" ], [ "real_maces", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_bashing_int_mace",
@@ -500,7 +590,7 @@
       { "proficiency": "prof_maces_familiar", "required": true },
       { "proficiency": "prof_maces_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "mace", "mace_trench", "morningstar" ], [ "pseudo_training_dummy_heavy" ] ],
+    "tools": [ [ [ "real_maces", 1, "LIST" ] ], [ "pseudo_training_dummy_heavy" ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
@@ -519,7 +609,7 @@
     "book_learn": [ [ "manual_stabbing", 0 ] ],
     "//": "Long stick works as a spear here, no tip is needed to practice form.",
     "proficiencies": [ { "proficiency": "prof_spears_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "stick_long", "pointy_stick_long", "spear_shaft", "pitchfork", "simple_spear_pipe", "spear_pipe" ] ]
+    "tools": [ [ [ "basic_spears", 1, "LIST" ], [ "real_spears", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_stabbing_int_spear",
@@ -539,10 +629,7 @@
       { "proficiency": "prof_spears_familiar", "required": true },
       { "proficiency": "prof_spears_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "stick_long", "pointy_stick_long", "spear_shaft", "pitchfork", "simple_spear_pipe", "spear_pipe" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ [ "real_spears", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_stabbing_beg_thrust",
@@ -558,7 +645,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "stabbing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_thrusting_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "estoc", "longsword", "zweihander" ] ]
+    "tools": [ [ [ "basic_thrusting_swords", 1, "LIST" ], [ "real_thrusting_swords", 1, "LIST" ], "zweihander" ] ]
   },
   {
     "id": "prac_stabbing_int_thrust",
@@ -577,7 +664,10 @@
       { "proficiency": "prof_thrusting_swords_familiar", "required": true },
       { "proficiency": "prof_thrusting_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "estoc", "longsword", "zweihander" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [
+      [ [ "real_thrusting_swords", 1, "LIST" ], "zweihander" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ]
   },
   {
     "id": "prac_bashing_beg_rifle",
@@ -667,7 +757,7 @@
     "book_learn": [ [ "manual_cutting", 1 ], [ "manual_knives", 0 ] ],
     "//": "Too many damn knives.  Someone else can flesh out the list if they want, but this should be enough that you'll almost always have at least one of these before you get others.",
     "proficiencies": [ { "proficiency": "prof_knives_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "makeshift_knife", "primitive_knife", "knife_trench", "knife_combat", "knife_chef", "knife_rambo" ] ]
+    "tools": [ [ [ "basic_knives", 1, "LIST" ], [ "real_knives", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_stabbing_int_knife",
@@ -687,10 +777,7 @@
       { "proficiency": "prof_knives_familiar", "required": true },
       { "proficiency": "prof_knives_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "makeshift_knife", "primitive_knife", "knife_trench", "knife_combat", "knife_chef", "knife_rambo" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ [ "real_knives", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_stabbing_beg_shiv",
@@ -707,7 +794,7 @@
     "autolearn": [ [ "stabbing", 2 ] ],
     "book_learn": [ [ "manual_knives", 1 ], [ "manual_melee", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_shivs_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "screwdriver", "glass_shiv", "sharp_toothbrush", "scissors_child", "scissors_medical", "scissors" ] ]
+    "tools": [ [ [ "basic_shivs", 1, "LIST" ], [ "real_shivs", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_stabbing_int_shiv",
@@ -727,10 +814,7 @@
       { "proficiency": "prof_shivs_familiar", "required": true },
       { "proficiency": "prof_shivs_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "screwdriver", "sharp_toothbrush", "scissors_child", "scissors_medical", "scissors" ],
-      [ "pseudo_training_dummy_light" ]
-    ]
+    "tools": [ [ [ "real_shivs", 1, "LIST" ] ], [ "pseudo_training_dummy_light" ] ]
   },
   {
     "id": "prac_bashing_beg_baton",
@@ -747,7 +831,7 @@
     "autolearn": [ [ "bashing", 2 ] ],
     "book_learn": [ [ "mag_bashing", 1 ], [ "manual_bashing", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_batons_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "tonfa", "baton-extended", "PR24-extended", "cudgel", "stick", "pipe" ] ]
+    "tools": [ [ [ "basic_batons", 1, "LIST" ], [ "real_batons", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_bashing_int_baton",
@@ -767,10 +851,7 @@
       { "proficiency": "prof_batons_familiar", "required": true },
       { "proficiency": "prof_batons_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "tonfa", "baton-extended", "PR24-extended", "cudgel", "stick", "pipe" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ [ "real_batons", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_cutting_beg_med_sword",
@@ -787,7 +868,7 @@
     "autolearn": [ [ "cutting", 2 ] ],
     "book_learn": [ [ "mag_cutting", 1 ], [ "manual_swords", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_medium_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass", "sword_wood", "sword_crude", "sword_sheets_welded" ] ]
+    "tools": [ [ [ "basic_medium_swords", 1, "LIST" ], [ "real_medium_swords", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_med_sword",
@@ -807,7 +888,7 @@
       { "proficiency": "prof_medium_swords_familiar", "required": true },
       { "proficiency": "prof_medium_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass", "sword_sheets_welded" ], [ "water", "water_clean" ] ],
+    "tools": [ [ [ "real_medium_swords", 1, "LIST" ] ], [ "water", "water_clean" ] ],
     "//1": "Standard Blade Training Cost",
     "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
@@ -826,7 +907,7 @@
     "autolearn": [ [ "cutting", 2 ] ],
     "book_learn": [ [ "mag_cutting", 1 ], [ "manual_swords", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_short_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "sword_xiphos", "khopesh", "machete", "survivor_machete" ] ]
+    "tools": [ [ [ "basic_short_swords", 1, "LIST" ], [ "real_short_swords", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_short_sword",
@@ -846,7 +927,7 @@
       { "proficiency": "prof_short_swords_familiar", "required": true },
       { "proficiency": "prof_short_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "sword_xiphos", "khopesh", "machete", "survivor_machete" ], [ "water", "water_clean" ] ],
+    "tools": [ [ [ "real_short_swords", 1, "LIST" ] ], [ "water", "water_clean" ] ],
     "//1": "Standard Blade Training Cost",
     "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
@@ -865,7 +946,7 @@
     "autolearn": [ [ "bashing", 2 ] ],
     "book_learn": [ [ "mag_bashing", 1 ], [ "manual_bashing", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_quarterstaves_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "bo", "q_staff", "i_staff", "mop", "stick_long" ] ]
+    "tools": [ [ [ "basic_quarterstaves", 1, "LIST" ], [ "real_quarterstaves", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_bashing_int_staff",
@@ -885,10 +966,7 @@
       { "proficiency": "prof_quarterstaves_familiar", "required": true },
       { "proficiency": "prof_quarterstaves_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "bo", "q_staff", "i_staff", "mop", "stick_long" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ [ "real_quarterstaves", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_stabbing_beg_fencing",
@@ -906,7 +984,7 @@
     "book_learn": [ [ "mag_stabbing", 1 ] ],
     "//": "Basically anything that works with the fencing MA should work here, but the list is truncated for my sanity.",
     "proficiencies": [ { "proficiency": "prof_fencing_weapons_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "cudgel", "fencing_epee", "fencing_foil", "fencing_sabre" ] ]
+    "tools": [ [ [ "basic_thrusting_swords", 1, "LIST" ], [ "real_thrusting_swords", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_stabbing_int_fencing",
@@ -926,10 +1004,7 @@
       { "proficiency": "prof_fencing_weapons_familiar", "required": true },
       { "proficiency": "prof_fencing_weapons_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "cudgel", "fencing_epee", "fencing_foil", "fencing_sabre" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ [ "real_thrusting_swords", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_cutting_beg_claw",
@@ -945,7 +1020,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_claws_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "bagh_nakha", "bio_claws_weapon" ] ]
+    "tools": [ [ [ "real_claws", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_claw",
@@ -964,7 +1039,7 @@
       { "proficiency": "prof_claws_familiar", "required": true },
       { "proficiency": "prof_claws_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "bagh_nakha", "bio_claws_weapon" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ [ "real_claws", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_cutting_beg_hooking",
@@ -980,7 +1055,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_hooking_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "fire_ax", "battleaxe", "brush_axe", "bronze_brush_axe", "primitive_axe", "scythe", "ax", "hoe" ] ]
+    "tools": [ [ [ "basic_hooks", 1, "LIST" ], [ "real_hooks", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_hooking",
@@ -999,10 +1074,7 @@
       { "proficiency": "prof_hooking_familiar", "required": true },
       { "proficiency": "prof_hooking_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "fire_ax", "battleaxe", "brush_axe", "bronze_brush_axe", "scythe", "ax", "hoe" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ [ "real_hooks", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_stabbing_beg_polearm",
@@ -1020,7 +1092,7 @@
     "book_learn": [ [ "mag_stabbing", 1 ], [ "manual_stabbing", 0 ] ],
     "proficiencies": [ { "proficiency": "prof_polearms_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "//": "Top-heavy reach weapons could all be used to train polearms",
-    "tools": [ [ "pike", "halberd", "brush_axe", "stick_long" ] ]
+    "tools": [ [ [ "basic_polearms", 1, "LIST" ], [ "real_polearms", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_stabbing_int_polearm",
@@ -1040,7 +1112,7 @@
       { "proficiency": "prof_polearms_familiar", "required": true },
       { "proficiency": "prof_polearms_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "pike", "halberd", "brush_axe", "stick_long" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ [ "real_polearms", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_cutting_beg_bionics",

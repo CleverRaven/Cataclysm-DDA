@@ -936,7 +936,7 @@
       [ "fanny", 20 ],
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
-      [ "contacts", 10 ],
+      { "item": "contacts", "prob": 10, "count": 6 },
       [ "fedora", 10 ],
       [ "firecracker", 5 ],
       [ "fc_hairpin", 5 ],
@@ -1293,7 +1293,7 @@
     "items": [
       [ "mirror", 50 ],
       { "group": "softdrugs", "prob": 50 },
-      [ "contacts", 40 ],
+      { "item": "contacts", "prob": 40, "count": 6 },
       [ "hairpin", 40 ],
       [ "fc_hairpin", 30 ],
       { "group": "jewelry_front", "prob": 30 },
