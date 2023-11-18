@@ -19,7 +19,7 @@
     "ammo_type": "38super",
     "casing": "38super_casing",
     "range": 14,
-	"//":".38 Super Auto .355, 124grain FMJ, 5.8 gr Alliant UNIQUE",
+    "//": ".38 Super Auto .355, 124grain FMJ, 5.8 gr Alliant UNIQUE",
     "damage": {
       "damage_type": "bullet",
       "amount": 22,
