@@ -105,6 +105,7 @@ decl_diag_eval armor_eval;
 decl_diag_eval attack_speed_eval;
 decl_diag_eval charge_count_eval;
 decl_diag_eval coverage_eval;
+decl_diag_eval distance_eval;
 decl_diag_eval dodge_eval;
 decl_diag_eval effect_intensity_eval;
 decl_diag_eval encumbrance_eval;
@@ -152,6 +153,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
+    { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },

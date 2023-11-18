@@ -762,6 +762,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_map_test",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
+      { "math": [ "key_distance_loc", "=", "distance('u', _loc)" ] },
+      { "math": [ "key_distance_npc", "=", "distance('u', 'npc')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_martial_art_test_1",
     "//": "tests adding a martial art to the player",
     "condition": { "not": { "u_has_martial_art": "style_aikido" } },
