@@ -924,20 +924,19 @@ bool npc::is_safe() const
     return ai_cache.total_danger <= 0;
 }
 
-float npc::character_danger( const Character &candidate, bool self = false,
-                             bool enemy = true ) const
+float npc::evaluate_character( const Character &candidate, bool enemy = true ) const
 {
     // TODO: Remove this when possible
     // TODO: Find out who left the above TODO and why
     float danger = 0.0f;
-    bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     bool my_gun = get_wielded_item() && get_wielded_item()->is_gun();
+    bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
                                  null_item_reference();
     double candidate_weap_val = candidate.weapon_value( candidate_weap );
-    //const double &my_weap_val = ai_cache.my_weapon_value;
+     
     float my_health =  hp_percentage();
-    float perception_fuzz = std::min( ( 20 - get_per() ), 0 ) / 20;
+    float perception_fuzz = std::max( ( 20 - get_per() ), 0 ) / 20;
     float candidate_health =  candidate.hp_percentage();
     if( self ) {
         perception_fuzz = 0.0f;
@@ -955,11 +954,11 @@ float npc::character_danger( const Character &candidate, bool self = false,
                    static_cast<int>( perception_fuzz * 100 ) );
 
     if( self ) {
-        danger += my_health - ( get_pain() / 10.0f );
+        danger += my_health - ( get_pain() / 10.0f ) + personality.bravery;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s assesses own health as %i minus their pain %i (%i total).",
-                       name, static_cast<int>( my_health ), static_cast<int>( my_health ),
-                       static_cast<int>( get_pain() / 10.0f ), static_cast<int>( my_health / ( get_pain() / 10.0f ) ) );
+                       "%s assesses own health as %i minus their pain %i plus their bravery %i (%i total).",
+                       name, static_cast<int>( my_health ), 
+                       static_cast<int>( get_pain() / 10.0f ), personality.bravery, static_cast<int>( my_health - ( get_pain() / 10.0f ) + personality.bravery ) );
     } else if( enemy ) {
         float modifier = rng( perception_fuzz * -1.0f,
                               perception_fuzz ) * candidate_health - personality.aggression;
@@ -970,7 +969,73 @@ float npc::character_danger( const Character &candidate, bool self = false,
                        static_cast<int>( perception_fuzz * 100 ), personality.aggression, static_cast<int>( modifier ) );
     } else {
         float modifier = rng( perception_fuzz * -1.0f,
+                              perception_fuzz ) * candidate_health + personality.bravery;
+        danger += modifier;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses %s health as %i±%i%% plus their bravery %i (%i total).",
+                       name, candidate.disp_name(), static_cast<int>( candidate_health ),
+                       static_cast<int>( perception_fuzz * 100 ), personality.bravery, static_cast<int>( modifier ) );
+    }
+
+    danger += my_gun && enemy ? candidate.get_dodge() / 2 : candidate.get_dodge();
+
+    danger *= std::max( 0.5, candidate.get_speed() / 100.0 );
+
+    add_msg_debug( debugmode::DF_NPC, "%s assesses %s danger as %1f", name, candidate.disp_name(),
+                   danger );
+    return danger;
+}
+
+float npc::evaluate_self() const
+{
+    // TODO: Remove this when possible
+    // TODO: Find out who left the above TODO and why
+    float danger = 0.0f;
+    bool my_gun = get_wielded_item() && get_wielded_item()->is_gun();
+    if( !self ){
+        bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
+        const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
+                                 null_item_reference();
+        double candidate_weap_val = candidate.weapon_value( candidate_weap );
+    } else {
+        bool candidate_gun = my_gun
+        const double &candidate_weap_val = ai_cache.my_weapon_value;
+    }
+    float my_health =  hp_percentage();
+    float perception_fuzz = std::max( ( 20 - get_per() ), 0 ) / 20;
+    float candidate_health =  candidate.hp_percentage();
+    if( self ) {
+        perception_fuzz = 0.0f;
+    }
+
+    if( enemy && candidate_gun && !my_gun ) {
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s has a gun and %s doesn't; %s adjusts threat accordingly.",
+                       candidate.disp_name(), name, name );
+        candidate_weap_val *= 1.5f;
+    }
+    danger += rng( perception_fuzz * -1.0f, perception_fuzz ) * candidate_weap_val;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s weapon value as %i±%i%%.",
+                   name, candidate.disp_name(), static_cast<int>( candidate_weap_val ),
+                   static_cast<int>( perception_fuzz * 100 ) );
+
+    if( self ) {
+        danger += my_health - ( get_pain() / 10.0f ) + personality.bravery;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses own health as %i minus their pain %i plus their bravery %i (%i total).",
+                       name, static_cast<int>( my_health ), 
+                       static_cast<int>( get_pain() / 10.0f ), personality.bravery, static_cast<int>( my_health - ( get_pain() / 10.0f ) + personality.bravery ) );
+    } else if( enemy ) {
+        float modifier = rng( perception_fuzz * -1.0f,
                               perception_fuzz ) * candidate_health - personality.aggression;
+        danger += modifier;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses %s health as %i±%i%% minus by their aggression %i (%i total).",
+                       name, candidate.disp_name(), static_cast<int>( candidate_health ),
+                       static_cast<int>( perception_fuzz * 100 ), personality.aggression, static_cast<int>( modifier ) );
+    } else {
+        float modifier = rng( perception_fuzz * -1.0f,
+                              perception_fuzz ) * candidate_health + personality.bravery;
         danger += modifier;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s assesses %s health as %i±%i%% plus their bravery %i (%i total).",
