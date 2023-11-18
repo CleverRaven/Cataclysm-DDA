@@ -328,6 +328,9 @@ class talker
         virtual bool can_see() const {
             return false;
         }
+        virtual bool can_see_location( const tripoint & ) const {
+            return false;
+        }
         virtual bool is_mute() const {
             return false;
         }

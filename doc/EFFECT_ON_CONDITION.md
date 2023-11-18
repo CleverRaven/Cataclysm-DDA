@@ -1048,6 +1048,30 @@ return true if player can see NPC.
 "condition": "player_see_npc",
 ```
 
+### `u_can_see_location`, `npc_can_see_location`
+- type: location string or [variable object](##variable-object)
+- return true if alpha or beta talker can see the location
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+You can see selected location.
+```json
+{
+  "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+  "then": {
+    "if": { "u_can_see_location": { "context_val": "pos" } },
+    "then": { "u_message": "You can see <context_val:pos>." },
+    "else": { "u_message": "You cant see <context_val:pos>." }
+  }
+}
+```
+
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
 

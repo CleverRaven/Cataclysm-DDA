@@ -3389,6 +3389,16 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
+void conditional_t::set_can_see_location( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [is_npc, target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        return d.actor( is_npc )->can_see_location( get_map().getlocal( target_pos ) );
+    };
+}
+
 void conditional_t::set_using_martial_art( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -3464,6 +3474,7 @@ parsers = {
     {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_t::set_is_on_terrain_with_flag },
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_t::set_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_t::set_has_move_mode },
+    {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_t::set_can_see_location },
     {"is_weather", jarg::member, &conditional_t::set_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },

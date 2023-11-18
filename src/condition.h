@@ -133,6 +133,7 @@ struct conditional_t {
         void set_at_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_near_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_move_mode( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_can_see_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_using_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo, std::string_view member );
         void set_npc_allies( const JsonObject &jo, std::string_view member );

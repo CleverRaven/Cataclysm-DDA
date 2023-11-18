@@ -757,6 +757,11 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
+bool talker_character_const::can_see_location( const tripoint &pos ) const
+{
+    return me_chr_const->sees( pos );
+}
+
 void talker_character::set_fatigue( int amount )
 {
     me_chr->set_fatigue( amount );
