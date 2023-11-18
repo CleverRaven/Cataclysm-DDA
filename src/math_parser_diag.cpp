@@ -10,6 +10,7 @@
 #include "dialogue.h"
 #include "field.h"
 #include "game.h"
+#include "magic.h"
 #include "math_parser_shim.h"
 #include "mtype.h"
 #include "options.h"
@@ -311,6 +312,62 @@ std::function<void( dialogue &, double )> hp_ass( char scope,
             d.actor( beta )->set_all_parts_hp_cur( val );
         } else {
             d.actor( beta )->set_part_hp_cur( bodypart_id( bp_str ), val );
+        }
+    };
+}
+
+std::function<void( dialogue &, double )> spellcasting_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    enum Scope {
+        all,
+        mod,
+        school,
+        spell
+    };
+    Scope spellsearch_scope;
+    diag_value filter( std::string{} );
+
+    diag_value spellcasting_property( std::string{} );
+    if( !params.empty() ) {
+        spellcasting_property = params[0];
+    }
+    if( kwargs.count( "mod" ) != 0 ) {
+        filter = *kwargs.at( "mod" );
+        spellsearch_scope = mod;
+    } else if( kwargs.count( "school" ) != 0 ) {
+        filter = *kwargs.at( "school" );
+        spellsearch_scope = school;
+    } else if( kwargs.count( "spell" ) != 0 ) {
+        filter = *kwargs.at( "spell" );
+        spellsearch_scope = spell;
+    } else {
+        spellsearch_scope = all;
+    }
+    return[spellsearch_scope, filter, beta = is_beta( scope ),
+                       spellcasting_property]( dialogue const & d, double val ) {
+        std::string const filter_str = filter.str( d );
+        switch( spellsearch_scope ) {
+            case spell:
+                d.actor( beta )->get_character()->magic->get_spell( spell_id( filter_str ) ).set_temp_adjustment(
+                    spellcasting_property.str( d ), val );
+                break;
+            case school:
+                const trait_id school_id( filter_str );
+                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                    if( spellIt->spell_class() == school_id ) {
+                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+                    }
+                }
+                break;
+            case mod:
+                const mod_id target_mod_id( filter_str );
+                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                    if( spellIt->get_src() == target_mod_id ) {
+                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+                    }
+                }
+                break;
         }
     };
 }

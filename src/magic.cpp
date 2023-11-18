@@ -265,8 +265,9 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string_view )
+void spell_type::load( const JsonObject &jo, const std::string_view src )
 {
+    src_mod = mod_id( src );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_default );
@@ -1113,6 +1114,11 @@ int spell::get_difficulty( const Creature &caster ) const
     return type->difficulty.evaluate( d );
 }
 
+mod_id spell::get_src() const
+{
+    return type->src_mod;
+}
+
 int spell::casting_time( const Character &guy, bool ignore_encumb ) const
 {
     // casting time in moves
@@ -1524,6 +1530,43 @@ int spell::get_temp_level_adjustment() const
 void spell::set_temp_level_adjustment( int adjustment )
 {
     temp_level_adjustment = adjustment;
+}
+
+
+void spell::set_temp_adjustment( std::string target_property, float adjustment )
+{
+    if( target_property == "caster_level" ) {
+        temp_cast_speed_multiplyer += adjustment;
+    }
+    if( target_property == "casting_time" ) {
+        temp_cast_speed_multiplyer += adjustment;
+    } else if( target_property == "cost" ) {
+        temp_spell_cost_multiplyer += adjustment;
+    } else if( target_property == "aoe" ) {
+        temp_aoe_multiplyer += adjustment;
+    } else if( target_property == "range" ) {
+        temp_range_multiplyer += adjustment;
+    } else if( target_property == "duration" ) {
+        temp_duration_multiplyer += adjustment;
+    } else if( target_property == "difficulty" ) {
+        temp_difficulty_adjustment += adjustment;
+    } else if( target_property == "somatic_difficulty" ) {
+        temp_somatic_difficulty_multiplyer += adjustment;
+    } else if( target_property == "sound" ) {
+        temp_sound_multiplyer += adjustment;
+    }
+}
+void spell::clear_temp_adjustments()
+{
+    temp_level_adjustment = 0;
+    temp_cast_speed_multiplyer = 1;
+    temp_spell_cost_multiplyer = 1;
+    temp_aoe_multiplyer = 1;
+    temp_range_multiplyer = 1;
+    temp_duration_multiplyer = 1;
+    temp_difficulty_adjustment = 0;
+    temp_somatic_difficulty_multiplyer = 1;
+    temp_sound_multiplyer = 1;
 }
 
 // helper function to calculate xp needed to be at a certain level

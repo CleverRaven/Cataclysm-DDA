@@ -201,6 +201,7 @@ class spell_type
         spell_id id;
         // NOLINTNEXTLINE(cata-serialize)
         std::vector<std::pair<spell_id, mod_id>> src;
+        mod_id src_mod;
         // spell name
         translation name;
         // spell description
@@ -351,7 +352,7 @@ class spell_type
         enum_bitset<spell_flag> spell_tags;
 
         static void load_spell( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view src );
         void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
@@ -429,8 +430,18 @@ class spell
         int experience = 0;
         // returns damage type for the spell
         const damage_type_id &dmg_type() const;
-        // Temporary caster level adjustments caused by EoC's
+
+        // Temporary adjustments caused by EoC's
         int temp_level_adjustment = 0;
+        float temp_cast_speed_multiplyer = 1;
+        float temp_spell_cost_multiplyer = 1;
+        float temp_aoe_multiplyer = 1;
+        float temp_range_multiplyer = 1;
+        float temp_duration_multiplyer = 1;
+        int temp_difficulty_adjustment = 0;
+        float temp_somatic_difficulty_multiplyer = 1;
+        float temp_sound_multiplyer = 1;
+
 
         // alternative cast message
         translation alt_message;
@@ -476,6 +487,8 @@ class spell
         int get_max_level( const Creature &caster ) const;
         int get_temp_level_adjustment() const;
         void set_temp_level_adjustment( int adjustment );
+        void set_temp_adjustment( std::string target_property, float adjustment );
+        void clear_temp_adjustments();
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
@@ -586,6 +599,7 @@ class spell
         int get_effective_level() const;
         // difficulty of the level
         int get_difficulty( const Creature &caster ) const;
+        mod_id get_src() const;
 
         // tries to create a field at the location specified
         void create_field( const tripoint &at, Creature &caster ) const;
