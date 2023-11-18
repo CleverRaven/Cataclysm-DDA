@@ -414,6 +414,7 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -10721,11 +10722,15 @@ void Character::process_effects()
         terminating_effects.pop();
     }
 
-    if ( has_effect( effect_boomered ) && ( is_npc() || is_avatar() ) && one_in( 30 ) && !has_effect( effect_pre_conjunctivitis_bacterial ) && !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) && !has_effect( effect_conjunctivitis_viral ) && !has_trait_flag( json_flag_INFECTION_IMMUNE ) ) {
+    if ( has_effect( effect_boomered ) && ( is_npc() || is_avatar() ) && one_in( 10 ) && !has_trait ( trait_COMPOUND_EYES ) && !has_effect( effect_pre_conjunctivitis_bacterial ) && !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) && !has_effect( effect_conjunctivitis_viral ) ) {
         //Washing your eyes out in time may save you from getting pinkeye.
         float checked_health = get_lifestyle() + 200.0;
         //Some animal eyes are more vulnerable to infection.
         if ( has_trait_flag( json_flag_EYE_MEMBRANE ) ) {
+            checked_health -= 50;
+        }
+        //Ditto for contact lenses.
+        if ( has_effect( effect_contacts ) ) {
             checked_health -= 50;
         }
         if( has_trait( trait_INFRESIST ) ) {
@@ -10745,10 +10750,8 @@ void Character::process_effects()
         }
     }
 
-
-    if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() ) {
-        map &here = get_map();
-            if here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) {
+    map &here = get_map();
+    if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int rolls = 1;
             bool u_see = get_player_view().sees( *this );
             if( has_trait( trait_DEFT ) ) {
@@ -10778,7 +10781,6 @@ void Character::process_effects()
                 }
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
                 }
-            }
     }
     Creature::process_effects();
 }
