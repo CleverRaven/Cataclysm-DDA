@@ -2,82 +2,27 @@
   {
     "type": "effect_type",
     "id": "effect_disease_psionic_drain",
-    "name": [
-      "Drained",
-      "Drained",
-      "Drained",
-      "Enervated",
-      "Enervated",
-      "Enervated",
-      "Debilitated",
-      "Debilitated",
-      "Enfeebled",
-      "Enfeebled",
-      "Hollowed Out",
-      "Hollowed Out"
-    ],
+    "name": [ "Drained" ],
     "desc": [
-      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
-      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
-      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
-      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
-      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
-      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
-      "You're having a hard time standing and keeping your eyes open.  Your powers have taken the greater part of your energy.",
-      "You're having a hard time standing and keeping your eyes open.  Your powers have taken the greater part of your energy.",
-      "You can barely stand and your stomach gnaws with hunger.  Use of your powers has nearly drained you dry.",
-      "You can barely stand and your stomach gnaws with hunger.  Use of your powers has nearly drained you dry.",
-      "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away.",
-      "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away."
+      "You're a little short of breath and your control over your powers isn't as sure as it was.  There might be unexpected results of you channeling psionics now."
     ],
     "apply_message": [
       [ "You feel a little tired.  All that psionic channeling is starting to wear you down.", "bad" ],
       [ "", "bad" ],
       [ "", "bad" ],
-      [ "Your breath catches in your lungs.  Use of your powers is really tiring you out.", "bad" ],
       [ "", "bad" ],
       [ "", "bad" ],
-      [ "Even standing is an effort.  You've really worn yourself out with all this psionic channeling.", "bad" ],
       [ "", "bad" ],
-      [
-        "Your muscles ache and your eyes are starting to close on your own.  Constant channeling is draining you dry.",
-        "bad"
-      ],
       [ "", "bad" ],
-      [
-        "It hurts to move.  It hurts to breathe.  It hurts to think.  You need rest and to stop using your powers.  Now.",
-        "bad"
-      ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
       [ "", "bad" ]
-    ],
-    "decay_messages": [
-      [ "", "good" ],
-      [ "", "good" ],
-      [
-        "All that's left is a bit of weariness and some slight soreness.  You've almost totally recovered from the aftereffects of drain.",
-        "good"
-      ],
-      [ "", "good" ],
-      [ "", "good" ],
-      [
-        "It's slow but you're recovering.  Some more rest and you'll be ready to use your powers freely again.",
-        "good"
-      ],
-      [ "", "good" ],
-      [ "Your muscles ache less and you feel more energetic.  You must be getting your strength back.", "good" ],
-      [ "", "good" ],
-      [ "", "good" ],
-      [ "", "good" ],
-      [ "", "good" ]
     ],
     "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
     "max_intensity": 12,
     "base_mods": {
-      "str_mod": [ -1 ],
-      "stamina_amount": [ -500 ],
-      "stamina_min": [ -5 ],
-      "stamina_chance": [ 30 ],
-      "stamina_tick": [ 30 ],
       "health_amount": [ -1 ],
       "health_chance": [ 200 ],
       "health_tick": [ 2000 ],
@@ -87,43 +32,7 @@
       "fatigue_min": [ 1 ],
       "fatigue_chance": [ 200 ],
       "fatigue_tick": [ 500 ]
-    },
-    "scaling_mods": {
-      "str_mod": [ -0.8 ],
-      "dex_mod": [ -0.8 ],
-      "per_mod": [ -0.6 ],
-      "int_mod": [ -0.3 ],
-      "stamina_amount": [ -300 ],
-      "stamina_min": [ -1 ],
-      "stamina_tick": [ -1 ],
-      "health_chance": [ -15 ],
-      "health_tick": [ -165 ],
-      "hunger_min": [ 0.6 ],
-      "hunger_chance": [ -4 ],
-      "hunger_tick": [ -30 ],
-      "fatigue_min": [ 0.5 ],
-      "fatigue_chance": [ -15 ],
-      "fatigue_tick": [ -15 ]
-    },
-    "limb_score_mods": [
-      { "limb_score": "lift", "modifier": 1.0, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.025 },
-      { "limb_score": "manip", "modifier": 0.95, "resist_modifier": 1.0, "scaling": -0.04, "resist_scaling": -0.02 },
-      {
-        "limb_score": "balance",
-        "modifier": 0.95,
-        "resist_modifier": 1.0,
-        "scaling": -0.03,
-        "resist_scaling": -0.015
-      },
-      {
-        "limb_score": "breathing",
-        "modifier": 0.95,
-        "resist_modifier": 1.0,
-        "scaling": -0.035,
-        "resist_scaling": -0.017
-      }
-    ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    }
   },
   {
     "type": "effect_type",
@@ -165,25 +74,25 @@
     "max_intensity": 10,
     "max_duration": "24 hours",
     "base_mods": {
-      "per_mod": [ -2 ],
-      "int_mod": [ -2 ],
-      "pain_chance": [ 10 ],
-      "pain_min": [ 2 ],
-      "pain_max": [ 3 ],
-      "pain_max_val": [ 50 ],
-      "vomit_chance": [ 25 ],
-      "hurt_chance": [ -10 ],
+      "per_mod": [ -1 ],
+      "pain_chance": [ 100 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_max_val": [ 40 ],
+      "pain_tick": [ 200 ],
+      "vomit_chance": [ 100 ],
+      "hurt_chance": [ 300 ],
       "hurt_amount": [ 0 ],
       "hurt_tick": [ 200 ]
     },
     "scaling_mods": {
-      "per_mod": [ -1.2 ],
+      "per_mod": [ -0.8 ],
       "int_mod": [ -0.6 ],
-      "pain_min": [ 1 ],
-      "pain_max": [ 4 ],
-      "pain_max_val": [ 30 ],
+      "pain_min": [ 0 ],
+      "pain_max": [ 0 ],
+      "pain_max_val": [ 20 ],
       "vomit_chance": [ -2 ],
-      "hurt_chance": [ 8 ],
+      "hurt_chance": [ -5 ],
       "hurt_amount": [ 2, 1 ],
       "hurt_tick": [ -15 ]
     }
@@ -292,6 +201,19 @@
     ],
     "max_duration": "24 hours",
     "flags": [ "NO_SPELLCASTING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_nether_attention",
+    "name": [ "Observed" ],
+    "desc": [ "You have the strong impression that someone, or something, is watching you." ],
+    "remove_message": "The endless feeling of being watched finally fades away.",
+    "rating": "bad",
+    "show_intensity": false,
+    "max_intensity": 10,
+    "max_duration": "21 days",
+    "dur_add_perc": 25,
+    "int_dur_factor": "3 days"
   },
   {
     "type": "effect_type",
