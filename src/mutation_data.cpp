@@ -239,6 +239,24 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
     return true;
 }
 
+mut_personality_score::mut_personality_score() = default;
+
+bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    optional( j, false, "min_aggression", min_aggression, -10 );
+    optional( j, false, "max_aggression", max_aggression, 10 );
+    optional( j, false, "min_bravery", min_bravery, -10 );
+    optional( j, false, "max_bravery", max_bravery, 10 );
+    optional( j, false, "min_collector", min_collector, -10 );
+    optional( j, false, "max_collector", max_collector, 10 );
+    optional( j, false, "min_altruism", min_altruism, -10 );
+    optional( j, false, "max_altruism", max_altruism, 10 );
+
+    return true;
+}
+
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
     read_condition( jsobj, "condition", trigger, false );
@@ -353,6 +371,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         transform = cata::make_value<mut_transform>();
         transform->load( jo, "transform" );
     }
+    if( jo.has_object( "personality_score" ) ) {
+        personality_score = cata::make_value<mut_personality_score>();
+        personality_score->load( jo, "personality_score" );
+    }
 
     optional( jo, was_loaded, "triggers", trigger_list );
 
@@ -371,7 +393,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
-    optional( jo, was_loaded, "personality_score", personality_score, false );
     optional( jo, was_loaded, "vanity", vanity, false );
     optional( jo, was_loaded, "dummy", dummy, false );
 

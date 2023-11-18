@@ -2365,6 +2365,8 @@ void npc::load( const JsonObject &data )
         complaints.emplace( member.name(), p );
     }
     data.read( "unique_id", unique_id );
+	clear_personality_traits();
+	generate_personality_traits();
 }
 
 /*
