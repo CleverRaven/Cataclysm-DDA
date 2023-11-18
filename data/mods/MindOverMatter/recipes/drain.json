@@ -15,7 +15,14 @@
     "result_eocs": [
       {
         "id": "EOC_CENTERING_MEDITATION",
-        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "1" ] } ]
+        "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "1" ] },
+        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "1" ] } ],
+        "false_effect": [
+          {
+            "u_message": "After your meditations, your mind is free and clear.  The toll of psionic channeling has entirely left you.",
+            "type": "good"
+          }
+        ]
       }
     ]
   },

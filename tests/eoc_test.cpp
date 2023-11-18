@@ -38,6 +38,7 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
@@ -1070,6 +1071,15 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
            "character_ranged_attacks_monster" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
     CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+
+    // character_kills_monster
+    clear_map();
+    monster &victim = spawn_test_monster( "mon_zombie", target_pos );
+    victim.die( &get_avatar() );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_kills_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+    CHECK( globvars.get_global_value( "npctalk_var_test_exp" ) == "4" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
@@ -1125,6 +1135,14 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
     CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
+
+    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
+
+    CHECK( effect_on_condition_EOC_map_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )

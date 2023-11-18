@@ -14,8 +14,8 @@
 struct dialogue;
 class npc;
 
-using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
-using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
+using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 

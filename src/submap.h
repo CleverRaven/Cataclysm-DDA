@@ -123,17 +123,6 @@ class submap
             ensure_nonuniform();
             std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
         }
-        int get_map_damage( const point_sm_ms &p ) const {
-            auto it = ephemeral_data.find( p );
-            if( it != ephemeral_data.end() ) {
-                return it->second.damage;
-            }
-            return 0;
-        }
-
-        void set_map_damage( const point_sm_ms &p, int dmg ) {
-            ephemeral_data[p] = { dmg };
-        }
 
         ter_id get_ter( const point &p ) const {
             if( is_uniform() ) {
@@ -305,12 +294,7 @@ class submap
         std::map<tripoint_sm_ms, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
-        struct tile_data {
-            int damage;
-        };
-
     private:
-        std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;
@@ -333,7 +317,7 @@ class submap
 template<typename Submap>
 class maptile_impl
 {
-        static_assert( std::is_same<std::remove_const_t<Submap>, submap>::value,
+        static_assert( std::is_same_v<std::remove_const_t<Submap>, submap>,
                        "Submap should be either submap or const submap" );
     private:
         friend map; // To allow "sliding" the tile in x/y without bounds checks

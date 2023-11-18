@@ -675,6 +675,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_character_kills_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_kills_monster" },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
+      { "math": [ "test_exp", "=", "_exp" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_character_wields_item_event_test",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
@@ -748,6 +759,15 @@
     "condition": { "u_know_recipe": "cattail_jelly" },
     "effect": { "u_forget_recipe": "cattail_jelly" },
     "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_test",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
+      { "math": [ "key_distance_loc", "=", "distance('u', _loc)" ] },
+      { "math": [ "key_distance_npc", "=", "distance('u', 'npc')" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

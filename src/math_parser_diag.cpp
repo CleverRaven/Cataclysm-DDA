@@ -235,6 +235,22 @@ std::function<double( dialogue & )> coverage_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> distance_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[params, beta = is_beta( scope )]( dialogue const & d ) {
+        const auto get_pos = [&d]( std::string_view str ) {
+            if( str == "u" ) {
+                return d.actor( false )->global_pos();
+            } else if( str == "npc" ) {
+                return d.actor( true )->global_pos();
+            }
+            return tripoint_abs_ms( tripoint::from_string( str.data() ) );
+        };
+        return rl_dist( get_pos( params[0].str( d ) ), get_pos( params[1].str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -281,6 +297,14 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
         field_type_id ft = field_type_id( field_value.str( d ) );
         field_entry *fp = here.field_at( here.getlocal( loc ) ).find_field( ft );
         return fp ? fp->get_field_intensity() :  0;
+    };
+}
+
+std::function<double( dialogue & )> has_trait_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
+        return d.actor( beta )->has_trait( trait_id( tid.str( d ) ) );
     };
 }
 

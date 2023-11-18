@@ -725,6 +725,32 @@ std::string oter_type_t::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case oter_travel_cost_type::other: return "other";
+        case oter_travel_cost_type::road: return "road";
+        case oter_travel_cost_type::field: return "field";
+        case oter_travel_cost_type::dirt_road: return "dirt_road";
+        case oter_travel_cost_type::trail: return "trail";
+        case oter_travel_cost_type::forest: return "forest";
+        case oter_travel_cost_type::shore: return "shore";
+        case oter_travel_cost_type::swamp: return "swamp";
+        case oter_travel_cost_type::water: return "water";
+        case oter_travel_cost_type::air: return "air";
+        case oter_travel_cost_type::impassable: return "impassable";
+        // *INDENT-ON*
+        case oter_travel_cost_type::last:
+            break;
+    }
+    cata_fatal( "Invalid oter_travel_cost_type" );
+}
+} // namespace io
+
 void oter_type_t::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -733,7 +759,6 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
-    assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "entry_eoc", entry_EOC, strict );
@@ -759,6 +784,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
+    optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
 
     if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {

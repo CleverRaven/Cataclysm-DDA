@@ -1890,36 +1890,6 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
     return ter( p.raw() );
 }
 
-int map::get_map_damage( const tripoint_bub_ms &p ) const
-{
-    if( !inbounds( p ) ) {
-        return 0;
-    }
-
-    point_sm_ms l;
-    const submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Called get_map_damage for unloaded submap" );
-        return 0;
-    }
-    return current_submap->get_map_damage( l );
-}
-
-void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
-{
-    if( !inbounds( p ) ) {
-        return;
-    }
-
-    point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Called set_map_damage for unloaded submap" );
-        return;
-    }
-    return current_submap->set_map_damage( l, dmg );
-}
-
 uint8_t map::get_known_connections( const tripoint &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
@@ -2897,25 +2867,29 @@ void map::drop_items( const tripoint &p )
 
             int creature_hit_chance = rng( 0, 100 );
             creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
-
             if( creature_hit_chance < 15 ) {
-                add_msg( _( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the head!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 30 ) {
-                add_msg( _( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the torso!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 65 ) {
-                add_msg( _( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the left arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 100 ) {
-                add_msg( _( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the right arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
                                              damage ) );
             } else {
-                add_msg( _( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s misses the %s!" ), i.tname(),
+                                        creature_below->get_name() );
             }
         }
 
@@ -4001,18 +3975,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
         // Linear interpolation from str_min to str_max
         const int resistance = smin + ( params.roll * ( smax - smin ) );
-        // Semi-persistant map damage. Increment by one for each bash over smin
-        // Gradually makes hard bashes easier
-        int damage = get_map_damage( tripoint_bub_ms( p ) );
-        add_msg_debug( debugmode::DF_MAP, "Bashing diff. %d to %d, roll %g. Strength is %d + %d vs %d",
-                       smin, smax, params.roll, params.strength, damage, resistance );
-        if( params.strength + damage >= resistance ) {
-            damage = 0;
+        if( params.strength >= resistance ) {
             success = true;
-        } else if( params.strength >= smin ) {
-            damage += 1;
         }
-        set_map_damage( tripoint_bub_ms( p ), damage );
     }
 
     if( smash_furn ) {

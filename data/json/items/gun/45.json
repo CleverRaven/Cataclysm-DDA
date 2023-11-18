@@ -432,7 +432,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "PPQ pistol" },
-    "description": "A semi-automatic pistol chambered in .45 ACP and accepting PPQ magazines",
+    "description": "A semi-automatic pistol chambered in .45 ACP and accepting PPQ magazines.",
     "variant_type": "gun",
     "variants": [
       {

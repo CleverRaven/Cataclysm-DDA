@@ -2020,6 +2020,28 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
     return vis_top;
 }
 
+void inventory_selector::add_contained_gunmods( Character &you, item &gun )
+{
+    auto filter_irremovable = []( std::vector<item *> &gunmods ) {
+        gunmods.erase(
+            std::remove_if(
+        gunmods.begin(), gunmods.end(), []( const item * i ) {
+            return i->is_irremovable();
+        } ),
+        gunmods.end() );
+    };
+
+    std::vector<item *> mods = gun.gunmods();
+    item_location gun_item_location( you, &gun );
+
+    filter_irremovable( mods );
+
+    for( item *mod : mods ) {
+        item_location gunmod_item_location( gun_item_location, mod );
+        add_entry( own_inv_column, std::vector<item_location>( 1, gunmod_item_location ) );
+    }
+}
+
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
     if( !container->is_ebook_storage() ) {
@@ -3387,12 +3409,14 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
     } else {
+        size_t size_before = to_use.size();
         entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
         if( it->count_by_charges() ) {
-            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( const drop_location & drop ) {
+            auto iter = find_if( to_use.begin(),
+            to_use.begin() + size_before, [&it]( const drop_location & drop ) {
                 return drop.first == it;
             } );
-            if( iter == to_use.end() ) {
+            if( iter == to_use.begin() + size_before ) {
                 to_use.emplace_back( it, static_cast<int>( entry.chosen_count ) );
             }
         } else {
@@ -3400,10 +3424,11 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( const drop_location & drop ) {
+                auto iter = find_if( to_use.begin(),
+                to_use.begin() + size_before, [&loc]( const drop_location & drop ) {
                     return drop.first == loc;
                 } );
-                if( iter == to_use.end() ) {
+                if( iter == to_use.begin() + size_before ) {
                     to_use.emplace_back( loc, 1 );
                 }
                 count--;

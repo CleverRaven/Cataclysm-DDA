@@ -89,7 +89,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "harvest": "demihuman",
-    "families": [ "prof_wp_netherium" ],
+    "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]

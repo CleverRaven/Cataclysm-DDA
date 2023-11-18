@@ -5,20 +5,35 @@
 #include <vector>
 
 #include "cuboid_rectangle.h"
+#include "item_location.h"
 #include "point.h"
 
 class Character;
 class item;
-class item_location;
 
 namespace Pickup
 {
+/** Pick up information reminder for bulk loading */
+struct pick_info {
+    pick_info() = default;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonObject &jsobj );
+    void set_src( const item_location &src_ );
+    void set_dst( const item_location &dst_ );
+
+    units::volume total_bulk_volume = 0_ml;
+    item_location::type src_type = item_location::type::invalid;
+    tripoint src_pos;
+    item_location src_container;
+    item_location dst;
+};
+
 /**
  * Returns `false` if the player was presented a prompt and decided to cancel the pickup.
  * `true` in other cases.
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                bool autopickup, bool &stash_successful );
+                bool autopickup, bool &stash_successful, Pickup::pick_info &info );
 bool query_thief();
 
 enum from_where : int {
