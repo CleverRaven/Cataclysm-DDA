@@ -907,7 +907,7 @@ bool avatar_action::eat_here( avatar &you )
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        if( here.ter( you.pos() ) == ( t_grass_golf ) || here.ter( you.pos() ) == ( t_grass ) ) {
+        if( here.ter( you.pos() ) == t_grass_golf || here.ter( you.pos() ) == t_grass ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
         } else if( here.ter( you.pos() ) == t_grass_dead ) {

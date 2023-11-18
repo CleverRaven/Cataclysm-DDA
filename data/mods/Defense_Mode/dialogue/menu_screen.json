@@ -26,7 +26,8 @@
             { "math": [ "candymonsters_allowed", "==", "1" ] },
             { "math": [ "mythos_allowed", "==", "1" ] },
             { "math": [ "exodii_allowed", "==", "1" ] },
-            { "math": [ "xedra_allowed", "==", "1" ] }
+            { "math": [ "xedra_allowed", "==", "1" ] },
+            { "math": [ "aftershock_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -245,6 +246,18 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
+        "text": "Allow exoplanetary residents.",
+        "condition": { "and": [ { "mod_is_loaded": "aftershock" }, { "math": [ "aftershock_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "aftershock_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable exoplanetary residents.",
+        "condition": { "and": [ { "mod_is_loaded": "aftershock" }, { "math": [ "aftershock_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "aftershock_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
         "text": "Play!",
         "condition": {
           "or": [
@@ -264,7 +277,8 @@
             { "math": [ "candymonsters_allowed", "==", "1" ] },
             { "math": [ "mythos_allowed", "==", "1" ] },
             { "math": [ "exodii_allowed", "==", "1" ] },
-            { "math": [ "xedra_allowed", "==", "1" ] }
+            { "math": [ "xedra_allowed", "==", "1" ] },
+            { "math": [ "aftershock_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"

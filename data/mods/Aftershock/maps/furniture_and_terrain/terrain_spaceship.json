@@ -67,6 +67,19 @@
   },
   {
     "type": "terrain",
+    "id": "t_escape_pod_floor",
+    "name": "escape pod floor",
+    "description": "A relatively flat slab of heat-treated metal, designed to withstand the crushing pressure of space and the searing heat of reentry.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_afs_space_ship_hatch_c",
     "name": "closed spaceship hatch",
     "description": "An armored and airtight spaceship hatch.  A side mounted lever allows for its manual operation.",

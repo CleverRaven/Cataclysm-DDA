@@ -1,5 +1,131 @@
 [
   {
+    "id": "brogyeki",
+    "copy-from": "shotgun_base",
+    "looks_like": "m79",
+    "type": "GUN",
+    "name": { "str": "Exodii hand mortar" },
+    "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3 x 110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3 x 44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3 x 110 Diyua shells will be *stout*.",
+    "//": "Sturmpistole meets express gun, basically.",
+    "weight": "2900 g",
+    "volume": "1775 ml",
+    "longest_side": "428 mm",
+    "price": 850000,
+    "price_postapoc": 2800,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "Brogyeki",
+        "name": { "str": "Brogyeki '23" },
+        "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3x110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3x44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3x110 Diyua shells will be *stout*.",
+        "weight": 1
+      }
+    ],
+    "to_hit": -3,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "ammo": [ "273x44", "273x110", "273x44RG" ],
+    "dispersion": 350,
+    "durability": 9,
+    "blackpowder_tolerance": 120,
+    "clip_size": 1,
+    "reload": 140,
+    "valid_mod_locations": [ [ "stock", 1 ], [ "sling", 1 ] ],
+    "default_mods": [ "wire_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "magazine_well": "61 ml",
+        "ammo_restriction": { "273x110": 2, "273x44": 2, "273x44RG": 1 }
+      }
+    ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN" ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "brogyaga",
+    "copy-from": "rifle_manual",
+    "looks_like": "trexgun",
+    "type": "GUN",
+    "name": { "str": "Exodii express gun" },
+    "description": "An over/under fowling piece with a long barrel, Brogyaga were favored for their versatility in taking large game and fowl with their 27.3 x 110 Diyua shells.  They would be pressed into combat during two global conflicts, initially as 'light' wall guns, and later as the downsized and down-loaded Brogyeki '23, before being brought along by the Exodii to dimensions unknown.  Though unwieldy in combat as either a primary or secondary, Brogyaga serve as useful parts donors for Brogyeki counterparts, fantastic pieces for the occasional hunting party, and popular trade goods for the locals.",
+    "//": "Expressgun meets puntgun/wall gun.  Based on an H&H 4 bore shotgun.",
+    "weight": "7700 g",
+    "volume": "2980 ml",
+    "longest_side": "110 cm",
+    "price": 660000,
+    "price_postapoc": 3000,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "Brogyaga",
+        "name": { "str": "Brogyaga" },
+        "description": "An over/under fowling piece with a long barrel, Brogyaga were favored for their versatility in taking large game and fowl with their 27.3x110 Diyua shells.  They would be pressed into combat during two global conflicts, initially as 'light' wall guns, and later as the downsized and down-loaded Brogyeki '23, before being brought along by the Exodii to dimensions unknown.  Though unwieldy in combat as either a primary or secondary, Brogyaga serve as useful parts donors for Brogyeki counterparts, fantastic pieces for the occasional hunting party, and popular trade goods for the locals.",
+        "weight": 1
+      }
+    ],
+    "to_hit": 1,
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "ammo": [ "273x44", "273x110", "273x44RG" ],
+    "dispersion": 250,
+    "durability": 9,
+    "blackpowder_tolerance": 120,
+    "clip_size": 1,
+    "reload": 280,
+    "barrel_length": "1051mm",
+    "barrel_volume": "934 ml",
+    "valid_mod_locations": [ [ "sights mount", 1 ], [ "sling", 1 ], [ "stock accessory", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "273x110": 2, "273x44": 2 } } ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN" ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "sapra",
+    "looks_like": "smle_mk3",
+    "type": "GUN",
+    "name": { "str": "Exodii grenade launcher" },
+    "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3 x 110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
+    "//": "Based on the Truvelo CMS.  No rifle grenades since it has a magazine.",
+    "weight": "5900 g",
+    "volume": "1930 ml",
+    "longest_side": "980 mm",
+    "price": 1320000,
+    "price_postapoc": 10000,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sapra",
+        "name": { "str": "Sapra '36" },
+        "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3x110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
+        "weight": 1
+      }
+    ],
+    "to_hit": -1,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "273x44" ],
+    "skill": "shotgun",
+    "dispersion": 300,
+    "durability": 7,
+    "blackpowder_tolerance": 110,
+    "barrel_length": "380mm",
+    "default_mods": [ "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail_mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "magazine_well": "82 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiisapramag5" ] } ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
     "id": "pamd68",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
@@ -40,7 +166,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Exodii zombie hunting rifle" },
-    "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire an extremely rapid 2-shot burst, with the goal of shredding the target and preventing revivification.",
+    "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit.",
     "weight": "3910 g",
     "volume": "3 L",
     "//": "around the length of other long 30-06 rifles and heavier AR's",
@@ -53,7 +179,7 @@
       {
         "id": "pamd71z",
         "name": { "str": "PS md. 71z" },
-        "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire an extremely rapid 2-shot burst, with the goal of shredding the target and preventing revivification."
+        "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit."
       }
     ],
     "to_hit": -1,

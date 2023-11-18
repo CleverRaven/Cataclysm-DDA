@@ -200,7 +200,11 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "lotus_harv" } ],
+    "harvest_by_season": [
+      { "seasons": [ "spring", "summer", "autumn" ], "id": "lotus_harv" },
+      { "seasons": [ "summer" ], "id": "lotus_summer_harv" },
+      { "seasons": [ "autumn" ], "id": "lotus_autumn_harv" }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },

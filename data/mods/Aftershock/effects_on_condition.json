@@ -52,15 +52,20 @@
     "id": "EOC_ESCAPE_POD_CHAIR",
     "effect": [
       {
-        "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "afs_crashed_escape_pod", "search_range": 500, "z": 0 },
-        "terrain": "t_metal_floor",
-        "target_max_radius": 30,
-        "min_radius": 0,
-        "max_radius": 0
+        "u_location_variable": { "context_val": "escape_pod_crate" },
+        "target_params": { "om_terrain": "crashing_ship_4", "search_range": 10, "z": -10 },
+        "terrain": "t_escape_pod_floor",
+        "target_max_radius": 24
       },
       {
-        "u_message": "You make sure there are no lose items in the pod that would become projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "escape_pod_crate" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "true_eocs": [ { "id": "EOC_AFS_ESCAPE_POD_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "new_map" } } ] } ]
+      },
+      {
+        "u_message": "You make sure that all equipment is strapped down and loose items are put away to avoid projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
         "popup": true
       },
       { "u_teleport": { "global_val": "new_map" }, "force": true }
@@ -68,9 +73,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_ESCAPE_POD_CARGO_TP",
+    "effect": [ { "u_teleport": { "global_val": "new_map" }, "force": true } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CRASHING_SHIP_SETUP",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "queue_eocs": "EOC_CRASHING_SHIP_U_DIE", "time_in_future": "7 minutes" } ]
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "new_map" },
+        "target_params": { "om_terrain": "afs_crashed_escape_pod", "search_range": 500, "z": 0 },
+        "terrain": "t_metal_floor",
+        "target_max_radius": 30,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "queue_eocs": "EOC_CRASHING_SHIP_U_DIE", "time_in_future": "7 minutes" }
+    ]
   },
   {
     "type": "effect_on_condition",

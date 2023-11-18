@@ -891,6 +891,34 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_chili",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_chili", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_garlic",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_garlic", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_corn_kernels",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2207,6 +2235,36 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "lotus_rhizome_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "lotus_rhizome", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "seed_lotus_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4487,6 +4545,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "pepper", 1 ]
@@ -4526,6 +4585,7 @@
         [ "seasoning_salt", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "pepper", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
@@ -5034,6 +5094,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "onion", 1 ],
         [ "veggy_potatolike", 1, "LIST" ]
@@ -5123,6 +5184,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5156,6 +5218,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5579,6 +5642,7 @@
         [ "mustard_powder", 20 ],
         [ "garlic_powder", 20 ],
         [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 6 ],
         [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
@@ -5605,7 +5669,7 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [
       [ [ "salt", 10 ] ],
-      [ [ "garlic_clove", 3 ], [ "garlic_powder", 20 ] ],
+      [ [ "garlic_clove", 3 ], [ "rehydrated_garlic", 3 ], [ "garlic_powder", 20 ] ],
       [ [ "thyme", 1 ] ],
       [ [ "wild_herbs", 100 ] ]
     ],
@@ -5831,7 +5895,7 @@
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ]
     ]
   },
   {
@@ -7961,6 +8025,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 2 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
@@ -7990,6 +8055,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -7999,6 +8065,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -9835,7 +9902,15 @@
         [ "irradiated_onion", 1 ],
         [ "salsa", 1 ]
       ],
-      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "garlic_powder", 20 ], [ "chili_pepper", 2 ] ]
+      [
+        [ "pepper", 20 ],
+        [ "chilly-p", 20 ],
+        [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "garlic_powder", 20 ],
+        [ "chili_pepper", 2 ],
+        [ "rehydrated_chili", 2 ]
+      ]
     ]
   },
   {
@@ -10364,6 +10439,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "tomato", 1 ]
@@ -10388,7 +10464,14 @@
     "//": "90g of snail meat.  treating it like scrap of meat, that's 6u + 1u for butter and aromatics",
     "components": [
       [ [ "gastropod_purged", 6 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "garlic_powder", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ]
+      ],
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],

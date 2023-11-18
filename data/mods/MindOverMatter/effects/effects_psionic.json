@@ -1,6 +1,17 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_psi_intense_concentration",
+    "name": [ "Intense Concentration" ],
+    "desc": [ "It's taking a lot of concentration to maintain your powers." ],
+    "apply_message": "",
+    "remove_message": "",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 }, { "limb_score": "reaction", "modifier": 0.97 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_physical",
     "name": [ "Enhanced Prowess" ],
     "desc": [ "You are enhancing your physical prowess." ],
@@ -1225,8 +1236,8 @@
   {
     "type": "effect_type",
     "id": "effect_telepathic_psi_armor",
-    "name": [ "Psychic Shield" ],
-    "desc": [ "Your mind is warded against psychic attack." ],
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "Your mind is warded against telepathic attack or detection." ],
     "apply_message": "",
     "remove_message": "Your thoughts are once again unguarded.",
     "decay_messages": [

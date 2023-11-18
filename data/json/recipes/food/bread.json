@@ -153,7 +153,7 @@
     "//": "bread already baked, so 1u + 1u for garlic + 1u for oil",
     "components": [
       [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "wastebread", 1 ] ],
-      [ [ "garlic_clove", 3 ] ],
+      [ [ "garlic_clove", 3 ], [ "rehydrated_garlic", 3 ], [ "garlic_powder", 10 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [
         [ "salt", 1 ],

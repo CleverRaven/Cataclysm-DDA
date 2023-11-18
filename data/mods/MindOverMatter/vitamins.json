@@ -22,5 +22,14 @@
       [ 215, 234 ],
       [ 235, 250 ]
     ]
+  },
+  {
+    "id": "vitamin_maintained_powers",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Maintained Powers Counter" },
+    "min": 0,
+    "max": 100,
+    "rate": "0 h"
   }
 ]

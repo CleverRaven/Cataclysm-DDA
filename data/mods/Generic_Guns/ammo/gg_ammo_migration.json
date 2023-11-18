@@ -423,12 +423,22 @@
     "replace": "grenade_ammo_beanbag"
   },
   {
-    "id": [ "40mm_flare" ],
+    "id": [ "40mm_flare", "273x44flare" ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_flare"
   },
   {
-    "id": [ "40x46mm_m433", "40x46mm_m651", "40x53mm_m430a1" ],
+    "id": [
+      "40x46mm_m433",
+      "40x46mm_m651",
+      "40x53mm_m430a1",
+      "273x110sluglight",
+      "273x110slugmedium",
+      "273x110slugheavy",
+      "273x44thermobaric",
+      "273x44HE",
+      "273x44RG"
+    ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_hedp"
   },
@@ -447,7 +457,9 @@
       "bp_40x46mm_flechette_m118",
       "bp_40x46mm_flechette_m199",
       "bp_40x53mm_flechette_m169",
-      "bp_40x53mm_buckshot_m169"
+      "bp_40x53mm_buckshot_m169",
+      "273x110flock",
+      "273x110canister"
     ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_shot"
@@ -459,7 +471,8 @@
       "40x53mm_slug_m169",
       "bp_40x46mm_slug_m118",
       "bp_40x46mm_slug_m199",
-      "bp_40x53mm_slug_m169"
+      "bp_40x53mm_slug_m169",
+      "273x44trainer"
     ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_slug"

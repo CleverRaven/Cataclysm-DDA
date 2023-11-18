@@ -38,6 +38,7 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
@@ -1134,6 +1135,14 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
     CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
+
+    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
+
+    CHECK( effect_on_condition_EOC_map_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )

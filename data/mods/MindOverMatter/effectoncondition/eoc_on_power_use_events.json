@@ -3,34 +3,18 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_TOGGLE_REMOVE_EFFECTS",
     "effect": [
-      { "u_lose_trait": "CLAIR_SPEED_READ" },
-      { "u_lose_effect": "effect_clair_speed_reader" },
-      { "u_lose_effect": "effect_photokin_light_local" },
-      { "u_remove_item_with": "pyrokinetic_fire_tool" },
-      { "u_remove_item_with": "pyrokinetic_torch_weld" },
-      { "u_lose_effect": "effect_telekinetic_strength" },
-      { "u_remove_item_with": "telekin_lifting_jack_1" },
-      { "u_remove_item_with": "telekin_lifting_jack_2" },
-      { "u_remove_item_with": "telekin_lifting_jack_3" },
-      { "u_remove_item_with": "telekin_lifting_jack_4" },
-      { "u_remove_item_with": "telekin_lifting_jack_5" },
-      { "u_remove_item_with": "telekin_lifting_jack_6" },
-      { "u_remove_item_with": "telekin_lifting_jack_7" },
-      { "u_remove_item_with": "telekin_lifting_jack_8" },
-      { "u_remove_item_with": "telekin_lifting_jack_9" },
-      { "u_remove_item_with": "telekin_lifting_jack_10" },
-      { "u_remove_item_with": "telekin_lifting_jack_11" },
-      { "u_remove_item_with": "telekin_lifting_jack_12" },
-      { "u_remove_item_with": "telekin_lifting_jack_13" },
-      { "u_remove_item_with": "telekin_lifting_jack_14" },
-      { "u_remove_item_with": "telekin_lifting_jack_15" },
-      { "u_remove_item_with": "telekin_lifting_jack_16" },
-      { "u_remove_item_with": "telekin_lifting_jack_17" },
-      { "u_remove_item_with": "telekin_lifting_jack_18" },
-      { "u_remove_item_with": "telekin_lifting_jack_19" },
-      { "u_remove_item_with": "telekin_lifting_jack_20" },
-      { "u_lose_effect": "effect_telekinetic_levitation" },
-      { "u_lose_effect": "effect_telepathic_learning_bonus" },
+      {
+        "run_eocs": [
+          "EOC_CLAIR_REMOVE_SPEED_READ",
+          "EOC_PHOTO_REMOVE_LIGHT_LOCAL",
+          "EOC_PYRO_REMOVE_FIRE_TOOL",
+          "EOC_PYRO_REMOVE_TORCH_WELD",
+          "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
+          "EOC_TELEKIN_REMOVE_JACKING_TOOL",
+          "EOC_TELEKIN_REMOVE_LEVITATION",
+          "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION"
+        ]
+      },
       { "u_lose_effect": "effect_telepath_invisibility" }
     ]
   },
@@ -322,7 +306,15 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -361,7 +353,15 @@
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
         { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -406,7 +406,15 @@
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
         { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -451,7 +459,15 @@
       "and": [
         { "u_has_trait": "PYROKINETIC" },
         { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -490,7 +506,15 @@
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -529,7 +553,15 @@
       "and": [
         { "u_has_trait": "TELEPATH" },
         { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -574,7 +606,15 @@
       "and": [
         { "u_has_trait": "TELEPORTER" },
         { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -613,7 +653,12 @@
       "and": [
         { "u_has_trait": "VITAKINETIC" },
         { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
+        {
+          "or": [
+            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "150" ] },
+            { "math": [ "_success", "==", "false" ] }
+          ]
+        },
         {
           "x_in_y_chance": {
             "x": {
@@ -668,5 +713,219 @@
       ]
     },
     "effect": [ { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(_difficulty)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
+    "condition": {
+      "math": [
+        "u_val('vitamin', 'name:vitamin_maintained_powers')",
+        ">=",
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
+        "type": "bad"
+      },
+      { "u_add_effect": "effect_psi_intense_concentration", "duration": "PERMANENT" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "+=", "1" ] }
+    ],
+    "false_effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
+    "condition": {
+      "math": [
+        "u_val('vitamin', 'name:vitamin_maintained_powers')",
+        ">",
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+      ]
+    },
+    "effect": [
+      { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
+      { "u_lose_effect": "effect_psi_intense_concentration" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "-=", "1" ] }
+    ],
+    "false_effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
+    "condition": {
+      "and": [
+        {
+          "math": [
+            "u_val('vitamin', 'name:vitamin_maintained_powers')",
+            ">",
+            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "((u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers))) * 5"
+              ]
+            },
+            "y": 100
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your concentration breaks!", "type": "bad" },
+      { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" },
+      {
+        "math": [
+          "u_val('vitamin', 'name:vitamin_psionic_drain')",
+          "+=",
+          "rng( 3,8 ) * (u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_CHANNEL_MAINTENANCE_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        },
+        {
+          "math": [
+            "u_val('vitamin', 'name:vitamin_maintained_powers')",
+            ">=",
+            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_AREA_ATTENTION_CHECK",
+    "eoc_type": "EVENT",
+    "//": "The locations below should contain everything related to the Nether",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        },
+        { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
+        {
+          "x_in_y_chance": { "x": { "math": [ "rand(50 * (1 +  _difficulty - ( u_skill('metaphysics') / 2 ) ) )" ] }, "y": 1000 }
+        },
+        {
+          "or": [
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" },
+            { "u_near_om_location": "unvitrified_farm_0", "range": 2 },
+            { "u_near_om_location": "unvitrified_farm_1", "range": 2 },
+            { "u_near_om_location": "unvitrified_farm_neg_1", "range": 2 },
+            { "u_near_om_location": "unvitrified_farm_2", "range": 2 },
+            { "u_near_om_location": "vitrified_farm_0", "range": 2 },
+            { "u_near_om_location": "vitrified_farm_1", "range": 2 },
+            { "u_near_om_location": "vitrified_farm_neg_1", "range": 2 },
+            { "u_near_om_location": "vitrified_farm_2", "range": 2 },
+            { "u_near_om_location": "microlab_portal_elevator_physics_glass", "range": 2 },
+            { "u_near_om_location": "microlab_distorted_hallway", "range": 2 },
+            { "u_near_om_location": "microlab_distorted", "range": 2 },
+            { "u_near_om_location": "microlab_distorted_edge", "range": 2 },
+            { "u_near_om_location": "microlab_portal_elevator_physics_glass", "range": 2 },
+            { "u_near_om_location": "corpse_surface", "range": 0 },
+            { "u_near_om_location": "corpse_bowels_neck_right", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_neck_left", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_neck_edge_center", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_rcorner", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_lcorner", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_empty_edge", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_mid", "range": 2 },
+            { "u_near_om_location": "corpse_tentacle", "range": 2 },
+            { "u_near_om_location": "corpse_tentacle_entry", "range": 2 },
+            { "u_near_om_location": "corpse_tentacle_surface_entry", "range": 0 },
+            { "u_near_om_location": "corpse_bowels_tentacle_edge", "range": 2 },
+            { "u_near_om_location": "corpse_bowels_empty_edge", "range": 2 },
+            { "u_near_om_location": "corpse_head", "range": 2 },
+            { "u_near_om_location": "corpse_brain", "range": 2 },
+            { "u_near_om_location": "corpse_under_brain", "range": 2 },
+            { "u_near_om_location": "corpse_head_edge", "range": 2 },
+            { "u_near_om_location": "corpse_head_fin", "range": 2 },
+            { "u_near_om_location": "corpse_head_lcorner", "range": 2 },
+            { "u_near_om_location": "corpse_head_rcorner", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_l", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_r", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_center", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_l_decap", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_r", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_r_decap", "range": 2 },
+            { "u_near_om_location": "corpse_head_neck_center_decap", "range": 2 },
+            { "u_near_om_location": "nether_crystal_field", "range": 1 },
+            { "u_near_om_location": "psi_phavian_lab_blockB1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_blockD1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_blockB3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_blockD3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block2B1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block2D1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block2B3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block2D3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block3B1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block3D1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block3B3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block3D3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block4B1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block4D1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block4B3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block4D3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block5B1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block5D1", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block5B3", "range": 2 },
+            { "u_near_om_location": "psi_phavian_lab_block5D3", "range": 2 },
+            { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
+            { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
+            { "u_near_om_location": "void_spider_lair_a2", "range": 2 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "The hairs stand up on the back of your neck.  You have a strong feeling that you're being watched.",
+        "type": "bad"
+      },
+      { "u_add_effect": "psi_nether_attention", "duration": "7 days" }
+    ]
   }
 ]
