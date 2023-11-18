@@ -3259,7 +3259,7 @@ void monster::process_effects()
 
     // Check to see if critter slips on bile or whatever. 
     //Monsters which are very low to the ground are excluded as well as digging and flying ones.
-    if( has_effect( effect_slippery_terrain ) && !flies() && !digging() && !has_flag( mon_flag_IMMOBILE ) && !has_flag ( mon_flag_ATTACK_LOWER ) && !has_effect( effect_downed ) ) {
+    if( has_effect( effect_slippery_terrain ) && !type->bodytype == "snake" && !type->bodytype == "blob" && !type->bodytype == "fish" && !flies() && !digging() && !has_flag( mon_flag_IMMOBILE ) && !has_flag ( mon_flag_ATTACK_LOWER ) && !has_effect( effect_downed ) ) {
         map &here = get_map();
             if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int intensity = get_effect_int( effect_slippery_terrain );
