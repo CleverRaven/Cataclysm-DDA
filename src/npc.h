@@ -1085,7 +1085,7 @@ class npc : public Character
 
         /** rates how dangerous a target is */
         float evaluate_monster( const Creature &target ) const;
-        float evaluate_character( const Creature &target, bool enemy ) const;
+        float evaluate_character( const Character &candidate, bool enemy ) const;
         float evaluate_self() const;
 
         void assess_danger();
