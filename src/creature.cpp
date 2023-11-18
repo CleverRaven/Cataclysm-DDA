@@ -1688,7 +1688,9 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
         return false;
     }
     const Character *c = as_character();
-    if( ( std::min( dice( 1, 100 ) + strength, 100 ) ) > ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
+    add_msg( _( "Wetness mult is %s!" ),c->worn.clothing_wetness_mult( vector ) );
+    //d100 minus Strength should never be less than 1 so we don't have liquids phasing through sealed power armor.
+    if( ( std::max( dice( 1, 100 ) - strength, 1 ) ) < ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, true );
