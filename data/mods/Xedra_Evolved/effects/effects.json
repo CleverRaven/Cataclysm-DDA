@@ -1034,50 +1034,6 @@
   },
   {
     "type": "effect_type",
-    "id": "spell_karma_arms_eff",
-    "name": [ "Karma" ],
-    "desc": [ "Ethereal hands appear behind your back, making you looks like an ancient god." ],
-    "apply_message": "Ethereal, transparent arms grow from your shoulders and <color_cyan>glow</color>.",
-    "remove_message": "The cyan arms grow dim and finally disappear.",
-    "rating": "good",
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [
-          { "gain": "karma_arm_up_r" },
-          { "gain": "karma_arm_up_l" },
-          { "gain": "karma_arm_lw_r" },
-          { "gain": "karma_arm_lw_l" }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "stalker_eyes_eff",
-    "name": [ "Stalker's Vision" ],
-    "desc": [ "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark." ],
-    "apply_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
-    "remove_message": "A great new world under your eyes disappears.",
-    "blocks_effects": [ "glare" ],
-    "rating": "good",
-    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "devil_tail_eff",
-    "name": [ "Devil's Tail" ],
-    "desc": [
-      "While not actually a devil's, this long, triangular pointed tail can stretch very far, allowing it to easily kill someone nearby."
-    ],
-    "apply_message": "You feel like your spine stretched enormously.",
-    "remove_message": "Your devil tail disappear in the air.",
-    "rating": "good",
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
-  },
-  {
-    "type": "effect_type",
     "id": "mutagen_plantkin",
     "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
     "desc": [

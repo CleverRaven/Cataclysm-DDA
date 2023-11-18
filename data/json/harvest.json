@@ -105,6 +105,24 @@
     "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "lotus", "base_num": [ 1, 2 ] } ]
   },
   {
+    "id": "lotus_summer_harv",
+    "type": "harvest",
+    "entries": [
+      { "drop": "withered", "base_num": [ 1, 2 ] },
+      { "drop": "lotus", "base_num": [ 1, 2 ] },
+      { "drop": "seed_lotus", "base_num": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "lotus_autumn_harv",
+    "type": "harvest",
+    "entries": [
+      { "drop": "withered", "base_num": [ 1, 2 ] },
+      { "drop": "lotus", "base_num": [ 1, 2 ] },
+      { "drop": "lotus_rhizome", "base_num": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "bluebell_harv",
     "type": "harvest",
     "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]

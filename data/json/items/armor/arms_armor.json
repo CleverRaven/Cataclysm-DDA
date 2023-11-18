@@ -880,76 +880,19 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "chainmail_junk_arms",
+    "abstract": "base_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
-    "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
+    "name": { "str": "base chainmail sleeves" },
     "weight": "2812 g",
     "volume": "750 ml",
-    "price": 7500,
-    "price_postapoc": 2500,
-    "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "armguard_metal",
-    "color": "light_red",
-    "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2200 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "armor": [
-      {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
-      }
-    ]
-  },
-  {
-    "id": "lc_chainmail_arms",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
-    "weight": "2812 g",
-    "volume": "750 ml",
+    "longest_side": "9 cm",
     "price": 7500,
     "price_postapoc": 2500,
     "to_hit": -1,
     "symbol": "[",
     "looks_like": "armguard_metal",
-    "material": [ "lc_steel_chain" ],
+    "material": [ "steel" ],
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "pocket_data": [
@@ -978,7 +921,7 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 14
@@ -986,11 +929,11 @@
     ]
   },
   {
-    "id": "xl_lc_chainmail_arms",
+    "abstract": "xl_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_arms",
-    "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
+    "copy-from": "base_chainmail_arms",
+    "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
+    "description": "Customized chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -1019,10 +962,10 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_lc_chainmail_arms",
+    "abstract": "xs_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_arms",
-    "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
+    "copy-from": "base_chainmail_arms",
+    "name": { "str": "pair of XS  chainmail sleeves", "str_pl": "pairs of XS chainmail sleeves" },
     "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1052,10 +995,57 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "chainmail_junk_arms",
+    "copy-from": "base_chainmail_arms",
+    "replace_materials": { "steel": "budget_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
+        "coverage": 95,
+        "encumbrance": 14
+      },
+      {
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "lc_chainmail_arms",
+    "copy-from": "base_chainmail_arms",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
+  },
+  {
+    "id": "xl_lc_chainmail_arms",
+    "copy-from": "xl_chainmail_arms",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
+  },
+  {
+    "id": "xs_lc_chainmail_arms",
+    "copy-from": "xs_chainmail_arms",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
+  },
+  {
     "id": "mc_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_arms",
-    "material": [ "mc_steel_chain" ],
+    "copy-from": "base_chainmail_arms",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
     "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
@@ -1070,314 +1060,90 @@
   {
     "id": "xl_mc_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_arms",
+    "copy-from": "xl_chainmail_arms",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "pair of XL medium steel chainmail sleeves", "str_pl": "pairs of XL medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
   },
   {
     "id": "xs_mc_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_arms",
+    "copy-from": "xs_chainmail_arms",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "pair of XS medium steel chainmail sleeves", "str_pl": "pairs of XS medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "550 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
   },
   {
     "id": "hc_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_arms",
-    "material": [ "hc_steel_chain" ],
+    "copy-from": "base_chainmail_arms",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
   },
   {
     "id": "xl_hc_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_arms",
+    "copy-from": "xl_chainmail_arms",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "pair of XL high steel chainmail sleeves", "str_pl": "pairs of XL high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
   },
   {
     "id": "xs_hc_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_arms",
+    "copy-from": "xs_chainmail_arms",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "pair of XS high steel chainmail sleeves", "str_pl": "pairs of XS high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "550 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
   },
   {
     "id": "ch_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_arms",
-    "material": [ "ch_steel_chain" ],
+    "copy-from": "base_chainmail_arms",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
   },
   {
     "id": "xl_ch_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_arms",
+    "copy-from": "xl_chainmail_arms",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "pair of XL hardened steel chainmail sleeves", "str_pl": "pairs of XL hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
   },
   {
     "id": "xs_ch_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_arms",
+    "copy-from": "xs_chainmail_arms",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "pair of XS hardened steel chainmail sleeves", "str_pl": "pairs of XS hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "550 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
   },
   {
     "id": "qt_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_arms",
-    "material": [ "qt_steel_chain" ],
+    "copy-from": "base_chainmail_arms",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
   },
   {
     "id": "xl_qt_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_arms",
+    "copy-from": "xl_chainmail_arms",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "pair of XL tempered steel chainmail sleeves", "str_pl": "pairs of XL tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
   },
   {
     "id": "xs_qt_chainmail_arms",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_arms",
+    "copy-from": "xs_chainmail_arms",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "pair of XS tempered steel chainmail sleeves", "str_pl": "pairs of XS tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "550 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
   },
   {
     "id": "elbow_pads",

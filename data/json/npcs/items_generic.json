@@ -465,7 +465,7 @@
       [ "colamdew", 3 ],
       [ "computer_science", 1 ],
       [ "con_milk", 2 ],
-      [ "contacts", 5 ],
+      { "item": "contacts", "prob": 5, "count": 6 },
       [ "corn", 3 ],
       [ "cornbread", 1 ],
       [ "corndogs_frozen", 2 ],

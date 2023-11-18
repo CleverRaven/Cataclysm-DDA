@@ -25,7 +25,8 @@
         [ "chilly-p", 3 ],
         [ "curry_powder", 3 ],
         [ "mustard_powder", 3 ],
-        [ "garlic_clove", 2 ]
+        [ "garlic_clove", 2 ],
+        [ "rehydrated_garlic", 2 ]
       ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]

@@ -358,7 +358,14 @@
     "components": [
       [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
-      [ [ "chilly-p", 50 ], [ "chili_pepper", 1 ], [ "cinnamon", 25 ], [ "pepper", 50 ], [ "wild_herbs", 10 ] ],
+      [
+        [ "chilly-p", 50 ],
+        [ "chili_pepper", 1 ],
+        [ "rehydrated_chili", 1 ],
+        [ "cinnamon", 25 ],
+        [ "pepper", 50 ],
+        [ "wild_herbs", 10 ]
+      ],
       [ [ "yeast", 1 ] ]
     ],
     "charges": 3
@@ -530,7 +537,13 @@
     "//": "14u for dairy and 1u for the additive",
     "components": [
       [ [ "milk_standard_raw", 9, "LIST" ] ],
-      [ [ "cabbage", 1 ], [ "chili_pepper", 1 ], [ "yoghurt", 1 ], [ "yogurt_starter_culture", 1 ] ]
+      [
+        [ "cabbage", 1 ],
+        [ "chili_pepper", 1 ],
+        [ "rehydrated_chili", 1 ],
+        [ "yoghurt", 1 ],
+        [ "yogurt_starter_culture", 1 ]
+      ]
     ],
     "charges": 10
   },

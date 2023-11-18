@@ -128,13 +128,16 @@
     "description": "As you can create fire, you can also extinguish it.",
     "message": "You disperse the flames harmlessly.",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "ter_transform",
     "effect_str": "ter_pyrokin_quell_fire",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_three", "hit_self": true },
+      { "id": "pyrokinetic_quell_flames_self", "hit_self": true }
+    ],
     "shape": "blast",
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -158,6 +161,33 @@
     "final_casting_time": 50,
     "casting_time_increment": -7.5,
     "learn_spells": { "pyrokinetic_call_flames": 5, "pyrokinetic_cloak": 7, "pyrokinetic_aura": 15, "pyrokinetic_flame_immunity": 20 }
+  },
+  {
+    "id": "pyrokinetic_quell_flames_self",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Fire On Self",
+    "description": "As you can create fire, you can also extinguish it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "remove_effect",
+    "effect_str": "onfire",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
+    },
+    "max_aoe": 50
   },
   {
     "id": "pyrokinetic_cloak",

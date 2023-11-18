@@ -288,7 +288,7 @@
         "text": "I think I got most of that.  A metal and concrete building with some kind of metal pole on top that you want me to fix?",
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
       },
-      { "text": "What?  A jut?  Fig and a fiddle?", "topic": "TALK_EXODII_MERCHANT_clarify" },
+      { "text": "What?  A jut?  Fig and a fiddle?", "topic": "TALK_EXODII_MERCHANT_mission_2_clarify" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]

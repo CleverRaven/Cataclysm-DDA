@@ -230,5 +230,44 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_CAMP_OM",
+    "monsters": [
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 20, "cost_multiplier": 70, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_COMMON",
+    "monsters": [
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 15, "cost_multiplier": 8, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "monsters": [
+      { "monster": "mon_mi_go_telepath", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 50, "cost_multiplier": 8, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_BOSS",
+    "monsters": [
+      { "monster": "mon_mi_go_telepath", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mi_go_photokinetic", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mi_go_biokinetic", "weight": 200, "cost_multiplier": 5 },
+      { "monster": "mon_mi_go_biokinetic", "weight": 50, "cost_multiplier": 20, "pack_size": [ 2, 3 ] }
+    ]
   }
 ]
