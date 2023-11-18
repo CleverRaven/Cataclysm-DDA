@@ -948,7 +948,7 @@ void npc::generate_personality_traits()
     npc_personality &ur = personality;
     for( const mutation_branch &mdata : mutation_branch::get_all() ) {
         if( mdata.personality_score ) {
-            auto &required = mdata.personality_score;
+            const auto &required = mdata.personality_score;
             // This looks intimidating, but it's really just a bounds check, repeated for every personality score.
             if( ( required->min_aggression <= ur.aggression && ur.aggression <= required->max_aggression ) &&
                 ( required->min_bravery <= ur.bravery && ur.bravery <= required->max_bravery ) &&
