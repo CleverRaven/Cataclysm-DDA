@@ -1531,7 +1531,9 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "cut", "amount": 14 } ] },
       [ "tailsmash_DinoMod", 40 ],
-      [ "EAT_CROP", 5 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "reproduction": { "baby_egg": "egg_barosaurus", "baby_count": 3, "baby_timer": 24 }
   },
@@ -1589,6 +1591,7 @@
     "volume": "8 L",
     "weight": "10 kg",
     "bodytype": "bear",
+    "stomach_size": 200,
     "morale": -10,
     "hp": 40,
     "speed": 80,
@@ -1596,10 +1599,10 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 6,
-    "special_attacks": [ [ "EAT_CROP", 20 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "GRAZE", 60 ] ],
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "CAN_BE_CULLED", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "CAN_BE_CULLED", "CORNERED_FIGHTER", "EATS" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "harvest": "mammal_small_leather",
     "dissect": "dissect_stego_sample_single",
@@ -1619,6 +1622,7 @@
     "//": "When large weights and volumes are fixed this should be 3170 L and 3800 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
+    "stomach_size": 76000,
     "aggression": -10,
     "morale": 90,
     "speed": 20,
@@ -1635,7 +1639,9 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "tailsmash_ankyl_DinoMod", 30 ],
-      [ "EAT_CROP", 20 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "description": "A huge slow quadruped dinosaur with two rows of tall plates on its back, and a spiked tail.",
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -1651,7 +1657,8 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "mammal_large_leather",
     "dissect": "dissect_stego_sample_large",
@@ -1665,12 +1672,15 @@
     "name": { "str_sp": "hesperosaurus" },
     "copy-from": "mon_stegosaurus",
     "//": "When large weights and volumes are fixed this should be 2900 L and 3500 kg",
+    "stomach_size": 70000,
     "hp": 300,
     "zombify_into": "mon_zesperosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 15 } ] },
       [ "tailsmash_ankyl_DinoMod", 30 ],
-      [ "EAT_CROP", 20 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "description": "A huge slow quadruped dinosaur with two rows of long plates on its back, and a spiked tail.",
     "reproduction": { "baby_egg": "egg_hesperosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -1682,6 +1692,7 @@
     "name": { "str_sp": "gastonia" },
     "copy-from": "mon_nodosaurus",
     "//": "When large weights and volumes are fixed this should be 1575 L and 1900 kg",
+    "stomach_size": 38000,
     "hp": 190,
     "zombify_into": "mon_zastonia",
     "description": "This heavily armored four legged dinosaur has a long tail, a beak, and large shoulder spikes.",
@@ -1696,6 +1707,7 @@
     "copy-from": "mon_nodosaurus",
     "volume": "415 L",
     "weight": "500 kg",
+    "stomach_size": 10000,
     "hp": 125,
     "speed": 50,
     "attack_cost": 50,
@@ -1712,6 +1724,7 @@
     "name": { "str_sp": "sauropelta" },
     "copy-from": "mon_nodosaurus",
     "//": "When large weights and volumes are fixed this should be 1650 L and 2000 kg",
+    "stomach_size": 40000,
     "hp": 200,
     "zombify_into": "mon_zauropelta",
     "description": "This heavily armored four legged dinosaur has a beak, a long tail, and long wicked-looking spikes jutting out of the neck.",
@@ -1725,9 +1738,10 @@
     "name": { "str_sp": "nodosaurus" },
     "copy-from": "mon_dyoplosaurus",
     "//": "When large weights and volumes are fixed this should be 2900 L and 3500 kg",
+    "stomach_size": 70000,
     "hp": 270,
     "zombify_into": "mon_zodosaurus",
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "GRAZE", 60 ] ],
     "description": "This heavily armored four legged dinosaur has a beak and large bony plates covering the back.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
@@ -1739,6 +1753,7 @@
     "name": { "str_sp": "panoplosaurus" },
     "copy-from": "mon_edmontonia",
     "//": "When large weights and volumes are fixed this should be 1330 L and 1600 kg",
+    "stomach_size": 32000,
     "hp": 160,
     "zombify_into": "mon_zanoplosaurus",
     "description": "This heavily armored four legged dinosaur has a lumpy armored head with a beak and thick plates protecting the cheeks, thick back armor, and small short spikes along the sides.",
@@ -1751,10 +1766,11 @@
     "name": { "str_sp": "edmontonia" },
     "copy-from": "mon_ankylosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 3000 kg",
+    "stomach_size": 60000,
     "hp": 365,
     "zombify_into": "mon_zedmontonia",
     "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "GRAZE", 60 ] ],
     "description": "This heavily armored dinosaur is covered with small ridged bony plates with long bony spikes.",
     "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
@@ -1766,6 +1782,7 @@
     "name": { "str_sp": "zuul" },
     "copy-from": "mon_dyoplosaurus",
     "//": "When large weights and volumes are fixed this should be 2000 L and 2500 kg",
+    "stomach_size": 50000,
     "hp": 225,
     "zombify_into": "mon_zzuul",
     "description": "This four-legged armored dinosaur has horns on the head and large spikes in rows along the back and side.  Its spiked tail ends in a similarly pointy club of bone.",
@@ -1778,12 +1795,15 @@
     "name": { "str_sp": "dyoplosaurus" },
     "copy-from": "mon_ankylosaurus",
     "//": "When large weights and volumes are fixed this should be 1650 L and 2000 kg",
+    "stomach_size": 40000,
     "hp": 200,
     "zombify_into": "mon_zyoplosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "tailsmash_ankyl_DinoMod", 30 ],
-      [ "EAT_CROP", 40 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "description": "This heavily armored four legged dinosaur has a beak and a long tail ending in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -1797,7 +1817,8 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1814,6 +1835,7 @@
     "weight": "1000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
+    "stomach_size": 120000,
     "aggression": -5,
     "morale": 100,
     "speed": 25,
@@ -1830,7 +1852,9 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "tailsmash_ankyl_DinoMod", 30 ],
-      [ "EAT_CROP", 40 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "description": "This heavily armored four legged dinosaur has a long tail ending in a massive spiked club of bone.",
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -1847,7 +1871,8 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "mammal_large_leather",
     "dissect": "dissect_stego_sample_large",
@@ -1861,12 +1886,15 @@
     "name": { "str_sp": "euoplocephalus" },
     "copy-from": "mon_ankylosaurus",
     "//": "When large weights and volumes are fixed this should be 1650 L and 2000 kg",
+    "stomach_size": 40000,
     "hp": 200,
     "zombify_into": "mon_zuoplocephalus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "tailsmash_ankyl_DinoMod", 30 ],
-      [ "EAT_CROP", 40 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "description": "This heavily armored four legged dinosaur has a horny beak, two bony rings protecting the neck, and a long tail ending in a heavy club of bone.",
     "reproduction": { "baby_egg": "egg_euoplocephalus", "baby_count": 3, "baby_timer": 24 },
@@ -1880,7 +1908,8 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1889,12 +1918,15 @@
     "name": { "str_sp": "scolosaurus" },
     "copy-from": "mon_ankylosaurus",
     "//": "When large weights and volumes are fixed this should be 1815 L and 2200 kg",
+    "stomach_size": 44000,
     "hp": 210,
     "zombify_into": "mon_zcolosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "tailsmash_ankyl_DinoMod", 30 ],
-      [ "EAT_CROP", 40 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
     ],
     "description": "This heavily armored four legged dinosaur has several long spikes along the back and a long spiked tail ending in a club of bone.",
     "reproduction": { "baby_egg": "egg_scolosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -1908,7 +1940,8 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ]
   },
   {
@@ -1925,6 +1958,7 @@
     "weight": "800 kg",
     "bodytype": "bear",
     "material": [ "flesh" ],
+    "stomach_size": 16000,
     "aggression": -10,
     "morale": 50,
     "speed": 150,
@@ -1942,9 +1976,19 @@
     "reproduction": { "baby_egg": "egg_tenontosaurus", "baby_count": 30, "baby_timer": 60 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 40 ], [ "LUNGE", 40 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "LUNGE", 40 ] ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW", "CAN_BE_CULLED" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_MOUNTABLE",
+      "PET_WONT_FOLLOW",
+      "CAN_BE_CULLED",
+      "EATS"
+    ],
     "harvest": "mammal_large_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -1965,6 +2009,7 @@
     "weight": "45 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 900,
     "aggression": -40,
     "morale": 20,
     "speed": 150,
@@ -1982,7 +2027,7 @@
     "reproduction": { "baby_egg": "egg_dryosaurus", "baby_count": 30, "baby_timer": 60 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 22 },
-    "special_attacks": [ [ "EAT_CROP", 30 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -1993,7 +2038,8 @@
       "PET_MOUNTABLE",
       "PET_WONT_FOLLOW",
       "CAN_BE_CULLED",
-      "SMALL_HIDER"
+      "SMALL_HIDER",
+      "EATS"
     ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
@@ -2015,6 +2061,7 @@
     "weight": "850 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
+    "stomach_size": 17000,
     "aggression": -40,
     "morale": 25,
     "speed": 75,
@@ -2032,7 +2079,7 @@
     "reproduction": { "baby_egg": "egg_camptosaurus", "baby_count": 30, "baby_timer": 60 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 30 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -2044,7 +2091,8 @@
       "PET_WONT_FOLLOW",
       "CAN_BE_CULLED",
       "SWIMS",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "mammal_large_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
@@ -2062,6 +2110,7 @@
     "default_faction": "hadrosaur",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "bodytype": "bear",
+    "stomach_size": 60000,
     "speed": 80,
     "attack_cost": 80,
     "melee_dice": 2,
@@ -2074,7 +2123,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "EAT_CROP", 20 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ]
     ],
     "reproduction": { "baby_egg": "egg_hadrosaurus", "baby_count": 30, "baby_timer": 60 },
     "armor": { "bash": 4, "cut": 4, "bullet": 3 }
@@ -2085,13 +2135,15 @@
     "name": { "str_sp": "maiasaura" },
     "copy-from": "mon_hadrosaurus",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "stomach_size": 80000,
     "hp": 315,
     "zombify_into": "mon_zaiasaura",
     "description": "A huge scaly dinosaur with hooves and long heavy tail.  Has a flat beak, thick nose, and small spiky head crest.",
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "EAT_CROP", 20 ],
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
       [ "SMASH", 30 ]
     ],
     "reproduction": { "baby_egg": "egg_maiasaura", "baby_count": 30, "baby_timer": 60 }
@@ -2102,6 +2154,7 @@
     "name": { "str_sp": "gryposaurus" },
     "copy-from": "mon_edmontosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
+    "stomach_size": 50000,
     "hp": 200,
     "zombify_into": "mon_zryposaurus",
     "description": "A huge scaly dinosaur with hooves and a broad toothless beak with a narrow arching nasal hump.",
@@ -2113,6 +2166,7 @@
     "name": { "str_sp": "prosaurolophus" },
     "copy-from": "mon_edmontosaurus",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "stomach_size": 60000,
     "hp": 250,
     "zombify_into": "mon_zrosaurolophus",
     "description": "A huge scaly dinosaur with hooves and a broad beak filled with hundreds of small teeth with a small nasal crest just above and in front of the eyes.",
@@ -2124,6 +2178,7 @@
     "name": { "str_sp": "saurolophus" },
     "copy-from": "mon_edmontosaurus",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "stomach_size": 60000,
     "hp": 250,
     "zombify_into": "mon_zaurolophus",
     "description": "A huge scaly dinosaur with hooves and a broad beak filled with hundreds of small teeth with a spiky head crest at the top of the skull reaching behind.",
@@ -2135,6 +2190,7 @@
     "name": { "str_sp": "edmontosaurus" },
     "copy-from": "mon_parasaurolophus",
     "//": "When large weights and volumes are fixed this should be 5500 L and 5500 kg",
+    "stomach_size": 110000,
     "hp": 350,
     "zombify_into": "mon_zedmontosaurus",
     "description": "A huge scaly dinosaur with hooves and a broad toothless beak.  There are teeth deeper in the mouth.",
@@ -2147,6 +2203,7 @@
     "name": { "str_sp": "parasaurolophus" },
     "copy-from": "mon_hadrosaurus",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "stomach_size": 80000,
     "dodge": 3,
     "hp": 315,
     "zombify_into": "mon_zarasaurolophus",
@@ -2154,7 +2211,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 20, "max_range": 2, "allow_no_target": true },
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "EAT_CROP", 20 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ]
     ],
     "reproduction": { "baby_egg": "egg_parasaurolophus", "baby_count": 30, "baby_timer": 60 },
     "armor": { "bullet": 3, "bash": 5, "cut": 5 }
@@ -2165,11 +2223,12 @@
     "name": { "str_sp": "lambeosaurus" },
     "copy-from": "mon_parasaurolophus",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "stomach_size": 60000,
     "hp": 250,
     "zombify_into": "mon_zambeosaurus",
     "description": "A huge scaly dinosaur with a long stiff tail and hooves.  Has a narrow beak and a tall head crest that looks like a mitten with the thumb pointed up.",
     "reproduction": { "baby_egg": "egg_lambeosaurus", "baby_count": 30, "baby_timer": 60 },
-    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ]
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ]
   },
   {
     "type": "MONSTER",
@@ -2177,11 +2236,12 @@
     "name": { "str_sp": "corythosaurus" },
     "copy-from": "mon_parasaurolophus",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "stomach_size": 80000,
     "hp": 365,
     "zombify_into": "mon_zorythosaurus",
     "description": "A huge scaly dinosaur with a thick neck and tail and hooves.  Has a short beak and a tall rounded head crest.",
     "reproduction": { "baby_egg": "egg_corythosaurus", "baby_count": 30, "baby_timer": 60 },
-    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ],
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "armor": { "bullet": 3, "bash": 5, "cut": 6 }
   },
   {
@@ -2190,11 +2250,12 @@
     "name": { "str_sp": "hypacrosaurus" },
     "copy-from": "mon_parasaurolophus",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "stomach_size": 80000,
     "hp": 365,
     "zombify_into": "mon_zypacrosaurus",
     "description": "A huge scaly dinosaur with a tall ridge down the back, a tail and hooves.  Has a short beak and a wide, rounded head crest.",
     "reproduction": { "baby_egg": "egg_hypacrosaurus", "baby_count": 30, "baby_timer": 60 },
-    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ],
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "armor": { "bullet": 3, "bash": 5, "cut": 6 }
   },
   {
@@ -2204,6 +2265,7 @@
     "copy-from": "mon_pachycephalosaurus",
     "volume": "40 L",
     "weight": "40 kg",
+    "stomach_size": 800,
     "melee_skill": 4,
     "morale": 20,
     "speed": 150,
@@ -2214,7 +2276,7 @@
     "hp": 40,
     "description": "A small feathered bipedal dinosaur about the size of a goat.  It looks like a reptilian ostrich with a round hard-looking domed head.",
     "reproduction": { "baby_egg": "egg_stegoceras", "baby_count": 3, "baby_timer": 12 },
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -2225,7 +2287,8 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "CAN_BE_CULLED",
-      "SMALL_HIDER"
+      "SMALL_HIDER",
+      "EATS"
     ]
   },
   {
@@ -2242,6 +2305,7 @@
     "weight": "450 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 9000,
     "aggression": -20,
     "morale": 40,
     "speed": 120,
@@ -2258,7 +2322,7 @@
     "reproduction": { "baby_egg": "egg_pachycephalosaurus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
-    "special_attacks": [ [ "EAT_CROP", 60 ], [ "LUNGE", 10 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "LUNGE", 10 ] ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -2271,7 +2335,8 @@
       "PET_WONT_FOLLOW",
       "HIT_AND_RUN",
       "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
@@ -2288,6 +2353,7 @@
     "volume": "2 L",
     "weight": "2 kg",
     "bodytype": "bear",
+    "stomach_size": 40,
     "melee_skill": 4,
     "aggression": -10,
     "morale": 10,
@@ -2300,8 +2366,8 @@
     "hp": 5,
     "description": "A small rhino-like dinosaur with a bony crest studded with small horns and a hooked beak.",
     "reproduction": { "baby_egg": "egg_aquilops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 30 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER", "EATS" ],
     "harvest": "mammal_tiny",
     "dissect": "dissect_horns_sample_single"
   },
@@ -2313,6 +2379,7 @@
     "volume": "100 L",
     "weight": "100 kg",
     "bodytype": "bear",
+    "stomach_size": 2000,
     "speed": 110,
     "attack_cost": 110,
     "melee_skill": 4,
@@ -2324,7 +2391,7 @@
     "zombify_into": "mon_zeptoceratops",
     "description": "A rhino-like dinosaur with a bony crest and sharp beak able to walk on two legs and four.",
     "reproduction": { "baby_egg": "egg_leptoceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "LUNGE", 10 ], [ "EAT_CROP", 30 ] ]
+    "special_attacks": [ [ "LUNGE", 10 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ]
   },
   {
     "type": "MONSTER",
@@ -2333,6 +2400,7 @@
     "copy-from": "mon_pachyrhinosaurus",
     "volume": "175 L",
     "weight": "175 kg",
+    "stomach_size": 3500,
     "speed": 110,
     "attack_cost": 110,
     "melee_skill": 5,
@@ -2342,7 +2410,7 @@
     "zombify_into": "mon_zzuniceratops",
     "description": "A rhino-like dinosaur with a tall thin bony head crest, two long brow horns, and a beak.",
     "reproduction": { "baby_egg": "egg_zuniceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "LUNGE", 10 ], [ "EAT_CROP", 20 ] ]
+    "special_attacks": [ [ "LUNGE", 10 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ]
   },
   {
     "type": "MONSTER",
@@ -2350,12 +2418,13 @@
     "name": { "str_sp": "styracosaurus" },
     "copy-from": "mon_centrosaurus",
     "//": "When large weights and volumes are fixed this should be 2200 L and 2200 kg",
+    "stomach_size": 44000,
     "melee_skill": 5,
     "melee_damage": [ { "damage_type": "bash", "amount": 10 } ],
     "zombify_into": "mon_ztyracosaurus",
     "description": "A large stocky four-legged dinosaur with a bony crest with several long spikes and one large horn above the beak and a short tail.",
     "reproduction": { "baby_egg": "egg_styracosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 10 ], [ "EAT_CROP", 30 ], [ "stretch_horn_DinoMod", 40 ] ],
+    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 10 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "stretch_horn_DinoMod", 40 ] ],
     "harvest": "styracosaurus"
   },
   {
@@ -2364,6 +2433,7 @@
     "name": { "str_sp": "centrosaurus" },
     "copy-from": "mon_pachyrhinosaurus",
     "//": "When large weights and volumes are fixed this should be 2200 L and 2200 kg",
+    "stomach_size": 44000,
     "speed": 110,
     "attack_cost": 110,
     "melee_skill": 6,
@@ -2376,7 +2446,8 @@
       { "id": "stomp_DinoMod", "cooldown": 30, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 60 ],
       [ "LUNGE", 10 ],
-      [ "EAT_CROP", 30 ],
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
       [ "stretch_horn_DinoMod", 40 ]
     ],
     "harvest": "centrosaurus"
@@ -2387,6 +2458,7 @@
     "name": { "str_sp": "einiosaurus" },
     "copy-from": "mon_pachyrhinosaurus",
     "//": "When large weights and volumes are fixed this should be 1300 L and 1300 kg",
+    "stomach_size": 26000,
     "speed": 110,
     "attack_cost": 110,
     "melee_skill": 6,
@@ -2395,7 +2467,7 @@
     "zombify_into": "mon_zeiniosaurus",
     "description": "A large stocky rhino-like dinosaur with a tall bony crest and one large horn above the nose curving forward towards the beak.",
     "reproduction": { "baby_egg": "egg_einiosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 20 ], [ "EAT_CROP", 30 ], [ "stretch_horn_DinoMod", 30 ] ]
+    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 20 ], [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "stretch_horn_DinoMod", 30 ] ]
   },
   {
     "type": "MONSTER",
@@ -2403,6 +2475,7 @@
     "name": { "str_sp": "achelousaurus" },
     "copy-from": "mon_pachyrhinosaurus",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "stomach_size": 60000,
     "speed": 110,
     "attack_cost": 110,
     "melee_skill": 7,
@@ -2415,7 +2488,8 @@
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 40 ],
       [ "LUNGE", 20 ],
-      [ "EAT_CROP", 25 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ]
     ]
   },
   {
@@ -2424,6 +2498,7 @@
     "name": { "str_sp": "pachyrhinosaurus" },
     "copy-from": "mon_triceratops",
     "//": "When large weights and volumes are fixed this should be 3500 L and 3500 kg",
+    "stomach_size": 70000,
     "speed": 100,
     "melee_skill": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 12 } ],
@@ -2435,7 +2510,8 @@
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ],
       [ "LUNGE", 10 ],
-      [ "EAT_CROP", 20 ]
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ]
     ],
     "harvest": "dino_large_leather"
   },
@@ -2445,12 +2521,13 @@
     "name": { "str_sp": "chasmosaurus" },
     "copy-from": "mon_pentaceratops",
     "//": "When large weights and volumes are fixed this should be 1750 L and 1750 kg",
+    "stomach_size": 35000,
     "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "hp": 175,
     "zombify_into": "mon_zasmosaurus",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which three short horns emerge above the eyes and beak.",
     "reproduction": { "baby_egg": "egg_chasmosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" } ]
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], { "id": "impale" } ]
   },
   {
     "type": "MONSTER",
@@ -2458,13 +2535,14 @@
     "name": { "str_sp": "pentaceratops" },
     "copy-from": "mon_triceratops",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
+    "stomach_size": 50000,
     "melee_skill": 7,
     "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "hp": 230,
     "zombify_into": "mon_zentaceratops",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which four long horns and a short nose horn emerge.",
     "reproduction": { "baby_egg": "egg_pentaceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" } ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], { "id": "impale" } ],
     "harvest": "dino_large_leather",
     "armor": { "bash": 6, "bullet": 2, "cut": 8 }
   },
@@ -2474,13 +2552,14 @@
     "name": { "str_sp": "kosmoceratops" },
     "copy-from": "mon_triceratops",
     "//": "When large weights and volumes are fixed this should be 1200 L and 1200 kg",
+    "stomach_size": 24000,
     "melee_skill": 7,
     "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "hp": 150,
     "zombify_into": "mon_zosmoceratops",
     "description": "A massive rhino-like dinosaur with an ornate spiked neck crest and two long horns curving up and to the sides from above its eyes.",
     "reproduction": { "baby_egg": "egg_kosmoceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 20 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 20 ] ],
     "harvest": "dino_large_leather",
     "armor": { "bullet": 2, "bash": 8, "cut": 7 }
   },
@@ -2490,12 +2569,13 @@
     "name": { "str_sp": "torosaurus" },
     "copy-from": "mon_triceratops",
     "//": "When large weights and volumes are fixed this should be 5000 L and 5000 kg",
+    "stomach_size": 100000,
     "melee_skill": 7,
     "hp": 350,
     "zombify_into": "mon_zorosaurus",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which two long wicked horns emerge.",
     "reproduction": { "baby_egg": "egg_torosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 10 ] ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 10 ] ],
     "harvest": "torosaurus"
   },
   {
@@ -2512,6 +2592,7 @@
     "//": "When large weights and volumes are fixed this should be 7000 L and 7000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
+    "stomach_size": 140000,
     "diff": 30,
     "aggression": -10,
     "morale": 50,
@@ -2530,7 +2611,7 @@
     "reproduction": { "baby_egg": "egg_triceratops", "baby_count": 20, "baby_timer": 40 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], { "id": "impale" } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -2541,7 +2622,8 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "BASHES",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "triceratops",
     "dissect": "dissect_horns_sample_large",
@@ -2564,6 +2646,8 @@
     "weight": "10 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 200,
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "aggression": -50,
     "morale": 20,
     "speed": 150,
@@ -2580,7 +2664,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 99 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER", "EATS" ],
     "harvest": "bird_small",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
@@ -2600,6 +2684,8 @@
     "weight": "30 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 600,
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ] ],
     "aggression": -10,
     "morale": 80,
     "speed": 100,
@@ -2625,7 +2711,8 @@
       "CANPLAY",
       "CAN_DIG",
       "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -2646,6 +2733,7 @@
     "weight": "250 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 5000,
     "aggression": -10,
     "morale": 80,
     "speed": 150,
@@ -2663,8 +2751,19 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 4 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "special_attacks": [ [ "EAT_CROP", 50 ], [ "scratch", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "HIT_AND_RUN", "SWIMS", "CAN_BE_CULLED" ],
+    "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "scratch", 20 ] ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_MOUNTABLE",
+      "HIT_AND_RUN",
+      "SWIMS",
+      "CAN_BE_CULLED",
+      "EATS"
+    ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
@@ -2682,6 +2781,7 @@
     "weight": "2 kg",
     "bodytype": "bird",
     "material": [ "flesh" ],
+    "stomach_size": 40,
     "aggression": -10,
     "morale": 10,
     "speed": 110,
@@ -2708,10 +2808,12 @@
       "PATH_AVOID_DANGER_1",
       "CANPLAY",
       "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CORNERED_FIGHTER",
+      "EATS"
     ],
     "harvest": "bird_small",
     "dissect": "dissect_lizard_sample_single",
+    "special_attacks": [ [ "EAT_CARRION", 60 ] ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -2723,7 +2825,7 @@
     "default_faction": "pteranodon",
     "volume": "70 L",
     "weight": "50 kg",
-    "stomach_size": 1,
+    "stomach_size": 1000,
     "hp": 20,
     "aggression": 9,
     "morale": 50,
@@ -2745,7 +2847,7 @@
     "default_faction": "quetzalcoatlus",
     "volume": "330 L",
     "weight": "250 kg",
-    "stomach_size": 2,
+    "stomach_size": 5000,
     "hp": 70,
     "aggression": 9,
     "morale": 80,
@@ -2758,14 +2860,14 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "EATS",
       "FLIES",
       "HIT_AND_RUN",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "CANPLAY",
       "PET_MOUNTABLE",
-      "COMBAT_MOUNT"
+      "COMBAT_MOUNT",
+      "EATS"
     ],
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
@@ -2787,7 +2889,7 @@
     "//": "When large weights and volumes are fixed this should be 10000 L and 10000 kg",
     "bodytype": "fish",
     "material": [ "flesh" ],
-    "stomach_size": 100,
+    "stomach_size": 200000,
     "aggression": 9,
     "morale": 90,
     "speed": 30,
@@ -2808,7 +2910,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "EATS",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "GRABS",
@@ -2817,7 +2918,8 @@
       "WARM",
       "SWIMS",
       "AQUATIC",
-      "PUSH_MON"
+      "PUSH_MON",
+      "EATS"
     ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_mosasaurus_large",
