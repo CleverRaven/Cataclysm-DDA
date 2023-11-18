@@ -315,24 +315,28 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
-    "recurrence": 1,
-    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "Lieutenants_active", "<", "1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
-    "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],
-    "deactivate_condition": { "math": [ "u_Lieutenants_active", ">=", "1" ] }
+    "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
+    "deactivate_condition": { "math": [ "Lieutenants_active", ">=", "1" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
     "recurrence": [ "3 hours", "6 hours" ],
+    "global": true,
+    "run_for_npcs": false,
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
     "condition": {
       "and": [
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_Lieutenants_active", ">", "0" ] },
-        { "math": [ "u_Shadow_Lurking", ">", "0" ] },
+        { "math": [ "Lieutenants_active", ">", "0" ] },
+        { "math": [ "Shadow_Lurking", ">", "0" ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -340,7 +344,7 @@
       ]
     },
     "effect": [
-      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       {
         "u_message": "You shiver as the night closes in…",
@@ -373,7 +377,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
-    "recurrence": 1,
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
     "condition": {
       "and": [
@@ -383,7 +389,7 @@
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "effect": [
-      { "u_adjust_var": "Shadow_Lurking", "adjustment": 1 },
+      { "math": [ "Shadow_Lurking", "=", "1" ] },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
         "u_location_variable": { "global_val": "Shadow_monster" },
@@ -398,7 +404,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_CHECK_POS",
-    "recurrence": 1,
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
     "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
     "effect": [
       {
