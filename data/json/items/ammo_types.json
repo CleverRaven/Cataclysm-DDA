@@ -763,6 +763,24 @@
   },
   {
     "type": "ammunition_type",
+    "id": "273x110",
+    "name": "27.3x110 Diyua",
+    "default": "273x110canister"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x44",
+    "name": "27.3x44 Diyua",
+    "default": "273x44HE"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x44RG",
+    "name": "27.3x44 Diyua Grenade",
+    "default": "273x44RG"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
