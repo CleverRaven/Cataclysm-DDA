@@ -2015,7 +2015,7 @@ bool Character::uncanny_dodge()
     return false;
 }
 
-bool Character::avoid_friendly_fire() const
+bool Character::check_avoid_friendly_fire() const
 {
     double chance = enchantment_cache->modify_value( enchant_vals::mod::AVOID_FRIENDRY_FIRE, 0.0 );
     return rng( 0, 99 ) < chance * 100.0;
