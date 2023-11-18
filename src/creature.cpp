@@ -1681,14 +1681,14 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
                            intensity, force );
 }
 
-bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int penetration,
+bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
     }
     const Character *c = as_character();
-    if( dice( 1, 100 ) > ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
+    if( ( dice( 1, 100 ) ) > ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, true );
@@ -1698,10 +1698,10 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
         return false;
     }
 }
-bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int penetration,
+bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, bool permanent, int intensity, bool force )
 {
-    return add_liquid_effect( eff_id, vector, penetration, dur, bodypart_str_id::NULL_ID(), permanent,
+    return add_liquid_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID(), permanent,
                            intensity, force );
 }
 
