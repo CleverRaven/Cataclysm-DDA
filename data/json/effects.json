@@ -4457,7 +4457,7 @@
     ]
   },
   {
-    "id": "slip",
+    "id": "slippery_terrain",
     "type": "effect_type",
     "max_duration": "1 s",
     "name": [ "Slippery Terrain" ],

@@ -23,20 +23,19 @@
         "color": "pink",
         "sym": "}",
         "effects": [
-          { "effect_id": "bile_slip", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          { "effect_id": "slippery_terrain", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
         ]
       },
       {
         "name": "bile stain",
         "effects": [
-          { "effect_id": "bile_slip", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          { "effect_id": "slippery_terrain", "intensity": 2, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
         ]
       },
       {
         "name": "puddle of bile",
-        "transparent": false,
         "effects": [
-          { "effect_id": "bile_slip", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          { "effect_id": "slippery_terrain", "intensity": 3, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
         ]
       }
     ],

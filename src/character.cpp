@@ -209,7 +209,7 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_slip( "slip" );
+static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -7996,19 +7996,13 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
 
     map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( pos() );
-    const field &fields = get_map().field_at( pos() );
-    bool slippery = false;
-    for( const auto &field : fields ) {
-        slippery = field.first.obj().slippery;
-    }
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
-
-    if( ( ( slippery && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) || worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
+    if( ( ( has_effect( effect_slippery_terrain ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) || worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
             rolls += 2;
         }
-        if( !slippery || has_trait( trait_PROF_SKATER ) ) {
+        if( !has_effect( effect_slippery_terrain ) || has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
         if( has_trait( trait_DEFT ) ) {
@@ -10749,8 +10743,10 @@ void Character::process_effects()
         }
     }
 
-    if( is_running() && has_effect( effect_slip ) && !has_effect( effect_downed ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) && has_trait_flag( json_flag_NON_SLIP ) ) {
-            int rolls = 5;
+    map &here = get_map();
+    if( is_running() && has_effect( effect_slippery_terrain ) && !has_effect( effect_downed ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) && has_trait_flag( json_flag_NON_SLIP ) ) {
+        int rolls = 5;
+        bool u_see = get_player_view().sees( *this );
         if( has_trait( trait_DEFT ) ) {
             rolls--;
         }
