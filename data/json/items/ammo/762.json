@@ -64,7 +64,7 @@
     "ascii_picture": "762_jhp",
     "price": 100,
     "price_postapoc": 750,
-    "relative": { "damage": { "damage_type": "bullet", "amount": +4, "armor_penetration": -8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
   },
   {
     "id": "reloaded_762_jhp",
