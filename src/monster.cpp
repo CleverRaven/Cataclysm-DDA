@@ -3259,13 +3259,17 @@ void monster::process_effects()
 
     // Check to see if critter slips on bile or whatever. 
     //Monsters which are very low to the ground are excluded as well as digging and flying ones.
-    if( has_effect( effect_slippery_terrain ) && !flies() && !digging() !has_flag( mon_flag_IMMOBILE ) && !has_flag ( mon_flag_ATTACK_LOWER ) && !has_effect( effect_downed ) ) {
+    if( has_effect( effect_slippery_terrain ) && !flies() && !digging() && !has_flag( mon_flag_IMMOBILE ) && !has_flag ( mon_flag_ATTACK_LOWER ) && !has_effect( effect_downed ) ) {
         map &here = get_map();
-            if here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int intensity = get_effect_int( effect_slippery_terrain );
-            int slipchance = ( round( get_speed(); / 50 ) - round( get_dodge() / 3 ) );
-                if ( intensity + slipchance > (one_in( 10 ) ) ) {
+            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
+                add_msg( _( "Slipchance: %1s" ),
+                            slipchance );
+                if ( intensity + slipchance > ( dice( 1, 12 ) ) ) {
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+                add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
+                            name() );
                 }
            }
     }

@@ -2801,6 +2801,7 @@
     "type": "effect_type",
     "id": "pre_conjunctivitis_viral",
     "show_in_info": false,
+    "immune_flags": [ "NO_DISEASE", "SEESLEEP"  ],
     "blood_analysis_description": "Viral Infection",
     "max_duration": "71 h"
   },
@@ -2809,6 +2810,7 @@
     "type": "effect_type",
     "id": "pre_conjunctivitis_bacterial",
     "show_in_info": false,
+    "immune_flags": [ "NO_DISEASE", "SEESLEEP"  ],
     "blood_analysis_description": "Bacterial Infection",
     "max_duration": "71 h"
   },
@@ -2822,7 +2824,7 @@
     ],
     "apply_memorial_log": "Got pinkeye.",
     "remove_memorial_log": "Got over a pinkeye infection.",
-    "apply_message": "Your eye leaks a filmy discharge.",
+    "apply_message": "Your itchy eye leaks a filmy discharge.",
     "rating": "bad",
     "resist_effects": [ "took_antihistamine", "took_flumed" ],
     "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
@@ -2847,7 +2849,7 @@
     ],
     "apply_memorial_log": "Got pinkeye.",
     "remove_memorial_log": "Got over a pinkeye infection.",
-    "apply_message": "Your eye leaks a filmy discharge.",
+    "apply_message": "Your itchy eye leaks a filmy discharge.",
     "rating": "bad",
     "resist_effects": [ "took_antihistamine", "took_flumed" ],
     "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
