@@ -108,13 +108,7 @@ struct var {
     template<class... Args>
     explicit var( Args &&... args ) : varinfo( std::forward<Args>( args )... ) {}
 
-    double eval( dialogue &d ) const {
-        std::string const str = read_var_value( varinfo, d );
-        if( str.empty() ) {
-            return 0;
-        }
-        return std::stod( str );
-    }
+    double eval( dialogue &d ) const;
 
     var_info varinfo;
 };
@@ -156,9 +150,9 @@ constexpr double thingie::eval( dialogue &d ) const
             return v;
         },
         // NOLINTNEXTLINE(cata-use-string_view)
-        []( const std::string & v )
+        []( std::string const & v )
         {
-            debugmsg( "Unexpected string operand %.*s", v.size(), v.data() );
+            debugmsg( "Unexpected string operand %s", v );
             return 0.0;
         },
         []( kwarg const & v )

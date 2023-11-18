@@ -221,6 +221,19 @@ double func_jmath::eval( dialogue &d ) const
     return id->eval( d, _eval_params( params, d ) );
 }
 
+double var::eval( dialogue &d ) const
+{
+    std::string const str = read_var_value( varinfo, d );
+    if( str.empty() ) {
+        return 0;
+    }
+    if( std::optional<double> ret = svtod( str ); ret ) {
+        return *ret;
+    }
+    debugmsg( R"(failed to convert variable "%s" with value "%s" to a number)", varinfo.name, str );
+    return 0;
+}
+
 oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
     l( std::make_shared<thingie>( std::move( l_ ) ) ),
     r( std::make_shared<thingie>( std::move( r_ ) ) ),
