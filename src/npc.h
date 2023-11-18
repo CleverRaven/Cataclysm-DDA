@@ -1083,8 +1083,10 @@ class npc : public Character
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
-        /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-        float evaluate_enemy( const Creature &target ) const;
+        /** rates how dangerous a target is */
+        float evaluate_monster( const Creature &target ) const;
+        float evaluate_character( const Creature &target, bool enemy ) const;
+        float evaluate_self() const;
 
         void assess_danger();
         bool is_safe() const;
