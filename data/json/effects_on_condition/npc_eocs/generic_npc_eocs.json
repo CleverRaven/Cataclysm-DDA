@@ -377,7 +377,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DIVING_INTO_WATER_CHECK",
-    "global": false,
+    "global": true,
+    "run_for_npcs": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": "u_is_underwater",
