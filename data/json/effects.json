@@ -4460,10 +4460,15 @@
     "id": "slippery_terrain",
     "type": "effect_type",
     "max_duration": "1 s",
-    "name": [ "Slippery Terrain" ],
-    "desc": [ "There's a slippery surface here, running may be a bad idea." ],
+    "name": [ "Slick Surface", "Slippery Terrain", "Dangerously Slippery" ],
+    "desc": [
+      "There's a slippery surface here, running may be a bad idea.",
+      "It's quite slippery, it may not be safe to stand here.",
+      "This area is extremely slippery and hard to stand up in."
+    ],
     "rating": "bad",
-    "show_intensity": false,
+    "show_intensity": true,
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
     "show_in_info": true
   }
 ]

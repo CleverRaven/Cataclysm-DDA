@@ -21,6 +21,7 @@
       {
         "name": "bile splatter",
         "sym": "}",
+        "color": "pink",
         "effects": [
           { "effect_id": "slippery_terrain", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
         ]
@@ -28,13 +29,13 @@
       {
         "name": "bile stain",
         "effects": [
-          { "effect_id": "slippery_terrain", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          { "effect_id": "slippery_terrain", "intensity": 2, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
         ]
       },
       {
         "name": "puddle of bile",
         "effects": [
-          { "effect_id": "slippery_terrain", "intensity": 1, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          { "effect_id": "slippery_terrain", "intensity": 3, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
         ]
       }
     ],
@@ -42,7 +43,7 @@
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
-    "half_life": "1 days",
+    "half_life": "30 minutes",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,

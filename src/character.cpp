@@ -319,7 +319,6 @@ static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
-static const json_character_flag json_flag_NON_SLIP( "NON_SLIP" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
@@ -445,6 +444,7 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
@@ -7994,15 +7994,16 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
     }
 
-    map &here = get_map();
+map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( pos() );
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
-    if( ( ( has_effect( effect_slippery_terrain ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) || worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
+
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
             rolls += 2;
         }
-        if( !has_effect( effect_slippery_terrain ) || has_trait( trait_PROF_SKATER ) ) {
+        if( has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
         if( has_trait( trait_DEFT ) ) {
@@ -8030,6 +8031,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
 
     enchantment_cache->cast_hit_me( *this, source );
 }
+
 
 /*
     Where damage to character is actually applied to hit body parts
@@ -10719,7 +10721,7 @@ void Character::process_effects()
         terminating_effects.pop();
     }
 
-    if ( has_effect( effect_boomered ) && one_in( 30 ) && !has_effect( effect_pre_conjunctivitis_bacterial ) && !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) && !has_effect( effect_conjunctivitis_viral ) && !has_trait_flag( json_flag_INFECTION_IMMUNE ) ) {
+    if ( has_effect( effect_boomered ) && ( is_npc() || is_avatar() ) && one_in( 30 ) && !has_effect( effect_pre_conjunctivitis_bacterial ) && !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) && !has_effect( effect_conjunctivitis_viral ) && !has_trait_flag( json_flag_INFECTION_IMMUNE ) ) {
         //Washing your eyes out in time may save you from getting pinkeye.
         float checked_health = get_lifestyle() + 200.0;
         //Some animal eyes are more vulnerable to infection.
@@ -10743,32 +10745,41 @@ void Character::process_effects()
         }
     }
 
-    map &here = get_map();
-    if( is_running() && has_effect( effect_slippery_terrain ) && !has_effect( effect_downed ) && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) && !has_trait_flag( json_flag_NON_SLIP ) ) {
-        int rolls = 5;
-        bool u_see = get_player_view().sees( *this );
-        if( has_trait( trait_DEFT ) ) {
-            rolls--;
-        }
-        //We're used to everything being slippery.
-        if( has_trait( trait_SLIMY ) || has_trait( trait_AQUEOUS ) ) {
-            rolls--;
-        }
-        if( has_trait( trait_CLUMSY ) ) {
-            rolls++;
-        }
-            if( balance_roll() < dice( rolls, 10 ) ) {
-            if( !is_avatar() ) {
-                if( u_see ) {
-                    add_msg( _( "%1$s slips and falls!" ), get_name() );
-                }
-            } else {
-                add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
-            }
-            add_effect( effect_downed, rng( 1_turns, 3_turns ) );
-        }
-    }
 
+    if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() ) {
+        map &here = get_map();
+            if here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) {
+            int rolls = 1;
+            bool u_see = get_player_view().sees( *this );
+            if( has_trait( trait_DEFT ) ) {
+                rolls--;
+            }
+            if( is_running() || ( ( worn_with_flag( flag_ROLLER_ONE ) || worn_with_flag( flag_ROLLER_INLINE ) || worn_with_flag( flag_ROLLER_QUAD ) ) && !has_trait( trait_PROF_SKATER ) ) ) {
+                rolls++;
+            }
+            //Slimy people are used to everything being slippery.
+            if( has_trait( trait_SLIMY ) || has_trait( trait_AQUEOUS ) || has_trait( trait_MUCUS_SECRETION ) ) {
+                rolls--;
+            }
+            if( has_trait( trait_CLUMSY ) ) {
+                rolls++;
+            }
+            int intensity = get_effect_int( effect_slippery_terrain );
+            rolls += intensity;        
+            //A healthy unencumbered person with 18 dex can usually walk across a moderately slippery surface without issue.
+            //Survivors rarely meet those qualifications in practice.
+                if( balance_roll() < dice( rolls, 6 ) ) {
+                if( !is_avatar() ) {
+                    if( u_see ) {
+                        add_msg( _( "%1$s slips and falls!" ), get_name() );
+                    }
+                } else {
+                    add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
+                }
+                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+                }
+            }
+    }
     Creature::process_effects();
 }
 

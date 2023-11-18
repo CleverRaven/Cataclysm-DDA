@@ -111,6 +111,7 @@ static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
@@ -3256,6 +3257,18 @@ void monster::process_effects()
         }
     }
 
+    // Check to see if critter slips on bile or whatever. 
+    //Monsters which are very low to the ground are excluded as well as digging and flying ones.
+    if( has_effect( effect_slippery_terrain ) && !flies() && !digging() !has_flag( mon_flag_IMMOBILE ) && !has_flag ( mon_flag_ATTACK_LOWER ) && !has_effect( effect_downed ) ) {
+        map &here = get_map();
+            if here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) {
+            int intensity = get_effect_int( effect_slippery_terrain );
+            int slipchance = ( round( get_speed(); / 50 ) - round( get_dodge() / 3 ) );
+                if ( intensity + slipchance > (one_in( 10 ) ) ) {
+                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+                }
+           }
+    }
     Creature::process_effects();
 }
 
