@@ -2,31 +2,32 @@
   {
     "type": "npc_class",
     "id": "NC_UICA_NAVAL_POLICE",
-    "//": "An experienced survivor doing low importance work for Hub 01, or working under another ancillary. Has no access to Hub 01s custom gear.",
+    "//": "Security within ships and ports",
     "name": { "str": "Augustmoon Security" },
     "job_description": "Just move along",
     "common": false,
-    "traits": [ { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ 0, 1 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ 0, 2 ] },
-    "worn_override": "NC_ANCILLA_GRUNT_worn",
-    "carry_override": "NC_ANCILLA_GRUNT_carry",
-    "weapon_override": "NC_ANCILLA_GRUNT_wield",
+    "worn_override": "NC_UICA_NAVAL_POLICE_worn",
+    "carry_override": "NC_UICA_NAVAL_POLICE_carry",
+    "weapon_override": "NC_UICA_NAVAL_POLICE_wield",
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "shotgun", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } }
     ]
   },
   {
     "type": "item_group",
-    "id": "NC_ANCILLA_GRUNT_worn",
+    "id": "NC_UICA_NAVAL_POLICE_worn",
     "subtype": "collection",
     "items": [
-      { "group": "military_ballistic_vest_pristine" },
+      { "item": "afs_military_vest" },
       { "item": "legpouch_large", "contents-group": "army_mags_m4" },
       { "item": "afs_jumpsuit_military" },
       { "item": "boots_combat" },
@@ -38,7 +39,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ANCILLA_GRUNT_carry",
+    "id": "NC_UICA_NAVAL_POLICE_carry",
     "subtype": "collection",
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -49,7 +50,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ANCILLA_GRUNT_wield",
+    "id": "NC_UICA_NAVAL_POLICE_wield",
     "subtype": "collection",
     "items": [
       {

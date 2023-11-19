@@ -1,0 +1,29 @@
+[
+  {
+    "type": "npc",
+    "id": "augustmoon_shipping_chief",
+    "class": "NC_PORT_WORKER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_shipping_chief",
+    "faction": "UICA"
+  },
+  {
+    "id": "TALK_AUGUSTMOON_shipping_chief",
+    "type": "talk_topic",
+    "dynamic_line": "Interested in booking passage planetside?",
+    "responses": [
+      { "text": "Sure thats why I'm here", "topic": "TALK_AUGUSTMOON_shipping_landing" },
+      { "text": "…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_shipping_chief",
+    "type": "talk_topic",
+    "dynamic_line": "Interested in booking passage planetside?",
+    "responses": [
+      { "text": "Sure thats why I'm here", "topic": "TALK_AUGUSTMOON_shipping_landing" },
+      { "text": "I need to settle a few things first", "topic": "TALK_DONE" }
+    ]
+  }
+]
