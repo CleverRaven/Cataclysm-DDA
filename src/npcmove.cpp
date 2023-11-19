@@ -437,7 +437,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     if( enemy && candidate_gun && !my_gun ) {
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s has a gun and %s doesn't; %s adjusts threat accordingly.",
-                       candidate.disp_name( true ), name, name );
+                       candidate.disp_name(), name, name );
         candidate_weap_val *= 1.5f;
     }
     threat += candidate_weap_val;
@@ -477,12 +477,12 @@ float npc::evaluate_self( bool my_gun ) const
     // the worse pain the NPC is in, the more likely they are to overestimate the severity of their injuries.
     // the more perceptive they are, the more they're able to see how bad it really is.
     float pain_factor = rng( 0.0f,
-                             static_cast<float>( get_pain() ) / static_cast<float>( get_per() ) ) );
+                             static_cast<float>( get_pain() ) / static_cast<float>( get_per() ) );
     float my_health = ( hp_percentage() - pain_factor ) / 100.0f;
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
-    speed = std::max( speed, 0.75f );
+        speed = std::max( speed, 0.75f );
     }
 
     threat += get_dodge();
@@ -503,7 +503,8 @@ float npc::evaluate_self( bool my_gun ) const
                    name, speed * 100.0f );
     threat *= my_health;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "%s scales own threat by %1.0f%% based on remaining health.", name, my_health * 100.0f );
+                   "%s scales own threat by %1.0f%% based on remaining health (reduced by %1.2f%% due to pain).", name,
+                   my_health * 100.0f, pain_factor );
     add_msg_debug( debugmode::DF_NPC, "%s assesses own threat as %1.2f", name, threat );
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
