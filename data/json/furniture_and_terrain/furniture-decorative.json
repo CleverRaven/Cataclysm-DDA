@@ -136,12 +136,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        {
-          "item": "splinter",
-          "count": [ 9, 12 ]
-        }
-      ]
+      "items": [ { "item": "splinter", "count": [ 9, 12 ] } ]
     }
   },
   {
