@@ -28,7 +28,7 @@
     ]
   },
   {
-    "//": "This is a fallback allowing preexisting farm plots to gain recipes that otherwise would be gained on expansion creation",
+    "//": "This is a fallback created during 0.G allowing preexisting farm plots to gain recipes that otherwise would be gained on expansion creation.",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmf_2_fallback_recipe_1",
