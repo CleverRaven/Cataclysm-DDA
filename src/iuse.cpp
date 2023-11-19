@@ -165,6 +165,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
@@ -1634,6 +1635,15 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
+                if( mon->has_flag( mon_flag_EATS ) ) {
+            int kcal = it->get_comestible()->default_nutrition.kcal();
+            mon->amount_eaten += kcal;
+            if( mon->amount_eaten >= mon->stomach_size ) {
+                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
+            }
+        } else if( !mon->has_flag( mon_flag_EATS ) ) {
+            mon->add_effect( effect_critter_well_fed, 24_hours );
+        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );

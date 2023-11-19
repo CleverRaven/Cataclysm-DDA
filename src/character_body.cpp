@@ -132,7 +132,6 @@ void Character::update_body_wetness( const w_point &weather )
             }
 
             // Make clothing slow down drying
-            
             const float base_clothing_mult = worn.clothing_wetness_mult( bp );
             // always some evaporation even if completely covered
             // doesn't handle things that would be "air tight"

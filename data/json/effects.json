@@ -2815,7 +2815,7 @@
     "type": "effect_type",
     "id": "pre_conjunctivitis_viral",
     "show_in_info": false,
-    "immune_flags": [ "NO_DISEASE", "SEESLEEP"  ],
+    "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
     "blood_analysis_description": "Viral Infection",
     "max_duration": "71 h"
   },
@@ -2824,7 +2824,7 @@
     "type": "effect_type",
     "id": "pre_conjunctivitis_bacterial",
     "show_in_info": false,
-    "immune_flags": [ "NO_DISEASE", "SEESLEEP"  ],
+    "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
     "blood_analysis_description": "Bacterial Infection",
     "max_duration": "71 h"
   },
