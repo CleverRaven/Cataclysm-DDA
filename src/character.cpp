@@ -341,6 +341,7 @@ static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
+static const limb_score_id limb_score_footing( "footing" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_lift( "lift" );
 static const limb_score_id limb_score_manip( "manip" );
@@ -1857,11 +1858,10 @@ void Character::dismount()
 float Character::balance_roll() const
 {
     /** @EFFECT_DEX improves player balance roll */
-    /** Balance and reaction scores influence stability rolls */
+    /** Balance and footing influence stability rolls */
     /** @EFFECT_SWIMMING improves player stability roll */
     return ( get_dex() + get_skill_level( skill_swimming ) ) * ( ( get_limb_score(
-                limb_score_balance ) * 3 + get_limb_score(
-                limb_score_reaction ) ) / 4.0f );
+                limb_score_balance ) * 3 + get_limb_score( limb_score_footing ) ) / 4.0f );
 }
 
 float Character::stability_roll() const
