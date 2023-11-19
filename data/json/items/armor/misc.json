@@ -319,7 +319,7 @@
     "name": { "str": "Boston-Chan wig" },
     "description": "A long blue hair wig for the Boston-Chan costume.",
     "weight": "125 g",
-    "volume": "0.75 L",
+    "volume": "750 ml",
     "price": 2500,
     "price_postapoc": 10,
     "to_hit": -3,
