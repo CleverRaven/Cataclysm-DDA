@@ -1084,7 +1084,7 @@ class npc : public Character
         bool invoke_item( item * ) override;
 
         /** rates how dangerous a target is */
-        float evaluate_monster( const Creature &target ) const;
+        float evaluate_monster( const monster &target, int dist ) const;
         float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
         float evaluate_self( bool my_gun ) const;
 
