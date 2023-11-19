@@ -1712,7 +1712,7 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
                                   const time_duration &dur, bool permanent, int intensity, bool force )
 {
     return add_liquid_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID(), permanent,
-                           intensity, force );
+                              intensity, force );
 }
 
 void Creature::clear_effects()
