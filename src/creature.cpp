@@ -1694,7 +1694,7 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
                         true );
             return true;
         } else {
-        return false;
+            return false;
         }
     }
     const Character *c = as_character();
