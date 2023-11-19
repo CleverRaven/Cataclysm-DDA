@@ -3323,9 +3323,9 @@ void monster::process_effects()
             if( intensity + slipchance > ( dice( 1, 12 ) ) ) {
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
                 add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
-                            name() );
-                }
-           }
+                                        name() );
+            }
+        }
     }
 
     Creature::process_effects();
