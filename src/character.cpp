@@ -10724,7 +10724,10 @@ void Character::process_effects()
         terminating_effects.pop();
     }
 
-    if ( has_effect( effect_boomered ) && ( is_avatar() || is_npc() ) && one_in( 10 ) && !has_trait ( trait_COMPOUND_EYES ) && !has_effect( effect_pre_conjunctivitis_bacterial ) && !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) && !has_effect( effect_conjunctivitis_viral ) ) {
+    if( has_effect( effect_boomered ) && ( is_avatar() || is_npc() ) && one_in( 10 ) &&
+        !has_trait( trait_COMPOUND_EYES ) && !has_effect( effect_pre_conjunctivitis_bacterial ) &&
+        !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) &&
+        !has_effect( effect_conjunctivitis_viral ) ) {
         //Washing your eyes out in time may save you from getting pinkeye.
         float checked_health = get_lifestyle() + 200.0;
         //Some animal eyes are more vulnerable to infection.
