@@ -176,7 +176,14 @@
     "type": "effect_on_condition",
     "id": "EOC_CONJUNCTIVITIS",
     "recurrence": [ "10 minutes", "45 minutes" ],
-    "condition": { "and": [ { "or": [ { "u_has_effect": "conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_bacterial" } ] }, { "not": { "u_has_effect": "formication" } }, { "not": { "u_has_effect": "took_antihistamine" } }, { "not": { "u_has_effect": "sleep" } } ] },
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_bacterial" } ] },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
     "effect": [ { "u_add_effect": "formication", "duration": "5 minutes", "target_part": "head" } ]
   }
 ]
