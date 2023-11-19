@@ -2927,6 +2927,8 @@
       "asthma",
       "common_cold",
       "flu",
+      "pre_conjunctivitis_viral",
+      "pre_conjunctivitis_bacterial",
       "conjunctivitis_viral",
       "conjunctivitis_bacterial"
     ],
