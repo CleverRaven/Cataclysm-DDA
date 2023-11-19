@@ -1817,7 +1817,16 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "tshirt", 1 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 1 ], [ "tshirt_text", 1 ] ] ],
+    "components": [
+      [
+        [ "tshirt", 1 ],
+        [ "flag_shirt", 1 ],
+        [ "linuxtshirt", 1 ],
+        [ "tshirt_tour", 1 ],
+        [ "technician_shirt_gray", 1 ],
+        [ "tshirt_text", 1 ]
+      ]
+    ],
     "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
@@ -2620,7 +2629,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "9 h 10 m",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
@@ -2651,7 +2660,7 @@
     "difficulty": 6,
     "time": "9 h 10 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]

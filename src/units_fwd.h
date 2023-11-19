@@ -16,6 +16,10 @@ class volume_in_milliliter_tag
 
 using volume = quantity<int, volume_in_milliliter_tag>;
 
+class mass_in_microgram_tag
+{
+};
+
 class mass_in_milligram_tag
 {
 };

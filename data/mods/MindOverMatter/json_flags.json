@@ -30,6 +30,11 @@
     "info": "This is a matrix crystal attuned to clairsentience."
   },
   {
+    "id": "MATRIX_CRYSTAL_PHOTOKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to photokinesis."
+  },
+  {
     "id": "MATRIX_CRYSTAL_PYROKINESIS",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to pyrokinesis."
@@ -63,6 +68,20 @@
     "id": "ENERVATE_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to cellular breakdown"
+  },
+  {
+    "id": "PHOTOKINETIC",
+    "type": "json_flag"
+  },
+  {
+    "id": "PHOTOKIN_CHAR_IMMUNE",
+    "type": "json_flag",
+    "//": "Immune to photokinetic damage"
+  },
+  {
+    "id": "PHOTOKIN_MONSTER_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to photokinetic damage"
   },
   {
     "id": "TELEKIN_IMMUNE",

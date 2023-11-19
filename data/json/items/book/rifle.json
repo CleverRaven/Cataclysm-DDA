@@ -9,26 +9,22 @@
       {
         "id": "mag_rifle",
         "name": { "str": "Modern Rifleman", "str_pl": "issues of Modern Rifleman" },
-        "description": "An informative magazine all about rifles and shooting.  There is an excellent article about proper maintenance in this issue.",
-        "weight": 1
+        "description": "An informative magazine all about rifles and shooting.  There is an excellent article about proper maintenance in this issue."
       },
       {
         "id": "mag_rifle_1",
         "name": { "str": "American Rifleman", "str_pl": "issues of American Rifleman" },
-        "description": "A monthly shooting and firearms publication, with a lot of articles and comments.",
-        "weight": 1
+        "description": "A monthly shooting and firearms publication, with a lot of articles and comments."
       },
       {
         "id": "mag_rifle_2",
         "name": { "str": "Shooting Stars", "str_pl": "issues of Shooting Stars" },
-        "description": "An annual magazine for marksmen, with lots of articles and papers, as well as reviews of new rifles, optics, and mods.",
-        "weight": 1
+        "description": "An annual magazine for marksmen, with lots of articles and papers, as well as reviews of new rifles, optics, and mods."
       },
       {
         "id": "mag_rifle_3",
         "name": { "str": "The Precisionist", "str_pl": "issues of The Precisionist" },
-        "description": "A dedicated journal about various firearms, their usage, and news about them.  Different articles review new firearm models, old models, new attachments, hunting, maintenance, and a lot of other topics.",
-        "weight": 1
+        "description": "A dedicated journal about various firearms, their usage, and news about them.  Different articles review new firearm models, old models, new attachments, hunting, maintenance, and a lot of other topics."
       }
     ],
     "weight": "100 g",
@@ -55,15 +51,13 @@
       {
         "id": "manual_rifle",
         "name": { "str": "FM 23-16 Army marksmanship manual", "str_pl": "copies of FM 23-16 Army marksmanship manual" },
-        "description": "A hefty military field manual about automatic rifle usage and techniques which improve marksmanship and proper weapons-handling.",
-        "weight": 1
+        "description": "A hefty military field manual about automatic rifle usage and techniques which improve marksmanship and proper weapons-handling."
       },
       {
         "id": "manual_rifle_1",
         "name": { "str": "SAS and Elite Forces Guide Sniper", "str_pl": "copies of SAS and Elite Forces Guide Sniper" },
         "description": "An unofficial guide about the work and skills of British and NATO snipers.  There are a lot of photos of weapons and equipment, but it has a huge lack of details - the most important information is just mentioned or described without any value.",
-        "//": "978-1493036752",
-        "weight": 1
+        "//": "978-1493036752"
       },
       {
         "id": "manual_rifle_2",
@@ -72,36 +66,31 @@
           "str_pl": "copies of Precision Rifle Marksmanship: The Fundamentals"
         },
         "description": "A small book about the use of a rifle as a marksman's tool.  There is plenty of information, but it is too general, and the author talks more about his experience as a sniper than sniping itself.",
-        "//": "978-1951115104",
-        "weight": 1
+        "//": "978-1951115104"
       },
       {
         "id": "manual_rifle_3",
         "name": { "str": "Precision Long Range Shooting And Hunting", "str_pl": "copies of Precision Long Range Shooting And Hunting" },
         "description": "A book about the basics of long-range shooting, written in fairly simple language.",
-        "//": "978-1979598699",
-        "weight": 1
+        "//": "978-1979598699"
       },
       {
         "id": "manual_rifle_4",
         "name": { "str": "The Marine Sniping Handbook", "str_pl": "copies of The Marine Sniping Handbook" },
         "description": "The Official (or at least so it says) marksmanship guide for scout snipers.  With lots of essential info, it gives a pretty good foundation to anyone who knows how to use a rifle.",
-        "//": "978-1792182938",
-        "weight": 1
+        "//": "978-1792182938"
       },
       {
         "id": "manual_rifle_5",
         "name": { "str": "How to Shoot", "str_pl": "copies of How to Shoot" },
         "description": "A reprint of a 1917 book about rifle shooting and maintenance.  It is surprisingly detailed, and contains lots of information, even if the language is fairly old-fashioned.",
-        "//": "978-0267853731",
-        "weight": 1
+        "//": "978-0267853731"
       },
       {
         "id": "manual_rifle_6",
         "name": { "str": "Rifle Shooting for Beginners", "str_pl": "copies of Rifle Shooting for Beginners" },
         "description": "A guide to shooting sports that explains the basics of equipment usage, judging distance, aiming, breathing, movement, and trigger discipline alongside a lot of other essential info.",
-        "//": "979-8355590895",
-        "weight": 1
+        "//": "979-8355590895"
       },
       {
         "id": "manual_rifle_7",
@@ -110,8 +99,7 @@
           "str_pl": "copies of Great Hunting Rifles: Victorian to the Present"
         },
         "description": "A history of some of the most exquisite rifles made in the twentieth century, written with a lot of love and attention to detail.",
-        "//": "978-1510731691",
-        "weight": 1
+        "//": "978-1510731691"
       },
       {
         "id": "manual_rifle_8",
@@ -119,8 +107,7 @@
           "str": "FM 3-22.9: Rifle Marksmanship M16-/M4- Series",
           "str_pl": "copies of FM 3-22.9: Rifle Marksmanship M16-/M4- Series"
         },
-        "description": "An official U.S. Army manual that provides guidance for the planning and execution of training with the 5.56mm M16-series rifle and M4 carbine.",
-        "weight": 1
+        "description": "An official U.S. Army manual that provides guidance for the planning and execution of training with the 5.56mm M16-series rifle and M4 carbine."
       },
       {
         "id": "manual_rifle_9",
@@ -128,36 +115,31 @@
           "str": "FM 3-22.68: Crew-Served Machine Guns 5.56-mm And 7.62-mm",
           "str_pl": "copies of FM 3-22.68: Crew-Served Machine Guns 5.56-mm And 7.62-mm"
         },
-        "description": "An official U.S. Army manual which is a comprehensive guide about using the M240 and M249 crew-served machine guns, with excellent examples and a lot of theory.",
-        "weight": 1
+        "description": "An official U.S. Army manual which is a comprehensive guide about using the M240 and M249 crew-served machine guns, with excellent examples and a lot of theory."
       },
       {
         "id": "manual_gun_10",
         "name": { "str": "Adaptive Rifle", "str_pl": "copies of Adaptive Rifle" },
         "description": "A book containing different training methods for carbine users from world champion shooters, aimed toward civilians, law enforcement, and military shooters.",
-        "//": "979-8360280453",
-        "weight": 1
+        "//": "979-8360280453"
       },
       {
         "id": "manual_gun_11",
         "name": { "str": "The Art of the Rifle", "str_pl": "copies of The Art of the Rifle" },
         "description": "This book covers the fundamentals of rifle shooting, including stance, grip, sight alignment, and trigger control.",
-        "//": "978-1581605921",
-        "weight": 1
+        "//": "978-1581605921"
       },
       {
         "id": "manual_gun_12",
         "name": { "str": "Shooter's Bible Guide to Rifle Ballistics", "str_pl": "copies of Shooter's Bible Guide to Rifle Ballistics" },
         "description": "A comprehensive guide to the principles of rifle ballistics, including information on bullet types, trajectory, and wind drift.",
-        "//": "978-1510760042",
-        "weight": 1
+        "//": "978-1510760042"
       },
       {
         "id": "manual_gun_13",
         "name": { "str": "The Gun", "str_pl": "copies of The Gun" },
         "description": "A giant, 500-page history about the AK-47—the most popular firearm in the world—and the information around it: the mechanics of the weapon, its usage, maintenance, modifications, and its impact on global conflicts.",
-        "//": "978-0743270762",
-        "weight": 1
+        "//": "978-0743270762"
       }
     ],
     "weight": "454 g",

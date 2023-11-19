@@ -101,6 +101,7 @@
       {
         "id": "scratch",
         "cooldown": 1,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
       {

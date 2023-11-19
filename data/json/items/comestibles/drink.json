@@ -82,7 +82,7 @@
     "healthy": -1,
     "addiction_potential": 8,
     "calories": 35,
-    "description": "This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has been carefully extracted for your enjoyment, using the power of the atom.",
+    "description": "This serving of coffee has twice as much coffee as black coffee, as well as some caffeine pills and sugar for good measure.  You didn't plan to sleep this week anyway, right?",
     "price": 300,
     "price_postapoc": 100,
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],

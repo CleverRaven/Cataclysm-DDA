@@ -901,6 +901,23 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "small_plant",
+    "name": { "str": "small plant" },
+    "weight": "100 g",
+    "color": "green",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 50,
+    "vitamins": [  ],
+    "description": "A small plant or flower, edible by grazers and ruminants only.  Seeing this item is a bug.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "veggy" ],
+    "flags": [ "TRADER_AVOID" ],
+    "volume": "250 ml"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "underbrush",
     "name": { "str": "underbrush", "str_pl": "underbrushes" },
     "weight": "100 g",

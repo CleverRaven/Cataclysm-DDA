@@ -27,6 +27,7 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 
 static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
 static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
+static const oter_type_str_id oter_type_bandit_drug_lab( "bandit_drug_lab" );
 static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
 static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
 static const oter_type_str_id oter_type_deserter_city_gate( "deserter_city_gate" );
@@ -312,6 +313,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     std::unordered_set<oter_type_id> whitelist = {
         oter_type_ants_lab.id(), // ant lab is a very improbable spawn
         oter_type_ants_lab_stairs.id(),
+        oter_type_bandit_drug_lab.id(),
         oter_type_bunker_shop_b.id(),
         oter_type_bunker_shop_g.id(),
         oter_type_deserter_city_gate.id(),

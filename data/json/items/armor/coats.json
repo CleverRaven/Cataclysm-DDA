@@ -204,8 +204,7 @@
         "id": "coat_tiger_fur",
         "name": { "str": "tiger-skin overcoat" },
         "description": "This is a vintage tiger skin jacket smelling distinctly of mothballs, possessing an alternating blend of orange, white, and black striations ribbing its shaggy exterior, broadly flaring hips, and an interior lining of velvety chinchilla fur.  Illegal, before the Cataclysm, to either produce or sell, this coat is almost certainly one of the last of its kind and would make for a killer fashion statement, if you don’t mind wearing the skin of a murdered, endangered animal, that is.",
-        "color": "red",
-        "weight": 1
+        "color": "red"
       }
     ]
   },
@@ -1164,7 +1163,6 @@
         "name": { "str": "skull chef's jacket" },
         "description": "It's colored white, and the front and back are printed with a giant skull between crossed kitchen knives.  Perfect for the apocalyptic chef.",
         "symbol": "S",
-        "weight": 1,
         "append": true
       }
     ]
@@ -3343,6 +3341,7 @@
     "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
+    "looks_like": "cassock",
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 1,

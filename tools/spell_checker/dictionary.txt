@@ -1,4 +1,10 @@
 abcdefghijklmnopqrstuvwxyz
+moulinet
+backswings
+backswing
+buttstroke
+spraining
+parrying
 aberrance
 aboveground
 abso
@@ -569,7 +575,6 @@ coalesces
 coati
 coatings
 coatis
-cockatrice
 cods
 coeculus
 coelophysis
@@ -978,6 +983,7 @@ everfrost
 eviscerations
 exactingly
 exchangeable
+exchanger
 excreta
 excretions
 exhorts
@@ -985,6 +991,7 @@ existentialists
 exobay
 exodii
 exoplanet
+exoplanetary
 exosuit
 exosuits
 expansionary
@@ -2472,6 +2479,7 @@ reclines
 recolherem
 recrafted
 recursively
+recuperator
 recurve
 recutita
 recycler
@@ -3141,6 +3149,7 @@ uncleaned
 uncluttered
 uncoiling
 uncoils
+uncontacted
 uncured
 undecipherable
 underbarrel
@@ -3460,6 +3469,7 @@ zuniceratops
 zuul
 zweitimber
 zygomaticus
+shivs
 zzz
 zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus

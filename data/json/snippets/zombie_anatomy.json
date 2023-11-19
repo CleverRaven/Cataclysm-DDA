@@ -35,6 +35,19 @@
       "Some organs have atrophied or outright dissolved entirely.",
       "The heart is overtaken by a mass of fistulas and other growths.",
       "The thing's innards resemble one giant tumor more than the body of a human being.",
+      "The thing's feet are entirely calloused and the smaller toes are completely vestigal, simply a bump with a dead nail on them.",
+      "This person had a tattoo on their arm - said tattoo has reappeared in multiple spots along the inner tissues and the walls of organs.",
+      "The front part of the brain is completely missing, with spongy, half-formed bone in its place.",
+      "While its individual fingers appear to be losing their dexterity, the zombie's flexor muscles are tense and swollen.",
+      "This person had an artificial hip, but it's completely overgrown with bone now.",
+      "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
+      "The heart makes an odd, swallowing sound on occasion as you work around it.",
+      "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
+      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
+      "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
+      "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
+      "While some parts of the blackened brain have lost their wrinkles, in others the wrinkles are surprisingly uniform.",
       "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
       "Its tissue has significant trouble separating from the bone in some spots.",
       "The skin is loose on the muscle in some places and melded with it in others.",
@@ -53,6 +66,14 @@
       "The heart is overtaken by a mass of fistulas and other growths.",
       "The thing's innards resemble one giant tumor more than the body of a living being.",
       "The thing has extra teeth leading all the way down into the stomach.",
+      "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
+      "The heart makes an odd, swallowing sound on occasion as you work around it.",
+      "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
+      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
+      "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
+      "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
+      "While some parts of the blackened brain have lost their wrinkles, in others the wrinkles are surprisingly uniform.",
       "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
       "Its tissue has significant trouble separating from the bone in some spots.",
       "The skin is loose on the muscle in some places and melded with it in others.",
@@ -101,6 +122,7 @@
     "text": [
       "The sheer pungent acrid odor of the carcass makes you temporarily recoil and reconsider the safety of delving into its entrails.",
       "The sputters of acid on your gear you earned by digging into this corpse could maybe warrant the use of some water to douse.",
+      "Pressed against the liver is a swollen gland the size of a golfball, still somewhat functioning, pumping out acrid fluids.",
       "Most cavities in its anatomy seem to have been filled with an acidic solution mixed with a foul black liquid and pieces of its slowly melting tissues.",
       "You are almost certain that its flesh should not be able to contain such a virulently aggressive liquid, yet, it does.",
       "You have to step back as a gland you inadvertently cut into seems to perform a neutralization reaction between its contents and the rest of its fluids."
@@ -114,6 +136,7 @@
       "The sputters of acid on your gear you earned by digging into this corpse could maybe warrant the use of some water to douse.",
       "Most cavities in its anatomy seem to have been filled with an acidic solution mixed with a foul black liquid and pieces of its slowly melting tissues.",
       "You are almost certain that its flesh should not be able to contain such a virulently aggressive liquid, yet, it does.",
+      "Pressed against the liver is a swollen gland the size of a golfball, still somewhat functioning, pumping out acrid fluids.",
       "You have to step back as a gland you inadvertently cut into seems to perform a neutralization reaction between its contents and the rest of its fluids."
     ]
   },
@@ -201,6 +224,7 @@
       "Uncomfortable static forces you to ground yourself multiple times during your work.",
       "A roaming insect attracted by the carcass gets fried after landing on an organ glowing a faint blue, making you decide to avoid it with the utmost care.",
       "The creature's heart seems to still be beating, but rather than pumping blood, it strangely reminds you of some sort of biological dynamo.",
+      "There are bundles of nerves snaking all throughout the tissues, still channeling small amounts of electricity.",
       "The blackened veins of the creature seem strangely rigid, and you see faint crackles of electricity course across them."
     ]
   },

@@ -29,6 +29,13 @@
     "looks_like": "fd_acid"
   },
   {
+    "id": "fd_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
+    "half_life": "10 seconds",
+    "percent_spread": 50
+  },
+  {
     "id": "fd_gibs_flesh",
     "type": "field_type",
     "legacy_enum_id": 3,

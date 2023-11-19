@@ -442,9 +442,12 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
-    int hostile_count = 0;
+    int hostile_count = 0; // for tallying nearby threatening enemies
+    int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
+    bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -562,13 +565,18 @@ void npc::assess_danger()
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
         float critter_threat = evaluate_enemy( critter );
-        hostile_count += 1;
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
         if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+            }
+            if( dist < 8 && critter_threat > bravery_vs_pain ) {
+                hostile_count += 1;
+            }
+            if( dist < 4 && npc_ranged ) {
+                swarm_count += 1;
             }
         }
         if( must_retreat || no_fighting ) {
@@ -650,8 +658,6 @@ void npc::assess_danger()
             }
         }
 
-
-
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
                                        is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
@@ -666,7 +672,6 @@ void npc::assess_danger()
         }
         return foe_threat;
     };
-
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
@@ -685,15 +690,12 @@ void npc::assess_danger()
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
 
-    // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
-    if( hostile_count > friendly_count ) {
-        assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
-    }
-
     if( sees( player_character.pos() ) ) {
         // Mod for the player's danger level, weight it higher if player is very close
         // When the player is almost adjacent, it can exceed max danger ratings, so the
         // NPC will try hard not to break and run while in formation.
+        // This code should eventually remove the 'player' special case and be applied to
+        // whoever the NPC perceives as their closest leader.
         float player_diff = evaluate_enemy( player_character );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
@@ -703,6 +705,9 @@ void npc::assess_danger()
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             if( dist <= 3 ) {
                 assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
+                swarm_count = 0;
+                // don't try to fall back with your ranged weapon if you're in formation with the player.
+                friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
@@ -710,18 +715,33 @@ void npc::assess_danger()
         }
     }
 
+    // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
+    // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
+    // how much pain they're currently experiencing. This means a very brave NPC might ignore
+    // large crowds of minor creatures, until they start getting hurt.
+    if( hostile_count > friendly_count ) {
+        assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
+    }
+
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0,
-                        ( personality.bravery - get_pain() / 10 ) * 2 ) ;
+        float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
+                        + rng( -5, 5 ) + rng( -3, 3 );
         add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
-            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
+            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery
+                                         + 1_turns * static_cast<int>( get_pain() / 5 );
             warn_about( "run_away", run_away_for );
+            add_effect( effect_npc_run_away, run_away_for );
+            path.clear();
+        } else if( npc_ranged && my_diff < assessment * swarm_count ) {
+            // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
+            time_duration run_away_for = 2_turns;
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
         }
     }
+
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
         direction threat_dir = npc_threat_dir[i];
@@ -1569,29 +1589,36 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-static bool wants_to_reload( const npc &who, const item &it )
+static bool wants_to_reload( const npc &guy, const item &candidate )
 {
-    if( !who.can_reload( it ) ) {
+    if( !candidate.is_reloadable() ) {
+        if( !candidate.is_magazine() || !candidate.is_gun() ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered reloading %s, but decided it was silly.",
+                           guy.name, candidate.tname() );
+        } else {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s considered reloading %s, but feels it is inappropriate.", guy.name, candidate.tname() );
+        }
+
         return false;
     }
 
-    const int required = it.ammo_required();
+    if( !guy.can_reload( candidate ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s doesn't think they can reload %s.", guy.name,
+                       candidate.tname() );
+        return false;
+    }
+
+    const int required = candidate.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
-    if( required < 1 && !it.is_magazine() ) {
+    if( required < 1 && !candidate.is_magazine() ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s couldn't find requirements to reload %s.", guy.name,
+                       candidate.tname() );
         return false;
     }
-
-    const int remaining = it.ammo_remaining();
-    // return early just in case there is no ammo
-    if( remaining < required ) {
-        return true;
-    }
-
-    if( !it.ammo_data() || !it.ammo_data()->ammo ) {
-        return false;
-    }
-
-    return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
+    add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s might try reloading %s.", guy.name,
+                   candidate.tname() );
+    return true;
 }
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
@@ -1632,6 +1659,7 @@ item_location npc::find_reloadable()
         const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node_loc;
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s has decided to reload %s!", name, node->tname() );
             return VisitResponse::ABORT;
         }
 
@@ -1943,10 +1971,13 @@ npc_action npc::address_needs( float danger )
         return npc_reload;
     }
 
-    item_location reloadable = find_reloadable();
-    if( reloadable ) {
-        do_reload( reloadable );
-        return npc_noop;
+    if( one_in( 3 ) ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s decided to look into reloading items.", name );
+        item_location reloadable = find_reloadable();
+        if( reloadable ) {
+            do_reload( reloadable );
+            return npc_noop;
+        }
     }
 
     // Extreme thirst or hunger, bypass safety check.
@@ -2229,7 +2260,8 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
     const Creature *target = current_target();
     if( target == nullptr ) {
-        // No target, plenty of time to reload
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s can't see anyone around: great time to reload.",
+                       name );
         return true;
     }
 
@@ -2237,17 +2269,21 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
-        const Character &c = dynamic_cast<const Character &>( *target );
-        const item_location weapon = c.get_wielded_item();
+        const Character &foe = dynamic_cast<const Character &>( *target );
+        const item_location weapon = foe.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
-        if( sees( c ) && weapon && weapon->is_gun() && rltime > 200 &&
+        if( sees( foe ) && weapon && weapon->is_gun() && rltime > 200 &&
             weapon->gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s is shy about reloading with &s standing right there.",
+                           name, foe.name );
             return false;
         }
     }
 
     // TODO: Handle monsters with ranged attacks and players with CBMs
+    add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s turns to reload: %i./nTurns til reached: %i.", name,
+                   static_cast<int>( turns_til_reloaded ), static_cast<int>( turns_til_reached ) );
     return turns_til_reloaded < turns_til_reached;
 }
 
@@ -2936,6 +2972,8 @@ void npc::find_item()
 
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "%s considered picking something up but player said not to.", name );
         return;
     }
 
@@ -2952,6 +2990,8 @@ void npc::find_item()
     const item *wanted = nullptr;
 
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
+                       name );
         return;
     }
 
@@ -3007,6 +3047,8 @@ void npc::find_item()
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s didn't pick up an item because it's in a no-pickup zone.", name );
             continue;
         }
 

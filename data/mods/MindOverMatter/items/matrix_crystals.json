@@ -74,6 +74,36 @@
   },
   {
     "type": "TOOL",
+    "id": "matrix_crystal_photokinesis",
+    "name": { "str_sp": "strange crystal, golden" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing golden light in its depths.  Holding it, you feel radiant.",
+    "color": "yellow",
+    "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The golden glow calls to you.",
+      "effect_on_conditions": [ "EOC_PHOTOKIN_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_photokin_dust",
+    "name": { "str_sp": "crystalline dust, golden" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint golden shimmer.",
+    "color": "yellow"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_photokin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, golden" },
+    "description": "Concentrated matrix crystal dust.  It glitters gold even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "yellow"
+  },
+  {
+    "type": "TOOL",
     "id": "matrix_crystal_pyrokinesis",
     "name": { "str_sp": "strange crystal, red" },
     "copy-from": "matrix_crystal_biokinesis",

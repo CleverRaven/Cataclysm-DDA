@@ -487,7 +487,7 @@
     "autolearn": true,
     "charges": 182,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
     "tools": [
       [ [ "metalworking_tongs", -1 ] ],
@@ -909,5 +909,29 @@
     "proficiencies": [ { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.1 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "rock_flaking", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "nuts_bolts",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h",
+    "batch_time_factors": [ 25, 2 ],
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "THREAD_CUT", "level": 2 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   }
 ]

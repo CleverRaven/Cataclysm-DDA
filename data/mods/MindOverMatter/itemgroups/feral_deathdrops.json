@@ -30,6 +30,21 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "feral_humans_death_drops_photo",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "item": "knee_pads", "prob": 3, "damage": [ 1, 4 ] },
+      { "group": "homebooks", "prob": 5 },
+      { "item": "heavy_flashlight", "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_photo", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "feral_humans_death_drops_pyro",
     "entries": [
       { "group": "default_zombie_clothes", "prob": 100 },
@@ -114,6 +129,12 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_photo",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_photokinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "feral_humans_crystal_drops_pyro",
     "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_pyrokinesis", "prob": 30 } ]
   },
@@ -186,7 +207,7 @@
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "group": "wallets", "damage": [ 1, 4 ] },
+      { "group": "wallets_phavian", "damage": [ 1, 4 ] },
       { "group": "feral_humans_crystal_drops_bio", "prob": 25 },
       { "group": "feral_humans_crystal_drops_clair", "prob": 25 },
       { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
@@ -207,13 +228,12 @@
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "group": "wallets", "damage": [ 1, 4 ] },
+      { "group": "wallets_phavian", "damage": [ 1, 4 ] },
       { "group": "feral_humans_crystal_drops_bio", "prob": 40 },
       { "group": "feral_humans_crystal_drops_clair", "prob": 40 },
       { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
       { "item": "phavian_psionic_martial_power_book", "prob": 8 },
-      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] },
-      { "item": "id_science_visitor_phavian", "prob": 33 }
+      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] }
     ]
   }
 ]

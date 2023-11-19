@@ -1031,8 +1031,7 @@
       {
         "id": "p320mag_10rd_9x19mm",
         "name": { "str": "M17 10-round magazine" },
-        "description": "A 10-round box magazine for the SIG Sauer P320.  Also compatible with its derivative pistols, the M17 and M18.",
-        "weight": 1
+        "description": "A 10-round box magazine for the SIG Sauer P320.  Also compatible with its derivative pistols, the M17 and M18."
       }
     ],
     "weight": "80 g",
@@ -1058,8 +1057,7 @@
       {
         "id": "p320mag_17rd_9x19mm",
         "name": { "str": "M17 17-round magazine" },
-        "description": "A 17-round double stack box magazine for the SIG Sauer P320.  Also compatible with its derivative pistols, the M17 and M18.",
-        "weight": 1
+        "description": "A 17-round double stack box magazine for the SIG Sauer P320.  Also compatible with its derivative pistols, the M17 and M18."
       }
     ],
     "weight": "105 g",
@@ -1085,8 +1083,7 @@
       {
         "id": "p320mag_21rd_9x19mm",
         "name": { "str": "M17 21-round magazine" },
-        "description": "A 21-round double stack box magazine for the SIG Sauer P320.  Also compatible with its derivative pistols, the M17 and M18.",
-        "weight": 1
+        "description": "A 21-round double stack box magazine for the SIG Sauer P320.  Also compatible with its derivative pistols, the M17 and M18."
       }
     ],
     "weight": "115 g",

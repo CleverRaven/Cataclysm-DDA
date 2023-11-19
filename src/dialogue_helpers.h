@@ -14,8 +14,8 @@
 struct dialogue;
 class npc;
 
-using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
-using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
+using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 
@@ -60,6 +60,7 @@ struct talk_effect_fun_t {
         void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
         void set_if( const JsonObject &jo, std::string_view member );
         void set_switch( const JsonObject &jo, std::string_view member );
+        void set_foreach( const JsonObject &jo, std::string_view member );
         void set_roll_remainder( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_weighted_list_eocs( const JsonObject &jo, std::string_view member );
         void set_mod_healthy( const JsonObject &jo, std::string_view member, bool is_npc );

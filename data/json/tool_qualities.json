@@ -440,5 +440,15 @@
     "type": "tool_quality",
     "id": "BLOW_HOT_AIR",
     "name": { "str": "hot air blowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "THREAD_CUT",
+    "name": { "str": "thread cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "THREAD_TAP",
+    "name": { "str": "thread tapping" }
   }
 ]

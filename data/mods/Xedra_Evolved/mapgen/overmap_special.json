@@ -161,7 +161,8 @@
       { "point": [ 1, 0, -1 ], "overmap": "cathedralv_b_NE_north" },
       { "point": [ 0, 1, -1 ], "overmap": "cathedralv_b_SW_north" },
       { "point": [ 1, 1, -1 ], "overmap": "cathedralv_b_SE_north" }
-    ]
+    ],
+    "spawns": { "group": "GROUP_VAMPIRE_CATHEDRAL", "population": [ 10, 30 ], "radius": [ 1, 8 ] }
   },
   {
     "type": "overmap_special",

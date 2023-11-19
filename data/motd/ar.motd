@@ -1,5 +1,5 @@
-# Lines longer than 78 characters will be wrapped automatically
-# The following line is for reference
+#سيتم لفّ الأسطر الأطول من 78 حرفًا تلقائيًا
+#السطر التالي هو مرجع
 ##############################################################################
 <color_white>زورونا:</color>
 
@@ -38,9 +38,9 @@
 
 <color_white>ج: </color><color_light_gray>نعم. حين أن البنيات التجريبية مستقرة بشكل عام، إلا أنها غير مضمونة حيث قد يتم تقديم الميزات في حالة غير جاهزة أو مقسمة إلى أجزاء، وقد يتسبب ذلك في حدوث أخطاء، بما في ذلك الأخطاء الشديدة التي قد تؤدي إلى تعطل اللعبة أو إتلاف تخزين اللعبة. إنه أمر نادر الحدوث، ولكن نظرًا لتعقيد اللعبة قد تكون مراقبة الجودة الأولية قبل الدمج مع البنية التجريبية غير كافية، وهناك دائمًا مجال للخطأ البشري. لذلك توجد البنيات التجريبية في المقام الأول. </color>
 
-<color_white>Q: </color><color_yellow>Should I play experimental builds then, or stick to stable build?</color>
+<color_white>س:</color><color_yellow>هل يجب أن ألعب الإصدارات التجريبية بعد ذلك، أم ألتزم بالإصدارات المستقرة؟</color>
 
-<color_white>A: </color><color_light_gray>The reward is instant access to the newest content, the risk is losing your game progress if a nasty bug emerges.  It is always your choice to play experimental builds, with a stable build available, so play at your own discretion.  You take all of the burden if something goes wrong, so be warned.  Take precautions, make backups.  Sometimes it's even best to postpone updating for few days until a big feature has been stabilized or a significant bug has been removed.</color>
+<color_white>ج:</color><color_light_gray>المكاقئة هيا الحصول على اخر التحديثات المحتوى, المخاطرة هيا فقدان التخزين إذا حصل خطأ كارثي. إنة اختيارك اللعب بالإصدارات التجريبية مع توفر نسخة مستقرة, اللعب على مسؤليتك. أنت تتحمل كل العبء إذا حدث خطأ ما، لذا كن حذرًا. اتخاذ الاحتياطات اللازمة، وعمل نسخ احتياطية. في بعض من الأفضل تأجيل التحديث لبضعة أيام حتى يتم تثبيت ميزة كبيرة أو إزالة خطأ كبير.</color>
 
 <color_white>Q: </color><color_yellow>Should I be aware of anything else?</color>
 

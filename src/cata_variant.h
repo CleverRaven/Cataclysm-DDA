@@ -109,7 +109,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
     constexpr std::array<bool, num_types> matches = {{
-            std::is_same<T, typename convert<static_cast<cata_variant_type>( I )>::type>::value...
+            std::is_same_v<T, typename convert<static_cast<cata_variant_type>( I )>::type>...
         }
     };
     for( size_t i = 0; i < num_types; ++i ) {
@@ -126,7 +126,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 template<typename T>
 struct convert_string {
     using type = T;
-    static_assert( std::is_same<T, std::string>::value,
+    static_assert( std::is_same_v<T, std::string>,
                    "Intended for use only with string typedefs" );
     static std::string to_string( const T &v ) {
         return v;

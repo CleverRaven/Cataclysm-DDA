@@ -2612,6 +2612,10 @@ class Character : public Creature, public visitable
          */
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
+        /** Which body part has the most staunchable bleeding, and what is the max improvement */
+        bodypart_id most_staunchable_bp();
+        bodypart_id most_staunchable_bp( int &max );
+
         void pause(); // '.' command; pauses & resets recoil
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
@@ -2693,6 +2697,12 @@ class Character : public Creature, public visitable
         std::vector <addiction> addictions;
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
+
+        /** Queue an EOC to add effect after a delay */
+        void queue_effect( const std::string &name, const time_duration &delay,
+                           const time_duration &duration );
+        /** Count queued add_effect EOCs for specific effect */
+        int count_queued_effects( const std::string &effect ) const;
 
         /** Adds an addiction to the player */
         void add_addiction( const addiction_id &type, int strength );

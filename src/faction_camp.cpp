@@ -5188,6 +5188,10 @@ bool basecamp::distribute_food()
         if( !it.is_comestible() ) {
             return false;
         }
+        // Always reject in-progress craft item
+        if( it.is_craft() ) {
+            return false;
+        }
         // Stuff like butchery refuse and other disgusting stuff
         if( it.get_comestible_fun() < -6 ) {
             return false;

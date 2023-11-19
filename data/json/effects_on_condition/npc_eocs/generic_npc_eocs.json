@@ -373,5 +373,29 @@
         "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DIVING_INTO_WATER_CHECK",
+    "global": true,
+    "run_for_npcs": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": "u_is_underwater",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_REMOVE_HARD_THINGS_CHECK",
+          "global": false,
+          "eoc_type": "EVENT",
+          "required_event": "avatar_moves",
+          "condition": { "x_in_y_chance": { "x": 1, "y": 10 } },
+          "//": "I would assume that Mycus spores are a bit sticky to keep them from coming off, so this has a chance to be removed instead of a garuntee.",
+          "effect": [ { "u_lose_effect": "spores" } ]
+        }
+      },
+      { "u_lose_effect": "boomered" },
+      { "u_lose_effect": "corroding" }
+    ]
   }
 ]

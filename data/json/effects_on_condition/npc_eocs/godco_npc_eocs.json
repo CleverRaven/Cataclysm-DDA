@@ -63,16 +63,16 @@
     "global": false,
     "condition": {
       "and": [
-        { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 0 } ] },
+        { "math": [ "godco_met_merchants", "==", "0" ] },
         { "days_since_cataclysm": 7 },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
     },
-    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 1 } ] },
+    "deactivate_condition": { "math": [ "godco_met_merchants", "==", "1" ] },
     "effect": [
       { "mapgen_update": "godco_permanent_trader_predatory_add", "om_terrain": "godco_enter" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "=", { "const": 1 } ] }
+      { "math": [ "godco_met_merchants", "=", "1" ] }
     ]
   },
   {
@@ -82,17 +82,15 @@
     "global": false,
     "condition": {
       "and": [
-        { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 1 } ] },
+        { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
     },
-    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 2 } ] },
+    "deactivate_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "2" ] },
     "effect": [
       { "mapgen_update": "godco_permanent_trader_change", "om_terrain": "godco_enter" },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 2 } ]
-      }
+      { "math": [ "freemerch_godco_trader_investigated", "=", "2" ] }
     ]
   },
   {
@@ -100,9 +98,24 @@
     "id": "GODCO_TRADER_MISSION_DEATHFAIL",
     "eoc_type": "NPC_DEATH",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "=", { "const": 0 } ] },
+      { "math": [ "godco_freemerch_representative_dead", "=", "0" ] },
       { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_EDDIE_CANNING_MISSION_ADD",
+    "condition": {
+      "and": [
+        { "math": [ "godco_has_canningpots", "==", "1" ] },
+        { "not": { "npc_has_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" } }
+      ]
+    },
+    "deactivate_condition": { "npc_has_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" },
+    "effect": [
+      { "offer_mission": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP" },
+      { "npc_add_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" }
     ]
   }
 ]

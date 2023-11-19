@@ -382,7 +382,7 @@ static std::string submap_spawns_ss(
     "  \"fields\": [ ],\n"
     "  \"cosmetics\": [ ],\n"
     "  \"spawns\": [\n"
-    "    [ \"mon_cockatrice\", 1, 0, 0, -1, -1, false, \"NONE\" ],\n"
+    "    [ \"mon_pheasant\", 1, 0, 0, -1, -1, false, \"NONE\" ],\n"
     "    [ \"mon_mininuke_hack\", 2, 0, 11, -1, -1, true, \"Tim\" ],\n"
     "    [ \"mon_fish_eel\", 3, 11, 0, -1, -1, false, \"Bob\" ],\n"
     "    [ \"mon_zombie_fungus\", 4, 11, 11, -1, -1, false, \"Hopper\" ],\n"
@@ -1338,7 +1338,7 @@ TEST_CASE( "submap_spawns_load", "[submap][load]" )
     CHECK( !nw.friendly );
     CHECK( nw.name == "Bob" );
     CHECK( ne.count == 1 );
-    CHECK( ne.type.str() == "mon_cockatrice" );
+    CHECK( ne.type.str() == "mon_pheasant" );
     CHECK( !ne.friendly );
     CHECK( ne.name == "NONE" );
     CHECK( sw.count == 4 );

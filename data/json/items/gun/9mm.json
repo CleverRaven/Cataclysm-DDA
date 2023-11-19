@@ -12,8 +12,7 @@
         "id": "calico",
         "name": { "str_sp": "Calico M960" },
         "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
-        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of led down range for a long time providing that it doesn’t choke, jam, and die.",
-        "weight": 1
+        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of lead down range for a long time providing that it doesn’t choke, jam, and die."
       }
     ],
     "weight": "2270 g",
@@ -62,8 +61,7 @@
       {
         "id": "cx4",
         "name": { "str": "Cx4 Storm" },
-        "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns.",
-        "weight": 1
+        "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns."
       }
     ],
     "weight": "2575 g",
@@ -118,8 +116,7 @@
       {
         "id": "glock_19",
         "name": { "str": "Glock 19" },
-        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right.",
-        "weight": 1
+        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right."
       }
     ],
     "ascii_picture": "glock_19",
@@ -362,8 +359,7 @@
       {
         "id": "mp18",
         "name": { "str": "Bergmann MP 18" },
-        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world’s first proper and practical submachine gun.  Chambered for 9x19mm and designed for use in close quarters trench-based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century-old grandfather to most classic SMGs just might be better off coming out of retirement now that the world’s entered the true greatest war.",
-        "weight": 1
+        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world’s first proper and practical submachine gun.  Chambered for 9x19mm and designed for use in close quarters trench-based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century-old grandfather to most classic SMGs just might be better off coming out of retirement now that the world’s entered the true greatest war."
       }
     ],
     "weight": "4180 g",
@@ -410,8 +406,7 @@
       {
         "id": "mauser_c96",
         "name": { "str": "Mauser C96 Broomhandle" },
-        "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it’s only fitting that one of the globe’s first produced and oldest semi-automatic handguns gets reinstated into service now that the planet’s facing its end.",
-        "weight": 1
+        "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it’s only fitting that one of the globe’s first produced and oldest semi-automatic handguns gets reinstated into service now that the planet’s facing its end."
       }
     ],
     "weight": "1134 g",
@@ -462,8 +457,7 @@
       {
         "id": "mauser_m714",
         "name": { "str": "M714 Broomhandle" },
-        "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship.  However, what rests before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser’s own 7.63x25mm cartridge.",
-        "weight": 1
+        "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship.  However, what rests before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser’s own 7.63x25mm cartridge."
       }
     ],
     "weight": "1070 g",
@@ -486,8 +480,7 @@
       {
         "id": "mp40",
         "name": { "str": "Vollmer MP 40" },
-        "description": "A simple and renowned 9x19mm submachine gun developed by Heinrich Vollmer for the German army.  Adopted  in 1940, it saw extensive service on both fronts of the Second World War and was much regarded by soldiers who fielded the weapon in combat, being praised for its reliability and relatively modern design.  Featuring an integral folding wire butt stock, this weapon more than likely entered the United States as a war trophy by a returning veteran.  It was often called \"Schmeisser\" by the Allies, after Hugo Schmeisser, who designed the MP 18, although he was not involved in the design or production of the MP 40.",
-        "weight": 1
+        "description": "A simple and renowned 9x19mm submachine gun developed by Heinrich Vollmer for the German army.  Adopted  in 1940, it saw extensive service on both fronts of the Second World War and was much regarded by soldiers who fielded the weapon in combat, being praised for its reliability and relatively modern design.  Featuring an integral folding wire butt stock, this weapon more than likely entered the United States as a war trophy by a returning veteran.  It was often called \"Schmeisser\" by the Allies, after Hugo Schmeisser, who designed the MP 18, although he was not involved in the design or production of the MP 40."
       }
     ],
     "weight": "3969 g",
@@ -610,8 +603,7 @@
       {
         "id": "m9",
         "name": { "str_sp": "Beretta M9A1" },
-        "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of the US armed forces from 1985 until only recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40 S&W.",
-        "weight": 1
+        "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of the US armed forces from 1985 until only recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40 S&W."
       },
       {
         "id": "90two",
@@ -923,8 +915,7 @@
       {
         "id": "glock_17",
         "name": { "str": "Glock 17" },
-        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same.",
-        "weight": 1
+        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same."
       }
     ],
     "ascii_picture": "glock_17",
@@ -965,8 +956,7 @@
       {
         "id": "glock_18c",
         "name": { "str": "Glock 18C" },
-        "description": "A selective-fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
-        "weight": 1
+        "description": "A selective-fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable."
       }
     ],
     "ascii_picture": "glock_18c",
@@ -1026,8 +1016,7 @@
       {
         "id": "m17",
         "name": { "str": "M17" },
-        "description": "The M17 is an army issued semi-automatic, short recoil operated pistol derived from the SIG Sauer P320.",
-        "weight": 1
+        "description": "The M17 is an army issued semi-automatic, short recoil operated pistol derived from the SIG Sauer P320."
       }
     ],
     "weight": "840 g",
@@ -1064,8 +1053,7 @@
       {
         "id": "m18",
         "name": { "str": "M18" },
-        "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.  Practically the same as its big brother, the M17, in every respect, the M18 features a moderately shorter slide and barrel which terminates at the end of the frame rather than extending partway beyond it like the M17.",
-        "weight": 1
+        "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.  Practically the same as its big brother, the M17, in every respect, the M18 features a moderately shorter slide and barrel which terminates at the end of the frame rather than extending partway beyond it like the M17."
       }
     ],
     "weight": "737 g",
