@@ -7997,7 +7997,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
     }
 
-map &here = get_map();
+    map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( pos() );
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
