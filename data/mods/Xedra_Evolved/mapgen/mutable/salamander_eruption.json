@@ -116,7 +116,12 @@
         "#######          #######",
         "#######          #######"
       ],
-      "terrain": { "#": "t_rock", " ": [ [ "t_puddle_underground", 1 ], [ "t_obsidian_floor", 10 ] ], "~": "t_obsidian_floor", ">": "t_ramp_up_low" },
+      "terrain": {
+        "#": "t_rock",
+        " ": [ [ "t_puddle_underground", 1 ], [ "t_obsidian_floor", 10 ] ],
+        "~": "t_obsidian_floor",
+        ">": "t_ramp_up_low"
+      },
       "nested": {
         " ": {
           "chunks": [ [ "salamander_sinkhole", 1 ], [ "fallen_adventurer", 1 ], [ "mine_minerals_equipment", 1 ], [ "null", 50 ] ]
