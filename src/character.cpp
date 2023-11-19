@@ -10778,6 +10778,11 @@ void Character::process_effects()
                 }
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
                 }
+            } else {
+                add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
+            }
+            add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+        }
     }
     Creature::process_effects();
 }
