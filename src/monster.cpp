@@ -82,8 +82,6 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_critter_underfed( "critter_underfed" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disarmed( "disarmed" );
@@ -113,6 +111,7 @@ static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
@@ -264,11 +263,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
-
-static int compute_kill_xp( const mtype_id &mon_type )
-{
-    return mon_type->difficulty + mon_type->difficulty_base;
-}
 
 monster::monster()
 {
@@ -605,7 +599,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
+        if( has_flag( mon_flag_EATS ) && amount_eaten == 0 ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -645,36 +639,17 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
-        if( calendar::turn - udder_timer > 1_days ) {
-            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
-            ammo.begin()->second = type->starting_ammo.begin()->second;
-            udder_timer = calendar::turn;
-        }
-    }
-}
-
-void monster::reset_digestion()
-{
-    if( calendar::turn - stomach_timer > 3_days ) {
-        //If the player hasn't been around, assume critters have been operating at a subsistence level.
-        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
-        remove_effect( effect_critter_underfed );
-        remove_effect( effect_critter_well_fed );
-        amount_eaten = 0;
-        stomach_timer = calendar::turn;
+    if( calendar::turn - udder_timer > 1_days ) {
+        // You milk once a day.
+        ammo.begin()->second = type->starting_ammo.begin()->second;
+        udder_timer = calendar::turn;
     }
 }
 
 void monster::digest_food()
 {
-    if( calendar::turn - stomach_timer > 1_days ) {
-        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
-            add_effect( effect_critter_well_fed, 24_hours );
-        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
-            add_effect( effect_critter_underfed, 24_hours );
-        }
-        amount_eaten = 0;
+    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
+        amount_eaten -= 1;
         stomach_timer = calendar::turn;
     }
 }
@@ -689,9 +664,6 @@ void monster::try_biosignature()
         return;
     }
     if( !type->biosig_timer ) {
-        return;
-    }
-    if( has_effect( effect_critter_underfed ) ) {
         return;
     }
 
@@ -2748,9 +2720,7 @@ void monster::die( Creature *nkiller )
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
-            cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
-                            compute_kill_xp( type->id ) );
-            get_event_bus().send_with_talker( ch, this, e );
+            get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
             if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
                 if( one_in( 4 ) ) {
                     const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
@@ -3214,31 +3184,6 @@ void monster::process_effects()
         }
     }
 
-    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
-        heal( 1 );
-    }
-
-    //We already check these timers on_load, but adding a random chance for them to go off here
-    //will make it so that the player needn't leave the area and return for critters to poop,
-    //become hungry, evolve, have babies, or refill udders.
-    if( one_in( 30000 ) ) {
-        try_upgrade( false );
-        try_reproduce();
-        try_biosignature();
-
-        if( amount_eaten > 0 ) {
-            if( has_flag( mon_flag_EATS ) ) {
-                digest_food();
-            } else {
-                amount_eaten = 0;
-            }
-        }
-
-        if( has_flag( mon_flag_MILKABLE ) ) {
-            refill_udders();
-        }
-    }
-
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3312,6 +3257,20 @@ void monster::process_effects()
         }
     }
 
+    // Check to see if critter slips on bile or whatever. 
+    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() && !digging() && !has_effect( effect_downed ) ) {
+        map &here = get_map();
+            if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
+            int intensity = get_effect_int( effect_slippery_terrain );
+            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
+                if ( intensity + slipchance > ( dice( 1, 12 ) ) ) {
+                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+                add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
+                            name() );
+                }
+           }
+    }
+    
     Creature::process_effects();
 }
 
@@ -3759,6 +3718,7 @@ bool monster::will_join_horde( int size )
 void monster::on_unload()
 {
     last_updated = calendar::turn;
+    get_map().remove_creature_from_reachability( this );
 }
 
 void monster::on_load()
@@ -3766,15 +3726,9 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
-    reset_digestion();
 
-    //Clean up runaway values for monsters which eat but don't digest yet.
-    if( amount_eaten > 0 ) {
-        if( has_flag( mon_flag_EATS ) ) {
-            digest_food();
-        } else {
-            amount_eaten = 0;
-        }
+    if( has_flag( mon_flag_EATS ) ) {
+        digest_food();
     }
 
     if( has_flag( mon_flag_MILKABLE ) ) {

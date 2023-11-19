@@ -167,7 +167,8 @@ static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
+static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
+static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
@@ -204,6 +205,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_run( "run" );
@@ -309,7 +311,6 @@ static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
 static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
 static const mon_flag_str_id mon_flag_SEES( "SEES" );
@@ -645,6 +646,24 @@ std::optional<int> iuse::antibiotic( Character *p, item *, const tripoint & )
         } else {
             p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
         }
+    }
+    if( p->has_effect( effect_conjunctivitis_bacterial ) ) {
+        if( one_in( 2 ) ) {
+            p->remove_effect( effect_conjunctivitis_bacterial );
+            p->add_msg_if_player( m_good, _( "Your pinkeye seems to be clearing up." ) );
+        } else {
+            p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
+        }
+    }
+    if( p->has_effect( effect_pre_conjunctivitis_bacterial ) ) {
+        if( one_in( 2 ) ) {
+            //There were no symptoms yet, so we skip telling the player they feel better.
+            p->remove_effect( effect_pre_conjunctivitis_bacterial );
+        }
+    }
+    if( p->has_effect( effect_conjunctivitis_viral ) ) {
+        //Antibiotics don't kill viruses.
+        p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
     }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
@@ -1615,15 +1634,6 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
-        if( mon->has_flag( mon_flag_EATS ) ) {
-            int kcal = it->get_comestible()->default_nutrition.kcal();
-            mon->amount_eaten += kcal;
-            if( mon->amount_eaten >= mon->stomach_size ) {
-                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
-            }
-        } else if( !mon->has_flag( mon_flag_EATS ) ) {
-            mon->add_effect( effect_critter_well_fed, 24_hours );
-        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
