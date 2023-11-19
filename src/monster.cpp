@@ -3317,7 +3317,7 @@ void monster::process_effects()
     if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() &&
         !digging() && !has_effect( effect_downed ) ) {
         map &here = get_map();
-            if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int intensity = get_effect_int( effect_slippery_terrain );
             int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
                 if ( intensity + slipchance > ( dice( 1, 12 ) ) ) {
