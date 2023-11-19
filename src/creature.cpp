@@ -1699,7 +1699,8 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
     }
     const Character *c = as_character();
     //d100 minus strength should never be less than 1 so we don't have liquids phasing through sealed power armor.
-    if( ( std::max( dice( 1, 100 ) - strength, 1 ) ) < ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
+    if( ( std::max( dice( 1, 100 ) - strength,
+                    1 ) ) < ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
         // Don't check immunity (force == true), because we did check above
         add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, true );
         return true;
