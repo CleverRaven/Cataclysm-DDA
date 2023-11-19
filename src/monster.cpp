@@ -3313,8 +3313,9 @@ void monster::process_effects()
         }
     }
 
-    // Check to see if critter slips on bile or whatever. 
-    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() && !digging() && !has_effect( effect_downed ) ) {
+    // Check to see if critter slips on bile or whatever.
+    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() &&
+        !digging() && !has_effect( effect_downed ) ) {
         map &here = get_map();
             if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int intensity = get_effect_int( effect_slippery_terrain );
