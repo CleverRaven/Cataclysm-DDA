@@ -39,7 +39,9 @@ constexpr bool operator>( binary_op const &lhs, binary_op const &rhs )
            ( lhs.precedence == rhs.precedence && lhs.assoc == binary_op::associativity::left );
 }
 enum class paren {
-    left = 0,
+    left_sq = 0,
+    right_sq,
+    left,
     right,
 };
 
@@ -118,6 +120,10 @@ struct kwarg {
     std::string key;
     std::shared_ptr<thingie> val;
 };
+struct array {
+    explicit array( std::vector<thingie> &&params_ ): params( params_ ) {}
+    std::vector<thingie> params;
+};
 struct ternary {
     ternary() = default;
     explicit ternary( thingie cond_, thingie mhs_, thingie rhs_ );
@@ -138,7 +144,7 @@ struct thingie {
     constexpr double eval( dialogue &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var, kwarg, ternary>;
+        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var, kwarg, ternary, array>;
     impl_t data;
 };
 
@@ -158,6 +164,11 @@ constexpr double thingie::eval( dialogue &d ) const
         []( kwarg const & v )
         {
             debugmsg( "Unexpected kwarg %s", v.key );
+            return 0.0;
+        },
+        []( array const & /* v */ )
+        {
+            debugmsg( "Unexpected array" );
             return 0.0;
         },
         [&d]( auto const & v ) -> double

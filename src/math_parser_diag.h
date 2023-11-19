@@ -83,6 +83,7 @@ decl_diag_ass spell_level_adjustment_ass;
 decl_diag_eval proficiency_eval;
 decl_diag_ass proficiency_ass;
 decl_diag_eval test_diag;
+decl_diag_eval test_str_len;
 decl_diag_eval u_val;
 decl_diag_ass u_val_ass;
 decl_diag_eval vitamin_eval;
@@ -127,6 +128,7 @@ std::function<double( dialogue & )> myfunction_eval( char scope,
 // kwargs are not included in num_args
 inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
+    { "_test_str_len_", { "g", -1, test_str_len } },
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },

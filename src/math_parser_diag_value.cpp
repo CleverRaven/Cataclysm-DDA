@@ -24,11 +24,13 @@ constexpr std::string_view _str_type_of( T /* t */ )
         return "variable";
     } else if constexpr( std::is_same_v<T, math_exp> ) {
         return "sub-expression";
+    } else if constexpr( std::is_same_v<T, diag_array> ) {
+        return "array";
     }
     return "cookies";
 }
 
-template<class C, class R = C>
+template<class C, class R = C, bool at_runtime = false>
 constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
 {
     return std::visit( overloaded{
@@ -38,7 +40,16 @@ constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
         },
         []( auto const & v ) -> R
         {
-            throw std::invalid_argument( string_format( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) ) );
+            if constexpr( at_runtime )
+            {
+                debugmsg( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) );
+                static R null_R{};
+                return null_R;
+            } else
+            {
+                throw std::invalid_argument( string_format( "Expected %s, got %s", _str_type_of( C{} ),
+                                             _str_type_of( v ) ) );
+            }
         },
     },
     data );
@@ -80,6 +91,11 @@ double diag_value::dbl( dialogue const &d ) const
             // FIXME: maybe re-constify eval paths?
             return v.eval( const_cast<dialogue &>( d ) );
         },
+        []( diag_array const & )
+        {
+            debugmsg( R"(Cannot directly convert array to doubles)" );
+            return 0.0;
+        },
     },
     data );
 }
@@ -110,6 +126,11 @@ std::string diag_value::str( dialogue const &d ) const
             // NOLINTNEXTLINE(cata-translate-string-literal)
             return string_format( "%g", v.eval( const_cast<dialogue &>( d ) ) );
         },
+        []( diag_array const & )
+        {
+            debugmsg( R"(Cannot directly convert array to strings)" );
+            return std::string{};
+        },
     },
     data );
 }
@@ -117,4 +138,19 @@ std::string diag_value::str( dialogue const &d ) const
 var_info diag_value::var() const
 {
     return _diag_value_at_parse_time<var_info>( data );
+}
+
+bool diag_value::is_array() const
+{
+    return std::holds_alternative<diag_array>( data );
+}
+
+diag_array const &diag_value::array() const
+{
+    return _diag_value_at_parse_time<diag_array, diag_array const &>( data );
+}
+
+diag_array const &diag_value::array( dialogue const &/* d */ ) const
+{
+    return _diag_value_at_parse_time<diag_array, diag_array const &, true>( data );
 }

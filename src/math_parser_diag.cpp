@@ -585,8 +585,31 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
     };
 }
 
-std::function<double( dialogue & )> test_diag( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+namespace
+{
+double _test_add( diag_value const &v, dialogue const &d )
+{
+    double ret{};
+    if( v.is_array() ) {
+        for( diag_value const &w : v.array() ) {
+            ret += _test_add( w, d );
+        }
+    } else {
+        ret += v.dbl( d );
+    }
+    return ret;
+}
+double _test_len( diag_value const &v, dialogue const &d )
+{
+    double ret{};
+    for( diag_value const &w : v.array( d ) ) {
+        ret += w.str( d ).length();
+    }
+    return ret;
+}
+std::function<double( dialogue & )> _test_func( std::vector<diag_value> const &params,
+        diag_kwargs const &kwargs,
+        double ( *f )( diag_value const &v, dialogue const &d ) )
 {
     std::vector<diag_value> all_params( params );
     for( diag_kwargs::value_type const &v : kwargs ) {
@@ -594,13 +617,26 @@ std::function<double( dialogue & )> test_diag( char /* scope */,
             all_params.emplace_back( *v.second );
         }
     }
-    return [all_params]( dialogue const & d ) {
+    return [all_params, f]( dialogue const & d ) {
         double ret = 0;
         for( diag_value const &v : all_params ) {
-            ret += v.dbl( d );
+            ret += f( v, d );
         }
         return ret;
     };
+}
+} // namespace
+
+std::function<double( dialogue & )> test_diag( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _test_func( params, kwargs, _test_add );
+}
+
+std::function<double( dialogue & )> test_str_len( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _test_func( params, kwargs, _test_len );
 }
 
 std::function<double( dialogue & )> vitamin_eval( char scope,

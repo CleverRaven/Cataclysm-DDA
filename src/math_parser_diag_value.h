@@ -12,6 +12,8 @@
 
 class math_exp;
 struct dialogue;
+struct diag_value;
+using diag_array = std::vector<diag_value>;
 struct diag_value {
     diag_value() = default;
     template <class U>
@@ -25,12 +27,15 @@ struct diag_value {
     double dbl() const;
     std::string_view str() const;
     var_info var() const;
+    bool is_array() const;
+    diag_array const &array() const;
 
     // evaluate and possibly convert the parameter to this type
     double dbl( dialogue const &d ) const;
     std::string str( dialogue const &d ) const;
+    diag_array const &array( dialogue const &/* d */ ) const;
 
-    using impl_t = std::variant<double, std::string, var_info, math_exp>;
+    using impl_t = std::variant<double, std::string, var_info, math_exp, diag_array>;
     impl_t data;
 };
 
