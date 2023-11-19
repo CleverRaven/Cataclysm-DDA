@@ -232,7 +232,7 @@
     "visibility": 2,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them.",
-    "category": [ "SYLPH" ],
+    "category": [ "UNDINE" ],
     "integrated_armor": [ "integrated_undine_eyes" ]
   },
   {
