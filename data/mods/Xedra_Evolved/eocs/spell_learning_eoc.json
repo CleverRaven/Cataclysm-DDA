@@ -11,7 +11,15 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spell_exp(_spell_id)", "+=", "spell_exp_diff(u_spell_level(_spell_id)) / spell_train_factor(_cost)" ] }
+      { "math": [ "debug_xe_spell_exp_diff", "=", "(spell_exp_diff(u_spell_level(_spell)))" ] },
+      { "math": [ "debug_xe_spell_train_factor", "=", "(spell_train_factor(_cost))" ] },
+      { "math": [ "debug_xe_spell_xp_give", "=", "spell_exp_diff(u_spell_level(_spell))/spell_train_factor(_cost)" ] },
+      { "u_message": "school: <context_val:school>", "type": "debug" },
+      { "u_message": "spell: <context_val:spell>", "type": "debug" },
+      { "u_message": "spell_exp_diff: <global_val:debug_xe_spell_exp_diff>", "type": "debug" },
+      { "u_message": "spell_train_factor: <global_val:debug_xe_spell_train_factor>", "type": "debug" },
+      { "u_message": "amount of xp added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
+      { "math": [ "u_spell_exp(_spell)", "+=", "spell_exp_diff(u_spell_level(_spell))/spell_train_factor(_cost)" ] }
     ]
   },
   {
@@ -24,14 +32,23 @@
     "effect": [
       {
         "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },
-        "then": { "math": [ "xe_eater_leveling", "++" ] }
+        "then": [
+          { "math": [ "xe_eater_leveling", "++" ] },
+          {
+            "u_message": "Got a new level for eater, xe_eater_leveling: <global_val:xe_eater_leveling>",
+            "type": "debug"
+          }
+        ]
       },
       {
         "if": { "and": [ { "u_has_trait": "DREAMER" }, { "compare_string": [ "DREAMER", { "context_val": "school" } ] } ] },
-        "then": { "math": [ "xe_dreamer_leveling", "++" ] }
-      },
-      {
-        "u_message": "Got a level for <context_val:school> class,\nfrom spell:<spell_name:<context_val:spell_id>>,\n xe_eater_leveling is <global_val:xe_eater_leveling>\nxe_dreamer_leveling is <global_val:xe_dreamer_leveling>"
+        "then": [
+          { "math": [ "xe_dreamer_leveling", "++" ] },
+          {
+            "u_message": "Got a new level for dreamer, xe_dreamer_leveling: <global_val:xe_dreamer_leveling>",
+            "type": "debug"
+          }
+        ]
       }
     ]
   },
@@ -45,19 +62,15 @@
         "if": { "math": [ "xe_eater_leveling", ">", "0" ] },
         "then": [
           { "set_condition": "eater_leveling", "condition": { "math": [ "xe_eater_leveling", ">", "0" ] } },
-          { "run_eoc_until": "EOC_XE_PICK_SPELL_EATER", "condition": "eater_leveling" },
-          { "u_message": "cleared points from xe_eater_leveling, current pool: <global_val:xe_eater_leveling>" }
-        ],
-        "else": { "u_message": "IT DOESN'T WORK FOR EATER!" }
+          { "run_eoc_until": "EOC_XE_PICK_SPELL_EATER", "condition": "eater_leveling" }
+        ]
       },
       {
         "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] },
         "then": [
           { "set_condition": "dreamer_leveling", "condition": { "math": [ "xe_dreamer_leveling", ">", "0" ] } },
-          { "run_eoc_until": "EOC_XE_PICK_SPELL_DREAMER", "condition": "dreamer_leveling" },
-          { "u_message": "cleared points from xe_dreamer_leveling, current pool: <global_val:xe_dreamer_leveling>" }
-        ],
-        "else": { "u_message": "IT DOESN'T WORK FOR DREAMER!" }
+          { "run_eoc_until": "EOC_XE_PICK_SPELL_DREAMER", "condition": "dreamer_leveling" }
+        ]
       }
     ]
   },
@@ -98,7 +111,6 @@
         ]
       },
       { "math": [ "xe_eater_leveling", "--" ] },
-      { "u_message": "global_val:xe_eater_leveling: <global_val:xe_eater_leveling>" },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },
@@ -170,7 +182,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_1",
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)", "++" ] }, { "u_message": "got spell" } ]
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)", "++" ] } ]
   },
   {
     "type": "effect_on_condition",

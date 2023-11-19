@@ -87,23 +87,12 @@
             "effect": [
               { "u_message": "In your dream, there is only you to decide.", "type": "mixed", "popup": true },
               {
-                "u_message": "You don't remember much from this dream, but what you remember is there was something, and you answered a questions for this.",
+                "u_message": "You don't remember much from this dream, but what you remember is there was something… or someone, and you answered a questions for this.",
                 "popup": true
               },
-              {
-                "weighted_list_eocs": [
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_1", { "math": [ "eater_dreamer_riddle_1 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_2", { "math": [ "eater_dreamer_riddle_2 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_3", { "math": [ "eater_dreamer_riddle_3 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_4", { "math": [ "eater_dreamer_riddle_4 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_5", { "math": [ "eater_dreamer_riddle_5 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_6", { "math": [ "eater_dreamer_riddle_6 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_7", { "math": [ "eater_dreamer_riddle_7 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_8", { "math": [ "eater_dreamer_riddle_8 + 1" ] } ],
-                  [ "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_9", { "math": [ "eater_dreamer_riddle_9 + 1" ] } ]
-                ]
-              },
-              { "run_eocs": [ "EOC_XE_GIVE_EATER_DREAMER" ] }
+              { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+              { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+              { "run_eocs": [ "EOC_XE_RUN_RIDDLE_EATER_DREAMER" ] }
             ]
           }
         ]
@@ -112,18 +101,33 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_GIVE_EATER_DREAMER_RIDDLE_1",
+    "id": "EOC_XE_MAGIC_SEQUENCE_INVENTOR_DREAMSMITH_COUNTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] },
     "effect": [
+      { "math": [ "inventor_dreamsmith_sequence", "++" ] },
       {
-        "run_eoc_selector": [ "EOC_OPTION_1", "EOC_OPTION_2", "EOC_OPTION_3", "EOC_OPTION_4" ],
-        "names": [ "Option 1", "Option 2", "Option 3", "Option 4" ],
-        "keys": [ "a", "b", "1", "2" ],
-        "title": "Choose your destiny",
-        "descriptions": [
-          "Gives you something good",
-          "Gives you something bad",
-          "Gives you twice as good",
-          "Gives you twice as bad, but condition is not met, so you can't pick it up"
+        "switch": { "math": [ "inventor_dreamsmith_sequence" ] },
+        "cases": [
+          { "case": 2, "effect": { "u_message": "It happens again.  Otherworldy nightmares, they haunt you.", "type": "mixed" } },
+          { "case": 3, "effect": { "u_message": "Another time, another two world.", "type": "mixed" } },
+          {
+            "case": 4,
+            "effect": { "u_message": "You don't remember much from this two, they felt very similar.", "type": "mixed" }
+          },
+          { "case": 5, "effect": { "u_message": "One was tiring and hard-working.", "type": "mixed" } },
+          { "case": 6, "effect": { "u_message": "Another was information.", "type": "mixed" } },
+          {
+            "case": 7,
+            "effect": [
+              { "u_message": "It is time to choose again.", "type": "mixed", "popup": true },
+              { "u_message": "It is that person again.", "popup": true },
+              { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+              { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+              { "run_eocs": [ "EOC_XE_RUN_RIDDLE_EATER_DREAMER" ] }
+            ]
+          }
         ]
       }
     ]

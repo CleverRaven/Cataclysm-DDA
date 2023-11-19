@@ -37,8 +37,8 @@
     "id": "spell_train_factor",
     "num_args": 1,
     "//": "accept the spell _cost, return how much spellcasts required to level the spell",
-    "//2": "formula assumes 2000 as player's default mana pool, and 40 is flat modifier to prevent cheap spells cost ungodly lot of time and micromanagement to level them",
-    "return": "2000/(_0 + 40)"
+    "//2": "formula assumes 2000 (3000 for eater) as player's default mana pool, and 40 is flat modifier to prevent cheap spells cost ungodly lot of time and micromanagement to level them",
+    "return": "(( u_has_trait('EATER')*1000)+2000)/(_0 > 0 ? _0 + 40 : 0)"
   },
   {
     "type": "jmath_function",
