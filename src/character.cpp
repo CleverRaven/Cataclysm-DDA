@@ -10737,15 +10737,11 @@ void Character::process_effects()
         if( has_trait( trait_INFRESIST ) ) {
             checked_health += 50;
         }
-        add_msg( _( "Checked health is %s!" ), checked_health );
         int pinkeye_chance = round( 4 + 6 / 25 * checked_health );
-        add_msg( _( "Pinkeye chance is 1 in %s!" ), pinkeye_chance );
         if( one_in( ( pinkeye_chance ) ) ) {
             if( one_in( 2 ) ) {
-                add_msg( _( "Got bacterial pinkeye with a probability of 1 in %s!" ), pinkeye_chance );
                 add_effect( effect_pre_conjunctivitis_bacterial, 70_hours );
             } else {
-                add_msg( _( "Got viral pinkeye with a resistance probability of 1 in %s!" ), pinkeye_chance );
                 add_effect( effect_pre_conjunctivitis_viral, 70_hours );
             }
         }
