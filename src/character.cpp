@@ -10748,35 +10748,32 @@ void Character::process_effects()
     }
 
     map &here = get_map();
-    if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() && here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
-            int rolls = 1;
-            bool u_see = get_player_view().sees( *this );
-            if( has_trait( trait_DEFT ) ) {
-                rolls--;
-            }
-            if( is_running() || ( ( worn_with_flag( flag_ROLLER_ONE ) || worn_with_flag( flag_ROLLER_INLINE ) || worn_with_flag( flag_ROLLER_QUAD ) ) && !has_trait( trait_PROF_SKATER ) ) ) {
-                rolls++;
-            }
-            //Slimy people are used to everything being slippery.
-            if( has_trait( trait_SLIMY ) || has_trait( trait_AQUEOUS ) || has_trait( trait_MUCUS_SECRETION ) ) {
-                rolls--;
-            }
-            if( has_trait( trait_CLUMSY ) ) {
-                rolls++;
-            }
-            int intensity = get_effect_int( effect_slippery_terrain );
-            rolls += intensity;        
-            //A healthy unencumbered person with 18 dex can usually walk across a moderately slippery surface without issue.
-            //Survivors rarely meet those qualifications in practice.
-                if( balance_roll() < dice( rolls, 6 ) ) {
-                if( !is_avatar() ) {
-                    if( u_see ) {
-                        add_msg( _( "%1$s slips and falls!" ), get_name() );
-                    }
-                } else {
-                    add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
-                }
-                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+    if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() &&
+        here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
+        int rolls = 1;
+        bool u_see = get_player_view().sees( *this );
+        if( has_trait( trait_DEFT ) ) {
+            rolls--;
+        }
+        if( is_running() || ( ( worn_with_flag( flag_ROLLER_ONE ) || worn_with_flag( flag_ROLLER_INLINE ) ||
+                                worn_with_flag( flag_ROLLER_QUAD ) ) && !has_trait( trait_PROF_SKATER ) ) ) {
+            rolls++;
+        }
+        //Slimy people are used to everything being slippery.
+        if( has_trait( trait_SLIMY ) || has_trait( trait_AQUEOUS ) || has_trait( trait_MUCUS_SECRETION ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_CLUMSY ) ) {
+            rolls++;
+        }
+        int intensity = get_effect_int( effect_slippery_terrain );
+        rolls += intensity;
+        //A healthy unencumbered person with 18 dex can usually walk across a moderately slippery surface without issue.
+        //Survivors rarely meet those qualifications in practice.
+        if( balance_roll() < dice( rolls, 6 ) ) {
+            if( !is_avatar() ) {
+                if( u_see ) {
+                    add_msg( _( "%1$s slips and falls!" ), get_name() );
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
