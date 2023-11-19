@@ -4482,7 +4482,7 @@
     "desc": [
       "There's a slippery surface here, running may be a bad idea.",
       "It's quite slippery, it may not be safe to stand here.",
-      "This area is extremely slippery and hard to stand up in."
+      "This area is extremely slippery."
     ],
     "rating": "bad",
     "show_intensity": true,
