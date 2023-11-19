@@ -70,6 +70,7 @@
     "weight": "312 g",
     "container": "can_medium",
     "calories": 207,
+    "quench": 10,
     "description": "Milk that's had about 60% of its water removed prior to canning.",
     "price": 38,
     "price_postapoc": 200,

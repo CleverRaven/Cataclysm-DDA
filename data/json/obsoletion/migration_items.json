@@ -279,5 +279,20 @@
     "id": "20x66_inc",
     "type": "MIGRATION",
     "replace": "20x66_shot"
+  },
+  {
+    "id": "762_m43",
+    "type": "MIGRATION",
+    "replace": "762_m87"
+  },
+  {
+    "id": "reloaded_762_m43",
+    "type": "MIGRATION",
+    "replace": "reloaded_762_m87"
+  },
+  {
+    "id": "bp_762_m43",
+    "type": "MIGRATION",
+    "replace": "bp_762_m87"
   }
 ]
