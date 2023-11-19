@@ -13,7 +13,13 @@
     "blueprint_name": "farm area survey",
     "time": "3 h",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "fbmf_2" }, { "id": "farming" }, { "id": "blacksmith" }, { "id": "fbmf_2_fallback_recipe_1" }, { "id": "fbmf_2_recipes_1" } ],
+    "blueprint_provides": [
+      { "id": "fbmf_2" },
+      { "id": "farming" },
+      { "id": "blacksmith" },
+      { "id": "fbmf_2_fallback_recipe_1" },
+      { "id": "fbmf_2_recipes_1" }
+    ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",
