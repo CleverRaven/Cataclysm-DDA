@@ -475,12 +475,14 @@ float npc::evaluate_self( bool my_gun ) const
     float threat = 0.0f;
     const double &my_weap_val = ai_cache.my_weapon_value;
     // the worse pain the NPC is in, the more likely they are to overestimate the severity of their injuries.
-    float pain_factor = rng( 0.0f, static_cast<float>( get_pain() / 10.0f ) );
+    // the more perceptive they are, the more they're able to see how bad it really is.
+    float pain_factor = rng( 0.0f,
+                             static_cast<float>( get_pain() ) / static_cast<float>( get_per() ) ) );
     float my_health = ( hp_percentage() - pain_factor ) / 100.0f;
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
-        speed = std::max( speed, 0.75f );
+    speed = std::max( speed, 0.75f );
     }
 
     threat += get_dodge();
@@ -520,7 +522,7 @@ float npc::estimate_armour( const Character &candidate ) const
         armour_step += candidate.get_armor_type( damage_stab, part_id );
         armour_step += candidate.get_armor_type( damage_bullet, part_id );
         add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s: %s armour value for %s rated as %i.", name,
-                       candidate.disp_name(), body_part_name( part_id ), armour_step );
+                       candidate.disp_name( true ), body_part_name( part_id ), armour_step );
         if( part_id == bodypart_id( "head" ) || part_id == bodypart_id( "torso" ) ) {
             armour_step *= 3;
             number_of_parts += 2;
