@@ -10731,7 +10731,7 @@ void Character::process_effects()
         //Washing your eyes out in time may save you from getting pinkeye.
         float checked_health = get_lifestyle() + 200.0;
         //Some animal eyes are more vulnerable to infection.
-        if ( has_trait_flag( json_flag_EYE_MEMBRANE ) ) {
+        if( has_trait_flag( json_flag_EYE_MEMBRANE ) ) {
             checked_health -= 50;
         }
         //Ditto for contact lenses.
