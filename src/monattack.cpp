@@ -736,7 +736,7 @@ bool mattack::acid_barf( monster *z )
 
     int dam = target->deal_damage( z,  hit, dam_inst ).total_damage();
 
-    target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
+    target->add_liquid_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
 
     if( dam > 0 ) {
         game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
@@ -750,7 +750,7 @@ bool mattack::acid_barf( monster *z )
                                        dam );
 
         if( hit == bodypart_id( "eyes" ) ) {
-            target->add_env_effect( effect_blind, bodypart_id( "eyes" ), 3, 1_minutes );
+            target->add_liquid_effect( effect_blind, bodypart_id( "eyes" ), 3, 1_minutes );
         }
     } else {
         target->add_msg_player_or_npc(
@@ -1026,7 +1026,7 @@ bool mattack::boomer_glow( monster *z )
         target->on_dodge( z, 5 );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
-            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
+            target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
             if( target->has_effect( effect_glowing ) ) {
                 break;
             }

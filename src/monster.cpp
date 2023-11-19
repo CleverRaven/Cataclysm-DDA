@@ -3270,6 +3270,7 @@ void monster::process_effects()
                 }
            }
     }
+    
     Creature::process_effects();
 }
 
