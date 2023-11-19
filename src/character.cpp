@@ -394,7 +394,7 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
+static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
@@ -592,7 +592,7 @@ Character::Character() :
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
-    start_location = start_location_sloc_shelter;
+    start_location = start_location_sloc_shelter_a;
     moves = 100;
     oxygen = 0;
     in_vehicle = false;
