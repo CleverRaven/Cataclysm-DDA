@@ -1690,7 +1690,8 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
     if( is_monster() ) {
         if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
             //Monsters don't have clothing wetness multipliers, so we still use enviro for them.
-            add_effect( effect_source::empty(), eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity, true );
+            add_effect( effect_source::empty(), eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity,
+                        true );
             return true;
         } else {
         return false;
