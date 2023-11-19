@@ -10735,7 +10735,7 @@ void Character::process_effects()
             checked_health -= 50;
         }
         //Ditto for contact lenses.
-        if ( has_effect( effect_contacts ) ) {
+        if( has_effect( effect_contacts ) ) {
             checked_health -= 50;
         }
         if( has_trait( trait_INFRESIST ) ) {
