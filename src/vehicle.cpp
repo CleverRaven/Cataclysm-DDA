@@ -5591,6 +5591,11 @@ void vehicle::idle( bool on_map )
     if( is_alarm_on ) {
         alarm();
     }
+
+    for( vehicle_part *turret : turrets() ) {
+        item_location base = turret_query(*turret).base();
+        base->process( here, &player_character, base.position() );
+    }
 }
 
 void vehicle::on_move()
