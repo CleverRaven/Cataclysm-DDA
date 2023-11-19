@@ -35,7 +35,13 @@
       {
         "name": "bile stain",
         "effects": [
-          { "effect_id": "slippery_terrain", "intensity": 2, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 2,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
         ]
       },
       {
