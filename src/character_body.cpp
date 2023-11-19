@@ -1425,4 +1425,3 @@ void Character::update_circulation()
     //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
     //}
 }
-            
