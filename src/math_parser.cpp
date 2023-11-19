@@ -23,7 +23,7 @@
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "global_vars.h"
-#include "math_parser_diag.h"
+#include "math_parser_diag_value.h"
 #include "math_parser_func.h"
 #include "math_parser_impl.h"
 #include "math_parser_jmath.h"
