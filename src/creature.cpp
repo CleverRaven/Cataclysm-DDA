@@ -1682,7 +1682,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
 }
 
 bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
-                               const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
+                                  const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
