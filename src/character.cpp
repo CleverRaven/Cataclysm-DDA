@@ -1858,9 +1858,10 @@ float Character::balance_roll() const
 {
     /** @EFFECT_DEX improves player balance roll */
     /** Balance and reaction scores influence stability rolls */
-    /** @EFFECT_SWIMMING improves player stability roll */    
-    return ( get_dex() + get_skill_level( skill_swimming ) ) * ( ( get_limb_score( limb_score_balance ) * 3 + get_limb_score(
-            limb_score_reaction ) ) / 4.0f );
+    /** @EFFECT_SWIMMING improves player stability roll */
+    return ( get_dex() + get_skill_level( skill_swimming ) ) * ( ( get_limb_score(
+                limb_score_balance ) * 3 + get_limb_score(
+                limb_score_reaction ) ) / 4.0f );
 }
 
 float Character::stability_roll() const
