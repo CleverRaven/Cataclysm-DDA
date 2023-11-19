@@ -12109,8 +12109,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
 void game::start_hauling( const tripoint &pos )
 {
     std::vector<item_location> candidate_items = m.get_haulable_items( pos );
-    // Forget about items that didn't actually end up on the previous tile (e.g. because they overflowed)
-    u.trim_haul_list( candidate_items );
     // Find target items and quantities thereof for the new activity
     std::vector<item_location> target_items = u.haul_list;
 
@@ -12149,8 +12147,7 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
-                                           true );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
     u.assign_activity( actor );
 }
 

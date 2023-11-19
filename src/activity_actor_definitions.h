@@ -462,15 +462,13 @@ class move_items_activity_actor : public activity_actor
         std::vector<int> quantities;
         bool to_vehicle;
         tripoint relative_destination;
-        bool save_moved_items;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination, bool save_moved_items = false ) :
+                                   bool to_vehicle, tripoint relative_destination ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
-            relative_destination( relative_destination ),
-            save_moved_items( save_moved_items ) {}
+            relative_destination( relative_destination ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );

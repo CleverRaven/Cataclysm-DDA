@@ -2109,7 +2109,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             } else {
                 std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
                         dest );
-                if( save_moved_items ) {
+                if( who.is_hauling() ) {
                     who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
                 }
             }
@@ -2123,8 +2123,17 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
-        if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
-            who.stop_hauling();
+        if( who.is_hauling() ) {
+            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos() );
+            bool overflow = who.trim_haul_list( haulable_items );
+            if( who.is_hauling() && haulable_items.empty() ) {
+                who.stop_hauling();
+            }
+
+            if( overflow ) {
+                add_msg( m_warning,
+                         _( "You lose track of some hauled items as they didn't fit on the current tile." ) );
+            }
         }
     }
 }
@@ -2137,7 +2146,6 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
     jsout.member( "relative_destination", relative_destination );
-    jsout.member( "save_moved_items", save_moved_items );
 
     jsout.end_object();
 }
@@ -2152,7 +2160,6 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValu
     data.read( "quantities", actor.quantities );
     data.read( "to_vehicle", actor.to_vehicle );
     data.read( "relative_destination", actor.relative_destination );
-    data.read( "save_moved_items", actor.save_moved_items );
 
     return actor.clone();
 }
