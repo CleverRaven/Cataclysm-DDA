@@ -2655,7 +2655,7 @@
   {
     "type": "effect_type",
     "id": "formication",
-    "name": [ "Itchy Skin", "Writhing Skin", "Bugs in Skin" ],
+    "name": [ "Itchy", "Very Itchy", "Terribly Itchy" ],
     "desc": [ "You stop to scratch yourself frequently; high INT helps you resist the urge." ],
     "apply_message": "You feel extremely itchy!",
     "rating": "bad",
