@@ -227,8 +227,8 @@
     "type": "effect_on_condition",
     "id": "EOC_RASHY_SKIN",
     "recurrence": [ "2 hours", "24 hours" ],
-    "condition": { 
-      "and": [ 
+    "condition": {
+      "and": [
         { "u_has_trait": "SKIN_RASHY" },
         { "not": { "u_has_effect": "took_antihistamine" } },
         { "not": { "u_has_effect": "formication" } }
