@@ -1085,8 +1085,8 @@ class npc : public Character
 
         /** rates how dangerous a target is */
         float evaluate_monster( const Creature &target ) const;
-        float evaluate_character( const Character &candidate, bool enemy ) const;
-        float evaluate_self() const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
+        float evaluate_self( bool my_gun ) const;
 
         void assess_danger();
         bool is_safe() const;
@@ -1097,6 +1097,7 @@ class npc : public Character
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
         void evaluate_best_weapon( const Creature *target );
+        float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 
