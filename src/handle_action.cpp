@@ -801,7 +801,7 @@ static void haul()
             selector.apply_selection( player_character.haul_list );
             selector.set_title( _( "Select items to haul" ) );
             selector.set_hint( _( "To select x items, type a number before selecting." ) );
-            drop_locations result = selector.execute();
+            drop_locations result = selector.execute( true );
             haulable_items.clear();
             for( const drop_location &dl : result ) {
                 haulable_items.push_back( dl.first );
@@ -809,9 +809,7 @@ static void haul()
             if( haulable_items != player_character.haul_list ) {
                 player_character.suppress_autohaul = true;
             }
-            if( !haulable_items.empty() ) {
-                player_character.start_hauling( haulable_items );
-            }
+            player_character.start_hauling( haulable_items );
         }
         break;
         case 3:
