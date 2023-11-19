@@ -30,13 +30,18 @@
       "-4_tunnel_to_finale"
     ],
     "overmaps": {
-      "eruption_entrance": { "overmap": "salamander_eruption_ground_north", "below": "eruption_ground_to_shaft" },
+      "eruption_entrance": { "overmap": "salamander_eruption_ground_north", "below": "eruption_entrance_to_tunnels" },
       "eruption_roof": { "overmap": "salamander_eruption_roof" },
-      "eruption_ground_to_eruption_entrance": { "overmap": "eruption_entrance_north", "above": "eruption_entrance", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel", "west": "tunnel_to_tunnel" },
+      "eruption_ground_to_eruption_entrance": { "overmap": "eruption_entrance_north", "above": "eruption_entrance_to_tunnels", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel", "west": "tunnel_to_tunnel" },
       "tunnels_west": { "overmap": "mine_shaft_lower_north", "west": "tunnel_entrance_to_tunnels" },
       "tunnels_east": { "overmap": "mine_shaft_lower_east_north", "above": "shaft_lower_to_shaft_middle" },
       "tunnel_entrance": { "overmap": "salamander_tunnel_ew", "east": "tunnel_entrance_to_tunnels", "west": "tunnel_to_tunnel" },
-      "tee": { "overmap": "salamander_tunnel_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "tee": {
+        "overmap": "salamander_tunnel_nes",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
       "cross": {
         "overmap": "salamander_tunnel_nesw",
         "north": "tunnel_to_tunnel",
@@ -167,3 +172,4 @@
 ]
 
 ]
+
