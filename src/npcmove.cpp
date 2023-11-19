@@ -700,9 +700,14 @@ void npc::assess_danger()
             }
             if( dist < 8 && critter_threat > bravery_vs_pain ) {
                 hostile_count += 1;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to nearby hostile count.  Total: %i", name,
+                               critter.type->nname(), hostile_count );
             }
             if( dist < 4 && npc_ranged ) {
                 swarm_count += 1;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s added %s to swarming enemies count.  Total: %i",
+                               name,
+                               critter.type->nname(), swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
@@ -717,6 +722,10 @@ void npc::assess_danger()
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
                                          NPC_DANGER_VERY_LOW );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assessed threat of critter %s as %1.2f, modded to %1.2f.  With distance vs speed ratio %i, final relative threat is %1.2f",
+                       name, critter.type->nname(), critter_threat, critter_danger, scaled_distance,
+                       critter_danger / scaled_distance );
         ai_cache.total_danger += critter_danger / scaled_distance;
 
         // don't ignore monsters that are too close or too close to an ally if we can move
@@ -796,8 +805,12 @@ void npc::assess_danger()
                 ai_cache.target = g->shared_from( foe );
             }
         }
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assessed threat of enemy %s as %1.2f.  With distance vs speed ratio %i, final relative threat is %1.2f",
+                       name, bogey, foe_threat, scaled_distance, foe_threat / scaled_distance );
         return foe_threat;
     };
+
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
@@ -807,7 +820,9 @@ void npc::assess_danger()
                                           "kill_npc" );
         }
     }
-
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "Before checking allies+player, %s assesses danger level as %1.2f.", name,
+                   assessment );
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
@@ -816,7 +831,12 @@ void npc::assess_danger()
                                                false );
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assessed friendly %s at threat level %1.2f.",
+                       name, guy.lock()->disp_name(), guy_threat );
     }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "After checking NPC allies, %s assesses danger level as %1.2f.",
+                   name, assessment );
 
     if( sees( player_character.pos() ) ) {
         // Mod for the player's danger level, weight it higher if player is very close
@@ -827,22 +847,35 @@ void npc::assess_danger()
         float player_diff = evaluate_character( player_character, npc_ranged, is_enemy() );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
-
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as an enemy of threat level %1.2f",
+                           name, player_diff );
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "%s identified player as a friend of threat level %1.2f (ily babe)",
+                           name, player_diff );
             if( dist <= 3 ) {
-                assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
+                player_diff = player_diff * ( 4 - dist ) / 2;
+                assessment = std::max( min_danger, assessment - player_diff );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "Player is %i tiles from %s.  Reducing threat by %1.2f and bolstering morale.",
+                               dist, name, player_diff );
                 swarm_count = 0;
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
                 friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s sees friendly player, reducing danger by %1.2f",
+                               name, player_diff * 0.5f );
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "After checking player, %s assesses danger level as %1.2f.",
+                   name, assessment );
 
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
     // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
@@ -850,6 +883,9 @@ void npc::assess_danger()
     // large crowds of minor creatures, until they start getting hurt.
     if( hostile_count > friendly_count ) {
         assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "Crowd adjustment: %s set danger level to %1.2f after counting %i major hostiles vs %i friendlies.",
+                       name, assessment, hostile_count, friendly_count );
     }
 
     assessment *= NPC_COWARDICE_MODIFIER;
