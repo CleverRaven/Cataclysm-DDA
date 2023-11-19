@@ -244,7 +244,13 @@
         "name": "puddle of slime",
         "color": "green",
         "effects": [
-          { "effect_id": "slippery_terrain", "intensity": 3, "min_duration": "1 second", "immune_in_vehicle": true, "is_environmental": false }
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 3,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
         ]
       }
     ],
