@@ -436,25 +436,31 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     float candidate_health =  candidate.hp_percentage() / 100.0f;
     float armour = estimate_armour( candidate );
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
+    bool is_fleeing = candidate.has_effect( effect_npc_run_away );
     if( !my_gun ) {
         speed = std::max( speed, 0.5f );
     };
 
     threat += my_gun && enemy ? candidate.get_dodge() / 2.0f : candidate.get_dodge();
     threat += armour;
-    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s defense value as %1.2f.",
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s assesses %s defense value as %1.2f.</color>",
                    name, candidate.disp_name( true ), threat );
 
     if( enemy && candidate_gun && !my_gun ) {
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s has a gun and %s doesn't; %s adjusts threat accordingly.",
+                       "<color_light_gray>%s has a gun and %s doesn't; %s adjusts threat accordingly.</color>",
                        candidate.disp_name(), name, name );
         candidate_weap_val *= 1.5f;
     }
     threat += candidate_weap_val;
-    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s weapon value as %1.2f.",
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s assesses %s weapon value as %1.2f.</color>",
                    name, candidate.disp_name( true ), candidate_weap_val );
-
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s assesses</color> %s threat: %1.2f <color_light_gray>before personality and situation changes.</color>",
+                   name,
+                   candidate.disp_name( true ), threat );
     if( enemy ) {
         threat -= static_cast<float>( personality.aggression );
     } else {
@@ -462,20 +468,34 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     }
 
     threat *= speed;
-    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s scales %s threat by %1.0f%% based on speed.",
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s scales %s threat by %1.0f%% based on speed.</color>",
                    name, candidate.disp_name( true ), speed * 100.0f );
     threat *= candidate_health;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "%s scales %s threat by %1.0f%% based on remaining health.", name,
+                   "<color_light_gray>%s scales %s threat by %1.0f%% based on remaining health.</color>", name,
                    candidate.disp_name( true ), candidate_health * 100.0f );
 
-    float perception_fuzz = threat * rng( -1.0f,
-                                          1.0f ) * std::max( ( 20.0f - static_cast<float>( get_per() ) ), 0.0f ) / 20.0f;
-    threat += perception_fuzz;
+    if( is_fleeing ) {
+        threat *= 0.5f;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_light_gray>%s scales %s threat by 50%% because they're running away.</color>", name,
+                       candidate.disp_name( true ) );
+    }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s sets </color>%s threat: %1.2f <color_light_gray>before perception randomization.</color>",
+                   name,
+                   candidate.disp_name( true ), threat );
+    int perception_factor = rng( -10, 10 ) * std::max( ( 20 - get_per() ), 0 );
 
-    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s randomizes %s threat by %1.1f%% based on perception",
-                   name, candidate.disp_name( true ), perception_fuzz );
-    add_msg_debug( debugmode::DF_NPC, "%s assesses %s final threat as %1.2f", name,
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s randomizes %s threat by %1.1f%% based on perception factor %i.</color>  Final threat %1.2f",
+                   name, candidate.disp_name( true ), threat * perception_factor / 1000.0f, perception_factor,
+                   threat +  threat * perception_factor / 1000.0f );
+    threat += threat * perception_factor / 1000.0f;
+
+    add_msg_debug( debugmode::DF_NPC, "<color_light_gray>%s assesses </color>%s final threat: %1.2f",
+                   name,
                    candidate.disp_name( true ),
                    threat );
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
@@ -881,7 +901,7 @@ void npc::assess_danger()
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "After checking player, %s assesses enemy level as %1.2f, ally level at %1.2f.",
+                   " After checking player, %s assesses enemy level as %1.2f, ally level at %1.2f.",
                    name, assessment, assess_ally );
 
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
