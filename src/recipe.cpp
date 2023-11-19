@@ -275,8 +275,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "activity_level", exertion_str );
     // Remove after 0.H
     if( exertion_str == "fake" ) {
-        debugmsg( "Depreciated activity level \"fake\" found in recipe %s. Setting activity level to MODERATE_EXERCISE.",
-                  ident_.c_str() );
+        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
+                  ident_.c_str(), src );
         exertion_str = "MODERATE_EXERCISE";
     }
     const auto it = activity_levels_map.find( exertion_str );
