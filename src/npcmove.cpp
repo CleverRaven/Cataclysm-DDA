@@ -567,6 +567,7 @@ std::optional<int> npc_short_term_cache::closest_enemy_to_friendly_distance() co
 void npc::assess_danger()
 {
     float assessment = 0.0f;
+	float assess_ally = 0.0f;
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
     int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
@@ -723,7 +724,7 @@ void npc::assess_danger()
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
                                          NPC_DANGER_VERY_LOW );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s assessed threat of critter %s as %1.2f, modded to %1.2f.  With distance vs speed ratio %i, final relative threat is %1.2f",
+                       "%s assessed threat of critter %s as %1.2f, modded to %1.2f.  With distance vs speed ratio %1.2f, final relative threat is %1.2f",
                        name, critter.type->nname(), critter_threat, critter_danger, scaled_distance,
                        critter_danger / scaled_distance );
         ai_cache.total_danger += critter_danger / scaled_distance;
@@ -827,16 +828,14 @@ void npc::assess_danger()
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
         }
-        float guy_threat = evaluate_character( dynamic_cast<const Character &>( *guy.lock() ), npc_ranged,
-                                               false );
-        float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-        assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
+        float guy_threat = std::max( evaluate_character( dynamic_cast<const Character &>( *guy.lock() ), npc_ranged, false ), NPC_DANGER_VERY_LOW );
+        assess_ally += guy_threat * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assessed friendly %s at threat level %1.2f.",
                        name, guy.lock()->disp_name(), guy_threat );
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "After checking NPC allies, %s assesses danger level as %1.2f.",
-                   name, assessment );
+                   "Total of %s NPC ally threat: %1.2f.",
+                   name, assess_ally );
 
     if( sees( player_character.pos() ) ) {
         // Mod for the player's danger level, weight it higher if player is very close
@@ -844,7 +843,7 @@ void npc::assess_danger()
         // NPC will try hard not to break and run while in formation.
         // This code should eventually remove the 'player' special case and be applied to
         // whoever the NPC perceives as their closest leader.
-        float player_diff = evaluate_character( player_character, npc_ranged, is_enemy() );
+        float player_diff = std::max( evaluate_character( player_character, npc_ranged, is_enemy() ), NPC_DANGER_VERY_LOW );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s identified player as an enemy of threat level %1.2f",
@@ -852,30 +851,27 @@ void npc::assess_danger()
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
-            float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "%s identified player as a friend of threat level %1.2f (ily babe)",
                            name, player_diff );
             if( dist <= 3 ) {
                 player_diff = player_diff * ( 4 - dist ) / 2;
-                assessment = std::max( min_danger, assessment - player_diff );
+                assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "Player is %i tiles from %s.  Reducing threat by %1.2f and bolstering morale.",
-                               dist, name, player_diff );
+                               "Player is %i tiles from %s.  Adding %1.2f to ally strength and bolstering morale.", dist, name, player_diff );
                 swarm_count = 0;
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
                 friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s sees friendly player, reducing danger by %1.2f",
-                               name, player_diff * 0.5f );
-                assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s sees friendly player, adding %1.2f to ally strength.", name, player_diff * 0.5f );
+                assess_ally += player_diff * 0.5f;
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "After checking player, %s assesses danger level as %1.2f.",
-                   name, assessment );
+                   "After checking player, %s assesses enemy level as %1.2f, ally level at %1.2f.",
+                   name, assessment, assess_ally );
 
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
     // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
@@ -890,16 +886,20 @@ void npc::assess_danger()
 
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_self( npc_ranged ) * 0.5f + rng( -5, 5 ) + rng( -3, 3 );
-        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
-        if( my_diff < assessment ) {
+        float my_diff = evaluate_self( npc_ranged ) * 0.5f;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses own final strength as %1.2f.", name, my_diff );
+		assess_ally += my_diff;
+        add_msg_debug( debugmode::DF_NPC, "%s rates total danger as %1.2f, ally strength %1.2f.", name, assessment, assess_ally );
+        if( assess_ally < assessment ) {
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery
                                          + 1_turns * static_cast<int>( get_pain() / 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
-        } else if( npc_ranged && my_diff < assessment * swarm_count ) {
-            // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
+        } else if( npc_ranged && assess_ally < assessment * swarm_count ) {
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "Due to ranged weapon, %s decides to try to reposition from the swarm.", name );
             time_duration run_away_for = 2_turns;
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
@@ -917,6 +917,7 @@ void npc::assess_danger()
     if( assessment <= 2.0f ) {
         assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
+	//should also cache ally strength here?
     ai_cache.danger_assessment = assessment;
 }
 
