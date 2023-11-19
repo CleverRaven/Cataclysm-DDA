@@ -129,7 +129,8 @@
     "coverage": 40,
     "required_str": 5,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
+    "deployed_item": "mannequin",
+    "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 6,
       "str_max": 40,
