@@ -40,8 +40,6 @@
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
       },
-      "tunnels_west": { "overmap": "mine_shaft_lower_north", "west": "tunnel_entrance_to_tunnels" },
-      "tunnels_east": { "overmap": "mine_shaft_lower_east_north", "above": "shaft_lower_to_shaft_middle" },
       "tunnel_entrance": { "overmap": "salamander_tunnel_ew", "east": "tunnel_entrance_to_tunnels", "west": "tunnel_to_tunnel" },
       "tee": {
         "overmap": "salamander_tunnel_nes",
@@ -56,10 +54,10 @@
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
       },
-      "straight_tunnel": { "overmap": "mine_tunnel_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
-      "corner": { "overmap": "mine_tunnel_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
-      "dead_end": { "overmap": "mine_tunnel_end_south", "north": "tunnel_to_tunnel" },
-      "slope_down_to_-3": { "overmap": "mine_tunnel_end_south", "north": "tunnel_to_tunnel", "below": "-2_to_-3" },
+      "straight_tunnel": { "overmap": "salamander_tunnel_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "salamander_tunnel_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "salamander_tunnel_end_south", "north": "tunnel_to_tunnel" },
+      "slope_down_to_-3": { "overmap": "salamander_tunnel_end_south", "north": "tunnel_to_tunnel", "below": "-2_to_-3" },
       "-3_tee": {
         "overmap": "mine_tunnel_nes",
         "north": "-3_tunnel_to_-3_tunnel",
@@ -73,29 +71,29 @@
         "south": "-3_tunnel_to_-3_tunnel",
         "west": "-3_tunnel_to_-3_tunnel"
       },
-      "-3_straight_tunnel": { "overmap": "mine_tunnel_ns", "north": "-3_tunnel_to_-3_tunnel", "south": "-3_tunnel_to_-3_tunnel" },
-      "-3_corner": { "overmap": "mine_tunnel_ne", "north": "-3_tunnel_to_-3_tunnel", "east": "-3_tunnel_to_-3_tunnel" },
-      "-3_dead_end": { "overmap": "mine_tunnel_end_south", "north": "-3_tunnel_to_-3_tunnel" },
-      "slope_up_to_-2": { "overmap": "mine_tunnel_end_south", "north": "-3_tunnel_to_-3_tunnel", "above": "-2_to_-3" },
-      "slope_down_to_-4": { "overmap": "mine_tunnel_end_south", "north": "-3_tunnel_to_-3_tunnel", "below": "-3_to_-4" },
+      "-3_straight_tunnel": { "overmap": "salamander_tunnel_ns", "north": "-3_tunnel_to_-3_tunnel", "south": "-3_tunnel_to_-3_tunnel" },
+      "-3_corner": { "overmap": "salamander_tunnel_ne", "north": "-3_tunnel_to_-3_tunnel", "east": "-3_tunnel_to_-3_tunnel" },
+      "-3_dead_end": { "overmap": "salamander_tunnel_end_south", "north": "-3_tunnel_to_-3_tunnel" },
+      "slope_up_to_-2": { "overmap": "salamander_tunnel_end_south", "north": "-3_tunnel_to_-3_tunnel", "above": "-2_to_-3" },
+      "slope_down_to_-4": { "overmap": "salamander_tunnel_end_south", "north": "-3_tunnel_to_-3_tunnel", "below": "-3_to_-4" },
       "-4_tee": {
-        "overmap": "mine_tunnel_nes",
+        "overmap": "salamander_tunnel_nes",
         "north": "-4_tunnel_to_-4_tunnel",
         "east": "-4_tunnel_to_-4_tunnel",
         "south": "-4_tunnel_to_-4_tunnel"
       },
       "-4_cross": {
-        "overmap": "mine_tunnel_nesw",
+        "overmap": "salamander_tunnel_nesw",
         "north": "-4_tunnel_to_-4_tunnel",
         "east": "-4_tunnel_to_-4_tunnel",
         "south": "-4_tunnel_to_-4_tunnel",
         "west": "-4_tunnel_to_-4_tunnel"
       },
-      "-4_straight_tunnel": { "overmap": "mine_tunnel_ns", "north": "-4_tunnel_to_-4_tunnel", "south": "-4_tunnel_to_-4_tunnel" },
-      "-4_corner": { "overmap": "mine_tunnel_ne", "north": "-4_tunnel_to_-4_tunnel", "east": "-4_tunnel_to_-4_tunnel" },
-      "-4_dead_end": { "overmap": "mine_tunnel_end_south", "north": "-4_tunnel_to_-4_tunnel" },
-      "slope_up_to_-3": { "overmap": "mine_tunnel_end_south", "north": "-4_tunnel_to_-4_tunnel", "above": "-3_to_-4" },
-      "tunnel_to_finale": { "overmap": "mine_tunnel_ns", "north": "-4_tunnel_to_finale", "south": "-4_tunnel_to_-4_tunnel" },
+      "-4_straight_tunnel": { "overmap": "salamander_tunnel_ns", "north": "-4_tunnel_to_-4_tunnel", "south": "-4_tunnel_to_-4_tunnel" },
+      "-4_corner": { "overmap": "salamander_tunnel_ne", "north": "-4_tunnel_to_-4_tunnel", "east": "-4_tunnel_to_-4_tunnel" },
+      "-4_dead_end": { "overmap": "salamander_tunnel_end_south", "north": "-4_tunnel_to_-4_tunnel" },
+      "slope_up_to_-3": { "overmap": "salamander_tunnel_end_south", "north": "-4_tunnel_to_-4_tunnel", "above": "-3_to_-4" },
+      "tunnel_to_finale": { "overmap": "salamander_tunnel_ns", "north": "-4_tunnel_to_finale", "south": "-4_tunnel_to_-4_tunnel" },
       "finale": { "overmap": "mine_finale_north", "south": "-4_tunnel_to_finale" }
     },
     "root": "salamander_eruption_ground",
@@ -104,15 +102,8 @@
         {
           "name": "entrance_shaft_tunnels_start",
           "chunk": [
-            { "overmap": "mine_entrance", "pos": [ 0, 1, 0 ] },
-            { "overmap": "mine_entrance_roof", "pos": [ 0, 1, 1 ] },
-            { "overmap": "loading_zone", "pos": [ 1, 1, 0 ] },
-            { "overmap": "loading_zone_roof", "pos": [ 1, 1, 1 ] },
-            { "overmap": "shaft_west", "pos": [ 0, 1, -1 ] },
-            { "overmap": "shaft_east", "pos": [ 1, 1, -1 ] },
-            { "overmap": "tunnels_west", "pos": [ 0, 1, -2 ] },
-            { "overmap": "tunnels_east", "pos": [ 1, 1, -2 ] },
-            { "overmap": "tunnel_entrance", "pos": [ -1, 1, -2 ] }
+            { "overmap": "eruption_roof", "pos": [ 0, 0, 1 ] },
+            { "overmap": "salamander_eruption_entrance", "pos": [ 0, 0, -1 ] }
           ],
           "max": 1
         }
