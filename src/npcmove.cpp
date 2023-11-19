@@ -427,24 +427,22 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
     if( !my_gun ) {
         speed = std::max( speed, 0.5f );
-    }
-
-    //int perception_fuzz = static_cast<int>( std::max( ( 20 - get_per() ), 0 ) / 20 );
+    };
 
     threat += my_gun && enemy ? candidate.get_dodge() / 2.0f : candidate.get_dodge();
     threat += armour;
     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s defense value as %1.2f.",
-                   name, candidate.disp_name(), threat );
+                   name, candidate.disp_name( true ), threat );
 
     if( enemy && candidate_gun && !my_gun ) {
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s has a gun and %s doesn't; %s adjusts threat accordingly.",
-                       candidate.disp_name(), name, name );
+                       candidate.disp_name( true ), name, name );
         candidate_weap_val *= 1.5f;
     }
     threat += candidate_weap_val;
     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s assesses %s weapon value as %1.2f.",
-                   name, candidate.disp_name(), candidate_weap_val );
+                   name, candidate.disp_name( true ), candidate_weap_val );
 
     if( enemy ) {
         threat -= static_cast<float>( personality.aggression );
@@ -454,13 +452,20 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
 
     threat *= speed;
     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s scales %s threat by %1.0f%% based on speed.",
-                   name, candidate.disp_name(), speed * 100.0f );
+                   name, candidate.disp_name( true ), speed * 100.0f );
     threat *= candidate_health;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "%s scales %s threat by %1.0f%% based on remaining health.", name,
-                   candidate.disp_name(), candidate_health * 100.0f );
+                   candidate.disp_name( true ), candidate_health * 100.0f );
 
-    add_msg_debug( debugmode::DF_NPC, "%s assesses %s threat as %1.2f", name, candidate.disp_name(),
+    float perception_fuzz = threat * rng( -1.0f,
+                                          1.0f ) * std::max( ( 20.0f - static_cast<float>( get_per() ) ), 0.0f ) / 20.0f;
+    threat += perception_fuzz;
+
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s randomizes %s threat by %1.1f%% based on perception",
+                   name, candidate.disp_name( true ), perception_fuzz );
+    add_msg_debug( debugmode::DF_NPC, "%s assesses %s final threat as %1.2f", name,
+                   candidate.disp_name( true ),
                    threat );
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
@@ -469,7 +474,9 @@ float npc::evaluate_self( bool my_gun ) const
 {
     float threat = 0.0f;
     const double &my_weap_val = ai_cache.my_weapon_value;
-    float my_health = hp_percentage() / 100.0f; //  -  get_pain() / 5 ;
+    // the worse pain the NPC is in, the more likely they are to overestimate the severity of their injuries.
+    float pain_factor = rng( 0.0f, static_cast<float>( get_pain() / 10.0f ) );
+    float my_health = ( hp_percentage() - pain_factor ) / 100.0f;
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
