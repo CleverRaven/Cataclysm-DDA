@@ -2410,7 +2410,7 @@ double Character::gun_value( const item &weap, int ammo ) const
             { 10.0f, 4.0f },
             { 25.0f, 3.0f },
             { 100.0f, 1.0f },
-            { 500.0f, 5.0f },
+            { 500.0f, 0.5f },
         }
     };
 
