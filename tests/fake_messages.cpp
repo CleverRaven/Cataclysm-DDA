@@ -28,7 +28,7 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size
 {
     return messages;
 }
-bool Messages::has_debug_filter( debugmode::debug_filter type )
+bool Messages::has_debug_filter( debugmode::debug_filter )
 {
     return true;
 }
