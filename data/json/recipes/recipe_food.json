@@ -5288,7 +5288,7 @@
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
       [ [ "meat_cooked", 1, "LIST" ] ],
-      [ [ "any_butter_or_oil", 1, "LIST" ] ] 
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
   },
   {
