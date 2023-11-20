@@ -373,19 +373,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_teleport_test",
-    "effect": [
-      {
-        "run_eoc_selector": [ "EOC_teleport_test_setloc", "EOC_teleport_test_do", "EOC_teleport_test_other" ],
-        "names": [ "Set location", "Teleport", "Teleport other" ],
-        "keys": [ "a", "b", "c" ],
-        "descriptions": [ "Set location", "Teleport", "Teleport other" ],
-        "allow_cancel": true
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_can_see_location_test",
     "effect": [
       {
@@ -409,6 +396,19 @@
           }
         ],
         "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_teleport_test_setloc", "EOC_teleport_test_do", "EOC_teleport_test_other" ],
+        "names": [ "Set location", "Teleport", "Teleport other" ],
+        "keys": [ "a", "b", "c" ],
+        "descriptions": [ "Set location", "Teleport", "Teleport other" ],
+        "allow_cancel": true
       }
     ]
   },
