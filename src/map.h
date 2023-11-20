@@ -350,12 +350,6 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_visitable_zones_cache_dirty( bool dirty = true ) {
-            visitable_cache_dirty = dirty;
-        };
-        bool get_visitable_zones_cache_dirty() const {
-            return visitable_cache_dirty;
-        };
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -2235,13 +2229,6 @@ class map
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
-
-        // Tracks the dirtiness of the visitable zones cache, but that cache does not live here,
-        // it is distributed among the active monsters. This must be flipped when
-        // persistent visibility from terrain or furniture changes
-        // (this excludes vehicles and fields) or when persistent traversability changes,
-        // which means walls and floors.
-        bool visitable_cache_dirty = false;
 
     public:
         void queue_main_cleanup();
