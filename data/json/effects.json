@@ -4406,9 +4406,7 @@
     "type": "effect_type",
     "id": "hay_fever",
     "name": [ "Hay Fever" ],
-    "desc": [
-      "Your eyes are itchy and you've got a runny nose."
-    ],
+    "desc": [ "Your eyes are itchy and you've got a runny nose." ],
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "show_in_info": true,
