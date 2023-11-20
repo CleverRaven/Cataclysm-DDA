@@ -346,6 +346,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sneezing",
+    "name": [ "Sneezing" ],
+    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "max_duration": "1 s",
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "acid_charged",
     "name": [ "Charged Acid Glands" ],
     "//": "Enables special attacks where specified",
@@ -4392,5 +4401,20 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "hay_fever",
+    "name": [ "Hay Fever" ],
+    "desc": [
+      "Your eyes are itchy and you've got a runny nose."
+    ],
+    "rating": "bad",
+    "resist_effects": [ "took_flumed" ],
+    "show_in_info": true,
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "int_mod": [ -1 ]
+    }
   }
 ]

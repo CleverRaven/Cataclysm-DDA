@@ -225,9 +225,165 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_RASHY_SKIN",
-    "recurrence": [ "2 hour", "24 hours" ],
+    "id": "rashy_skin",
+    "recurrence": [ "2 hours", "24 hours" ],
     "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hay_fever_spring_fall",
+    "recurrence": [ "4 hours", "3 days" ],
+    "condition": { "and": [ { "u_has_trait": "SEASONAL_ALLERGIES" }, { "or": [ { "is_season": "spring" }, { "is_season": "fall" } ] }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "hay_fever" } } ] },
+    "effect": [ 
+      { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
+      {
+        "u_add_effect": "hay_fever",
+        "duration": { "math": [ "rand(28800) + 600" ] }
+      } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hay_fever_summer",
+    "recurrence": [ "2 hours", "36 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SEASONAL_ALLERGIES" }, { "is_season": "SUMMER" }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "hay_fever" } } ] },
+    "effect": [ 
+      { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
+      {
+        "u_add_effect": "hay_fever",
+        "duration": { "math": [ "rand(28800) + 600" ] }
+      } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sneeze",
+    "recurrence": [ "45 seconds", "30 minutes" ],
+    "condition": { "and": [ { "u_has_effect": "hay_fever" }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_message": "You sneeze!", "type": "bad" }, { "u_add_effect": "sneezing", "duration": "1 second" }, { "u_make_sound": "a sneeze!", "volume": 10, "type": "speech" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "flowers_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "is_season": "winter" },
+        { "u_has_trait": "FLOWERS" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.", "type": "bad" },
+      { "u_lose_trait": "FLOWERS" },
+      { "u_add_trait": "FLOWERS_WINTER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "flowers_spring_summer_fall_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "fall" } ] },
+        { "u_has_trait": "FLOWERS_WINTER" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "You feel a giddy thrill as new flowers bloom from your scalp.", "type": "good" },
+      { "u_lose_trait": "FLOWERS_WINTER" },
+      { "u_add_trait": "FLOWERS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_spring_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "is_season": "spring" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "Spring must be here, the new buds growing from your scalp are giving off a lovely scent.", "type": "good" },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS_SUMMER" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_summer_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "is_season": "summer" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.", "type": "good" },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_fall_timer_plant",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "u_has_trait": "THRESH_PLANT" },
+        { "is_season": "fall" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.", "type": "good" },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_SUMMER" },
+      { "u_add_trait": "ROSEBUDS_FALL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_fall_timer_elfa",
+    "//": "Only true plants bear fruit. Elves just look pretty for longer.",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "not": { "u_has_trait": "THRESH_PLANT" } },
+        { "is_season": "fall" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.", "type": "good" },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_SUMMER" } ] },
+        { "is_season": "winter" } 
+      ]
+    },
+    "effect": [
+      { "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.", "type": "bad" },
+      { "u_lose_trait": "ROSEBUDS_SUMMER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS_WINTER" }
+    ]
   }
 ]

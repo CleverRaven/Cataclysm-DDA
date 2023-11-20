@@ -3670,6 +3670,20 @@
   },
   {
     "type": "mutation",
+    "id": "FLOWERS_WINTER",
+    "name": { "str": "Dead Flowers" },
+    "points": 2,
+    "description": "No flowers in wintertime.  As such this mutation is invisible.",
+    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs2": [ "HAIRROOTS" ],
+    "types": [ "SCENT" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "changes_to": [ "ROSEBUDS_WINTER" ],
+    "player_display": false
+  },
+  {
+    "type": "mutation",
     "id": "ROSEBUDS",
     "name": { "str": "Rosebuds" },
     "points": 3,
@@ -3682,6 +3696,19 @@
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "social_modifiers": { "lie": 15, "persuade": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_WINTER",
+    "name": { "str": "Dead Rosebuds" },
+    "points": 3,
+    "description": "No flowers in wintertime.  As such this mutation is invisible.",
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS_WINTER" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -4088,6 +4115,15 @@
     "prereqs2": [ "INFRESIST" ],
     "category": [ "MEDICAL" ],
     "flags": [ "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SEASONAL_ALLERGIES",
+    "name": { "str": "Seasonal Allergies" },
+    "points": -1,
+    "starting_trait": true,
+    "description": "You tend to get hay fever, especially in springtime.  Antihistamines are your friend.",
+    "category": [ "CHIMERA", "BEAST" ]
   },
   {
     "type": "mutation",
