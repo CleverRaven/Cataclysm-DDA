@@ -5204,7 +5204,7 @@
     "name": "chairs",
     "description": "Recipes related to constructing chairs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "deck_chair", "chair_wood", "chair_wood_black", "chair_wood_white" ],
+    "nested_category_data": [ "deck_chair", "chair_wood", "chair_wood_nobolt", "chair_wood_black", "chair_wood_white" ],
     "difficulty": 3
   },
   {
