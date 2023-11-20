@@ -40,7 +40,6 @@
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
       },
-      "tunnel_entrance": { "overmap": "salamander_tunnel_ew", "east": "tunnel_entrance_to_tunnels", "west": "tunnel_to_tunnel" },
       "tee": {
         "overmap": "salamander_tunnel_nes",
         "north": "tunnel_to_tunnel",
