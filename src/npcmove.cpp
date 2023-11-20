@@ -408,7 +408,7 @@ float npc::evaluate_monster( const monster &target, int dist ) const
 {
     float speed = target.speed_rating();
     float scaled_distance = std::max( 1.0f, dist * dist / ( target.speed_rating() + 10 ) );
-    float hp_percent = 1.0f - static_cast<float>( target.get_hp() ) / target.get_hp_max();
+    float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
     float diff = std::min( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_yellow>evaluate_monster </color><color_light_gray>%s thinks %s threat level is %1.2f before considering situation.</color>",
@@ -853,7 +853,7 @@ void npc::assess_danger()
             }
         }
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "<color_light_gray>%s assessed threat of enemy %s as %1.2f.  With distance vs speed ratio %i, final relative threat is </color>%1.2f",
+                       "<color_light_gray>%s assessed threat of enemy %s as %1.2f.  With distance vs speed ratio %i, final relative threat is </color><color_red>%1.2f</color>",
                        name, bogey, foe_threat, scaled_distance, foe_threat / scaled_distance );
         return foe_threat;
     };
@@ -868,7 +868,7 @@ void npc::assess_danger()
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "Before checking allies+player, %s assesses danger level as %1.2f.", name,
+                   "Before checking allies+player, %s assesses danger level as <color_light_red>%1.2f</color>.", name,
                    assessment );
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
@@ -878,11 +878,11 @@ void npc::assess_danger()
                                      npc_ranged, false ), NPC_DANGER_VERY_LOW );
         assess_ally += guy_threat * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "<color_light_gray>%s assessed friendly %s at threat level %1.2f.</color>",
+                       "<color_light_gray>%s assessed friendly %s at threat level </color><color_light_blue>%1.2f.</color>",
                        name, guy.lock()->disp_name(), guy_threat );
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "Total of %s NPC ally threat: %1.2f.",
+                   "Total of <color_green>%s NPC ally threat</color>: <color_light_green>%1.2f</color>.",
                    name, assess_ally );
 
     if( sees( player_character.pos() ) ) {
@@ -908,7 +908,7 @@ void npc::assess_danger()
                 player_diff = player_diff * ( 4 - dist ) / 2;
                 assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_green>Player is %i tiles from %s.</color><color_light_gray>  Adding %1.2f to ally strength and bolstering morale.</color>",
+                               "<color_green>Player is %i tiles from %s.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
                                dist, name,
                                player_diff );
                 swarm_count = 0;
@@ -934,7 +934,7 @@ void npc::assess_danger()
     if( hostile_count > friendly_count ) {
         assessment *= std::max( hostile_count / static_cast<float>( friendly_count ), 1.0f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "Crowd adjustment: <color_light_gray>%s set danger level to %1.2f after counting %i major hostiles vs %i friendlies.</color>",
+                       "Crowd adjustment: <color_light_gray>%s set danger level to </color>%1.2f<color_light_gray> after counting </color><color_yellow>%i major hostiles</color><color_light_gray> vs </color><color_light_green>%i friendlies.</color>",
                        name, assessment, hostile_count, friendly_count );
     }
 
