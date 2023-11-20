@@ -863,7 +863,7 @@
     "type": "COMESTIBLE",
     "id": "mutfruit",
     "name": { "str": "mutant fruit" },
-    "weight": 40 g",
+    "weight": "40 g",
     "color": "magenta",
     "spoils_in": "12 days",
     "comestible_type": "FOOD",
@@ -891,9 +891,9 @@
     "material": [ "fruit", "hflesh" ],
     "volume": "34 ml",
     "fun": -10,
-    "flags": [ "BAD_TASTE", SMOKABLE ],
+    "flags": [ "BAD_TASTE", "SMOKABLE" ],
     "smoking_result": "mutfruit_dry",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 4 ], [ "mutant_toxin", 6 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 4 ], [ "mutant_toxin", 6 ] ]
   },
   {
     "id": "mutfruit_dry",
