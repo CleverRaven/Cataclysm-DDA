@@ -234,20 +234,32 @@
     "type": "effect_on_condition",
     "id": "hay_fever_spring_fall",
     "recurrence": [ "4 hours", "3 days" ],
-    "condition": { "and": [ { "u_has_trait": "SEASONAL_ALLERGIES" }, { "or": [ { "is_season": "spring" }, { "is_season": "fall" } ] }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "hay_fever" } } ] },
-    "effect": [ 
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "or": [ { "is_season": "spring" }, { "is_season": "fall" } ] },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
       { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
-      {
-        "u_add_effect": "hay_fever",
-        "duration": { "math": [ "rand(28800) + 600" ] }
-      } ]
+      { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "hay_fever_summer",
     "recurrence": [ "2 hours", "36 hours" ],
-    "condition": { "and": [ { "u_has_trait": "SEASONAL_ALLERGIES" }, { "is_season": "SUMMER" }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "hay_fever" } } ] },
-    "effect": [ 
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "is_season": "SUMMER" },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
       { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
       {
         "u_add_effect": "hay_fever",
@@ -341,7 +353,10 @@
       ]
     },
     "effect": [
-      { "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.", "type": "good" },
+      {
+        "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.",
+        "type": "good"
+      },
       { "u_lose_trait": "ROSEBUDS_WINTER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_SUMMER" },
@@ -357,11 +372,14 @@
       "and": [
         { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
         { "not": { "u_has_trait": "THRESH_PLANT" } },
-        { "is_season": "fall" } 
+        { "is_season": "fall" }
       ]
     },
     "effect": [
-      { "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.", "type": "good" },
+      {
+        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
+        "type": "good"
+      },
       { "u_lose_trait": "ROSEBUDS_WINTER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_FALL" },
@@ -375,11 +393,14 @@
     "condition": {
       "and": [
         { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_SUMMER" } ] },
-        { "is_season": "winter" } 
+        { "is_season": "winter" }
       ]
     },
     "effect": [
-      { "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.", "type": "bad" },
+      {
+        "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.",
+        "type": "bad"
+      },
       { "u_lose_trait": "ROSEBUDS_SUMMER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_FALL" },
