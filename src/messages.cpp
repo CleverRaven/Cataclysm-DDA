@@ -1034,19 +1034,3 @@ void add_msg_if_player_sees( const Creature &target, const game_message_params &
         Messages::add_msg( params, std::move( msg ) );
     }
 }
-
-void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-                                   std::string msg )
-{
-    if( get_player_view().sees( target ) ) {
-        add_msg_debug( type, std::move( msg ) );
-    }
-}
-
-void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-                                   std::string msg )
-{
-    if( get_player_view().sees( target ) ) {
-        add_msg_debug( type, std::move( msg ) );
-    }
-}

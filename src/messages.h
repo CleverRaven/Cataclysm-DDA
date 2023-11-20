@@ -77,13 +77,6 @@ inline void add_msg( const game_message_params &params, const char *const msg, A
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-#define add_msg_debug(type, ...)                                        \
-    do {                                                                \
-        if( Messages::has_debug_filter( type ) ) {                      \
-            Messages::add_msg( m_debug, string_format( __VA_ARGS__ ) ); \
-        }                                                               \
-    } while( false )
-
 void add_msg_if_player_sees( const tripoint &target, std::string msg );
 void add_msg_if_player_sees( const Creature &target, std::string msg );
 template<typename ...Args>
@@ -166,47 +159,27 @@ inline void add_msg_if_player_sees( const Creature &target, const game_message_p
                                    std::forward<Args>( args )... ) );
 }
 
-void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-                                   std::string msg );
-void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-                                   std::string msg );
-template<typename ...Args>
-inline void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-        const std::string &msg, Args &&... args )
+// This function acts as a marker to clang-tidy to enforce no translations
+// in developer facing debug messages.
+template <typename T>
+inline T &&clang_tidy_no_translations( T &&t )
 {
-    // expanding for string formatting can be expensive
-    if( debug_mode ) {
-        return add_msg_debug_if_player_sees( target, type, string_format( msg,
-                                             std::forward<Args>( args )... ) );
-    }
+    return std::forward<T>( t );
 }
-template<typename ...Args>
-inline void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-        const std::string &msg, Args &&... args )
-{
-    if( debug_mode ) {
-        return add_msg_debug_if_player_sees( target, type, string_format( msg,
-                                             std::forward<Args>( args )... ) );
-    }
-}
-template<typename ...Args>
-inline void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-        const char *const msg, Args &&... args )
-{
-    if( debug_mode ) {
-        return add_msg_debug_if_player_sees( target, type, string_format( msg,
-                                             std::forward<Args>( args )... ) );
-    }
-}
-template<typename ...Args>
-inline void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-        const char *const msg, Args &&... args )
-{
-    if( debug_mode ) {
-        return add_msg_debug_if_player_sees( target, type, string_format( msg,
-                                             std::forward<Args>( args )... ) );
-    }
-}
+
+#define add_msg_debug(type, ...)                                                                        \
+    do {                                                                                                \
+        if( Messages::has_debug_filter( type ) ) {                                                      \
+            Messages::add_msg( m_debug, clang_tidy_no_translations( string_format( __VA_ARGS__ ) ) );   \
+        }                                                                                               \
+    } while( false )
+
+#define add_msg_debug_if_player_sees(target, type, ...)                                                 \
+    do {                                                                                                \
+        if( Messages::has_debug_filter( type ) && get_player_view().sees( target ) ) {                  \
+            Messages::add_msg( m_debug, clang_tidy_no_translations( string_format( __VA_ARGS__ ) ) );   \
+        }                                                                                               \
+    } while( false )
 
 void modify_msg_with_exclamations( std::string &msg, game_message_type type );
 

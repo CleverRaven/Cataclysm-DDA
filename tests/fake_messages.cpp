@@ -82,13 +82,3 @@ void add_msg_if_player_sees( const Creature &, const game_message_params &, std:
 {
     Messages::add_msg( std::move( m ) );
 }
-void add_msg_debug_if_player_sees( const tripoint &, debugmode::debug_filter,
-                                   std::string m )
-{
-    Messages::add_msg( std::move( m ) );
-}
-void add_msg_debug_if_player_sees( const Creature &, debugmode::debug_filter,
-                                   std::string m )
-{
-    Messages::add_msg( std::move( m ) );
-}
