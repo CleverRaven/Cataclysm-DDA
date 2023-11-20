@@ -52,6 +52,7 @@ MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
 MAKE_NULL_ID( move_mode, "null" )
 MAKE_NULL_ID( fault, "null" )
 MAKE_NULL_ID( fault_fix, "null" )
+MAKE_NULL_ID( spell_type, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \

@@ -353,5 +353,48 @@
         "else": { "u_message": "Canceled" }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_teleport_test_setloc", "EOC_teleport_test_do", "EOC_teleport_test_other" ],
+        "names": [ "Set location", "Teleport", "Teleport other" ],
+        "keys": [ "a", "b", "c" ],
+        "descriptions": [ "Set location", "Teleport", "Teleport other" ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_setloc",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "teleport_test_pos" }, "message": "Select point" },
+        "then": { "u_message": "<global_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_do",
+    "effect": [ { "u_teleport": { "global_val": "teleport_test_pos" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_other",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+        "then": {
+          "run_eoc_with": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
+          "beta_loc": { "context_val": "loc" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
   }
 ]

@@ -206,7 +206,7 @@
       },
       {
         "id": "faction_base_farm_2_0",
-        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), no recipes",
+        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), processing recipes",
         "om_terrains": [
           "field",
           "dirt_road",

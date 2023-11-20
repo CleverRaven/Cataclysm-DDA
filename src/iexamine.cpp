@@ -3204,7 +3204,7 @@ void iexamine::stook_full( Character &, const tripoint &examp )
     }
     for( item &it : items ) {
         if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
-            item result( it.get_comestible()->smoking_result, it.birthday(), it.charges );
+            item result( it.get_comestible()->smoking_result, it.birthday() );
             recipe rec;
             result.inherit_flags( it, rec );
             if( !result.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
@@ -3214,7 +3214,6 @@ void iexamine::stook_full( Character &, const tripoint &examp )
                     it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
                 }
                 result.components.add( it );
-                result.recipe_charges = it.charges;
             }
             add_msg( _( "You take down the stook as the drying process is now finished." ) );
             it = result;
@@ -5638,7 +5637,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The Autodoc detected an open wound on your %s and applied disinfectant to sterilize it" ),
+                                                   _( "The Autodoc detected an open wound on your %s and applied disinfectant to sterilize it." ),
                                                    _( "The Autodoc detected an open wound on <npcname>'s %s and applied disinfectant to sterilize it." ),
                                                    body_part_name( bp_healed ) );
 
@@ -5936,36 +5935,82 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+
+    // Get list of milable items, their rot timer and their flags
+    std::map<itype_id, std::vector<double>> millable_rot;
+    std::map<itype_id, std::vector<flag_id>> millable_flags;
+    std::map<itype_id, item> millable_items;
+    std::vector<map_stack::iterator> iter_to_delet;
+    for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         item &it = *iter;
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
-            const islot_milling &mdata = *it.type->milling_data;
-            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
-            // if not enough material, just remove the item (0 loops)
-            // (may happen if the player did not add enough charges to the mill
-            // or if the conversion rate is changed between versions)
-            for( int i = 0; i < resulting_charges; i++ ) {
-                item result( mdata.into_, start_time + milling_time );
-                result.components.add( it );
-                // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-                for( const flag_id &f : it.type->get_flags() ) {
-                    if( f->craft_inherit() ) {
-                        result.set_flag( f );
-                    }
-                }
-                result.recipe_charges = resulting_charges;
-                // Set flag to tell set_relative_rot() to calc from bday not now
-                result.set_flag( flag_PROCESSING_RESULT );
-                result.set_relative_rot( it.get_relative_rot() );
-                result.unset_flag( flag_PROCESSING_RESULT );
-                here.add_item( examp, result );
+            // Unset processing flag to be able to check the relative rot
+            it.unset_flag( flag_PROCESSING );
+
+            if( millable_rot.find( it.typeId() ) == millable_rot.end() ) {
+                const std::vector<double> rot_times = { it.get_relative_rot() };
+                millable_rot.emplace( it.typeId(), rot_times );
+            } else {
+                const double rot_time = it.get_relative_rot();
+                millable_rot[it.typeId()].emplace_back( rot_time );
             }
+            if( millable_flags.find( it.typeId() ) == millable_flags.end() ) {
+                std::vector<flag_id> flags;
+                for( const flag_id &f : it.type->get_flags() ) {
+                    flags.emplace_back( f );
+                }
+                millable_flags.emplace( it.typeId(), flags );
+            } else {
+                for( const flag_id &f : it.type->get_flags() ) {
+                    millable_flags[it.typeId()].emplace_back( f );
+                }
+            }
+            millable_items.emplace( it.typeId(), it );
+
+            iter_to_delet.push_back( iter );
+        }
+    }
+    //Create the product items
+    for( const std::pair<const string_id<itype>, std::vector<double>> &rot_data : millable_rot ) {
+        const itype_id &type = rot_data.first;
+        const std::vector<double> &relative_rots = rot_data.second;
+        const double relative_rot = std::accumulate( relative_rots.begin(), relative_rots.end(),
+                                    0.0 ) / relative_rots.size();
+
+        const islot_milling &mdata = *type->milling_data;
+        const int resulting_charges = get_milled_amount( type, examp, here );
+        // if not enough material, just remove the item (0 loops)
+        // (may happen if the player did not add enough charges to the mill
+        // or if the conversion rate is changed between versions)
+        for( int i = 0; i < resulting_charges; i++ ) {
+            item result( mdata.into_, start_time + milling_time );
+            result.components.add( millable_items[type] );
+
+            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+            for( const flag_id &f : millable_flags[type] ) {
+                if( f->craft_inherit() ) {
+                    result.set_flag( f );
+                }
+            }
+
+            result.recipe_charges = resulting_charges;
+            // Set flag to tell set_relative_rot() to calc from bday not now
+            result.set_flag( flag_PROCESSING_RESULT );
+            result.set_relative_rot( relative_rot );
+            result.unset_flag( flag_PROCESSING_RESULT );
+            here.add_item( examp, result );
+        }
+    }
+    //Delete the original items that got milled
+    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+        if( std::find( iter_to_delet.begin(), iter_to_delet.end(), iter ) != iter_to_delet.end() ) {
             iter = items.erase( iter );
         } else {
             ++iter;
         }
     }
+
     here.furn_set( examp, next_mill_type );
 }
 

@@ -113,5 +113,21 @@
       { "u_spawn_monster": "mon_yrax_trifacet", "real_count": 1, "min_radius": 1, "max_radius": 2 },
       { "u_message": "The hostile trifacet violently unfolds just clear of your hand!", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "add_effect",
+    "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_NIGHTMARES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "nightmares" },
+    "effect": [
+      { "u_message": "nightmares", "snippet": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
+    ]
   }
 ]

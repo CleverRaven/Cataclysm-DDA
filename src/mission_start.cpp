@@ -39,8 +39,6 @@ static const itype_id itype_software_useless( "software_useless" );
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -48,20 +46,6 @@ static const mtype_id mon_zombie( "mon_zombie" );
 
 void mission_start::standard( mission * )
 {
-}
-
-void mission_start::place_zombie_mom( mission *miss )
-{
-    const tripoint_abs_omt house = mission_util::random_house_in_closest_city();
-
-    miss->target = house;
-    overmap_buffer.reveal( house, 6 );
-
-    tinymap zomhouse;
-    zomhouse.load( project_to<coords::sm>( house ), false );
-    zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z() }, false, -1, miss->uid,
-                        Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName ) );
-    zomhouse.save();
 }
 
 void mission_start::kill_nemesis( mission * )

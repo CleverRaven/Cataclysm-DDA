@@ -159,7 +159,7 @@
   {
     "type": "COMESTIBLE",
     "id": "thyme",
-    "name": { "str": "thyme" },
+    "name": { "str_sp": "thyme" },
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
@@ -179,7 +179,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mustard powder" },
     "description": "A fragrant yellow powder.  Not edible in this form.",
-    "color": "red"
+    "color": "yellow"
   },
   {
     "id": "artificial_sweetener",

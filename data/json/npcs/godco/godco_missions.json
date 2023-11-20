@@ -128,7 +128,7 @@
     "id": "MISSION_GODCO_FOOD_GUARD_GET_TRAP_BOOK",
     "type": "mission_definition",
     "name": { "str": "Find a copy of The Modern Trapper" },
-    "description": "Find a copy of The Modern Trapper so Eddie can learn how.",
+    "description": "Find a copy of The Modern Trapper so Eddie can learn how to lay traps.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

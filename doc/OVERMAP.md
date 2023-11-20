@@ -233,7 +233,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
-| `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
+| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
@@ -272,6 +272,7 @@ an exhaustive example...
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
+    "travel_cost_type": "field",
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE",
       "condition": { "compare_num": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },

@@ -102,11 +102,10 @@
     "type": "item_group",
     "id": "belt308_4ap_1tracer",
     "container-item": "belt308",
-    "//": "TODO: replace 762_51 with 762_51_ap (M993) when it would be a thing.  i hope i'll make it as followup",
     "subtype": "collection",
     "items": [
       { "item": "762_51_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
-      { "item": "762_51", "count": 1, "charges-min": 80, "charges-max": 80 }
+      { "item": "762_51_m993", "count": 1, "charges-min": 80, "charges-max": 80 }
     ]
   },
   {
@@ -126,8 +125,7 @@
     "type": "item_group",
     "id": "ammo_box_ap_308",
     "container-item": "ammo_box_army_20_308",
-    "//": "TODO: replace 762_51 with 762_51_ap (M993) when it would be a thing.  i hope i'll make it as followup",
-    "items": [ { "item": "762_51", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+    "items": [ { "item": "762_51_m993", "count": 1, "charges-min": 20, "charges-max": 20 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -179,8 +177,7 @@
     "type": "item_group",
     "id": "belt308_5ap",
     "container-item": "belt308",
-    "//": "TODO: replace 762_51 with 762_51_ap (M993) when it would be a thing",
     "subtype": "collection",
-    "items": [ { "item": "762_51", "count": 1, "charges-min": 100, "charges-max": 100 } ]
+    "items": [ { "item": "762_51_m993", "count": 1, "charges-min": 100, "charges-max": 100 } ]
   }
 ]

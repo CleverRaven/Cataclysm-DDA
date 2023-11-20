@@ -33,20 +33,6 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "38_super",
-    "copy-from": "38_special",
-    "type": "AMMO",
-    "name": { "str_sp": ".38 Super" },
-    "description": ".38 Super ammunition with a 90gr JHP bullet.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles.",
-    "price": 240,
-    "price_postapoc": 600,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 20,
-    "ammo_type": "38super",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 4 }, "dispersion": -10 },
-    "proportional": { "recoil": 1.5 }
-  },
-  {
     "id": "reloaded_38_fmj",
     "copy-from": "38_fmj",
     "type": "AMMO",
@@ -62,16 +48,6 @@
     "type": "AMMO",
     "name": { "str_sp": ".38 Special, reloaded" },
     "description": ".38 Special ammunition with a 130gr FMJ bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_super",
-    "copy-from": "38_super",
-    "type": "AMMO",
-    "name": { "str_sp": ".38 Super, reloaded" },
-    "description": ".38 Super ammunition with a 90gr JHP bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

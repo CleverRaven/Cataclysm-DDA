@@ -23,6 +23,11 @@ std::string talker_monster_const::disp_name() const
     return me_mon_const->disp_name();
 }
 
+std::string talker_monster_const::get_name() const
+{
+    return me_mon_const->get_name();
+}
+
 int talker_monster_const::posx() const
 {
     return me_mon_const->posx();
@@ -208,6 +213,11 @@ int talker_monster_const::get_cur_hp( const bodypart_id & ) const
 int talker_monster_const::get_hp_max( const bodypart_id & ) const
 {
     return me_mon_const->get_hp_max();
+}
+
+double talker_monster_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
+{
+    return me_mon_const->get_armor_type( dt, bp );
 }
 
 bool talker_monster_const::will_talk_to_u( const Character &you, bool )
