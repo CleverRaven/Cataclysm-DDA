@@ -88,7 +88,10 @@
     "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
-      { "u_message": "The floating arms behind you slightly flicker, but they soon resume their steady glow.", "type": "good" },
+      {
+        "u_message": "The floating arms behind you slightly flicker, but they soon resume their steady glow.",
+        "type": "good"
+      },
       {
         "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
