@@ -3320,7 +3320,7 @@ void monster::process_effects()
         if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int intensity = get_effect_int( effect_slippery_terrain );
             int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
-            if( intensity + slipchance > ( dice( 1, 12 ) ) ) {
+            if( intensity + slipchance > dice( 1, 12 ) ) {
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
                 add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
                                         name() );
