@@ -245,9 +245,9 @@
     "method": "json",
     "nested_mapgen_id": "fallen_adventurer",
     "object": {
-      "mapgensize": [ 3, 3 ],
-      "place_items": [ { "item": "map_extra_fallen_adventurer", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100 } ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+      "mapgensize": [ 1, 1 ],
+      "place_items": [ { "item": "map_extra_fallen_adventurer", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 0 ], "y": [ 0, 0 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 0 ], "y": [ 0, 0 ] } ]
     }
   },
   {
