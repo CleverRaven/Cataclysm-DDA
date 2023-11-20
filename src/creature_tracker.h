@@ -201,7 +201,7 @@ Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredi
 template <typename VisitFn>
 void creature_tracker::for_each_reachable( const Creature &origin, VisitFn visit_fn )
 {
-    find_reachable( origin, [visit_fn]( Creature * other ) {
+    find_reachable( origin, [visit_fn = std::move( visit_fn )]( Creature * other ) {
         visit_fn( other );
         return false;
     } );
@@ -211,7 +211,8 @@ template <typename FactionPredicateFn, typename CreatureVisitFn>
 void creature_tracker::for_each_reachable( const Creature &origin, FactionPredicateFn faction_fn,
         CreatureVisitFn creature_fn )
 {
-    find_reachable( origin, std::move( faction_fn ), [creature_fn]( Creature * other ) {
+    find_reachable( origin, std::move( faction_fn ), [creature_fn = std::move( creature_fn )](
+    Creature * other ) {
         creature_fn( other );
         return false;
     } );
