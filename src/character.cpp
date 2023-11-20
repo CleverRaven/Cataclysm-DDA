@@ -10741,8 +10741,8 @@ void Character::process_effects()
         if( has_trait( trait_INFRESIST ) ) {
             checked_health += 50;
         }
-        int pinkeye_chance = round( 4 + 6 / 25 * checked_health );
-        if( one_in( ( pinkeye_chance ) ) ) {
+        float pinkeye_chance = ( 4 + 6 / 25 * checked_health );
+        if( one_in( pinkeye_chance ) ) {
             if( one_in( 2 ) ) {
                 add_effect( effect_pre_conjunctivitis_bacterial, 70_hours );
             } else {
