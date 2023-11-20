@@ -3687,8 +3687,8 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
             who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
-            add_msg_debug_if_player( who, debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
-            add_msg_debug_if_player( who, debugmode::DF_ACT_WORKOUT, act.id().c_str() );
+            add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
+            add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, act.id().c_str() );
         }
     } else if( !rest_mode ) {
         rest_mode = true;

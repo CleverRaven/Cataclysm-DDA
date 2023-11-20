@@ -177,12 +177,6 @@ inline T &&clang_tidy_no_translations( T &&t )
 #define add_msg_debug(type, ...) \
     add_msg_debug_if( true, type, __VA_ARGS__ )
 
-#define add_msg_debug_if_player(target, type, ...) \
-    add_msg_debug_if( ( target ).is_avatar(), type, __VA_ARGS__ )
-
-#define add_msg_debug_if_npc(target, type, ...) \
-    add_msg_debug_if( ( target ).is_npc(), type, __VA_ARGS__ )
-
 #define add_msg_debug_if_player_sees(target, type, ...) \
     add_msg_debug_if( get_player_view().sees( target ), type, __VA_ARGS__ )
 

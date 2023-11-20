@@ -1830,8 +1830,7 @@ class jmapgen_npc : public jmapgen_piece
                 return;
             }
             if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
-                add_msg_debug_if_player( get_avatar(), debugmode::DF_NPC, "NPC with unique id %s already exists.",
-                                         unique_id );
+                add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
                 return;
             }
             tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
