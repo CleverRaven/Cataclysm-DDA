@@ -48,7 +48,7 @@ void TranslationsInDebugMessagesCheck::check( const MatchFinder::MatchResult &Re
     if( toStringDecl ) {
         diag(
             translationCall->getBeginLoc(),
-            "string arguments to debug message functions should not be translated. This call "
+            "string arguments to debug message functions should not be translated.  This call "
             "to to_string might involve a translation; consider using to_string_writable instead."
         );
     } else {
