@@ -357,7 +357,7 @@
       "and": [
         { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
         { "not": { "u_has_trait": "THRESH_PLANT" } },
-        { "is_season": "fall" } 
+        { "is_season": "fall" }
       ]
     },
     "effect": [
