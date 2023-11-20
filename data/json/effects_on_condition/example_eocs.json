@@ -2,7 +2,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NONE",
-    "//": "Empty EoC, use it if you need to run EoC with no effect for any reason"
+    "//": "Empty EoC, use it if you need to run EoC with no effect for any reason",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
