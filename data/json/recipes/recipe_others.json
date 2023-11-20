@@ -1712,7 +1712,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 6 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ] ], [ [ "silver_small", 6 ] ] ]
   },
   {
     "type": "recipe",
