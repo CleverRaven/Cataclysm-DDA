@@ -5325,8 +5325,8 @@ bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_clas
                       std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
 {
     if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
-        get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
-                                              unique_id );
+        add_msg_debug_if_player( get_avatar(), debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                 unique_id );
         return false;
     }
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
