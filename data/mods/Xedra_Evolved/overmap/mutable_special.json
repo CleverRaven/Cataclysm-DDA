@@ -33,7 +33,7 @@
       "eruption_entrance": { "overmap": "salamander_eruption_ground_north", "below": "eruption_entrance_to_tunnels" },
       "eruption_roof": { "overmap": "salamander_eruption_roof" },
       "eruption_ground_to_eruption_entrance": {
-        "overmap": "salamander_eruption_entrance",
+        "overmap": "eruption_entrance",
         "above": "eruption_entrance_to_tunnels",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
