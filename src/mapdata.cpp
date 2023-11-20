@@ -261,6 +261,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
 		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
 		case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
+        case ter_furn_flag::TFLAG_GRAZABLE: return "GRAZABLE";
+        case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
+        case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -741,6 +744,7 @@ ter_id t_null,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
+       t_grass_alien,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,

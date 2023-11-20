@@ -260,7 +260,7 @@
       [ "glasses_bifocal", 20 ],
       { "group": "cotton_ball_bag_used", "prob": 20 },
       { "group": "cotton_ball_bag_full", "prob": 3 },
-      [ "contacts", 20 ],
+      { "item": "contacts", "prob": 20, "count": 6 },
       { "item": "pride_flag", "prob": 5 },
       { "item": "national_flag", "prob": 1 },
       { "prob": 20, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
@@ -1370,6 +1370,24 @@
       { "group": "bed", "prob": 10 },
       { "group": "games", "prob": 5 },
       { "group": "SUS_junk_drawer", "prob": 1 }
+    ]
+  },
+  {
+    "id": "cat_hoarder",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pet_carrier", "prob": 30 },
+      { "item": "petpack", "prob": 15 },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
+      { "prob": 10, "group": "catfood_dry_bag_plastic_18" },
+      { "item": "towel", "prob": 20 },
+      { "item": "soap", "prob": 10 },
+      { "item": "gloves_medical", "prob": 20 },
+      { "item": "cotton_patchwork", "prob": 15 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "missing_poster_cat", "prob": 40 },
+      { "item": "rope_6", "prob": 15 }
     ]
   },
   {

@@ -10,8 +10,7 @@
       {
         "id": "fn57mag",
         "name": { "str": "Five-seveN 20-round magazine" },
-        "description": "A standard-capacity magazine for use with the FN Five-seveN.",
-        "weight": 1
+        "description": "A standard-capacity magazine for use with the FN Five-seveN."
       }
     ],
     "weight": "120 g",
@@ -36,8 +35,7 @@
       {
         "id": "fnp90mag",
         "name": { "str": "P90 50-round magazine" },
-        "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
-        "weight": 1
+        "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90."
       }
     ],
     "weight": "300 g",

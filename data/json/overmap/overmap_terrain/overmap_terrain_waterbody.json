@@ -18,12 +18,14 @@
     "delete": { "flags": [ "LAKE" ] },
     "extend": { "flags": [ "LAKE_SHORE" ] },
     "extras": "lake_shore",
+    "travel_cost_type": "shore",
     "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
   },
   {
     "type": "overmap_terrain",
     "id": "lake_surface",
-    "copy-from": "generic_lake"
+    "copy-from": "generic_lake",
+    "travel_cost_type": "water"
   },
   {
     "type": "overmap_terrain",

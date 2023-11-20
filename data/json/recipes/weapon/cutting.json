@@ -445,7 +445,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -466,7 +466,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -487,7 +487,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -509,7 +509,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -531,7 +531,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",

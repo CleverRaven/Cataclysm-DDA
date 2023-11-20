@@ -426,7 +426,8 @@
         ]
       },
       [ "clamp", 10 ],
-      [ "goggles_welding", 80 ]
+      [ "goggles_welding", 80 ],
+      [ "thread_cutting_set", 40 ]
     ]
   },
   {

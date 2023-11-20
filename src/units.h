@@ -197,29 +197,29 @@ inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
 // "quantity / scalar" or "quantity / other_quanity" is meant.
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
-operator*( const st &factor, const quantity<lvt, ut> &rhs )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
+         operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     return { factor * rhs.value(), ut{} };
 }
 
 // same as above only with inverse order of operands: quantity * scalar
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
-operator*( const quantity<lvt, ut> &lhs, const st &factor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
+         operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     return { lhs.value() *factor, ut{} };
 }
 
 // quantity<foo, unit> * quantity<bar, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
-// operator *=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator*=( quantity<lvt, ut> &lhs, const st &factor )
+         // operator *=
+         template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+                  inline quantity<lvt, ut> &
+                  operator*=( quantity<lvt, ut> &lhs, const st &factor )
 {
     lhs = lhs * factor;
     return lhs;
@@ -227,29 +227,29 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 
 // and the revers of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
-operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<rvt>>>
+         inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
+         operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return { lhs.value() / divisor, ut{} };
 }
 
 // scalar / quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator/( lvt, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator/( lvt, quantity<rvt, ut> ) = delete;
 
-// quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
-operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+         // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
+         template<typename lvt, typename ut, typename rvt>
+         inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
+         operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return lhs.value() / rhs.value();
 }
 
 // operator /=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator/=( quantity<lvt, ut> &lhs, const st &divisor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline quantity<lvt, ut> &
+         operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs / divisor;
     return lhs;
@@ -257,29 +257,29 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<rvt>>>
+         inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+         operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return { lhs.value() % divisor, ut{} };
 }
 
 // scalar % quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator%( lvt, quantity<rvt, ut> ) = delete;
 
-// quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+         // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
+         template<typename lvt, typename ut, typename rvt>
+         inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+         operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return { lhs.value() % rhs.value(), ut{} };
 }
 
 // operator %=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator%=( quantity<lvt, ut> &lhs, const st &divisor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline quantity<lvt, ut> &
+         operator%=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs % divisor;
     return lhs;
@@ -776,8 +776,8 @@ inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_f
     const quantity<value_type, volume_in_milliliter_tag> &v )
 {
     return units::from_centimeter<int>(
-               std::round(
-                   std::cbrt( units::to_milliliter( v ) ) ) );
+        std::round(
+            std::cbrt( units::to_milliliter( v ) ) ) );
 }
 
 // Streaming operators for debugging and tests
@@ -829,8 +829,8 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
-template<typename value_type, typename tag_type>
-inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
+          template<typename value_type, typename tag_type>
+          inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
 {
     std::ostringstream os;
     os << v;

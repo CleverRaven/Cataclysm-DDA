@@ -174,8 +174,7 @@
         "id": "flag_cowboy_hat",
         "name": { "str_sp": "American cowboy hat" },
         "description": "This hat has traded its original classic looks for a red, white, and blue pattern with a band of golden stars embossed about its lip; suitable headwear for only the most serious of patriots.",
-        "append": true,
-        "weight": 1
+        "append": true
       }
     ],
     "weight": "390 g",
@@ -339,8 +338,7 @@
       {
         "id": "football_fan_hatball",
         "name": { "str": "football fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
+        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth."
       }
     ]
   },
@@ -696,7 +694,6 @@
         "name": { "str": "steampunk hard hat" },
         "description": "It's colored black, with industrial gear decorations and a steampunk design.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
     ],
@@ -882,7 +879,6 @@
         "name": { "str": "steampunk summer hard hat" },
         "description": "It's colored black, with industrial gear decorations and a steampunk design.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
     ],

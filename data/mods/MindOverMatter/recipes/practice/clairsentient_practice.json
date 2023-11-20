@@ -53,6 +53,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_night_vision')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -103,6 +104,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_danger_sense')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -153,6 +155,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_speed_reading')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -203,6 +206,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_spot_weakness')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -253,6 +257,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_sense_rads')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -304,6 +309,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_ranged_enhance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -353,6 +359,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_voyance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -396,7 +403,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: clair_dodge_power')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "<=", "(difficulty_four_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "<=", "(difficulty_six_contemplation(1))" ]
             }
           ]
         },
@@ -404,6 +411,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -453,6 +461,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_see_map')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -496,7 +505,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "<=", "(difficulty_six_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "<=", "(difficulty_eight_contemplation(1))" ]
             }
           ]
         },
@@ -504,6 +513,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -555,6 +565,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: clair_omniscience')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {

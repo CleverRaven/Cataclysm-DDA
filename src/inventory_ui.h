@@ -616,6 +616,7 @@ class inventory_selector
         bool add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr, item_location const &topmost_parent = {},
                                   int indent = 0 );
+        void add_contained_gunmods( Character &you, item &gun );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );

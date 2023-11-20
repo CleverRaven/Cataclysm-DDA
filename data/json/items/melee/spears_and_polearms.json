@@ -34,7 +34,6 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
-    "weapon_category": [ "POLEARMS", "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "melee_damage": { "bash": 5, "stab": 9 }

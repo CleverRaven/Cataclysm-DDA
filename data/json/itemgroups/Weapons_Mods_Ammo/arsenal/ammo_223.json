@@ -168,11 +168,10 @@
     "type": "item_group",
     "id": "belt223_4ap_1tracer",
     "container-item": "belt223",
-    "//": "todo: replace 556 with 556 ap",
     "subtype": "collection",
     "items": [
       { "item": "556_incendiary", "count": 1, "charges-min": 40, "charges-max": 40 },
-      { "item": "556", "count": 1, "charges-min": 160, "charges-max": 160 }
+      { "item": "556_m995", "count": 1, "charges-min": 160, "charges-max": 160 }
     ]
   },
   {
@@ -199,8 +198,7 @@
     "type": "item_group",
     "id": "belt223_5ap",
     "container-item": "belt223",
-    "//": "todo: replace 556 with 556 ap",
     "subtype": "collection",
-    "items": [ { "item": "556", "count": 1, "charges-min": 200, "charges-max": 200 } ]
+    "items": [ { "item": "556_m995", "count": 1, "charges-min": 200, "charges-max": 200 } ]
   }
 ]

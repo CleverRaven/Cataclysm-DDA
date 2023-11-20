@@ -111,6 +111,8 @@ class vitamin
         float RDA_to_default( int percent ) const;
 
         int units_from_mass( vitamin_units::mass val ) const;
+        // First is value, second is units (g, mg, etc)
+        std::pair<std::string, std::string> mass_str_from_units( int units ) const;
 
     private:
         vitamin_id id_;

@@ -4,6 +4,7 @@
     "abstract": "generic_rural_road",
     "name": "rural road",
     "color": "brown",
+    "travel_cost_type": "dirt_road",
     "see_cost": 2,
     "mondensity": 2
   },

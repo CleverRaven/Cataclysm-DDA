@@ -1773,6 +1773,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
+             to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
+             true );
     } );
 
     add_empty_line();

@@ -64,5 +64,104 @@
     "type": "effect_on_condition",
     "id": "EOC_EATER_DROSS_FUN_3",
     "effect": [ { "u_add_morale": "morale_ate_dross", "bonus": 100, "max_bonus": 200, "duration": "120 h", "decay_start": "60 h" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KARMA_ARMS_INITIATE",
+    "condition": { "not": { "u_has_trait": "karma_arms" } },
+    "effect": [
+      { "u_message": "Ethereal, transparent arms appear behind your shoulders and <color_cyan>glow</color>.", "type": "good" },
+      { "u_add_trait": "karma_arms" },
+      {
+        "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "karma_arms" },
+      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KARMA_ARMS_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "u_message": "Floating arms behind you flicker a bit, but still glow.", "type": "good" },
+      {
+        "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "karma_arms" },
+      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEVIL_TAIL_INITIATE",
+    "condition": { "not": { "u_has_trait": "devil_tail" } },
+    "effect": [
+      { "u_message": "You feel like your spine stretched enormously.", "type": "good" },
+      { "u_add_trait": "devil_tail" },
+      {
+        "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
+      }
+    ],
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail disappear in the air.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEVIL_TAIL_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana')", ">=", "100" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "100" ] },
+      { "u_message": "Your devilish tail stretches and twist playfully.", "type": "good" },
+      {
+        "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
+      }
+    ],
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail disappear in the air.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STALKER_EYES_INITIATE",
+    "condition": { "not": { "u_has_trait": "stalker_eyes" } },
+    "effect": [
+      {
+        "u_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
+        "type": "good"
+      },
+      { "u_add_trait": "stalker_eyes" },
+      {
+        "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "stalker_eyes" },
+      { "u_message": "A great new world under your eyes disappears.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STALKER_EYES_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "u_message": "Your sight darkens for a second, but then turn back.", "type": "good" },
+      {
+        "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "stalker_eyes" },
+      { "u_message": "A great new world under your eyes disappears.", "type": "neutral" }
+    ]
   }
 ]

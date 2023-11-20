@@ -302,7 +302,7 @@
     "id": "mon_zombie_military_pilot",
     "type": "MONSTER",
     "name": { "str": "zombie military pilot" },
-    "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy-looking helmet.",
+    "description": "Once a pilot, it is wearing a flight suit and a sturdy-looking flight helmet.  The head twitches and adjusts constantly, following any and every source of movement.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
@@ -330,20 +330,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "WARM",
-      "GRABS",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "NOHEAD",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "WARM", "GRABS", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "NOHEAD", "FILTHY" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 2 }
   },
   {

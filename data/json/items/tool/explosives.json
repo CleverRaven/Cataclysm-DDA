@@ -664,38 +664,41 @@
   },
   {
     "id": "mininuke",
-    "type": "TOOL",
+    "type": "TOOL_ARMOR",
     "category": "weapons",
-    "name": { "str": "mininuke" },
-    "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
-    "description": "An extremely powerful weapon, a portable nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
-    "weight": "23000 g",
-    "volume": "16 L",
+    "name": { "str": "SADM mininuke" },
+    "//": "This is based on the B54 Mod 1, all other man-portable nuclear weapons have far too high a yield.",
+    "description": "The B54 Special Atomic Demolition Munition is an extremely powerful weapon, a portable nuclear bomb, using the smallest nuclear warhead in US inventory.  It is housed inside a extremely sturdy transit container.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
+    "weight": "26500 g",
+    "volume": "33389 ml",
+    "longest_side": "46 cm",
     "price": 180000,
     "price_postapoc": 10000,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
+    "to_hit": -4,
+    "material": [ "aluminum", "nylon" ],
     "symbol": "*",
     "color": "light_green",
     "use_action": [ "MININUKE" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ],
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 90,
+        "coverage": 10,
+        "covers": [ "hand_l", "hand_r" ]
+      }
+    ],
+    "flags": [ "STURDY", "LEAK_DAM", "BELTED", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "mininuke_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "mininuke" },
-    "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
-    "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
-    "weight": "23000 g",
-    "volume": "16 L",
+    "copy-from": "mininuke",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "active SADM mininuke" },
+    "description": "The nuclear bomb looks no different from the outside, yet you know that the device is armed and counting down.  You should probably get far, far away from it.",
     "price": 0,
     "price_postapoc": 0,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "light_green",
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": {
       "type": "explosion",
@@ -705,8 +708,7 @@
       "fields_max_intensity": 3,
       "explosion": { "power": 9000000 }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   },
   {
     "id": "molotov",

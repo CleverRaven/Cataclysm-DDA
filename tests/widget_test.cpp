@@ -242,7 +242,7 @@ TEST_CASE( "text_widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0, false ) == "Zero" );
+        CHECK( words.text( false, 0 ) == "Zero" );
     }
 }
 
