@@ -246,8 +246,15 @@
     "type": "effect_on_condition",
     "id": "hay_fever_summer",
     "recurrence": [ "2 hours", "36 hours" ],
-    "condition": { "and": [ { "u_has_trait": "SEASONAL_ALLERGIES" }, { "is_season": "SUMMER" }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "hay_fever" } } ] },
-    "effect": [ 
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "is_season": "SUMMER" },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
       { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
       {
         "u_add_effect": "hay_fever",
