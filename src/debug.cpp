@@ -210,7 +210,7 @@ bool debug_mode = false;
 
 namespace debugmode
 {
-std::list<debug_filter> enabled_filters;
+std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value )
 {
     // see debug.h for commentary

@@ -25,10 +25,14 @@ class window;
 
 namespace Messages
 {
+
 std::vector<std::pair<std::string, std::string>> recent_messages( size_t count );
+inline bool has_debug_filter( debugmode::debug_filter type )
+{
+    return debug_mode && debugmode::enabled_filters.count( type ) == 1;
+}
 void add_msg( std::string msg );
 void add_msg( const game_message_params &params, std::string msg );
-void add_msg_debug( debugmode::debug_filter type, std::string msg );
 void clear_messages();
 void deactivate();
 size_t size();
@@ -38,6 +42,7 @@ void display_messages( const catacurses::window &ipk_target, int left, int top, 
                        int bottom );
 void serialize( JsonOut &json );
 void deserialize( const JsonObject &json );
+
 } // namespace Messages
 
 void add_msg( std::string msg );
@@ -75,22 +80,12 @@ inline void add_msg( const game_message_params &params, const char *const msg, A
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-void add_msg_debug( debugmode::debug_filter type, std::string msg );
-template<typename ...Args>
-inline void add_msg_debug( debugmode::debug_filter type, const std::string &msg, Args &&... args )
-{
-    // expanding for string formatting can be expensive
-    if( debug_mode ) {
-        return add_msg_debug( type, string_format( msg, std::forward<Args>( args )... ) );
-    }
-}
-template<typename ...Args>
-inline void add_msg_debug( debugmode::debug_filter type, const char *const msg, Args &&... args )
-{
-    if( debug_mode ) {
-        return add_msg_debug( type, string_format( msg, std::forward<Args>( args )... ) );
-    }
-}
+#define add_msg_debug(type, ...)                                        \
+    do {                                                                \
+        if( Messages::has_debug_filter( type ) ) {                      \
+            Messages::add_msg( m_debug, string_format( __VA_ARGS__ ) ); \
+        }                                                               \
+    } while( false )
 
 void add_msg_if_player_sees( const tripoint &target, std::string msg );
 void add_msg_if_player_sees( const Creature &target, std::string msg );

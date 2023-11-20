@@ -280,7 +280,7 @@ enum debug_filter : int {
     DF_LAST // This is always the last entry
 };
 
-extern std::list<debug_filter> enabled_filters;
+extern std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value );
 } // namespace debugmode
 
