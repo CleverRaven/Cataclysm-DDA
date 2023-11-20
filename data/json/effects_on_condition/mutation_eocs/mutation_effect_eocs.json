@@ -341,7 +341,10 @@
       ]
     },
     "effect": [
-      { "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.", "type": "good" },
+      {
+        "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.",
+        "type": "good"
+      },
       { "u_lose_trait": "ROSEBUDS_WINTER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_SUMMER" },
