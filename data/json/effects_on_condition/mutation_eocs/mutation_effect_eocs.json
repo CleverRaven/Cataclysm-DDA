@@ -234,8 +234,15 @@
     "type": "effect_on_condition",
     "id": "hay_fever_spring_fall",
     "recurrence": [ "4 hours", "3 days" ],
-    "condition": { "and": [ { "u_has_trait": "SEASONAL_ALLERGIES" }, { "or": [ { "is_season": "spring" }, { "is_season": "fall" } ] }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "hay_fever" } } ] },
-    "effect": [ 
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "or": [ { "is_season": "spring" }, { "is_season": "fall" } ] },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
       { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
       { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
     ]
