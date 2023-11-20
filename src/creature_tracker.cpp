@@ -19,8 +19,6 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
-static const mfaction_str_id monfaction_player( "player" );
-
 static const mon_flag_str_id mon_flag_VERMIN( "VERMIN" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

@@ -133,6 +133,9 @@ class creature_tracker
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonArray &ja );
 
+        // This must be called when persistent visibility from terrain or furniture changes
+        // (this excludes vehicles and fields) or when persistent traversability changes,
+        // which means walls and floors.
         void invalidate_reachability_cache() {
             dirty_ = true;
         }
@@ -143,21 +146,22 @@ class creature_tracker
 
         void flood_fill_zone( const Creature &origin );
 
+        void rebuild_cache();
+
         std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
         std::vector<shared_ptr_fast<monster>> monsters_list;
-        void rebuild_cache();
         // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<tripoint_abs_ms, shared_ptr_fast<monster>> monsters_by_location;
 
         // Tracks the dirtiness of the visitable zones cache. This must be flipped when
         // persistent visibility from terrain or furniture changes (this excludes vehicles and fields)
         // or when persistent traversability changes, which means walls and floors.
-        bool dirty_ = true;
-        int zone_tick_ = 1;
-        int zone_number_ = 0;
+        bool dirty_ = true;  // NOLINT(cata-serialize)
+        int zone_tick_ = 1;  // NOLINT(cata-serialize)
+        int zone_number_ = 0;  // NOLINT(cata-serialize)
         std::unordered_map < int, std::unordered_map<mfaction_id, std::vector<Creature *>>>
-        creatures_by_zone_and_faction_;
-        std::unordered_set<Creature *> removed_;
+        creatures_by_zone_and_faction_;  // NOLINT(cata-serialize)
+        std::unordered_set<Creature *> removed_;  // NOLINT(cata-serialize)
 
         friend game;
 };

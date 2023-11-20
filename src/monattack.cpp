@@ -4597,14 +4597,14 @@ bool mattack::parrot_at_danger( monster *parrot )
         if( !creature->is_hallucination() && one_in( 20 ) ) {
             if( creature->is_avatar() || creature->is_npc() ) {
                 Character *character = creature->as_character();
-                return ( character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
-                         parrot->sees( *character ) );
+                return character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
+                       parrot->sees( *character );
             } else {
                 monster *monster = creature->as_monster();
-                return ( ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                           ( monster->anger > 0 &&
-                             monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-                         parrot->sees( *monster ) );
+                return ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
+                         ( monster->anger > 0 &&
+                           monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
+                       parrot->sees( *monster );
             }
         }
         return false;
