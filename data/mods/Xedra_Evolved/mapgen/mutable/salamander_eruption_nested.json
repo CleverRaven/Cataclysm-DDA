@@ -10,7 +10,7 @@
     "method": "json",
     "nested_mapgen_id": "spiral_cw",
     "object": {
-      "palettes": [ "salamander_palette" ],
+      "palettes": [ "salamander_eruption_palette" ],
       "mapgensize": [ 6, 6 ],
       "rows": [
         "######",
@@ -27,7 +27,7 @@
     "method": "json",
     "nested_mapgen_id": "spiral_ccw",
     "object": {
-      "palettes": [ "salamander_palette" ],
+      "palettes": [ "salamander_eruption_palette" ],
       "mapgensize": [ 6, 6 ],
       "rows": [
         "######",
@@ -44,7 +44,7 @@
     "method": "json",
     "nested_mapgen_id": "spiral_boulder_cw",
     "object": {
-      "palettes": [ "salamander_palette" ],
+      "palettes": [ "salamander_eruption_palette" ],
       "mapgensize": [ 6, 6 ],
       "rows": [
         "$$$$$$",
@@ -61,7 +61,7 @@
     "method": "json",
     "nested_mapgen_id": "spiral_boulder_ccw",
     "object": {
-      "palettes": [ "salamander_palette" ],
+      "palettes": [ "salamander_eruption_palette" ],
       "mapgensize": [ 6, 6 ],
       "rows": [
         "$$$$$$",
@@ -309,7 +309,7 @@
     "method": "json",
     "nested_mapgen_id": "mine_lava",
     "object": {
-      "palettes": [ "salamander_palette" ],
+      "palettes": [ "salamander_eruption_palette" ],
       "mapgensize": [ 4, 4 ],
       "rows": [
         "*   ",
