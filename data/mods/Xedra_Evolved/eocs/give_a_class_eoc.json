@@ -20,7 +20,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "`",
+    "id": "EOC_XE_ALLOW_GIVING_CLASS",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "effect": [
