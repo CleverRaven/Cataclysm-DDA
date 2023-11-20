@@ -561,7 +561,14 @@
         "@@",
         "@@"
       ],
-      "item": { "@": [ { "item": "cattlefodder", "chance": 10, "repeat": 5 }, { "item": "straw_pile", "chance": 10, "repeat": 5 } ] }
+      "item": {
+        "@": [
+          { "item": "cattlefodder", "chance": 10, "repeat": 5 },
+          { "item": "straw_pile", "chance": 10, "repeat": 5 },
+          { "item": "cattlefodder_medium", "chance": 5, "repeat": 3 },
+          { "item": "cattlefodder_large", "chance": 3, "repeat": 2 }
+        ]
+      }
     }
   },
   {
@@ -1141,7 +1148,7 @@
       ],
       "palettes": [ "farm_lots" ],
       "terrain": { "_": "t_null" },
-      "item": { "_": { "item": "cattlefodder", "chance": 20, "repeat": 10 } },
+      "item": { "_": { "item": "cattlefodder_large", "chance": 20, "repeat": 10 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

@@ -309,7 +309,8 @@
     "volume": "62500 ml",
     "longest_side": "180 cm",
     "to_hit": -2,
-    "melee_damage": { "bash": 18 }
+    "melee_damage": { "bash": 18 },
+    "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
   },
   {
     "type": "TOOL",

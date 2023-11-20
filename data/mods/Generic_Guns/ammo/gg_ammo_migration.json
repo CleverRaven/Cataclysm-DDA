@@ -91,6 +91,7 @@
       "bp_10mm_fmj",
       "bp_357sig_fmj",
       "bp_38_fmj",
+      "bp_38super_fmj",
       "bp_380_FMJ",
       "bp_40ball",
       "bp_40fmj",
@@ -109,6 +110,7 @@
       "matchhead_10mm_fmj",
       "matchhead_357sig_fmj",
       "matchhead_38_fmj",
+      "matchhead_38_super_fmj",
       "matchhead_380_FMJ",
       "matchhead_40ball",
       "matchhead_40fmj",
@@ -160,6 +162,7 @@
     "id": [
       "bp_357sig_jhp",
       "bp_38_special",
+      "bp_38super",
       "bp_380_JHP",
       "bp_40sw",
       "bp_45_jhp",
@@ -175,6 +178,7 @@
     "id": [
       "matchhead_357sig_jhp",
       "matchhead_38_special",
+      "matchhead_38_super",
       "matchhead_380_JHP",
       "matchhead_40sw",
       "matchhead_45_jhp",

@@ -85,5 +85,19 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "seed_eggplant", 1 ], [ "eggplant_cut", 1 ] ] ]
+  },
+  {
+    "result": "cattlefodder_medium",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cattlefodder", 7 ] ] ]
+  },
+  {
+    "result": "cattlefodder_large",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cattlefodder", 36 ] ] ]
   }
 ]

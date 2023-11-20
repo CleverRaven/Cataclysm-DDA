@@ -3,7 +3,7 @@
     "id": "38super_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".38 Super FMJ" },
-    "description": ".38 Super ammunition with a 147gr FMJ bullet.  The .38 Super round was developed from .38 ACP in the 1920s, designed to penetrate the body armor of the era.",
+    "description": ".38 Super ammunition with a 124gr FMJ bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.",
     "ascii_picture": "38super_fmj",
     "weight": "13 g",
     "volume": "97 ml",
@@ -19,19 +19,119 @@
     "ammo_type": "38super",
     "casing": "38super_casing",
     "range": 14,
-    "damage": { "damage_type": "bullet", "amount": 26 },
+    "//": ".38 Super Auto .355, 124grain FMJ, 5.8 gr Alliant UNIQUE",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 22,
+      "armor_penetration": 4,
+      "barrels": [
+        { "barrel_length": "28 mm", "amount": 14 },
+        { "barrel_length": "32 mm", "amount": 15 },
+        { "barrel_length": "38 mm", "amount": 16 },
+        { "barrel_length": "44 mm", "amount": 17 },
+        { "barrel_length": "54 mm", "amount": 18 },
+        { "barrel_length": "62 mm", "amount": 19 },
+        { "barrel_length": "76 mm", "amount": 20 },
+        { "barrel_length": "89 mm", "amount": 21 },
+        { "barrel_length": "111 mm", "amount": 22 },
+        { "barrel_length": "132 mm", "amount": 23 },
+        { "barrel_length": "168 mm", "amount": 24 },
+        { "barrel_length": "211 mm", "amount": 25 },
+        { "barrel_length": "261 mm", "amount": 26 },
+        { "barrel_length": "336 mm", "amount": 27 },
+        { "barrel_length": "461 mm", "amount": 28 },
+        { "barrel_length": "661 mm", "amount": 29 },
+        { "barrel_length": "962 mm", "amount": 30 },
+        { "barrel_length": "1252 mm", "amount": 31 }
+      ]
+    },
     "dispersion": 30,
     "recoil": 250,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "38_super",
+    "copy-from": "38super_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Super JHP" },
+    "description": ".38 Super ammunition with a 115gr JHP bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.",
+    "price": 240,
+    "price_postapoc": 600,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "count": 20,
+    "ammo_type": "38super",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } }
+  },
+  {
+    "id": "reloaded_38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Super JHP, reloaded" },
+    "description": ".38 Super ammunition with a 115gr JHP bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_38super_fmj",
     "copy-from": "38super_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".38 Super FMJ, reloaded" },
-    "description": ".38 Super ammunition with a 147gr FMJ bullet.  The .38 Super round was developed from .38 ACP in the 1920s, designed to penetrate the body armor of the era.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": ".38 Super ammunition with a 124gr FMJ bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_38super_fmj",
+    "copy-from": "38super_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Super FMJ, black powder" },
+    "description": ".38 Super ammunition with a 124gr FMJ bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_38super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Super JHP black powder" },
+    "description": ".38 Super ammunition with a 115gr JHP bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".38 Super JHP, matchhead powder" },
+    "description": ".38 Super ammunition with a 115gr JHP bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_30carbine",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "matchhead_38_super_fmj",
+    "copy-from": "38super_fmj",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".38 Super FMJ, matchhead powder" },
+    "description": ".38 Super ammunition with a 124gr FMJ bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_30carbine",
+    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]
