@@ -3,7 +3,7 @@
 #define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
-#include <list>
+#include <unordered_set>
 
 /**
  *      debugmsg(msg, ...)

@@ -28,17 +28,16 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size
 {
     return messages;
 }
+bool Messages::has_debug_filter( debugmode::debug_filter type )
+{
+    return true;
+}
 void Messages::add_msg( std::string m )
 {
     messages.emplace_back( to_string_time_of_day( calendar::turn ), std::move( m ) );
 }
 void Messages::add_msg( const game_message_params &, std::string m )
 {
-    add_msg( std::move( m ) );
-}
-void Messages::add_msg_debug( debugmode::debug_filter, std::string m )
-{
-    // cata_test does not need filters
     add_msg( std::move( m ) );
 }
 void Messages::clear_messages()
@@ -64,10 +63,6 @@ void add_msg( std::string m )
     Messages::add_msg( std::move( m ) );
 }
 void add_msg( const game_message_params &, std::string m )
-{
-    Messages::add_msg( std::move( m ) );
-}
-void add_msg_debug( debugmode::debug_filter, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }

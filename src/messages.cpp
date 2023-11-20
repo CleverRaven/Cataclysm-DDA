@@ -427,6 +427,11 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( cons
     return player_messages.recent_messages( count );
 }
 
+bool Messages::has_debug_filter( debugmode::debug_filter type )
+{
+    return debug_mode && debugmode::enabled_filters.count( type ) == 1;
+}
+
 void Messages::serialize( JsonOut &json )
 {
     json.member( "player_messages" );
