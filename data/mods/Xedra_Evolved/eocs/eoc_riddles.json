@@ -372,8 +372,8 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_INVENTOR", "EOC_XE_GIVE_CLASS_DREAMSMITH" ],
-        "title": "Hard or Soft?",
-        "names": [ "Hard", "Soft" ]
+        "title": "Complex or Straightforward?",
+        "names": [ "Complex", "Straightforward" ]
       }
     ]
   },
@@ -383,8 +383,8 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_INVENTOR", "EOC_XE_GIVE_CLASS_DREAMSMITH" ],
-        "title": "Knowledge or Ignorance?",
-        "names": [ "Knowledge", "Ignorance" ]
+        "title": "Knowledge or Certainty?",
+        "names": [ "Knowledge", "Certainty" ]
       }
     ]
   }
