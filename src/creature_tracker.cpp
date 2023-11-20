@@ -173,6 +173,7 @@ void creature_tracker::remove( const monster &critter )
 
     remove_from_location_map( critter );
     removed_.emplace( iter->get() );
+    removed_this_turn_.emplace( *iter );
     monsters_list.erase( iter );
 }
 
@@ -181,6 +182,7 @@ void creature_tracker::clear()
     monsters_list.clear();
     monsters_by_location.clear();
     removed_.clear();
+    removed_this_turn_.clear();
     creatures_by_zone_and_faction_.clear();
     invalidate_reachability_cache();
 }
@@ -271,6 +273,7 @@ void creature_tracker::remove_dead()
             ++iter;
         }
     }
+    removed_this_turn_.clear();
 }
 
 template<typename T>

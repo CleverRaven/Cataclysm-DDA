@@ -153,6 +153,12 @@ class creature_tracker
         // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<tripoint_abs_ms, shared_ptr_fast<monster>> monsters_by_location;
 
+        /**
+         * Creatures that get removed via @ref remove are stored here until the end of the turn.
+         * This keeps the objects valid and they can still be accessed instead of causing UB.
+         */
+        std::unordered_set<shared_ptr_fast<monster>> removed_this_turn_;  // NOLINT(cata-serialize)
+
         // Tracks the dirtiness of the visitable zones cache. This must be flipped when
         // persistent visibility from terrain or furniture changes (this excludes vehicles and fields)
         // or when persistent traversability changes, which means walls and floors.
