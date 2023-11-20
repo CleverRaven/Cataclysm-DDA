@@ -805,5 +805,12 @@
     "id": "sloc_sewer",
     "name": "Sewer",
     "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_nesw_manhole",
+    "name": "Intersection",
+    "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

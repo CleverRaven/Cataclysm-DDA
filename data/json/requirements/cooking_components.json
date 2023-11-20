@@ -49,7 +49,14 @@
     "type": "requirement",
     "//": "Bread appropriate for sandwiches.",
     "components": [
-      [ [ "bread_toastable", 1, "LIST" ], [ "tortilla_any", 1, "LIST" ], [ "biscuit", 1 ], [ "crackers", 1 ], [ "toast", 1 ] ]
+      [
+        [ "bread_toastable", 1, "LIST" ],
+        [ "flatbread", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
+        [ "biscuit", 1 ],
+        [ "crackers", 1 ],
+        [ "toast", 1 ]
+      ]
     ]
   },
   {

@@ -276,7 +276,7 @@
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "KNOWN_UP", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
