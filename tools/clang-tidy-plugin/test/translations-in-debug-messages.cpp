@@ -23,12 +23,6 @@ static void f( const time_duration &duration, Creature &c )
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "%s", to_translation( "Skill" ) );
     // CHECK-MESSAGES: [[@LINE-1]]:53: warning: string arguments to debug message functions should not be translated. [cata-translations-in-debug-messages]
 
-    add_msg_debug_if_player_sees( c, debugmode::DF_ACT_BUTCHER, _( "Skill: %s" ), skill_level );
-    // CHECK-MESSAGES: [[@LINE-1]]:65: warning: string arguments to debug message functions should not be translated. [cata-translations-in-debug-messages]
-
-    add_msg_debug_if_player_sees( c, debugmode::DF_ACT_BUTCHER, _( "Skill" ) );
-    // CHECK-MESSAGES: [[@LINE-1]]:65: warning: string arguments to debug message functions should not be translated. [cata-translations-in-debug-messages]
-
     add_msg_debug_if( true, debugmode::DF_ACT_BUTCHER, _( "Skill" ) );
     // CHECK-MESSAGES: [[@LINE-1]]:56: warning: string arguments to debug message functions should not be translated. [cata-translations-in-debug-messages]
 

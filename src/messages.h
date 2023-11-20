@@ -177,9 +177,6 @@ inline T &&clang_tidy_no_translations( T &&t )
 #define add_msg_debug(type, ...) \
     add_msg_debug_if( true, type, __VA_ARGS__ )
 
-#define add_msg_debug_if_player_sees(target, type, ...) \
-    add_msg_debug_if( get_player_view().sees( target ), type, __VA_ARGS__ )
-
 void modify_msg_with_exclamations( std::string &msg, game_message_type type );
 
 #endif // CATA_SRC_MESSAGES_H
