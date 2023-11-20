@@ -4594,16 +4594,16 @@ bool mattack::parrot( monster *z )
 bool mattack::parrot_at_danger( monster *parrot )
 {
     Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot]( Creature * creature ) {
-        if( !creature->is_hallucination() ) {
+        if( !creature->is_hallucination() && one_in( 20 ) ) {
             if( creature->is_avatar() || creature->is_npc() ) {
                 Character *character = creature->as_character();
-                return ( one_in( 20 ) && character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
+                return ( character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
                          parrot->sees( *character ) );
             } else {
                 monster *monster = creature->as_monster();
-                return ( one_in( 20 ) && ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                                           ( monster->anger > 0 &&
-                                             monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
+                return ( ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
+                           ( monster->anger > 0 &&
+                             monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
                          parrot->sees( *monster ) );
             }
         }
