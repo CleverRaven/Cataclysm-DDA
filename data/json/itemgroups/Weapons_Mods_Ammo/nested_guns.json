@@ -160,7 +160,6 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
-    "ammo": 100,
     "entries": [
       { "item": "nested_STI_DS_10", "charges-min": 0, "charges-max": 7 },
       { "item": "2011_17_mag" },
