@@ -985,7 +985,7 @@
     "color": "yellow",
     "symbol": "%",
     "calories": 350,
-    "description": "A fluffy beaten egg pancaked over with cheese, vegetables, and meat all stuffed inside.  The mother of all omelletes.",
+    "description": "A fluffy beaten egg pancaked over with cheese, vegetables, and meat all stuffed inside.  The mother of all omeletes.",
     "price": 500,
     "price_postapoc": 70,
     "material": [ "egg", "milk", "veggy", "flesh" ],
