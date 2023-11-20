@@ -952,7 +952,7 @@
   {
     "type": "COMESTIBLE",
     "id": "omelet",
-    "name": { "str": "omelet", "str_pl": "omelets },
+    "name": { "str": "omelet", "str_pl": "omelets" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -960,13 +960,13 @@
     "description": "A fluffy beaten egg pancaked over with cheese inside.",
     "price": 500,
     "price_postapoc": 70,
-    "material": [ "egg", "milk ],
+    "material": [ "egg", "milk" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
     "id": "vegetable_omelet",
-    "name": { "str": "vegetable omelet", "str_pl": "vegetable omelets },
+    "name": { "str": "vegetable omelet", "str_pl": "vegetable omelets" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -974,13 +974,13 @@
     "description": "A fluffy beaten egg pancaked over with cheese and vegetables inside.",
     "price": 500,
     "price_postapoc": 70,
-    "material": [ "egg", "milk, "veggy" ],
+    "material": [ "egg", "milk", "veggy" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
     "id": "supreme_omelet",
-    "name": { "str": "supreme omelet", "str_pl": "supreme omelets },
+    "name": { "str": "supreme omelet", "str_pl": "supreme omelets" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -988,7 +988,7 @@
     "description": "A fluffy beaten egg pancaked over with cheese, vegetables, and meat all stuffed inside.  The mother of all omelletes.",
     "price": 500,
     "price_postapoc": 70,
-    "material": [ "egg", "milk, "veggy", "flesh" ],
+    "material": [ "egg", "milk", "veggy", "flesh" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
