@@ -777,8 +777,12 @@ static void haul()
 
     menu.text = help_header + "\n\n" + status_header;
 
-    menu.entries.emplace_back( 0, hauling, hauling ? '\\' : 'h', _( "Stop hauling" ) );
-    menu.entries.emplace_back( 1, !haulable_items.empty(), !hauling ? '\\' : 'h',
+    input_context ctxt = get_default_mode_input_context();
+    std::vector<input_event> haul_keys = ctxt.keys_bound_to( "haul" );
+    int haul_key = haul_keys.empty() ? '\\' : haul_keys.front().sequence.front();
+
+    menu.entries.emplace_back( 0, hauling, hauling ? haul_key : 'h', _( "Stop hauling" ) );
+    menu.entries.emplace_back( 1, !haulable_items.empty(), !hauling ? haul_key : 'h',
                                _( "Haul everything here" ) );
     menu.entries.emplace_back( 2, !haulable_items.empty(), 'p', _( "Choose items to haul" ) );
     menu.entries.emplace_back( 3, true, 'a',
