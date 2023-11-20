@@ -379,7 +379,10 @@
       ]
     },
     "effect": [
-      { "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.", "type": "bad" },
+      {
+        "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.",
+        "type": "bad"
+      },
       { "u_lose_trait": "ROSEBUDS_SUMMER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_FALL" },
