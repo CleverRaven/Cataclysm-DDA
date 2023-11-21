@@ -358,5 +358,48 @@
     "sym": ".",
     "color": "blue",
     "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "salamander_eruption_ground" ],
+    "name": "salamander eruption",
+    "sym": "E",
+    "color": "red_cyan",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "salamander_eruption_roof" ],
+    "name": "salamander eruption roof",
+    "sym": "E",
+    "color": "red_cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "salamander_tunnel_entrance" ],
+    "name": "salamander tunnels entrance",
+    "sym": "O",
+    "color": "red_cyan",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salamander_tunnel",
+    "name": "salamder tunnels",
+    "color": "red_cyan",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_SALAMDER_ERUPTION", "population": [ 1, 2 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salamander_finale",
+    "name": "salamder tunnels",
+    "sym": "E",
+    "color": "red_cyan",
+    "see_cost": 5
   }
 ]
