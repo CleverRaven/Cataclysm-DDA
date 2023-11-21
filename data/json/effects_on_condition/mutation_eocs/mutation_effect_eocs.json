@@ -302,7 +302,7 @@
     "condition": {
       "and": [
         { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "fall" } ] },
-        { "u_has_trait": "FLOWERS_WINTER" } 
+        { "u_has_trait": "FLOWERS_WINTER" }
       ]
     },
     "effect": [
