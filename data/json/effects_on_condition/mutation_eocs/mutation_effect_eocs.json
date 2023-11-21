@@ -270,8 +270,18 @@
     "type": "effect_on_condition",
     "id": "sneeze",
     "recurrence": [ "45 seconds", "30 minutes" ],
-    "condition": { "and": [ { "u_has_effect": "hay_fever" }, { "not": { "u_has_effect": "took_flumed" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_message": "You sneeze!", "type": "bad" }, { "u_add_effect": "sneezing", "duration": "1 second" }, { "u_make_sound": "a sneeze!", "volume": 10, "type": "speech" } ]
+    "condition": {
+      "and": [
+        { "u_has_effect": "hay_fever" },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You sneeze!", "type": "bad" },
+      { "u_add_effect": "sneezing", "duration": "1 second" },
+      { "u_make_sound": "a sneeze!", "volume": 10, "type": "speech" }
+    ]
   },
   {
     "type": "effect_on_condition",
