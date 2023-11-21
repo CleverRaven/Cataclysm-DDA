@@ -5,7 +5,7 @@
     "recurrence": [ "8 h", "16 h" ],
     "effect": [
       {
-        "if": { "math": [ "u_hp() / 6", "==", "u_hp_max('torso') / 2" ] },
+        "if": { "math": [ "u_hp('ALL') / 6", "==", "u_hp_max('torso') / 2" ] },
         "then": [
           { "math": [ "magic_potential", "++" ] },
           {
