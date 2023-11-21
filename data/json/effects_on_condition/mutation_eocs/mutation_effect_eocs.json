@@ -285,12 +285,7 @@
     "type": "effect_on_condition",
     "id": "flowers_winter_timer",
     "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "is_season": "winter" },
-        { "u_has_trait": "FLOWERS" } 
-      ]
-    },
+    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "FLOWERS" } ] },
     "effect": [
       {
         "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.",
