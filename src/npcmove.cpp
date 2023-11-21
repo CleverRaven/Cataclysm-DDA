@@ -80,6 +80,11 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -399,19 +404,215 @@ std::vector<sphere> npc::find_dangerous_explosives() const
     return result;
 }
 
-float npc::evaluate_enemy( const Creature &target ) const
+float npc::evaluate_monster( const monster &target, int dist ) const
 {
-    if( target.is_monster() ) {
-        const monster &mon = dynamic_cast<const monster &>( target );
-        float diff = static_cast<float>( mon.type->difficulty );
-        return std::min( diff, NPC_MONSTER_DANGER_MAX );
-    } else if( target.is_npc() || target.is_avatar() ) {
-        return std::min( character_danger( dynamic_cast<const Character &>( target ) ),
-                         NPC_CHARACTER_DANGER_MAX );
-    } else {
-        return 0.0f;
-    }
+    float speed = target.speed_rating();
+    float scaled_distance = std::max( 1.0f, dist * dist / ( target.speed_rating() + 10 ) );
+    float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
+    float diff = std::min( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_yellow>evaluate_monster </color><color_light_gray>%s thinks %s threat level is %1.2f before considering situation.</color>",
+                   name,
+                   target.type->nname(), diff );
+    // Note that the danger can pass below "very low" if the monster is weak and far away.
+    diff *= ( hp_percent * 0.5f + 0.5f ) / scaled_distance;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s distance from %s: %i.  Speed rating: %1.2f.  Scaled distance: %1.2f.</color>",
+                   name, target.type->nname(), dist, speed, scaled_distance );
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s sees %s hp percent remaining is %1.0f%%.</color>",
+                   name, target.type->nname(), hp_percent * 100 );
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "%s puts final %s threat level at %1.2f<color_light_gray> after counting speed, distance, hp</color>",
+                   name,
+                   target.type->nname(), diff );
+    return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
+
+float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true ) const
+{
+    float threat = 0.0f;
+    bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
+    const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
+                                 null_item_reference();
+    double candidate_weap_val = candidate.weapon_value( candidate_weap );
+    float candidate_health =  candidate.hp_percentage() / 100.0f;
+    float armour = estimate_armour( candidate );
+    float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
+    bool is_fleeing = candidate.has_effect( effect_npc_run_away );
+    int perception_inverted = std::max( ( 20 - get_per() ), 0 );
+    if( has_effect( effect_bleed ) ) {
+        int bleed_intensity = 0;
+        for( const bodypart_id &bp : candidate.get_all_body_parts() ) {
+            const effect &bleediness = candidate.get_effect( effect_bleed, bp );
+            if( !bleediness.is_null() && bleediness.get_intensity() > perception_inverted / 2 ) {
+                // unlike in evaluate self, NPCs can't notice bleeding in others unless it's pretty high.
+                bleed_intensity += bleediness.get_intensity();
+            }
+        }
+        candidate_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", candidate.disp_name(), bleed_intensity );
+    }
+
+    if( !my_gun ) {
+        speed = std::max( speed, 0.5f );
+    };
+
+    threat += my_gun && enemy ? candidate.get_dodge() / 2.0f : candidate.get_dodge();
+    threat += armour;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_cyan>evaluate_character </color><color_light_gray>%s assesses %s defense value as %1.2f.</color>",
+                   name, candidate.disp_name( true ), threat );
+
+    if( enemy && candidate_gun && !my_gun ) {
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_light_gray>%s has a gun and %s doesn't; %s adjusts threat accordingly.</color>",
+                       candidate.disp_name(), name, name );
+        candidate_weap_val *= 1.5f;
+    }
+    threat += candidate_weap_val;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s assesses %s weapon value as %1.2f.</color>",
+                   name, candidate.disp_name( true ), candidate_weap_val );
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s assesses</color> %s threat: %1.2f <color_light_gray>before personality and situation changes.</color>",
+                   name,
+                   candidate.disp_name( true ), threat );
+    if( enemy ) {
+        threat -= static_cast<float>( personality.aggression );
+    } else {
+        threat +=  static_cast<float>( personality.bravery );
+    }
+
+    threat *= speed;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s scales %s threat by %1.0f%% based on speed.</color>",
+                   name, candidate.disp_name( true ), speed * 100.0f );
+    threat *= candidate_health;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s scales %s threat by %1.0f%% based on remaining health.</color>", name,
+                   candidate.disp_name( true ), candidate_health * 100.0f );
+
+    if( is_fleeing ) {
+        threat *= 0.5f;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_light_gray>%s scales %s threat by 50%% because they're running away.</color>", name,
+                       candidate.disp_name( true ) );
+    }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s sets </color>%s threat: %1.2f <color_light_gray>before perception randomization.</color>",
+                   name,
+                   candidate.disp_name( true ), threat );
+    // the math for perception fuzz is this way to make it more human readable because I kept making silly errors.
+    // I hope this helps you too. If not, well, sorry bud.
+    // Anyway the higher your perception gets the more accurate and predictable your rating is.
+    // this will become more valuable the more skilled we make NPCs at assessing enemies.
+    // At time of writing they're bad at it so this is mostly just me patting myself on the back for adding a cool looking feature.
+    int perception_factor = rng( -10, 10 ) * perception_inverted;
+
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s randomizes %s threat by %1.1f%% based on perception factor %i.</color>  Final threat %1.2f",
+                   name, candidate.disp_name( true ), threat * perception_factor / 1000.0f, perception_factor,
+                   threat +  threat * perception_factor / 1000.0f );
+    threat += threat * perception_factor / 1000.0f;
+
+    add_msg_debug( debugmode::DF_NPC, "<color_light_gray>%s assesses </color>%s final threat: %1.2f",
+                   name,
+                   candidate.disp_name( true ),
+                   threat );
+    return std::min( threat, NPC_CHARACTER_DANGER_MAX );
+}
+
+float npc::evaluate_self( bool my_gun ) const
+{
+    float threat = 0.0f;
+    const double &my_weap_val = ai_cache.my_weapon_value;
+    // the worse pain the NPC is in, the more likely they are to overestimate the severity of their injuries.
+    // the more perceptive they are, the more they're able to see how bad it really is.
+    // Randomize it such that it becomes more swingy as their emotions and pain grow higher.
+    float pain_factor = rng( 0.0f,
+                             static_cast<float>( get_pain() ) / static_cast<float>( get_per() ) );
+    float my_health = ( hp_percentage() - pain_factor ) / 100.0f;
+    float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
+    float speed = std::max( 0.5f, get_speed() / 100.0f );
+    if( my_gun ) {
+        speed = std::max( speed, 0.75f );
+    }
+    if( has_effect( effect_bleed ) ) {
+        int bleed_intensity = 0;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            const effect &bleediness = get_effect( effect_bleed, bp );
+            if( !bleediness.is_null() ) {
+                bleed_intensity += bleediness.get_intensity();
+            }
+        }
+        my_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
+    }
+
+    threat += get_dodge();
+    threat += armour;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_green>evaluate_self </color><color_light_gray>%s assesses own defense value as %1.2f.</color>",
+                   name, threat );
+
+    threat += my_weap_val;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s assesses own weapon value as %1.2f.",
+                   name, my_weap_val );
+
+    threat += static_cast<float>( personality.bravery + personality.aggression );
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s updates own threat by %i based on personality.",
+                   name, personality.bravery + personality.aggression );
+
+    threat *= speed;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s scales own threat by %1.0f%% based on speed.",
+                   name, speed * 100.0f );
+    threat *= my_health;
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_gray>%s scales own threat by %1.0f%% based on remaining health (reduced by %1.2f%% due to pain).</color>  Final value: %1.2f",
+                   name,
+                   my_health * 100.0f, pain_factor, threat );
+    add_msg_debug( debugmode::DF_NPC, "%s assesses own threat as %1.2f", name, threat );
+    return std::min( threat, NPC_CHARACTER_DANGER_MAX );
+}
+
+float npc::estimate_armour( const Character &candidate ) const
+{
+    float armour = 0.0f;
+    int armour_step;
+    int number_of_parts = 0;
+
+    for( bodypart_id part_id : candidate.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        armour_step = 0;
+        number_of_parts += 1;
+        armour_step += candidate.get_armor_type( damage_bash, part_id );
+        armour_step += candidate.get_armor_type( damage_cut, part_id );
+        armour_step += candidate.get_armor_type( damage_stab, part_id );
+        armour_step += candidate.get_armor_type( damage_bullet, part_id );
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "<color_light_gray>%s: %s armour value for %s rated as %i.</color>", name,
+                       candidate.disp_name( true ), body_part_name( part_id ), armour_step );
+        if( part_id == bodypart_id( "head" ) || part_id == bodypart_id( "torso" ) ) {
+            armour_step *= 3;
+            number_of_parts += 2;
+        }
+        armour += static_cast<float>( armour_step );
+    }
+    armour /= number_of_parts;
+
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "<color_light_gray>%s rates </color>%s total armour value: %1.2f.", name,
+                   candidate.disp_name( true ), armour );
+    // this is a value we could easily cache.
+    // I don't know how to do that, I'm supposed to be a writer.
+    return armour;
+}
+
 
 static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius )
 {
@@ -441,6 +642,7 @@ std::optional<int> npc_short_term_cache::closest_enemy_to_friendly_distance() co
 void npc::assess_danger()
 {
     float assessment = 0.0f;
+    float assess_ally = 0.0f;
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
     int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
@@ -564,9 +766,9 @@ void npc::assess_danger()
         }
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
-        float critter_threat = evaluate_enemy( critter );
-        // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
+        float critter_threat = evaluate_monster( critter, dist );
+        // warn and consider the odds for distant enemies
         if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
@@ -574,9 +776,16 @@ void npc::assess_danger()
             }
             if( dist < 8 && critter_threat > bravery_vs_pain ) {
                 hostile_count += 1;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "<color_light_gray>%s added %s to nearby hostile count.  Total: %i</color>", name,
+                               critter.type->nname(), hostile_count );
             }
             if( dist < 4 && npc_ranged ) {
                 swarm_count += 1;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "<color_light_gray>%s added %s to swarming enemies count.  Total: %i</color>",
+                               name,
+                               critter.type->nname(), swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
@@ -587,11 +796,12 @@ void npc::assess_danger()
             continue;
         }
 
+
+        add_msg_debug( debugmode::DF_NPC,
+                       "%s assessed threat of critter %s as %1.2f.",
+                       name, critter.type->nname(), critter_threat );
+        ai_cache.total_danger += critter_threat;
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
-        float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
-        float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
-                                         NPC_DANGER_VERY_LOW );
-        ai_cache.total_danger += critter_danger / scaled_distance;
 
         // don't ignore monsters that are too close or too close to an ally if we can move
         bool is_too_close = dist <= def_radius;
@@ -614,14 +824,13 @@ void npc::assess_danger()
         }
         // prioritize the biggest, nearest threats, or the biggest threats that are threatening
         // us or an ally
-        // critter danger is always at least NPC_DANGER_VERY_LOW
-        float priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
-                                   is_too_close ? critter_danger : 0.0f );
+        float priority = std::max( critter_threat - 2.0f * ( scaled_distance - 1.0f ),
+                                   is_too_close ? critter_threat : 0.0f );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
         if( priority > highest_priority ) {
             highest_priority = priority;
             ai_cache.target = g->shared_from( critter );
-            ai_cache.danger = critter_danger;
+            ai_cache.danger = critter_threat;
         }
     }
 
@@ -670,25 +879,38 @@ void npc::assess_danger()
                 ai_cache.target = g->shared_from( foe );
             }
         }
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_light_gray>%s assessed threat of enemy %s as %1.2f.  With distance vs speed ratio %i, final relative threat is </color><color_red>%1.2f</color>",
+                       name, bogey, foe_threat, scaled_distance, foe_threat / scaled_distance );
         return foe_threat;
     };
+
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
+            assessment += handle_hostile( *foe, evaluate_character( *foe, npc_ranged ),
+                                          translate_marker( "bandit" ),
                                           "kill_npc" );
         }
     }
-
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "Before checking allies+player, %s assesses danger level as <color_light_red>%1.2f</color>.", name,
+                   assessment );
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
         }
-        float guy_threat = evaluate_enemy( *guy.lock() );
-        float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-        assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
+        float guy_threat = std::max( evaluate_character( dynamic_cast<const Character &>( *guy.lock() ),
+                                     npc_ranged, false ), NPC_DANGER_VERY_LOW );
+        assess_ally += guy_threat * 0.5f;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_light_gray>%s assessed friendly %s at threat level </color><color_light_blue>%1.2f.</color>",
+                       name, guy.lock()->disp_name(), guy_threat );
     }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "Total of <color_green>%s NPC ally threat</color>: <color_light_green>%1.2f</color>.",
+                   name, assess_ally );
 
     if( sees( player_character.pos() ) ) {
         // Mod for the player's danger level, weight it higher if player is very close
@@ -696,46 +918,77 @@ void npc::assess_danger()
         // NPC will try hard not to break and run while in formation.
         // This code should eventually remove the 'player' special case and be applied to
         // whoever the NPC perceives as their closest leader.
-        float player_diff = evaluate_enemy( player_character );
+        float player_diff = std::max( evaluate_character( player_character, npc_ranged, is_enemy() ),
+                                      NPC_DANGER_VERY_LOW );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "<color_light_gray>%s identified player as an</color> <color_red>enemy</color> <color_light_gray>of threat level %1.2f</color>",
+                           name, player_diff );
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
-            float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "<color_light_gray>%s identified player as a </color><color_green>friend</color><color_light_gray> of threat level %1.2f (ily babe)",
+                           name, player_diff );
             if( dist <= 3 ) {
-                assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
+                player_diff = player_diff * ( 4 - dist ) / 2;
+                assess_ally += player_diff;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "<color_green>Player is %i tiles from %s.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
+                               dist, name,
+                               player_diff );
                 swarm_count = 0;
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
                 friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
-                assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "<color_light_gray>%s sees friendly player,</color> <color_light_green>adding %1.2f</color><color_light_gray> to ally strength.</color>",
+                               name, player_diff * 0.5f );
+                assess_ally += player_diff * 0.5f;
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                   "<color_light_blue>After checking player</color><color_light_gray>, %s assesses enemy level as </color><color_yellow>%1.2f</color><color_light_gray>, ally level at </color><color_light_green>%1.2f</color>",
+                   name, assessment, assess_ally );
 
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
     // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
     // large crowds of minor creatures, until they start getting hurt.
     if( hostile_count > friendly_count ) {
-        assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
+        assessment *= std::max( hostile_count / static_cast<float>( friendly_count ), 1.0f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "Crowd adjustment: <color_light_gray>%s set danger level to </color>%1.2f<color_light_gray> after counting </color><color_yellow>%i major hostiles</color><color_light_gray> vs </color><color_light_green>%i friendlies.</color>",
+                       name, assessment, hostile_count, friendly_count );
     }
 
+    // gotta rename cowardice modifier now.
+    // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
+    // It's likely to get deprecated in a while?
     assessment *= NPC_COWARDICE_MODIFIER;
+    assess_ally *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
-                        + rng( -5, 5 ) + rng( -3, 3 );
-        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
-        if( my_diff < assessment ) {
+        float my_diff = evaluate_self( npc_ranged ) * 0.5f;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses own final strength as %1.2f.", name, my_diff );
+        assess_ally += my_diff;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s rates total <color_yellow>enemy strength %1.2f</color>, <color_light_green>ally strength %1.2f</color>.",
+                       name,
+                       assessment, assess_ally );
+        if( assess_ally < assessment ) {
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery
                                          + 1_turns * static_cast<int>( get_pain() / 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
-        } else if( npc_ranged && my_diff < assessment * swarm_count ) {
-            // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
+        } else if( npc_ranged && assess_ally < assessment * swarm_count ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "<color_light_gray>Due to ranged weapon, %s decides to try to </color>reposition<color_light_gray> from swarming enemies.</color>",
+                           name );
             time_duration run_away_for = 2_turns;
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
@@ -753,36 +1006,13 @@ void npc::assess_danger()
     if( assessment <= 2.0f ) {
         assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
+    //should also cache ally strength here?
     ai_cache.danger_assessment = assessment;
 }
 
 bool npc::is_safe() const
 {
     return ai_cache.total_danger <= 0;
-}
-
-float npc::character_danger( const Character &uc ) const
-{
-    // TODO: Remove this when possible
-    float ret = 0.0f;
-    bool u_gun = uc.get_wielded_item() && uc.get_wielded_item()->is_gun();
-    bool my_gun = get_wielded_item() && get_wielded_item()->is_gun();
-    const item &u_weap = uc.get_wielded_item() ? *uc.get_wielded_item() : null_item_reference();
-    double u_weap_val = uc.weapon_value( u_weap );
-    const double &my_weap_val = ai_cache.my_weapon_value;
-    if( u_gun && !my_gun ) {
-        u_weap_val *= 1.5f;
-    }
-    ret += u_weap_val;
-
-    ret += hp_percentage() * get_hp_max( bodypart_id( "torso" ) ) / 100.0 / my_weap_val;
-
-    ret += my_gun ? uc.get_dodge() / 2 : uc.get_dodge();
-
-    ret *= std::max( 0.5, uc.get_speed() / 100.0 );
-
-    add_msg_debug( debugmode::DF_NPC, "%s danger: %1f", uc.disp_name(), ret );
-    return ret;
 }
 
 void npc::regen_ai_cache()
