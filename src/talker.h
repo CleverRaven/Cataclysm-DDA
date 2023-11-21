@@ -475,6 +475,9 @@ class talker
         virtual std::string evaluation_by( const talker & ) const {
             return "";
         }
+        virtual std::string view_personality_traits() const {
+            return "";
+        }
         virtual std::string short_description() const {
             return "";
         }
