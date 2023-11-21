@@ -363,6 +363,51 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_player_see_test",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_player_see_test_nest",
+            "condition": "player_see_u",
+            "effect": { "message": "You can see <u_name>." },
+            "false_effect": { "message": "You cant see <u_name>." }
+          }
+        ],
+        "local": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_can_see_location_test",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+        "then": [
+          {
+            "if": { "u_can_see_location": { "context_val": "pos" } },
+            "then": { "u_message": "You can see <context_val:pos>." },
+            "else": { "u_message": "You cant see <context_val:pos>." }
+          },
+          {
+            "u_run_npc_eocs": [
+              {
+                "id": "EOC_can_see_location_test_nest",
+                "condition": { "u_can_see_location": { "context_val": "pos" } },
+                "effect": { "message": "<u_name> can see <context_val:pos>." },
+                "false_effect": { "message": "<u_name> cant see <context_val:pos>." }
+              }
+            ],
+            "local": true
+          }
+        ],
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_teleport_test",
     "effect": [
       {

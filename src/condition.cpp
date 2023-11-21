@@ -1186,6 +1186,60 @@ void conditional_t::set_is_alive( bool is_npc )
     };
 }
 
+void conditional_t::set_is_avatar( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character() && d.actor( is_npc )->get_character()->is_avatar();
+    };
+}
+
+void conditional_t::set_is_npc( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_npc();
+    };
+}
+
+void conditional_t::set_is_character( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character();
+    };
+}
+
+void conditional_t::set_is_monster( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_monster();
+    };
+}
+
+void conditional_t::set_is_item( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_item();
+    };
+}
+
+void conditional_t::set_is_furniture( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_computer();
+    };
+}
+
+void conditional_t::set_player_see( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        const Creature *c = d.actor( is_npc )->get_creature();
+        if( c ) {
+            return get_player_view().sees( *c );
+        } else {
+            return get_player_view().sees( d.actor( is_npc )->pos() );
+        }
+    };
+}
+
 void conditional_t::set_no_assigned_mission()
 {
     condition = []( dialogue const & d ) {
@@ -3362,6 +3416,16 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
+void conditional_t::set_can_see_location( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [is_npc, target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        return d.actor( is_npc )->can_see_location( get_map().getlocal( target_pos ) );
+    };
+}
+
 void conditional_t::set_using_martial_art( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -3438,6 +3502,7 @@ parsers = {
     {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_t::set_is_on_terrain_with_flag },
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_t::set_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_t::set_has_move_mode },
+    {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_t::set_can_see_location },
     {"is_weather", jarg::member, &conditional_t::set_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
@@ -3504,6 +3569,13 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_t::set_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_t::set_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_t::set_is_alive },
+    {"u_is_avatar", "npc_is_avatar", &conditional_t::set_is_avatar },
+    {"u_is_npc", "npc_is_npc", &conditional_t::set_is_npc },
+    {"u_is_character", "npc_is_character", &conditional_t::set_is_character },
+    {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
+    {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
+    {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
+    {"player_see_u", "player_see_npc", &conditional_t::set_player_see },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
