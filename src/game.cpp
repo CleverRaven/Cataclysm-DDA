@@ -102,6 +102,7 @@
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_search.h"
 #include "item_stack.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -1815,7 +1816,7 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
     const inventory &inven = you.crafting_inventory();
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
@@ -2466,6 +2467,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
+    ctxt.register_action( "haul_toggle" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
     ctxt.register_action( "look" );
@@ -6288,7 +6290,7 @@ void game::peek( const tripoint &p )
     m.build_map_cache( p.z );
 
     look_around_result result;
-    const look_around_params looka_params = { true, center, center, false, false, true };
+    const look_around_params looka_params = { true, center, center, false, false, true, true };
     if( is_standup_peek ) {   // Non moving peek from crouch is a standup peek
         u.reset_move_mode();
         result = look_around( looka_params );
@@ -7510,11 +7512,9 @@ std::optional<tripoint> game::look_around()
 //                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 look_around_result game::look_around(
     const bool show_window, tripoint &center, const tripoint &start_point, bool has_first_point,
-    bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point )
+    bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point, bool change_lv )
 {
     bVMonsterLookFire = false;
-    // TODO: Make this `true`
-    const bool allow_zlev_move = get_option<bool>( "FOV_3D" );
 
     temp_exit_fullscreen();
 
@@ -7567,8 +7567,10 @@ look_around_result game::look_around(
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
+    if( change_lv ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
     ctxt.register_action( "CHANGE_MONSTER_NAME" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
@@ -7734,10 +7736,6 @@ look_around_result game::look_around(
                 ui->mark_resize();
             }
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-            if( !allow_zlev_move ) {
-                continue;
-            }
-
             const int dz = action == "LEVEL_UP" ? 1 : -1;
             lz = clamp( lz + dz, min_levz, max_levz - 1 );
             center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
@@ -7877,8 +7875,8 @@ look_around_result game::look_around(
 look_around_result game::look_around( look_around_params looka_params )
 {
     return look_around( looka_params.show_window, looka_params.center, looka_params.start_point,
-                        looka_params.has_first_point,
-                        looka_params.select_zone, looka_params.peeking );
+                        looka_params.has_first_point, looka_params.select_zone, looka_params.peeking, false, tripoint_zero,
+                        looka_params.change_lv );
 }
 
 static void add_item_recursive( std::vector<std::string> &item_order,
@@ -9657,7 +9655,7 @@ void game::butcher()
         }
         return;
     }
-    const std::vector<npc *> helpers = u.get_crafting_helpers();
+    const std::vector<Character *> helpers = u.get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
@@ -12110,14 +12108,37 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
 void game::start_hauling( const tripoint &pos )
 {
+    std::vector<item_location> candidate_items = m.get_haulable_items( pos );
     // Find target items and quantities thereof for the new activity
-    const std::vector<item_location> target_items = m.get_haulable_items( pos );
+    std::vector<item_location> target_items = u.haul_list;
+
+    if( u.is_autohauling() && !u.suppress_autohaul ) {
+        for( const item_location &item : u.haul_list ) {
+            candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
+                                   candidate_items.end() );
+        }
+        if( u.hauling_filter.empty() ) {
+            target_items.insert( target_items.end(), candidate_items.begin(), candidate_items.end() );
+        } else {
+            std::function<bool( const item & )> filter = item_filter_from_string( u.hauling_filter );
+            std::copy_if( candidate_items.begin(), candidate_items.end(), std::back_inserter( target_items ),
+            [&filter]( const item_location & item ) {
+                return filter( *item );
+            } );
+        }
+    }
+
+    u.suppress_autohaul = false;
+    u.haul_list.clear();
+
     // Quantity of 0 means move all
     const std::vector<int> quantities( target_items.size(), 0 );
 
     if( target_items.empty() ) {
         // Nothing to haul
-        u.stop_hauling();
+        if( !u.is_autohauling() ) {
+            u.stop_hauling();
+        }
         return;
     }
 
@@ -12921,6 +12942,22 @@ std::vector<Creature *> game::get_creatures_if( const std::function<bool( const 
     for( Creature &critter : all_creatures() ) {
         if( pred( critter ) ) {
             result.push_back( &critter );
+        }
+    }
+    return result;
+}
+
+std::vector<Character *> game::get_characters_if( const std::function<bool( const Character & )>
+        &pred )
+{
+    std::vector<Character *> result;
+    avatar &a = get_avatar();
+    if( pred( a ) ) {
+        result.push_back( &a );
+    }
+    for( npc &guy : all_npcs() ) {
+        if( pred( guy ) ) {
+            result.push_back( &guy );
         }
     }
     return result;

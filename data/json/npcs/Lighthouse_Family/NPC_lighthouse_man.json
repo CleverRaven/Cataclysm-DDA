@@ -294,7 +294,13 @@
     "difficulty": 0,
     "value": 5000,
     "start": {
-      "assign_mission_target": { "om_terrain": "lighthouse_ground", "om_special": "Lighthouse Island", "reveal_radius": 10, "search_range": 360 },
+      "assign_mission_target": {
+        "om_terrain": "lighthouse_ground",
+        "om_special": "Lighthouse Island",
+        "reveal_radius": 10,
+        "search_range": 360,
+        "cant_see": true
+      },
       "update_mapgen": [
         {
           "om_terrain": "lighthouse_ground",

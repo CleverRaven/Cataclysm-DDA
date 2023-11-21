@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".308 Winchester" },
     "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.",
+    "ascii_picture": "308",
     "weight": "18 g",
     "volume": "158 ml",
     "longest_side": "71 mm",
@@ -89,7 +90,17 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62x51mm NATO tracer" },
     "description": "An M62 tracer round.  Traditional practice is to load one of these for every four normal rounds to help keep the weapon they are fired from on target.  They have the potential to ignite flammable surfaces on impact.",
+    "ascii_picture": "762_51_incendiary",
     "extend": { "effects": [ "INCENDIARY" ] }
+  },
+  {
+    "id": "762_51_m993",
+    "copy-from": "762_51",
+    "type": "AMMO",
+    "name": { "str_sp": "7.62x51mm NATO M993" },
+    "description": "An armor piercing 7.62x51mm round with a 126gr, tungsten carbide core projectile.  It offers significantly better armor penetration than standard ball rounds at the cost of worse wounding potential in soft tissue.",
+    "ascii_picture": "762_51_m993",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
   },
   {
     "id": "bp_308",

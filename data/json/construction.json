@@ -2484,12 +2484,12 @@
   {
     "type": "construction",
     "id": "constr_fireplace",
-    "group": "build_stone_fireplace",
+    "group": "build_brick_fireplace",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "brick", 30 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_fireplace"
   },
@@ -5027,6 +5027,18 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_glass_fridge",
+    "group": "place_glass_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "glass_fridge", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
@@ -8410,7 +8422,7 @@
     "post_terrain": "f_dirtmound_tall",
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel",
-    "components": [ [ [ "material_soil", 420 ] ] ]
+    "components": [ [ [ "material_soil", 200 ] ] ]
   },
   {
     "type": "construction",
@@ -8917,7 +8929,7 @@
     "category": "BULK",
     "difficulty": 0,
     "time": "15 m",
-    "components": [ [ [ "pipe", 200 ] ] ],
+    "components": [ [ [ "pipe", 2702 ] ] ],
     "dark_craftable": true,
     "pre_special": "check_empty",
     "post_terrain": "f_pipe_stack_short",
@@ -8929,7 +8941,7 @@
     "group": "pipe_bulk",
     "category": "BULK",
     "time": "15 m",
-    "components": [ [ [ "pipe", 200 ] ] ],
+    "components": [ [ [ "pipe", 2702 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "f_pipe_stack_short",
     "post_terrain": "f_pipe_stack_mid",
@@ -8943,7 +8955,7 @@
     "category": "BULK",
     "difficulty": 0,
     "time": "15 m",
-    "components": [ [ [ "pipe", 200 ] ] ],
+    "components": [ [ [ "pipe", 2702 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "f_pipe_stack_mid",
     "post_terrain": "f_pipe_stack_tall",

@@ -868,7 +868,8 @@ bool avatar_action::eat_here( avatar &you )
 {
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
@@ -879,26 +880,34 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         }
     }
-    if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
-            here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
+    if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
+            add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos() )->name() );
+            return true;
+        } else {
+            here.furn_set( you.pos(), f_null );
+            item food( "small_plant", calendar::turn, 1 );
+            you.assign_activity( consume_activity_actor( food ) );
+            return true;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
-            if( here.ter( you.pos() ) == t_grass_tall ) {
-                here.ter_set( you.pos(), t_grass_long );
-            } else if( here.ter( you.pos() ) == t_grass_long ) {
-                here.ter_set( you.pos(), t_grass );
-            } else {
-                here.ter_set( you.pos(), t_dirt );
-            }
+            here.ter_set( you.pos(), here.get_ter_transforms_into( you.pos() ) );
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        if( here.ter( you.pos() ) == t_grass_golf ) {
+        if( here.ter( you.pos() ) == t_grass_golf || here.ter( you.pos() ) == t_grass ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
         } else if( here.ter( you.pos() ) == t_grass_dead ) {
@@ -906,6 +915,9 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else if( here.ter( you.pos() ) == t_grass_white ) {
             add_msg( _( "This grass is tainted with paint and thus inedible." ) );
+            return true;
+        } else if( here.ter( you.pos() ) == t_grass_alien ) {
+            add_msg( _( "This grass is razor sharp and would probably shred your mouth." ) );
             return true;
         }
     }

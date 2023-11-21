@@ -518,79 +518,28 @@
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
-    "id": "chainmail_junk_vest",
+    "abstract": "base_chainmail_vest",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chainmail vest" },
-    "description": "A customized chainmail vest.  The metal shows signs of rust and corrosion.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "weight": "6200 g",
-    "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "vest_leather",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "7500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "armor": [
-      {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso" ],
-        "coverage": 95,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      },
-      {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
-  },
-  {
-    "id": "lc_chainmail_vest",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel chainmail vest" },
-    "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "name": { "str": "base chainmail vest" },
     "weight": "6894 g",
     "volume": "1 L",
+    "longest_side": "10 cm",
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "lc_steel_chain" ],
+    "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
+    "warmth": 0,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "ablative": true,
-        "max_contains_volume": "7500 ml",
+        "max_contains_volume": "9350 ml",
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
@@ -600,20 +549,20 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 14
       },
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 50,
         "encumbrance": 0
       },
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 50,
@@ -622,17 +571,17 @@
     ]
   },
   {
-    "id": "xl_lc_chainmail_vest",
+    "abstract": "xl_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel chainmail vest" },
-    "copy-from": "lc_chainmail_vest",
+    "name": { "str": "XL chainmail vest" },
+    "copy-from": "base_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "ablative": true,
-        "max_contains_volume": "8500 ml",
+        "max_contains_volume": "10500 ml",
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
@@ -641,228 +590,155 @@
       }
     ],
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "abstract": "xs_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_vest",
+    "name": { "str": "XS chainmail vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_junk_vest",
+    "copy-from": "base_chainmail_vest",
+    "replace_materials": { "steel": "budget_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "chainmail vest" },
+    "description": "A customized chainmail vest.  The metal shows signs of rust and corrosion.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+  },
+  {
+    "id": "lc_chainmail_vest",
+    "copy-from": "base_chainmail_vest",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "mild steel chainmail vest" },
+    "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+  },
+  {
+    "id": "xl_lc_chainmail_vest",
+    "copy-from": "xl_chainmail_vest",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel chainmail vest" },
+    "description": "A customized XL mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xs_lc_chainmail_vest",
+    "copy-from": "xs_chainmail_vest",
+    "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
     "name": { "str": "XS mild steel chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "6000 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "A customized XS mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "mc_chainmail_vest",
+    "copy-from": "base_chainmail_vest",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail vest" },
-    "description": "A customized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
+    "description": "A customized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xl_mc_chainmail_vest",
+    "copy-from": "xl_chainmail_vest",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "XL medium steel chainmail vest" },
-    "copy-from": "mc_chainmail_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "8500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "A customized XL medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xs_mc_chainmail_vest",
+    "copy-from": "xs_chainmail_vest",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_vest",
     "name": { "str": "XS medium steel chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "6000 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "A customized XS medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "hc_chainmail_vest",
+    "copy-from": "base_chainmail_vest",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
     "name": { "str": "high steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
+    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xl_hc_chainmail_vest",
+    "copy-from": "xl_chainmail_vest",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "XL high steel chainmail vest" },
-    "copy-from": "hc_chainmail_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "8500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "A customized XL high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xs_hc_chainmail_vest",
+    "copy-from": "xs_chainmail_vest",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_vest",
     "name": { "str": "XS high steel chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "6000 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "A customized XS high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "ch_chainmail_vest",
+    "copy-from": "base_chainmail_vest",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
     "name": { "str": "hardened steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
+    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xl_ch_chainmail_vest",
+    "copy-from": "xl_chainmail_vest",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "XL hardened steel chainmail vest" },
-    "copy-from": "ch_chainmail_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "8500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "A customized XL hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xs_ch_chainmail_vest",
+    "copy-from": "xs_chainmail_vest",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_vest",
     "name": { "str": "XS hardened steel chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "6000 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "A customized XS hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "qt_chainmail_vest",
+    "copy-from": "base_chainmail_vest",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
     "name": { "str": "tempered steel chainmail vest" },
-    "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
-    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
+    "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xl_qt_chainmail_vest",
+    "copy-from": "xl_chainmail_vest",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "XL tempered steel chainmail vest" },
-    "copy-from": "qt_chainmail_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "8500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "A customized XL tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "xs_qt_chainmail_vest",
+    "copy-from": "xs_chainmail_vest",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_vest",
     "name": { "str": "XS tempered steel chainmail vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "6000 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "A customized XS tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
   {
     "id": "cloth_shirt_padded",
@@ -1514,44 +1390,6 @@
     "copy-from": "vest_leather_mod",
     "looks_like": "vest_leather_mod",
     "replace_materials": { "lc_steel": "ch_steel" }
-  },
-  {
-    "id": "jacket_eod",
-    "type": "TOOL_ARMOR",
-    "category": "armor",
-    "name": { "str": "EOD jacket" },
-    "description": "A thick armored jacket constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.",
-    "weight": "16300 g",
-    "volume": "15 L",
-    "price": 200000,
-    "price_postapoc": 12000,
-    "warmth": 65,
-    "material": [ "kevlar_layered", "kevlar_rigid", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "environmental_protection": 2,
-    "material_thickness": 15,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "jacket_eod_light",
-    "type": "TOOL_ARMOR",
-    "category": "armor",
-    "name": { "str": "light EOD jacket" },
-    "description": "An armored jacket constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.  It is lighter than normal EOD armor to provide more maneuverability and can be worn over ballistic armor.",
-    "weight": "7000 g",
-    "volume": "15 L",
-    "price": 200000,
-    "price_postapoc": 12000,
-    "warmth": 40,
-    "material": [ "kevlar_layered", "kevlar_rigid", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "environmental_protection": 2,
-    "material_thickness": 7,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armor_lc_light_chestplate",

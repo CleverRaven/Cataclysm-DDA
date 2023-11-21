@@ -569,7 +569,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1, ch );
         } else if( new_item.is_tool() ) {
-            if( !new_item.magazine_default().is_null() ) {
+            if( !new_item.magazine_current() && !new_item.magazine_default().is_null() ) {
                 item mag( new_item.magazine_default() );
                 if( !mag.ammo_default().is_null() ) {
                     mag.ammo_set( mag.ammo_default(), ch );
@@ -577,6 +577,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
+            } else if( new_item.magazine_current() ) {
+                new_item.ammo_set( new_item.magazine_current()->ammo_default(), ch );
             } else {
                 debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",
                           context, new_item.typeId().str() );

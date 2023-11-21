@@ -157,3 +157,37 @@ TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents
            "<color_c_green>++</color>\u00A0"
            "test quiver > " + arrow_color + "test wooden broadhead arrows" + color_end_tag + " (10)" );
 }
+
+TEST_CASE( "display_name_rotten_food", "[item][display_name][contents]" )
+{
+    clear_avatar();
+
+    item wrapper( "wrapper" );
+    item butter_std( "butter" );
+    item butter_rot1( "butter" );
+    item butter_rot2( "butter" );
+    butter_std.set_relative_rot( 0.5 );
+    butter_rot1.set_relative_rot( 1.01 );
+    butter_rot2.set_relative_rot( 1.02 );
+
+    const std::string butter_std_tname =
+        colorize( butter_std.tname(), butter_std.color_in_inventory() );
+    const std::string butter_rot_tname =
+        colorize( butter_rot1.tname(), butter_rot1.color_in_inventory() );
+    REQUIRE( butter_std_tname == "<color_c_light_cyan>butter</color>" );
+    REQUIRE( butter_rot_tname == "<color_c_brown>butter (rotten)</color>" );
+    REQUIRE_FALSE( butter_std.stacks_with( butter_rot1 ) );
+    REQUIRE( butter_rot1.stacks_with( butter_rot2 ) );
+
+    REQUIRE( wrapper.put_in( butter_rot1, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > " + butter_rot_tname + " hidden" );
+
+    REQUIRE( wrapper.put_in( butter_rot2, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > " + butter_rot_tname + " (2) hidden" );
+
+    REQUIRE( wrapper.put_in( butter_std, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > 3 hidden items" );
+}

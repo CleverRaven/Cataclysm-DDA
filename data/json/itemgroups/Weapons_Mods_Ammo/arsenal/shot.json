@@ -3,7 +3,16 @@
     "type": "item_group",
     "id": "milspec_arsenal_shot_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_shot_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_shot_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_50_shot_160", "count": [ 1, 4 ] },
+          { "item": "ammo_can_50_beanbag_160", "count": [ 1, 4 ] },
+          { "item": "ammo_can_30_shot_120", "count": [ 1, 4 ] }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -11,8 +20,8 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_shot_gun&mags" },
-      { "group": "ammo_can_shot_full", "prob": 30 },
-      { "group": "ammo_can_shot_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_shot_any_full", "prob": 30 },
+      { "group": "ammo_can_shot_any_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -45,23 +54,5 @@
     "id": "m26_mass_mags",
     "type": "item_group",
     "items": [ { "item": "m26_mass_mag_3", "prob": 500 }, { "item": "m26_mass_mag_5", "prob": 50 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_shot_full",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_box_shot", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_shot_part",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_box_shot", "count": [ 1, 5 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_shot",
-    "container-item": "ammunition_box_50bmg",
-    "items": [ [ "shot_00", 20 ] ]
   }
 ]

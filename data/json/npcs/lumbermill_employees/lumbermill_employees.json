@@ -31,7 +31,8 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
     ],
     "weapon_override": "NC_LUMBERJACK_tools",
     "bonus_str": { "rng": [ 1, 2 ] },

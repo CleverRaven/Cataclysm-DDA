@@ -277,7 +277,7 @@
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
     "spoils_in": "7 days",
-    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", 20 ] ] }
+    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", "20 mg" ] ] }
   },
   {
     "type": "COMESTIBLE",

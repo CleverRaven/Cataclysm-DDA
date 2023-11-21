@@ -458,7 +458,8 @@
     "pocket_data": [
       {
         "holster": true,
-        "volume_encumber_modifier": 0.5,
+        "//": "volume encumber modifier set high since the whole belt is being scaled by 0.35. This equals .5005",
+        "volume_encumber_modifier": 1.43,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -469,7 +470,8 @@
       },
       {
         "holster": true,
-        "volume_encumber_modifier": 0.5,
+        "//": "volume encumber modifier set high since the whole belt is being scaled by 0.35. This equals .5005",
+        "volume_encumber_modifier": 1.43,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -480,7 +482,8 @@
       },
       {
         "holster": true,
-        "volume_encumber_modifier": 0.5,
+        "//": "volume encumber modifier set high since the whole belt is being scaled by 0.35. This equals .5005",
+        "volume_encumber_modifier": 1.43,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -491,7 +494,8 @@
       },
       {
         "holster": true,
-        "volume_encumber_modifier": 0.5,
+        "//": "volume encumber modifier set high since the whole belt is being scaled by 0.35. This equals .5005",
+        "volume_encumber_modifier": 1.43,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -507,7 +511,15 @@
       { "type": "detach_molle" }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
   },
   {
     "id": "suspenders_cloth",

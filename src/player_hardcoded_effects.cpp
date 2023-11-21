@@ -325,13 +325,12 @@ static void eff_fun_bleed( Character &u, effect &it )
                 { 31, to_translation( "%1s gushes from your %2s!" ) }
             };
             translation suffer_string = intensity_strings.at( 0 );
-            // iterate in reverse to find the first string that we qualify for based on intensity
-            // if we go through the map from front to back, we end up choosing the string for the lowest intensity all the time
-            for( auto iter = intensity_strings.rbegin(); iter != intensity_strings.rend(); ++iter ) {
-                if( intense >= iter->first ) {
-                    suffer_string = iter->second;
+            // iterate through intensity levels after the first, stopping before we reach one higher than the actual intensity
+            for( auto iter = next( intensity_strings.begin() ); iter != intensity_strings.end(); ++iter ) {
+                if( intense < iter->first ) {
                     break;
                 }
+                suffer_string = iter->second;
             }
             u.bleed();
             bodypart_id bp = it.get_bp();
@@ -345,6 +344,19 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.add_msg_player_or_npc( m_bad,
                                      final_message,
                                      _( "<npcname> loses some blood." ) );
+            if( u.is_avatar() && one_in( 10 ) && it.get_duration() > 1_turns ) {
+                bodypart_id bp_id = u.most_staunchable_bp();
+                if( bp_id == bp ) {
+                    if( u.controlling_vehicle || u.is_armed() ) {
+                        u.add_msg_if_player( m_warning,
+                                             _( "You could reduce the bleeding by emptying your hands and pausing to apply pressure." ) );
+                    } else {
+                        u.add_msg_if_player( m_warning,
+                                             _( "You could reduce the bleeding by pausing to apply pressure." ) );
+                    }
+
+                }
+            }
         }
     }
 }
@@ -524,7 +536,7 @@ static void eff_fun_hot( Character &u, effect &it )
 
     if( bp == bodypart_id( "head" ) && intense >= 2 ) {
         if( one_in( std::max( 25, std::min( 89500,
-                                            90000 - u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) {
+                                            90000 - units::to_legacy_bodypart_temp( u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 2400 ) ) {
@@ -829,13 +841,15 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
                     warning = _( "You are anxious and cannot collect your thoughts." );
                     u.mod_focus( -rng( 1, u.get_focus() * intense / it.get_max_intensity() ) );
                     break;
-                case 4:
+                case 4: {
                     warning = _( "You are sweating profusely, but you feel cold." );
-                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
-                    u.mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
-                    u.mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
-                    u.mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
+                    const units::temperature_delta delta = -2_C_delta * intense;
+                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), delta );
+                    u.mod_part_temp_conv( bodypart_id( "hand_r" ), delta );
+                    u.mod_part_temp_conv( bodypart_id( "foot_l" ), delta );
+                    u.mod_part_temp_conv( bodypart_id( "foot_r" ), delta );
                     break;
+                }
                 case 5:
                     warning = _( "You huff and puff.  Your breath is rapid and shallow." );
                     u.mod_stamina( -500 * intense );
@@ -887,13 +901,13 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
         switch( dice( 1, 9 ) ) {
             case 1:
                 u.add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
-                u.mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
-                u.mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
+                u.mod_part_temp_conv( bodypart_id( "hand_l" ), -4_C_delta );
+                u.mod_part_temp_conv( bodypart_id( "hand_r" ), -4_C_delta );
                 break;
             case 2:
                 u.add_msg_if_player( m_bad, _( "Your feet feel unusually cold." ) );
-                u.mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
-                u.mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
+                u.mod_part_temp_conv( bodypart_id( "foot_l" ), -4_C_delta );
+                u.mod_part_temp_conv( bodypart_id( "foot_r" ), -4_C_delta );
                 break;
             case 3:
                 u.add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
@@ -1147,25 +1161,27 @@ static void eff_fun_sleep( Character &u, effect &it )
         // Cold or heat may wake you up.
         // Player will sleep through cold or heat if fatigued enough
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
-            const int curr_temp = u.get_part_temp_cur( bp );
-            if( curr_temp < BODYTEMP_VERY_COLD - u.get_fatigue() / 2 ) {
+            const units::temperature curr_temp = u.get_part_temp_cur( bp );
+            const units::temperature_delta fatigue_modifier = units::from_celsius_delta(
+                        u.get_fatigue() / 1000.0 );
+            if( curr_temp < BODYTEMP_VERY_COLD - fatigue_modifier ) {
                 if( one_in( 30000 ) ) {
                     u.add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                 }
-                if( curr_temp < BODYTEMP_FREEZING - u.get_fatigue() / 2 ||
-                    one_in( curr_temp * 6 + 30000 ) ) {
+                if( curr_temp < BODYTEMP_FREEZING - fatigue_modifier ||
+                    one_in( units::to_celsius( curr_temp ) * 3000 + 16500 ) ) {
                     u.add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                     woke_up = true;
                     break;
                 }
-            } else if( curr_temp > BODYTEMP_VERY_HOT + u.get_fatigue() / 2 ) {
+            } else if( curr_temp > BODYTEMP_VERY_HOT + fatigue_modifier ) {
                 if( one_in( 30000 ) ) {
                     u.add_msg_if_player( _( "You toss and turn in the heat." ) );
                 }
-                if( curr_temp > BODYTEMP_SCORCHING + u.get_fatigue() / 2 ||
-                    one_in( 90000 - curr_temp ) ) {
+                if( curr_temp > BODYTEMP_SCORCHING + fatigue_modifier ||
+                    one_in( 76500 - units::to_celsius( curr_temp ) * 500 ) ) {
                     u.add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );

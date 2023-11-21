@@ -123,6 +123,18 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "weight": 1                                         // Used to randomly select variant when this is mutated.  Chance of being selected is weight/sum-of-all-weights.  If no weight is specified or weight is 0, variant will not be selected.
     }
   ],
+  "personality_score": [                               // Optional. Defines cosmetic flavor traits for NPCs which can be viewed during dialogue with the NPC.
+    {                                                  // Traits with a defined `personality_score` will be automatically applied to NPCs with personalities that qualify, based
+      "min_aggression": -10,                           // on the min and max values defined. NPC personalities' values are always integers within the range [-10,10].
+      "max_aggression": 10,                            // All mins and maxes are optional, this document contains their default values. (A personality_score trait with no
+      "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
+      "max_bravery": 10,                               //
+      "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
+      "max_altruism": 10,                              // numbers except 2, 3, and 4.)
+    }
+  ],
   "category": [ "MUTCAT_BIRD", "MUTCAT_INSECT" ],         // Categories containing this mutation.
       // prereqs and prereqs2 specify prerequisites of the current mutation.
       // Both are optional, but if prereqs2 is specified prereqs must also be specified.

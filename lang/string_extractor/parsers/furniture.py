@@ -33,3 +33,6 @@ def parse_furniture(json, origin):
                 write_text(prying_data["failure"], origin,
                            comment="Prying failure message of furniture \"{}\""
                            .format(name))
+    if "lockpick_message" in json:
+        write_text(json["lockpick_message"], origin,
+                   comment="Lockpick message of furniture \"{}\"".format(name))

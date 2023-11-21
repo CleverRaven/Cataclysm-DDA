@@ -13,14 +13,17 @@
           { "item": "crash_axe", "prob": 5, "damage": [ 1, 3 ] }
         ]
       },
-      { "group": "default_zombie_clothes", "prob": 100 }
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_pipe",
-    "entries": [ { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -34,7 +37,7 @@
           { "item": "heavy_crowbar", "prob": 10, "damage": [ 2, 4 ] }
         ]
       },
-      { "group": "default_zombie_clothes", "prob": 100 }
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] }
     ]
   },
   {
@@ -611,7 +614,7 @@
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
       { "group": "misc_smoking_legal", "prob": 10 },
-      { "item": "knife_combat", "prob": 100, "container-item": "sheath" },
+      { "item": "knife_KABAR", "prob": 40, "container-item": "sheath" },
       { "item": "kevlar", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "wearable_light", "prob": 100, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "group": "feral_autogun", "prob": 100, "damage": [ 1, 4 ] },
@@ -682,7 +685,7 @@
       { "item": "e_tool", "prob": 15, "damage": [ 1, 4 ] },
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
-      { "item": "knife_combat", "prob": 100, "damage": [ 3, 4 ] },
+      { "group": "infantry_knives", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 10 ] },
       { "item": "stanag30ranger", "prob": 1, "ammo-item": "556", "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] }
@@ -793,23 +796,11 @@
       { "item": "pants_army", "variant": "apants_MARPAT", "damage": [ 0, 4 ] },
       { "item": "boots_combat", "damage": [ 0, 4 ] },
       {
-        "distribution": [
-          {
-            "group": "military_standard_assault_rifles",
-            "contents-item": "knife_combat",
-            "prob": 75,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_standard_lmgs",
-            "contents-item": "knife_combat",
-            "prob": 10,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          }
-        ],
-        "prob": 100
+        "group": "military_standard_assault_rifles",
+        "contents-item": "knife_combat_marine",
+        "prob": 100,
+        "damage": [ 0, 4 ],
+        "dirt": [ 0, 6000 ]
       },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },

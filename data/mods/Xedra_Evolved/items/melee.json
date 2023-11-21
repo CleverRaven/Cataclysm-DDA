@@ -33,7 +33,7 @@
     "material": [ "moon_tears" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "weight": "1214 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
@@ -89,7 +89,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "longest_side": "60 cm",
     "material": [ "moon_tears" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "SHORT_SWORDS", "DURABLE_MELEE" ],
+    "weapon_category": [ "SHORT_SWORDS", "DURABLE_MELEE" ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ] }
   },
   {
@@ -176,7 +176,7 @@
     "id": "dreamforged_longsword",
     "copy-from": "longsword",
     "name": { "str": "dreamforged longsword" },
-    "description": "Longsword, forged entirely from dreamdross.  It is much lighter than steel one, but it apply much less force to target.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Longsword, forged entirely from dreamdross.  It is much lighter than one made of steel, but applies much less force to its target.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.5 } }
   },
@@ -445,8 +445,8 @@
     "type": "GENERIC",
     "id": "dreamforged_q_staff_exp",
     "copy-from": "dreamforged_q_staff",
-    "name": { "str": "bo of practice", "str_pl": "bos of practices" },
-    "description": "Long, straight stick.  Simple weapon, it is powered by your own experience of fighting dreadful creatures",
+    "name": { "str": "bo of practice", "str_pl": "bos of practice" },
+    "description": "A long, straight stick.  A simple weapon empowered by your experience in fighting against dreadful creatures.",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
   }
 ]

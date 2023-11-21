@@ -45,6 +45,6 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "pumpkin", 12 ], [ "irradiated_pumpkin", 12 ] ], [ [ "candle", 1 ] ] ]
+    "components": [ [ [ "pumpkin", 1 ], [ "irradiated_pumpkin", 1 ] ], [ [ "candle", 1 ] ] ]
   }
 ]

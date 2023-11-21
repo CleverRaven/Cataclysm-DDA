@@ -417,6 +417,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": {
       "ammo": "40x46mm",
       "skill": "launcher",
@@ -425,7 +426,7 @@
       "blackpowder_tolerance": 60,
       "clip_size": 1
     },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -454,6 +455,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": {
       "ammo": "40x46mm",
       "skill": "launcher",
@@ -462,7 +464,7 @@
       "blackpowder_tolerance": 60,
       "clip_size": 1
     },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -503,7 +505,7 @@
     "longest_side": "12 cm",
     "integral_longest_side": "12 cm",
     "gunmod_data": {
-      "location": "underbarrel",
+      "location": "bayonet lug",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "install_time": "5 m"
@@ -526,8 +528,9 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
   },
@@ -555,9 +558,10 @@
     "symbol": ":",
     "color": "white",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
   },
   {
@@ -583,6 +587,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": {
       "ammo": "40x46mm",
@@ -592,7 +597,7 @@
       "blackpowder_tolerance": 60,
       "clip_size": 1
     },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -613,7 +618,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "flags": [  ],
@@ -635,6 +640,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
@@ -664,9 +670,10 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
+    "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },

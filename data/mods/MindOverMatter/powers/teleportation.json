@@ -51,7 +51,7 @@
     "max_aoe": 20,
     "aoe_increment": 0.2,
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_slow') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "min( ( (u_val('spell_level', 'spell: teleport_slow') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 80)" ]
     },
     "max_range": 80,
     "min_duration": {
@@ -67,6 +67,7 @@
     "base_casting_time": 80,
     "final_casting_time": 35,
     "casting_time_increment": -4.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_collapse": 7, "teleport_stride": 10, "teleport_displacement": 12, "teleport_banish": 18 }
   },
   {
@@ -86,7 +87,7 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "min( ( (u_val('spell_level', 'spell: teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ), 4)" ]
     },
     "max_range": 4,
     "energy_source": "STAMINA",
@@ -147,7 +148,9 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_transpose') * 2.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_transpose') * 2.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -157,6 +160,7 @@
     "base_casting_time": 55,
     "final_casting_time": 0,
     "casting_time_increment": -2.75,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_displacement": 5, "teleport_stride": 7, "teleport_farstep": 9, "teleport_banish": 15 }
   },
   {
@@ -186,6 +190,7 @@
     "base_casting_time": 75,
     "final_casting_time": 25,
     "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_banish": 10 }
   },
   {
@@ -211,7 +216,9 @@
       "math": [ "( (u_val('spell_level', 'spell: teleport_collapse') * -0.15) - 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "min_aoe": 3,
@@ -224,13 +231,14 @@
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_displacement": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
   },
   {
     "id": "teleport_farstep",
     "type": "SPELL",
     "name": "[Ψ]Farstep",
-    "description": "Skating along the void between dimensions, move to a specific place within line of sight.",
+    "description": "Skating along the void between dimensions, move to a specific place nearby.",
     "message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
     "teachable": false,
     "valid_targets": [ "ground" ],
@@ -246,7 +254,9 @@
     "max_aoe": 1,
     "aoe_increment": -0.25,
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_farstep') * 2.5) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_farstep') * 2.5) + 2) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -281,7 +291,9 @@
       "math": [ "( (u_val('spell_level', 'spell: teleport_banish') * 35) + 350) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_banish') * 2) + 1.5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_banish') * 2) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -291,6 +303,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_summon": 7 }
   },
   {
@@ -337,7 +350,9 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_summon') * 1.5) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_summon') * 1.5) + 2) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -346,6 +361,7 @@
     "energy_increment": -250,
     "base_casting_time": 250,
     "final_casting_time": 125,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "casting_time_increment": -6.5
   }
 ]

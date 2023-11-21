@@ -727,12 +727,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 5 ],
+        [ "seed_sunflower", 5 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 5 ]
       ]
     ]
   },
@@ -768,12 +768,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 5 ],
+        [ "seed_sunflower", 5 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 5 ]
       ]
     ]
   },
@@ -887,6 +887,34 @@
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_veggy", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_chili",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_chili", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_garlic",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_garlic", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1848,7 +1876,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_burdock_stalk",
     "copy-from": "cooked_cattail_stalk",
-    "components": [ [ [ "burdock_stalk", 1 ] ] ]
+    "components": [ [ [ "plant_stalk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2210,6 +2238,36 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "lotus_rhizome_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "lotus_rhizome", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "seed_lotus_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "carrot_roasted",
     "category": "CC_FOOD",
@@ -2494,9 +2552,10 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
-    "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "//": "2 minutes to boil per 250ml, then simultaneous steeping time of 4 minutes.",
+    "time": "6 m",
+    "batch_time_factors": [ 65, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2505,21 +2564,16 @@
     "type": "recipe",
     "result": "tea_green",
     "activity_level": "NO_EXERCISE",
-    "copy-from": "tea",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "//": "2 minutes to (near-)boil per 250ml, then simultaneous steeping time of 2 minutes.",
+    "time": "4 m",
+    "batch_time_factors": [ 50, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "tea_fruit",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "copy-from": "tea",
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2528,17 +2582,32 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "copy-from": "tea",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "//": "2 minutes to boil per 250ml, then simultaneous steeping time of 6 minutes.",
+    "time": "8 m",
+    "batch_time_factors": [ 75, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "result": "tea_fruit",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "copy-from": "herbal_tea_from_tea_bag",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dandelion_tea",
     "id_suffix": "from_tea_bag",
     "activity_level": "NO_EXERCISE",
-    "copy-from": "tea",
+    "copy-from": "herbal_tea_from_tea_bag",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2548,7 +2617,7 @@
     "result": "chamomile_tea",
     "id_suffix": "from_tea_bag",
     "activity_level": "NO_EXERCISE",
-    "copy-from": "tea",
+    "copy-from": "herbal_tea_from_tea_bag",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2559,11 +2628,8 @@
     "result": "herbal_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
-    "time": "10 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "wild_herbs", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2574,11 +2640,9 @@
     "result": "pine_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 2,
     "skills_required": [ "survival", 2 ],
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -2598,10 +2662,8 @@
     "result": "dandelion_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
-    "time": "12 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "pocket_survival": { "skill_level": 1 },
       "survival_book": { "skill_level": 1 },
@@ -2622,10 +2684,8 @@
     "result": "dandelionburdock_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
-    "time": "12 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "pocket_survival": { "skill_level": 1 },
       "survival_book": { "skill_level": 1 },
@@ -2673,11 +2733,9 @@
     "result": "chamomile_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -2697,12 +2755,11 @@
     "result": "lotus_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "20 m",
+    "time": "10 m",
     "charges": 4,
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -2722,11 +2779,9 @@
     "result": "spurge_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -4490,6 +4545,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "pepper", 1 ]
@@ -4529,6 +4585,7 @@
         [ "seasoning_salt", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "pepper", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
@@ -4654,6 +4711,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "chilly-p",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_mexican", 1 ] ],
+    "batch_time_factors": [ 83, 3 ],
+    "charges": 50,
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "dry_chili", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "garlic_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4666,6 +4739,22 @@
     "charges": 50,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "garlic_clove", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "garlic_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_italian", 1 ] ],
+    "batch_time_factors": [ 83, 3 ],
+    "charges": 50,
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "dry_garlic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5005,6 +5094,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "onion", 1 ],
         [ "veggy_potatolike", 1, "LIST" ]
@@ -5094,6 +5184,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5127,6 +5218,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5550,6 +5642,7 @@
         [ "mustard_powder", 20 ],
         [ "garlic_powder", 20 ],
         [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 6 ],
         [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
@@ -5576,7 +5669,7 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [
       [ [ "salt", 10 ] ],
-      [ [ "garlic_clove", 3 ], [ "garlic_powder", 20 ] ],
+      [ [ "garlic_clove", 3 ], [ "rehydrated_garlic", 3 ], [ "garlic_powder", 20 ] ],
       [ [ "thyme", 1 ] ],
       [ [ "wild_herbs", 100 ] ]
     ],
@@ -5802,7 +5895,7 @@
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ]
     ]
   },
   {
@@ -5829,6 +5922,8 @@
         [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
+        [ "veggy_pickled", 2 ],
+        [ "pickle", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
         [ "pineapple_chunks", 2 ]
@@ -5882,6 +5977,8 @@
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
+        [ "veggy_pickled", 2 ],
+        [ "pickle", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
         [ "pineapple_chunks", 2 ]
@@ -7928,6 +8025,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 2 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
@@ -7957,6 +8055,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -7966,6 +8065,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -8644,11 +8744,9 @@
     "result": "tea_bark",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "skills_required": [ "survival", 6 ],
     "difficulty": 5,
-    "time": "12 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "textbook_survival", 5 ], [ "atomic_survival", 4 ], [ "survival_book", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
@@ -8690,12 +8788,10 @@
     "result": "chai_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "tea",
     "difficulty": 2,
     "charges": 2,
-    "time": "15 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "time": "10 m",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
@@ -8969,11 +9065,8 @@
     "result": "bee_balm_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 2,
-    "time": "10 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "bee_balm", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -9253,7 +9346,7 @@
         [ "oats", 1 ],
         [ "buckwheat", 1 ],
         [ "wheat", 1 ],
-        [ "veggy_potatolike", 5, "LIST" ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "barley", 1 ],
         [ "can_corn", 1 ],
         [ "raw_beans", 1 ],
@@ -9263,13 +9356,87 @@
         [ "corn", 1 ],
         [ "seed_canola", 1 ],
         [ "corn_kernels", 1 ],
-        [ "soybean", 1 ],
-        [ "dry_soybean", 1 ],
-        [ "raw_edamame", 1 ],
-        [ "straw_pile", 20 ],
-        [ "chaff", 50 ],
-        [ "veggy_green", 5, "LIST" ],
+        [ "soybean", 2 ],
+        [ "dry_soybean", 2 ],
+        [ "raw_edamame", 2 ],
+        [ "straw_pile", 12 ],
+        [ "chaff", 17 ],
+        [ "veggy_green", 2, "LIST" ],
         [ "press_cake", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "cattlefodder_medium",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "cattlefodder", 7 ],
+        [ "oats", 4 ],
+        [ "buckwheat", 4 ],
+        [ "wheat", 4 ],
+        [ "veggy_potatolike", 7, "LIST" ],
+        [ "barley", 4 ],
+        [ "can_corn", 7 ],
+        [ "raw_beans", 7 ],
+        [ "dry_beans", 7 ],
+        [ "dry_lentils", 7 ],
+        [ "dry_corn", 7 ],
+        [ "corn", 7 ],
+        [ "seed_canola", 4 ],
+        [ "corn_kernels", 4 ],
+        [ "soybean", 14 ],
+        [ "dry_soybean", 14 ],
+        [ "raw_edamame", 14 ],
+        [ "straw_pile", 80 ],
+        [ "chaff", 120 ],
+        [ "veggy_green", 6, "LIST" ],
+        [ "press_cake", 7 ]
+      ]
+    ]
+  },
+  {
+    "result": "cattlefodder_large",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "cattlefodder", 36 ],
+        [ "oats", 18 ],
+        [ "buckwheat", 10 ],
+        [ "wheat", 9 ],
+        [ "veggy_potatolike", 30, "LIST" ],
+        [ "barley", 9 ],
+        [ "can_corn", 18 ],
+        [ "raw_beans", 30 ],
+        [ "dry_beans", 30 ],
+        [ "dry_lentils", 26 ],
+        [ "dry_corn", 46 ],
+        [ "corn", 46 ],
+        [ "seed_canola", 26 ],
+        [ "corn_kernels", 46 ],
+        [ "soybean", 107 ],
+        [ "dry_soybean", 107 ],
+        [ "raw_edamame", 107 ],
+        [ "straw_pile", 400 ],
+        [ "chaff", 600 ],
+        [ "veggy_green", 150, "LIST" ],
+        [ "press_cake", 30 ]
       ]
     ]
   },
@@ -9324,6 +9491,7 @@
         [ "seed_thyme", 3 ],
         [ "seed_canola", 1 ],
         [ "seed_watermelon", 3 ],
+        [ "seed_wintergreen", 3 ],
         [ "seed_pumpkin", 3 ],
         [ "seed_sunflower", 3 ],
         [ "seed_dogbane", 3 ],
@@ -9780,7 +9948,7 @@
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "components": [
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
-      [ [ "tortilla_corn", 3 ] ],
+      [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
@@ -9808,7 +9976,15 @@
         [ "irradiated_onion", 1 ],
         [ "salsa", 1 ]
       ],
-      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "garlic_powder", 20 ], [ "chili_pepper", 2 ] ]
+      [
+        [ "pepper", 20 ],
+        [ "chilly-p", 20 ],
+        [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "garlic_powder", 20 ],
+        [ "chili_pepper", 2 ],
+        [ "rehydrated_chili", 2 ]
+      ]
     ]
   },
   {
@@ -10117,10 +10293,7 @@
     "result": "tea_sweetened",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
-    "time": "10 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "copy-from": "tea",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "sugar_standard_half", 1, "LIST" ] ] ]
@@ -10340,6 +10513,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "tomato", 1 ]
@@ -10364,7 +10538,14 @@
     "//": "90g of snail meat.  treating it like scrap of meat, that's 6u + 1u for butter and aromatics",
     "components": [
       [ [ "gastropod_purged", 6 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "garlic_powder", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ]
+      ],
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],

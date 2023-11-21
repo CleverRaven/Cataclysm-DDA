@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".270 Winchester JSP" },
     "description": ".270 Winchester ammunition with a 130gr soft point bullet.  The .270 round was not initially successful, but over a few decades it became one of the most popular rifle cartridges for hunting and silhouette shooting.  It is a powerful round capable of taking down large targets with ease.",
+    "ascii_picture": "270win_jsp",
     "weight": "20 g",
     "volume": "189 ml",
     "longest_side": "85 mm",

@@ -80,6 +80,7 @@ enum vpart_bitflags : int {
     VPFLAG_ROTOR,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
+    VPFLAG_NO_LEAK,
     VPFLAG_DOME_LIGHT,
     VPFLAG_AISLE_LIGHT,
     VPFLAG_ATOMIC_LIGHT,
@@ -392,6 +393,9 @@ class vpart_info
         /** base item for this part */
         itype_id base_item;
 
+        /** item it should be removed as */
+        std::optional<itype_id> removed_item;
+
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
 
@@ -439,8 +443,8 @@ class vpart_info
 
         /*Comfort data for sleeping in vehicles*/
         int comfort = 0;
-        int floor_bedding_warmth = 0;
-        int bonus_fire_warmth_feet = 300;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
+        units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
 
         // z-ordering, inferred from location, cached here
         int z_order = 0;

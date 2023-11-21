@@ -1,0 +1,28 @@
+[
+  {
+    "id": "telepathic_concentration_end",
+    "type": "SPELL",
+    "name": "[Ψ]Concentration Trance (Remove)",
+    "description": "End your focused trance, returning to normal.  <color_red>This power is obsolete</color>.",
+    "message": "You stop concentrating.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "effect_telepathic_learning_bonus",
+    "shape": "blast",
+    "max_level": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 0,
+    "base_casting_time": 30
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_MORALE",
+    "effect": [
+      { "u_add_morale": "morale_telepathy", "bonus": 10, "max_bonus": 25, "duration": "4 hours", "decay_start": "2 hours" }
+    ]
+  }
+]
