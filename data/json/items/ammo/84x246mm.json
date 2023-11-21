@@ -16,7 +16,7 @@
     "longest_side": "376 mm",
     "weight": "3200 g",
     "ammo_type": "84x246mm",
-    "damage": { "damage_type": "bullet", "amount": 257, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 10 },
     "range": 120,
     "dispersion": 60,
     "recoil": 45,
