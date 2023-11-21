@@ -373,17 +373,17 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "2422 ml",
         "max_contains_weight": "5000 g",
-        "max_item_length": "246mm"
+        "max_item_length": "437mm"
       },
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "2422 ml",
         "max_contains_weight": "5000 g",
-        "max_item_length": "246mm"
+        "max_item_length": "437mm"
       }
     ],
     "material": [ "steel" ],
