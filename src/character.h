@@ -816,6 +816,7 @@ class Character : public Creature, public visitable
         int get_spell_resist() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
+        bool check_avoid_friendly_fire() const override;
         float get_hit_base() const override;
 
         /** Returns the player's sight range */
