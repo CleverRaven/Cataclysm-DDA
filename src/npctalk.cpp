@@ -4648,13 +4648,15 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
           hide_failing, allow_cancel]( dialogue & d ) {
         uilist eoc_list;
 
-        eoc_list.text = title;
-        eoc_list.allow_cancel = allow_cancel;
-        eoc_list.desc_enabled = !eoc_descriptions.empty();
-
         std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
         talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
         talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
+
+
+        eoc_list.text = title;
+        eoc_list.allow_cancel = allow_cancel;
+        eoc_list.desc_enabled = !eoc_descriptions.empty();
+        parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
             effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
