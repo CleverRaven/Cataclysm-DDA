@@ -261,10 +261,8 @@
     },
     "effect": [
       { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
-      {
-        "u_add_effect": "hay_fever",
-        "duration": { "math": [ "rand(28800) + 600" ] }
-      } ]
+      { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
   },
   {
     "type": "effect_on_condition",
