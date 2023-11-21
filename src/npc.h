@@ -749,6 +749,7 @@ enum talk_topic_enum {
     TALK_DEMAND_LEAVE,
 
     TALK_SIZE_UP,
+    TALK_ASSESS_PERSON,
     TALK_LOOK_AT,
     TALK_OPINION,
 
@@ -791,6 +792,8 @@ class npc : public Character
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void clear_personality_traits();
+        void generate_personality_traits();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;

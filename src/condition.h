@@ -128,11 +128,13 @@ struct conditional_t {
         void set_has_item_with_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_item_category( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_bionics( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_any_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_need( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_at_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_near_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_move_mode( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_can_see_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_using_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo, std::string_view member );
         void set_npc_allies( const JsonObject &jo, std::string_view member );
@@ -184,6 +186,12 @@ struct conditional_t {
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
         void set_is_alive( bool is_npc = false );
+        void set_is_avatar( bool is_npc = false );
+        void set_is_npc( bool is_npc = false );
+        void set_is_character( bool is_npc = false );
+        void set_is_monster( bool is_npc = false );
+        void set_is_item( bool is_npc = false );
+        void set_is_furniture( bool is_npc = false );
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_is_male( bool is_npc = false ) {
             set_is_gender( true, is_npc );
@@ -196,6 +204,7 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, std::string_view member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
+        void set_player_see( bool is_npc = false );
         void set_get_option( const JsonObject &jo, std::string_view member );
         void set_compare_string( const JsonObject &jo, std::string_view member );
         void set_get_condition( const JsonObject &jo, std::string_view member );

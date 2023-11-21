@@ -327,11 +327,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
-                  const tripoint_bub_ms &where )
+std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
+                                        const std::list<item> &items,
+                                        const tripoint_bub_ms &where )
 {
     if( items.empty() ) {
-        return;
+        return {};
     }
     map &here = get_map();
     const std::string ter_name = here.name( where );
@@ -418,12 +419,15 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
                 break;
         }
     }
+    std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        here.add_item_or_charges( where, it );
+        item &dropped_item = here.add_item_or_charges( where, it );
+        items_dropped.emplace_back( map_cursor( where.raw() ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
     you.recoil = MAX_RECOIL;
+    return items_dropped;
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,

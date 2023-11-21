@@ -5766,6 +5766,7 @@
   {
     "result": "salt_lick",
     "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]

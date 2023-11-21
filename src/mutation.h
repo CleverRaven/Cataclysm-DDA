@@ -94,6 +94,21 @@ struct mut_transform {
     bool load( const JsonObject &jsobj, std::string_view member );
 };
 
+struct mut_personality_score {
+
+    /** bounds within which this trait is applied */
+    int min_aggression = -10;
+    int max_aggression = 10;
+    int min_bravery = -10;
+    int max_bravery = 10;
+    int min_collector = -10;
+    int max_collector = 10;
+    int min_altruism = -10;
+    int max_altruism = 10;
+    mut_personality_score();
+    bool load( const JsonObject &jsobj, std::string_view member );
+};
+
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
@@ -239,6 +254,8 @@ struct mutation_branch {
         int butchering_quality = 0;
 
         cata::value_ptr<mut_transform> transform;
+
+        cata::value_ptr<mut_personality_score> personality_score;
 
         // Cosmetic variants of this mutation
         std::map<std::string, mutation_variant> variants;

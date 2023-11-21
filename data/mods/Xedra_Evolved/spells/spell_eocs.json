@@ -7,7 +7,7 @@
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
       { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "600" ] },
       {
-        "u_message": "You pulled your powers into this world and something from outside placed an object in your hand.",
+        "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
       }
     ],
@@ -29,21 +29,21 @@
         {
           "case": 150,
           "effect": {
-            "u_message": "You try to connect the item with another dimensions, but everything went wrong from the very beginning.  You feel you need much more patience to finish it.",
+            "u_message": "You try to connect the item with another dimension, but everything goes wrong from the very beginning.  You feel you need much more patience to finish this.",
             "type": "bad"
           }
         },
         {
           "case": 300,
           "effect": {
-            "u_message": "You try to connect the item with another dimensions, but something interrupted you in the middle.  You need just a bit of time to afford it.",
+            "u_message": "You try to connect the item with another dimension, but something interupts you in the middle of your attempt.  You need just a bit more time to make this work.",
             "type": "bad"
           }
         },
         {
           "case": 450,
           "effect": {
-            "u_message": "You try to connect the item with another dimensions, but in the end it failed.  It was close enough, so you think you need to try it again in a day.",
+            "u_message": "You try to connect the item with another dimension, but in the end it fails.  It was close though, so you think you need to try it again tomorrow.",
             "type": "bad"
           }
         }
@@ -88,7 +88,10 @@
     "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
-      { "u_message": "Floating arms behind you flicker a bit, but still glow.", "type": "good" },
+      {
+        "u_message": "The floating arms behind you slightly flicker, but they soon resume their steady glow.",
+        "type": "good"
+      },
       {
         "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
@@ -111,7 +114,7 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       }
     ],
-    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail disappear in the air.", "type": "neutral" } ]
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
@@ -119,13 +122,13 @@
     "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana')", ">=", "100" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "100" ] },
-      { "u_message": "Your devilish tail stretches and twist playfully.", "type": "good" },
+      { "u_message": "Your devilish tail stretches and twists playfully.", "type": "good" },
       {
         "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       }
     ],
-    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail disappear in the air.", "type": "neutral" } ]
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
@@ -133,7 +136,7 @@
     "condition": { "not": { "u_has_trait": "stalker_eyes" } },
     "effect": [
       {
-        "u_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
+        "u_message": "Your vision grows dark for a moment, but a second later a whole new world is revealed under your eyes.",
         "type": "good"
       },
       { "u_add_trait": "stalker_eyes" },
@@ -144,7 +147,7 @@
     ],
     "false_effect": [
       { "u_lose_trait": "stalker_eyes" },
-      { "u_message": "A great new world under your eyes disappears.", "type": "neutral" }
+      { "u_message": "The great new world visible to your eyes disappears.", "type": "neutral" }
     ]
   },
   {
@@ -153,7 +156,7 @@
     "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
-      { "u_message": "Your sight darkens for a second, but then turn back.", "type": "good" },
+      { "u_message": "Your sight darkens for a second, but it quickly turns back.", "type": "good" },
       {
         "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
@@ -161,7 +164,7 @@
     ],
     "false_effect": [
       { "u_lose_trait": "stalker_eyes" },
-      { "u_message": "A great new world under your eyes disappears.", "type": "neutral" }
+      { "u_message": "The great new world visible to your eyes disappears.", "type": "neutral" }
     ]
   }
 ]
