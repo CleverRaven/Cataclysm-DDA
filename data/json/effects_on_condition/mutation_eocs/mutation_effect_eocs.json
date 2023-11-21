@@ -341,7 +341,7 @@
     "condition": {
       "and": [
         { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "is_season": "summer" } 
+        { "is_season": "summer" }
       ]
     },
     "effect": [
