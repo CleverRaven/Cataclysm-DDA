@@ -4679,7 +4679,7 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
                 name = eoc_id.str();
             } else {
                 name = eoc_names[i].evaluate( d );
-                parse_tags( description, alpha, beta, d );
+                parse_tags( name, alpha, beta, d );
             }
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
