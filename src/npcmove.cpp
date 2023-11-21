@@ -440,6 +440,21 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     float armour = estimate_armour( candidate );
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
     bool is_fleeing = candidate.has_effect( effect_npc_run_away );
+    int perception_inverted = std::max( ( 20 - get_per() ), 0 );
+    if( has_effect( effect_bleed ) ) {
+        int bleed_intensity = 0;
+        for( const bodypart_id &bp : candidate.get_all_body_parts() ) {
+            const effect &bleediness = candidate.get_effect( effect_bleed, bp );
+            if( !bleediness.is_null() && bleediness.get_intensity() > perception_inverted / 2 ) {
+                // unlike in evaluate self, NPCs can't notice bleeding in others unless it's pretty high.
+                bleed_intensity += bleediness.get_intensity();
+            }
+        }
+        candidate_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", candidate.disp_name(), bleed_intensity );
+    }
+
     if( !my_gun ) {
         speed = std::max( speed, 0.5f );
     };
@@ -494,7 +509,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     // Anyway the higher your perception gets the more accurate and predictable your rating is.
     // this will become more valuable the more skilled we make NPCs at assessing enemies.
     // At time of writing they're bad at it so this is mostly just me patting myself on the back for adding a cool looking feature.
-    int perception_factor = rng( -10, 10 ) * std::max( ( 20 - get_per() ), 0 );
+    int perception_factor = rng( -10, 10 ) * perception_inverted;
 
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s randomizes %s threat by %1.1f%% based on perception factor %i.</color>  Final threat %1.2f",
@@ -523,6 +538,18 @@ float npc::evaluate_self( bool my_gun ) const
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
         speed = std::max( speed, 0.75f );
+    }
+    if( has_effect( effect_bleed ) ) {
+        int bleed_intensity = 0;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            const effect &bleediness = get_effect( effect_bleed, bp );
+            if( !bleediness.is_null() ) {
+                bleed_intensity += bleediness.get_intensity();
+            }
+        }
+        my_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
     }
 
     threat += get_dodge();
@@ -938,6 +965,9 @@ void npc::assess_danger()
                        name, assessment, hostile_count, friendly_count );
     }
 
+    // gotta rename cowardice modifier now.
+    // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
+    // It's likely to get deprecated in a while?
     assessment *= NPC_COWARDICE_MODIFIER;
     assess_ally *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
