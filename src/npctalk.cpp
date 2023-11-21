@@ -4652,6 +4652,10 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
         eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
 
+        std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
+        talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
+        talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
+
         for( size_t i = 0; i < eocs.size(); i++ ) {
             effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
 
@@ -4669,17 +4673,23 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
                 continue;
             }
 
+            std::string name;
             std::string description;
+            if( eoc_names.empty() ) {
+                name = eoc_id.str();
+            } else {
+                name = eoc_names[i].evaluate( d );
+                parse_tags( description, alpha, beta, d );
+            }
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
+                parse_tags( description, alpha, beta, d );
             }
 
             if( eoc_keys.empty() ) {
-                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt,
-                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt, name, description );
             } else {
-                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i],
-                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i], name, description );
             }
         }
 
