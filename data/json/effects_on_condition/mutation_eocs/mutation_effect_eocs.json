@@ -294,7 +294,10 @@
       ]
     },
     "effect": [
-      { "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.", "type": "bad" },
+      {
+        "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.",
+        "type": "bad"
+      },
       { "u_lose_trait": "FLOWERS" },
       { "u_add_trait": "FLOWERS_WINTER" }
     ]
