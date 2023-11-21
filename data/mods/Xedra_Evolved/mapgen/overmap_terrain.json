@@ -378,7 +378,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "salamander_tunnel_entrance" ],
+    "id": [ "salamander_eruption_entrance" ],
     "name": "salamander tunnels entrance",
     "sym": "O",
     "color": "red_cyan",

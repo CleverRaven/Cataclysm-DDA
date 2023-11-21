@@ -30,11 +30,11 @@
       "-4_tunnel_to_finale"
     ],
     "overmaps": {
-      "eruption_entrance": { "overmap": "salamander_eruption_ground_north", "below": "eruption_entrance_to_tunnels" },
-      "salamander_eruption_entrance": { "overmap": "salamander_eruption_entrance" },
+      "eruption_ground": { "overmap": "salamander_eruption_ground_north", "below": "eruption_entrance_to_tunnels", "above": "eruption_ground_to_eruption_roof" },
+      "eruption_entrance": { "overmap": "salamander_eruption_entrance" },
       "eruption_roof": { "overmap": "salamander_eruption_roof" },
       "eruption_ground_to_eruption_entrance": {
-        "overmap": "eruption_entrance",
+        "overmap": "salamander_eruption_entrance",
         "above": "eruption_entrance_to_tunnels",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
