@@ -345,7 +345,10 @@
       ]
     },
     "effect": [
-      { "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.", "type": "good" },
+      {
+        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
+        "type": "good"
+      },
       { "u_lose_trait": "ROSEBUDS_WINTER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_FALL" },
