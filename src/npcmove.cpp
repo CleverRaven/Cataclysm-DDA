@@ -443,7 +443,6 @@ void npc::assess_danger()
     float assessment = 0.0f;
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
-    int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
@@ -567,6 +566,25 @@ void npc::assess_danger()
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
+
+        // ignore targets behind glass even if we can see them
+        if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
+            if( is_enemy() || !critter.friendly ) {
+                // still warn about enemies behind impassable glass walls, but not as often.
+                add_msg_debug( debugmode::DF_NPC,
+                               "%s ignored %s because there's an obstacle in between.  Might warn about it.",
+                               name, critter.type->nname() );
+                if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+                }
+            } else {
+                add_msg_debug( debugmode::DF_NPC,
+                               "%s ignored %s because there's an obstacle in between, and it's not worth warning about.",
+                               name, critter.type->nname() );
+            }
+            continue;
+        }
+
         if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
@@ -576,14 +594,10 @@ void npc::assess_danger()
                 hostile_count += 1;
             }
             if( dist < 4 && npc_ranged ) {
-                swarm_count += 1;
+                mem_combat.swarm_count += 1;
             }
         }
         if( must_retreat || no_fighting ) {
-            continue;
-        }
-        // ignore targets behind glass even if we can see them
-        if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
             continue;
         }
 
@@ -626,6 +640,9 @@ void npc::assess_danger()
     }
 
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
+        if( mem_combat.panic > 0 ) {
+            mem_combat.panic -= 1;
+        }
         ai_cache.danger_assessment = assessment;
         return;
     }
@@ -634,6 +651,18 @@ void npc::assess_danger()
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
+        // ignore targets behind glass even if we can see them
+        if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
+            // still warn about enemies behind impassable glass walls, but not as often.
+            // since NPC threats have a higher chance of ignoring soft obstacles, we'll ignore them here.
+            if( foe_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
+            }
+            return 0.0f;
+        } else {
+            add_msg_debug( debugmode::DF_NPC, "%s ignored %s because there's an obstacle in between.",
+                           name, bogey );
+        }
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
@@ -641,10 +670,6 @@ void npc::assess_danger()
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         if( must_retreat || no_fighting ) {
-            return 0.0f;
-        }
-        // ignore targets behind glass even if we can see them
-        if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
@@ -705,9 +730,12 @@ void npc::assess_danger()
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             if( dist <= 3 ) {
                 assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
-                swarm_count = 0;
+                mem_combat.swarm_count = 0;
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
-                friendly_count += 4 - dist; // when close to the player, weight swarms less.
+                if( mem_combat.panic > 0 && one_in( dist ) ) {
+                    mem_combat.panic -= 1;
+                }
+                friendly_count += 4 - dist; // when close to the player, weight enemy groups less.
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
@@ -723,24 +751,80 @@ void npc::assess_danger()
         assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
     }
 
+
+    bool failed_reposition = false;
+    if( mem_combat.repositioning ) {
+        // this check runs each turn that the NPC is fleeing and assesses if the situation is getting any better.
+        // The longer they try to flee without improving, the more likely they become to stop and stand their ground.
+        const bool melee_reposition_fail = !npc_ranged && ai_cache.danger_assessment <= assessment;
+        const bool range_reposition_fail = npc_ranged &&
+                                           ai_cache.danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
+        if( melee_reposition_fail || range_reposition_fail ) {
+            add_msg_debug( debugmode::DF_NPC,
+                           "<color_light_red>%s tried to reposition last turn, and the situation has not improved.</color>",
+                           name );
+            failed_reposition = true;
+            mem_combat.failing_to_reposition += 1;
+        } else {
+            add_msg_debug( debugmode::DF_NPC,
+                           "<color_light_green>%s tried to reposition last turn, and it worked out!</color>",
+                           name );
+            mem_combat.failing_to_reposition = 0;
+        }
+    }
+
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5.0f )
                         + rng( -5, 5 ) + rng( -3, 3 );
         add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
-            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery
-                                         + 1_turns * static_cast<int>( get_pain() / 5 );
-            warn_about( "run_away", run_away_for );
-            add_effect( effect_npc_run_away, run_away_for );
-            path.clear();
-        } else if( npc_ranged && my_diff < assessment * swarm_count ) {
+            add_msg_debug( debugmode::DF_NPC, "%s decides to reposition.", name );
+            time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
+            // Each time NPC decides to run away, their panic increases, which increases likelihood
+            // and duration of running away.
+            // if they run to a more advantageous position, they'll reassess and rally.
+            mem_combat.panic += std::min( rng( 1,
+                                               3 ) + static_cast<int>( get_pain() / 5 ) - personality.bravery, 1 );
+            if( my_diff * 5 < assessment ) {
+                // Things are looking more than a little grim, NPC should remember to keep running even
+                // if the worst baddy goes out of LOS.
+                mem_combat.panic += 10;
+            }
+            if( mem_combat.panic - personality.bravery >= mem_combat.failing_to_reposition ) {
+                // NPC hasn't yet failed to get away
+                add_msg_debug( debugmode::DF_NPC, "%s upgrades reposition to flat out retreat.", name );
+                mem_combat.repositioning = true;
+                warn_about( "run_away", run_away_for );
+                add_effect( effect_npc_run_away, run_away_for );
+                path.clear();
+            } else {
+                add_msg_debug( debugmode::DF_NPC, "%s wants to run but it hasn't helped so they cancel." );
+            }
+        } else if( failed_reposition || ( npc_ranged && my_diff < assessment * mem_combat.swarm_count ) ) {
+            if( failed_reposition ) {
+                add_msg_debug( debugmode::DF_NPC, "%s failed repositioning, trying again." );
+            } else {
+                add_msg_debug( debugmode::DF_NPC,
+                               "%s decided to reposition/kite due to %i nearby enemies.",
+                               name, mem_combat.swarm_count );
+            }
+            mem_combat.repositioning = true;
             // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
             time_duration run_away_for = 2_turns;
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
+        } else {
+            // Things seem to be going okay, reset/reduce "worry" memories.
+            if( mem_combat.panic > 0 ) {
+                mem_combat.panic -= 1;
+            }
+            mem_combat.repositioning = false;
+            mem_combat.failing_to_reposition = 0;
         }
     }
+    add_msg_debug( debugmode::DF_NPC, "%s <color_magenta>panic level</color> is up to %i.", name,
+                   mem_combat.panic );
 
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
@@ -754,6 +838,18 @@ void npc::assess_danger()
         assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
     ai_cache.danger_assessment = assessment;
+
+    if( mem_combat.failing_to_reposition > 0 && has_effect( effect_npc_run_away ) &&
+        !has_effect( effect_npc_fire_bad ) ) {
+        // NPC is fleeing, but hasn't been able to reposition safely.
+        // Consider cancelling fleeing.
+        // Note that panic will still increment prior to this, and a truly panicked NPC will not stand and fight for any reason.
+        if( mem_combat.panic - personality.bravery < mem_combat.failing_to_reposition ) {
+            add_msg_debug( debugmode::DF_NPC, "%s decided running away was futile.", name );
+            remove_effect( effect_npc_run_away );
+            mem_combat.repositioning = false;
+        }
+    }
 }
 
 bool npc::is_safe() const

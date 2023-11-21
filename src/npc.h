@@ -256,6 +256,19 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
+struct npc_combat_memory {
+    int panic; // Tracks how many times NPC has had to try to run
+    int swarm_count; // remember how many enemies are around you so you can tell if you're gettign away
+    int failing_to_reposition; // Increases as NPC tries to flee/move and doesn't change situation
+    bool repositioning;
+    npc_combat_memory() {
+        panic = 0;
+        swarm_count = 0;
+        failing_to_reposition = 0;
+        repositioning = false;
+    }
+};
+
 enum class combat_engagement : int {
     NONE = 0,
     CLOSE,
@@ -1354,6 +1367,7 @@ class npc : public Character
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
+        npc_combat_memory mem_combat;
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
