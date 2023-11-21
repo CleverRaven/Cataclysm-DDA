@@ -331,7 +331,10 @@
       ]
     },
     "effect": [
-      { "u_message": "Spring must be here, the new buds growing from your scalp are giving off a lovely scent.", "type": "good" },
+      {
+        "u_message": "Spring must be here, the new buds growing from your scalp are giving off a lovely scent.",
+        "type": "good"
+      },
       { "u_lose_trait": "ROSEBUDS_WINTER" },
       { "u_lose_trait": "ROSEBUDS_SUMMER" },
       { "u_lose_trait": "ROSEBUDS_FALL" },
