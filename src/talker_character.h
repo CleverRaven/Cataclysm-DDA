@@ -168,6 +168,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 
         bool can_see() const override;
+        bool can_see_location( const tripoint &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
         int get_rad() const override;

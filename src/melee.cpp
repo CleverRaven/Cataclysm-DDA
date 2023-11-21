@@ -2761,8 +2761,18 @@ double Character::weapon_value( const item &weap, int ammo ) const
             return cached_value->second;
         }
     }
-    const double val_gun = gun_value( weap, ammo );
-    const double val_melee = melee_value( weap );
+    double val_gun = gun_value( weap, ammo );
+    val_gun = val_gun /
+              5.0f; // This is an emergency patch to get melee and ranged in approximate parity, if you're looking at it in 2025 or later and it's still here... I'm sorry.  Kill it with fire.  Tear it all down, and rebuild a glorious castle from the ashes.
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "<color_magenta>weapon_value</color>%s %s valued at <color_light_cyan>%1.2f as a ranged weapon</color>.",
+                   disp_name( true ), weap.type->get_id().str(), val_gun );
+    double val_melee = melee_value( weap );
+    val_melee *=
+        val_melee; // Same emergency patch.  Same purple prose descriptors, you already saw them above.
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon</color>.", disp_name( true ),
+                   weap.type->get_id().str(), val_melee );
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 

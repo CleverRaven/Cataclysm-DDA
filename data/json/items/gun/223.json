@@ -312,7 +312,15 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [

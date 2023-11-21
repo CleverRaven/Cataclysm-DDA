@@ -73,6 +73,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

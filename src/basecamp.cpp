@@ -666,6 +666,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    std::vector<tripoint_abs_ms> possible_liquid_dumps;
     if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
                 60 );
@@ -684,8 +685,20 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
             src_loc = here.getlocal( zones.front()->get_center_point() );
             set_storage_zone( zones );
         }
+        map &here = get_map();
+        for( const zone_data *zone : storage_zones ) {
+            if( zone->get_type() == zone_type_CAMP_STORAGE ) {
+                for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
+                         zone->get_start_point(), zone->get_end_point() ) ) {
+                    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, here.getlocal( p ) ) ) {
+                        possible_liquid_dumps.emplace_back( p );
+                    }
+                }
+            }
+        }
     }
     set_dumping_spot( here.getglobal( src_loc ) );
+    set_liquid_dumping_spot( possible_liquid_dumps );
 
 }
 void basecamp::form_crafting_inventory( map &target_map )
