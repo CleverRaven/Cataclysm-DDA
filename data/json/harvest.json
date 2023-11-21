@@ -1985,6 +1985,7 @@
   {
     "id": "fungaloid",
     "type": "harvest",
+    "message": "<fungaloid_harvest>",
     "entries": [
       { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.2 },
