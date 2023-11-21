@@ -1468,6 +1468,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```FROZEN``` Item is frozen solid (used by freezer).
 - ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see `EATEN_HOT`).
+- ```IRRADIATED``` Item has been irradiated and will spoil at a much reduced rate.
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```MUSHY``` `FREEZERBURN` item was frozen and is now mushy and tasteless and will go bad after freezing again.
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites

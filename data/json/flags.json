@@ -727,6 +727,11 @@
     "type": "json_flag"
   },
   {
+    "id": "IRRADIATED",
+    "type": "json_flag",
+    "info": "This food item has been irradiated, and will spoil 4 times slower."
+  },
+  {
     "id": "FREEZERBURN",
     "type": "json_flag"
   },
