@@ -84,12 +84,22 @@ We are in the process of removing charges, that's a fact that won't be changed. 
 Main reason we do this, contrary to people's belief, is not to make the game experience harsh and boring.  The main reason we are going rid of them is because, to handle both items and charges, every instance of the code that interact with them in any way should be effectively duplicated - each version of the code works by their own rules, each interact with items in their own way, and each may (and is) maintained separately. It causes tremendous amount of difficulty for any contributor - one who tries to make something new in code, one who tries to make some new items, and one who don't even touch the items directly (like mapgen people, who just try to add item to spawn on the map)
 
 Few examples:
-If you define item without charges, it's weight and volume would be equal `weight` and `volume` field - `"weight": "800 g", "volume": "200ml" = 1 item weight 800 g and has volume of 200 ml`
-But if you add charges, the volume would be divided by it's `count` - `"weight": "800 g", "volume": "200ml", "count": 50 = 1 item has weight 800g, and volume of 4 ml` (Same goes with price, btw)
+If you define item without charges, it's weight and volume would be equal `weight` and `volume` field: 
 
 ```
-Wolfram Alpha tells me that the current density of bean seeds is greater than that of our sun. I do not think beans are denser than a star. (1L beans = 77.6kg) - RenechCDDA
+"weight": "800 g", "volume": "200ml" = 1 item weight 800 g and has volume of 200 ml
 ```
+
+But if you add charges, the volume would be divided by it's `count`:
+
+```
+"weight": "800 g", "volume": "200ml", "count": 50 = 1 item has weight 800g, and volume of 4 ml
+```
+(Same goes with price, btw)
+
+
+> Wolfram Alpha tells me that the current density of bean seeds is greater than that of our sun. I do not think beans are denser than a star. (1L beans = 77.6kg) - RenechCDDA
+
 
 It sound like an easy to catch issue, but it is not easy to resolve it if you don't know about this "feature"
 
