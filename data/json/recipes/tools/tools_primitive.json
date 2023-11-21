@@ -327,6 +327,7 @@
   {
     "type": "recipe",
     "result": "drill_rock_primitive",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
