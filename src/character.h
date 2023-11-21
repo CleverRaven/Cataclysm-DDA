@@ -2631,7 +2631,17 @@ class Character : public Creature, public visitable
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
+
+        // Means player is hauling items along the ground
         bool hauling = false;
+        // Means player is automatically including new items in the haul
+        bool autohaul = false;
+        // Skip autohaul on the stop the hauling selection is modified manually
+        bool suppress_autohaul = false;
+        std::string hauling_filter;
+        // Items currently being hauled
+        std::vector<item_location> haul_list;
+
         tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
@@ -2733,9 +2743,16 @@ class Character : public Creature, public visitable
         int activity_vehicle_part_index = -1;
 
         // Hauling items on the ground
-        void start_hauling();
+        void toggle_hauling();
+        void start_hauling( const std::vector<item_location> &items_to_haul );
         void stop_hauling();
         bool is_hauling() const;
+
+        void start_autohaul();
+        void stop_autohaul();
+        bool is_autohauling() const;
+        // Remove items from haul list which are not in valid_items. Returns true if anything was trimmed
+        bool trim_haul_list( const std::vector<item_location> &valid_items );
 
         /**
          * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
