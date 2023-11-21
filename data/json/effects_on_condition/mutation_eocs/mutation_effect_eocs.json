@@ -324,8 +324,10 @@
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
       "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "is_season": "spring" } 
+        {
+          "or": [ { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ]
+        },
+        { "is_season": "spring" }
       ]
     },
     "effect": [
