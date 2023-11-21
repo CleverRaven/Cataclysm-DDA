@@ -952,7 +952,7 @@
   {
     "type": "COMESTIBLE",
     "id": "omelet",
-    "name": { "str": "omelet", "str_pl": "omelets" },
+    "name": { "str": "omelet" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -966,7 +966,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vegetable_omelet",
-    "name": { "str": "vegetable omelet", "str_pl": "vegetable omelets" },
+    "name": { "str": "vegetable omelet" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -980,7 +980,7 @@
   {
     "type": "COMESTIBLE",
     "id": "supreme_omelet",
-    "name": { "str": "supreme omelet", "str_pl": "supreme omelets" },
+    "name": { "str": "supreme omelet" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
