@@ -7,7 +7,7 @@
     "symbol": "(",
     "color": "green",
     "name": { "str": "M3 recoilless rifle" },
-    "description": "Manufactured in Sweden, the Carl Gustaf M3 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to avoid undue risk of brain injury...",
+    "description": "Manufactured in Sweden, the Carl Gustaf M3 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to avoid undue risk of brain injury…",
     "price": 1300000,
     "price_postapoc": 6000,
     "material": [ "steel" ],
