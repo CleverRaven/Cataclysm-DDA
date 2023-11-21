@@ -798,11 +798,6 @@
     "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
   },
   {
-    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
-    "type": "json_flag",
-    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
-  },
-  {
     "id": "REQUIRES_BALANCE",
     "type": "json_flag",
     "info": "This gear requires careful balance to use.  Being hit while wearing it could make you <bad>fall down</bad>."
