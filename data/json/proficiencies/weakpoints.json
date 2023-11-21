@@ -252,5 +252,29 @@
     "required_proficiencies": [ "prof_wp_mi-go_basic" ],
     "default_weakpoint_bonus": 2,
     "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_fungaloid_basic",
+    "category": "prof_weakpoint",
+    "name": { "str": "Fungaloid basic anatomy" },
+    "description": "You have studied fungaloids sufficiently to get an idea of which parts are the more sensitive ones.  While seeming to be a weird mixture of fungus and animal, it at least has a structure with commonalities between different types of fungaloids.",
+    "can_learn": true,
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_fungaloid_advanced",
+    "category": "prof_weakpoint",
+    "name": { "str": "Fungaloid detailed anatomy" },
+    "description": "You have advanced your understanding of the fungaloid body sufficiently to have a pretty good idea of where you can harm it and where it's better protected.  You don't really understand it's biological functions, although it seems it would be possible for someone with much more time than you have to glean some insight into it, but you've gotten an understanding of how to hurt it, and that's what's important here.",
+    "can_learn": true,
+    "time_to_learn": "24 h",
+    "required_proficiencies": [ "prof_wp_fungaloid_basic" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": -2
   }
 ]
