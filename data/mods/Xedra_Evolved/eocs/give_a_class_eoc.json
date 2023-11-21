@@ -60,7 +60,7 @@
     "required_event": "character_wakes_up",
     "condition": { "math": [ "eater_dreamer_sequence", ">", "0" ] },
     "effect": [
-      { "math": [ "inventor_dreamsmith_sequence", "++" ] },
+      { "math": [ "eater_dreamer_sequence", "++" ] },
       {
         "switch": { "math": [ "eater_dreamer_sequence" ] },
         "cases": [

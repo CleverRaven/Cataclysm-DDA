@@ -45,6 +45,16 @@
             "type": "debug"
           }
         ]
+      },
+      {
+        "if": { "u_has_effect": "taint" },
+        "then": [
+          { "math": [ "magic_potential", "++" ] },
+          {
+            "u_message": "Got magic potential from tainted mind, magic_potential: <global_val:magic_potential>",
+            "type": "debug"
+          }
+        ]
       }
     ]
   }
