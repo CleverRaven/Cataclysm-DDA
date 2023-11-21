@@ -349,7 +349,8 @@ class spell_type
         // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
-        enum_bitset<spell_flag> spell_tags;
+        std::set<std::string> flags; // string flags
+        enum_bitset<spell_flag> spell_tags; // bitfield of -certain- string flags which are heavily checked
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
@@ -433,7 +434,7 @@ class spell
 
         // Temporary adjustments caused by EoC's
         int temp_level_adjustment = 0;
-        float temp_cast_speed_multiplyer = 1;
+        float temp_cast_time_multiplyer = 1;
         float temp_spell_cost_multiplyer = 1;
         float temp_aoe_multiplyer = 1;
         float temp_range_multiplyer = 1;
@@ -545,6 +546,7 @@ class spell
         bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
+        bool has_flag(const std::string flag) const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 

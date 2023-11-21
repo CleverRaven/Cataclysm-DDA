@@ -313,6 +313,9 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "affected_body_parts", affected_bps );
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
+    for (auto& flag : jo.get_string_array("flags")) {
+        flags.insert(flag);
+    }
 
     optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
 
@@ -1043,12 +1046,17 @@ int spell::energy_cost( const Character &guy ) const
                 break;
         }
     }
-    return cost;
+    return (int)((float)cost * temp_spell_cost_multiplyer);
 }
 
 bool spell::has_flag( const spell_flag &flag ) const
 {
     return type->spell_tags[flag];
+}
+
+bool spell::has_flag(const std::string flag) const
+{
+    return type->flags.count(flag) > 0;
 }
 
 bool spell::is_spell_class( const trait_id &mid ) const
@@ -1111,7 +1119,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
 int spell::get_difficulty( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->difficulty.evaluate( d );
+    return type->difficulty.evaluate( d ) + temp_difficulty_adjustment;
 }
 
 mod_id spell::get_src() const
@@ -1154,7 +1162,7 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
             casting_time += arms_encumb * 2;
         }
     }
-    return casting_time;
+    return (int)((float)casting_time * temp_cast_time_multiplyer);
 }
 
 const requirement_data &spell::components() const
@@ -1536,10 +1544,10 @@ void spell::set_temp_level_adjustment( int adjustment )
 void spell::set_temp_adjustment( std::string target_property, float adjustment )
 {
     if( target_property == "caster_level" ) {
-        temp_cast_speed_multiplyer += adjustment;
+        temp_level_adjustment += adjustment;
     }
     if( target_property == "casting_time" ) {
-        temp_cast_speed_multiplyer += adjustment;
+        temp_cast_time_multiplyer += adjustment;
     } else if( target_property == "cost" ) {
         temp_spell_cost_multiplyer += adjustment;
     } else if( target_property == "aoe" ) {
@@ -1559,7 +1567,7 @@ void spell::set_temp_adjustment( std::string target_property, float adjustment )
 void spell::clear_temp_adjustments()
 {
     temp_level_adjustment = 0;
-    temp_cast_speed_multiplyer = 1;
+    temp_cast_time_multiplyer = 1;
     temp_spell_cost_multiplyer = 1;
     temp_aoe_multiplyer = 1;
     temp_range_multiplyer = 1;
