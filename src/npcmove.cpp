@@ -939,12 +939,13 @@ void npc::assess_danger()
     }
 
     assessment *= NPC_COWARDICE_MODIFIER;
+    assess_ally *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_self( npc_ranged ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s assesses own final strength as %1.2f.", name, my_diff );
         assess_ally += my_diff;
-        add_msg_debug( debugmode::DF_NPC,
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s rates total <color_yellow>enemy strength %1.2f</color>, <color_light_green>ally strength %1.2f</color>.",
                        name,
                        assessment, assess_ally );
