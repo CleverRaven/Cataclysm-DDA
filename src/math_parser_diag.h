@@ -145,6 +145,40 @@ decl_diag_eval warmth_eval;
 decl_diag_eval weather_eval;
 decl_diag_ass weather_ass;
 
+/*
+General guidelines for writing dialogue functions
+
+The typical parsing function takes the form:
+
+std::function<double( dialogue & )> myfunction_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value myval( std::string{} );
+    if( kwargs.count( "mykwarg" ) != 0 ) {
+        myval = *kwargs.at( "mykwarg" );
+    }
+
+    ...parse-time code...
+
+    return[effect_id = params[0], myval, beta = is_beta( scope )]( dialogue const & d ) {
+        ...run-time code...
+    };
+}
+
+- Don't validate the number of arguments (params). The math parser already does that
+- Only use variadic functions if all arguments are treated the same way,
+  regardless of how many there are (including zero)
+- Use kwargs for optional arguments
+- Prefer splitting functions instead of using mandatory kwargs
+  ex: school_level() split from spell_level() instead of spell_level('school':blorg)
+- Use parameter-less functions diag_value::str(), dbl(), and var() only at parse-time
+- Use conversion functions diag_value::str( d ) and dbl( d ) only at run-time
+- Always throw on errors at parse-time
+- Never throw at run-time. Use a debugmsg() and recover gracefully
+*/
+
+// { "name", { "scopes", num_args, function } }
+// kwargs are not included in num_args
 inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
@@ -159,7 +193,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
-    { "hp", { "un", -1, hp_eval } },
+    { "hp", { "un", 1, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
     { "item_count", { "un", 1, item_count_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
@@ -168,7 +202,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "school_level", { "un", 1, school_level_eval}},
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
     { "skill", { "un", 1, skill_eval } },
-    { "skill_exp", { "un", -1, skill_exp_eval } },
+    { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
@@ -182,11 +216,11 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 
 inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "addiction_turns", { "un", 1, addiction_turns_ass } },
-    { "hp", { "un", -1, hp_ass } },
+    { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
     { "skill", { "un", 1, skill_ass } },
-    { "skill_exp", { "un", -1, skill_exp_ass } },
+    { "skill_exp", { "un", 1, skill_exp_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},
     { "spell_level", { "un", 1, spell_level_ass}},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },

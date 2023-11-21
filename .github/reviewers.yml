@@ -55,3 +55,5 @@ files:
     - Qrox
   'data/raw/keybindings{.json,/**}':
     - Qrox
+  'src/math_parser*':
+    - andrei8l

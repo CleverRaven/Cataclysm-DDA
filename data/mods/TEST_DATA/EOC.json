@@ -89,7 +89,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_item_math_test_nested",
-    "effect": [ { "math": [ "n_hp()", "=", "100" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL')", "=", "100" ] } ]
   },
   {
     "type": "effect_on_condition",
