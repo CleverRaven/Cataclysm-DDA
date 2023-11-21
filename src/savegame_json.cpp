@@ -1256,6 +1256,13 @@ void Character::load( const JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+
+    data.read( "hauling", hauling );
+    data.read( "autohaul", autohaul );
+    data.read( "hauling_filter", hauling_filter );
+    data.read( "haul_list", haul_list );
+    data.read( "suppress_autohaul", suppress_autohaul );
+
     //load queued_eocs
     for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
         queued_eoc temp;
@@ -1487,6 +1494,13 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    // Hauling state
+    json.member( "hauling", hauling );
+    json.member( "autohaul", autohaul );
+    json.member( "hauling_filter", hauling_filter );
+    json.member( "haul_list", haul_list );
+    json.member( "suppress_autohaul", suppress_autohaul );
 
     //save queued effect_on_conditions
     queued_eocs temp_queued( queued_effect_on_conditions );
@@ -2365,6 +2379,8 @@ void npc::load( const JsonObject &data )
         complaints.emplace( member.name(), p );
     }
     data.read( "unique_id", unique_id );
+    clear_personality_traits();
+    generate_personality_traits();
 }
 
 /*
@@ -4395,6 +4411,7 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member( "liquid_dumping_spots", liquid_dumping_spots );
         json.member( "hidden_missions" );
         json.start_array();
         for( const std::vector<ui_mission_id> &list : hidden_missions ) {
@@ -4479,6 +4496,7 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    data.read( "liquid_dumping_spots", liquid_dumping_spots );
     for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         std::vector<ui_mission_id> temp;
         hidden_missions.push_back( temp );

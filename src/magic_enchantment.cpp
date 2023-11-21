@@ -149,6 +149,7 @@ namespace io
             case enchant_vals::mod::EVASION: return "EVASION";
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::RANGE: return "RANGE";
+            case enchant_vals::mod::AVOID_FRIENDRY_FIRE: return "AVOID_FRIENDRY_FIRE";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );

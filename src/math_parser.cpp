@@ -81,7 +81,7 @@ std::optional<S> _get_dialogue_func( C const &cnt, std::string_view token )
     if( df != cnt.end() ) {
         if( df->second.scopes.find( scope ) == std::string_view::npos ) {
             throw std::invalid_argument( string_format(
-                                             "Scope %c is not valid for dialogue function %s() (%s)",
+                                             "Scope %c is not valid for dialogue function %s() (valid scopes: %s)",
                                              scope, scoped, df->second.scopes ) );
         }
         return { { &df->second, scope } };
@@ -127,10 +127,10 @@ struct parse_state {
             case expect::lparen: return "left parenthesis";
             case expect::rparen: return "right parenthesis";
             case expect::string: return "string delimiter";
-            case expect::eof: ;
+            case expect::eof: return "EOF";
             // *INDENT-ON*
         }
-        return "EOF";
+        return "cookies";
     }
 
     void validate( expect next ) const {
@@ -142,8 +142,8 @@ struct parse_state {
             ( expected != expect::oper || alias != expect::eof ) ) {
             throw std::invalid_argument( string_format(
                                              "Expected %s, got %s",
-                                             expect_to_string( expected ).data(),
-                                             expect_to_string( next ).data() ) );
+                                             expect_to_string( expected ),
+                                             expect_to_string( next ) ) );
         }
     }
     void set( expect current, bool unary_ok = false, bool kwargs_ok = false ) {
@@ -219,6 +219,19 @@ double func::eval( dialogue &d ) const
 double func_jmath::eval( dialogue &d ) const
 {
     return id->eval( d, _eval_params( params, d ) );
+}
+
+double var::eval( dialogue &d ) const
+{
+    std::string const str = read_var_value( varinfo, d );
+    if( str.empty() ) {
+        return 0;
+    }
+    if( std::optional<double> ret = svtod( str ); ret ) {
+        return *ret;
+    }
+    debugmsg( R"(failed to convert variable "%s" with value "%s" to a number)", varinfo.name, str );
+    return 0;
 }
 
 oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
@@ -521,11 +534,11 @@ void math_exp::math_exp_impl::new_func()
         if( arity.top().expected >= 0 ) {
             if( arity.top().current < arity.top().expected ) {
                 throw std::invalid_argument(
-                    string_format( "Not enough arguments for function %s()", arity.top().sym.data() ) );
+                    string_format( "Not enough arguments for function %s()", arity.top().sym ) );
             }
             if( arity.top().current > arity.top().expected ) {
                 throw std::invalid_argument(
-                    string_format( "Too many arguments for function %s()", arity.top().sym.data() ) );
+                    string_format( "Too many arguments for function %s()", arity.top().sym ) );
             }
         }
 
@@ -534,7 +547,7 @@ void math_exp::math_exp_impl::new_func()
         for( std::vector<kwarg>::size_type i = 0; i < arity.top().nkwargs; i++ ) {
             if( !std::holds_alternative<kwarg>( output.top().data ) ) {
                 throw std::invalid_argument(
-                    "All positional parameters must precede keyword-value pairs" );
+                    "All positional arguments must precede keyword-value pairs" );
             }
             kwarg &kw = std::get<kwarg>( output.top().data );
             kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
@@ -691,7 +704,7 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
                 type = var_type::var;
                 break;
             default:
-                debugmsg( "Unknown scope %c in variable %.*s", str[0], str.size(), str.data() );
+                debugmsg( "Unknown scope %c in variable %s", str[0], str );
         }
     } else if( str.size() > 1 && str[0] == '_' ) {
         type = var_type::context;
@@ -711,7 +724,7 @@ void math_exp::math_exp_impl::error( std::string_view str, std::string_view what
         offset = 40;
     }
     // NOLINTNEXTLINE(cata-translate-string-literal): debug message
-    std::string mess = string_format( "Expression parsing failed: %s", what.data() );
+    std::string mess = string_format( "Expression parsing failed: %s", what );
     if( last_token == "(" && state.expected == parse_state::expect::oper &&
         std::holds_alternative<var>( output.top().data ) ) {
         // NOLINTNEXTLINE(cata-translate-string-literal): debug message
@@ -720,7 +733,7 @@ void math_exp::math_exp_impl::error( std::string_view str, std::string_view what
     }
 
     offset = std::max<std::ptrdiff_t>( 0, offset - 1 );
-    debugmsg( "%s\n\n%.80s\n%*s▲▲▲\n", mess, str.data(), offset, " " );
+    debugmsg( "%s\n\n%.80s\n%*s▲▲▲\n", mess, str, offset, " " );
 }
 
 void math_exp::math_exp_impl::validate_string( std::string_view str, std::string_view label,
@@ -730,8 +743,8 @@ void math_exp::math_exp_impl::validate_string( std::string_view str, std::string
     if( pos != std::string_view::npos ) {
         last_token.remove_prefix( pos + ( label == "string" ? 1 : 0 ) );
         // NOLINTNEXTLINE(cata-translate-string-literal): debug message
-        throw std::invalid_argument( string_format( R"(Stray " %c " inside %s operand "%.*s")",
-                                     str[pos], label.data(), str.size(), str.data() ) );
+        throw std::invalid_argument( string_format( R"(Stray " %c " inside %s operand "%s")",
+                                     str[pos], label, str ) );
     }
 }
 

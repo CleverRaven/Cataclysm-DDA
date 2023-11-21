@@ -745,6 +745,9 @@ class Creature : public viewer
         virtual bool uncanny_dodge() {
             return false;
         }
+        virtual bool check_avoid_friendly_fire() const {
+            return false;
+        }
         void set_reachable_zone( int zone ) {
             reachable_zone = zone;
         }
