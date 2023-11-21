@@ -2815,7 +2815,7 @@
     "type": "effect_type",
     "id": "pre_conjunctivitis_viral",
     "show_in_info": false,
-    "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
     "blood_analysis_description": "Viral Infection",
     "max_duration": "71 h"
   },
@@ -2824,7 +2824,7 @@
     "type": "effect_type",
     "id": "pre_conjunctivitis_bacterial",
     "show_in_info": false,
-    "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
     "blood_analysis_description": "Bacterial Infection",
     "max_duration": "71 h"
   },
@@ -2842,7 +2842,7 @@
     "rating": "bad",
     "resist_effects": [ "took_antihistamine", "took_flumed" ],
     "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
-    "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
     "int_dur_factor": "50 m",
     "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
     "limb_score_mods": [
@@ -2867,7 +2867,7 @@
     "rating": "bad",
     "resist_effects": [ "took_antihistamine", "took_flumed" ],
     "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
-    "immune_flags": [ "NO_DISEASE", "SEESLEEP" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
     "int_dur_factor": "50 m",
     "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
     "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
