@@ -128,6 +128,7 @@ struct conditional_t {
         void set_has_item_with_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_item_category( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_bionics( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_any_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_need( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_at_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );

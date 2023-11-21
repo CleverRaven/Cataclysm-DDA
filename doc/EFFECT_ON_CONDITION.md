@@ -627,9 +627,9 @@ check do you have any bionic presented
 { "u_has_bionics": "ANY" }
 ```
 
-### `u_has_effect`, `npc_has_effect`
+### `u_has_effect`, `npc_has_effect`, `u_has_any_effect`, `npc_has_any_effect`
 - type: string or [variable object](##variable-object)
-- return true if alpha or beta talker has specific effect applied;
+- return true if alpha or beta talker has specific effect applied. `_has_effect` checks only one effect, when `_has_any_effect` check a range, and return true if at least one effect is applied;
 - `intensity` can be used to check an effect of specific intensity;
 - `bodypart` can be used to check effect applied on specific body part
 - martial arts `static_buffs` can be checked in form `mabuff:buff_id`
@@ -654,6 +654,11 @@ checks are you head bleed heavily
 checks do you have aikido stance active
 ```json
 { "u_has_effect": "mabuff:buff_aikido_static1" }
+```
+
+checks are you hot or cold
+```json
+{ "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
 ```
 
 ### `u_can_stow_weapon`, `npc_can_stow_weapon`

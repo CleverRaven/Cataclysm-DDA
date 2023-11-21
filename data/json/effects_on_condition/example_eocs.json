@@ -144,6 +144,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_has_any_test",
+    "condition": { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" },
+    "effect": [ { "u_message": "You are hot or cold." } ],
+    "false_effect": [ { "u_message": "You are not hot or cold." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_spawn_npc_test",
     "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3 } ]
   },
