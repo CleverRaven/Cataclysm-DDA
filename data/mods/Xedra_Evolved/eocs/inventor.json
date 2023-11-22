@@ -366,7 +366,7 @@
           "id": "EOC_RUST_INVENTOR_ITEMS",
           "effect": [
             { "math": [ "n_hp('ALL')", "-=", "2" ] },
-            { "message": "You hear a sudden crack from !" },
+            { "message": "You hear a sudden crack!" },
             { "u_message": "Lack of inventor's aura make items, made by inventor's fevered mind, rapidly degrade!" },
             { "npc_message": "My items, they fall apart!  It wasn't me!" }
           ]

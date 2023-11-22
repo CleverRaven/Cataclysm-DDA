@@ -234,7 +234,7 @@
       "OVERHEATS",
       "INVENTOR_CRAFTED"
     ],
-    "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 m", "regenerate_ammo": true } },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 4800 }, "airtight": true } ]
   },
   {
