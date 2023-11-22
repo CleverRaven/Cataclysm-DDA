@@ -260,7 +260,7 @@ struct npc_combat_memory {
     int panic; // Tracks how many times NPC has had to try to run
     int swarm_count; // remember how many enemies are around you so you can tell if you're gettign away
     int failing_to_reposition; // Increases as NPC tries to flee/move and doesn't change situation
-    bool repositioning;
+    bool repositioning; // used to distinguish an NPC who is running away from one who is just moving around.
     npc_combat_memory() {
         panic = 0;
         swarm_count = 0;
