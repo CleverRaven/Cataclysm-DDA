@@ -5247,7 +5247,8 @@
     "components": [
       [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
-      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      "charges": 2
     ]
   },
   {
@@ -5267,7 +5268,8 @@
       [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
-      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      "charges": 2
     ]
   },
   {
@@ -5288,7 +5290,8 @@
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
       [ [ "meat_cooked", 1, "LIST" ] ],
-      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      "charges": 2
     ]
   },
   {
