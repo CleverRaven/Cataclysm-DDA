@@ -357,6 +357,8 @@
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_MESSAGE_GOOD",
     "recurrence": [ "1 d", "2 d" ],
+    "global": true,
+    "run_for_npcs": true,
     "condition": { "not": { "u_has_trait": "INVENTOR" } },
     "effect": {
       "u_run_inv_eocs": "all",
