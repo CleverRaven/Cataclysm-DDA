@@ -634,7 +634,7 @@
     "color": "light_gray",
     "name": "collapsed boarding axe",
     "description": "This is an exosuit-scale boarding axe, folded into a compact module.  Activate to extend.",
-    "weight": "3500 g",
+    "weight": "7500 g",
     "volume": "1500 ml",
     "longest_side": "45 cm",
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "EXO_MEDIUM_GADGET" ],
@@ -683,4 +683,29 @@
       "type": "transform"
     }
   }
+  {
+    "id": "exo_dazzle",
+    "type": "GUN",
+    "copy-from": "hm12",
+    "name": { "str": "UCIA Drone Controller" },
+    "description": "This is a closely-held military module used by the UCIA to both control their own drones and disable hostile drones.  A large phased array fits over the torso and an onboard controller links to the suit's systems. ",
+    "weight": "4 kg",
+    "volume": "7 l",
+    "range": 30,
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 0,
+    "energy_drain": "10 kJ",
+    "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ]
+  },
 ]
