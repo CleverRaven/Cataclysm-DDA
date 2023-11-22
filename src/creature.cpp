@@ -910,6 +910,18 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
 
+    if( proj_effects.count( "ROBOT_DAZZLE_IMPROVED" ) ) {
+        if( critical && target.in_species( species_ROBOT ) ) {
+            time_duration duration = rng( 8_turns, 12_turns );
+            target.add_effect( effect_source( source ), effect_stunned, duration );
+            target.add_effect( effect_source( source ), effect_sensor_stun, duration );
+            add_msg( source->is_avatar() ?
+                     _( "The %1$s seems to stagger as the array fires." ) :
+                     _( "The %1$s is stunned!" ),
+                     target.disp_name( true ) );
+        }
+    }
+
     if( dealt_dam.bp_hit->has_type( body_part_type::type::head ) &&
         proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
