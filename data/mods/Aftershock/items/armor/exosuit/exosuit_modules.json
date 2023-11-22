@@ -682,20 +682,20 @@
       "menu_text": "Turn off module",
       "type": "transform"
     }
-  }
+  },
   {
     "id": "exo_dazzle",
     "type": "GUN",
     "copy-from": "hm12",
     "name": { "str": "UCIA Drone Controller" },
-    "description": "This is a closely-held military module used by the UCIA to both control their own drones and disable hostile drones.  A large phased array fits over the torso and an onboard controller links to the suit's systems. ",
+    "description": "This is a closely-held military module used by the UCIA to both control their own drones and disable hostile drones.  A large phased array fits over the torso and an onboard controller links to the suit's systems.  Without the command keys, this will still disable a drone or robot for a few seconds.",
     "weight": "4 kg",
     "volume": "7 l",
     "range": 30,
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
     "energy_drain": "10 kJ",
-    "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
+    "ammo_effects": [ "LASER", "IMPROVED_ROBOT_DAZZLE" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ],
     "pocket_data": [
       {
@@ -707,5 +707,5 @@
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
-  },
+  }
 ]
