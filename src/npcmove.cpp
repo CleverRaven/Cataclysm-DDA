@@ -276,45 +276,36 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 tripoint npc::good_escape_direction( bool include_pos )
 {
     map &here = get_map();
+	// if NPC is repositioning rather than fleeing, they do smarter things
 	add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_brown>good_escape_direction</color> activated by %s", name );
-    if( path.empty() ) {
-		add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s doesn't already have an escape path.  Micromanagement activated.", name );
+	
+	// To do: Eventually careful_retreat should determine if NPC will go to previously identified
+	// safe locations.  For now it just sends them to a retreat zone if one exists.
+	bool careful_retreat = mem_combat.repositioning || mem_combat.panic == 0;
+	if( !careful_retreat ) {
+		careful_retreat = mem_combat.panic > 10 + personality.bravery + get_int();
+			if( !careful_retreat ){
+				add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is panicking too much to use retreat zones and stuff.", name );
+			}else {				
+				add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is running away but still being smart about it.", name );
+			}
+	}
+	//if not, consider regrouping on the player if they're getting far away.
+	//in the future this should run to the strongest nearby ally, remembered in mem_combat or cached.
+	bool run_to_friend = mem_combat.repositioning || mem_combat.panic == 0;
+	if(!run_to_friend ){
+		run_to_friend = mem_combat.panic > 10 + personality.bravery + op_of_u.trust;
+	}
+    if( path.empty() && careful_retreat ) {
+		add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s doesn't already have an escape path.  Checking for retreat zone.", name );
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
         // if there is a retreat zone in range, go there
-		// if NPC is repositioning rather than fleeing, they might consider regrouping on their allies.
-		bool run_to_protector = mem_combat.repositioning;
-		// if they're running away, the choice of running to an ally depends on how rational they're being.
-		if( !run_to_protector ){
-			run_to_protector = is_player_ally() && mem_combat.panic > 10 + personality.bravery + op_of_u.trust;
-		}
-        if( !retreat_target &&  run_to_protector ) {
-            //if not, consider regrouping on the player if they're getting far away.
-			//in the future this should run to the strongest nearby ally, remembered in mem_combat.
-            Character &player_character = get_player_character();
-            int dist = rl_dist( pos(), player_character.pos() );
-            int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
-            if( dist > def_radius ) {
-				add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s is repositioning closer to</color> you", name );
-                tripoint_bub_ms destination = get_player_character().pos_bub();
-				Creature *blocking = creatures.creature_at( destination );
-				int loop_avoider = 0;
-                while( !can_move_to( destination ) ) {
-                    destination.x() += rng( -2, 2 );
-                    destination.y() += rng( -2, 2 );
-					loop_avoider += 1;
-					// It's not the end of the world if we try to find an empty location and fail,
-					// definitely not worth an infinite loop.
-                }
-				if( loop_avoider == 10 ) {
-					add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_red>%s had to break out of an infinite loop when looking for a good escape destination</color>.  This might not be that big a deal but if you're seeing this a lot, there might be something wrong in good_escape_direction().", name );
-				}
-                retreat_target = here.getglobal( destination );
-            }
-        }
+		
+        
         if( retreat_target && *retreat_target != abs_pos ) {
 			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s is </color><color_brown>repositioning to</color> <color_light_gray>%i %i %i</color>", name, retreat_target.x(), retreat_target.y(), retreat_target.z() );
             update_path( here.getlocal( *retreat_target ) );
@@ -322,9 +313,33 @@ tripoint npc::good_escape_direction( bool include_pos )
         if( !path.empty() ) {
             return path[0];
         } else {
-			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s did not detect an ally or a zone to reposition to, or is too panicked.  Moving to random selection.</color>", name );
+			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s did not detect a zone to reposition to, or is too panicked.  Checking to see if there's an ally.</color>", name );
 		}
-    }
+    } else if( path.empty() && run_to_friend && is_player_ally()) {
+        Character &player_character = get_player_character();
+        int dist = rl_dist( pos(), player_character.pos() );
+        int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+        if( dist > def_radius ) {
+			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s is repositioning closer to</color> you", name );
+            tripoint_bub_ms destination = get_player_character().pos_bub();
+			Creature *blocking = creatures.creature_at( destination );
+			int loop_avoider = 0;
+            while( !can_move_to( destination ) ) {
+                destination.x() += rng( -2, 2 );
+                destination.y() += rng( -2, 2 );
+				loop_avoider += 1;
+				// It's not the end of the world if we try to find an empty location and fail,
+				// definitely not worth an infinite loop.
+            }
+			if( loop_avoider == 10 ) {
+				add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_red>%s had to break out of an infinite loop when looking for a good escape destination</color>.  This might not be that big a deal but if you're seeing this a lot, there might be something wrong in good_escape_direction().", name );
+			}
+            retreat_target = here.getglobal( destination );
+        }
+    } else {
+		add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s couldn't find anywhere preset to reposition to.  Looking for a random location.</color>", name );
+	}
+	
 
     std::vector<tripoint> candidates;
 
