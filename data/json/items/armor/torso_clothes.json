@@ -83,14 +83,12 @@
         "name": { "str": "skull long waist apron" },
         "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       },
       {
         "id": "maid_apron",
         "name": { "str": "maid long waist apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
-        "weight": 1,
         "append": true
       },
       {
@@ -98,7 +96,6 @@
         "name": { "str": "gothic long waist apron" },
         "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ]
@@ -187,14 +184,12 @@
         "name": { "str": "skull short waist apron" },
         "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       },
       {
         "id": "maid_apron",
         "name": { "str": "maid short waist apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
-        "weight": 1,
         "append": true
       },
       {
@@ -202,7 +197,6 @@
         "name": { "str": "gothic short waist apron" },
         "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ]
@@ -282,14 +276,12 @@
         "name": { "str": "skull apron" },
         "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       },
       {
         "id": "maid_apron",
         "name": { "str": "maid apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
-        "weight": 1,
         "append": true
       },
       {
@@ -297,7 +289,6 @@
         "name": { "str": "gothic apron" },
         "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ]
@@ -744,7 +735,90 @@
     "warmth": 20,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "hoodie_red",
+        "name": { "str": "red hoodie" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_blue",
+        "name": { "str": "blue hoodie" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_yellow",
+        "name": { "str": "yellow hoodie" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_green",
+        "name": { "str": "green hoodie" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_purple",
+        "name": { "str": "purple hoodie" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_pink",
+        "name": { "str": "pink hoodie" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_cyan",
+        "name": { "str": "cyan hoodie" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_black",
+        "name": { "str": "black hoodie" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_white",
+        "name": { "str": "white hoodie" },
+        "color": "light_gray",
+        "description": "This one is colored white.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_brown",
+        "name": { "str": "brown hoodie" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "jersey",
@@ -1224,17 +1298,11 @@
     "weight": "250 g",
     "volume": "750 ml",
     "variants": [
-      {
-        "id": "sheriff",
-        "name": { "str": "sheriff's shirt" },
-        "description": "A tan button-down shirt with long sleeves.",
-        "weight": 1
-      },
+      { "id": "sheriff", "name": { "str": "sheriff's shirt" }, "description": "A tan button-down shirt with long sleeves." },
       {
         "id": "swat_shirt",
         "name": { "str": "SWAT shirt" },
-        "description": "A charcoal button-down shirt with long sleeves.  Has a patch with the word \"SWAT\" affixed on one shoulder.",
-        "weight": 1
+        "description": "A charcoal button-down shirt with long sleeves.  Has a patch with the word \"SWAT\" affixed on one shoulder."
       }
     ],
     "price": 1100,
@@ -1510,15 +1578,13 @@
         "id": "skeletor_tshirt",
         "name": { "str": "political meme t-shirt" },
         "description": "A dark blue t-shirt with a circle of stars.  Inside the circle is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him, 'Great Again'.",
-        "color": "blue",
-        "weight": 1
+        "color": "blue"
       },
       {
         "id": "my_little_nazgul_tshirt",
         "name": { "str": "My Little Nazgûl t-shirt" },
         "description": "A light gray t-shirt with a drawing of a Nazgûl riding a black horse.  The drawing is in the style of old My Little Pony cartoons.",
-        "color": "light_gray",
-        "weight": 1
+        "color": "light_gray"
       },
       {
         "id": "generic_tshirt",
@@ -1529,40 +1595,34 @@
       {
         "id": "faather_tshirt",
         "name": { "str": "Matt Berry t-shirt" },
-        "description": "A t-shirt printed with a design of Matt Berry in a rugby shirt, a fist raised to the sky, mouth agape, shouting 'Faaather'!",
-        "weight": 1
+        "description": "A t-shirt printed with a design of Matt Berry in a rugby shirt, a fist raised to the sky, mouth agape, shouting 'Faaather'!"
       },
       {
         "id": "doom_song_tshirt",
         "name": { "str": "doom song t-shirt" },
         "description": "A black shirt with a green robot poorly disguised as a dog.  Words printed on it read: \"It's time for the DOOM song.  Doom, doom, doom, dooooom!!\"",
-        "color": "dark_gray",
-        "weight": 1
+        "color": "dark_gray"
       },
       {
         "id": "boba_fetch_tshirt",
         "name": { "str": "Boba Fetch t-shirt" },
         "description": "A black shirt displaying a dog wearing the uniform of a well known galactic bounty hunter.  In place of a wrist rocket, it fires a tennis ball on a string.",
-        "color": "dark_gray",
-        "weight": 1
+        "color": "dark_gray"
       },
       {
         "id": "mouse_portal_tshirt",
         "name": { "str": "mouse portal t-shirt" },
-        "description": "The front of this shirt displays a blue portal with a mouse's head sticking out.  The mouse is pointing some kind of gun-like device towards a cube made of Swiss cheese.  The back of the shirt has an orange portal, with the back half of the mouse entering the portal.",
-        "weight": 1
+        "description": "The front of this shirt displays a blue portal with a mouse's head sticking out.  The mouse is pointing some kind of gun-like device towards a cube made of Swiss cheese.  The back of the shirt has an orange portal, with the back half of the mouse entering the portal."
       },
       {
         "id": "ceiling_cthulhu_tshirt",
         "name": { "str": "Ceiling Cthulhu t-shirt" },
-        "description": "This shirt displays a drawing of a ceiling with a round hole in it.  A quizzical-looking Cthulhu pokes its head down through the hole.",
-        "weight": 1
+        "description": "This shirt displays a drawing of a ceiling with a round hole in it.  A quizzical-looking Cthulhu pokes its head down through the hole."
       },
       {
         "id": "pumpkin_time",
         "name": { "str": "pumpkin time t-shirt" },
-        "description": "This shirt displays a picture of a jack-o'-lantern with a tiny smiling black bat popping out of the top.",
-        "weight": 1
+        "description": "This shirt displays a picture of a jack-o'-lantern with a tiny smiling black bat popping out of the top."
       },
       {
         "id": "portal_to_the_cat_dimension_tshirt",
@@ -1575,50 +1635,43 @@
       {
         "id": "forbidden_futurama_tshirt",
         "name": { "str": "forbidden robot t-shirt" },
-        "description": "This shirt displays a picture of a giant blocky robot with a cone-shaped head.  It holds both arms out, carrying a cyclops woman with purple hair.",
-        "weight": 1
+        "description": "This shirt displays a picture of a giant blocky robot with a cone-shaped head.  It holds both arms out, carrying a cyclops woman with purple hair."
       },
       {
         "id": "swordocracy_tshirt",
         "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
         "description": "A t-shirt with a picture of a peasant with a fist raised, eyes alight with the fire of freedom, proclaiming, 'Down with sword-based governments!'",
-        "color": "light_red",
-        "weight": 1
+        "color": "light_red"
       },
       {
         "id": "black_phillip_tshirt",
         "name": { "str": "Black Phillip t-shirt" },
         "description": "A black t-shirt with a picture of an old-fashioned cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
-        "color": "dark_gray",
-        "weight": 1
+        "color": "dark_gray"
       },
       {
         "id": "disney_parody_tshirt",
         "name": { "str": "theme park parody t-shirt" },
         "description": "A black t-shirt with a picture of a stylized castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
         "symbol": "M",
-        "color": "light_gray",
-        "weight": 1
+        "color": "light_gray"
       },
       {
         "id": "start_a_cult_tshirt",
         "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
         "description": "This t-shirt displays a picture of a hooded child standing behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semicircle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "symbol": "o",
-        "color": "dark_gray",
-        "weight": 1
+        "color": "dark_gray"
       },
       {
         "id": "baseball_fan_tshirt",
         "name": { "str": "baseball t-shirt" },
-        "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back.",
-        "weight": 1
+        "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back."
       },
       {
         "id": "football_fan_tshirt",
         "name": { "str": "football t-shirt" },
-        "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back.",
-        "weight": 1
+        "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back."
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -2046,5 +2099,49 @@
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
+    "id": "suit_bostonchan",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan suit" },
+    "description": "A professional-looking bright blue wool suit for the Boston-Chan costume.",
+    "weight": "680 g",
+    "volume": "3500 ml",
+    "price": 12000,
+    "price_postapoc": 50,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "jacket_light",
+    "color": "blue",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 5, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 5, 5 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 100
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 1.5,
+    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   }
 ]

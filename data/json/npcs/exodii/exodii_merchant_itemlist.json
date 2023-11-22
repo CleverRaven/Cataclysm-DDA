@@ -13,6 +13,33 @@
   },
   {
     "type": "item_group",
+    "id": "EXODII_trade_Tier1",
+    "subtype": "collection",
+    "entries": [
+      { "group": "EXODII_CBM_Store_tier1_extra", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "EXODII_Shop_Guns_Tier1", "count": [ 1, 2 ], "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_trade_Tier2",
+    "subtype": "collection",
+    "entries": [
+      { "group": "EXODII_CBM_Store_Tier2", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "EXODII_Shop_Guns_Tier2", "count": [ 1, 2 ], "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_trade_Tier3",
+    "subtype": "collection",
+    "entries": [
+      { "group": "EXODII_CBM_Store_Tier3", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "EXODII_Shop_Guns_Tier3", "count": [ 1, 2 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "//": "Spawn extra tier 1 CBMs and a bonus tier 2 if the Exodii don't dislike you.",
     "id": "EXODII_CBM_Store_tier1_extra",
     "subtype": "collection",
@@ -112,7 +139,12 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] }, { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] } ]
+        "distribution": [
+          { "item": "brogyeki", "prob": 20, "count": [ 1, 2 ] },
+          { "item": "brogyaga", "prob": 5, "count": [ 1, 2 ] },
+          { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
+          { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] }
+        ]
       },
       {
         "distribution": [
@@ -120,7 +152,40 @@
           { "item": "exodiiBRmag", "prob": 10, "charges": 0, "count": [ 1, 2 ] }
         ]
       },
-      { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true }
+      { "item": "123ln", "container-item": "box_small", "prob": 60, "count": [ 2, 4 ], "sealed": true },
+      { "item": "273x110sluglight", "container-item": "box_small", "prob": 40, "count": [ 3, 4 ], "sealed": true },
+      { "item": "273x44trainer", "container-item": "box_small", "prob": 30, "count": [ 3, 5 ], "sealed": true },
+      { "item": "273x110flock", "container-item": "box_small", "prob": 10, "count": [ 1, 2 ], "sealed": true },
+      { "item": "273x44flare", "container-item": "box_small_wood", "prob": 5, "count": [ 1, 2 ], "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Guns_Tier1",
+    "subtype": "collection",
+    "items": [
+      { "distribution": [ { "item": "sapra", "prob": 10, "count": [ 1, 2 ] } ] },
+      { "distribution": [ { "item": "exodiisapramag5", "prob": 10, "charges": 0, "count": [ 1, 2 ] } ] },
+      { "item": "273x110canister", "container-item": "box_small", "prob": 25, "count": [ 2, 4 ], "sealed": true },
+      { "item": "273x44HE", "container-item": "box_small_wood", "prob": 5, "count": [ 1, 3 ], "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Guns_Tier2",
+    "subtype": "collection",
+    "items": [
+      { "item": "273x44thermobaric", "container-item": "box_small_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
+      { "item": "273x110slugmedium", "container-item": "box_small", "prob": 30, "count": [ 2, 4 ], "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Guns_Tier3",
+    "subtype": "collection",
+    "items": [
+      { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
+      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true }
     ]
   },
   {

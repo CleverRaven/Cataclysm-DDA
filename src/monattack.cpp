@@ -44,6 +44,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -180,7 +181,6 @@ static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_water( "water" );
 
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
 static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
 static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
@@ -338,15 +338,49 @@ bool mattack::eat_crop( monster *z )
     int num_targets = 1;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && one_in( num_targets ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) &&
+            ( here.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST, p ) ||
+              here.has_flag( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
-    }
-    if( target ) {
-        here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-        here.i_clear( *target );
-        return true;
+        if( target ) {
+            if( z->amount_eaten <= z->stomach_size ) {
+                add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.furnname( p ) );
+                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+                here.i_clear( *target );
+                z->amount_eaten += 350;
+                return true;
+            }
+        }
+        map_stack items = here.i_at( p );
+        for( item &item : items ) {
+            //This prevents crop eaters from eating planted seeds
+            if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
+                continue;
+            }
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ||
+                !item.has_flag( flag_CATTLE ) ) {
+                continue;
+            }
+            if( z->amount_eaten <= z->stomach_size ) {
+                //Check for stomach size 0 so as to not break creatures which haven't
+                //been given a stomach size yet.
+                int consumed = 1;
+                if( item.count_by_charges() ) {
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
+                } else {
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
+                }
+                return true;
+            }
+        }
     }
     return true;
 }
@@ -451,30 +485,21 @@ bool mattack::eat_food( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.has_flag( flag_INEDIBLE ) ||
+                item.made_of( material_water ) ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() &&
-                z->amount_eaten < z->stomach_size ) {
+            if( z->type->baby_egg != item.type->get_id() && ( z->amount_eaten <= z->stomach_size ) ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    z->amount_eaten += 1;
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    z->amount_eaten += 1;
-                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
-                    here.use_amount( p, 1, item.type->get_id(), consumed );
-                }
-                return true;
-            }
-            if( !z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() ) {
-                int consumed = 1;
-                if( item.count_by_charges() ) {
-                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
-                    here.use_charges( p, 1, item.type->get_id(), consumed );
-                } else {
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -496,12 +521,75 @@ bool mattack::eat_carrion( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //TODO: Completely eaten corpses should leave bones and other inedibles.
-            if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size &&
+            if( item.has_flag( flag_CORPSE ) && item.damage() < item.max_damage() &&
+                z->amount_eaten < z->stomach_size &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
-                item.mod_damage( 500 );
-                z->amount_eaten += 1;
+                item.mod_damage( 700 );
+                if( item.damage() >= item.max_damage() && item.can_revive() ) {
+                    item.set_flag( flag_PULPED );
+                }
+                z->amount_eaten += 100;
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool mattack::graze( monster *z )
+{
+    map &here = get_map();
+    //Grazers eat grass and entire plants or bushes. Toxic/inedible plants can be blacklisted with GRAZER_INEDIBLE.
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        //Don't eat grass right next to the player.
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
+            continue;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+            ( z->amount_eaten <= z->stomach_size ) ) {
+            here.furn_set( p, f_null );
+            z->amount_eaten += 50;
+            //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
+            return true;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+            ( z->amount_eaten <= z->stomach_size ) ) {
+            add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.tername( p ) );
+            here.ter_set( p, t_dirt );
+            z->amount_eaten += 174;
+            //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
+            return true;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && z->amount_eaten < z->stomach_size ) {
+            here.ter_set( p, here.get_ter_transforms_into( p ) );
+            z->amount_eaten += 70;
+            //Calorie amount is based on the "grass" dummy item, as with the grazer mutation.
+            return true;
+        }
+    }
+    return true;
+}
+
+bool mattack::browse( monster *z )
+{
+    map &here = get_map();
+    //Browsers eat fruit/nuts/etc off of seasonally harvestable plants and trees.
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        // Don't forage for food if the player is right there.
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
+            continue;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && ( z->amount_eaten <= z->stomach_size ) ) {
+            const harvest_id harvest = here.get_harvest( p );
+            if( !harvest.is_null() || !harvest->empty() ) {
+                add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
+                here.ter_set( p, here.get_ter_transforms_into( p ) );
+                z->amount_eaten += 174;
+                //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
                 return true;
             }
         }

@@ -953,6 +953,7 @@
         "W........W  ",
         "WWW....WWW  "
       ],
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "W": "t_wall_log", ".": "t_dirtfloor" }
     }
   },

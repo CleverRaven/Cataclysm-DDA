@@ -68,6 +68,7 @@
         "t": "t_linoleum_gray"
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool", "}": "f_counter" },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 22, "chance": 80, "status": 0 } ],
       "place_loot": [
         { "item": "television", "x": 15, "y": 18, "chance": 100 },
         { "item": "stereo", "x": 16, "y": 18, "chance": 100 },

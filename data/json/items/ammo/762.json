@@ -1,17 +1,17 @@
 [
   {
-    "id": "762_m43",
+    "id": "762_m87",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm 57-N-231" },
-    "description": "7.62x39mm 57-N-231 ammunition with a 121.9gr steel core FMJ bullet.  Developed in World War 2 by the Soviet Union, the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
-    "ascii_picture": "762_m43",
+    "ascii_picture": "762_m87",
+    "description": "Imported 7.62x39mm M67-style ammunition with a 124gr jacketed, lead core bullet.  Thankfully this loading has non-corrosive primers, and also features a reloadable brass case.",
+    "name": { "str_sp": "7.62x39mm FMJ" },
     "weight": "16 g",
     "volume": "113 ml",
     "longest_side": "56 mm",
     "price": 120,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "brass", "lead", "powder" ],
+    "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 30,
@@ -56,43 +56,32 @@
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
-    "id": "762_m87",
-    "copy-from": "762_m43",
-    "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm M67" },
-    "//": "Entirely provisional.  Could someone design a better wound ballistics system?",
-    "description": "7.62x39mm M67 ammunition with a 123gr bullet.  The inadequate terminal ballistics of the M43 round led to the development of the M67 round in Yugoslavia in the 1960s.  It destabilizes much faster than M43 after hitting a target, leading to greater damage.",
-    "ascii_picture": "762_m87",
-    "price": 150,
-    "price_postapoc": 800,
-    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 } }
-  },
-  {
-    "id": "reloaded_762_m43",
-    "copy-from": "762_m43",
-    "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm M43, reloaded" },
-    "description": "7.62x39mm ammunition with a 121.9gr bullet.  Developed in World War 2 by the Soviet Union, the 7.62x39mm round rapidly became extremely popular all over the world.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_m87",
+    "id": "762_jhp",
     "copy-from": "762_m87",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm M67, reloaded" },
-    "description": "7.62x39mm M67 ammunition with a 123gr bullet.  It destabilizes much faster than M43 after hitting a target, leading to greater damage.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "name": { "str_sp": "7.62x39mm JHP" },
+    "description": "7.62x39mm ammunition with a 123gr jacketed, hollowpoint bullet.  Made for hunting medium game, cartridges such as these were once popular for those using cheap military surplus rifles, as 7.62x39's ballistics are somewhat similar to that of 30-30 Winchester.  The combination of sanctions against exporting nations and drying up of formerly plentiful surplus has made these loadings of 7.62x39 less popular.",
+    "ascii_picture": "762_jhp",
+    "price": 100,
+    "price_postapoc": 750,
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
+  },
+  {
+    "id": "reloaded_762_jhp",
+    "copy-from": "762_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": "7.62x39mm JHP, reloaded" },
+    "description": "7.62x39mm ammunition with a 123gr jacketed, hollowpoint bullet.  Made for hunting medium game, cartridges such as these were once popular for those using cheap military surplus rifles, as 7.62x39's ballistics are somewhat similar to that of 30-30 Winchester.  The combination of sanctions against exporting nations and drying up of formerly plentiful surplus has made these loadings of 7.62x39 less popular.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "bp_762_m43",
-    "copy-from": "762_m43",
+    "id": "bp_762_jhp",
+    "copy-from": "762_jhp",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm M43, black powder" },
-    "description": "7.62x39mm ammunition with a 121.9gr bullet.  Developed in World War 2 by the Soviet Union, the 7.62x39mm round rapidly became extremely popular all over the world.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "name": { "str_sp": "7.62x39mm JHP, black powder" },
+    "description": "7.62x39mm ammunition with a 123gr jacketed, hollowpoint bullet.  Made for hunting medium game, cartridges such as these were once popular for those using cheap military surplus rifles, as 7.62x39's ballistics are somewhat similar to that of 30-30 Winchester.  The combination of sanctions against exporting nations and drying up of formerly plentiful surplus has made these loadings of 7.62x39 less popular.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -103,11 +92,21 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
+    "id": "reloaded_762_m87",
+    "copy-from": "762_m87",
+    "type": "AMMO",
+    "name": { "str_sp": "7.62x39mm FMJ, reloaded" },
+    "description": "Imported 7.62x39mm M67-style ammunition with a 124gr jacketed, lead core bullet.  Thankfully this loading has non-corrosive primers, and also features a reloadable brass case.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
     "id": "bp_762_m87",
     "copy-from": "762_m87",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm M67, black powder" },
-    "description": "7.62x39mm M67 ammunition with a 123gr bullet.  It destabilizes much faster than M43 after hitting a target, leading to greater damage.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "name": { "str_sp": "7.62x39mm FMJ, black powder" },
+    "description": "Imported 7.62x39mm M67-style ammunition with a 124gr jacketed, lead core bullet.  Thankfully this loading has non-corrosive primers, and also features a reloadable brass case.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },

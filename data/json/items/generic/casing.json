@@ -45,6 +45,22 @@
     "weight": "1 g"
   },
   {
+    "id": "22_casing_new_short",
+    "looks_like": "22_casing_new",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "price": 90,
+    "price_postapoc": 0,
+    "name": { "str": "unused .22 short casing" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "An unfired, like-new .22 short casing, with the priming compound still intact.",
+    "material": [ "powder", "brass" ],
+    "stackable": true,
+    "volume": "2 ml",
+    "weight": "1 g"
+  },
+  {
     "id": "3006_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
@@ -60,7 +76,7 @@
     "looks_like": "223_casing",
     "type": "GENERIC",
     "name": { "str": "12.3ln casing" },
-    "description": "An empty casing from a 12.3ln round.",
+    "description": "An empty casing from a 12.3ln round.  It looks deceptively like a .303 British casing, if those were rimless.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -541,5 +557,25 @@
     "description": "An empty casing from a .30 Carbine round.",
     "weight": "6 g",
     "volume": "8ml"
+  },
+  {
+    "id": "273x110casing",
+    "copy-from": "casing",
+    "looks_like": "50beowulf_casing",
+    "type": "GENERIC",
+    "name": { "str": "27.3x110 Diyua casing" },
+    "description": "An empty giant brass shotshell, with illegible alien text on the headstamp.  These are rare, so you might want to hold onto them.",
+    "weight": "19 g",
+    "volume": "13ml"
+  },
+  {
+    "id": "273x44casing",
+    "copy-from": "casing",
+    "looks_like": "50beowulf_casing",
+    "type": "GENERIC",
+    "name": { "str": "27.3x44 Diyua casing" },
+    "description": "An empty giant brass shotshell, with illegible alien text on the headstamp.  These are rare, so you might want to hold onto them.",
+    "weight": "10 g",
+    "volume": "10ml"
   }
 ]

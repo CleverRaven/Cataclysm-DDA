@@ -231,7 +231,7 @@
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using 7.62x39 or derivatives",
     "tools": [
-      [ [ "762_casing", -1 ], [ "762_m43", -1 ], [ "762_m87", -1 ], [ "reloaded_762_m43", -1 ], [ "reloaded_762_m87", -1 ] ]
+      [ [ "762_casing", -1 ], [ "762_jhp", -1 ], [ "762_m87", -1 ], [ "reloaded_762_jhp", -1 ], [ "reloaded_762_m87", -1 ] ]
     ]
   },
   {

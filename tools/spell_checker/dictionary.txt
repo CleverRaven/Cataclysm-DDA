@@ -1,4 +1,10 @@
 abcdefghijklmnopqrstuvwxyz
+moulinet
+backswings
+backswing
+buttstroke
+spraining
+parrying
 aberrance
 aboveground
 abso
@@ -569,7 +575,6 @@ coalesces
 coati
 coatings
 coatis
-cockatrice
 cods
 coeculus
 coelophysis
@@ -793,8 +798,6 @@ disapprovingly
 disassembles
 disassembly
 disburse
-disclaimer
-disclaimers
 discoes
 discolorations
 disconcertingly
@@ -988,6 +991,7 @@ existentialists
 exobay
 exodii
 exoplanet
+exoplanetary
 exosuit
 exosuits
 expansionary
@@ -1116,7 +1120,6 @@ flump
 flusteration
 flyable
 flyin
-fmj
 foamcrete
 foldable
 folktales
@@ -1328,7 +1331,6 @@ hardcover
 hardcovers
 hardhat
 hardpoint
-hardpoints
 harmonically
 harries
 harvestable
@@ -1537,7 +1539,6 @@ jawless
 jerrycan
 jerrypack
 jewelboxes
-jhp
 jians
 jirt
 jirts
@@ -1649,7 +1650,6 @@ lamellar
 landshark
 langourous
 lanthanum
-lapua
 lategame
 latrunculi
 latticed
@@ -2008,7 +2008,6 @@ nettik
 neurocognitive
 neurodegeneration
 neuroimaging
-neuroprosthetic
 neurosynaptic
 neutrite
 newe
@@ -2479,8 +2478,8 @@ reckonin
 reclines
 recolherem
 recrafted
-recuperator
 recursively
+recuperator
 recurve
 recutita
 recycler
@@ -2578,7 +2577,6 @@ rrrip
 rrrrip
 rubra
 rugerlcp
-ruggedized
 ruleset
 ruminant
 ruminants
@@ -3151,6 +3149,7 @@ uncleaned
 uncluttered
 uncoiling
 uncoils
+uncontacted
 uncured
 undecipherable
 underbarrel
@@ -3470,6 +3469,7 @@ zuniceratops
 zuul
 zweitimber
 zygomaticus
+shivs
 zzz
 zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus

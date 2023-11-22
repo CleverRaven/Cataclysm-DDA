@@ -229,6 +229,7 @@
         [ "soysauce", 2 ],
         [ "pepper", 2 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 2 ],
         [ "wild_garlic", 1 ],
         [ "salt_water", 1 ],
@@ -379,7 +380,7 @@
       [ [ "salt", 6 ] ],
       [ [ "pepper", 6 ] ],
       [ [ "worthy_wine", 3, "LIST" ] ],
-      [ [ "garlic_clove", 1 ], [ "garlic_powder", 6 ] ],
+      [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ], [ "garlic_powder", 6 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "irradiated_tomato", 1 ] ]
     ]
   },
@@ -429,7 +430,7 @@
     "//": "eggs: 9u, garlic: 1u, brains: 8u, batter: 8u, onion: 2u, butter: 2u, milk: 2u",
     "components": [
       [ [ "eggs_any_shape", 3, "LIST" ] ],
-      [ [ "garlic_clove", 2 ], [ "garlic_powder", 6 ] ],
+      [ [ "garlic_clove", 2 ], [ "rehydrated_garlic", 2 ], [ "garlic_powder", 6 ] ],
       [ [ "meat_brain", 4, "LIST" ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],

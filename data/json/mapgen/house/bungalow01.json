@@ -52,6 +52,7 @@
         "w": "t_null",
         "q": "t_floor_noroof"
       },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 } ],
       "place_loot": [ { "item": "television", "x": 20, "y": 10 } ]
     }
   },

@@ -46,8 +46,7 @@
       {
         "id": "tokarevmag",
         "name": { "str": "TT-33 8-round magazine" },
-        "description": "A standard 8-round magazine for the Tokarev TT-33.",
-        "weight": 1
+        "description": "A standard 8-round magazine for the Tokarev TT-33."
       }
     ],
     "weight": "56 g",

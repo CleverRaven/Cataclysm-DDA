@@ -487,9 +487,11 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "NONE", mattack::none );
     add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
     add_hardcoded_attack( "SPLIT", mattack::split );
+    add_hardcoded_attack( "BROWSE", mattack::browse );
     add_hardcoded_attack( "EAT_CARRION", mattack::eat_carrion );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
+    add_hardcoded_attack( "GRAZE", mattack::graze );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
