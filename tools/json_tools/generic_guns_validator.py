@@ -62,6 +62,8 @@ ID_WHITELIST = {
     'gasfilter_med',
 
     'gasfilter_sm',
+    'matchhead_30carbine',
+    'matchhead_30carbine_jsp',
     "rebreather_cartridge",
     "rebreather_cartridge_air",
     "rebreather_cartridge_o2",
