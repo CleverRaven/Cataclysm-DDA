@@ -624,7 +624,8 @@
         [ "naginata", -1 ],
         [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
-        [ "poleaxe", -1 ], 
+        [ "poleaxe", -1 ],
+        [ "ji", -1 ] 
       ]
     ]
   },
