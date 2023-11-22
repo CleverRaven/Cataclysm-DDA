@@ -104,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
+    { "NO_LEAK", VPFLAG_NO_LEAK },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
@@ -261,6 +262,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name_, strict );
     assign( jo, "item", base_item, strict );
+    assign( jo, "remove_as", removed_item, strict );
     assign( jo, "location", location, strict );
     assign( jo, "durability", durability, strict );
     assign( jo, "damage_modifier", dmg_mod, strict );
@@ -281,8 +283,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "broken_color", color_broken, strict );
     assign( jo, "comfort", comfort, strict );
-    assign( jo, "floor_bedding_warmth", floor_bedding_warmth, strict );
-    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, strict );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
+    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
+    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
+    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -932,6 +938,12 @@ void vpart_info::check() const
     if( base_item->pockets.size() > 4 ) {
         debugmsg( "Error: vehicle parts assume only one pocket.  Multiple pockets unsupported" );
     }
+    for( const auto &dt : damage_reduction ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid damage_reduction type \"%s\" for vehicle part %s", dt.first.c_str(),
+                      id.c_str() );
+        }
+    }
 }
 
 void vehicles::parts::reset()
@@ -1084,8 +1096,7 @@ static time_duration scale_time( const std::map<skill_id, int> &sk, time_duratio
                                          MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    // 10% reduction per assisting Character
     const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );

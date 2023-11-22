@@ -137,13 +137,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_cockatrice",
-    "name": { "str": "cockatrice egg" },
-    "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COCKATRICE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_reptile",
     "name": { "str": "reptile egg" },
     "weight": "60 g",
@@ -1257,5 +1250,55 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_SHIFT_FROG",
     "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_proxy_bigfrog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "weight": "160 g",
+    "volume": "1 L",
+    "symbol": "O",
+    "quench": 8,
+    "calories": 200,
+    "description": "A large clump of very large frog eggs.  They're gelatinous, transparent and larger than even chicken's eggs.",
+    "price": 50,
+    "price_postapoc": 100,
+    "fun": -30,
+    "vitamins": [ [ "iron", 29 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pattern_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "From a distance you could mistake it for a cluster of gigantic caviar.  It is only on close inspection that you can make out the faint translucence of these softball-sized frog eggs.",
+    "rot_spawn": "GROUP_EGG_PATTERN_BIGFROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_strange_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "A thick flotilla of enormous frog eggs floats together atop the water in a roughly circular mass.",
+    "rot_spawn": "GROUP_EGG_STRANGE_BIGFROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_foul_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "Looking like a submerged buoy-line, this long strand of softball-sized, gelatinous eggs floats gently in the still water.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_FOUL_BIGFROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_odd_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "This is a spiral strand of giant frog eggs.  Its increased weight and size nearly smothers the submerged vegetation it clings to.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_ODD_BIGFROG"
   }
 ]

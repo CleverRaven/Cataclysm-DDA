@@ -418,5 +418,10 @@
     "id": "morale_impossible_shape",
     "type": "morale_type",
     "text": "Saw something that hurts to remember"
+  },
+  {
+    "id": "morale_afs_drugs",
+    "type": "morale_type",
+    "text": "Chemical enhancement moodswing"
   }
 ]

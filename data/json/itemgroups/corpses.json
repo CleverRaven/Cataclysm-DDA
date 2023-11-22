@@ -107,6 +107,28 @@
     ]
   },
   {
+    "id": "corpses_verydead",
+    "type": "item_group",
+    "//": "Generic corpses that will definitely not get up again",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "corpse_generic_male", "prob": 30, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_generic_female", "prob": 30, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_generic_boy", "prob": 10, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_generic_girl", "prob": 10, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_generic_human", "prob": 10, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_generic_gunned", "prob": 30, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_bloody", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_painful", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_scorched", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_stabbed", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_gunned", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_halved_upper", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_half_beheaded", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "group": "corpse_child_gunned", "prob": 15, "damage-min": 4, "damage-max": 4 }
+    ]
+  },
+  {
     "id": "corpses_no_items",
     "type": "item_group",
     "subtype": "distribution",
@@ -128,6 +150,28 @@
       { "item": "corpse_child_calm", "prob": 10 },
       { "item": "corpse_child_gunned", "prob": 10, "damage": [ 2, 4 ] },
       { "item": "corpse_oldwoman_jewelry", "prob": 10, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "corpses_verydead_no_items",
+    "type": "item_group",
+    "//": "Generic empty corpses that will definitely not get up again",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "corpse_generic_male", "prob": 30, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_generic_female", "prob": 30, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_generic_boy", "prob": 10, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_generic_girl", "prob": 10, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_generic_human", "prob": 10, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_generic_gunned", "prob": 30, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_bloody", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_painful", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_scorched", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_stabbed", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_gunned", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_halved_upper", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_half_beheaded", "prob": 15, "damage-min": 4, "damage-max": 4 },
+      { "item": "corpse_child_gunned", "prob": 15, "damage-min": 4, "damage-max": 4 }
     ]
   },
   {

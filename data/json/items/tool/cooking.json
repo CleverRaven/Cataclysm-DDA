@@ -17,9 +17,9 @@
     "ammo": [ "battery" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC" ],
+    "use_action": [ "HOTPLATE_ATOMIC", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -223,6 +223,7 @@
     "ammo": [ "charcoal", "coal" ],
     "//": "contains up to 2 liters of charcoal. Or the same amount of coal by weight, 1u coal weighs about as much as 1u of charcoal and has the same energy although it is 5x smaller.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 400, "coal": 2000 } } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 5,
     "use_action": [ "HOTPLATE" ],
     "melee_damage": { "bash": 4 }
@@ -293,7 +294,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
@@ -374,6 +375,7 @@
     "color": "light_gray",
     "ammo": [ "esbit" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 100 } } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "melee_damage": { "bash": 2 }
@@ -449,6 +451,7 @@
     "color": "green",
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "use_action": [ "HOTPLATE" ],
     "melee_damage": { "bash": 4 }
@@ -499,7 +502,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 35,
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
@@ -528,7 +531,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 25,
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1500 W" } ],
@@ -708,6 +711,7 @@
     "color": "green",
     "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "use_action": [ "HOTPLATE" ],
     "melee_damage": { "bash": 4 }
@@ -814,6 +818,7 @@
     "color": "light_gray",
     "ammo": [ "conc_alcohol" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 3,
     "use_action": [ "HOTPLATE" ],
     "melee_damage": { "bash": 1 }
@@ -962,6 +967,7 @@
     "ammo": [ "lamp_oil" ],
     "sub": "oil_cooker",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
@@ -1116,9 +1122,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "11339 g",
     "volume": "9 L",
-    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ] ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
     "ammo": [ "battery" ],
     "pocket_data": [

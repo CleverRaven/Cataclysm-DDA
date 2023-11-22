@@ -11,10 +11,32 @@
           "x": 0,
           "y": 0
         },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
       ]
     }
   },
@@ -30,6 +52,18 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
       ]
     }
   },
@@ -45,6 +79,18 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
       ]
     }
   },
@@ -60,6 +106,18 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
       ]
     }
   },
@@ -95,8 +153,7 @@
         "  cc | PP  PP  PP |F c  ",
         "     | PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -131,8 +188,7 @@
         "    F| PP      PP |F c  ",
         "    F| PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -167,8 +223,7 @@
         "    F| PP      PP |F c  ",
         "    F| PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -203,8 +258,7 @@
         "|####| PP      PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -239,8 +293,7 @@
         "  cc | PP  PP  PP |F i  ",
         "     | PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -275,8 +328,7 @@
         "  cc | PP  PP  PP |F i  ",
         "     | PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -311,8 +363,7 @@
         "    F| PP      PP |F c  ",
         "    F| PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -347,8 +398,7 @@
         "    F| PP      PP |F c  ",
         "    F| PP  PP  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   }
 ]

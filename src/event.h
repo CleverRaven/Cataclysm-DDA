@@ -40,6 +40,7 @@ enum class event_type : int {
     // fueling bionics
     character_casts_spell,
     character_consumes_item,
+    character_dies,
     character_eats_item,
     character_finished_activity,
     character_forgets_spell,
@@ -181,7 +182,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 96,
+static_assert( static_cast<int>( event_type::num_event_types ) == 97,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -278,14 +279,22 @@ struct event_spec<event_type::character_eats_item> : event_spec_character_item {
 
 template<>
 struct event_spec<event_type::character_casts_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = { {
             { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
+            { "school", cata_variant_type::trait_id },
             { "difficulty", cata_variant_type::int_},
             { "cost", cata_variant_type::int_},
             { "cast_time", cata_variant_type::int_},
             { "damage", cata_variant_type::int_}
+        }
+    };
+};
 
+template<>
+struct event_spec<event_type::character_dies> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id }
         }
     };
 };
@@ -311,8 +320,9 @@ struct event_spec<event_type::character_forgets_spell> {
 
 template<>
 struct event_spec<event_type::character_gains_effect> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "character", cata_variant_type::character_id },
+            { "bodypart", cata_variant_type::body_part},
             { "effect", cata_variant_type::efftype_id },
         }
     };
@@ -332,9 +342,10 @@ struct event_spec<event_type::character_heals_damage> {
 
 template<>
 struct event_spec<event_type::character_kills_monster> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "killer", cata_variant_type::character_id },
             { "victim_type", cata_variant_type::mtype_id },
+            { "exp", cata_variant_type::int_},
         }
     };
 };
@@ -776,10 +787,15 @@ struct event_spec<event_type::seals_hazardous_material_sarcophagus> : event_spec
 
 template<>
 struct event_spec<event_type::spellcasting_finish> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 8> fields = { {
             { "character", cata_variant_type::character_id },
+            { "success", cata_variant_type::bool_ },
             { "spell", cata_variant_type::spell_id },
-            { "school", cata_variant_type::trait_id }
+            { "school", cata_variant_type::trait_id },
+            { "difficulty", cata_variant_type::int_},
+            { "cost", cata_variant_type::int_},
+            { "cast_time", cata_variant_type::int_},
+            { "damage", cata_variant_type::int_}
         }
     };
 };
@@ -873,7 +889,7 @@ class event
             using Spec = event_detail::event_spec<Type>;
             // Using is_empty mostly just to verify that the type is defined at
             // all, but it so happens that it ought to be empty too.
-            static_assert( std::is_empty<Spec>::value,
+            static_assert( std::is_empty_v<Spec>,
                            "spec for this event type must be defined and empty" );
             static_assert( sizeof...( Args ) == Spec::fields.size(),
                            "wrong number of arguments for event type" );

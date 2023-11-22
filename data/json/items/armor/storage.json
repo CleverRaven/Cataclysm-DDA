@@ -938,7 +938,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -962,7 +962,7 @@
     "price_postapoc": 1000,
     "material": [ "plastic" ],
     "symbol": "[",
-    "looks_like": "backpack",
+    "looks_like": "dive_bag",
     "color": "blue",
     "pocket_data": [
       {
@@ -975,7 +975,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -1048,7 +1048,7 @@
     "price_postapoc": 1000,
     "material": [ "plastic" ],
     "symbol": "[",
-    "looks_like": "rucksack",
+    "looks_like": "duffelbag",
     "color": "blue",
     "pocket_data": [
       {
@@ -1077,7 +1077,7 @@
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 10,
@@ -1352,24 +1352,17 @@
   {
     "id": "legrig",
     "type": "ARMOR",
-    "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
-    "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
-    "weight": "205 g",
-    "volume": "1050 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "name": { "str": "drop leg pouch", "str_pl": "drop leg pouches" },
+    "description": "A pouch that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
+    "weight": "102 g",
+    "volume": "525 ml",
+    "price": 1500,
+    "price_postapoc": 125,
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
+    "sided": true,
     "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2250 ml",
-        "max_contains_weight": "4500 g",
-        "max_item_length": "30 cm",
-        "magazine_well": "500 ml",
-        "moves": 80
-      },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2250 ml",
@@ -1388,6 +1381,129 @@
         "coverage": 50,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "legrig_wetsuit",
+    "type": "ARMOR",
+    "name": { "str": "pair of diving pouches", "str_pl": "pairs of diving pouches" },
+    "description": "A set of pouches that can be worn on the thighs using buckled neoprene rig.  This variety is favored by the divers.",
+    "//": "Based on skeletonized version of these https://fourthelement.com/product/technical-shorts/ with added lower buckles like here https://www.divegarage.com/neoprene-tech-shorts.html",
+    "weight": "305 g",
+    "volume": "1150 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "neoprene", "nylon", "nylon_2" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "//3": "Two large pockets separated into four, two small zipper pockets on flaps, four bungee loops.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "19 cm",
+        "moves": 130
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "19 cm",
+        "moves": 130
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.2,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nylon_2", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 40,
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
     ]
   },
@@ -1479,8 +1595,7 @@
       {
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
-        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
-        "weight": 1
+        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
       }
     ]
   },
@@ -2038,7 +2153,7 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
     "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]

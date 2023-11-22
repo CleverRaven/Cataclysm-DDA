@@ -42,13 +42,14 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is relatively heavy for its size and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": [ "ceramic" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK" ],
     "weight": "150 g",
     "volume": "50 ml",
     "longest_side": "8 cm",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "qualities": [ [ "BUTCHER", -66 ] ],
-    "melee_damage": { "bash": 2, "cut": 2 }
+    "melee_damage": { "bash": 2, "cut": 2 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
@@ -164,7 +165,9 @@
     "longest_side": "8 cm",
     "to_hit": -3,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
-    "melee_damage": { "bash": 5, "cut": 3 }
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 5, "cut": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "sole_rubber",
@@ -312,5 +315,20 @@
     "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
     "symbol": ",",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wax_paraffin",
+    "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
+    "category": "spare_parts",
+    "weight": "225 g",
+    "color": "white",
+    "material": [ "paraffin_wax" ],
+    "symbol": "%",
+    "description": "A large chunk of paraffin wax.",
+    "price": 500,
+    "price_postapoc": 10,
+    "volume": "250 ml",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]

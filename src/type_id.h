@@ -99,6 +99,9 @@ struct furn_t;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 
+class climbing_aid;
+using climbing_aid_id = string_id<climbing_aid>;
+
 class gun_mode;
 using gun_mode_id = string_id<gun_mode>;
 

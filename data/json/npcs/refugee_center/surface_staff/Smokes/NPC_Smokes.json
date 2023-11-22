@@ -230,7 +230,7 @@
       [ "recurbow", 15 ],
       [ "shortbow", 10 ],
       { "group": "archery_ammo", "prob": 25 },
-      [ "bolt_steel", 10 ],
+      { "group": "crossbow_bolts", "prob": 10 },
       [ "laser_sight", 15 ],
       [ "rail_laser_sight", 10 ],
       [ "rifle_scope", 20 ],

@@ -67,7 +67,7 @@
         "c": "f_chair",
         "r": "f_rack",
         "t": "f_table",
-        "o": "f_water_heater",
+        "o": "f_water_heater_family",
         "a": "f_water_purifier",
         "L": "f_standing_tank"
       },

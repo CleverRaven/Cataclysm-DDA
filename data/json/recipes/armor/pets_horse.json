@@ -98,26 +98,29 @@
     "result": "leather_armor_horse",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "armor_blarmor",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
+    "skill_used": "chemistry",
+    "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
+    "book_learn": [
+      [ "textbook_tailor", 4 ],
+      [ "tailor_portfolio", 5 ],
+      [ "textbook_survival", 3 ],
+      [ "trappers_companion", 3 ],
+      [ "survival_book", 3 ],
+      [ "textbook_armwest", 6 ],
+      [ "textbook_armschina", 6 ]
+    ],
     "reversible": true,
     "using": [ [ "tailoring_leather_patchwork", 55 ], [ "tailoring_cotton_patchwork", 55 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [
-        [ "wax", 6 ],
-        [ "tallow", 24 ],
-        [ "mutant_tallow", 24 ],
-        [ "human_tallow", 24 ],
-        [ "demihuman_tallow", 24 ],
-        [ "tallow_tainted", 24 ],
-        [ "vinegar", 30 ],
-        [ "pine_bough", 60 ]
-      ],
+      [ [ "wax_any", 6, "LIST" ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ]
     ],
     "proficiencies": [
@@ -182,7 +185,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax_any", 6, "LIST" ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone_sturdy", 39, "LIST" ] ]
     ],
@@ -256,7 +259,7 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "skills_required": [ "tailor", 3 ],
     "time": "24 h",
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 120 ], [ "bronzesmithing_tools", 10 ] ],
     "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_horse", 1 ] ] ],
     "proficiencies": [
@@ -271,9 +274,10 @@
     "result": "steel_armor_horse",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "copy-from": "armor_lightplate",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
+    "skill_used": "fabrication",
+    "difficulty": 8,
     "skills_required": [ "tailor", 4 ],
     "time": "96 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],

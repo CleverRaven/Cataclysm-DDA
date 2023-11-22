@@ -70,6 +70,7 @@ class memorial_logger : public event_subscriber
                                   const std::string &epitaph ) const;
         void write_json_memorial( std::ostream &memorial_file ) const;
 
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
     private:
         std::vector<memorial_log_entry> log;

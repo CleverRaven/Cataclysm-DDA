@@ -65,14 +65,21 @@
     "difficulty": 7,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "//": "probably new waterproof fasteners/waterproof clasps requirement needed, but i am afraid the deduped_requirement_data simply explode after this",
+    "//2": "just realise it could be fixed when #62618 would be introduced, i slap TODO here so if this holy grail would be added, this recipe could be tweaked properly",
+    "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 12 ], [ "tailoring_nylon_patchwork", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
+    "components": [
+      [ [ "wetsuit", 1 ] ],
+      [ [ "rubber_cement", 14 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 8 ] ]
+    ]
   },
   {
     "result": "xs_h20survivor_jumpsuit",
@@ -80,7 +87,7 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
-    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 20 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
@@ -89,8 +96,39 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
-    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 18 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
+  },
+  {
+    "result": "h20survivor_jumpsuit_light",
+    "type": "recipe",
+    "copy-from": "h20survivor_jumpsuit",
+    "time": "8 h",
+    "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 2 ], [ "tailoring_nylon_patchwork", 10 ] ],
+    "components": [
+      [ [ "wetsuit", 1 ] ],
+      [ [ "rubber_cement", 12 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 8 ] ]
+    ]
+  },
+  {
+    "result": "xs_h20survivor_jumpsuit_light",
+    "type": "recipe",
+    "copy-from": "h20survivor_jumpsuit_light",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 h",
+    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "result": "xl_h20survivor_jumpsuit_light",
+    "type": "recipe",
+    "copy-from": "h20survivor_jumpsuit_light",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "12 h",
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 3 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 2 ] ] ]
   },
   {
     "result": "thick_h20survivor_jumpsuit",
@@ -104,7 +142,7 @@
     "autolearn": true,
     "using": [
       [ "tailoring_kevlar_fabric", 400 ],
-      [ "tailoring_neoprene_patchwork", 42 ],
+      [ "tailoring_neoprene_patchwork", 12 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
@@ -122,12 +160,7 @@
     "copy-from": "thick_h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
-    "using": [
-      [ "tailoring_kevlar_fabric", 300 ],
-      [ "tailoring_neoprene_patchwork", 28 ],
-      [ "fastener_large", 2 ],
-      [ "clasps", 12 ]
-    ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
     "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
@@ -138,7 +171,7 @@
     "time": "14 h",
     "using": [
       [ "tailoring_kevlar_fabric", 600 ],
-      [ "tailoring_neoprene_patchwork", 63 ],
+      [ "tailoring_neoprene_patchwork", 18 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
@@ -167,7 +200,6 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "byproducts": [ [ "scrap_kevlar", 17 ], [ "scrap_lycra", 7 ] ]
   },
   {
@@ -367,20 +399,35 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
+    "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
+    "using": [ [ "sewing_standard", 100 ], [ "adhesive", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 28 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
       [ [ "trenchcoat_leather", 1 ], [ "duster_leather", 1 ], [ "jacket_leather", 1 ], [ "leather_police_jacket", 1 ] ],
-      [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ],
-      [ [ "duct_tape", 200 ] ]
+      [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ]
     ]
+  },
+  {
+    "result": "survivor_adhoc_leather_shirt",
+    "type": "recipe",
+    "id_suffix": "sheets",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "180 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 150 ], [ "tailoring_leather_patchwork", 3 ], [ "adhesive", 4 ] ],
+    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ] ]
   },
   {
     "result": "survivor_adhoc_leather_torso",
@@ -392,7 +439,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 60 ] ],
+    "using": [ [ "sewing_standard", 60 ], [ "adhesive", 5 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 22 ], [ "cotton_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
@@ -406,9 +453,24 @@
         [ "leather_police_jacket", 1 ],
         [ "vest_leather", 1 ]
       ],
-      [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ],
-      [ [ "duct_tape", 120 ] ]
+      [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ]
     ]
+  },
+  {
+    "result": "survivor_adhoc_leather_torso",
+    "type": "recipe",
+    "id_suffix": "sheets",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "120 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 90 ], [ "tailoring_leather_patchwork", 2 ], [ "adhesive", 3 ] ],
+    "byproducts": [ [ "scrap_leather", 2 ], [ "cotton_patchwork", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ] ]
   },
   {
     "result": "survivor_adhoc_leather_sleeves",
@@ -420,15 +482,30 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_standard", 40 ], [ "adhesive", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "byproducts": [ [ "leather", 15 ], [ "scrap_leather", 18 ], [ "cotton_patchwork", 12 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
       [ [ "trenchcoat_leather", 1 ], [ "duster_leather", 1 ], [ "jacket_leather", 1 ], [ "leather_police_jacket", 1 ] ],
-      [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ],
-      [ [ "duct_tape", 80 ] ]
+      [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ]
     ]
+  },
+  {
+    "result": "survivor_adhoc_leather_sleeves",
+    "type": "recipe",
+    "id_suffix": "sheets",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_patchwork", 1 ], [ "adhesive", 2 ] ],
+    "byproducts": [ [ "scrap_leather", 2 ], [ "cotton_patchwork", 12 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "sweatshirt", 1 ], [ "hoodie", 1 ] ] ]
   },
   {
     "result": "survivor_adhoc_leather_torso",
@@ -454,10 +531,26 @@
     "difficulty": 2,
     "time": "36 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
+    "using": [ [ "sewing_standard", 80 ], [ "adhesive", 5 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "byproducts": [ [ "leather", 4 ], [ "scrap_leather", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "pants_leather", 1 ] ], [ [ "technician_pants_gray", 1 ] ], [ [ "duct_tape", 120 ] ] ]
+    "components": [ [ [ "pants_leather", 1 ] ], [ [ "technician_pants_gray", 1 ] ] ]
+  },
+  {
+    "result": "survivor_adhoc_leather_pants",
+    "type": "recipe",
+    "id_suffix": "sheets",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "180 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 120 ], [ "tailoring_leather_patchwork", 3 ], [ "adhesive", 3 ] ],
+    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "technician_pants_gray", 1 ] ] ]
   }
 ]

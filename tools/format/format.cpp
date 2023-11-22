@@ -23,7 +23,7 @@ static void write_object( TextJsonIn &jsin, JsonOut &jsout, int depth, bool forc
         std::string name = jsin.get_member_name();
         jsout.member( name );
         bool override_wrap = false;
-        if( name == "rows" || name == "blueprint" ) {
+        if( name == "rows" || name == "blueprint" || name == "picture" ) {
             // Introspect into the row, if it has more than one element, force it to wrap.
             int in_start_pos = jsin.tell();
             bool ate_separator = jsin.get_ate_separator();

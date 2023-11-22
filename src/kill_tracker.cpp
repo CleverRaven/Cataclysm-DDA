@@ -130,11 +130,6 @@ static Character *get_avatar_or_follower( const character_id &id )
     return nullptr;
 }
 
-static int compute_kill_xp( const mtype_id &mon_type )
-{
-    return mon_type->difficulty + mon_type->difficulty_base;
-}
-
 static constexpr int npc_kill_xp = 10;
 
 void kill_tracker::notify( const cata::event &e )
@@ -145,7 +140,7 @@ void kill_tracker::notify( const cata::event &e )
             if( Character *killer = get_avatar_or_follower( killer_id ) ) {
                 const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 kills[victim_type]++;
-                killer->kill_xp += compute_kill_xp( victim_type );
+                killer->kill_xp += e.get<int>( "exp" );
                 victim_type.obj().families.practice_kill( *killer );
             }
             break;

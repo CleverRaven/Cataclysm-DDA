@@ -19,6 +19,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "scrap_dreamdross",
+    "name": "scraps of dreamdross",
+    "default": "scrap_dreamdross"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x21mm",
     "name": "9x21mm",
     "default": "9x21mm"

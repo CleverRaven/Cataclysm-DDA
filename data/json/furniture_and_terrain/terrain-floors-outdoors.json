@@ -123,8 +123,8 @@
   {
     "type": "terrain",
     "id": "t_dirtmound",
-    "name": "mound of dirt",
-    "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "name": "upturned dirt",
+    "description": "An area of loose dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
     "symbol": "#",
     "color": "brown",
     "connect_groups": "DIRTMOUND",
@@ -137,7 +137,7 @@
   {
     "type": "terrain",
     "id": "t_dirtmoundfloor",
-    "name": "mound of dirt",
+    "name": "mound of upturned dirt",
     "description": "A giant hill of dirt that looks like you could crawl inside for shelter.",
     "looks_like": "t_dirtmound",
     "symbol": "#",

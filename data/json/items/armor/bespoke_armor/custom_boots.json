@@ -296,22 +296,284 @@
     "id": "boots_h20survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of survivor wetsuit boots", "str_pl": "pairs of survivor wetsuit boots" },
+    "name": { "str": "pair of Kevlar diving boots", "str_pl": "pairs of Kevlar diving boots" },
     "description": "A pair of customized, Kevlar-armored neoprene boots.  These will keep you dry and alive, come hell or high water.",
     "weight": "1180 g",
     "volume": "1500 ml",
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "kevlar", "plastic", "neoprene" ],
+    "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
     "symbol": "[",
     "looks_like": "boots_bunker",
     "color": "dark_gray",
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 32, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "warmth": 41,
+    "environmental_protection": 12,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WATERPROOF", "SKINTIGHT", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 19,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "500 g",
+        "moves": 100,
+        "description": "mounting for a pair of custom fins.",
+        "flag_restriction": [ "BOOT_FINS_CUSTOM" ]
+      }
+    ],
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_boots_h20survivor",
+    "type": "ARMOR",
+    "copy-from": "boots_h20survivor",
+    "looks_like": "boots_h20survivor",
+    "name": { "str": "pair of XL Kevlar diving boots", "str_pl": "pairs of XL Kevlar diving boots" },
+    "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_h20survivor",
+    "type": "ARMOR",
+    "copy-from": "boots_h20survivor",
+    "looks_like": "boots_h20survivor",
+    "name": { "str": "pair of XS Kevlar diving boots", "str_pl": "pairs of XS Kevlar diving boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "boots_h20survivor_light",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of light Kevlar diving overboots", "str_pl": "pairs of light Kevlar diving overboots" },
+    "description": "A pair of customized, Kevlar-armored light neoprene boots.  These will keep you dry and alive, come hell or high water.",
+    "//": "Survivor took the booties, expanded them, decreased the thickness and thickened the sole, then added some light Kevlar armor.",
+    "weight": "900 g",
+    "volume": "1200 ml",
+    "price": 24000,
+    "price_postapoc": 6000,
+    "to_hit": -1,
+    "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
+    "symbol": "[",
+    "looks_like": "boots_h20survivor",
+    "color": "dark_gray",
+    "warmth": 30,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 11,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "500 g",
+        "moves": 100,
+        "description": "mounting for a pair of custom fins.",
+        "flag_restriction": [ "BOOT_FINS_CUSTOM" ]
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_boots_h20survivor_light",
+    "type": "ARMOR",
+    "copy-from": "boots_h20survivor_light",
+    "looks_like": "boots_h20survivor_light",
+    "name": { "str": "pair of XL Kevlar diving overboots", "str_pl": "pairs of XL light Kevlar diving overboots" },
+    "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_h20survivor_light",
+    "type": "ARMOR",
+    "copy-from": "boots_h20survivor_light",
+    "looks_like": "boots_h20survivor_light",
+    "name": { "str": "pair of XS light Kevlar diving overboots", "str_pl": "pairs of XS light Kevlar diving overboots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "boots_h20survivor_thick",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of thick Kevlar diving boots", "str_pl": "pairs of thick Kevlar diving boots" },
+    "description": "A pair of customized, Kevlar-armored thick neoprene boots.  These will keep you dry and alive, come hell or high water.",
+    "weight": "1180 g",
+    "volume": "1500 ml",
+    "price": 24000,
+    "price_postapoc": 6000,
+    "to_hit": -1,
+    "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
+    "symbol": "[",
+    "looks_like": "boots_h20survivor",
+    "color": "dark_gray",
+    "warmth": 70,
+    "environmental_protection": 14,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WATERPROOF", "SKINTIGHT", "NORMAL" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": 26,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "500 g",
+        "moves": 100,
+        "description": "mounting for a pair of custom fins.",
+        "flag_restriction": [ "BOOT_FINS_CUSTOM" ]
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_boots_h20survivor_thick",
+    "type": "ARMOR",
+    "copy-from": "boots_h20survivor_thick",
+    "looks_like": "boots_h20survivor_thick",
+    "name": { "str": "pair of XL thick Kevlar diving boots", "str_pl": "pairs of XL thick Kevlar diving boots" },
+    "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_h20survivor_thick",
+    "type": "ARMOR",
+    "copy-from": "boots_h20survivor_thick",
+    "looks_like": "boots_h20survivor_thick",
+    "name": { "str": "pair of XS thick Kevlar diving boots", "str_pl": "pairs of XS thick Kevlar diving boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "swim_fins_custom",
+    "type": "ARMOR",
+    "name": { "str_sp": "custom swim fin boot attachments" },
+    "description": "A pair of rubber flippers worn on the feet, which improve swimming speed while greatly impeding the wearer's ability to walk.  This pair was reduced in volume and weight and has to be attached to diving boots with necessary attachment points.",
+    "weight": "420 g",
+    "volume": "850 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "swim_fins",
+    "color": "dark_gray",
+    "warmth": 5,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FIN", "BOOT_FINS_CUSTOM", "CANT_WEAR", "OVERSIZE" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "encumbrance": 20,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "coverage": 30
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "coverage": 50
+      }
+    ]
   }
 ]

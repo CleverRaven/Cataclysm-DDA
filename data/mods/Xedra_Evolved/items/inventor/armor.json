@@ -52,7 +52,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE" ]
   },
   {
     "id": "helmet_inventor_on",
@@ -141,7 +141,7 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "MUNDANE" ],
     "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -165,7 +165,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "BELTED" ],
+    "flags": [ "STURDY", "OUTER", "BELTED", "MUNDANE" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -227,7 +227,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "SOFT" ],
+    "flags": [ "STURDY", "OUTER", "SOFT", "MUNDANE" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -339,7 +339,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED" ]
+    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE" ]
   },
   {
     "id": "aura_force_on",
@@ -382,7 +382,7 @@
     ],
     "ammo": [ "battery" ],
     "material_thickness": 0.1,
-    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC", "MUNDANE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -454,7 +454,7 @@
     "material": [ "aluminum", "steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
-    "flags": [ "DURABLE_MELEE", "PADDED" ],
+    "flags": [ "DURABLE_MELEE", "PADDED", "MUNDANE" ],
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
     "material_thickness": 1,
     "armor": [
@@ -512,7 +512,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
-    "flags": [ "ONLY_ONE", "TRADER_AVOID" ],
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "MUNDANE" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
@@ -575,6 +575,7 @@
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
+    "flags": [ "MUNDANE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
@@ -640,7 +641,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "flags": [ "BELTED", "OVERSIZE", "MUNDANE" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

@@ -121,6 +121,15 @@
     "chance": 15
   },
   {
+    "id": "emit_tear_gas_toad",
+    "type": "emit",
+    "//": "Periodic leaking of tear gas",
+    "field": "fd_tear_gas",
+    "intensity": 3,
+    "chance": 15,
+    "qty": 3
+  },
+  {
     "id": "emit_tindalos_gas_leak",
     "type": "emit",
     "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",

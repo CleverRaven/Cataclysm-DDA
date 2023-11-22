@@ -331,16 +331,74 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 6 ],
-    "time": "20 h",
+    "skills_required": [ "tailor", 7 ],
+    "time": "8 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "plastic_molding", 4 ], [ "tailoring_kevlar_fabric", 1 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 3 ], [ "tailoring_kevlar_fabric", 5 ] ],
     "proficiencies": [
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_elastics" }
     ],
-    "components": [ [ [ "duct_tape", 120 ] ], [ [ "wetsuit_gloves", 1 ] ] ]
+    "components": [ [ [ "wetsuit_gloves", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "result": "xl_gloves_h20survivor",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor",
+    "time": "12 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_kevlar_fabric", 8 ] ]
+  },
+  {
+    "result": "xs_gloves_h20survivor",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor",
+    "time": "6 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 2 ], [ "tailoring_kevlar_fabric", 4 ] ]
+  },
+  {
+    "result": "gloves_h20survivor_light",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor",
+    "time": "12 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 5 ] ]
+  },
+  {
+    "result": "xl_gloves_h20survivor_light",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor_light",
+    "time": "18 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 8 ] ]
+  },
+  {
+    "result": "xs_gloves_h20survivor_light",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor_light",
+    "time": "10 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 4 ] ]
+  },
+  {
+    "result": "gloves_h20survivor_thick",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor",
+    "time": "12 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 10 ] ],
+    "components": [ [ [ "wetsuit_gloves_thick", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "result": "xl_gloves_h20survivor_thick",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor_thick",
+    "time": "18 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 16 ] ]
+  },
+  {
+    "result": "xs_gloves_h20survivor_thick",
+    "type": "recipe",
+    "copy-from": "gloves_h20survivor_thick",
+    "time": "8 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 8 ] ]
   },
   {
     "result": "gloves_hsurvivor",
@@ -959,9 +1017,46 @@
     "difficulty": 4,
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "tailoring_neoprene_patchwork", 1 ], [ "sewing_standard", 15 ], [ "adhesive", 2 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_nylon_patchwork", 5 ] ],
     "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
-    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "result": "xl_wetsuit_gloves",
+    "type": "recipe",
+    "copy-from": "wetsuit_gloves",
+    "time": "9 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 8 ] ]
+  },
+  {
+    "result": "xs_wetsuit_gloves",
+    "type": "recipe",
+    "copy-from": "wetsuit_gloves",
+    "time": "5 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 3 ], [ "tailoring_nylon_patchwork", 4 ] ]
+  },
+  {
+    "result": "wetsuit_gloves_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_gloves",
+    "difficulty": 5,
+    "time": "9 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 10 ] ]
+  },
+  {
+    "result": "xl_wetsuit_gloves_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_gloves_thick",
+    "time": "14 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 8 ], [ "tailoring_nylon_patchwork", 15 ] ]
+  },
+  {
+    "result": "xs_wetsuit_gloves_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_gloves_thick",
+    "time": "7 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 5 ], [ "tailoring_nylon_patchwork", 8 ] ]
   },
   {
     "result": "lc_chainmail_hands",

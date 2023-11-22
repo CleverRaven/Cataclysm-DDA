@@ -1544,18 +1544,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add temperature value to the overlay_strings list for every visible tile when
             // displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
-                units::temperature temp_value = get_weather().get_temperature( pos );
+                const units::temperature temp_value = get_weather().get_temperature( pos );
+                const float celsius_temp_value = units::to_celsius( temp_value );
                 short color;
                 const short bold = 8;
-                if( temp_value > units::from_celsius( 40 ) ) {
+                if( celsius_temp_value > 40 ) {
                     color = catacurses::red;
-                } else if( temp_value > units::from_celsius( 25 ) ) {
+                } else if( celsius_temp_value > 25 ) {
                     color = catacurses::yellow + bold;
-                } else if( temp_value > units::from_celsius( 10 ) ) {
+                } else if( celsius_temp_value > 10 ) {
                     color = catacurses::green + bold;
-                } else if( temp_value > units::from_celsius( 0 ) ) {
+                } else if( celsius_temp_value > 0 ) {
                     color = catacurses::white + bold;
-                } else if( temp_value > units::from_celsius( -10 ) ) {
+                } else if( celsius_temp_value > -10 ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
@@ -1563,14 +1564,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 std::string temp_str;
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_str = std::to_string( units::to_celsius( temp_value ) );
+                    temp_str = string_format( "%.0f", celsius_temp_value );
                 } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-                    temp_str = std::to_string( units::to_kelvin( temp_value ) );
-
+                    temp_str = string_format( "%.0f", units::to_kelvin( temp_value ) );
+                } else {
+                    temp_str = string_format( "%.0f", units::to_fahrenheit( temp_value ) );
                 }
-                overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                overlay_strings.emplace( player_to_screen( point( x, y ) ),
                                          formatted_text( temp_str, color,
-                                                 direction::NORTH ) );
+                                                 text_alignment::left ) );
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
@@ -3231,6 +3233,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ||
                curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+               curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
                curr_ter.movecost == 0 ) {
         col = curr_ter.color();
     } else {
@@ -4809,19 +4812,19 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
     const bool use_font = get_option<bool>( "ANIMATION_SCT_USE_FONT" );
     tripoint player_pos = get_player_character().pos();
 
-    for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
-        const point iD( iter->getPosX(), iter->getPosY() );
-        const int full_text_length = utf8_width( iter->getText() );
+    for( const scrollingcombattext::cSCT &sct : SCT.vSCT ) {
+        const point iD( sct.getPosX(), sct.getPosY() );
+        const int full_text_length = utf8_width( sct.getText() );
 
         point iOffset;
 
         for( int j = 0; j < 2; ++j ) {
-            std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
-            int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
-                                           iter->getStep() >= SCT.iMaxSteps / 2 );
+            std::string sText = sct.getText( ( j == 0 ) ? "first" : "second" );
+            int FG = msgtype_to_tilecolor( sct.getMsgType( ( j == 0 ) ? "first" : "second" ),
+                                           sct.getStep() >= scrollingcombattext::iMaxSteps / 2 );
 
             if( use_font ) {
-                const direction direction = iter->getDirection();
+                const direction direction = sct.getDirection();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -displace_XY( direction ).x + 1 ) *

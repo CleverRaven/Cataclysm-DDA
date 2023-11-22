@@ -353,7 +353,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.
-            if( here.has_floor( floor1 ) && here.has_floor( floor2 ) ) {
+            if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
                 // Currently strictly no shooting through floor
                 // TODO: Bash the floor
                 tp = prev_point;
@@ -422,6 +422,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 critter->is_avatar() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
+                continue;
+            }
+            // avoid friendly fire
+            if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
+                origin->check_avoid_friendly_fire() ) {
                 continue;
             }
             attack.missed_by = cur_missed_by;

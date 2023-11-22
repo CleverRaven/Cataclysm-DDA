@@ -259,7 +259,7 @@
     "type": "effect_type",
     "id": "cheval_overdose",
     "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
-    "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
+    "name": [ "Energized", "Enflamed", "Arrhythmic", "Tachycardiac" ],
     "apply_message": [
       [ "These magickal trucker pills have kicked in and you feel great!", "good" ],
       [
@@ -363,7 +363,11 @@
       "Your skin is pale and your eyes are thoroughly bloodshot.",
       "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
-    "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
+    "apply_message": [
+      [ "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.", "bad" ],
+      [ "Your iris slowly turns red from the outside in.", "bad" ],
+      [ "There is an emptiness in your stomach and soul that can no longer be filled with mortal joys.", "bad" ]
+    ],
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
@@ -372,7 +376,6 @@
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
     "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
-    "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
@@ -492,7 +495,7 @@
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
     "desc": [
-      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster"
+      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster."
     ],
     "apply_message": "A huge warm wave moves from your stomach through your body.",
     "remove_message": "The warm feeling fades away.",
@@ -701,82 +704,333 @@
     "enchantments": [ { "emitter": "emit_blood_karma" } ]
   },
   {
-    "type": "mutation",
-    "id": "karma_arms",
-    "name": { "str": "Karma" },
-    "points": 1,
-    "visibility": 10,
-    "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
+    "type": "effect_type",
+    "id": "natures_commune",
+    "name": [ "Commune with Nature" ],
+    "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
+    "apply_message": "You can feel the lifeblood of nature all around, welcoming you as kin.",
+    "remove_message": "Your communion with nature fades.",
+    "rating": "good",
+    "max_duration": "360 m",
+    "dur_add_perc": 5,
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 50 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 100 ], "health_tick": [ 60 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hungry_roots",
+    "name": [ "Hungry Thirsty Roots" ],
+    "desc": [ "Roots and vines clutch at you." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "remove_message": "The roots and vines wither up and die.",
+    "base_mods": { "speed_mod": [ -30 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "arvore_verdant_infusion",
+    "name": [ "Verdant Infusion" ],
+    "desc": [ "You are filled with the vitality of nature." ],
+    "apply_message": "You can feel the power of nature flowing through you.",
+    "remove_message": "The power of nature fades from you.",
+    "rating": "good",
+    "max_duration": "12 h",
+    "base_mods": {
+      "str_mod": [ 1 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 30 ],
+      "h_mod_min": [ 1 ],
+      "h_mod_chance": [ 80 ],
+      "health_tick": [ 30 ],
+      "healing_rate": [ 2 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_tree_immobility",
+    "name": [ "Rooted" ],
+    "desc": [ "Your roots sink into the ground and you are nearly immobile." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "mixed",
+    "max_intensity": 100000,
+    "show_intensity": false,
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "arvore_perennial_rebirth_cooldown",
+    "name": [ "Reborn" ],
+    "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_levitation",
+    "name": [ "Smoke-Walking" ],
+    "desc": [ "You are walking through the air." ],
+    "apply_message": "",
+    "remove_message": "Your feet touch the ground once again.",
+    "rating": "good",
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_featherfall",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_smoke_immunity",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_remove_stun",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "stunned", "dazed", "downed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to heat and fire." ],
+    "rating": "good",
+    "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_cure_conditions",
+    "name": [ "Burning" ],
+    "desc": [ "Your impurities are being seared away!" ],
+    "rating": "mixed",
+    "removes_effects": [
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "blind",
+      "poison",
+      "venom_dmg",
+      "venom_weaken",
+      "stung",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "tetanus",
+      "rat_bite_fever",
+      "infected",
+      "asthma",
+      "common_cold",
+      "flu"
+    ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 2 ],
+      "hurt_tick": [ 1 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 3 ],
+      "pain_tick": [ 1 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_burning_damage",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "//": "Name and description empty to hide effect",
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 2 ],
+      "hurt_tick": [ 1 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 3 ],
+      "pain_tick": [ 1 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_berserk_stance",
+    "name": [ "Wildfire Soul" ],
+    "desc": [ "You are filled with transcendent flame." ],
+    "apply_message": "All of your weakness boils away in the heat of the flames!",
+    "remove_message": "As the heat leaves you, pain rushes in to take its place.",
+    "rating": "good",
+    "base_mods": { "str_mod": [ 3 ], "dex_mod": [ 3 ], "speed_mod": [ 20 ] },
+    "flags": [ "PAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_increase_speed",
+    "name": [ "Inner Spark" ],
+    "desc": [ "Your speed is magically increased." ],
+    "apply_message": "You are filled with burning vigor.",
+    "remove_message": "Your movements gradually slow.",
+    "rating": "good",
     "enchantments": [
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [
-          { "gain": "karma_arm_up_r" },
-          { "gain": "karma_arm_up_l" },
-          { "gain": "karma_arm_lw_r" },
-          { "gain": "karma_arm_lw_l" }
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "( ( 5 + ( u_val('spell_level', 'spell: salamander_increase_speed_spell') * 1.5 ) ) ) * (scaling_factor(u_val('strength') ) )"
+              ]
+            }
+          }
         ]
       }
     ]
   },
   {
     "type": "effect_type",
-    "id": "spell_karma_arms_eff",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow</color>.",
-    "remove_message": "The cyan arms grow dim, and finally disappear.",
+    "id": "effect_salamander_emit_heat",
+    "name": [ "Burning Furnace" ],
+    "desc": [ "You are throwing off a large amount of heat." ],
+    "apply_message": "The air around you heats up.",
+    "remove_message": "The air around you cools down.",
     "rating": "good",
-    "enchantments": [ { "mutations": [ "karma_arms" ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "stalker_eyes",
-    "name": { "str": "Stalker's Vision" },
-    "points": 1,
-    "visibility": 1,
-    "description": "Your own eyes transform into the orbits of an unknown creature.  You see much better, both in the light and in the dark.",
-    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+    "enchantments": [ { "emitter": "emit_salamander_heat" } ]
   },
   {
     "type": "effect_type",
-    "id": "stalker_eyes_eff",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "apply_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
-    "remove_message": "A great new world under your eyes disappears.",
-    "blocks_effects": [ "glare" ],
-    "rating": "good",
-    "enchantments": [ { "mutations": [ "stalker_eyes" ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "devil_tail",
-    "name": { "str": "Devil's Tail" },
-    "points": 1,
-    "visibility": 6,
-    "description": "Not actually devil's, this long tail with triangle point in the end can stretch for a lot, and could easily kill someone nearby.",
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
+    "id": "effect_salamander_prevented_death",
+    "name": [ "Arisen" ],
+    "desc": [ "Like the phoenix, you have been reborn." ]
   },
   {
     "type": "effect_type",
-    "id": "devil_tail_eff",
+    "id": "effect_salamander_smoke_form",
+    "name": [ "Smoke Form" ],
+    "desc": [ "You have transformed yourself into a cloud of smoke." ],
+    "apply_message": "Your body falls apart into billowing smoke!",
+    "remove_message": "You reconstruct yourself from the smoke.",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ],
+    "enchantments": [
+      { "emitter": "emit_smoke_blast" },
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": -1.0 }, { "value": "RANGED_DAMAGE", "multiply": -1.0 } ] }
+    ],
+    "flags": [
+      "INVISIBLE",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "DEAF",
+      "FEATHER_FALL",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "STAB_IMMUNE",
+      "CUT_IMMUNE",
+      "BULLET_IMMUNE",
+      "BASH_IMMUNE",
+      "ACID_IMMUNE",
+      "BIO_IMMUNE"
+    ],
+    "//": "Deliberately vulnerable to electricity damage."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_1",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 1 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_2",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 2 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_3",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 3 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_learned_gossamer",
     "name": [ "" ],
     "desc": [ "" ],
-    "apply_message": "You feel like your spine stretched enormously.",
-    "remove_message": "Your devil tail disappear in the air.",
-    "rating": "good",
-    "enchantments": [ { "mutations": [ "devil_tail" ] } ]
+    "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
+    "rating": "mixed"
   },
   {
     "type": "effect_type",

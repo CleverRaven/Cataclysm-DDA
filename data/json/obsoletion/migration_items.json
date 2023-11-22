@@ -40,6 +40,21 @@
     "replace": "scar_l"
   },
   {
+    "id": "ammunition_box_223",
+    "type": "MIGRATION",
+    "replace": "ammo_box_army_10_338"
+  },
+  {
+    "id": "ammunition_box_308",
+    "type": "MIGRATION",
+    "replace": "ammo_box_2"
+  },
+  {
+    "id": "ammunition_box_50bmg",
+    "type": "MIGRATION",
+    "replace": "ammo_box_4"
+  },
+  {
     "id": "r_paint",
     "type": "MIGRATION",
     "replace": "paint_can_steel",
@@ -223,5 +238,81 @@
     "type": "MIGRATION",
     "replace": "sword_sheets_welded_large",
     "variant": "sword_sheets_bolted_large"
+  },
+  {
+    "id": "burdock_stalk",
+    "type": "MIGRATION",
+    "replace": "plant_stalk"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "MIGRATION",
+    "replace": "bag_zipper",
+    "sealed": false
+  },
+  {
+    "id": "bot_mininuke_hack",
+    "type": "MIGRATION",
+    "replace": "broken_mininuke_hack"
+  },
+  {
+    "id": "knife_combat_marine_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_marine"
+  },
+  {
+    "id": "knife_combat_army_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_army"
+  },
+  {
+    "id": "knife_combat_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  },
+  {
+    "id": "sword_bayonet_mod",
+    "type": "MIGRATION",
+    "replace": "sword_bayonet"
+  },
+  {
+    "id": "20x66_bootleg_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_bootleg_shot",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_bootleg_slug",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_inc",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "762_m43",
+    "type": "MIGRATION",
+    "replace": "762_m87"
+  },
+  {
+    "id": "reloaded_762_m43",
+    "type": "MIGRATION",
+    "replace": "reloaded_762_m87"
+  },
+  {
+    "id": "bp_762_m43",
+    "type": "MIGRATION",
+    "replace": "bp_762_m87"
   }
 ]

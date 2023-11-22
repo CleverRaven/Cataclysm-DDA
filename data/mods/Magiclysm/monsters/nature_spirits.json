@@ -27,7 +27,7 @@
     "material": [ "veggy" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a pile of moss." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a pile of moss." },
     "death_drops": "mossling_drops"
   },
   {
@@ -69,7 +69,7 @@
       "PATH_AVOID_FIRE",
       "FLAMMABLE"
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into splinters." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into splinters." },
     "death_drops": "dryad_drops"
   },
   {
@@ -112,7 +112,7 @@
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "PATH_AVOID_FIRE" ],
     "biosignature": { "biosig_item": "withered", "biosig_timer": 12 },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a massive pile of leaves and sticks." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a massive pile of leaves and sticks." },
     "death_drops": "brackenwight_drops"
   },
   {
@@ -152,7 +152,7 @@
         "monster_message": "%1$s stomps heavily and the ground shakes!"
       }
     ],
-    "death_function": { "message": "%s collapses into broken stone!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s collapses into broken stone!", "corpse_type": "NO_CORPSE" },
     "death_drops": "gnome_drops",
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "BASHES", "FIREPROOF", "ACIDPROOF", "DIGS", "STUN_IMMUNE" ]
   }

@@ -121,7 +121,7 @@
       "I": [ "f_locker" ],
       "J": [ "f_locker" ],
       "K": [ "f_workbench" ],
-      "L": [ "f_water_heater" ],
+      "L": [ "f_water_heater", "f_water_heater_family" ],
       "M": [ "f_standing_tank" ],
       "N": [ "f_air_conditioner" ],
       "P": [ "f_air_filter" ],

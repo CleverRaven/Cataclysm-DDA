@@ -243,11 +243,13 @@
     "type": "mission_definition",
     "name": { "str": "Find Source of Robots" },
     "description": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
-    "goal": "MGOAL_GO_TO",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_var": "u_scouted_exodii", "type": "missions", "context": "old_guard", "value": "yes" },
     "difficulty": 2,
     "value": 10000,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 }
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
+      "effect": [ { "math": [ "old_guard_rep_scouting", "=", "1" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_4",

@@ -12,12 +12,12 @@
     "looks_like": "sledge",
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
-    "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE" ],
+    "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "MUNDANE" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "melee_damage": { "bash": 27 },
     "relic_data": { "passive_effects": [ { "id": "WOLF_SLEDGE" } ] },
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "use_action": { "type": "cast_spell", "spell_id": "mace_pipe_magic_throw", "no_fail": true, "level": 0, "need_wielding": true }
+    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_WOLF_SLEDGE_TRHOW" ] }
   },
   {
     "id": "combatsaw_spear_off",
@@ -40,7 +40,7 @@
     "charged_qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -50 ] ],
     "use_action": { "target": "combatsaw_spear_on", "msg": "You turn on the chainsaw spear.", "active": true, "type": "transform" },
     "techniques": [ "SWEEP", "IMPALE", "SPIN" ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE", "MUNDANE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

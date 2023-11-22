@@ -45,7 +45,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#cross", "seat", "seatbelt", "roof", "floodlight" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "horn_big" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "integrated_heater_small", "integrated_cooler", "dashboard", "horn_big" ]
+      },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "roof", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_right", "roof", "door#ne" ] },
       { "x": 1, "y": -1, "parts": [ "frame#vertical_left", "reinforced_windshield#nw", "roof" ] },

@@ -11,7 +11,7 @@
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
         [ "flatbread_wheat_free", 1 ],
-        [ "tortilla_corn", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "bread", 1 ],
         [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
@@ -24,20 +24,38 @@
     ]
   },
   {
+    "id": "bread_toastable",
+    "type": "requirement",
+    "//": "Bread appropriate for toast.",
+    "components": [
+      [
+        [ "bread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ],
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_toastable_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for toast.",
+    "components": [ [ [ "bread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ], [ "cornbread", 1 ] ] ]
+  },
+  {
     "id": "bread_sandwich",
     "type": "requirement",
     "//": "Bread appropriate for sandwiches.",
     "components": [
       [
+        [ "bread_toastable", 1, "LIST" ],
         [ "flatbread", 1 ],
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "biscuit", 1 ],
-        [ "brioche", 1 ],
         [ "crackers", 1 ],
-        [ "brown_bread", 1 ],
-        [ "hallula", 1 ]
+        [ "toast", 1 ]
       ]
     ]
   },
@@ -45,7 +63,14 @@
     "id": "bread_sandwich_wheat_free",
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
+    "components": [
+      [
+        [ "bread_toastable_wheat_free", 1, "LIST" ],
+        [ "flatbread_wheat_free", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "toast_wheat_free", 1 ]
+      ]
+    ]
   },
   {
     "id": "any_bread",
@@ -79,7 +104,6 @@
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
         [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ],
         [ "egg_goose", 1 ],
         [ "egg_goose_golden", 1 ],
         [ "egg_hummingbird", 5 ],
@@ -237,7 +261,9 @@
         [ "can_cheese", 1 ],
         [ "cheese_rehydrated", 1 ],
         [ "cottage_cheese", 1 ],
-        [ "mozzarella_cheese", 1 ]
+        [ "mozzarella_cheese", 1 ],
+        [ "mascarpone", 1 ],
+        [ "pecorino_cheese", 1 ]
       ]
     ]
   },
@@ -1126,7 +1152,7 @@
         [ "carrot", 2 ],
         [ "irradiated_carrot", 2 ],
         [ "cattail_stalk", 1 ],
-        [ "burdock_stalk", 1 ],
+        [ "plant_stalk", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "corn_kernels", 1 ],

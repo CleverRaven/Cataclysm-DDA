@@ -282,6 +282,19 @@
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"00 CQC\" stamped into the metal and an integrated choke."
   },
   {
+    "id": "robofac_gun_shotgun_breach",
+    "copy-from": "robofac_gun_shotgun",
+    "type": "GUNMOD",
+    "mod_targets": [ "robofac_gun" ],
+    "integral_volume": "175 ml",
+    "integral_weight": "650 g",
+    "integral_longest_side": "12 cm",
+    "longest_side": "42 cm",
+    "//": "based on M26-MASS; shot_spread_multiplier_modifier is increased due the short barrel",
+    "name": { "str_sp": "HWP breacher configuration" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version looks like the close quarters configuration, but has a shortened barrel with \"00 BREACH\" stamped into the metal."
+  },
+  {
     "id": "xedra_gun_shotgun",
     "copy-from": "robofac_gun_shotgun",
     "type": "GUNMOD",

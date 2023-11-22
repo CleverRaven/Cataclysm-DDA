@@ -19,7 +19,7 @@
     "id": "alcohol_wipes",
     "type": "GENERIC",
     "category": "drugs",
-    "name": { "str_sp": "alcohol wipe" },
+    "name": { "str": "alcohol wipe" },
     "description": "A wet wipe saturated with alcohol and stored in a sterile package.  Used for personal hygiene or disinfecting small wounds.",
     "weight": "5 g",
     "volume": "1 ml",
@@ -261,8 +261,9 @@
     "symbol": ",",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
-    "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "cut": 7 }
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "cut": 7 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "smoxygen_tank",

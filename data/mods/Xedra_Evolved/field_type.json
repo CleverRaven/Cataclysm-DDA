@@ -121,5 +121,20 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_salamander_heat",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 12 },
+      { "color": "yellow", "convection_temperature_mod": 22 },
+      { "color": "red", "convection_temperature_mod": 45 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
   }
 ]

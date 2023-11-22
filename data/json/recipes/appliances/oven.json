@@ -136,7 +136,7 @@
       { "proficiency": "prof_elec_circuits", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", -1 ], [ "toolset", -1 ] ] ],
+    "tools": [ [ [ "soldering_iron", -1 ], [ "integrated_welder", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "sheet_metal_small", 1 ] ],

@@ -32,8 +32,23 @@ class talker_character_const: public talker_cloner<talker_character_const>
         }
         ~talker_character_const() override = default;
 
+        // underlying element accessor functions
+        Character *get_character() override {
+            return nullptr;
+        }
+        const Character *get_character() const override {
+            return me_chr_const;
+        }
+        Creature *get_creature() override {
+            return nullptr;
+        }
+        const Creature *get_creature() const override {
+            return me_chr_const;
+        }
+
         // identity and location
         std::string disp_name() const override;
+        std::string get_name() const override;
         character_id getID() const override;
         bool is_male() const override;
         std::vector<std::string> get_grammatical_genders() const override;
@@ -45,7 +60,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         tripoint_abs_omt global_omt_location() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
         int get_hp_max( const bodypart_id &bp ) const override;
-        int get_cur_part_temp( const bodypart_id &bp ) const override;
+        units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -55,6 +70,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int attack_speed() const override;
         int pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
+        int coverage_at( bodypart_id & ) const override;
+        int encumbrance_at( bodypart_id & ) const override;
         int get_str_max() const override;
         int get_dex_max() const override;
         int get_int_max() const override;
@@ -78,6 +95,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
         int get_skill_level( const skill_id & ) const override;
+        int get_skill_exp( const skill_id &skill, bool raw = false ) const override;
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
@@ -150,6 +168,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 
         bool can_see() const override;
+        bool can_see_location( const tripoint &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
         int get_rad() const override;
@@ -163,12 +182,14 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_age() const override;
         int get_height() const override;
         int get_bmi_permil() const override;
+        int get_weight() const override;
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
-        int get_body_temp() const override;
-        int get_body_temp_delta() const override;
+        units::temperature get_body_temp() const override;
+        units::temperature_delta get_body_temp_delta() const override;
         bool knows_martial_art( const matype_id &id ) const override;
+        bool using_martial_art( const matype_id &id ) const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -220,6 +241,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void activate_mutation( const trait_id &trait ) override;
         void deactivate_mutation( const trait_id &trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
+        void set_skill_exp( const skill_id &skill, int value, bool raw = false ) override;
         void learn_recipe( const recipe_id &recipe_to_learn ) override;
         void forget_recipe( const recipe_id &recipe_to_forget ) override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
@@ -235,7 +257,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
-        void i_add_or_drop( item &new_item ) override;
+        void i_add_or_drop( item &new_item, bool force_equip = false ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;

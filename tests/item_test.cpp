@@ -32,8 +32,11 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const flag_id json_flag_HOT( "HOT" );
 
+static const item_category_id item_category_clothing( "clothing" );
 static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_guns( "guns" );
+static const item_category_id item_category_tools( "tools" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
@@ -79,6 +82,7 @@ TEST_CASE( "gun_layer", "[item]" )
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, item_pocket::pocket_type::MOD );
     CHECK( gun.get_layer().front() == layer_level::BELTED );
+    CHECK( gun.get_category_of_contents().id == item_category_guns );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )
@@ -916,4 +920,69 @@ TEST_CASE( "item_single_type_contents", "[item]" )
     REQUIRE( nail.get_category_of_contents().id != walnut.get_category_of_contents().id );
     REQUIRE( bag.put_in( nail, item_pocket::pocket_type::CONTAINER ).success() );
     CHECK( bag.get_category_of_contents().id == item_category_container );
+
+    SECTION( "clothing" ) {
+        item jeans( "jeans" );
+        REQUIRE( jeans.get_category_of_contents().id == item_category_clothing );
+        REQUIRE( walnut.get_category_of_contents().id == item_category_food );
+        REQUIRE( jeans.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+        CHECK( jeans.get_category_of_contents().id == item_category_clothing );
+    }
+
+    SECTION( "software" ) {
+        item usb_drive( "usb_drive" );
+        item software_hacking( "software_hacking" );
+        REQUIRE( usb_drive.get_category_of_contents().id == item_category_tools );
+        REQUIRE( usb_drive.put_in( software_hacking, item_pocket::pocket_type::SOFTWARE ).success() );
+        CHECK( usb_drive.get_category_of_contents().id == item_category_tools );
+    }
+}
+
+TEST_CASE( "item_nested_contents", "[item]" )
+{
+    item walnut( "walnut" );
+    item outer_bag( "bag_plastic" );
+    item inner_bag1( "bag_plastic" );
+    item inner_bag2( "bag_plastic" );
+
+    REQUIRE( inner_bag1.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( inner_bag1.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( inner_bag1.get_category_of_contents().id == item_category_food );
+
+    REQUIRE( inner_bag2.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( inner_bag2.get_category_of_contents().id == item_category_food );
+
+    REQUIRE( outer_bag.put_in( inner_bag1, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( outer_bag.put_in( inner_bag2, item_pocket::pocket_type::CONTAINER ).success() );
+    CAPTURE( outer_bag.display_name() );
+    // outer_bag
+    //   inner_bag1
+    //     walnut
+    //     walnut
+    //   inner_bag2
+    //     walnut
+    CHECK( outer_bag.get_category_of_contents().id == item_category_food );
+}
+
+TEST_CASE( "item_rotten_contents", "[item]" )
+{
+    item wrapper( "wrapper" );
+    REQUIRE( wrapper.get_category_of_contents().id == item_category_container );
+
+    item butter_rotten( "butter" );
+    butter_rotten.set_relative_rot( 1.01 );
+    REQUIRE( wrapper.put_in( butter_rotten, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter_rotten, item_pocket::pocket_type::CONTAINER ).success() );
+    CAPTURE( wrapper.display_name() );
+    CHECK( wrapper.get_category_of_contents().id == item_category_food );
+
+    item butter( "butter" );
+    butter.set_relative_rot( 0.5 );
+    REQUIRE( wrapper.put_in( butter, item_pocket::pocket_type::CONTAINER ).success() );
+    CAPTURE( wrapper.display_name() );
+    // wrapper
+    //   butter (rotten)
+    //   butter (rotten)
+    //   butter
+    CHECK( wrapper.get_category_of_contents().id == item_category_food );
 }

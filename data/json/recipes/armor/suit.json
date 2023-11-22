@@ -29,7 +29,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "wax", 2 ], [ "any_tallow", 8, "LIST" ], [ "vinegar", 10 ], [ "pine_bough", 20 ] ],
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 8, "LIST" ], [ "vinegar", 10 ], [ "pine_bough", 20 ] ],
       [ [ "salt", 50 ] ],
       [ [ "armor_larmor", 1 ] ]
     ]
@@ -202,96 +202,6 @@
     "components": [ [ [ "xl_armor_larmor_chest", 1 ] ], [ [ "xl_armguard_larmor", 1 ] ], [ [ "xl_legguard_larmor", 1 ] ] ]
   },
   {
-    "result": "armor_lightplate",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ], [ "tailoring_leather_patchwork", 8 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
-      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xs_armor_lightplate",
-    "type": "recipe",
-    "copy-from": "armor_lightplate",
-    "time": "9 h 20 m",
-    "using": [ [ "blacksmithing_standard", 60 ], [ "steel_standard", 15 ], [ "tailoring_leather_patchwork", 6 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xl_armor_lightplate",
-    "type": "recipe",
-    "copy-from": "armor_lightplate",
-    "time": "10 h 30 m",
-    "using": [ [ "blacksmithing_standard", 128 ], [ "steel_standard", 32 ], [ "tailoring_leather_patchwork", 10 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "armor_lightplate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "skill_penalty": 0 },
-      { "proficiency": "prof_armorsmithing", "skill_penalty": 0 },
-      { "proficiency": "prof_articulation", "skill_penalty": 0 }
-    ],
-    "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
-  },
-  {
-    "result": "xl_armor_lightplate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "skill_penalty": 0 },
-      { "proficiency": "prof_armorsmithing", "skill_penalty": 0 },
-      { "proficiency": "prof_articulation", "skill_penalty": 0 }
-    ],
-    "components": [ [ [ "xl_cuirass_lightplate", 1 ] ], [ [ "xl_armguard_lightplate", 1 ] ], [ [ "xl_legguard_lightplate", 1 ] ] ]
-  },
-  {
-    "result": "xs_armor_lightplate",
-    "type": "recipe",
-    "id_suffix": "assembly",
-    "copy-from": "armor_lightplate",
-    "time": "20 m",
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "xs_cuirass_lightplate", 1 ] ], [ [ "xs_armguard_lightplate", 1 ] ], [ [ "xs_legguard_lightplate", 1 ] ] ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
     "result": "armor_lorica",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -459,6 +369,38 @@
     "using": [ [ "cordage", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures", "skill_penalty": 0 }, { "proficiency": "prof_articulation", "skill_penalty": 0 } ],
     "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
+  },
+  {
+    "result": "armor_xl_scrapsuit",
+    "type": "recipe",
+    "copy-from": "armor_scrapsuit",
+    "time": "2 h",
+    "using": [ [ "cordage", 8 ], [ "mixed_steel", 5 ] ],
+    "components": [ [ [ "cotton_patchwork", 23 ] ] ]
+  },
+  {
+    "result": "armor_xl_scrapsuit",
+    "copy-from": "armor_scrapsuit_assembly",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "using": [ [ "cordage", 3 ] ],
+    "components": [ [ [ "xl_cuirass_scrap", 1 ] ], [ [ "xl_armguard_scrap", 1 ] ], [ [ "xl_legguard_scrap", 1 ] ] ]
+  },
+  {
+    "result": "armor_xs_scrapsuit",
+    "type": "recipe",
+    "copy-from": "armor_scrapsuit",
+    "time": "1 h 30 m",
+    "using": [ [ "cordage", 5 ], [ "mixed_steel", 3 ] ],
+    "components": [ [ [ "cotton_patchwork", 18 ] ] ]
+  },
+  {
+    "result": "armor_xs_scrapsuit",
+    "copy-from": "armor_scrapsuit_assembly",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "xs_cuirass_scrap", 1 ] ], [ [ "xs_armguard_scrap", 1 ] ], [ [ "xl_legguard_scrap", 1 ] ] ]
   },
   {
     "result": "armor_metal_sheets",
@@ -1893,7 +1835,15 @@
     "skills_required": [ "fabrication", 7 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_kevlar", 200 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ], [ "fabric_lycra", 20 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 160 ],
+      [ "blacksmithing_standard", 12 ],
+      [ "mc_steel_standard", 3 ],
+      [ "fabric_lycra", 20 ],
+      [ "fabric_nylon", 30 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 8 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_elastics", "time_multiplier": 1.3, "skill_penalty": 0.2 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1, "skill_penalty": 0.1 },
@@ -1907,35 +1857,33 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "toolset", 97 ] ],
+      [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "integrated_welder", 97 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar", 590 ] ]
-    ],
-    "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 9 ] ]
+    "byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_lycra", 5 ] ]
   },
   {
     "result": "xs_hsurvivor_jumpsuit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
-    "using": [ [ "sewing_kevlar", 150 ], [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "fabric_lycra", 15 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 112 ],
+      [ "blacksmithing_standard", 8 ],
+      [ "mc_steel_standard", 2 ],
+      [ "fabric_lycra", 15 ],
+      [ "fabric_nylon", 23 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 8 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "toolset", 72 ] ],
+      [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "integrated_welder", 72 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
-    ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar", 408 ] ]
     ]
   },
   {
@@ -1944,18 +1892,21 @@
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
     "time": "23 h",
-    "using": [ [ "sewing_kevlar", 300 ], [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ], [ "fabric_lycra", 30 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 240 ],
+      [ "blacksmithing_standard", 20 ],
+      [ "mc_steel_standard", 5 ],
+      [ "fabric_lycra", 30 ],
+      [ "fabric_nylon", 45 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 8 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "toolset", 109 ] ],
+      [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "integrated_welder", 109 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
-    ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 450 ] ],
-      [ [ "sheet_kevlar", 864 ] ]
     ]
   },
   {
@@ -2159,9 +2110,46 @@
     "difficulty": 4,
     "time": "10 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "tailoring_neoprene_patchwork", 33 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 33 ], [ "tailoring_nylon_patchwork", 55 ], [ "fastener_small", 6 ] ],
     "components": [ [ [ "zipper_long_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "xs_wetsuit",
+    "type": "recipe",
+    "copy-from": "wetsuit",
+    "time": "8 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 25 ], [ "tailoring_nylon_patchwork", 40 ], [ "fastener_small", 6 ] ]
+  },
+  {
+    "result": "xl_wetsuit",
+    "type": "recipe",
+    "copy-from": "wetsuit",
+    "time": "15 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 45 ], [ "tailoring_nylon_patchwork", 75 ], [ "fastener_small", 6 ] ]
+  },
+  {
+    "result": "wetsuit_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit",
+    "difficulty": 5,
+    "time": "20 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 55 ], [ "tailoring_nylon_patchwork", 110 ], [ "fastener_small", 6 ] ],
+    "components": [ [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "xs_wetsuit_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_thick",
+    "time": "16 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 42 ], [ "tailoring_nylon_patchwork", 85 ], [ "fastener_small", 6 ] ]
+  },
+  {
+    "result": "xl_wetsuit_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_thick",
+    "time": "30 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 75 ], [ "tailoring_nylon_patchwork", 160 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "wetsuit_spring",

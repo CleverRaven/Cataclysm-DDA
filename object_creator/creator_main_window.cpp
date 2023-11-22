@@ -7,6 +7,9 @@
 #include <QtWidgets/qtabwidget.h>
 #include <QtWidgets/qsplashscreen.h>
 #include <QtGui/qpainter.h>
+#include <QtWidgets/qmenubar.h>
+#include <QtWidgets/qmessagebox.h>
+
 
 
 namespace io
@@ -43,6 +46,26 @@ int creator::main_window::execute( QApplication &app )
     //let the thread sleep for a second to show the splashscreen
     std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
     app.processEvents();
+
+    //Add a menu bar with the file->exit option and the help->about option
+    QMenuBar* menuBar = creator_main_window.menuBar();
+    QMenu* fileMenu = menuBar->addMenu( "File" );
+    QAction* exitAction = fileMenu->addAction( "Exit" );
+    QObject::connect( exitAction, &QAction::triggered, &creator_main_window, &QMainWindow::close );
+    QMenu* helpMenu = menuBar->addMenu( "Help" );
+    QAction* aboutAction = helpMenu->addAction( "About" );
+    //When the about option is clicked, show a message box information about the object creator
+    QObject::connect( aboutAction, &QAction::triggered, &creator_main_window, [&creator_main_window]() {
+        QMessageBox::about( &creator_main_window, "About", "This is the Cataclysm: DDA object creator.\n"
+                            "It is used to create new spells, itemgroups, etc.\n"
+                            "Find more info and contribute to https://github.com/CleverRaven/Cataclysm-DDA.\n");
+    } );
+
+    //Add an option to the help menu to show the about qt dialog
+    QAction* aboutQtAction = helpMenu->addAction( "About Qt" );
+    QObject::connect( aboutQtAction, &QAction::triggered, &app, &QApplication::aboutQt );
+
+
 
     //Create a tab widget and add it to the main window
     QTabWidget* tabWidget = new QTabWidget(&creator_main_window);

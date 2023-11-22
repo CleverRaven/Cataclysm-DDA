@@ -825,7 +825,7 @@
     "id": "military_bunker_1",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" },
+      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1_south" },
       { "point": [ 0, 0, 1 ], "overmap": "bunker_roof_south" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
@@ -2241,6 +2241,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
+    "priority": 1,
     "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
@@ -6163,7 +6164,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Luna Park",
+    "id": "miniature railway park",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "luna_park_0_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "luna_park_1_0_0_north" },

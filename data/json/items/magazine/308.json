@@ -6,7 +6,6 @@
     "name": { "str": "7.62x51mm ammo belt" },
     "ammo_type": [ "308" ],
     "capacity": 500,
-    "count": 100,
     "default_ammo": "762_51",
     "linkage": "ammolink308",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "308": 500 } } ]
@@ -22,8 +21,7 @@
       {
         "id": "falbigmag",
         "name": { "str": "FAL 30-round magazine" },
-        "description": "An extended 30-round steel box magazine for the FN FAL rifle.",
-        "weight": 1
+        "description": "An extended 30-round steel box magazine for the FN FAL rifle."
       }
     ],
     "weight": "360 g",
@@ -48,8 +46,7 @@
       {
         "id": "falmag",
         "name": { "str": "FAL 20-round magazine" },
-        "description": "A military issue 20-round steel box magazine for the FN FAL rifle.",
-        "weight": 1
+        "description": "A military issue 20-round steel box magazine for the FN FAL rifle."
       }
     ],
     "weight": "240 g",

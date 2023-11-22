@@ -1,0 +1,169 @@
+[
+  {
+    "id": "TALK_GREAT_LIBRARY_LIBRARIAN",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "u_met_Elvira",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [
+        "*whispering.  \"Welcome back to the Library.\"",
+        "*whispering.  \"Hello again.  Can I help you find something?\"",
+        "*whispering.  \"Hello.\""
+      ],
+      "no": "*waves and smiles.  \"Welcome fellow reader.\""
+    },
+    "responses": [
+      {
+        "text": "Hello, who are you?  This is a library, is it?",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Intro",
+        "condition": { "not": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Oh sorry, I'm not interested right now.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" } }
+      },
+      {
+        "text": "I wanted to talk.",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk",
+        "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Let me see what you have.",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
+        "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": "start_trade"
+      },
+      {
+        "text": "Just saying hello.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
+    "type": "talk_topic",
+    "dynamic_line": [ "Always glad to help another reader.", "Never stop learning.", "I just love books." ],
+    "responses": [
+      { "text": "About other things…", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" },
+      {
+        "text": "Let me see what you have.",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
+        "effect": "start_trade"
+      },
+      { "text": "When will you have new material?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AskedRestock" },
+      { "text": "That's all for now.  Take care.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GREAT_LIBRARY_LIBRARIAN_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "It can be hard to predict the way things are now, but I am expecting new materials around <interval>.",
+      "I am expecting some new materials <interval>, hopefully some good escapism."
+    ],
+    "responses": [
+      { "text": "Actually, I wanted to ask…", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" },
+      { "text": "Thanks, I will make sure to check back.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GREAT_LIBRARY_LIBRARIAN_Intro",
+    "type": "talk_topic",
+    "dynamic_line": "Before you ask, we can't lend out books anymore.  We've had too many stolen and destroyed.  If you want to read something, either do it here or I will need to sell it to you for something useful, like a book.  Oh, my name is Elvira Fish, I run Circulations here.  I hope you learn something.",
+    "speaker_effect": [
+      {
+        "sentinel": "has_onetime_greeting_effect",
+        "condition": { "not": { "u_has_effect": "u_Elvira_onetime_greeting" } },
+        "effect": [ { "u_add_effect": "u_Elvira_onetime_greeting", "duration": "12 hours" } ]
+      }
+    ],
+    "responses": [
+      { "text": "Can you answer some questions for me?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" },
+      {
+        "text": "Let me look at what you have.",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
+        "effect": "start_trade"
+      },
+      { "text": "I just want to browse.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_GREAT_LIBRARY_LIBRARIAN_Talk",
+      "TALK_GREAT_LIBRARY_LIBRARIAN_AboutGreeting_End",
+      "TALK_GREAT_LIBRARY_LIBRARIAN_WhosInCharge"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": [ "Of course, how can I help?", "I would be happy to assist.", "Of course, please ask.", "What questions do you have?" ],
+    "responses": [
+      {
+        "text": "You can't lend out books?  What kind of library is that?",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AboutGreeting",
+        "condition": { "u_has_effect": "u_Elvira_onetime_greeting" },
+        "effect": { "u_lose_effect": "u_Elvira_onetime_greeting" }
+      },
+      { "text": "What are you doing here?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Plans" },
+      { "text": "You want even more books?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_MoreBooks" },
+      { "text": "Who's in charge here?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_WhosInCharge" },
+      { "text": "Is there any way I can join your group?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AskJoin" },
+      { "text": "What's your story?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AboutMe" },
+      {
+        "text": "Have you heard anything about the rest of the world?",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld"
+      },
+      {
+        "text": "Let me see what you have.",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
+        "effect": "start_trade"
+      },
+      { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld",
+      "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld1",
+      "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld2"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Some, here and there.  My responsibilities keep me here but I have spoken with traveling merchants.  They thought we wanted guns and were confused that we wished to trade books for books.  I must assume that most of the other survivors are more violent and less scholarly.",
+    "responses": [
+      {
+        "text": "Are there any other settlements around?",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Robofac",
+        "condition": {
+          "and": [
+            {
+              "not": { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Are there any other settlements around?",
+        "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld2",
+        "condition": {
+          "or": [
+            { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "That's fine for now.", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_GREAT_LIBRARY_LIBRARIAN_MoreBooks",
+    "type": "talk_topic",
+    "dynamic_line": "Yes we are.  We still have some of our original collection, but far too much of it was stolen or destroyed, and of course it was far from complete even before.  Some of us go out to try and rebuild the collection from towns nearby, but mostly we rely on people passing through like you.  We especially want anything rare and hard to find.",
+    "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" } ]
+  }
+]

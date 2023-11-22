@@ -1,7 +1,7 @@
 [
   {
     "id": "biokin_hammerhand_item",
-    "type": "TOOL",
+    "type": "TOOL_ARMOR",
     "name": { "str_sp": "hammerhand" },
     "description": "You can perform many common handy tasks with your bare hands.",
     "weight": "0 g",
@@ -11,12 +11,12 @@
     "symbol": "$",
     "color": "pink",
     "flags": [
+      "PERSONAL",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
       "ALLOWS_NATURAL_ATTACKS",
       "INTEGRATED",
       "PADDED",
-      "PERSONAL",
       "SEMITANGIBLE",
       "ONLY_ONE",
       "NO_DROP"
@@ -31,7 +31,8 @@
       [ "PRYING_NAIL", 1 ],
       [ "PRY", 2 ]
     ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "biokin_enhance_mobility_item_1",
@@ -223,7 +224,7 @@
   },
   {
     "id": "pyrokinetic_fire_tool",
-    "type": "TOOL",
+    "type": "TOOL_ARMOR",
     "name": { "str": "pyrokinetic fire" },
     "description": "Dancing flames hovering over your hand.  You can use this to provide heat and light when necessary.",
     "weight": "0 g",
@@ -232,15 +233,18 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE" ],
+    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE", "NO_DROP" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HEAT_FOOD" } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
+    },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "pyrokinetic_torch_weld",
-    "type": "TOOL",
-    "name": { "str": "pyrokinetic lance" },
+    "type": "TOOL_ARMOR",
+    "name": { "str": "incandescent lance" },
     "description": "A thin, searing beam, almost too bright to look at.  You can use this to weld or cut through things.",
     "weight": "0 g",
     "volume": "0 L",
@@ -248,10 +252,13 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_50", "FIRE" ],
+    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "LIGHT_50", "FIRE", "NO_DROP" ],
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [ { "type": "firestarter", "moves": 10 }, { "type": "OXYTORCH" } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -700 } ] } ]
+    },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "telekinetic_container_1",
@@ -1092,20 +1099,6 @@
         "volume_encumber_modifier": 0
       }
     ]
-  },
-  {
-    "id": "telekin_ritual_summon_strength_item",
-    "type": "GENERIC",
-    "name": { "str": "Enhanced Strength" },
-    "description": "You are focusing your concentration on moving very heavy objects.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 1,
-    "price_postapoc": 1,
-    "symbol": "0",
-    "color": "yellow",
-    "flags": [ "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "id": "telekin_ritual_summon_strength_enchant" } ] }
   },
   {
     "id": "telekin_lifting_jack_1",

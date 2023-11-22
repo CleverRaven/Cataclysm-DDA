@@ -10,7 +10,7 @@
         "coverage": 15,
         "difficulty": { "melee": 4, "ranged": 6 },
         "coverage_mult": { "bash": 0.5 },
-        "armor_mult": { "point": 0.5, "cut": 1.1 },
+        "armor_mult": { "stab": 0.5, "cut": 1.1 },
         "effects": [
           {
             "effect": "stunned",
@@ -56,7 +56,7 @@
         "name": "the weapon",
         "coverage": 20,
         "difficulty": { "melee": 4, "ranged": 5 },
-        "armor_mult": { "bash": 0.5, "point": 0.5, "cut": 0.75 },
+        "armor_mult": { "bash": 0.5, "stab": 0.5, "cut": 0.75 },
         "effects": [
           {
             "effect": "stunned",
@@ -78,7 +78,7 @@
         "name": "the shaft",
         "coverage": 30,
         "difficulty": { "melee": 1, "ranged": 6 },
-        "armor_mult": { "broad": 0.75, "stab": 1.5 }
+        "armor_mult": { "bash": 0.75, "stab": 1.5 }
       }
     ]
   },

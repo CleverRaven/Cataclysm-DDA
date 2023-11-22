@@ -36,7 +36,7 @@
   {
     "type": "GENERIC",
     "id": "triffid_spellbook",
-    "name": { "str": "chunk of plant matter" },
+    "name": { "str": "chunk of plant matter", "str_pl": "chunks of plant matter" },
     "description": "This strange plant feels slightly oily and smells odd.  The smell seems to change slowly, from loamy earth to a rich vegetal smell to something acrid that burns your nose to an herbal scent, with no discernable pattern.  You're not sure what this is.",
     "//": "As the id indicates, this is a triffid spellbook, encoding information using scents and chemical triggers.  There's essentially zero chance of the survivor figuring out how to read it.",
     "weight": "1219 g",

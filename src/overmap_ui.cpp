@@ -1698,7 +1698,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         // already in water or going to a water tile
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
             is_river_or_lake( dest_ter ) ) {
-            params.water_cost = 100;
+            params.set_cost( oter_travel_cost_type::water, 100 );
         }
     }
     // literal "edge" case: the vehicle may be in a different OMT than the player

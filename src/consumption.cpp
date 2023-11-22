@@ -59,6 +59,7 @@ static const std::string comesttype_FOOD( "FOOD" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
+static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -226,7 +227,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         return {};
     }
 
-    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins();
 
     // for actual vitamins convert RDA to a internal value
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -269,9 +270,14 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 static nutrients compute_default_effective_nutrients( const item &comest,
         const Character &you, const cata::flat_set<flag_id> &extra_flags = {} )
 {
+    nutrients ret;
     // Multiply by 1000 to get it in calories
-    return { compute_default_effective_kcal( comest, you, extra_flags ) * 1000,
-             compute_default_effective_vitamins( comest, you ) };
+    ret.calories = compute_default_effective_kcal( comest, you, extra_flags ) * 1000;
+    for( const std::pair<const vitamin_id, int> &vit :  compute_default_effective_vitamins( comest,
+            you ) ) {
+        ret.set_vitamin( vit.first, vit.second );
+    }
+    return ret;
 }
 
 // Calculate the nutrients that the given character would receive from consuming
@@ -872,6 +878,12 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         !has_effect( effect_hunger_starving ) && !has_effect( effect_hunger_famished ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "You deserve better food than this." ) );
+    }
+
+    if( has_trait( trait_PICKYEATER ) && drinkable && !food.is_medication() &&
+        fun_for( food ).first < 0 && get_thirst() < 240 ) {
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "You are not going to drink this." ) );
     }
 
     return ret_val<edible_rating>::make_success();
@@ -1606,7 +1618,7 @@ bool Character::consume_effects( item &food )
     if( is_avatar() ) {
         get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
     }
-    for( const auto &v : ingested.nutr.vitamins ) {
+    for( const auto &v : ingested.nutr.vitamins() ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
         daily_vitamins[v.first].first += v.second;
@@ -1617,7 +1629,8 @@ bool Character::consume_effects( item &food )
 
 bool Character::can_estimate_rot() const
 {
-    return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
+    return get_greater_skill_or_knowledge_level( skill_cooking ) >= 3 ||
+           get_greater_skill_or_knowledge_level( skill_survival ) >= 4;
 }
 
 bool Character::can_consume_as_is( const item &it ) const
@@ -1678,7 +1691,12 @@ time_duration Character::get_consume_time( const item &it ) const
         if( consume_drug != nullptr ) { //its a drug
             const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                     ( consume_drug->get_actor_ptr() );
-            if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() ) {
+            if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
+                has_bionic( bio_syringe ) ) {
+                time = time_duration::from_seconds(
+                           15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
+            } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
+                       consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
             } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
                        consume_drug_use->tools_needed.end() ||

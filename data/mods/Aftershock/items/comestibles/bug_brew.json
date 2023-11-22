@@ -99,7 +99,7 @@
     "material": [ "flesh" ],
     "calories": 360,
     "healthy": 3,
-    "description": "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
+    "description": "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are a sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
     "fun": 0,
     "freezing_point": -9999,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "bad_food", 1 ] ],

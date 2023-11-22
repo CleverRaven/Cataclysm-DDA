@@ -1,169 +1,6 @@
 [
   {
     "type": "mutation",
-    "id": "IERDE_SKIN_1",
-    "name": { "str": "Clay of the earth" },
-    "points": 0,
-    "visibility": 2,
-    "ugliness": 0,
-    "description": "Your skin has turned the color of manganese stained soil.  Your skin is now a purplish black.  This has no gameplay effects.",
-    "types": [ "skin_tone" ],
-    "leads_to": [ "IERDE_SKIN_2" ],
-    "category": [ "IERDE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "IERDE_SKIN_2",
-    "name": { "str": "pebbled skin" },
-    "points": 2,
-    "visibility": 4,
-    "ugliness": 3,
-    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
-    "types": [ "SKIN" ],
-    "category": [ "IERDE" ],
-    "prereqs": [ "IERDE_SKIN_1" ],
-    "changes_to": [ "IERDE_SKIN_3" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 2 },
-      { "part": "leg_l", "ignored": 5 },
-      { "part": "leg_r", "ignored": 5 },
-      { "part": "foot_l", "ignored": 2 },
-      { "part": "foot_r", "ignored": 2 },
-      { "part": "arm_l", "ignored": 4 },
-      { "part": "arm_r", "ignored": 4 },
-      { "part": "hand_l", "ignored": 1 },
-      { "part": "hand_r", "ignored": 1 },
-      { "part": "torso", "ignored": 6 }
-    ],
-    "integrated_armor": [ "integrated_pebbled" ]
-  },
-  {
-    "type": "mutation",
-    "id": "IERDE_SKIN_3",
-    "name": { "str": "stone skin" },
-    "points": 3,
-    "visibility": 10,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "Your skin has developed into strong granite-like covering that retains some flexibility and has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
-    "types": [ "skin_tone" ],
-    "prereqs": [ "IERDE_SKIN_2" ],
-    "threshreq": [ "THRESH_IERDE" ],
-    "category": [ "IERDE" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
-    ],
-    "integrated_armor": [ "integrated_granite_skin" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SKIN_1",
-    "name": { "str": "viridian skin" },
-    "points": 0,
-    "visibility": 2,
-    "ugliness": 0,
-    "description": "Your skin has turned the color of spring growth.  Your skin is now a viridian green.  This has no gameplay effects.",
-    "types": [ "SKIN" ],
-    "leads_to": [ "ARVORE_SKIN_2" ],
-    "category": [ "ARVORE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SKIN_2",
-    "name": { "str": "vegital cuticle" },
-    "points": 2,
-    "visibility": 2,
-    "ugliness": 1,
-    "description": "Your skin has turned into a type of plant matter, which in addition to any armoring slows your loss of fluids.",
-    "types": [ "SKIN" ],
-    "category": [ "ARVORE" ],
-    "prereqs": [ "ARVORE_SKIN_1" ],
-    "changes_to": [ "ARVORE_SKIN_3" ],
-    "thirst_modifier": -0.3,
-    "integrated_armor": [ "integrated_vegital_cuticle" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SKIN_3",
-    "name": { "str": "bark skin" },
-    "points": 3,
-    "visibility": 8,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "The skin on your body has grown into a barklike state.  This provides significantly more armor but reduces flexibility.",
-    "types": [ "SKIN" ],
-    "prereqs": [ "ARVORE_SKIN_2" ],
-    "threshreq": [ "THRESH_ARVORE" ],
-    "category": [ "ARVORE" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
-    ],
-    "integrated_armor": [ "integrated_bark_skin" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_SKIN_1",
-    "name": { "str": "salamander skin" },
-    "points": 0,
-    "visibility": 2,
-    "ugliness": 0,
-    "description": "Your skin has turned the color of an autumnal bonfire.  Your skin is now an orange red with dark freckles.  This has no gameplay effects.",
-    "types": [ "skin_tone" ],
-    "leads_to": [ "SALAMANDER_SKIN_2" ],
-    "category": [ "SALAMANDER" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_SKIN_2",
-    "name": { "str": "burning coals skin" },
-    "points": 2,
-    "visibility": 4,
-    "ugliness": 3,
-    "description": "Your skin has has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
-    "types": [ "SKIN" ],
-    "category": [ "SALAMANDER" ],
-    "prereqs": [ "SALAMANDER_SKIN_1" ],
-    "changes_to": [ "SALAMANDER_SKIN_3" ],
-    "weakness_to_water": 1,
-    "integrated_armor": [ "integrated_coal_skin" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_SKIN_3",
-    "name": { "str": "flame skin" },
-    "points": 3,
-    "visibility": 10,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
-    "types": [ "SKIN" ],
-    "flags": [ "HEAT_IMMUNE" ],
-    "prereqs": [ "SALAMANDER_SKIN_2" ],
-    "threshreq": [ "THRESH_SALAMANDER" ],
-    "category": [ "SALAMANDER" ],
-    "weakness_to_water": 4,
-    "integrated_armor": [ "integrated_flameskin" ]
-  },
-  {
-    "type": "mutation",
     "id": "HOMULLUS_SKIN_1",
     "name": { "str": "mannequin skin" },
     "points": 0,
@@ -362,7 +199,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": 10 } ]
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": -10 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -375,6 +212,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "changes_to": "SLYPH_RESIST_COLD3",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -382,6 +220,36 @@
       }
     ],
     "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD3",
+    "name": { "str": "Dancing On Winter Winds" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SLYPH_RESIST_COLD2" ],
+    "description": "The sylph is nearly immune to mundane cold and heavily resistant to cold-based damage.",
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PUSHING_WIND" ],
+    "description": "Upon gaining this ability the Sylph gains the ability to grow a goblin fruit when outdoors and the wind is blowing strongly.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_cultivate_goblin_fruit", 1 ] ]
   },
   {
     "type": "mutation",

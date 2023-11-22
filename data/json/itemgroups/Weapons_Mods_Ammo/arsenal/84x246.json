@@ -3,7 +3,15 @@
     "type": "item_group",
     "id": "milspec_arsenal_84x246_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_84x246_gun&ammo" }, { "item": "ammunition_box_carlgustav", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_84x246_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammunition_box_carlgustav_he", "count": [ 1, 4 ] },
+          { "item": "ammunition_box_carlgustav_hedp", "count": [ 1, 4 ] }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -29,44 +37,6 @@
       { "item": "m3_carlgustav", "prob": 100 },
       { "item": "m4_carlgustav", "prob": 70 },
       { "item": "AT4", "prob": 50, "count": [ 1, 3 ], "charges-min": 1, "charges-max": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_84x246mm_any_full",
-    "items": [ { "group": "ammo_box_84x246mm_he_full", "prob": 100 }, { "group": "ammo_box_84x246mm_hedp_full", "prob": 50 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_84x246mm_he_full",
-    "container-item": "ammunition_box_carlgustav",
-    "items": [ { "group": "ammo_can_84x246mm_he_full", "count": 3 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_84x246mm_hedp_full",
-    "container-item": "ammunition_box_carlgustav",
-    "items": [ { "group": "ammo_can_84x246mm_hedp_full", "count": 3 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_84x246mm_he_full",
-    "//": "1 charge per pocket. the charge system in items must die",
-    "container-item": "ammunition_can_carlgustav",
-    "subtype": "collection",
-    "items": [
-      { "item": "84x246mm_he", "count": 1, "charges-min": 1, "charges-max": 1 },
-      { "item": "84x246mm_he", "count": 1, "charges-min": 1, "charges-max": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_84x246mm_hedp_full",
-    "container-item": "ammunition_can_carlgustav",
-    "subtype": "collection",
-    "items": [
-      { "item": "84x246mm_hedp", "count": 1, "charges-min": 1, "charges-max": 1 },
-      { "item": "84x246mm_hedp", "count": 1, "charges-min": 1, "charges-max": 1 }
     ]
   }
 ]

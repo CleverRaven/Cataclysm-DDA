@@ -51,7 +51,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
@@ -627,7 +627,6 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "initial_charges": [ 12, 24 ],
         "ammo_restriction": { "hydrogen": 24 },
         "watertight": true
       }
@@ -701,7 +700,6 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "initial_charges": [ 12, 24 ],
         "ammo_restriction": { "nitrogen": 24 },
         "watertight": true
       }

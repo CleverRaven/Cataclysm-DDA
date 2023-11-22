@@ -71,6 +71,7 @@
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
       { "item": "scrap", "price": 200, "fixed_adj": 0 },
+      { "item": "nuts_bolts", "price": 500, "fixed_adj": 0 },
       { "item": "sheet_metal_small", "price": 400, "fixed_adj": 0 },
       { "item": "steel_chunk", "price": 400, "fixed_adj": 0 },
       { "item": "steel_lump", "price": 600, "fixed_adj": 0 },
@@ -158,6 +159,7 @@
     "subtype": "collection",
     "items": [
       { "item": "scrap", "count": [ 125, 250 ] },
+      { "item": "nuts_bolts", "count": [ 10, 25 ] },
       { "item": "sheet_metal_small", "count": [ 50, 100 ] },
       { "item": "steel_chunk", "count": [ 100, 200 ] },
       { "item": "steel_lump", "count": [ 50, 100 ] },
@@ -275,7 +277,14 @@
     "dynamic_line": [ "Anything else you need?" ],
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
+      { "text": "Find anything good?", "topic": "TALK_SCRAP_TRADER_ASK_INTERVAL" },
       { "text": "Can I have another look?", "topic": "TALK_SCRAP_TRADER_BULK_SELL_END", "effect": "start_trade" }
     ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "Nope, although I have a really good claim by the river.  Gonna go fetch them soon, be right back in <interval>.",
+    "responses": [ { "text": "Well, good luck.", "topic": "TALK_NPC_SCRAP_TRADER" } ]
   }
 ]

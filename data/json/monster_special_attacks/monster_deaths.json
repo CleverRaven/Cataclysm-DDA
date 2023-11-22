@@ -626,6 +626,25 @@
     "effect_str": "EOC_last_amigara_death"
   },
   {
+    "id": "death_yrax_sphenocorona",
+    "type": "SPELL",
+    "name": { "str": "Sphenocorona Death?" },
+    "description": "Spawns a golden monolith.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX", "SILENT", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground", "self" ],
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 0,
+    "max_range": 0,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "base_casting_time": 1,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_golden_monolith"
+  },
+  {
     "id": "death_slimespring",
     "type": "SPELL",
     "name": { "str": "Slime Microbian Death" },

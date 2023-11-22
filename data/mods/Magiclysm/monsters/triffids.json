@@ -50,7 +50,7 @@
     "dissect": "dissect_plant_sample_single",
     "fungalize_into": "mon_fungaloid",
     "death_drops": { "subtype": "collection", "items": [ { "item": "triffid_spellbook", "prob": 25 } ] },
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "SEES", "HAS_MIND", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
@@ -81,7 +81,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_cone", "min_level": 3 },
         "cooldown": 15,
-        "monster_message": "%1$s waves its fronds and pollen erupts out in a cone!."
+        "monster_message": "%1$s waves its fronds and pollen erupts out in a cone!"
       },
       {
         "id": "triffid_seedshaper_heal",
@@ -111,7 +111,7 @@
     "dissect": "dissect_plant_sample_single",
     "fungalize_into": "mon_fungaloid",
     "death_drops": { "subtype": "collection", "items": [ { "item": "triffid_spellbook", "prob": 25 } ] },
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   }
 ]

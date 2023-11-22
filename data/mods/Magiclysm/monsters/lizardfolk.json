@@ -38,6 +38,7 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
+      "HAS_MIND",
       "PATH_AVOID_DANGER_1",
       "CLIMBS",
       "GROUP_MORALE",
@@ -45,7 +46,8 @@
       "PUSH_MON",
       "SWARMS",
       "CAN_OPEN_DOORS",
-      "NO_BREATHE"
+      "NO_BREATHE",
+      "WIELDED_WEAPON"
     ],
     "armor": { "bash": 2, "cut": 12, "stab": 6, "bullet": 10 }
   },
@@ -65,6 +67,7 @@
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 8,
         "fake_per": 8,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
         "description": "The hunter hurls a barbed javelin at you!"
@@ -104,8 +107,8 @@
   {
     "id": "mon_lizardfolk_chieftan",
     "type": "MONSTER",
-    "name": "lizardfolk chieftan",
-    "description": "Among the lizardfolk, ambition is a rare quality.  Chieftans earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
+    "name": "lizardfolk chieftain",
+    "description": "Among the lizardfolk, ambition is a rare quality.  Chieftains earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "hp": 200,

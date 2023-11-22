@@ -46,11 +46,25 @@
     "result": "sheet_metal_small",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "12 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "railroad_track_item",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "railroad_track_item_half", 2 ] ] ]
+  },
+  {
+    "result": "railroad_track_item_half",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "50 m",
+    "tools": [ [ [ "angle_grinder", 45 ] ] ],
+    "components": [ [ [ "mc_steel_lump", 30 ] ] ]
   },
   {
     "result": "exodii_ingot_tin",
@@ -299,7 +313,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 54 ] ] ]
   },
   {
     "result": "exodii_ingot_plastic",
@@ -390,7 +404,13 @@
     "difficulty": 1,
     "time": "22 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
+    "components": [
+      [ [ "sheet_cotton", 7 ] ],
+      [ [ "cotton_patchwork", 4 ] ],
+      [ [ "sheet", 4 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "wire", 20 ] ]
+    ]
   },
   {
     "result": "character_sheet",
@@ -625,7 +645,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "down_feather", 50 ] ] ]
+    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "down_feather", 50 ] ] ]
   },
   {
     "result": "well_pump",
@@ -682,5 +702,13 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap_tin", 5 ] ] ]
+  },
+  {
+    "result": "bag_body_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "plastic_sheet", 4 ] ] ]
   }
 ]

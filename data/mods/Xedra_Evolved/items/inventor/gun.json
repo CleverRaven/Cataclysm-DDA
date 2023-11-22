@@ -17,14 +17,28 @@
     "ammo": "battery",
     "ammo_to_fire": 5,
     "range": 7,
-    "ranged_damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 2 },
+    "ranged_damage": { "damage_type": "heat", "amount": 15 },
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
     "reload": 250,
-    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "heat_per_shot": 6,
+    "cooling_value": 3,
+    "overheat_threshold": 100,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "lens", 1 ],
+      [ "heat sink", 1 ],
+      [ "radiator", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -54,17 +68,22 @@
     "ammo": "battery",
     "ammo_to_fire": 15,
     "range": 16,
-    "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 6 },
+    "ranged_damage": { "damage_type": "heat", "amount": 25 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
     "reload": 250,
+    "heat_per_shot": 8,
+    "cooling_value": 5,
+    "overheat_threshold": 120,
     "valid_mod_locations": [
       [ "emitter", 1 ],
+      [ "lens", 1 ],
+      [ "heat sink", 1 ],
+      [ "radiator", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
-      [ "lens", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -72,7 +91,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -102,17 +122,22 @@
     "ammo": "battery",
     "ammo_to_fire": 30,
     "range": 32,
-    "ranged_damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 6 },
+    "ranged_damage": { "damage_type": "heat", "amount": 35 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "dispersion": 15,
     "durability": 8,
     "loudness": 25,
     "reload": 350,
+    "heat_per_shot": 11,
+    "cooling_value": 6,
+    "overheat_threshold": 130,
     "valid_mod_locations": [
       [ "emitter", 2 ],
+      [ "lens", 2 ],
+      [ "heat sink", 2 ],
+      [ "radiator", 2 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
-      [ "lens", 2 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -120,7 +145,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -153,10 +179,15 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 45,
+    "heat_per_shot": 15,
+    "cooling_value": 6,
+    "overheat_threshold": 150,
     "valid_mod_locations": [
       [ "emitter", 1 ],
-      [ "grip", 1 ],
       [ "lens", 1 ],
+      [ "grip", 1 ],
+      [ "heat sink", 1 ],
+      [ "radiator", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -165,7 +196,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
     "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 m", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 480 }, "airtight": true } ]
   },
@@ -190,7 +222,7 @@
     "armor": [
       { "encumbrance": [ 20, 22 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE" ]
   },
   {
     "id": "bio_warhead",
@@ -245,7 +277,7 @@
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "MUNDANE" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -360,7 +392,6 @@
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
-    "min_cycle_recoil": 0,
     "default_mods": [ "inventor_glauncher_expl" ],
     "valid_mod_locations": [
       [ "underbarrel", 1 ],
@@ -437,7 +468,6 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "overwrite_min_cycle_recoil": 1350,
     "description": "Modified energy transformer, that convert the power flow into slow heat cloud, that ignite everything around."
   },
   {
@@ -468,7 +498,6 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "overwrite_min_cycle_recoil": 1350,
     "description": "Instead converting energy, this energy transformer emit it as it is, throwing a giant high-voltage cloud."
   },
   {
@@ -496,7 +525,6 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "overwrite_min_cycle_recoil": 1350,
     "description": "Bunch of powerful lenses and reflectors, that transform the energy output into powerful directed laser beam."
   },
   {
@@ -734,6 +762,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
+        "rigid": true,
         "ammo_restriction": {
           "10mm": 12,
           "22": 16,

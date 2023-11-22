@@ -97,6 +97,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "variant": <string>
 "artifact": <object>
 "event": <string>
+"snippets": <string>
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -110,6 +111,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `variant`: A valid itype variant id for this item.
 
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
+
+`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
 
 Current possible values are:
 - "none" (Not event-based. Same as omitting the "event" field.)

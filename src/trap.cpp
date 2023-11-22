@@ -168,7 +168,9 @@ void trap::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "sound_threshold", sound_threshold );

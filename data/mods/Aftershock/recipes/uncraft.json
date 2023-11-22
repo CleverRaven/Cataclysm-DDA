@@ -32,7 +32,7 @@
     "difficulty": 4,
     "time": "1 h",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "welder", 100 ], [ "toolset", 150 ] ] ],
+    "tools": [ [ [ "welder", 100 ], [ "integrated_welder", 150 ] ] ],
     "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
   },
   {

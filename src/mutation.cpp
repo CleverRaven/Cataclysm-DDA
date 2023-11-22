@@ -57,11 +57,13 @@ static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
+static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
+static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
@@ -871,7 +873,7 @@ void Character::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
-    } else if( mut == trait_TREE_COMMUNION ) {
+    } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
         if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
             add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
@@ -890,8 +892,10 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
 
-        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
-            has_flag( json_flag_CHLOROMORPH ) ) {
+        if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
+            add_msg_if_player( _( "You close your eyes and reach out to the spirits of the forest." ) );
+        } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
+                   has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player(
@@ -900,8 +904,12 @@ void Character::activate_mutation( const trait_id &mut )
 
         assign_activity( ACT_TREE_COMMUNION );
 
-        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
-            has_flag( json_flag_CHLOROMORPH ) ) {
+        if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
+            const time_duration startup_time = rng( 10_minutes, 20_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
+                   has_flag( json_flag_CHLOROMORPH ) ) {
             const time_duration startup_time = ( has_flag( json_flag_ROOTS3 ) ||
                                                  has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
                                                          30_minutes ) : rng( 60_minutes, 90_minutes );
@@ -1075,11 +1083,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     bool allow_good = false;
     bool allow_bad = false;
     bool allow_neutral = true;
+    bool try_opposite = true;
 
     if( select_mutation ) {
         // Mutation selector overrides good / bad mutation rolls
         allow_good = true;
         allow_bad = true;
+        try_opposite = false;
     } else if( roll_bad_mutation() ) {
         // If we picked bad, mutation can be bad or neutral
         allow_bad = true;
@@ -1098,6 +1108,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         allow_good = true; // because i'm WILD YEAH
         allow_bad = true;
         allow_neutral = true;
+        try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
@@ -1114,6 +1125,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         add_msg_debug( debugmode::DF_MUTATION, "mutate: Genetic Downward Spiral found, all bad traits" );
         allow_good = false;
         allow_bad = true;
+        try_opposite = false;
     }
 
     std::vector<trait_id> valid; // Valid mutations
@@ -1236,6 +1248,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         }
         if( valid.empty() ) {
+            if( try_opposite && cat_list.get_weight() == 0 ) {
+                // Rebuild cat_list to try opposite in case good or bad mutation candidates are exhausted.
+                try_opposite = false;
+                allow_good = !allow_good;
+                allow_bad = !allow_bad;
+                cat_list = get_vitamin_weighted_categories();
+            }
             if( cat_list.get_weight() > 0 ) {
                 // try to pick again
                 cat = *cat_list.pick();

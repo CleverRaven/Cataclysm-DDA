@@ -8846,7 +8846,7 @@
         { "id": "overlay_female_worn_welding_mask_crude", "fg": 8120 },
         { "id": "overlay_male_worn_welding_mask_crude", "fg": 8121 },
         { "id": "overlay_female_worn_welding_mask_crude_raised", "fg": 8122 },
-        { "id": "overlay_male_worn_welding_mask_crude_raised", "fg": 8608 },
+        { "id": "overlay_male_worn_welding_mask_crude_raised", "fg": 8612 },
         { "id": "overlay_female_worn_welding_mask", "fg": 8123 },
         { "id": "overlay_male_worn_welding_mask", "fg": 8124 },
         { "id": "overlay_female_worn_welding_mask_raised", "fg": 8125 },
@@ -10098,10 +10098,10 @@
       "sprite_offset_y": -72,
       "pixelscale": 2,
       "tiles": [
-        { "id": "npc_female", "fg": 8601, "bg": 8436 },
-        { "id": "npc_male", "fg": 8602, "bg": 8436 },
-        { "id": "player_female", "fg": 8601, "bg": 8436 },
-        { "id": "player_male", "fg": 8602, "bg": 8436 },
+        { "id": "npc_female", "fg": 8605, "bg": 8436 },
+        { "id": "npc_male", "fg": 8606, "bg": 8436 },
+        { "id": "player_female", "fg": 8605, "bg": 8436 },
+        { "id": "player_male", "fg": 8606, "bg": 8436 },
         { "id": "mon_zombie_phase_skulker", "fg": 8418, "bg": 8436 },
         { "id": "mon_zombie_phase_shrike", "fg": 8417, "bg": 8436 },
         { "id": "mon_broken_cyborg", "fg": 8419, "bg": 8436 },
@@ -10140,224 +10140,230 @@
         { "id": "mon_feral_labsecurity_flashlight", "fg": 8442, "bg": 8436 },
         { "id": "mon_feral_scientist_scalpel", "fg": 8445, "bg": 8436 },
         {
+          "id": "mon_civilian_zombiefighter",
+          "fg": [ { "weight": 1, "sprite": 8446 }, { "weight": 1, "sprite": 8447 }, { "weight": 1, "sprite": 8448 } ],
+          "bg": 8436
+        },
+        { "id": "mon_feral_cop", "fg": 8449, "bg": 8436 },
+        {
           "id": "mon_feral_armored_battleaxe",
-          "fg": [ { "weight": 1, "sprite": 8446 }, { "weight": 1, "sprite": 8447 } ],
-          "bg": 8436
-        },
-        {
-          "id": "mon_feral_armored_mace",
-          "fg": [ { "weight": 1, "sprite": 8448 }, { "weight": 1, "sprite": 8449 } ],
-          "bg": 8436
-        },
-        {
-          "id": "mon_feral_fancy_crossbow",
           "fg": [ { "weight": 1, "sprite": 8450 }, { "weight": 1, "sprite": 8451 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_fancy_rapier",
+          "id": "mon_feral_armored_mace",
           "fg": [ { "weight": 1, "sprite": 8452 }, { "weight": 1, "sprite": 8453 } ],
           "bg": 8436
         },
-        { "id": "mon_feral_fancy_rapier_fake", "fg": 8454, "bg": 8436 },
-        { "id": "mon_feral_human_axe_fungal_corpse", "fg": 8455, "bg": 8436 },
-        { "id": "mon_feral_human_crowbar_fungal_corpse", "fg": 8457, "bg": 8436 },
-        { "id": "mon_feral_human_pipe_fungal_corpse", "fg": 8459, "bg": 8436 },
-        { "id": "mon_feral_human_axe_fungal_infected", "fg": 8456, "bg": 8436 },
-        { "id": "mon_feral_human_crowbar_fungal_infected", "fg": 8458, "bg": 8436 },
-        { "id": "mon_feral_human_pipe_fungal_infected", "fg": 8460, "bg": 8436 },
+        {
+          "id": "mon_feral_fancy_crossbow",
+          "fg": [ { "weight": 1, "sprite": 8454 }, { "weight": 1, "sprite": 8455 } ],
+          "bg": 8436
+        },
+        {
+          "id": "mon_feral_fancy_rapier",
+          "fg": [ { "weight": 1, "sprite": 8456 }, { "weight": 1, "sprite": 8457 } ],
+          "bg": 8436
+        },
+        { "id": "mon_feral_fancy_rapier_fake", "fg": 8458, "bg": 8436 },
+        { "id": "mon_feral_human_axe_fungal_corpse", "fg": 8459, "bg": 8436 },
+        { "id": "mon_feral_human_crowbar_fungal_corpse", "fg": 8461, "bg": 8436 },
+        { "id": "mon_feral_human_pipe_fungal_corpse", "fg": 8463, "bg": 8436 },
+        { "id": "mon_feral_human_axe_fungal_infected", "fg": 8460, "bg": 8436 },
+        { "id": "mon_feral_human_crowbar_fungal_infected", "fg": 8462, "bg": 8436 },
+        { "id": "mon_feral_human_pipe_fungal_infected", "fg": 8464, "bg": 8436 },
         {
           "id": "mon_feral_human_tool",
-          "fg": [ { "weight": 1, "sprite": 8461 }, { "weight": 1, "sprite": 8462 } ],
-          "bg": 8436
-        },
-        {
-          "id": "mon_feral_maid_broom",
-          "fg": [ { "weight": 1, "sprite": 8463 }, { "weight": 1, "sprite": 8464 } ],
-          "bg": 8436
-        },
-        {
-          "id": "mon_feral_maid_candlestick",
           "fg": [ { "weight": 1, "sprite": 8465 }, { "weight": 1, "sprite": 8466 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_maid_knife",
+          "id": "mon_feral_maid_broom",
           "fg": [ { "weight": 1, "sprite": 8467 }, { "weight": 1, "sprite": 8468 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_militia",
+          "id": "mon_feral_maid_candlestick",
           "fg": [ { "weight": 1, "sprite": 8469 }, { "weight": 1, "sprite": 8470 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_prepper",
+          "id": "mon_feral_maid_knife",
           "fg": [ { "weight": 1, "sprite": 8471 }, { "weight": 1, "sprite": 8472 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_sapien_spear",
+          "id": "mon_feral_militia",
           "fg": [ { "weight": 1, "sprite": 8473 }, { "weight": 1, "sprite": 8474 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_soldier",
+          "id": "mon_feral_prepper",
           "fg": [ { "weight": 1, "sprite": 8475 }, { "weight": 1, "sprite": 8476 } ],
           "bg": 8436
         },
         {
-          "id": "mon_feral_survivalist",
+          "id": "mon_feral_sapien_spear",
           "fg": [ { "weight": 1, "sprite": 8477 }, { "weight": 1, "sprite": 8478 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_grabber", "fg": 8479, "bg": 8436 },
-        { "id": "mon_zombie_kevlar_1", "fg": 8480, "bg": 8436 },
-        { "id": "mon_bee", "fg": 8481, "bg": 8436 },
-        { "id": "mon_blank", "fg": 8482, "bg": 8436 },
-        { "id": "mon_boomer", "fg": 8483, "bg": 8436 },
-        { "id": "mon_boomer_claymore", "fg": 8484, "bg": 8436 },
-        { "id": "mon_charred_nightmare", "fg": 8485, "bg": 8436 },
-        { "id": "mon_cougar", "fg": 8486, "bg": 8436 },
-        { "id": "mon_dementia", "fg": 8487, "bg": 8436 },
-        { "id": "mon_dermatik", "fg": 8488, "bg": 8436 },
-        { "id": "mon_dragonfly_giant", "fg": 8489, "bg": 8436 },
-        { "id": "mon_dragonfly_mega", "fg": 8490, "bg": 8436 },
-        { "id": "mon_flesh_golem", "fg": 8491, "bg": 8436 },
-        { "id": "mon_fleshy_shambler", "fg": 8492, "bg": 8436 },
-        { "id": "mon_fly", "fg": 8493, "bg": 8436 },
-        { "id": "mon_gozu", "fg": 8494, "bg": 8436 },
-        { "id": "mon_hallu_mannequin", "fg": 8495, "bg": 8436 },
-        { "id": "mon_mannequin_decoy", "fg": 8495, "bg": 8436 },
-        { "id": "mon_hallu_mom", "fg": 8496, "bg": 8436 },
-        { "id": "mon_hologram", "fg": 8497, "bg": 8436 },
         {
-          "id": "mon_hunting_horror",
-          "fg": [ { "weight": 1, "sprite": 8498 }, { "weight": 1, "sprite": 8499 }, { "weight": 1, "sprite": 8500 } ],
+          "id": "mon_feral_soldier",
+          "fg": [ { "weight": 1, "sprite": 8479 }, { "weight": 1, "sprite": 8480 } ],
           "bg": 8436
         },
-        { "id": "mon_marloss_zealot_f", "fg": 8501, "bg": 8436 },
-        { "id": "mon_marloss_zealot_m", "fg": 8502, "bg": 8436 },
-        { "id": "mon_mutant_experimental", "fg": 8503, "bg": 8436 },
-        { "id": "mon_riotbot", "fg": 8504, "bg": 8436 },
-        { "id": "mon_skeleton", "fg": 8505, "bg": 8436 },
-        { "id": "mon_skeleton_brute", "fg": 8506, "bg": 8436 },
+        {
+          "id": "mon_feral_survivalist",
+          "fg": [ { "weight": 1, "sprite": 8481 }, { "weight": 1, "sprite": 8482 } ],
+          "bg": 8436
+        },
+        { "id": "mon_zombie_grabber", "fg": 8483, "bg": 8436 },
+        { "id": "mon_zombie_kevlar_1", "fg": 8484, "bg": 8436 },
+        { "id": "mon_bee", "fg": 8485, "bg": 8436 },
+        { "id": "mon_blank", "fg": 8486, "bg": 8436 },
+        { "id": "mon_boomer", "fg": 8487, "bg": 8436 },
+        { "id": "mon_boomer_claymore", "fg": 8488, "bg": 8436 },
+        { "id": "mon_charred_nightmare", "fg": 8489, "bg": 8436 },
+        { "id": "mon_cougar", "fg": 8490, "bg": 8436 },
+        { "id": "mon_dementia", "fg": 8491, "bg": 8436 },
+        { "id": "mon_dermatik", "fg": 8492, "bg": 8436 },
+        { "id": "mon_dragonfly_giant", "fg": 8493, "bg": 8436 },
+        { "id": "mon_dragonfly_mega", "fg": 8494, "bg": 8436 },
+        { "id": "mon_flesh_golem", "fg": 8495, "bg": 8436 },
+        { "id": "mon_fleshy_shambler", "fg": 8496, "bg": 8436 },
+        { "id": "mon_fly", "fg": 8497, "bg": 8436 },
+        { "id": "mon_gozu", "fg": 8498, "bg": 8436 },
+        { "id": "mon_hallu_mannequin", "fg": 8499, "bg": 8436 },
+        { "id": "mon_mannequin_decoy", "fg": 8499, "bg": 8436 },
+        { "id": "mon_hallu_mom", "fg": 8500, "bg": 8436 },
+        { "id": "mon_hologram", "fg": 8501, "bg": 8436 },
+        {
+          "id": "mon_hunting_horror",
+          "fg": [ { "weight": 1, "sprite": 8502 }, { "weight": 1, "sprite": 8503 }, { "weight": 1, "sprite": 8504 } ],
+          "bg": 8436
+        },
+        { "id": "mon_marloss_zealot_f", "fg": 8505, "bg": 8436 },
+        { "id": "mon_marloss_zealot_m", "fg": 8506, "bg": 8436 },
+        { "id": "mon_mutant_experimental", "fg": 8507, "bg": 8436 },
+        { "id": "mon_riotbot", "fg": 8508, "bg": 8436 },
+        { "id": "mon_skeleton", "fg": 8509, "bg": 8436 },
+        { "id": "mon_skeleton_brute", "fg": 8510, "bg": 8436 },
         { "id": [ "corpse_mon_skeleton", "corpse_mon_skeleton_brute" ], "fg": 4688 },
-        { "id": "mon_zombie_acidic", "fg": 8507, "bg": 8436 },
-        { "id": "mon_zombie_corrosive", "fg": 8508, "bg": 8436 },
-        { "id": "mon_zombie_spitter", "fg": 8509, "bg": 8436 },
-        { "id": "mon_zombie_bio_op", "fg": 8510, "bg": 8436 },
-        { "id": "mon_zombie_bio_op2", "fg": 8511, "bg": 8436 },
+        { "id": "mon_zombie_acidic", "fg": 8511, "bg": 8436 },
+        { "id": "mon_zombie_corrosive", "fg": 8512, "bg": 8436 },
+        { "id": "mon_zombie_spitter", "fg": 8513, "bg": 8436 },
+        { "id": "mon_zombie_bio_op", "fg": 8514, "bg": 8436 },
+        { "id": "mon_zombie_bio_op2", "fg": 8515, "bg": 8436 },
         {
           "id": "mon_zombie_brute",
           "fg": [
-            { "weight": 100, "sprite": 8512 },
-            { "weight": 100, "sprite": 8513 },
-            { "weight": 50, "sprite": 8514 },
-            { "weight": 50, "sprite": 8515 }
+            { "weight": 100, "sprite": 8516 },
+            { "weight": 100, "sprite": 8517 },
+            { "weight": 50, "sprite": 8518 },
+            { "weight": 50, "sprite": 8519 }
           ],
           "bg": 8435
         },
-        { "id": "mon_zombie_ears", "fg": 8516, "bg": 8436 },
+        { "id": "mon_zombie_ears", "fg": 8520, "bg": 8436 },
         {
           "id": "mon_zombie_fat",
-          "fg": [ { "weight": 1, "sprite": 8517 }, { "weight": 1, "sprite": 8518 } ],
+          "fg": [ { "weight": 1, "sprite": 8521 }, { "weight": 1, "sprite": 8522 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_fiend", "fg": 8519, "bg": 8436 },
+        { "id": "mon_zombie_fiend", "fg": 8523, "bg": 8436 },
         {
           "id": "mon_zombie_gasbag",
-          "fg": [ { "weight": 1, "sprite": 8520 }, { "weight": 1, "sprite": 8521 } ],
+          "fg": [ { "weight": 1, "sprite": 8524 }, { "weight": 1, "sprite": 8525 } ],
           "bg": 8436
         },
         {
           "id": "mon_zombie_grappler",
-          "fg": [ { "weight": 1, "sprite": 8522 }, { "weight": 1, "sprite": 8523 } ],
+          "fg": [ { "weight": 1, "sprite": 8526 }, { "weight": 1, "sprite": 8527 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_hammer_hands", "fg": 8524, "bg": 8435 },
+        { "id": "mon_zombie_hammer_hands", "fg": 8528, "bg": 8435 },
         {
           "id": "mon_zombie_brainless",
-          "fg": [ { "weight": 100, "sprite": 8526 }, { "weight": 100, "sprite": 8527 } ],
-          "bg": 8436
-        },
-        { "id": "mon_zombie_hunter", "fg": 8528, "bg": 8436 },
-        { "id": "mon_zombie_predator", "fg": 8529, "bg": 8436 },
-        {
-          "id": "mon_zombie_mancroc",
           "fg": [ { "weight": 100, "sprite": 8530 }, { "weight": 100, "sprite": 8531 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_plated", "fg": 8532, "bg": 8435 },
-        { "id": "mon_zombie_relax_gasbag", "fg": 8533, "bg": 8436 },
+        { "id": "mon_zombie_hunter", "fg": 8532, "bg": 8436 },
+        { "id": "mon_zombie_predator", "fg": 8533, "bg": 8436 },
+        {
+          "id": "mon_zombie_mancroc",
+          "fg": [ { "weight": 100, "sprite": 8534 }, { "weight": 100, "sprite": 8535 } ],
+          "bg": 8436
+        },
+        { "id": "mon_zombie_plated", "fg": 8536, "bg": 8435 },
+        { "id": "mon_zombie_relax_gasbag", "fg": 8537, "bg": 8436 },
         {
           "id": "mon_zombie_resort_dancer",
-          "fg": [ { "weight": 1, "sprite": 8534 }, { "weight": 1, "sprite": 8535 } ],
+          "fg": [ { "weight": 1, "sprite": 8538 }, { "weight": 1, "sprite": 8539 } ],
           "bg": 8436
         },
         {
           "id": "mon_zombie_resort_staff",
-          "fg": [ { "weight": 1, "sprite": 8536 }, { "weight": 1, "sprite": 8537 } ],
+          "fg": [ { "weight": 1, "sprite": 8540 }, { "weight": 1, "sprite": 8541 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_runner", "fg": 8538, "bg": 8436 },
-        { "id": "mon_zombie_rust", "fg": 8539, "bg": 8436 },
-        { "id": "mon_zombie_scorched", "fg": 8540, "bg": 8436 },
-        { "id": "mon_zombie_shell", "fg": 8542, "bg": 8436 },
-        { "id": "mon_zombie_skull", "fg": 8543, "bg": 8436 },
+        { "id": "mon_zombie_runner", "fg": 8542, "bg": 8436 },
+        { "id": "mon_zombie_rust", "fg": 8543, "bg": 8436 },
+        { "id": "mon_zombie_scorched", "fg": 8544, "bg": 8436 },
+        { "id": "mon_zombie_shell", "fg": 8546, "bg": 8436 },
+        { "id": "mon_zombie_skull", "fg": 8547, "bg": 8436 },
         {
           "id": "mon_zombie_soldier",
-          "fg": [ { "weight": 100, "sprite": 8549 }, { "weight": 100, "sprite": 8550 } ],
+          "fg": [ { "weight": 100, "sprite": 8553 }, { "weight": 100, "sprite": 8554 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_military_pilot", "fg": 8548, "bg": 8436 },
-        { "id": [ "corpse_mon_zombie_soldier", "corpse_mon_zombie_military_pilot" ], "fg": 8544 },
-        { "id": "mon_zombie_milbase_personnel", "fg": 8547, "bg": 8436 },
-        { "id": "mon_zombie_marine", "fg": 8546, "bg": 8436 },
-        { "id": "mon_zombie_static", "fg": 8551, "bg": 8436 },
-        { "id": "mon_zombie_survivor", "fg": 8552, "bg": 8436 },
-        { "id": "mon_zombie_survivor_elite", "fg": 8553, "bg": 8436 },
+        { "id": "mon_zombie_military_pilot", "fg": 8552, "bg": 8436 },
+        { "id": [ "corpse_mon_zombie_soldier", "corpse_mon_zombie_military_pilot" ], "fg": 8548 },
+        { "id": "mon_zombie_milbase_personnel", "fg": 8551, "bg": 8436 },
+        { "id": "mon_zombie_marine", "fg": 8550, "bg": 8436 },
+        { "id": "mon_zombie_static", "fg": 8555, "bg": 8436 },
+        { "id": "mon_zombie_survivor", "fg": 8556, "bg": 8436 },
+        { "id": "mon_zombie_survivor_elite", "fg": 8557, "bg": 8436 },
         {
           "id": [ "mon_zombie_swimmer_base", "mon_zombie_swimmer" ],
           "fg": [
-            { "weight": 200, "sprite": 8555 },
-            { "weight": 200, "sprite": 8556 },
-            { "weight": 200, "sprite": 8557 },
-            { "weight": 200, "sprite": 8558 },
             { "weight": 200, "sprite": 8559 },
-            { "weight": 1, "sprite": 8554 }
+            { "weight": 200, "sprite": 8560 },
+            { "weight": 200, "sprite": 8561 },
+            { "weight": 200, "sprite": 8562 },
+            { "weight": 200, "sprite": 8563 },
+            { "weight": 1, "sprite": 8558 }
           ],
           "bg": 8436
         },
-        { "id": "mon_zombie_tear_gasbag", "fg": 8560, "bg": 8436 },
+        { "id": "mon_zombie_tear_gasbag", "fg": 8564, "bg": 8436 },
         {
           "id": "mon_zombie",
           "fg": [
-            { "weight": 100, "sprite": 8567 },
-            { "weight": 150, "sprite": 8568 },
-            { "weight": 100, "sprite": 8569 },
-            { "weight": 100, "sprite": 8570 },
-            { "weight": 150, "sprite": 8571 }
+            { "weight": 100, "sprite": 8571 },
+            { "weight": 150, "sprite": 8572 },
+            { "weight": 100, "sprite": 8573 },
+            { "weight": 100, "sprite": 8574 },
+            { "weight": 150, "sprite": 8575 }
           ],
           "bg": 8436
         },
-        { "id": "mon_zombie_hazmat", "fg": 8574, "bg": 8436 },
-        { "id": "mon_zombie_fireman", "fg": 8573, "bg": 8436 },
+        { "id": "mon_zombie_hazmat", "fg": 8578, "bg": 8436 },
+        { "id": "mon_zombie_fireman", "fg": 8577, "bg": 8436 },
         {
           "id": "mon_zombie_scientist",
-          "fg": [ { "weight": 1, "sprite": 8576 }, { "weight": 1, "sprite": 8577 } ],
+          "fg": [ { "weight": 1, "sprite": 8580 }, { "weight": 1, "sprite": 8581 } ],
           "bg": 8436
         },
-        { "id": "mon_zombie_cop", "fg": 8572, "bg": 8436 },
-        { "id": "mon_zombie_labsecurity", "fg": 8575, "bg": 8436 },
+        { "id": "mon_zombie_cop", "fg": 8576, "bg": 8436 },
+        { "id": "mon_zombie_labsecurity", "fg": 8579, "bg": 8436 },
         {
           "id": "mon_zombie_tough",
-          "fg": [ { "weight": 1, "sprite": 8580 }, { "weight": 1, "sprite": 8581 } ],
+          "fg": [ { "weight": 1, "sprite": 8584 }, { "weight": 1, "sprite": 8585 } ],
           "bg": 8436
         },
         {
           "id": "mon_zombie_technician",
-          "fg": [ { "weight": 1, "sprite": 8578 }, { "weight": 1, "sprite": 8579 } ],
+          "fg": [ { "weight": 1, "sprite": 8582 }, { "weight": 1, "sprite": 8583 } ],
           "bg": 8436
         },
         {
@@ -10396,11 +10402,11 @@
             "corpse_mon_zombie_prisoner",
             "corpse_mon_zombie_winged"
           ],
-          "fg": 8561
+          "fg": 8565
         },
-        { "id": "corpse_mon_zombie_scientist", "fg": 8563 },
-        { "id": [ "corpse_mon_zombie_technician", "corpse_mon_zombie_hazmat" ], "fg": 8564 },
-        { "id": [ "corpse_mon_zombie_cop", "corpse_mon_zombie_labsecurity" ], "fg": 8562 },
+        { "id": "corpse_mon_zombie_scientist", "fg": 8567 },
+        { "id": [ "corpse_mon_zombie_technician", "corpse_mon_zombie_hazmat" ], "fg": 8568 },
+        { "id": [ "corpse_mon_zombie_cop", "corpse_mon_zombie_labsecurity" ], "fg": 8566 },
         {
           "id": [
             "corpse_mon_zombie_tough",
@@ -10416,48 +10422,48 @@
             "corpse_mon_zombie_soldier_blackops_2",
             "corpse_mon_zombie_soldier_blackops_1"
           ],
-          "fg": 8565
+          "fg": 8569
         },
-        { "id": "mon_zombie_winged", "fg": 8582, "bg": 8436 },
-        { "id": "mon_zougar", "fg": 8583, "bg": 8436 },
-        { "id": "mon_zougar_hunter", "fg": 8584, "bg": 8436 },
-        { "id": "mon_copbot", "fg": 8586, "bg": 8436 },
-        { "id": "mon_zombie_screecher", "fg": 8587, "bg": 8436 },
-        { "id": "mon_zombie_shrieker", "fg": 8588, "bg": 8436 },
-        { "id": "mon_zombie_swat", "fg": 8589, "bg": 8436 },
-        { "id": "mon_zombie_thorny", "fg": 8590, "bg": 8436 },
-        { "id": "mon_zombie_flamer", "fg": 8591, "bg": 8436 },
+        { "id": "mon_zombie_winged", "fg": 8586, "bg": 8436 },
+        { "id": "mon_zougar", "fg": 8587, "bg": 8436 },
+        { "id": "mon_zougar_hunter", "fg": 8588, "bg": 8436 },
+        { "id": "mon_copbot", "fg": 8590, "bg": 8436 },
+        { "id": "mon_zombie_screecher", "fg": 8591, "bg": 8436 },
+        { "id": "mon_zombie_shrieker", "fg": 8592, "bg": 8436 },
+        { "id": "mon_zombie_swat", "fg": 8593, "bg": 8436 },
+        { "id": "mon_zombie_thorny", "fg": 8594, "bg": 8436 },
+        { "id": "mon_zombie_flamer", "fg": 8595, "bg": 8436 },
         {
           "id": "mon_zombie_prisoner",
-          "fg": [ { "weight": 1, "sprite": 8592 }, { "weight": 1, "sprite": 8593 }, { "weight": 1, "sprite": 8594 } ],
+          "fg": [ { "weight": 1, "sprite": 8596 }, { "weight": 1, "sprite": 8597 }, { "weight": 1, "sprite": 8598 } ],
           "bg": 8436
         },
-        { "id": "overlay_female_mutation_SKIN_MEDIUM", "fg": 8601 },
-        { "id": "overlay_male_mutation_SKIN_MEDIUM", "fg": 8602 },
-        { "id": "overlay_female_wielded_teleumbrella", "fg": 8604 },
-        { "id": "overlay_male_wielded_teleumbrella", "fg": 8605 },
-        { "id": "overlay_female_wielded_umbrella", "fg": 8604 },
-        { "id": "overlay_male_wielded_umbrella", "fg": 8605 },
-        { "id": "overlay_male_worn_welding_mask_raised", "fg": 8609 },
-        { "id": "overlay_female_worn_mossberg_500", "fg": 8610 },
-        { "id": "overlay_male_worn_mossberg_500", "fg": 8611 },
+        { "id": "overlay_female_mutation_SKIN_MEDIUM", "fg": 8605 },
+        { "id": "overlay_male_mutation_SKIN_MEDIUM", "fg": 8606 },
+        { "id": "overlay_female_wielded_teleumbrella", "fg": 8608 },
+        { "id": "overlay_male_wielded_teleumbrella", "fg": 8609 },
+        { "id": "overlay_female_wielded_umbrella", "fg": 8608 },
+        { "id": "overlay_male_wielded_umbrella", "fg": 8609 },
+        { "id": "overlay_male_worn_welding_mask_raised", "fg": 8613 },
+        { "id": "overlay_female_worn_mossberg_500", "fg": 8614 },
+        { "id": "overlay_male_worn_mossberg_500", "fg": 8615 },
         { "id": "overlay_mutation_EXODII_BODY_1", "fg": 8416 },
         { "id": "mon_shadow", "fg": 8421 },
-        { "id": "corpse_mon_zombie_brainless", "fg": 8525 },
-        { "id": "mon_zombie_shady", "fg": 8541 },
-        { "id": "mon_zombie_armored", "fg": 8545 },
-        { "id": "mon_beekeeper", "fg": 8566 },
-        { "id": "mon_zougar_shady", "fg": 8585 },
-        { "id": "overlay_effect_earphones", "fg": 8595 },
-        { "id": "overlay_effect_evil", "fg": 8596 },
-        { "id": "overlay_effect_sleep", "fg": 8597 },
-        { "id": "overlay_effect_teleglow", "fg": 8598 },
-        { "id": "overlay_female_mutation_HORNS_POINTED", "fg": 8599 },
-        { "id": "overlay_male_mutation_HORNS_POINTED", "fg": 8600 },
-        { "id": "overlay_wielded_woodgreatbow", "fg": 8603 },
-        { "id": "overlay_female_worn_helmet_riot_raised", "fg": 8606 },
-        { "id": "overlay_male_worn_helmet_riot_raised", "fg": 8607 },
-        { "id": "overlay_worn_wizard_hat", "fg": 8612 }
+        { "id": "corpse_mon_zombie_brainless", "fg": 8529 },
+        { "id": "mon_zombie_shady", "fg": 8545 },
+        { "id": "mon_zombie_armored", "fg": 8549 },
+        { "id": "mon_beekeeper", "fg": 8570 },
+        { "id": "mon_zougar_shady", "fg": 8589 },
+        { "id": "overlay_effect_earphones", "fg": 8599 },
+        { "id": "overlay_effect_evil", "fg": 8600 },
+        { "id": "overlay_effect_sleep", "fg": 8601 },
+        { "id": "overlay_effect_teleglow", "fg": 8602 },
+        { "id": "overlay_female_mutation_HORNS_POINTED", "fg": 8603 },
+        { "id": "overlay_male_mutation_HORNS_POINTED", "fg": 8604 },
+        { "id": "overlay_wielded_woodgreatbow", "fg": 8607 },
+        { "id": "overlay_female_worn_helmet_riot_raised", "fg": 8610 },
+        { "id": "overlay_male_worn_helmet_riot_raised", "fg": 8611 },
+        { "id": "overlay_worn_wizard_hat", "fg": 8616 }
       ]
     },
     {

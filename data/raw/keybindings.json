@@ -13,6 +13,18 @@
   },
   {
     "type": "keybinding",
+    "id": "UILIST.LEFT",
+    "name": "Pan left",
+    "bindings": [ { "input_method": "keyboard_any", "key": "LEFT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UILIST.RIGHT",
+    "name": "Pan right",
+    "bindings": [ { "input_method": "keyboard_any", "key": "RIGHT" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UILIST.FILTER",
     "name": "Filter",
     "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
@@ -290,6 +302,17 @@
     "category": "SPELL_MENU",
     "name": "Scroll down spell info",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_FAVORITE",
+    "category": "SPELL_MENU",
+    "name": "Toggle spell as favorite",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -1463,6 +1486,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_OUTFIT",
+    "name": "Change outfit",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_GENDER",
     "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
@@ -2110,6 +2139,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CONTAIN_MODE",
+    "category": "INVENTORY",
+    "name": "Toggle contain mode for unloaded items",
+    "bindings": [ { "input_method": "keyboard_char", "key": "U" }, { "input_method": "keyboard_code", "key": "u", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
@@ -2325,6 +2361,12 @@
     "category": "DEFAULTMODE",
     "id": "haul",
     "bindings": [ { "input_method": "keyboard_any", "key": "\\" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Quick toggle hauling",
+    "category": "DEFAULTMODE",
+    "id": "haul_toggle"
   },
   {
     "type": "keybinding",
@@ -2790,7 +2832,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View temperature map",
+    "name": "View temperature map (using Map font)",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
   },
@@ -4352,6 +4394,55 @@
   },
   {
     "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_STATS_TAB",
+    "name": "Select stats tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_ENCUMBRANCE_TAB",
+    "name": "Select encumbrance tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_SKILLS_TAB",
+    "name": "Select skills tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_TRAITS_TAB",
+    "name": "Select traits tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_BIONICS_TAB",
+    "name": "Select bionics tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_EFFECTS_TAB",
+    "name": "Select effects tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_PROFICIENCIES_TAB",
+    "name": "Select proficiencies tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
@@ -4419,6 +4510,13 @@
     "id": "SIZE_UP_STATS",
     "name": "Size up stats",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "ASSESS_PERSONALITY",
+    "name": "Assess personality",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

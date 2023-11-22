@@ -82,8 +82,11 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_critter_underfed( "critter_underfed" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disarmed( "disarmed" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
@@ -97,6 +100,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_leashed( "leashed" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_maimed_arm( "maimed_arm" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
@@ -104,6 +108,7 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -164,8 +169,10 @@ static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
 static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
 static const mon_flag_str_id mon_flag_GOODHEARING( "GOODHEARING" );
 static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
+static const mon_flag_str_id mon_flag_HAS_MIND( "HAS_MIND" );
 static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
 static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
 static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
 static const mon_flag_str_id mon_flag_KEEP_DISTANCE( "KEEP_DISTANCE" );
 static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
@@ -176,9 +183,15 @@ static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
 static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
 static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
 static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
 static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
 static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
+static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
 static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 static const mon_flag_str_id mon_flag_REVIVES_HEALTHY( "REVIVES_HEALTHY" );
@@ -190,6 +203,7 @@ static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
 static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
 static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
 static const mon_flag_str_id mon_flag_WARM( "WARM" );
+static const mon_flag_str_id mon_flag_WIELDED_WEAPON( "WIELDED_WEAPON" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
@@ -202,9 +216,11 @@ static const species_id species_MIGO( "MIGO" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
 static const species_id species_PLANT( "PLANT" );
+static const species_id species_PSI_NULL( "PSI_NULL" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 static const species_id species_nether_player_hate( "nether_player_hate" );
+
 
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
@@ -248,6 +264,11 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
+
+static int compute_kill_xp( const mtype_id &mon_type )
+{
+    return mon_type->difficulty + mon_type->difficulty_base;
+}
 
 monster::monster()
 {
@@ -584,7 +605,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && amount_eaten == 0 ) {
+        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -624,17 +645,36 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( calendar::turn - udder_timer > 1_days ) {
-        // You milk once a day.
-        ammo.begin()->second = type->starting_ammo.begin()->second;
-        udder_timer = calendar::turn;
+    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
+        if( calendar::turn - udder_timer > 1_days ) {
+            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
+            ammo.begin()->second = type->starting_ammo.begin()->second;
+            udder_timer = calendar::turn;
+        }
+    }
+}
+
+void monster::reset_digestion()
+{
+    if( calendar::turn - stomach_timer > 3_days ) {
+        //If the player hasn't been around, assume critters have been operating at a subsistence level.
+        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
+        remove_effect( effect_critter_underfed );
+        remove_effect( effect_critter_well_fed );
+        amount_eaten = 0;
+        stomach_timer = calendar::turn;
     }
 }
 
 void monster::digest_food()
 {
-    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
-        amount_eaten -= 1;
+    if( calendar::turn - stomach_timer > 1_days ) {
+        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
+            add_effect( effect_critter_well_fed, 24_hours );
+        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
+            add_effect( effect_critter_underfed, 24_hours );
+        }
+        amount_eaten = 0;
         stomach_timer = calendar::turn;
     }
 }
@@ -649,6 +689,9 @@ void monster::try_biosignature()
         return;
     }
     if( !type->biosig_timer ) {
+        return;
+    }
+    if( has_effect( effect_critter_underfed ) ) {
         return;
     }
 
@@ -1064,6 +1107,9 @@ std::string monster::extended_description() const
         ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
         ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
         ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
+        if( aggro_character ) {
+            ss += string_format( _( "<color_red>Agressive towards characters</color>" ) ) + "\n";
+        }
 
         const time_duration current_time = calendar::turn - calendar::turn_zero;
         ss += string_format( _( "Current Time: Turn %1$d  |  Day: %2$d" ),
@@ -1283,6 +1329,27 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
+bool monster::is_pet() const
+{
+    return friendly == -1 && has_effect( effect_pet );
+}
+
+bool monster::is_pet_follow() const
+{
+    return is_pet() && !has_flag( mon_flag_PET_WONT_FOLLOW );
+}
+
+bool monster::has_intelligence() const
+{
+    return has_flag( mon_flag_PATH_AVOID_FALL ) ||
+           has_flag( mon_flag_PATH_AVOID_FIRE ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ||
+           has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
+           get_pathfinding_settings().avoid_sharp ||
+           get_pathfinding_settings().avoid_traps;
+}
+
 std::vector<material_id> monster::get_absorb_material() const
 {
     return type->absorb_material;
@@ -1348,6 +1415,24 @@ Creature *monster::attack_target()
     }
 
     return target;
+}
+
+void monster::witness_thievery( item *it )
+{
+    add_msg( m_bad, _( "%1$s saw the %2$s being stolen!" ), get_name(), it->tname() );
+    std::vector<npc *> friends;
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.get_faction() && guy.get_faction()->mon_faction == faction.id() ) {
+            friends.push_back( &guy );
+        }
+    }
+    if( friends.empty() ) {
+        aggro_character = true;
+        anger = 100;
+        return;
+    }
+    std::sort( friends.begin(), friends.end(), npc::theft_witness_compare );
+    friends[0]->witness_thievery( it );
 }
 
 bool monster::is_fleeing( Character &u ) const
@@ -1673,7 +1758,8 @@ bool monster::is_on_ground() const
 
 bool monster::has_weapon() const
 {
-    return false; // monsters will never have weapons, silly
+    return has_flag( mon_flag_WIELDED_WEAPON ) && !has_effect( effect_disarmed ) &&
+           !has_effect( effect_maimed_arm ); // monsters can actually have weapons, silly
 }
 
 bool monster::is_warm() const
@@ -2662,7 +2748,9 @@ void monster::die( Creature *nkiller )
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
-            get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
+            cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
+                            compute_kill_xp( type->id ) );
+            get_event_bus().send_with_talker( ch, this, e );
             if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
                 if( one_in( 4 ) ) {
                     const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
@@ -2835,7 +2923,7 @@ void monster::die( Creature *nkiller )
                         // A character killed our friend
                         add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
                                        critter.name(), name() );
-                        aggro_character = true;
+                        critter.aggro_character = true;
                     }
                 } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.morale -= 15;
@@ -3126,6 +3214,31 @@ void monster::process_effects()
         }
     }
 
+    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
+        heal( 1 );
+    }
+
+    //We already check these timers on_load, but adding a random chance for them to go off here
+    //will make it so that the player needn't leave the area and return for critters to poop,
+    //become hungry, evolve, have babies, or refill udders.
+    if( one_in( 30000 ) ) {
+        try_upgrade( false );
+        try_reproduce();
+        try_biosignature();
+
+        if( amount_eaten > 0 ) {
+            if( has_flag( mon_flag_EATS ) ) {
+                digest_food();
+            } else {
+                amount_eaten = 0;
+            }
+        }
+
+        if( has_flag( mon_flag_MILKABLE ) ) {
+            refill_udders();
+        }
+    }
+
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3263,6 +3376,14 @@ bool monster::is_nether() const
 {
     return in_species( species_HORROR ) || in_species( species_NETHER ) ||
            in_species( species_nether_player_hate );
+}
+
+// The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no
+bool monster::has_mind() const
+{
+    return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
+             ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) &&
+               has_flag( mon_flag_HUMAN ) ) );
 }
 
 field_type_id monster::bloodType() const
@@ -3495,7 +3616,7 @@ void monster::on_hit( Creature *source, bodypart_id,
                         // A character attacked our friend
                         add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
                                        critter.name(), name() );
-                        aggro_character = true;
+                        critter.aggro_character = true;
                     }
                 } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.morale -= 15;
@@ -3645,9 +3766,15 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+    reset_digestion();
 
-    if( has_flag( mon_flag_EATS ) ) {
-        digest_food();
+    //Clean up runaway values for monsters which eat but don't digest yet.
+    if( amount_eaten > 0 ) {
+        if( has_flag( mon_flag_EATS ) ) {
+            digest_food();
+        } else {
+            amount_eaten = 0;
+        }
     }
 
     if( has_flag( mon_flag_MILKABLE ) ) {
@@ -3764,5 +3891,30 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
 
 std::set<tripoint> monster::get_path_avoid() const
 {
-    return std::set<tripoint>();
+    std::set<tripoint> ret;
+
+    map &here = get_map();
+    int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );
+
+    for( const tripoint &p : here.points_in_radius( pos(), radius ) ) {
+        if( !can_move_to( p ) ) {
+            if( bash_skill() <= 0 || !here.is_bashable( p ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+
+    if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
+        radius = 2;
+    } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
+               has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
+        radius = 1;
+    } else {
+        return ret;
+    }
+    for( Creature *critter : here.get_creatures_in_radius( pos(), radius ) ) {
+        ret.insert( critter->pos() );
+    }
+
+    return ret;
 }

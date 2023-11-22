@@ -38,17 +38,15 @@
   {
     "id": "biokin_overcome_pain",
     "type": "SPELL",
-    "name": "[Ψ]Overcome Pain",
-    "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.",
-    "message": "You breathe deeply and your pain lessens.",
-    "teachable": false,
+    "name": "[Ψ]Overcome Pain (toggle)",
+    "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>",
+    "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_BIOKIN_PAIN",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "effect_str": "EOC_BIOKIN_PAIN_INITIATE",
     "shape": "blast",
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -71,165 +69,6 @@
     "final_casting_time": 50,
     "casting_time_increment": -7,
     "learn_spells": { "biokin_armor_skin": 9, "biokin_climate_control": 12, "biokin_sealed_system": 18 }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIOKIN_PAIN",
-    "effect": {
-      "switch": { "u_val": "spell_level", "spell": "biokin_overcome_pain" },
-      "cases": [
-        { "case": 0, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_1" } } },
-        { "case": 4, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_2" } } },
-        { "case": 8, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_3" } } },
-        { "case": 12, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_4" } } },
-        { "case": 16, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_5" } } },
-        { "case": 20, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_6" } } }
-      ]
-    }
-  },
-  {
-    "id": "biokin_overcome_pain_1",
-    "type": "SPELL",
-    "name": "[Ψ]Overcome Pain #1",
-    "description": "Number #1 of Overcoming Pain subspells.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_pkill_1",
-    "shape": "blast",
-    "max_level": 20,
-    "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_overcome_pain_2",
-    "type": "SPELL",
-    "name": "[Ψ]Overcome Pain #2",
-    "description": "Number #2 of Overcoming Pain subspells.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_pkill_2",
-    "shape": "blast",
-    "max_level": 20,
-    "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_overcome_pain_3",
-    "type": "SPELL",
-    "name": "[Ψ]Overcome Pain #3",
-    "description": "Number #3 of Overcoming Pain subspells.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_pkill_3",
-    "shape": "blast",
-    "max_level": 20,
-    "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_overcome_pain_4",
-    "type": "SPELL",
-    "name": "[Ψ]Overcome Pain #4",
-    "description": "Number #4 of Overcoming Pain subspells.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_pkill_4",
-    "shape": "blast",
-    "max_level": 20,
-    "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 120000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 210000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_overcome_pain_5",
-    "type": "SPELL",
-    "name": "[Ψ]Overcome Pain #5",
-    "description": "Number #5 of Overcoming Pain subspells.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_pkill_5",
-    "shape": "blast",
-    "max_level": 20,
-    "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 240000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_overcome_pain_6",
-    "type": "SPELL",
-    "name": "[Ψ]Overcome Pain #6",
-    "description": "Number #6 of Overcoming Pain subspells.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_pkill_6",
-    "shape": "blast",
-    "max_level": 20,
-    "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 270000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
   },
   {
     "id": "biokin_flexibility",
@@ -294,27 +133,19 @@
   {
     "id": "biokin_climate_control",
     "type": "SPELL",
-    "name": "[Ψ]Temperature Adaptability",
-    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.\n\nTemperature Adaptability and Sealed System will cancel each other.",
-    "message": "You feel much more comfortable.",
+    "name": "[Ψ]Temperature Adaptability (toggle)",
+    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.  Temperature Adaptability and Sealed System <color_red>will cancel each other</color>.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_climate_control",
-    "extra_effects": [
-      { "id": "biokin_climate_remove_sealed", "hit_self": true },
-      { "id": "psionic_drained_difficulty_four", "hit_self": true }
-    ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
     "shape": "blast",
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) )"
@@ -325,50 +156,39 @@
         "( (u_val('spell_level', 'spell: biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -175,
     "base_casting_time": 250,
     "final_casting_time": 150,
     "casting_time_increment": -8.5,
     "learn_spells": { "biokin_sealed_system": 6 }
   },
   {
-    "id": "biokin_climate_remove_sealed",
-    "type": "SPELL",
-    "name": "[Ψ]Temperature Adaptability Cancel Sealed System",
-    "description": "The part of Temperature Adaptability that cancels Sealed System.  It's a bug if you have it.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "biokin_sealed_system",
-    "shape": "blast",
-    "max_level": 1
-  },
-  {
     "id": "biokin_enhance_mobility",
     "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility",
-    "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.",
-    "message": "You gear doesn't seem to encumber you as much.",
+    "name": "[Ψ]Enhance Mobility (toggle)",
+    "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_INITIATE",
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 4500 ) + 30000) * (scaling_factor(u_val('intelligence') ) ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 9000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) )"
       ]
     },
     "energy_source": "STAMINA",
@@ -383,17 +203,16 @@
   {
     "id": "biokin_hammerhand",
     "type": "SPELL",
-    "name": "[Ψ]Hammerhand",
-    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools",
-    "message": "You flex your fingers.",
+    "name": "[Ψ]Hammerhand (toggle)",
+    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_hammerhand_item",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_HAMMERHAND_INITIATE",
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -518,10 +337,10 @@
     "final_energy_cost": 2250,
     "energy_increment": -125,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 100,
     "final_casting_time": 40,
@@ -550,10 +369,12 @@
     "final_energy_cost": 3500,
     "energy_increment": -175,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "base_casting_time": 75,
     "final_casting_time": 15,

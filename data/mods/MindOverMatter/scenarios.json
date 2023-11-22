@@ -1,0 +1,8 @@
+[
+  {
+    "copy-from": "portal_dependent",
+    "type": "scenario",
+    "extend": { "professions": [ "psi_new_psychic", "psi_telekinetic_testsubject", "psi_teleporter_slider" ] },
+    "id": "portal_dependent"
+  }
+]

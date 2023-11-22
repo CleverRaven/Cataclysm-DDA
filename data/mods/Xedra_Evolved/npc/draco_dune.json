@@ -2,6 +2,7 @@
   {
     "id": "TALK_REFUGEE_Draco_1a",
     "type": "talk_topic",
+    "insert_before_standard_exits": true,
     "responses": [ { "text": "Have you seen anything that could help me?", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb" } ]
   },
   {

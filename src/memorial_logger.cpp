@@ -1096,6 +1096,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
         case event_type::character_consumes_item:
+        case event_type::character_dies:
         case event_type::character_eats_item:
         case event_type::character_finished_activity:
         case event_type::character_gets_headshot:

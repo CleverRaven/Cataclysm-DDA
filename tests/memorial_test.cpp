@@ -123,14 +123,14 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Caused a resonance cascade." );
 
     check_memorial<event_type::character_gains_effect>(
-        m, b, "Caught on fire.", ch, eff );
+        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff );
 
     check_memorial<event_type::character_kills_character>(
         m, b, "Killed an innocent person, victim_name, in cold blood and felt terrible "
         "afterwards.", ch, ch2, "victim_name" );
 
     check_memorial<event_type::character_kills_monster>(
-        m, b, "Killed a Kevlar hulk.", ch, mon );
+        m, b, "Killed a Kevlar hulk.", ch, mon, 0 );
 
     check_memorial<event_type::character_loses_effect>(
         m, b, "Put out the fire.", ch, eff );

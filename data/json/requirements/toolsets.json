@@ -3,7 +3,7 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
   },
   {
     "id": "shot_forming",
@@ -20,7 +20,7 @@
         [ "clay_teapot", -1 ],
         [ "can_food", -1 ]
       ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
     ]
   },
   {
@@ -178,7 +178,7 @@
         [ "welder", 20 ],
         [ "welding_kit", 20 ],
         [ "welder_crude", 40 ],
-        [ "toolset", 30 ],
+        [ "integrated_welder", 30 ],
         [ "oxy_torch", 1 ],
         [ "propane_torch", 8 ]
       ]
@@ -197,7 +197,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 400 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "oxy_torch", 10 ],
         [ "propane_torch", 80 ]
       ]
@@ -219,7 +219,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 400 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "oxy_torch", 10 ],
         [ "propane_torch", 80 ]
       ]
@@ -252,7 +252,7 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "integrated_welder", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
@@ -315,24 +315,19 @@
   {
     "id": "concrete_removal_standard",
     "type": "requirement",
-    "//": "Tools for removing concrete -- drill required to create holes in a complete wall",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
-      { "id": "DIG", "level": 3 }
-    ],
+    "//": "Tools for removing concrete",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
     "tools": [
       [
         [ "pickaxe", -1 ],
         [ "bronze_pickaxe", -1 ],
         [ "jackhammer", 140 ],
         [ "elec_jackhammer", 1848 ],
-        [ "hammer_sledge", -1 ]
+        [ "hammer_sledge", -1 ],
+        [ "masonrysaw_off", 100 ],
+        [ "electric_masonrysaw_off", 1320 ]
       ],
-      [ [ "masonrysaw_off", 100 ], [ "electric_masonrysaw_off", 1320 ] ],
-      [ [ "cordless_drill", 200 ], [ "corded_powerdrill", 200 ] ],
-      [ [ "angle_grinder", 200 ] ]
+      [ [ "angle_grinder", 200 ], [ "hacksaw", -1 ], [ "reciprocating_saw", 200 ] ]
     ]
   },
   {
@@ -371,15 +366,10 @@
     "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
   },
   {
-    "id": "object_deconstruction_advanced",
+    "id": "cement_removal",
     "type": "requirement",
-    "//": "Tools for doing advanced deconstruction",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
-      { "id": "SCREW", "level": 1 }
-    ]
+    "//": "Tools for deconstructing items built with mortar or cement",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ]
   },
   {
     "id": "marking_hard",

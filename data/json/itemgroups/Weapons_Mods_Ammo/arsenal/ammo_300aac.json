@@ -1,0 +1,69 @@
+[
+  {
+    "id": "ammo_can_300AAC_any_full",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_300blk_full", "prob": 100 }, { "group": "ammo_can_ammo_pouch_300_full", "prob": 100 } ]
+  },
+  {
+    "id": "ammo_can_300AAC_any_part",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_300blk_part", "prob": 100 }, { "group": "ammo_can_ammo_pouch_300_part", "prob": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_300blk_full",
+    "container-item": "ammo_can_30_300AAC_otmss_720",
+    "on_overflow": "spill",
+    "items": [ { "group": "ammo_box_300blk", "count": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_300blk_part",
+    "container-item": "ammo_can_30_300AAC_otmss_720",
+    "items": [ { "group": "ammo_box_300blk", "count": [ 0, 24 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_300blk",
+    "container-item": "ammo_box_army_30_300blk",
+    "on_overflow": "discard",
+    "items": [ { "item": "300blk_ss", "count": 1, "charges-min": 30, "charges-max": 30 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "id": "ammo_can_ammo_pouch_300_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_can_50_300AAC_otm_840",
+    "items": [ { "group": "ammo_pouch_300", "count": 7 } ]
+  },
+  {
+    "id": "ammo_can_ammo_pouch_300_part",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_can_50_300AAC_otm_840",
+    "items": [ { "group": "ammo_pouch_300", "count": [ 1, 6 ] } ]
+  },
+  {
+    "id": "ammo_pouch_300",
+    "type": "item_group",
+    "//": "TODO: addd 1 stipper clip guide (aka 'spoon') for 223 in this group, when the game will be able to check his using",
+    "subtype": "collection",
+    "container-item": "cheap_ammo_pouch",
+    "items": [ { "group": "box_300blk_clips", "count": 4 } ]
+  },
+  {
+    "id": "box_300blk_clips",
+    "type": "item_group",
+    "container-item": "ammo_box_army_3_clips",
+    "on_overflow": "discard",
+    "items": [ { "group": "clip300_10rd_300blk", "count": 3 } ]
+  },
+  {
+    "id": "clip300_10rd_300blk",
+    "type": "item_group",
+    "container-item": "clip223_10rd",
+    "items": [ { "item": "300blk", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+  }
+]

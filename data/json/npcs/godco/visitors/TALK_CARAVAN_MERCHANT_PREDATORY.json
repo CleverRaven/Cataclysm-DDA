@@ -81,10 +81,17 @@
         "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade",
         "effect": "start_trade"
       },
+      { "text": "You got anything else?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_askinterval" },
       { "text": "Your prices seem awfully high.", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Price" },
       { "text": "Thanks.  What were we talking about before?", "topic": "TALK_NONE" },
       { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_askinterval",
+    "dynamic_line": "Well, not right now.  Try again after around <interval>.",
+    "responses": [ { "text": "Okay.  About other things…", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_2" } ]
   },
   {
     "type": "talk_topic",

@@ -19,6 +19,18 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
       ]
     }
   },
@@ -54,8 +66,7 @@
         " cc  | PP  YY  PP |     ",
         " cc  | PP  YY  PP |     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -90,8 +101,7 @@
         " cccc| PP  PP  PP |c6h  ",
         "  c h| PP  PP  PP |c    "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -126,8 +136,7 @@
         " cccc| PP  PP  PP |c6h  ",
         "  c h| PP  PP  PP |c    "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -162,8 +171,7 @@
         " cccc| PP  PP  PP |c6h  ",
         "  c h| PP  PP  PP |c    "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   },
   {
@@ -208,8 +216,7 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   }
 ]

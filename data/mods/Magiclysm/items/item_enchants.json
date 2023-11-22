@@ -74,5 +74,117 @@
         }
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_storm_hammer",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "name": { "str": "Storm hammer" },
+    "description": "A magical hammer whose damage increases with the spell.",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_ELEC",
+        "add": {
+          "math": [ "(5 + (1 * u_val('spell_level', 'spell: storm_hammer')) + (1 * u_val('spell_level', 'spell: storm_hammer_plus')))" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_stormglove",
+    "has": "WIELD",
+    "condition": { "not": "u_has_weapon" },
+    "name": { "str": "Stormglove" },
+    "description": "A coating of lighting on your hand and lower arm.",
+    "hit_you_effect": [ { "id": "stormshaper_stormglove_zap" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_aura_caustic",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "name": { "str": "Caustic Aura" },
+    "description": "A thin shell of acid hangs in the air around you.",
+    "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
+    "values": [
+      {
+        "value": "ARMOR_ACID",
+        "add": {
+          "math": [
+            "(-2 - (0.5 * u_val('spell_level', 'spell: biomancer_caustic_aura')) - (0.5 * u_val('spell_level', 'spell: biomancer_caustic_aura_plus')))"
+          ]
+        }
+      },
+      {
+        "value": "ITEM_DAMAGE_ACID",
+        "add": {
+          "math": [
+            "(1 + (0.25 * u_val('spell_level', 'spell: biomancer_caustic_aura')) + (0.25 * u_val('spell_level', 'spell: biomancer_caustic_aura_plus')))"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_subzero_talons",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "name": { "str": "Subzero Talons" },
+    "description": "Icy talons to freeze your enemies.",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_COLD",
+        "add": { "math": [ "(3 + (0.5 * u_val('spell_level', 'spell: summon_subzero_talons')))" ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_aura_feral",
+    "name": { "str": "Feral Aura" },
+    "description": "Unleashing the rage within.",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "STRENGTH", "add": { "math": [ "(1 + (u_val('spell_level', 'spell: druid_feralform') / 5 ))" ] } },
+      { "value": "DEXTERITY", "add": { "math": [ "(1 + (u_val('spell_level', 'spell: druid_feralform') / 5 ))" ] } },
+      {
+        "value": "INTELLIGENCE",
+        "add": { "math": [ "(-3 + (u_val('spell_level', 'spell: druid_feralform') / 7 ))" ] }
+      },
+      { "value": "PERCEPTION", "add": { "math": [ "(-3 + (u_val('spell_level', 'spell: druid_feralform') / 7 ))" ] } }
+    ],
+    "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE", "CANINE_EARS", "PERSISTENCE_HUNTER", "SNARL", "CARNIVORE", "SMELLY2", "DEFORMED2" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_aura_feral_plus",
+    "name": { "str": "Enhanced Feral Aura" },
+    "description": "Unleashing the rage within.",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "STRENGTH", "add": { "math": [ "(3 + (u_val('spell_level', 'spell: druid_feralform_plus') / 5 ))" ] } },
+      {
+        "value": "DEXTERITY",
+        "add": { "math": [ "(3 + (u_val('spell_level', 'spell: druid_feralform_plus') / 5 ))" ] }
+      },
+      { "value": "PERCEPTION", "add": { "math": [ "(0 + (u_val('spell_level', 'spell: druid_feralform') / 7 ))" ] } }
+    ],
+    "mutations": [
+      "FUR",
+      "CLAWS_RAT",
+      "ADRENALINE",
+      "FANGS",
+      "CANINE_EARS",
+      "PERSISTENCE_HUNTER",
+      "SNARL",
+      "CARNIVORE",
+      "SMELLY2",
+      "DEFORMED3"
+    ]
   }
 ]

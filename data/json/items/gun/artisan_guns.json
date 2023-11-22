@@ -99,7 +99,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
     "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS", "KNIVES" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS", "SHIVS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ],
     "melee_damage": { "stab": 16 }
   }

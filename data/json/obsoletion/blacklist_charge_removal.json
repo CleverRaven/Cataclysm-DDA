@@ -2,6 +2,6 @@
   {
     "type": "charge_removal_blacklist",
     "//": "Allows removal of charges from items that no longer have them (silently) https://github.com/CleverRaven/Cataclysm-DDA/pull/39009",
-    "list": [  ]
+    "list": [ "hinge" ]
   }
 ]

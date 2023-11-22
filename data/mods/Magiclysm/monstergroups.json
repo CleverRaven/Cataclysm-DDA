@@ -278,7 +278,7 @@
     "type": "monstergroup",
     "name": "GROUP_WORKSHOP",
     "default": "mon_workshop_elf",
-    "monsters": [ { "monster": "mon_workshop_elf", "freq": 100, "cost_multiplier": 2 } ]
+    "monsters": [ { "monster": "mon_workshop_elf", "weight": 100, "cost_multiplier": 2 } ]
   },
   {
     "type": "monstergroup",

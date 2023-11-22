@@ -5,7 +5,14 @@
     "name": "Battle Angel",
     "description": "A combat-ready cyborg once salvaged from an obscure junkyard…",
     "points": 8,
-    "traits": [ "MMA_MARTIAL_ARTS_PANZER" ],
+    "starting_styles": [ "style_mma_panzer" ],
+    "proficiencies": [
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro",
+      "prof_bionic_swords_familiar",
+      "prof_bionic_swords_pro",
+      "prof_bionics_familiar"
+    ],
     "skills": [ { "level": 3, "name": "unarmed" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
     "items": { "both": { "items": [ "wetsuit", "trenchcoat", "gloves_fingerless", "knee_pads", "boots" ] } },
     "CBMs": [
@@ -24,7 +31,9 @@
     "name": "Hylian Adventurer",
     "description": "Sucked through a vortex into what appears to be a shadow realm, you will continue to fight for justice.",
     "points": 6,
-    "traits": [ "MMA_MARTIAL_ARTS_HYLIAN", "ELFAEYES", "ELFA_EARS" ],
+    "traits": [ "ELFAEYES", "ELFA_EARS" ],
+    "starting_styles": [ "style_mma_hylian" ],
+    "proficiencies": [ "prof_medium_swords_familiar", "prof_medium_swords_pro" ],
     "skills": [ { "level": 3, "name": "cutting" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {

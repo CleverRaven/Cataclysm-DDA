@@ -221,6 +221,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "reach_tec", reach_tec, false );
+    optional( jo, was_loaded, "reach_ok", reach_ok, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -242,7 +244,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
-    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
     optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
@@ -350,6 +351,7 @@ void martialart::load( const JsonObject &jo, const std::string &src )
         int skill_level = skillArray.get_int( 1 );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
+    optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "primary_skill", primary_skill, skill_unarmed );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
     optional( jo, was_loaded, "teachable", teachable, true );
@@ -827,7 +829,6 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    powerful_knockback = false;
     knockback_follow = false; // player follows the knocked-back party into their former tile
 
     // offensive
@@ -1867,6 +1868,13 @@ std::string ma_technique::get_description() const
         dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
     }
 
+    if( reach_ok ) {
+        dump += _( "* Can activate on a <info>normal</info> or a <info>reach attack</info> hit" ) +
+                std::string( "\n" );
+    } else if( reach_tec ) {
+        dump += _( "* Will only activate on a <info>reach attack</info>" ) + std::string( "\n" );
+    }
+
     if( side_switch ) {
         dump += _( "* Moves target <info>behind</info> you" ) + std::string( "\n" );
     }
@@ -1874,10 +1882,6 @@ std::string ma_technique::get_description() const
     if( wall_adjacent ) {
         dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
                 std::string( "\n" );
-    }
-
-    if( powerful_knockback ) {
-        dump += _( "* Causes extra damage on <info>knockback collision</info>." ) + std::string( "\n" );
     }
 
     if( dodge_counter ) {

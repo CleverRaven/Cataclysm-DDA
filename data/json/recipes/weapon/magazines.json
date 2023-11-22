@@ -50,6 +50,7 @@
   {
     "result": "clip9mm_10rd",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",

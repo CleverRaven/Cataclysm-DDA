@@ -1230,9 +1230,8 @@ void veh_interact::do_repair()
                 }
                 sel_vehicle_part = &pt;
                 sel_vpart_info = &vp;
-                const std::vector<npc *> helpers = player_character.get_crafting_helpers();
-                for( const npc *np : helpers ) {
-                    add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
+                for( const Character *helper : player_character.get_crafting_helpers() ) {
+                    add_msg( m_info, _( "%s helps with this task…" ), helper->get_name() );
                 }
                 sel_cmd = 'r';
                 break;
@@ -1761,6 +1760,9 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
+        for( const item &it : sel_vehicle_part->get_salvageable() ) {
+            nmsg += "> " + it.display_name() + "\n";
+        }
     }
 
     const requirement_data reqs = sel_vpart_info->removal_requirements();
@@ -1865,9 +1867,8 @@ void veh_interact::do_remove()
                     return;
                 }
             }
-            const std::vector<npc *> helpers = player_character.get_crafting_helpers();
-            for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
+            for( const Character *helper : player_character.get_crafting_helpers() ) {
+                add_msg( m_info, _( "%s helps with this task…" ), helper->get_name() );
             }
             sel_cmd = 'o';
             break;
@@ -2152,7 +2153,7 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-    const auto helpers = player_character.get_crafting_helpers();
+    const std::vector<Character *> helpers = player_character.get_crafting_helpers();
     //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                             qual.obj().name, lvl );
@@ -3131,12 +3132,15 @@ void veh_interact::complete_vehicle( Character &you )
 
             // consume items extracting a match for the parts base item
             item base;
-            for( const auto &e : reqs.get_components() ) {
+            std::vector<item> installed_with;
+            for( const std::vector<item_comp> &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
             } ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
+                    } else {
+                        installed_with.push_back( obj );
                     }
                 }
             }
@@ -3154,7 +3158,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.invalidate_crafting_inventory();
-            const int partnum = veh.install_part( d, part_id, std::move( base ) );
+            const int partnum = veh.install_part( d, part_id, std::move( base ), installed_with );
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s",
                           d.x, d.y, part_id.c_str() );
@@ -3314,7 +3318,30 @@ void veh_interact::complete_vehicle( Character &you )
                     item_group::ItemList pieces = vp.pieces_for_broken_part();
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
                 } else {
-                    resulting_items.push_back( veh.part_to_item( vp ) );
+                    resulting_items.push_back( veh.removed_part( vp ) );
+
+                    // damage reduces chance of success (0.8^damage_level)
+                    const double component_success_chance = std::pow( 0.8, vp.damage_level() );
+                    const double charges_min = std::clamp( component_success_chance, 0.0, 1.0 );
+                    const double charges_max = std::clamp( component_success_chance + 0.1, 0.0, 1.0 );
+                    for( item &it : vp.get_salvageable() ) {
+                        if( it.count_by_charges() ) {
+                            const int charges_befor = it.charges;
+                            it.charges *= rng_float( charges_min, charges_max );
+                            const int charges_destroyed = charges_befor - it.charges;
+                            if( charges_destroyed > 0 ) {
+                                add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), charges_destroyed,
+                                         it.type_name( charges_destroyed ) );
+                            }
+                            if( it.charges > 0 ) {
+                                resulting_items.push_back( it );
+                            }
+                        } else if( component_success_chance > rng_float( 0, 1 ) ) {
+                            resulting_items.push_back( it );
+                        } else {
+                            add_msg( m_bad, _( "You fail to recover %1$s." ), it.type_name() );
+                        }
+                    }
                 }
                 for( const std::pair<const skill_id, int> &sk : vpi.install_skills ) {
                     // removal is half as educational as installation

@@ -1,5 +1,35 @@
 [
   {
+    "abstract": "scrap_worthless",
+    "type": "GENERIC",
+    "name": { "str_sp": "worthless scraps" },
+    "description": "A handful of oddly-shaped worthless bits of abstract code.  Seeing this is a bug.",
+    "category": "other",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "scrap_valuable",
+    "type": "GENERIC",
+    "name": { "str_sp": "valuable scraps" },
+    "description": "A handful of oddly-shaped valuable bits of abstract code.  Seeing this is a bug.",
+    "category": "other",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "grass_yarn",
     "symbol": ",",
@@ -14,22 +44,18 @@
   },
   {
     "id": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "cotton scraps" },
     "description": "A handful of oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some thread if you really want.",
-    "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 5,
     "material": [ "cotton" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "id": "scrap_faux_fur",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "faux fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -41,7 +67,7 @@
   },
   {
     "id": "scrap_felt",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "felt scraps" },
     "description": "A handful of oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some wool fiber if you really want.",
@@ -50,7 +76,7 @@
   },
   {
     "id": "scrap_fur",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -61,7 +87,7 @@
   },
   {
     "id": "scrap_kevlar",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_valuable",
     "type": "GENERIC",
     "name": { "str_sp": "Kevlar scraps" },
     "description": "A handful of oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Kevlar is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
@@ -73,7 +99,7 @@
   },
   {
     "id": "scrap_leather",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "leather scraps" },
     "description": "A handful of oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -83,7 +109,7 @@
   },
   {
     "id": "scrap_lycra",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "Lycra scraps" },
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -93,7 +119,7 @@
   },
   {
     "id": "scrap_neoprene",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "neoprene scraps" },
     "description": "A handful of oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -103,7 +129,7 @@
   },
   {
     "id": "scrap_nylon",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "A handful of oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -113,7 +139,7 @@
   },
   {
     "id": "scrap_nomex",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_valuable",
     "type": "GENERIC",
     "name": { "str_sp": "Nomex scraps" },
     "description": "A handful of oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Nomex is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Nomex thread.",
@@ -124,18 +150,15 @@
   },
   {
     "id": "scrap_carpet",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "scraps of carpet" },
     "description": "A misshapen section of loose carpet.  Not useful for much on its own and can be discarded.",
     "weight": "500 g",
     "volume": "500 ml",
-    "price": 1,
-    "price_postapoc": 1,
     "material": [ "carpet_pilling", "plastic" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
@@ -629,8 +652,8 @@
   },
   {
     "id": "scrap_denim",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "denim scraps" },
     "description": "Oddly-shaped smallish denim patches, waste material from tailoring projects.",
     "weight": "2 g",
@@ -639,8 +662,7 @@
     "price_postapoc": 5,
     "material": [ "denim" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
@@ -708,8 +730,8 @@
   },
   {
     "id": "scrap_canvas",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "canvas scraps" },
     "description": "Oddly-shaped smallish bits of canvas, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some tough thread.",
     "weight": "2375 mg",
@@ -718,8 +740,7 @@
     "price_postapoc": 5,
     "material": [ "canvas" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",

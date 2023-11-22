@@ -235,6 +235,7 @@ void set_time( const time_point &time )
     int z = you.posz();
     you.recalc_sight_limits();
     map &here = get_map();
+    here.invalidate_visibility_cache();
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );

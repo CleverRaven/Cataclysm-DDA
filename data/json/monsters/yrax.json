@@ -23,6 +23,7 @@
     "vision_day": 50,
     "vision_night": 20,
     "revert_to_itype": "bot_yrax_trifacet",
+    "aggro_character": false,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       {
@@ -59,6 +60,125 @@
     "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
   },
   {
+    "id": "mon_yrax_sphenocorona",
+    "type": "MONSTER",
+    "name": { "str": "Yrax sphenocorona" },
+    "description": "Manipulator arrays seamlessly protract from asymmetric facets, their testing spaces undisturbed by the forces affixing it to the sky.",
+    "default_faction": "yrax",
+    "volume": "930 L",
+    "//": "A lot of gold in this bad boy.",
+    "weight": "8282 kg",
+    "species": [ "ROBOT" ],
+    "bodytype": "blob",
+    "material": [ "gold", "steel" ],
+    "speed": 40,
+    "symbol": "C",
+    "morale": 100,
+    "hp": 10,
+    "bleed_rate": 0,
+    "color": "yellow",
+    "melee_skill": 4,
+    "dodge": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "armor": { "bash": 42, "cut": 48, "acid": 35, "heat": 10, "bullet": 35 },
+    "tracking_distance": 3,
+    "vision_day": 50,
+    "aggro_character": false,
+    "vision_night": 20,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "sphenocorona_inactive",
+        "spell_data": { "id": "sphenocorona_inactive", "hit_self": true },
+        "allow_no_target": true,
+        "condition": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  { "is_weather": "portal_storm" },
+                  { "and": [ { "is_weather": "distant_portal_storm" } ] },
+                  { "is_weather": "close_portal_storm" }
+                ]
+              }
+            },
+            "u_is_outside"
+          ]
+        },
+        "monster_message": "The %s abruptly falls to the ground!",
+        "cooldown": 5
+      },
+      {
+        "type": "spell",
+        "id": "killer_swarm",
+        "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 1 },
+        "monster_message": "Shards of gleaming alloy detach from the %s's surface!",
+        "cooldown": 60
+      }
+    ],
+    "death_function": {
+      "effect": { "id": "death_yrax_sphenocorona", "hit_self": true },
+      "message": "The %s abruptly falls to the ground!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_2",
+      "FLIES",
+      "PRIORITIZE_TARGETS",
+      "ELECTRONIC"
+    ]
+  },
+  {
+    "id": "mon_golden_monolith",
+    "type": "MONSTER",
+    "name": { "str": "golden monolith" },
+    "copy-from": "mon_yrax_sphenocorona",
+    "description": "A large golden monolith.  Carefully carved asymmetric edges betray its artificial origin.",
+    "default_faction": "passive_machine",
+    "speed": 5,
+    "hp": 100,
+    "symbol": "I",
+    "armor": { "bash": 100, "cut": 150, "acid": 35, "heat": 10, "bullet": 100 },
+    "melee_skill": 0,
+    "aggro_character": false,
+    "dodge": 0,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "flags": [ "GOODHEARING", "NOHEAD", "NO_BREATHE", "IMMOBILE", "PACIFIST" ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "sphenocorona_active",
+        "spell_data": { "id": "sphenocorona_active", "hit_self": true },
+        "allow_no_target": true,
+        "condition": {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "and": [ { "is_weather": "distant_portal_storm" } ] },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        "monster_message": "The %s unfolds into an alien robot",
+        "cooldown": 5
+      },
+      {
+        "type": "spell",
+        "id": "killer_swarm",
+        "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 1 },
+        "monster_message": "Shards of gleaming alloy detach from the %s's surface!",
+        "cooldown": 60
+      }
+    ],
+    "death_function": { "corpse_type": "BROKEN" }
+  },
+  {
     "id": "mon_yrax_apeirogon",
     "type": "MONSTER",
     "name": { "str": "Yrax apeirohedra" },
@@ -74,6 +194,7 @@
     "morale": 100,
     "hp": 1000000,
     "color": "yellow",
+    "aggro_character": false,
     "melee_skill": 10,
     "melee_dice": 300,
     "melee_dice_sides": 10,
@@ -93,5 +214,32 @@
       "ELECTRONIC"
     ],
     "armor": { "bash": 1000, "cut": 1000, "acid": 100, "heat": 100, "bullet": 1000 }
+  },
+  {
+    "id": "mon_yrax_delta",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": { "str": "Yrax delta" },
+    "description": "A kite shaped blade of metal, darting through air and foes by indiscernible means.",
+    "default_faction": "yrax",
+    "weight": "374 g",
+    "volume": "500 ml",
+    "vision_day": 50,
+    "vision_night": 20,
+    "aggression": 7,
+    "aggro_character": false,
+    "symbol": "^",
+    "diff": 2,
+    "speed": 120,
+    "color": "yellow",
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "death_function": { "corpse_type": "BROKEN" },
+    "extend": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "PACIFIST" ] },
+    "armor": { "bash": 12, "cut": 18, "acid": 12, "heat": 8, "bullet": 1 }
   }
 ]

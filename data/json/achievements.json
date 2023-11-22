@@ -970,7 +970,7 @@
   {
     "id": "achievement_lvl_4_mechanics",
     "type": "achievement",
-    "name": "Amatuer Mechanic",
+    "name": "Amateur Mechanic",
     "description": "Righty tighty, lefty loosey.",
     "requirements": [
       {

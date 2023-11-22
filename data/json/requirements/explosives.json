@@ -2,7 +2,7 @@
   {
     "id": "flammable_liquid",
     "type": "requirement",
-    "//": "This should contain all flammable liquids useful for things like molotovs, 1 mL.",
+    "//": "This should contain all flammable liquids. 1 mL.",
     "components": [
       [
         [ "gasoline", 1 ],
@@ -22,7 +22,7 @@
   {
     "id": "accelerant_liquid",
     "type": "requirement",
-    "//": "This should contain all flammable liquids with a flash point below 30 degrees centigrade, 1 mL.",
+    "//": "This should contain all flammable liquids with a flash point below 30 degrees centigrade, such as for molotovs. 1 mL.",
     "components": [
       [
         [ "gasoline", 1 ],

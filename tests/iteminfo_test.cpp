@@ -707,9 +707,9 @@ TEST_CASE( "techniques_when_wielded", "[iteminfo][weapon][techniques]" )
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
            " <color_c_light_blue>Brutal Strike</color>:"
-           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
+           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only, min 2 melee</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
            " <color_c_light_blue>Sweep Attack</color>:"
-           " <color_c_cyan>Down 2 turns</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
+           " <color_c_cyan>Down 2 turns, min 3 melee</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
            " <color_c_light_blue>Block</color>:"
            " <color_c_cyan>Medium blocking ability</color> <color_c_cyan></color>\n" );
 
@@ -1903,7 +1903,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (8%)\n" );
+               "Vitamins (RDA): 83 mg Calcium (8%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1920,7 +1920,8 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
+               "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
+               " and 0-51 mg Vitamin C (0-56%)\n" );
     }
 }
 

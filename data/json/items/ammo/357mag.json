@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum FMJ" },
     "description": "Jacketed .357 Magnum ammunition.  The .357 Magnum round is derived from the earlier .38 Special, with a marginally longer case and generating greater pressure.",
+    "ascii_picture": "357mag_fmj",
     "weight": "13 g",
     "volume": "145 ml",
     "longest_side": "40 mm",

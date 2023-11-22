@@ -29,7 +29,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "STUN_IMMUNE" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "BIOLOGICALPROOF", "IMMOBILE", "NO_BREATHE", "STUN_IMMUNE" ],
     "armor": { "bash": 2, "cut": 5, "bullet": 2 }
   },
   {
@@ -65,6 +65,7 @@
       "FLIES",
       "ELECTRONIC",
       "COLDPROOF",
+      "BIOLOGICALPROOF",
       "NO_BREATHE",
       "NOHEAD",
       "HEARS",
@@ -123,7 +124,17 @@
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "BIOLOGICALPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ],
     "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }
   }
 ]

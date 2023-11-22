@@ -264,9 +264,55 @@
     "copy-from": "seed",
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
-    "description": "Some cattail seeds.",
+    "description": "Some cattail seeds.  Must be planted in shallow water.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "cattail",
+      "fruit": "cattail_stalk",
+      "byproducts": [ "cattail_rhizome" ],
+      "grow": "91 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_lotus",
+    "copy-from": "seed",
+    "name": { "str_sp": "lotus seeds" },
+    "weight": "30 g",
+    "volume": "94 ml",
+    "fun": -5,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 27,
+    "color": "white",
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "description": "Some lotus seeds, which can be used for planting, or cooked and eaten after picking off the bitter internal ingredients.  Must be planted in shallow water.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "RAW" ],
+    "seed_data": {
+      "plant_name": "lotus",
+      "fruit": "lotus_rhizome",
+      "seeds": true,
+      "byproducts": [ "withered", "lotus" ],
+      "grow": "91 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_lotus_boiled",
+    "name": { "str": "boiled lotus seed" },
+    "weight": "30 g",
+    "flags": [ "EATEN_HOT" ],
+    "color": "white",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "looks_like": "lotus_rhizome",
+    "calories": 25,
+    "description": "A boiled lotus seed, with a soft taste.",
+    "material": [ "veggy" ],
+    "volume": "100 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -594,6 +640,17 @@
     "description": "Some mugwort seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" },
+    "volume": "2 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_spinach",
+    "copy-from": "seed",
+    "name": { "str_sp": "spinach seeds" },
+    "color": "green",
+    "description": "Some spinach seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "spinach", "fruit": "spinach", "grow": "50 days" },
     "volume": "2 ml"
   },
   {

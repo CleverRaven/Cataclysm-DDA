@@ -3,7 +3,7 @@
     "id": "monster_heal_spell",
     "type": "SPELL",
     "name": "Heal Self Monster ",
-    "description": "A spell for a monster to heal themselves.  How DARE they!.",
+    "description": "A spell for a monster to heal themselves.  How DARE they!",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",

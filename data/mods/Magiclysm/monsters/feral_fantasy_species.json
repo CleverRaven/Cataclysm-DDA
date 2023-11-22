@@ -116,6 +116,7 @@
         "id": "scratch",
         "attack_upper": false,
         "cooldown": 1,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ]
       }
     ],
@@ -232,6 +233,7 @@
         "id": "scratch",
         "attack_upper": true,
         "cooldown": 1,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 11 } ]
       },
       {
@@ -260,6 +262,6 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_axe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "SWIMS", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "SWIMS", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
   }
 ]

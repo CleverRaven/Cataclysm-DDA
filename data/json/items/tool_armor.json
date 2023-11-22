@@ -54,7 +54,7 @@
     "volume": "300 ml",
     "price": 20000,
     "price_postapoc": 50,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood", "cotton" ],
     "symbol": "{",
     "looks_like": "armguard_hard",
     "color": "red",
@@ -96,7 +96,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood", "cotton" ],
     "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 70, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
@@ -127,11 +127,12 @@
     "id": "makeshift_blindfold",
     "type": "ARMOR",
     "name": { "str": "makeshift blindfold" },
-    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  Useful for sleeping in bright areas.",
+    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  Useful for sleeping in bright areas.  Use to raise it.",
     "weight": "32 g",
     "volume": "200 ml",
     "price": 5,
     "price_postapoc": 1,
+    "use_action": { "type": "transform", "msg": "You uncover your eyes.", "target": "makeshift_blindfold_up", "menu_text": "Raise" },
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "blindfold",
@@ -143,15 +144,35 @@
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "makeshift_blindfold_up",
+    "type": "ARMOR",
+    "name": { "str": "makeshift blindfold (raised)", "str_pl": "makeshift blindfolds (raised)" },
+    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  It's currently raised, letting you see.  Use to lower it.",
+    "weight": "32 g",
+    "volume": "200 ml",
+    "price": 5,
+    "price_postapoc": 1,
+    "use_action": { "type": "transform", "msg": "You cover your eyes.", "target": "makeshift_blindfold", "menu_text": "Lower" },
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "yellow",
+    "warmth": 0,
+    "material_thickness": 0.1,
+    "environmental_protection": 0,
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+  },
+  {
     "id": "blindfold",
     "type": "ARMOR",
     "name": { "str": "blindfold" },
     "//": "A folded bandana still takes up some space on the head.",
-    "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
+    "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.  Use to raise it.",
     "weight": "72 g",
     "volume": "100 ml",
     "price": 600,
     "price_postapoc": 10,
+    "use_action": { "type": "transform", "msg": "You uncover your eyes.", "target": "blindfold_up", "menu_text": "Raise" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",
@@ -163,15 +184,35 @@
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "blindfold_up",
+    "type": "ARMOR",
+    "name": { "str": "blindfold (raised)", "str_pl": "blindfolds (raised)" },
+    "description": "A simple fabric covering tied over the eyes to block sight.  It's currently raised, letting you see.  Use to lower it.",
+    "weight": "72 g",
+    "volume": "100 ml",
+    "price": 600,
+    "price_postapoc": 10,
+    "use_action": { "type": "transform", "msg": "You cover your eyes.", "target": "blindfold", "menu_text": "Lower" },
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+  },
+  {
     "id": "blindfold_duct",
     "type": "ARMOR",
     "name": { "str": "duct tape blindfold" },
     "//": "A folded bandana still takes up some space on the head.",
-    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.",
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.  Use to raise it.",
     "weight": "20 g",
     "volume": "60 ml",
     "price": 10,
     "price_postapoc": 5,
+    "use_action": { "type": "transform", "msg": "You uncover your eyes.", "target": "blindfold_duct_up", "menu_text": "Raise" },
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "blindfold",
@@ -181,6 +222,26 @@
     "environmental_protection": 1,
     "flags": [ "BLIND", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+  },
+  {
+    "id": "blindfold_duct_up",
+    "type": "ARMOR",
+    "name": { "str": "duct tape blindfold (raised)", "str_pl": "duct tape blindfolds (raised)" },
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  It's currently raised, letting you see.  Use to lower it.",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "use_action": { "type": "transform", "msg": "You cover your eyes.", "target": "blindfold_duct", "menu_text": "Lower" },
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ], "rigid_layer_only": true } ]
   },
   {
     "id": "ear_plugs",
@@ -577,6 +638,47 @@
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
+    "type": "TOOL_ARMOR",
+    "id": "flashlight_mount_wrist",
+    "name": { "str": "diving flashlight wrist mount" },
+    "category": "clothing",
+    "volume": "150 ml",
+    "description": "A proprietary wrist mount for a flashlight.  Not very useful on its own.",
+    "//": "Based on mount for this: https://www.amazon.com/Aqualite-Tauchlampe-schwarz-Lumen-12516/dp/B00DI5GMOM",
+    "weight": "50 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "sided": true,
+    "price": 2500,
+    "price_postapoc": 100,
+    "material": [ "rubber", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "symbol": "[",
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "plastic", "covered_by_mat": 40, "thickness": 4.0 }
+        ],
+        "coverage": 70,
+        "encumbrance": 1,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 1.5,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "300 g",
+        "moves": 150,
+        "description": "Proprietary mount for a diving flashlight.",
+        "flag_restriction": [ "WRIST_MOUNT_ATTACHMENT" ]
+      }
+    ]
+  },
+  {
     "id": "holo_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "hologram cloak" },
@@ -846,22 +948,24 @@
   {
     "id": "binoculars",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
+    "category": "tools",
     "symbol": ";",
     "color": "dark_gray",
     "name": { "str": "pair of binoculars", "str_pl": "pairs of binoculars" },
     "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped during your travels.  You could also use them to focus the sunlight.",
-    "price": 30000,
+    "price": "34 USD",
     "price_postapoc": 500,
-    "material": [ "plastic", "glass" ],
+    "material": [ { "type": "plastic", "portion": 9 }, { "type": "glass" } ],
     "flags": [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER" ],
-    "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -1,
+    "weight": "550 g",
+    "volume": "540 ml",
+    "longest_side": "15 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "material_thickness": 2,
     "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "//": "Based on https://www.amazon.com/dp/B0798Q79RV"
   },
   {
     "id": "wearable_light",
@@ -1057,7 +1161,7 @@
     "id": "ar_glasses_advanced",
     "type": "TOOL_ARMOR",
     "category": "clothing",
-    "name": { "str": "pair of advanced AR glasses", "str_pl": "pairs of camping AR glasses" },
+    "name": { "str": "pair of advanced AR glasses", "str_pl": "pairs of advanced AR glasses" },
     "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allows the user to zoom their view, and it displays handy information about local topology.",
     "weight": "170 g",
     "volume": "750 ml",
@@ -1110,7 +1214,8 @@
     "description": "An armored, electronically-shielded helmet containing a camera, a two-way radio, and a headlamp, all of which can be voice-activated for redundancy.  It is designed to protect against overpressure, fragmentation, impact, and heat.",
     "weight": "3600 g",
     "volume": "4 L",
-    "price": 150000,
+    "price": 1613900,
+    "//": "Based on the EOD 10 and EOD 9 helmets.",
     "price_postapoc": 10000,
     "armor": [
       {
@@ -1143,7 +1248,7 @@
     "warmth": 65,
     "material": [ "kevlar_rigid", "plastic", "plastic_pad" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_green",
     "environmental_protection": 3,
     "ammo": "battery",
     "pocket_data": [
@@ -1163,7 +1268,7 @@
       "need_charges": 1,
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "PADDED", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "helmet_eod_on",
@@ -1935,7 +2040,6 @@
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
@@ -1971,7 +2075,6 @@
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
@@ -2031,7 +2134,6 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3
   },
   {
@@ -2341,7 +2443,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
     "price": 92000,
     "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
@@ -2378,7 +2480,7 @@
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
+    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": "375 mW",
     "revert_to": "goggles_nv",
@@ -2394,7 +2496,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
     "price": 92000,
     "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
@@ -2431,7 +2533,7 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
+    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },

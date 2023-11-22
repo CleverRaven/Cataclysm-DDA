@@ -616,8 +616,7 @@
       {
         "id": "vampire_cufflinks",
         "name": { "str_sp": "vampire cufflinks" },
-        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
-        "weight": 1
+        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood."
       }
     ]
   },
@@ -694,8 +693,7 @@
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
-        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
-        "weight": 1
+        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations."
       }
     ],
     "color": "dark_gray"
@@ -1481,7 +1479,7 @@
       {
         "id": "pharaoh_necklace",
         "name": { "str": "Ankh necklace" },
-        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, it's major use in modern times was of a try to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
+        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, the source of its major use in modern times was through a new religious movement attempting to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
         "color": "yellow",
         "weight": 5
       },
@@ -1872,7 +1870,7 @@
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
     "//": "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
-    "description": "A plastic badge with an embedded filmstrip.  The filmstrip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+    "description": "A plastic badge with an embedded filmstrip.  The text on the badge says the filmstrip changes color as it is exposed to radiation, and never goes back to how it initially looked.  Wear on your lapel so you can notice if it changes.",
     "weight": "25 g",
     "volume": "25 ml",
     "price": 8000,
@@ -2254,8 +2252,7 @@
       {
         "id": "vampire_earring",
         "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
-        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
-        "weight": 1
+        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs."
       }
     ]
   },
@@ -2332,8 +2329,7 @@
       {
         "id": "dark_earring",
         "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
-        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
-        "weight": 1
+        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts."
       }
     ],
     "color": "dark_gray"
@@ -2678,8 +2674,7 @@
       {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
-        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
-        "weight": 1
+        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it."
       }
     ]
   },
@@ -2756,8 +2751,7 @@
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
-        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
-        "weight": 1
+        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it."
       }
     ],
     "color": "dark_gray"
@@ -3110,8 +3104,7 @@
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
-        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts.",
-        "weight": 1
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts."
       }
     ]
   },
@@ -3188,8 +3181,7 @@
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
-        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
-        "weight": 1
+        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye."
       }
     ],
     "color": "dark_gray"
@@ -3526,8 +3518,7 @@
       {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
-        "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
-        "weight": 1
+        "description": "A sinister silver necklace adorned with a blood-red ruby pendant."
       }
     ]
   },
@@ -3604,8 +3595,7 @@
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
-        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
-        "weight": 1
+        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart."
       }
     ],
     "color": "dark_gray"
@@ -4070,8 +4060,7 @@
       {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
-        "description": "A sinister dark silver tiara adorned with blood-red rubies.",
-        "weight": 1
+        "description": "A sinister dark silver tiara adorned with blood-red rubies."
       }
     ]
   },
@@ -4145,12 +4134,7 @@
         "description": "A shiny, silver tiara adorned with onyx.",
         "weight": 99
       },
-      {
-        "id": "dark_tiara",
-        "name": { "str": "dark tiara" },
-        "description": "A dark silver tiara adorned with onyx.",
-        "weight": 1
-      }
+      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
   }

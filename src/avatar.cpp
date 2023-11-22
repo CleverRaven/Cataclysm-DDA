@@ -461,11 +461,11 @@ bool avatar::read( item_location &book, item_location ereader )
     const std::string skill_name = skill ? skill.obj().name() : "";
 
     // Find NPCs to join the study session:
-    std::map<npc *, std::string> learners;
+    std::map<Character *, std::string> learners;
     //reading only for fun
-    std::map<npc *, std::string> fun_learners;
-    std::map<npc *, std::string> nonlearners;
-    for( npc *elem : get_crafting_helpers() ) {
+    std::map<Character *, std::string> fun_learners;
+    std::map<Character *, std::string> nonlearners;
+    for( Character *elem : get_crafting_helpers() ) {
         const book_mastery mastery = elem->get_book_mastery( *book );
         const bool morale_req = elem->fun_to_read( *book ) || elem->has_morale_to_read();
 
@@ -506,21 +506,22 @@ bool avatar::read( item_location &book, item_location ereader )
         uilist menu;
 
         // Some helpers to reduce repetition:
-        auto length = []( const std::pair<npc *, std::string> &elem ) {
+        auto length = []( const std::pair<Character *, std::string> &elem ) {
             return utf8_width( elem.first->disp_name() ) + utf8_width( elem.second );
         };
 
-        auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
+        auto max_length = [&length]( const std::map<Character *, std::string> &m ) {
             auto max_ele = std::max_element( m.begin(),
-                                             m.end(), [&length]( const std::pair<npc *, std::string> &left,
-            const std::pair<npc *, std::string> &right ) {
+                                             m.end(), [&length]( const std::pair<Character *, std::string> &left,
+            const std::pair<Character *, std::string> &right ) {
                 return length( left ) < length( right );
             } );
             return max_ele == m.end() ? 0 : length( *max_ele );
         };
 
-        auto get_text =
-        [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem ) {
+        auto get_text = [&]( const std::map<Character *, std::string> &m,
+                             const std::pair<Character *, std::string> &elem
+        ) {
             const int lvl = elem.first->get_knowledge_level( skill );
             const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
             const std::string name_text = elem.first->disp_name() + elem.second;
@@ -551,8 +552,8 @@ bool avatar::read( item_location &book, item_location ereader )
         }
 
         if( !learners.empty() ) {
-            add_header( _( "Read until this NPC gains a level:" ) );
-            for( const std::pair<npc *const, std::string> &elem : learners ) {
+            add_header( _( "Read until this Character gains a level:" ) );
+            for( const std::pair<Character *const, std::string> &elem : learners ) {
                 menu.addentry( 2 + elem.first->getID().get_value(), true, -1,
                                get_text( learners, elem ) );
             }
@@ -560,14 +561,14 @@ bool avatar::read( item_location &book, item_location ereader )
 
         if( !fun_learners.empty() ) {
             add_header( _( "Reading for fun:" ) );
-            for( const std::pair<npc *const, std::string> &elem : fun_learners ) {
+            for( const std::pair<Character *const, std::string> &elem : fun_learners ) {
                 menu.addentry( -1, false, -1, get_text( fun_learners, elem ) );
             }
         }
 
         if( !nonlearners.empty() ) {
             add_header( _( "Not participating:" ) );
-            for( const std::pair<npc *const, std::string> &elem : nonlearners ) {
+            for( const std::pair<Character *const, std::string> &elem : nonlearners ) {
                 menu.addentry( -1, false, -1, get_text( nonlearners, elem ) );
             }
         }
@@ -620,7 +621,7 @@ bool avatar::read( item_location &book, item_location ereader )
         add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name() );
     } else if( !learners.empty() ) {
         const std::string them = enumerate_as_string( learners.begin(),
-        learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
+        learners.end(), [&]( const std::pair<Character *, std::string> &elem ) {
             return elem.first->disp_name();
         } );
         add_msg( m_info, _( "%s study with you." ), them );
@@ -628,7 +629,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
     // Don't include the reader as it would be too redundant.
     std::set<std::string> readers;
-    for( const std::pair<npc *const, std::string> &elem : fun_learners ) {
+    for( const std::pair<Character *const, std::string> &elem : fun_learners ) {
         if( elem.first != reader ) {
             readers.insert( elem.first->disp_name() );
         }
@@ -1185,6 +1186,24 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_your_followers );
 }
 
+bool avatar::is_ally( const Character &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    const npc &guy = dynamic_cast<const npc &>( p );
+    return guy.is_ally( *this );
+}
+
+bool avatar::is_obeying( const Character &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    const npc &guy = dynamic_cast<const npc &>( p );
+    return guy.is_obeying( *this );
+}
+
 bool avatar::cant_see( const tripoint &p )
 {
 
@@ -1413,7 +1432,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon->on_wield( *this );
 
-    get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
+    get_event_bus().send_with_talker( this, &weapon, e );
 
     inv->update_invlet( *weapon );
     inv->update_cache_with_item( *weapon );

@@ -2,17 +2,16 @@
   {
     "id": "telepathic_concentration",
     "type": "SPELL",
-    "name": "[Ψ]Concentration Trance",
-    "description": "Focus your own mind into a trance state, increasing learning speed.",
-    "message": "Your vision narrows to what is directly in front of you as you concentrate.",
+    "name": "[Ψ]Concentration Trance (toggle)",
+    "description": "Focus your own mind into a trance state, increasing learning speed.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_telepathic_learning_bonus",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPATH_CONCENTRATION_INITIATE",
     "shape": "blast",
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -33,26 +32,7 @@
     "base_casting_time": 300,
     "final_casting_time": 150,
     "casting_time_increment": -15,
-    "learn_spells": { "telepathic_blast": 7, "telepathic_confusion": 15 }
-  },
-  {
-    "id": "telepathic_concentration_end",
-    "type": "SPELL",
-    "name": "[Ψ]Concentration Trance (Remove)",
-    "description": "End your focused trance, returning to normal.",
-    "message": "You stop concentrating.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEPATH",
-    "skill": "metaphysics",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "effect_telepathic_learning_bonus",
-    "shape": "blast",
-    "max_level": 1,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 0,
-    "base_casting_time": 30
+    "learn_spells": { "telepathic_mind_sense": 5, "telepathic_blast": 7, "telepathic_confusion": 15 }
   },
   {
     "id": "telepathic_shield",
@@ -89,17 +69,16 @@
   {
     "id": "telepathic_morale",
     "type": "SPELL",
-    "name": "[Ψ]Mood Stabilization",
-    "description": "With the ability to edit others' thoughts comes the ability to edit your own.",
-    "message": "You begin to edit out your discouraging thoughts.",
+    "name": "[Ψ]Mood Stabilization (toggle)",
+    "description": "With the ability to edit others' thoughts comes the ability to edit your own, removing negative moods to a degree.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKIN_MORALE",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "effect_str": "EOC_TELEKIN_MORALE_INITIATE",
     "shape": "blast",
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -119,11 +98,38 @@
     "learn_spells": { "telepathic_confusion": 7, "telepathic_invisibility": 10, "telepathic_mind_control": 15 }
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_MORALE",
-    "effect": [
-      { "u_add_morale": "morale_telepathy", "bonus": 10, "max_bonus": 25, "duration": "4 hours", "decay_start": "2 hours" }
-    ]
+    "id": "telepathic_mind_sense",
+    "type": "SPELL",
+    "name": "[Ψ]Sense Minds",
+    "description": "You can use your powers to detect the tell-tale hum of a living, sapient mind, no matter how strange or alien it may be.",
+    "message": "You reach out with your powers, looking for nearby minds.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telepath_sense_minds",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_mind_sense') * 4000) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_mind_sense') * 4000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1500,
+    "energy_increment": -115,
+    "base_casting_time": 500,
+    "learn_spells": { "telepathic_network": 15 }
   },
   {
     "id": "telepathic_blast",
@@ -158,7 +164,9 @@
       "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_blast') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -168,7 +176,8 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_blast_radius": 12 }
+    "ignored_monster_species": [ "PSI_NULL" ],
+    "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
   },
   {
     "id": "telepathic_confusion",
@@ -198,7 +207,9 @@
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_confusion') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -208,7 +219,8 @@
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_mind_control": 12 }
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
+    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
   },
   {
     "id": "telepathic_confusion_blind",
@@ -231,13 +243,93 @@
     },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "telepathic_fear",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror",
+    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does, and it leaves a lingering horror behind in the target.",
+    "message": "You unleash your target's fears.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "effect": "mod_moves",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true }, { "id": "telepathic_fear_extra", "hit_self": false } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "//": "Complicated formula here is to produce diminishing returns, since mod_moves for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
+    "min_damage": {
+      "math": [
+        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * -1"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * -1"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_fear') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ), 4)"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2500,
+    "energy_increment": -100,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
+  },
+  {
+    "id": "telepathic_fear_extra",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror Effect",
+    "description": "Applies a longer debuff when using Primal Terror.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "flags": [ "SILENT", "RANDOM_DURATION", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "attack",
+    "effect_str": "effect_telepathic_primal_terror",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 75) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 150) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_fear') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ), 4)"
+      ]
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_invisibility",
     "type": "SPELL",
     "name": "[Ψ]Obscurity",
-    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.",
+    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.\n\nThis power is <color_red>canceled by engaging in combat</color>",
     "message": "You hide your presence from your enemies.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -266,8 +358,7 @@
     "energy_increment": -125,
     "base_casting_time": 100,
     "final_casting_time": 25,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "telepathic_mind_control": 9 }
+    "casting_time_increment": -7.5
   },
   {
     "id": "telepathic_blast_radius",
@@ -305,7 +396,9 @@
       "math": [ "( (u_val('spell_level', 'spell: telepathic_blast_radius') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
@@ -319,7 +412,7 @@
     "id": "telepathic_blast_radius_guaranteed",
     "type": "SPELL",
     "name": "[Ψ]Psychic Scream Additional Damage",
-    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold.  It's a bug if you have it directly.",
+    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
@@ -331,7 +424,9 @@
     "max_damage": 2,
     "damage_increment": 0.1,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
     }
   },
   {
@@ -368,7 +463,9 @@
       ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
     "max_range": 70,
     "energy_source": "STAMINA",
@@ -377,7 +474,8 @@
     "energy_increment": -250,
     "base_casting_time": 120,
     "final_casting_time": 75,
-    "casting_time_increment": -3.5
+    "casting_time_increment": -3.5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_network",

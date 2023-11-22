@@ -2,6 +2,6 @@
   {
     "type": "ITEM_BLACKLIST",
     "whitelist": false,
-    "items": [ "m74_clip" ]
+    "items": [ "m74_clip", "exodiisapramag5" ]
   }
 ]

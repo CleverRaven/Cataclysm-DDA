@@ -28,22 +28,19 @@
       {
         "id": "manual_business",
         "name": { "str": "How to Succeed in Business", "str_pl": "copies of How to Succeed in Business" },
-        "description": "Useful if you want to get a good deal when purchasing goods.",
-        "weight": 1
+        "description": "Useful if you want to get a good deal when purchasing goods."
       },
       {
         "id": "manual_business_1",
         "name": { "str": "How To Day Trade For A Living", "str_pl": "copies of How To Day Trade For A Living" },
         "description": "The fundamentals of day trading, and how it differs from other styles of trading and investment, with elaboration on important trading strategies that many traders use every day.",
-        "//": "978-1535585958",
-        "weight": 1
+        "//": "978-1535585958"
       },
       {
         "id": "manual_business_2",
         "name": { "str": "Trading Psychology For Dummies", "str_pl": "copies of Trading Psychology For Dummies" },
         "description": "A guide to help you develop a mindset to trade on a rapidly changing stock market.  Not very useful in current moment, when the main stock you have is a stock of ammo, or maybe just soup.",
-        "//": "978-1119879589",
-        "weight": 1
+        "//": "978-1119879589"
       }
     ],
     "weight": "454 g",
@@ -71,22 +68,19 @@
       {
         "id": "textbook_business",
         "name": { "str": "Advanced Economics", "str_pl": "copies of Advanced Economics" },
-        "description": "A college textbook on economics.",
-        "weight": 1
+        "description": "A college textbook on economics."
       },
       {
         "id": "textbook_business_1",
         "name": { "str": "Peer to Peer Bartering", "str_pl": "copies of Peer to Peer Bartering" },
         "description": "In this work, David Cabanillas adopts bartering incentive pattern as an attractive foundation in the age of the internet for a simple and robust form of exchange to reallocate resources.",
-        "//": "978-3838338194",
-        "weight": 1
+        "//": "978-3838338194"
       },
       {
         "id": "textbook_business_2",
         "name": { "str": "Trading Basics", "str_pl": "copies of Trading Basics" },
         "description": "Comprehensive coverage of most major stock trading styles.",
-        "//": "978-1118464212",
-        "weight": 1
+        "//": "978-1118464212"
       }
     ],
     "weight": "1587 g",

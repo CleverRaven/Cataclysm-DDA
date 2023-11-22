@@ -27,7 +27,7 @@
       "Y": "f_trashcan",
       "Z": "f_dryer",
       "d": "f_shower",
-      "g": "f_water_heater",
+      "g": [ "f_water_heater", "f_water_heater_family" ],
       "h": "f_fireplace",
       "i": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "j": "f_sink",

@@ -293,5 +293,49 @@
     "spell_class": "DREAMSMITH",
     "energy_source": "STAMINA",
     "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "CONCENTRATE" ]
+  },
+  {
+    "id": "arvore_forest_mapping_spell",
+    "type": "SPELL",
+    "name": "Commune with the Ancient Oaks",
+    "description": "This spell allows you to speak to the trees and discern the layout of the forest.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GAIN_COMMUNE_OAKS",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "difficulty": 6,
+    "max_level": 15,
+    "base_casting_time": 6000,
+    "final_casting_time": 1000,
+    "casting_time_increment": -350,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40,
+    "min_duration": 6000,
+    "max_duration": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_COMMUNE_OAKS",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_message": "The trees whisper their secrets to you.  [Check mutations to activate]", "type": "good" },
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_COMMUNE_OAKS",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
   }
 ]

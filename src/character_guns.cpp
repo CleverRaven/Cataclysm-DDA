@@ -118,7 +118,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
         skill_id sk = e.first.str() == "weapon" ? gun->gun_skill() : e.first;
-        chances += std::max( get_skill_level( sk ) - e.second, 0.0f );
+        chances += std::max( get_greater_skill_or_knowledge_level( sk )  - e.second, 0.0f );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;

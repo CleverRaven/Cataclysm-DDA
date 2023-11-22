@@ -151,6 +151,7 @@ struct weakpoint {
     // Return the change of the creature hitting the weakpoint.
     float hit_chance( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+    void check() const;
 };
 
 struct weakpoints {
@@ -172,6 +173,7 @@ struct weakpoints {
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
     void finalize();
+    void check() const;
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type

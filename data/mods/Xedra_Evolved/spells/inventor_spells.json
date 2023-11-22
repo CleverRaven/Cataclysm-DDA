@@ -2,7 +2,7 @@
   {
     "type": "SPELL",
     "id": "firmament_driver",
-    "name": "Firmament-driver",
+    "name": "Firmament-Driver",
     "description": "Push the target.  It's not really effective, but sometimes comes in handy.",
     "valid_targets": [ "ally", "self", "hostile" ],
     "effect": "directed_push",

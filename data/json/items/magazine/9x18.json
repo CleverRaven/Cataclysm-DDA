@@ -10,8 +10,7 @@
       {
         "id": "makarovmag",
         "name": { "str": "PM 8-round magazine" },
-        "description": "A standard 8-round magazine for the Makarov pistol.",
-        "weight": 1
+        "description": "A standard 8-round magazine for the Makarov pistol."
       }
     ],
     "weight": "60 g",
@@ -36,8 +35,7 @@
       {
         "id": "skorpion82mag",
         "name": { "str": "Škorpion vz. 82 20-round magazine" },
-        "description": "A standard 20-round magazine for the Škorpion vz. 82, in 9x18mm Makarov.",
-        "weight": 1
+        "description": "A standard 20-round magazine for the Škorpion vz. 82, in 9x18mm Makarov."
       }
     ],
     "weight": "170 g",

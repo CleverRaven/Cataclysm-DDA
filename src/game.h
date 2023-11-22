@@ -122,6 +122,7 @@ struct look_around_params {
     bool has_first_point;
     bool select_zone;
     bool peeking;
+    bool change_lv;
 };
 
 struct w_map {
@@ -480,6 +481,7 @@ class game
          * are checked ( and returned ). Returned pointers are never null.
          */
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<Character *> get_characters_if( const std::function<bool( const Character & )> &pred );
         std::vector<npc *> get_npcs_if( const std::function<bool( const npc & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
@@ -636,11 +638,13 @@ class game
         * @param peeking determines if the player is peeking
         * @param is_moving_zone true if the zone is being moved, false by default
         * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @param change_lv determines allow if change z-level
         * @return look_around_result
         */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero );
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero,
+                                        bool change_lv = true );
         look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
@@ -889,7 +893,6 @@ class game
         // Pick up items from all nearby tiles
         void pickup_all();
 
-        void insert_item(); // Insert items to container  'v'
         void unload_container(); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 
@@ -903,6 +906,8 @@ class game
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void insert_item(); // Insert items to container  'v'
+        void insert_item( drop_locations &targets );
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
@@ -1226,25 +1231,53 @@ class game
         // called on map shifting
         void shift_destination_preview( const point &delta );
 
+        /** Passed to climbing-related functions (slip_down) to
+        *   indicate the climbing action being attempted.
+        */
+        enum class climb_maneuver {
+            down,          // climb up one Z-level
+            up,            // climb down one Z-level
+            over_obstacle, // climb over an obstacle (horizontal move)
+        };
+
         /**
         Checks if player is able to successfully climb to/from some terrain and not slip down
-        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param aid Identifies the object, terrain or ability being used to climb.  See climbing.h.
         @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
         @return whether player has slipped down
         */
-        bool slip_down( bool check_for_traps = false, bool show_chance_messages = true );
+        bool slip_down(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
 
         /**
         Calculates the chance that slip_down will return true.
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param affordance Identifies the object, terrain or ability being used to climb.  See climbing.h.
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
-        int slip_down_chance( bool show_messages = true );
+        int slip_down_chance(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
 
         /**
-        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        * Climb down from a ledge.
+        * Player is prompted to deploy grappling hook, webs or detach vines if applicable.
+        * Otherwise the safest available affordance (see above) is detected and used.
+        * The player is shown a confirmation query with an assessment of falling risk and damage.
         */
         void climb_down( const tripoint &examp );
+
+        void climb_down_menu_gen( const tripoint &examp, uilist &cmenu );
+        bool climb_down_menu_pick( const tripoint &examp, int retval );
+        void climb_down_using(
+            const tripoint &examp,
+            climbing_aid_id aid,
+            bool deploy_affordance = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

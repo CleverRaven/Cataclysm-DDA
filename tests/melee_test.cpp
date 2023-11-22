@@ -365,14 +365,18 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
     item firesword( "test_fire_sword" );
     dude.set_wielded_item( firesword );
-    while( !dude.melee_attack( mon, false ) ) {}
+    for( int i = 0; i < 1000; ++i ) {
+        if( dude.melee_attack( mon, false ) && !dude.get_value( "npctalk_var_test_bp" ).empty() ) {
+            break;
+        }
+    }
+    CHECK( !dude.get_value( "npctalk_var_test_bp" ).empty() );
     if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
         REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
     }
 
     eoc_total_dmg = std::round( std::stod(
                                     dude.get_value( "npctalk_var_test_damage_taken" ) ) );
-    REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
 
     Messages::clear_messages();
     CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );

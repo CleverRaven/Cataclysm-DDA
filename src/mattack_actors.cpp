@@ -82,6 +82,8 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
     optional( obj, was_loaded, "random_leap", random_leap, false );
+    optional( obj, was_loaded, "ignore_dest_terrain", ignore_dest_terrain, false );
+    optional( obj, was_loaded, "ignore_dest_danger", ignore_dest_danger, false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
@@ -167,6 +169,16 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
+        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate place it can't enter, discarded" );
+            continue;
+        }
+        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate with dangerous conditions, discarded" );
+            continue;
+        }
         candidates.emplace( candidate_dist, candidate );
     }
     for( const auto &candidate : candidates ) {
@@ -192,12 +204,12 @@ bool leap_actor::call( monster &z ) const
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
                 break;
+            } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, i ) &&
+                       z.get_size() > creature_size::medium ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate discarded" );
+                blocked_path = true;
+                break;
             }
-        }
-        // don't leap into water if you could drown (#38038)
-        if( z.is_aquatic_danger( dest ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Can't leap into water, candidate discarded" );
-            blocked_path = true;
         }
         if( blocked_path ) {
             continue;
@@ -1030,6 +1042,11 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );
     }
 
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
     obj.read( "max_ammo", max_ammo );
 
     obj.read( "move_cost", move_cost );
@@ -1083,6 +1100,14 @@ bool gun_actor::call( monster &z ) const
     Creature *target;
     tripoint aim_at;
     bool untargeted = false;
+
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), nullptr );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
+    }
 
     if( z.friendly ) {
         int max_range = get_max_range();

@@ -149,6 +149,65 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_obfuscating_aura",
+    "name": [ "Obfuscating Aura" ],
+    "desc": [ "Light is distorting around you and making it easier for you to avoid attacks." ],
+    "apply_message": "The edges of your vision ripple slightly.",
+    "remove_message": "The aura of light distortion around you vanishes.",
+    "enchantments": [
+      {
+        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_val('spell_level', 'spell: obfuscated_body') / 7) + 1)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shape_of_dust",
+    "name": [ "Shape of Dust" ],
+    "desc": [ "Clouds of dust around you are hiding you from your enemies." ],
+    "apply_message": "Dust springs up and hides your presence.",
+    "remove_message": "The clouds of dust around you die down",
+    "max_duration": "10 minutes",
+    "enchantments": [ "ench_shape_of_dust" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_acid_res_aura",
+    "name": [ "Acid Resist Aura" ],
+    "desc": [ "You are protected from acid damage." ],
+    "apply_message": "Your body tingles.",
+    "remove_message": "The tingling fades.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_ACID",
+            "multiply": { "math": [ "((u_val('spell_level', 'spell: acid_resistance') * -0.02) - 0.2)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_acid_res_aura_greater",
+    "name": [ "Greater Acid Resist Aura" ],
+    "desc": [ "You are greatly protected from acid damage." ],
+    "apply_message": "Your body tingles.",
+    "remove_message": "The tingling fades.",
+    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_thorns_electric",
+    "name": [ "Aura of Repelling Arc" ],
+    "desc": [ "Anyone who attacks you will be electrified." ],
+    "apply_message": "The air around you sparks with electricity.",
+    "remove_message": "The air around you loses its charge.",
+    "enchantments": [ { "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_acidburn",
     "name": [ "Acidic burn" ],
     "desc": [ "Burned with acid" ],
@@ -972,7 +1031,12 @@
       "effect_magus_spiderclimb",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
-      "effect_classless_watch"
+      "effect_classless_watch",
+      "effect_obfuscating_aura",
+      "effect_shape_of_dust",
+      "effect_acid_res_aura",
+      "effect_acid_res_aura_greater",
+      "effect_thorns_electric"
     ]
   },
   {
@@ -1024,6 +1088,11 @@
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_classless_watch",
+      "effect_obfuscating_aura",
+      "effect_shape_of_dust",
+      "effect_acid_res_aura",
+      "effect_acid_res_aura_greater",
+      "effect_thorns_electric",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

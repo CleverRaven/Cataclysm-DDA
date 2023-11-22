@@ -31,6 +31,7 @@ class eoc_events : public event_subscriber
 {
     public:
         void notify( const cata::event &e ) override;
+        void notify( const cata::event &, std::unique_ptr<talker>, std::unique_ptr<talker> ) override;
         void clear();
 
     private:

@@ -422,6 +422,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty
+- ```ROOTS2``` Gain enhanced effects from the Mycorrhizal Communion mutation.
+- ```ROOTS3``` Gain enhanced effects from the Mycorrhizal Communion mutation (slightly faster than ROOTS2).
 - ```SAPIOVORE``` Butcher humans without a morale penalty
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
 - ```SLUDGE_IMMUNE``` Critter is immune to sludge trail field (`fd_sludge`)
@@ -436,6 +438,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
+- ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
 - ```WATCH``` You always know what time it is.
@@ -606,6 +609,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
+- ```EXAMINE_FROM_ABOVE``` Furniture can be <kbd>e</kbd> examined from a ledge above.  If deployed furniture is taken down it will be placed on the ledge.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
@@ -635,6 +639,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`.
 - ```NO_FLOOR``` Things should fall when placed on this tile.
+- ```NO_FLOOR_WATER``` This tile has no floor, but there is water so it doesn't free fall.
 - ```NO_PICKUP_ON_EXAMINE``` Examining this tile (<kbd>e</kbd> by default) won't open Pick Up menu even if there are items here.
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile.
 - ```NO_SELF_CONNECT``` This terrain won't use multitile texture, and will always looks like a separate unit
@@ -1117,6 +1122,7 @@ Other monster flags.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
+- ```BIOLOGICALPROOF``` Immune to biological damage.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180).
 - ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
@@ -1149,6 +1155,7 @@ Other monster flags.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing, adding their strength together.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
+- ```HAS_MIND``` Is sapient and capable of reason (mi-go, triffids, cyborgs, etc.).  `HUMAN` assumes `HAS_MIND`
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
@@ -1641,6 +1648,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
 - ```NO_INSTALL_HIDDEN``` Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts).
 - ```NO_INSTALL_PLAYER``` Part can't be installed by player but visible in install menu (e.g. helicopter rotors).
+- ```NO_LEAK``` Causes a boat hull to float even when damaged.
 - ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
 - ```NO_REPAIR``` Cannot be repaired.
 - ```NO_UNINSTALL``` Cannot be uninstalled.
@@ -1741,4 +1749,3 @@ Gun fault flags:
 - ```JAMMED_GUN``` Stops burst fire. Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 - ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
-

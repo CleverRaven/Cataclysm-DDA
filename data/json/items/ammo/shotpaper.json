@@ -3,6 +3,7 @@
     "abstract": "shot_paper_abstract",
     "type": "AMMO",
     "name": { "str": "paper cartridge base" },
+    "ascii_picture": "shot_paper_abstract",
     "weight": "26 g",
     "volume": "250 ml",
     "price": 500,

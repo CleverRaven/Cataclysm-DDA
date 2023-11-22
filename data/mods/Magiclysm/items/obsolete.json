@@ -37,5 +37,157 @@
     "type": "recipe",
     "result": "shotcestus",
     "obsolete": true
+  },
+  {
+    "id": "obfuscating_aura",
+    "type": "ARMOR",
+    "name": "obfuscating aura",
+    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "shape_of_dust",
+    "type": "ARMOR",
+    "name": "dust cloak",
+    "description": "You are unseen in between of the sand that cover you.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "cloak",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+          "emitter": "emit_eshaper_dust",
+          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "acid_res_aura",
+    "type": "ARMOR",
+    "name": { "str": "acid resistance aura" },
+    "description": "An all-encompassing, invisible layer of protection against acid.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "green",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "acid_res_aura_greater",
+    "type": "ARMOR",
+    "name": "greater acid resistance aura",
+    "description": "An all-encompassing, invisible layer of protection against acid.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "green",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "thorns_electric",
+    "type": "ARMOR",
+    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
+    "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   }
 ]

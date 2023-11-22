@@ -1,5 +1,11 @@
 [
   {
+    "type": "overmap_terrain",
+    "id": [ "basement_bionic" ],
+    "copy-from": "generic_city_house_basement",
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 }
+  },
+  {
     "id": "municipal_reactor",
     "type": "overmap_terrain",
     "name": "municipal reactor",
@@ -103,9 +109,27 @@
     ],
     "name": "augmentation clinic",
     "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
-    "sym": "A",
+    "sym": "P",
     "color": "yellow",
     "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "maintenance_outpost_a1",
+      "maintenance_outpost_a2",
+      "maintenance_outpost_b1",
+      "maintenance_outpost_b2",
+      "maintenance_outpost_a1_roof",
+      "maintenance_outpost_a2_roof",
+      "maintenance_outpost_b1_roof",
+      "maintenance_outpost_b2_roof"
+    ],
+    "name": "maintenance outpost",
+    "sym": "i",
+    "color": "cyan",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_ELECTRONICS", "SOURCE_CONSTRUCTION" ],
     "see_cost": 3
   },
   {
@@ -219,7 +243,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "robot_dispatch_second",
+    "id": [ "robot_dispatch_second", "robot_dispatch_roof" ],
     "name": "robot dispatch center",
     "sym": "R",
     "color": "i_pink",
