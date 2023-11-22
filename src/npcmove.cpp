@@ -80,11 +80,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
-
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -110,6 +105,11 @@ static const bionic_id bio_plutfilter( "bio_plutfilter" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_soporific( "bio_soporific" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -450,9 +450,9 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        candidate_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        candidate_health *= std::max( 1.0f - bleed_intensity / 20.f, 0.5f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", candidate.disp_name(), bleed_intensity );
+                       "<color_red>%s is bleeeeeeding…</color>, intensity %i", candidate.disp_name(), bleed_intensity );
     }
 
     if( !my_gun ) {
@@ -547,9 +547,9 @@ float npc::evaluate_self( bool my_gun ) const
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        my_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        my_health *= std::max( 1.0f - bleed_intensity / 20.f, 0.5f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
+                       "<color_red>%s is bleeeeeeding…</color>, intensity %i", name, bleed_intensity );
     }
 
     threat += get_dodge();
