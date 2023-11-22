@@ -69,7 +69,7 @@
     "copy-from": "mc_broadsword",
     "type": "TOOL",
     "name": { "str": "megachette" },
-    "description": "Completely flat, single-edged blade.  Very visually appealing, and no less deadly.",
+    "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.",
     "replace_materials": { "mc_steel": "steel", "leather": "steel" },
     "relative": { "melee_damage": { "cut": 3 } }
   },
@@ -78,7 +78,7 @@
     "copy-from": "qt_zweihander",
     "type": "TOOL",
     "name": { "str": "binary sword" },
-    "description": "Relatively heavy twohand sword with \"100111100\" inscribed on the blade, to appeal fancier than it is.  Surprisingly a good weapon",
+    "description": "A relatively heavy two-handed sword with \"100111100\" inscribed on the blade, perhaps to appear fancier than it truly is.  Still, it is a surprisingly good weapon",
     "replace_materials": { "qt_steel": "steel", "kevlar": "kevlar" },
     "relative": { "melee_damage": { "pure": 6 } }
   }

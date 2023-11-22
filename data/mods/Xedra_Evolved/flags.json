@@ -7,6 +7,6 @@
   {
     "id": "INVENTOR_CRAFTED",
     "type": "json_flag",
-    "info": "This thing was crafted by inventor.  It is very unstable, and will rapidly degrade without inventor's presence."
+    "info": "This thing was crafted by a mad inventor.  It is very unstable and will rapidly degrade without an inventor's presence."
   }
 ]

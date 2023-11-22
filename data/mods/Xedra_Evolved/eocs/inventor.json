@@ -369,8 +369,8 @@
           "effect": [
             { "math": [ "n_hp('ALL')", "-=", "2" ] },
             { "message": "You hear a sudden crack!" },
-            { "u_message": "Lack of inventor's aura make items, made by inventor's fevered mind, rapidly degrade!" },
-            { "npc_message": "My items, they fall apart!  It wasn't me!" }
+            { "u_message": "Your lack of an inventor's aura makes items created by their fevered mind rapidly degrade!" },
+            { "npc_message": "My items are falling apart!  It isn't me!" }
           ]
         }
       ]
