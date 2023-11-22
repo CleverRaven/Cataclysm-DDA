@@ -624,8 +624,7 @@
         [ "naginata", -1 ],
         [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
-        [ "poleaxe", -1 ],
-        [ "ji", -1 ]
+        [ "poleaxe", -1 ], 
       ]
     ]
   },
@@ -672,7 +671,8 @@
         [ "pike_copper", -1 ],
         [ "pike", -1 ],
         [ "spear_dory", -1 ],
-        [ "spear_bronze", -1 ]
+        [ "spear_bronze", -1 ],
+        [ "ji", -1 ]
       ]
     ]
   }
