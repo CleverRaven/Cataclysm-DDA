@@ -14,7 +14,7 @@
           "inventor_sniper",
           "inventor_shotgun",
           "inventor_pistol",
-          "mace_magic",
+          "megachete",
           "software_math_inventor",
           "software_electronics_reference_inventor",
           "combatsaw_spear_off",
@@ -55,6 +55,7 @@
           "inventor_fists",
           "wolf_mask",
           "magnetic_holster",
+          "binary_sword",
           "bio_launcher",
           "bio_warhead",
           "trinket_damage",
@@ -95,7 +96,7 @@
       { "math": [ "base_difficulty_3", "+=", "4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
+        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "mace_magic", "inventor_research_energy_1" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
@@ -351,5 +352,26 @@
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_MESSAGE_GOOD",
     "effect": { "u_message": "inventor_success", "snippet": true, "type": "good" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_MESSAGE_GOOD",
+    "recurrence": [ "1 d", "2 d" ],
+    "condition": { "not": { "u_has_trait": "INVENTOR" } },
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "flags": [ "INVENTOR_CRAFTED" ] } ],
+      "true_eocs": [
+        {
+          "id": "EOC_RUST_INVENTOR_ITEMS",
+          "effect": [
+            { "math": [ "n_hp('ALL')", "-=", "2" ] },
+            { "message": "You hear a sudden crack from !" },
+            { "u_message": "Lack of inventor's aura make items, made by inventor's fevered mind, rapidly degrade!" },
+            { "npc_message": "My items, they fall apart!  It wasn't me!" }
+          ]
+        }
+      ]
+    }
   }
 ]
