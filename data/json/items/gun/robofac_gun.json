@@ -326,7 +326,7 @@
     "dispersion": 120,
     "durability": 9,
     "blackpowder_tolerance": 40,
-    "min_cycle_recoil": 1350,
+    "min_cycle_recoil": 1400,
     "built_in_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight" ],
     "valid_mod_locations": [
       [ "underbarrel", 1 ],
