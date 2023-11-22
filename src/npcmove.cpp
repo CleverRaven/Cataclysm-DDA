@@ -284,11 +284,11 @@ tripoint npc::good_escape_direction( bool include_pos )
 	bool careful_retreat = mem_combat.repositioning || mem_combat.panic == 0;
 	if( !careful_retreat ) {
 		careful_retreat = mem_combat.panic > 10 + personality.bravery + get_int();
-			if( !careful_retreat ){
-				add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is panicking too much to use retreat zones and stuff.", name );
-			}else {				
-				add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is running away but still being smart about it.", name );
-			}
+		if( !careful_retreat ){
+			add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is panicking too much to use retreat zones and stuff.", name );
+		}else {				
+			add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is running away but still being smart about it.", name );
+		}
 	}
 	//if not, consider regrouping on the player if they're getting far away.
 	//in the future this should run to the strongest nearby ally, remembered in mem_combat or cached.
@@ -704,6 +704,7 @@ void npc::assess_danger()
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
     Character &player_character = get_player_character();
+	bool sees_player = sees( player_character.pos() );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
@@ -787,9 +788,9 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+    if( is_friendly( player_character ) && sees_player ) ) {
         ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-    } else if( is_enemy() && sees( player_character ) ) {
+    } else if( is_enemy() && sees_player ) ) {
         // Unlike allies, hostile npcs should not see invisible players
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
@@ -985,7 +986,7 @@ void npc::assess_danger()
                    "Total of <color_green>%s NPC ally threat</color>: <color_light_green>%1.2f</color>.",
                    name, assess_ally );
 
-    if( sees( player_character.pos() ) ) {
+    if( sees_player ) {
         // Mod for the player's danger level, weight it higher if player is very close
         // When the player is almost adjacent, it can exceed max danger ratings, so the
         // NPC will try hard not to break and run while in formation.
@@ -1098,6 +1099,17 @@ void npc::assess_danger()
                 warn_about( "run_away", run_away_for );
                 add_effect( effect_npc_run_away, run_away_for );
                 path.clear();
+				if( mem_combat.panic > 5 && sees_player && is_player_ally() ){
+			        // consider warning player about panic
+			        panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
+			        if( mem_combat.panic - personality.bravery > panic_alert ){
+			        	if( one_in( 4 ) && mem_combat.panic < 10 + personality.bravery ){
+			        	    add_msg( m_bad, _( "%s is starting to panic a bit." ) );
+			        	} else if( mem_combat.panic >= 10 + personality.bravery ){
+			        	    add_msg( m_bad, _( "%s is panicking!" ) );
+			        	}
+			        }
+		        }
             } else {
                 add_msg_debug( debugmode::DF_NPC, "%s wants to run but it hasn't helped so they cancel." );
             }
@@ -1125,6 +1137,7 @@ void npc::assess_danger()
             }
             mem_combat.failing_to_reposition = 0;
         }
+		
     }
     add_msg_debug( debugmode::DF_NPC, "%s <color_magenta>panic level</color> is up to %i.", name,
                    mem_combat.panic );
