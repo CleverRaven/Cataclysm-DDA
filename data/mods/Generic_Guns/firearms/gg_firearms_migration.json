@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "sapra", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "rm802", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
