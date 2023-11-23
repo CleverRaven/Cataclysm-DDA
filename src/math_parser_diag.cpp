@@ -346,11 +346,11 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
     }
     diag_value whitelist( std::string{} );
     diag_value blacklist( std::string{} );
-    if( kwargs.count( "whitelist" ) != 0 ) {
-        whitelist = *kwargs.at( "whitelist" );
+    if( kwargs.count( "flag_whitelist" ) != 0 ) {
+        whitelist = *kwargs.at( "flag_whitelist" );
     }
-    if( kwargs.count( "blacklist" ) != 0 ) {
-        blacklist = *kwargs.at( "blacklist" );
+    if( kwargs.count( "flag_blacklist" ) != 0 ) {
+        blacklist = *kwargs.at( "flag_blacklist" );
     }
 
     return[spellsearch_scope, filter, beta = is_beta( scope ),

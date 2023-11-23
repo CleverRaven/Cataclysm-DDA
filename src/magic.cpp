@@ -311,10 +311,15 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
     optional( jo, was_loaded, "affected_body_parts", affected_bps );
-    const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
-    optional( jo, was_loaded, "flags", spell_tags, flag_reader );
+
     for (auto& flag : jo.get_string_array("flags")) {
+        // Save all provided flags as strings in spell_type.flags
+        // If the flag is listed as a possible enum of type spell_flag, we also save it to spell_type.spell_tags
         flags.insert(flag);
+        std::optional<spell_flag> f = io::string_to_enum_optional<spell_flag>(flag);
+        if (f.has_value()) {
+            spell_tags.set(f.value());
+        }
     }
 
     optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
@@ -2151,6 +2156,9 @@ void known_magic::clear_opens_spellbook_data()
     caster_level_adjustment = 0;
     caster_level_adjustment_by_spell.clear();
     caster_level_adjustment_by_school.clear();
+    for (spell* sp : get_spells()) {
+        sp->clear_temp_adjustments();
+    }
 }
 
 void known_magic::evaluate_opens_spellbook_data()

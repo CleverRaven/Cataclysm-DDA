@@ -301,6 +301,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_metamagic_quicken",
+    "name": { "str": "Metamagic: Quicken Spell" },
+    "points": 0,
+    "description": "You have learned to cast spells in a way that is much quicker, but also more wasteful.  -95% cast time, +100% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consume runes.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_metamagic_toggle_quicken" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_crafty_hands",
     "name": { "str": "Crafty hands" },
     "points": 0,
