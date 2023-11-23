@@ -249,12 +249,165 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "//": "In all fairness, the pocket is on the side of the coat traditionally accepted to be the intended inner side, but considering that the coat’s reversible, with green on one side and tundra white on the other, we’re assuming that the surviver is wearing the garment white side out with access to the pocket, menial though it may be."
         "max_contains_volume": "50 ml",
         "max_contains_weight": "100 g",
         "description": "An internal micro-pocket.",
         "moves": 300,
-        "//": "Move cost's stupidly high as it’s a teeny tiny rubberized pocket on the inside of the suit with an overhanging flap and an opening barely big enough for two fingers. It’s only really practical for spare lace storage."
+        "//2": "Move cost's stupidly high as it’s a teeny tiny rubberized pocket with an overhanging flap and an opening barely big enough for two fingers. It’s only really practical for spare lace storage."
       }
-    ]
+    ],
+    "non_functional": "ozk_coat_breached",
+    "damage_verb": "produces an audible splitting sound, your protective layer has been breached!",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "button-down",
+      "msg": "You undo the front buttons, pull your arms from the sleeves, and flip down the chemical hood.",
+      "target": "ozk_coat_undone"
+    }
+  },
+  {
+    "id": "ozk_coat_undone",
+    "copy-from": "ozk_coat",
+    "type": "ARMOR",
+    "name": { "str": "OZK overcoat (unbuttoned)", "str_pl": "OZK overcoats (unbuttoned)" },
+    "description": "An old, double-rubber-lined NBC trench coat from the Soviet Union with an elasticized chemical hood and sleaves, this mass-produced article of PPE would, had its hood not been pulled down, your arms withdrawn from the sleaves, and the whole coat unbuttoned and worn as a giant rubber cape, prevent harmful chemicals from penetrating your body by cocooning you in a glorified envelope of rubber.  Popular before the Cataclysm for practical use among fisherman and mushroom gatherers, the coat’s still quite hot and cumbersome despite being dressed-down, and it must be rebuttoned before it can be expected to protect you from anything but the fresh air.",
+    "warmth": 35,
+    "delete": { "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat" ],
+        "coverage": 40,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 75,
+        "encumbrance": 12
+      }
+    ],
+    "non_functional": "ozk_coat_undone_breached",
+    "damage_verb": "produces an audible splitting sound, your protective layer has been breached!",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "button-up",
+      "msg": "You hurriedly, with a lot of fumbling and choice language, slipp your arms through the sleeves, snapped up the buttons, and tugged on the hood.",
+      "target": "ozk_coat"
+    }
+  },
+  {
+    "id": "nbc_improvised",
+    "type": "ARMOR",
+    "name": { "str": "makeshift NBC suit" },
+    "description": "An improvised nuclear, biological, and chemical protective garment crafted from thick plastics and rubber, this so-called biohazard suit looks like it was rushed together in somebody’s garage—a statement that would only be erroneous by virtue of its assumption that the formulator even had access to something so professional as a garage.  Put together from a pair of chest-high rubber waders, a plastic raincoat draped over the top, rubber chemical gloves tucked into the sleeves, and all the seems and loose edges sealed by miles of duct tape to form an airtight suit, this makeshift garment would, when paired with a full-face respirator, do a serviceable job at protecting you from contaminants.",
+    "weight": "2340 g",
+    "volume": "11500 ml",
+    "//": "Item stats, materials, thicknesses, etc. are modelled after a merging of the rain coat, fishing waders, and rubber gloves items. Yes, it should be somewhat lighter and smaller if the player used a rainponcho to craft the item rather than a raincoat, but such is the world we live in where craft size cannot be determined from component statistics.",
+    "price": 15500,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ { "type": "rubber", "portion": 1 }, { "type": "plastic", "portion": 2 }, { "type": "cotton", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "green",
+    "warmth": 60,
+    "material_thickness": 2,
+    "environmental_protection": 15,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": [ 7 ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 60, "thickness": 2 }
+        ],
+        "//": "60% rubber coverage on the torso represents the chest-hight of the fishing waders, with the 0.2mm-thick plastic layer representing the raincoat draped over the top.",
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 24 ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7 ]
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 0.35 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": [ 4 ]
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 21 ]
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19 ]
+      }
+    ],
+    "//2": "The extra pocket from the waiders hasn’t been factored in, as, when suited up, it would be unaccessible to the wearer without opening the raincoat and breaking the seal. One could hypothetically unbutton the suit, store stuff inside while dressed down, and button it once again, but there’s no support for making selective pockets unloadable or inaccessible.",
+    "//3": "No dressed-down version of the suit, like all other NBC/CBRN garments, as we’re assuming that the survivor has taped everything together: coat to waders, gloves to sleaves, sealing off empty spaces in the hood. Dressing down would require ripping off the tape, which, while it can be reapplied, cannot be modelled in game without resorting to including a craft recipe which would be ugly, hacky, and evil.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "21 cm",
+        "description": "A large, plastic side pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "21 cm",
+        "description": "A large, plastic side pocket.",
+        "moves": 80
+      }
+    ],
+    "non_functional": "nbc_improvised_breached",
+    "damage_verb": "produces an audible tearing sound, your protective layer has been breached!"
+  },
+  {
+    "id": "nbc_improvised_breached",
+    "type": "ARMOR",
+    "copy-from": "nbc_improvised",
+    "name": { "str": "compromised NBC suit" },
+    "description": "The tattered remains of a clearly improvised nuclear, biological, and chemical protective suit put together from a raincoat, fishing waders, chemical gloves, and miles of torn duct tape, previously intended to keep a wearer safe from harmful contaminants.  Considering the lacerations and rips that pepper the suit’s expanse, its effectiveness at shielding you from biohazards is severely in question.  When out of an NBC scenario, you’d probably be better off just ditching it.  If, on the other hand, you are in a contaminated area, you might want to consider running… very fast.",
+    "environmental_protection": 4,
+    "delete": { "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   }
 ]
