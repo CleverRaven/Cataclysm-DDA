@@ -751,7 +751,8 @@ void emp_blast( const tripoint &p )
     }
     if( player_character.posx() == p.x && player_character.posy() == p.y &&
         player_character.posz() == p.z ) {
-        if( player_character.get_power_level() > 0_kJ && !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+        if( player_character.get_power_level() > 0_kJ &&
+            !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   player_character.get_power_level() ) );
