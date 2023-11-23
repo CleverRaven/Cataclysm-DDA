@@ -3524,7 +3524,7 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
 
     if( get_scenario()->start_location_targets_count() == 1 ) {
-        random_start_location_text = you.start_location.obj().name();
+        random_start_location_text = get_scenario()->start_location().obj().name();
     }
 
     werase( w_location );
