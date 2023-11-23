@@ -143,7 +143,7 @@
             "id": "win_5",
             "condition": { "math": [ "u_bet_amount", "==", "5" ] },
             "effect": [
-              { "u_spawn_item": "money_five", "count": { "global_val": "gamble_multiplier" } },
+              { "u_spawn_item": "money_five", "count": { "global_val": "gamble_multiplier", "default": 1 } },
               { "math": [ "gamble_multiplier", "=", "0" ] },
               { "math": [ "u_bet_amount", "=", "0" ] }
             ],
