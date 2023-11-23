@@ -749,6 +749,7 @@ enum talk_topic_enum {
     TALK_DEMAND_LEAVE,
 
     TALK_SIZE_UP,
+    TALK_ASSESS_PERSON,
     TALK_LOOK_AT,
     TALK_OPINION,
 
@@ -791,6 +792,8 @@ class npc : public Character
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void clear_personality_traits();
+        void generate_personality_traits();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
@@ -1083,8 +1086,10 @@ class npc : public Character
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
-        /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-        float evaluate_enemy( const Creature &target ) const;
+        /** rates how dangerous a target is */
+        float evaluate_monster( const monster &target, int dist ) const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
+        float evaluate_self( bool my_gun ) const;
 
         void assess_danger();
         bool is_safe() const;
@@ -1095,6 +1100,7 @@ class npc : public Character
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
         void evaluate_best_weapon( const Creature *target );
+        float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 

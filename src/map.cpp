@@ -8720,7 +8720,13 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
     const tripoint gp_ms = sm_to_ms_copy( gp );
 
     creature_tracker &creatures = get_creature_tracker();
-    for( spawn_point &i : current_submap->spawns ) {
+
+    // The list of spawns on the submap might be updated while we are iterating it.
+    // For example, `monster::on_load` -> `monster::try_reproduce` calls `map::add_spawn`.
+    // Therefore, this intentionally uses old-school indexed for-loop with re-check against `.size()` each step.
+    // NOLINTNEXTLINE(modernize-loop-convert)
+    for( size_t sp_i = 0; sp_i < current_submap->spawns.size(); ++sp_i ) {
+        const spawn_point i = current_submap->spawns[sp_i]; // intentional copy
         const tripoint center = gp_ms + i.pos;
         const tripoint_range<tripoint> points = points_in_radius( center, 3 );
 

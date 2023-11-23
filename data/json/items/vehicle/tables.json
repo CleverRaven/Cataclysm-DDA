@@ -11,6 +11,7 @@
     "material": [ "wood" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "13500 ml",
+    "longest_side": "110 cm",
     "category": "veh_parts",
     "price": 20000,
     "price_postapoc": 100,
