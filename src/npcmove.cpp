@@ -392,8 +392,8 @@ tripoint npc::good_escape_direction( bool include_pos )
         } else if( cur_rating < best_rating ) {
             if( one_in( 5 ) ) {
                 add_msg_debug( debugmode::DF_NPC_MOVEAI,
-                               "<color_dark_gray>%s just wants to let you know, esteemed debugger, that they're still checking escape points but haven't found any new good ones.</color>",
-                               name );
+                               "<color_dark_gray>%s just wants to let you know, esteemed debugger, that they're still checking escape points but haven't found any new good ones.  Checked %i.</color>",
+                               name, num_points_searched );
             }
             candidates.clear();
             candidates.emplace_back( pos() + displace_XY( pt_dir ) );
