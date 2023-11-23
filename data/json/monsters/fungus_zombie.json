@@ -549,7 +549,7 @@
     "id": "mon_beekeeper_fungal",
     "type": "MONSTER",
     "name": { "str": "scarred fungal zombie" },
-    "description": "Patches of fungal growths emerge from the soft, unscarred skin of the host, as visible dents are made into the tough callouses and scar tissue, attempting to break through.",
+    "description": "The tough callouses and scar tissue of this unfortunate corpse are the only remaining signs of something once made of flesh; any spot seemingly soft enough has been thoroughly punctured by thick fungal tendrils that have started to creep over this disfigured husk.",
     "default_faction": "fungus",
     "bodytype": "human",
     "species": [ "FUNGUS" ],
