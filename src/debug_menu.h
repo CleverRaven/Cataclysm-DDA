@@ -105,6 +105,7 @@ enum class debug_menu_index : int {
     TOGGLE_SETUP_MUTATION,
     NORMALIZE_BODY_STAT,
     SIX_MILLION_DOLLAR_SURVIVOR,
+    EDIT_FACTION,
     last
 };
 
