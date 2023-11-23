@@ -1713,9 +1713,6 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     you.mod_moves( -to_moves<int>( 1_seconds ) );
 }
 
-/**
- * Loop prompt to bet $10.
- */
 
 
 /**
