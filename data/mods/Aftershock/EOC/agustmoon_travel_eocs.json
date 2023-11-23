@@ -143,7 +143,7 @@
         ]
       },
       { "u_run_npc_eocs": [ "EOC_AFS_LANDING_PAD_TP" ], "local": true },
-      { "u_teleport": { "global_val": "Port_augustmoon" } }
+      { "u_teleport": { "global_val": "landing_pad" } }
     ]
   },
   {
@@ -161,6 +161,6 @@
     "type": "effect_on_condition",
     "id": "EOC_AFS_LANDING_PAD_TP",
     "condition": "u_following",
-    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon" } } ]
+    "effect": [ { "u_teleport": { "global_val": "landing_pad" } } ]
   }
 ]

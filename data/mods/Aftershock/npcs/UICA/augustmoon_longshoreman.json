@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "augustmoon_longshoreman",
-    "class": "NC_PORT_WORKER",
+    "class": "NC_UICA_PORT_CREW",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_AUGUSTMOON_LONGSHOREMAN",

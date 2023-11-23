@@ -18,7 +18,7 @@
         "  ñ..00..00...00....   ..          |W,,,,,|   ñ ",
         "  ñ......00...00....   ..      |||||,,6j,,|   ñ ",
         "  ñ..00.............  9.........3.63,,,jjj|   ñ ",
-        "  ñ..00..0.0..00....   .........=..=,,6,,,|   ñ ",
+        "  ñ..00..0.0..00....  í.........=..=,,6,,,|   ñ ",
         "  ñ..00..0.0..00.........   9  |||||n,,,,n|   ñ ",
         "  ñ  .............  .....          ||====||   ñ ",
         "  ñ                   9..          |      |   ñ ",
@@ -32,12 +32,14 @@
         "                                                "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 22, 22 ], "y": [ 13, 13 ] } ],
       "terrain": {
         ".": "t_strconc_floor_no_roof",
         ",": "t_strconc_floor_heated",
         "=": "t_wall_prefab_glass",
         "!": "t_door_metal_locked",
         "ñ": "t_chainfence",
+        "í": "t_intermodal_crate_scripted_destination",
         "0": "t_strconc_floor_no_roof",
         "1": "t_ramp_down_high",
         "2": "t_ramp_down_low",

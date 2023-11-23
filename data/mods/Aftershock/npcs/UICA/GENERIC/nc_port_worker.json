@@ -29,13 +29,13 @@
     "items": [
       { "item": "spacer_jumpsuit" },
       { "group": "afs_colonist_coats" },
-      { "item": "afs_herc_rig", "contents-item": [ "afs_40g_plasma_civ", "afs_plasma_torch" ], "chance": 30 },
+      { "item": "afs_herc_rig", "contents-item": [ "afs_40g_plasma_civ", "afs_plasma_torch" ], "prob": 30 },
       { "item": "boots" },
-      { "item": "spacer_cap", "chance": 30 },
+      { "item": "spacer_cap", "prob": 30 },
       { "item": "socks" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
-      { "group": "afs_hard_hat", "chance": 30 }
+      { "group": "afs_hard_hat", "prob": 30 }
     ]
   },
   {

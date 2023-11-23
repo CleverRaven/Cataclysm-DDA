@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "augustmoon_shipping_chief",
-    "class": "NC_PORT_WORKER",
+    "class": "NC_UICA_PORT_CREW",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_AUGUSTMOON_shipping_chief",
@@ -18,7 +18,7 @@
     ]
   },
   {
-    "id": "TALK_AUGUSTMOON_shipping_chief",
+    "id": "TALK_AUGUSTMOON_shipping_landing",
     "type": "talk_topic",
     "dynamic_line": "Excellent, the current price for a passage down is 1500 USD.  If there's any cargo you wish to transfer planetside please place it in the nearby container.  Additionally, I'm obliged to inform you that a return passage is considerably more expensive, having a current price of 17500 USD.  Do you wish to book passage?",
     "responses": [
@@ -29,7 +29,7 @@
           "false": "I'll return with the money"
         },
         "trial": { "type": "CONDITION", "condition": { "u_has_cash": 1500 } },
-        "success": { "effect": [ { "u_spend_cash": 1500 }, { "run_eocs": "EOC_PORT_TO_LANDING_PAD_TP" } ], "topic": "TALK_DONE" },
+        "success": { "effect": [ { "u_spend_cash": 1500, "true_eocs": "EOC_PORT_TO_LANDING_PAD_TP" } ], "topic": "TALK_DONE" },
         "failure": { "topic": "TALK_DONE" }
       },
       { "text": "I need to settle a few things first", "topic": "TALK_DONE" }
