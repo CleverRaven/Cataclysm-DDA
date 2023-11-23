@@ -332,11 +332,11 @@ tripoint npc::good_escape_direction( bool include_pos )
             add_msg_debug( debugmode::DF_NPC_MOVEAI,
                            "<color_light_gray>%s is repositioning closer to</color> you", name );
             tripoint_bub_ms destination = get_player_character().pos_bub();
-            while( destination == get_player_character().pos_bub() ) {
+            while( !can_move_to( destination.raw() ) ) {
                 destination.x() += rng( -2, 2 );
                 destination.y() += rng( -2, 2 );
             }
-            update_path( here.getlocal( here.getglobal( destination ) ) );
+            update_path( destination.raw() );
         }
     } else {
         add_msg_debug( debugmode::DF_NPC_MOVEAI,
