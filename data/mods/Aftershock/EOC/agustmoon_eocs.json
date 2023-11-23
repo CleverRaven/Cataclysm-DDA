@@ -20,7 +20,7 @@
       {
         "u_location_variable": { "global_val": "Port_augustmoon" },
         "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
-        "terrain": "t_elevator",
+        "zone": "ZONE_START_POINT",
         "target_max_radius": 26
       },
       {
@@ -30,6 +30,28 @@
         "target_max_radius": 26
       },
       { "math": [ "searched_port_augustmoon", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_FIND_LANDING_PAD",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "searched_landing_pad", "!=", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "landing_pad" },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 380 },
+        "zone": "ZONE_START_POINT",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "landing_pad_cargo" },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 380 },
+        "terrain": "t_intermodal_crate_scripted_destination",
+        "target_max_radius": 26
+      },
+      { "math": [ "searched_landing_pad", "=", "1" ] }
     ]
   },
   {
@@ -101,12 +123,43 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORT_TO_LANDING_PAD_TP",
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "crate_loc" },
+        "terrain": "t_intermodal_crate_scripted_source",
+        "target_max_radius": 24
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "crate_loc" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "true_eocs": [
+          {
+            "id": "EOC_AFS_AUGUSTMOON_TO_LANDING_PAD_CARGO_TP",
+            "effect": [ { "npc_teleport": { "global_val": "landing_pad_cargo" } } ]
+          }
+        ]
+      },
+      { "u_run_npc_eocs": [ "EOC_AFS_LANDING_PAD_TP" ], "local": true },
+      { "u_teleport": { "global_val": "Port_augustmoon" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_TEST_AUGUSTMOON_CARGO_TP",
     "effect": [ { "u_teleport": { "global_val": "Port_augustmoon_cargo" }, "force": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TEST_AUGUSTMOON_TP",
+    "condition": "u_following",
+    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_LANDING_PAD_TP",
     "condition": "u_following",
     "effect": [ { "u_teleport": { "global_val": "Port_augustmoon" } } ]
   }
