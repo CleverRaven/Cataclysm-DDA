@@ -97,7 +97,7 @@
         "run_eocs": [
           {
             "id": "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK_2",
-            "condition": { "x_in_y_chance": { "x": 3, "y": 4 } },
+            "condition": { "x_in_y_chance": { "x": 1, "y": 2 } },
             "effect": [
               {
                 "npc_message": "Your head prickles.  It feels like spiders crawling across the surface of your brain.",
