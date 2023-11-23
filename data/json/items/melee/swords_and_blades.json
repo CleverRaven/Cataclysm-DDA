@@ -316,7 +316,7 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -377,7 +377,7 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -438,7 +438,7 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -1669,7 +1669,7 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
@@ -2986,7 +2986,7 @@
     "price_postapoc": 3000,
     "melee_damage": { "bash": 7, "stab": 12 },
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
-    "//": "VERY not  intended for usage unmounted.",
+    "//": "VERY not intended for usage unmounted.",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -3016,7 +3016,7 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
