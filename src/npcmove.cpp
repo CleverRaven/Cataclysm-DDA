@@ -332,11 +332,18 @@ tripoint npc::good_escape_direction( bool include_pos )
             add_msg_debug( debugmode::DF_NPC_MOVEAI,
                            "<color_light_gray>%s is repositioning closer to</color> you", name );
             tripoint_bub_ms destination = get_player_character().pos_bub();
-            while( !can_move_to( destination.raw() ) ) {
+            int loop_avoider = 0;
+            while( !can_move_to( destination.raw() ) && loop_avoider < 10 ) {
                 destination.x() += rng( -2, 2 );
                 destination.y() += rng( -2, 2 );
+                loop_avoider += 1;
             }
             update_path( destination.raw() );
+            if( loop_avoider == 10 ) {
+                add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                               "<color_red>%s had to break out of an infinite loop when looking for a good escape destination</color>.  This might not be that big a deal but if you're seeing this a lot, there might be something wrong in good_escape_direction().",
+                               name );
+            }
         }
     } else {
         add_msg_debug( debugmode::DF_NPC_MOVEAI,
