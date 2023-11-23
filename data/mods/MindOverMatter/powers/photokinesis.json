@@ -429,7 +429,7 @@
     "base_casting_time": 150,
     "final_casting_time": 90,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_arms": 7, "photokinetic_invisibility": 11 }
+    "learn_spells": { "photokinetic_invisibility": 10, "photokinetic_blinding_glare": 15 }
   },
   {
     "id": "photokinetic_radio",
