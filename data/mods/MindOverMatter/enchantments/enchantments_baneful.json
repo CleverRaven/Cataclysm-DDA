@@ -7,6 +7,14 @@
     "intermittent_activation": { "effects": [ { "frequency": "3 seconds", "spell_effects": [ { "id": "teleport_blink_monster" } ] } ] }
   },
   {
+    "type": "effect_type",
+    "id": "effect_electrokin_revive_debuff",
+    "name": [ "Revived" ],
+    "desc": [ "Causes the target to eventually die. It's a bug if you have it." ],
+    "show_in_info": true,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "hurt_tick": [ 30 ] }
+  },
+  {
     "type": "enchantment",
     "id": "enchant_pyrokin_fever",
     "condition": "ALWAYS",
