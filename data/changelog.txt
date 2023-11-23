@@ -74,8 +74,6 @@ Fixes NPCs being too afraid, makes swarm danger assessment more robust
 Add option to switch between outfit (when available) at chargen
 Animals have stomachs, digest food, and benefit from eating
 Enable NPCs to reload magazines in their inventory
-Allow overmap autotravel to evac center & hub01
-Mannequins are now deployable
 
 
 ## Content:
@@ -129,21 +127,10 @@ Updates the Portal Dependent mechanics and introduces rewards for exploring the 
 Cyberhorse... CYBERHORSE!
 Make nuts and bolts craftable using thread cutting tool
 New map extra: civilians making a futile last stand against the horde
-Buttered toast should be craftable with raw butter, too.
 Adds primitive cup(s)
-Adjusts professions' knives
-Adds nested groups to the weapon combat practice recipes
-EOD suit adjustments and EOD paraphernalia
 Add residential rolling trash cans.
-Add wintergreen seed to bird food components
-Make composite bow (light) craftable
-Glooscap is Wabanaki
-Changes description for exodii magazine and rifle
-Add Lotus Planting
 Adds Long awaited Exodii Sidearms
-add rehydrated garlic/chili and their recipes
 Allow diving into water to remove Mycus spores.
-Adds 7.62x39 JHP, removes m43
 New Scenario: Last Stand
 
 
@@ -252,28 +239,13 @@ XE: Add gossamer material and clothing
 XE:  transformation potions to top level alchemy perk
 MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
 [MoM] Add a new power class Photokinesis
-[MoM] Edit Trick of the Light effect
-[MoM] Merge lasers and photokinetic damage
 [MoM] Add calorie cost for psionics
 [MoM] Prevent psionic creatures from using powers if nullified
-Mind Over Matter Snippetathon, part 2
-Change Gram recipe to same quality broadsword as the enchant one. 
-[MoM] Add Blinding Radiance photokinetic power
-Wide-Shot Shotgun Choke for Xedra Evolved's Mad Genius Gunmods
-[MoM] Add small chance of psi research to PHAVIAN scientists special
-[MoM] Change Pyrokinesis passive trait
-[MoM] Add two light-creating powers
-Revamp the Emergency Evacuation scenario to EOC-based workings.
 Make Aftershock and Aftershock: Exoplanet compatible with Defense Mode.
-Fully math-ify Defense Mode. 
 Allow escape pods to carry loot planetside.
 [MoM] Add mi-go psions
-[MoM] Add stomach size and EATS flag to hodag
-Added meadow mutable
-[MoM] Lowered time to irradiate cost, Increase Activity Level
+[Innawoods] Added meadow mutable
 [MoM] Drain overhaul  + Power Maintenance overhaul
-[Xedra Evolved] Adds "All" recipe subcategory for Xedra recipe category
-[MoM] Change Enervating Touch to biological damage 
 
 
 ## Balance:
@@ -320,11 +292,6 @@ Threatening to kill NPCs(recruitment) is more likely to make them hostile
 Backup generator is much more powerful
 Bulk unloading and dropping items saves time cost
 Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
-Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
-Added fun to the fruit dessert
-Expand the useable weapons in melee training recipes.
-Adding batchsavings for the production of glasshards
-Add medium and large fodder items
 
 
 ## Bugfixes:
@@ -408,35 +375,13 @@ Corrects duplicates /the/ in martial arts techs messages
 Gas masks only use charges on fields with gas_absorption_factor set
 More background stories: actually access them
 All weapon proficiencies can be learned by hitting
-Fix items from losing functionality when manually inserted and/or providing player light when used remotely
-Fix corded electric chainsaw dropping its extension cord
-allow sandwiches to be made with tortillas
-Adjust seed paste requirements
-Fix grain stook results
 Fix items applying effects multiple times when transformed
-Fix remote-activated lights on the ground not illuminating
-Fixes typos in the combat weapon proficiencies
 The effect "corroding" should only be added when causing damage
-Allow tailor kits to repair denim with Xedra Evolved loaded
 Climate control was 3.7x stronger than it should be.
-Can't put in-progress food into faction larder
-[MoM] Edit math with min to enforce maximums
 Allow sandwiches to be made using toast
-Fix another vegetable oil recipe
-Decreases the Range  on Feral Marine Bayonet attacks and ensures it always drops a Bayonet
-Remove the proficiency gain from pointy sticks.
 Reduce NPC faction camp task slowdown & fix save data bloat bug
 Fixed some items to cause multiple addictions
-Fix #68412
-Fix Luliya's dialogue.
-Calculate Enhance Strength upkeep with enhance strength spell
-[MoM] Quell self
-remove 'you' from matrix channeling array description
-A shadow? will not teleport the player and/or nearby NPCs
-Remove charges from grain seed recipes
 Allow NPCs to teleport without the player
-Exodii grenade launcher uses launcher skill
-Fix for Candle's Glow power
 
 
 ## Performance:
@@ -481,10 +426,6 @@ Allow specifying vitamins by weight (mass) in items
 Add more comment-commands which apply labels to issues and PRs
 Migrate arithmetics function with arguments to math
 Provide more options to name monsters placed via mapgen
-Convert the Kill Zombie Mom mission to JSON.
-Starting with the chainmail vest and will keep modifying from there.
-continuation of chainmail refactoring, arms and legs
-continuation of chainmail refactoring, Hauberks and Sleeveless Jumpsuits
 
 
 ## Build:
