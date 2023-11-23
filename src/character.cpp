@@ -6043,6 +6043,8 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
+    get_avatar().invalidate_weight_carried_cache();
+
     return true;
 }
 
