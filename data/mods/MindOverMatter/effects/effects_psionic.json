@@ -818,7 +818,8 @@
     "max_intensity": 49,
     "dur_add_perc": 10,
     "int_dur_factor": "25 s",
-    "enchantments": [ "enchant_electrokin_zap_enemies" ]
+    "enchantments": [ "enchant_electrokin_zap_enemies" ],
+    "flags": [ "EMP_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -900,7 +901,8 @@
     "max_intensity": 36,
     "dur_add_perc": 10,
     "int_dur_factor": "17 s",
-    "enchantments": [ "enchant_electrokin_lightning_aura" ]
+    "enchantments": [ "enchant_electrokin_lightning_aura" ],
+    "flags": [ "EMP_IMMUNE" ]
   },
   {
     "type": "effect_type",
