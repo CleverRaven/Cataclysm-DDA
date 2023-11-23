@@ -541,7 +541,7 @@
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( ( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_range": 50,

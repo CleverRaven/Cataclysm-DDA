@@ -544,7 +544,7 @@
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: pyrokinetic_blast') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ), 70)"
       ]
     },
     "max_range": 80,
