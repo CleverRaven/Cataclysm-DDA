@@ -59,7 +59,7 @@ These chances are determined on a curve, ranging from 0 Instability (default) to
 * Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
 * Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
 
-Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
+Instability very slowly decreases on its own, at a rate of 12 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per 2 hours, for a total of 24 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
 
 Instability can't currently be viewed numerically in normal play, but the player will receive a visible effect on their character sheet whenever they have any Instability. This serves to give a general ballpark of how unstable the character is without telling them the exact amount.
 

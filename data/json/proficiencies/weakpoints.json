@@ -276,5 +276,29 @@
     "required_proficiencies": [ "prof_wp_fungaloid_basic" ],
     "default_weakpoint_bonus": 2,
     "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_power_leech_basic",
+    "category": "prof_weakpoint",
+    "name": { "str": "Power leech basic anatomy" },
+    "description": "Your observations of the power leech anatomy is starting to pay off.  You now have a basic idea of where their more sensitive structures are located.  These creatures exhibit traits that seem to be a mix between animal and plant ones.",
+    "can_learn": true,
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_power_leech_advanced",
+    "category": "prof_weakpoint",
+    "name": { "str": "Power leech detailed anatomy" },
+    "description": "The extensive experience with power leeches have given you a good understanding of their weaknesses and strengths.  A rather different set of skills would be needed to actually understand their biology, though, and you probably don't have the time to study that anyway.",
+    "can_learn": true,
+    "time_to_learn": "24 h",
+    "required_proficiencies": [ "prof_wp_power_leech_basic" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": -2
   }
 ]
