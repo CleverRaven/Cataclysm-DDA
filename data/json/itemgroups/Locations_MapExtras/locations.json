@@ -27,7 +27,8 @@
       { "group": "guns_swat", "prob": 20 },
       { "group": "mags_swat", "prob": 20 },
       { "group": "gear_eod", "prob": 20 },
-      { "item": "survnote", "prob": 1 }
+      { "item": "survnote", "prob": 1 },
+      { "item": "rm802", "prob": 5, "charges-min": 0, "charges-max": 4 }
     ]
   },
   {

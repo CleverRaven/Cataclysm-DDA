@@ -60,6 +60,7 @@
       { "item": "m320", "prob": 50 },
       { "item": "mgl", "prob": 60 },
       { "item": "m203", "prob": 50 },
+      { "item": "rm802", "prob": 40 },
       { "item": "LAW_Packed", "prob": 80 },
       { "item": "m3_carlgustav", "prob": 10 },
       { "item": "m4_carlgustav", "prob": 10 },
