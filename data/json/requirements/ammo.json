@@ -71,6 +71,12 @@
     "components": [ [ [ "270win_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_30carbine",
+    "type": "requirement",
+    "//": "Components required for 30 carbine ammo",
+    "components": [ [ [ "30carbine_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_300blk",
     "type": "requirement",
     "//": "Components required for .300 AAC Blackout ammo",
@@ -231,7 +237,7 @@
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using 7.62x39 or derivatives",
     "tools": [
-      [ [ "762_casing", -1 ], [ "762_m43", -1 ], [ "762_m87", -1 ], [ "reloaded_762_m43", -1 ], [ "reloaded_762_m87", -1 ] ]
+      [ [ "762_casing", -1 ], [ "762_jhp", -1 ], [ "762_m87", -1 ], [ "reloaded_762_jhp", -1 ], [ "reloaded_762_m87", -1 ] ]
     ]
   },
   {

@@ -457,6 +457,7 @@
     "type": "recipe",
     "result": "fbmh_2_parkour",
     "description": "Let's build a parkour obstacle training course in the northern courtyard.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

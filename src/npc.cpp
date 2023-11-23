@@ -898,6 +898,9 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         set_mutation( tid, tid->variant( var ) );
     }
 
+    // Add personality traits
+    generate_personality_traits();
+
     // Run mutation rounds
     for( const auto &mr : type->mutation_rounds ) {
         int rounds = mr.second.roll();
@@ -929,6 +932,32 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
+}
+
+void npc::clear_personality_traits()
+{
+    for( const trait_id &trait : get_mutations() ) {
+        if( trait.obj().personality_score ) {
+            unset_mutation( trait );
+        }
+    }
+}
+
+void npc::generate_personality_traits()
+{
+    npc_personality &ur = personality;
+    for( const mutation_branch &mdata : mutation_branch::get_all() ) {
+        if( mdata.personality_score ) {
+            const auto &required = mdata.personality_score;
+            // This looks intimidating, but it's really just a bounds check, repeated for every personality score.
+            if( ( required->min_aggression <= ur.aggression && ur.aggression <= required->max_aggression ) &&
+                ( required->min_bravery <= ur.bravery && ur.bravery <= required->max_bravery ) &&
+                ( required->min_collector <= ur.collector && ur.collector <= required->max_collector ) &&
+                ( required->min_altruism <= ur.altruism && ur.altruism <= required->max_altruism ) ) {
+                set_mutation( mdata.id );
+            }
+        }
+    }
 }
 
 void npc::learn_ma_styles_from_traits()

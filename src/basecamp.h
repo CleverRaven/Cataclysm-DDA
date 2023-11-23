@@ -263,9 +263,22 @@ class basecamp
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
+        inline const std::vector<tripoint_abs_ms> &get_liquid_dumping_spot() const {
+            return liquid_dumping_spots;
+        }
         // dumping spot in absolute co-ords
         inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
+        }
+        inline void set_liquid_dumping_spot( const std::vector<tripoint_abs_ms> &liquid_dumps ) {
+            // Nowhere qualified to dump liquid? Dump it wherever everything else goes.
+            if( liquid_dumps.empty() ) {
+                liquid_dumping_spots.clear();
+                liquid_dumping_spots.emplace_back( dumping_spot );
+                return;
+            } //else
+            liquid_dumping_spots.clear();
+            liquid_dumping_spots = liquid_dumps;
         }
         void place_results( const item &result );
 
@@ -433,6 +446,8 @@ class basecamp
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
+        // Tiles inside STORAGE-type zones that have LIQUIDCONT terrain
+        std::vector<tripoint_abs_ms> liquid_dumping_spots;
         std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
