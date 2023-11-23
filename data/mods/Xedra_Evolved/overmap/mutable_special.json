@@ -100,7 +100,7 @@
       "tunnel_to_finale": { "overmap": "salamander_tunnel_ns", "north": "-4_tunnel_to_finale", "south": "-4_tunnel_to_-4_tunnel" },
       "finale": { "overmap": "mine_finale_north", "south": "-4_tunnel_to_finale" }
     },
-    "root": "salamander_eruption_ground",
+    "root": "eruption_ground",
     "phases": [
       [
         {
