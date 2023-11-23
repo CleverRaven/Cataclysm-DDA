@@ -218,5 +218,45 @@
     "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "melee_damage": { "bash": 2, "cut": -1 }
+  },
+  {
+    "id": "integrated_cable",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "weight": "25 g",
+    "volume": "300 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": "s",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 0.5,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "CABLE_SPOOL",
+      "SINGLE_USE"
+    ],
+    "material": [ "superalloy", "copper" ],
+    "name": { "str_sp": "integrated cable" },
+    "description": "Integrated bionic cable for charging.",
+    "to_hit": -1,
+    "use_action": [
+      {
+        "type": "link_up",
+        "menu_text": "Attach / Detach",
+        "is_cable_item": true,
+        "cable_length": 3,
+        "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery" ]
+      }
+    ],
+    "melee_damage": { "bash": 1 }
   }
 ]
