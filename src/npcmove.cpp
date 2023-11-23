@@ -276,85 +276,92 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 tripoint npc::good_escape_direction( bool include_pos )
 {
     map &here = get_map();
-	// if NPC is repositioning rather than fleeing, they do smarter things
-	add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_brown>good_escape_direction</color> activated by %s", name );
-	
-	// To do: Eventually careful_retreat should determine if NPC will go to previously identified
-	// safe locations.  For now it just sends them to a retreat zone if one exists.
-	bool careful_retreat = mem_combat.repositioning || mem_combat.panic == 0;
-	if( !careful_retreat ) {
-		careful_retreat = mem_combat.panic > 10 + personality.bravery + get_int();
-		if( !careful_retreat ){
-			add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is panicking too much to use retreat zones and stuff.", name );
-		}else {				
-			add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is running away but still being smart about it.", name );
-		}
-	}
-	//if not, consider regrouping on the player if they're getting far away.
-	//in the future this should run to the strongest nearby ally, remembered in mem_combat or cached.
-	bool run_to_friend = mem_combat.repositioning || mem_combat.panic == 0;
-	if(!run_to_friend ){
-		run_to_friend = mem_combat.panic > 10 + personality.bravery + op_of_u.trust;
-	}
+    // if NPC is repositioning rather than fleeing, they do smarter things
+    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                   "<color_brown>good_escape_direction</color> activated by %s", name );
+
+    // To do: Eventually careful_retreat should determine if NPC will go to previously identified
+    // safe locations.  For now it just sends them to a retreat zone if one exists.
+    bool careful_retreat = mem_combat.repositioning || mem_combat.panic == 0;
+    if( !careful_retreat ) {
+        careful_retreat = mem_combat.panic < 10 + personality.bravery + get_int();
+        if( !careful_retreat ) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is panicking too much to use retreat zones and stuff.",
+                           name );
+        } else {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is running away but still being smart about it.",
+                           name );
+        }
+    }
+    //if not, consider regrouping on the player if they're getting far away.
+    //in the future this should run to the strongest nearby ally, remembered in mem_combat or cached.
+    bool run_to_friend = mem_combat.repositioning || mem_combat.panic == 0;
+    if( !run_to_friend ) {
+        run_to_friend = mem_combat.panic < 10 + personality.bravery + op_of_u.trust;
+    }
     if( path.empty() && careful_retreat ) {
-		add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s doesn't already have an escape path.  Checking for retreat zone.", name );
+        add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                       "%s doesn't already have an escape path.  Checking for retreat zone.", name );
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
         // if there is a retreat zone in range, go there
-		
-        
+
+
         if( retreat_target && *retreat_target != abs_pos ) {
-			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s is </color><color_brown>repositioning to</color> <color_light_gray>%i %i %i</color>", name, retreat_target.x(), retreat_target.y(), retreat_target.z() );
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s is </color><color_brown>repositioning</color> to %i %i %i", name,
+                           here.getlocal( *retreat_target ).x, here.getlocal( *retreat_target ).y,
+                           here.getlocal( *retreat_target ).z );
             update_path( here.getlocal( *retreat_target ) );
         }
         if( !path.empty() ) {
             return path[0];
         } else {
-			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s did not detect a zone to reposition to, or is too panicked.  Checking to see if there's an ally.</color>", name );
-		}
-    } else if( path.empty() && run_to_friend && is_player_ally()) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s did not detect a zone to reposition to, or is too panicked.  Checking to see if there's an ally.</color>",
+                           name );
+        }
+    } else if( path.empty() && run_to_friend && is_player_ally() ) {
         Character &player_character = get_player_character();
         int dist = rl_dist( pos(), player_character.pos() );
         int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
         if( dist > def_radius ) {
-			add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s is repositioning closer to</color> you", name );
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s is repositioning closer to</color> you", name );
             tripoint_bub_ms destination = get_player_character().pos_bub();
-			Creature *blocking = creatures.creature_at( destination );
-			int loop_avoider = 0;
-            while( !can_move_to( destination ) ) {
+            while( destination == get_player_character().pos_bub() ) {
                 destination.x() += rng( -2, 2 );
                 destination.y() += rng( -2, 2 );
-				loop_avoider += 1;
-				// It's not the end of the world if we try to find an empty location and fail,
-				// definitely not worth an infinite loop.
             }
-			if( loop_avoider == 10 ) {
-				add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_red>%s had to break out of an infinite loop when looking for a good escape destination</color>.  This might not be that big a deal but if you're seeing this a lot, there might be something wrong in good_escape_direction().", name );
-			}
-            retreat_target = here.getglobal( destination );
+            update_path( here.getlocal( here.getglobal( destination ) ) );
         }
     } else {
-		add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s couldn't find anywhere preset to reposition to.  Looking for a random location.</color>", name );
-	}
-	
+        add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                       "<color_light_gray>%s couldn't find anywhere preset to reposition to.  Looking for a random location.</color>",
+                       name );
+    }
+
 
     std::vector<tripoint> candidates;
 
     const auto rate_pt = [&]( const tripoint & pt, const float threat_val ) {
         if( !can_move_to( pt, !rules.has_flag( ally_rule::allow_bash ) ) ) {
-	        add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_dark_gray>%s can't move to %i, %i, %i. Rate_pt returning absurdly high rating.</color>", name, pt.x(), pt.y(), pt.z() );
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_dark_gray>%s can't move to %i, %i, %i. Rate_pt returning absurdly high rating.</color>",
+                           name, pt.x, pt.y, pt.z );
             return MAX_FLOAT;
         }
         float rating = threat_val;
         for( const auto &e : here.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-				// Note, field danger should be rated more specifically than this, 
-				// to distinguish eg fire vs smoke. Probably needs to be handled by field code, not here.
-	            add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_dark_gray>%s spotted field %s at %i, %i, %i; adding %f to rating</color>", name, e.second.name() pt.x(), pt.y(), pt.z(), field_danger );
-				}
+                // Note, field danger should be rated more specifically than this,
+                // to distinguish eg fire vs smoke. Probably needs to be handled by field code, not here.
+                add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                               "<color_dark_gray>%s spotted field %s at %i, %i, %i; adding %f to rating</color>", name,
+                               e.second.name(), pt.x, pt.y, pt.z, e.second.get_field_intensity() );
                 rating += e.second.get_field_intensity();
             }
         }
@@ -366,25 +373,30 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-		int num_points_searched = 1;
+        int num_points_searched = 1;
         const tripoint pt = pos() + displace_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
-	        add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_light_gray>%s thinks </color><color_light_blue>%i, %i, %i</color><color_light_gray> is the best retreat spot they've seen so far</color><color_light_blue> rated %1.2f</color><color_light_gray>after checking %i candidates</color>", name, pt.x(), pt.y(), pt.z(), best_rating, num_points_searched );
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s thinks </color><color_light_blue>%i, %i, %i</color><color_light_gray> is the best retreat spot they've seen so far</color><color_light_blue> rated %1.2f</color><color_light_gray>after checking %i candidates</color>",
+                           name, pt.x, pt.y, pt.z, best_rating, num_points_searched );
             candidates.emplace_back( pos() + displace_XY( pt_dir ) );
         } else if( cur_rating < best_rating ) {
-			if one_in( 5 ){
-				add_msg_debug( debugmode::DF_NPC_MOVEAI, "<color_dark_gray>%s just wants to let you know, esteemed debugger, that they're still checking escape points but haven't found any new good ones.</color>", name );
-			}
+            if( one_in( 5 ) ) {
+                add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                               "<color_dark_gray>%s just wants to let you know, esteemed debugger, that they're still checking escape points but haven't found any new good ones.</color>",
+                               name );
+            }
             candidates.clear();
             candidates.emplace_back( pos() + displace_XY( pt_dir ) );
             best_rating = cur_rating;
         }
-		num_points_searched += 1;
+        num_points_searched += 1;
     }
-	tripoint redirect_goal = random_entry( candidates );
-	add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is repositioning to %i, %i, %i", name, redirect_goal.x(), redirect_goal.y(), redirect_goal.z() );
+    tripoint redirect_goal = random_entry( candidates );
+    add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is repositioning to %i, %i, %i", name, redirect_goal.x,
+                   redirect_goal.y, redirect_goal.z );
     return redirect_goal;
 }
 
@@ -704,7 +716,7 @@ void npc::assess_danger()
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
     Character &player_character = get_player_character();
-	bool sees_player = sees( player_character.pos() );
+    bool sees_player = sees( player_character.pos() );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
@@ -788,9 +800,9 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( is_friendly( player_character ) && sees_player ) ) {
+    if( is_friendly( player_character ) && sees_player ) {
         ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-    } else if( is_enemy() && sees_player ) ) {
+    } else if( is_enemy() && sees_player ) {
         // Unlike allies, hostile npcs should not see invisible players
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
@@ -814,9 +826,9 @@ void npc::assess_danger()
         }
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
-        float critter_threat = evaluate_monster( critter, dist );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
+        float critter_threat = evaluate_monster( critter, dist );
 
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
@@ -860,7 +872,7 @@ void npc::assess_danger()
         }
 
 
-        add_msg_debug( debugmode::DF_NPC,
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s assessed threat of critter %s as %1.2f.",
                        name, critter.type->nname(), critter_threat );
         ai_cache.total_danger += critter_threat;
@@ -918,7 +930,7 @@ void npc::assess_danger()
             }
             return 0.0f;
         } else {
-            add_msg_debug( debugmode::DF_NPC, "%s ignored %s because there's an obstacle in between.",
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.",
                            name, bogey );
         }
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
@@ -1050,13 +1062,13 @@ void npc::assess_danger()
         const bool range_reposition_fail = npc_ranged &&
                                            ai_cache.danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
         if( melee_reposition_fail || range_reposition_fail ) {
-            add_msg_debug( debugmode::DF_NPC,
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_red>%s tried to reposition last turn, and the situation has not improved.</color>",
                            name );
             failed_reposition = true;
             mem_combat.failing_to_reposition += 1;
         } else {
-            add_msg_debug( debugmode::DF_NPC,
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_green>%s tried to reposition last turn, and it worked out!</color>",
                            name );
             mem_combat.failing_to_reposition = 0;
@@ -1076,10 +1088,12 @@ void npc::assess_danger()
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s rates total <color_yellow>enemy strength %1.2f</color>, <color_light_green>ally strength %1.2f</color>.",
                        name, assessment, assess_ally );
-        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, assess_ally );
-      
+        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment,
+                       assess_ally );
+
         if( assess_ally < assessment ) {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decides to reposition.  Has not yet decided to flee.", name );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "%s decides to reposition.  Has not yet decided to flee.", name );
             time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
             // Each time NPC decides to run away, their panic increases, which increases likelihood
             // and duration of running away.
@@ -1094,33 +1108,34 @@ void npc::assess_danger()
             }
             if( mem_combat.panic - personality.bravery >= mem_combat.failing_to_reposition ) {
                 // NPC hasn't yet failed to get away
-                add_msg_debug( debugmode::DF_NPC, "%s upgrades reposition to flat out retreat.", name );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s upgrades reposition to flat out retreat.", name );
                 mem_combat.repositioning = false; // we're not just moving, we're running.
                 warn_about( "run_away", run_away_for );
                 add_effect( effect_npc_run_away, run_away_for );
                 path.clear();
-				if( mem_combat.panic > 5 && sees_player && is_player_ally() ){
-			        // consider warning player about panic
-			        panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
-			        if( mem_combat.panic - personality.bravery > panic_alert ){
-			        	if( one_in( 4 ) && mem_combat.panic < 10 + personality.bravery ){
-			        	    add_msg( m_bad, _( "%s is starting to panic a bit." ) );
-			        	} else if( mem_combat.panic >= 10 + personality.bravery ){
-			        	    add_msg( m_bad, _( "%s is panicking!" ) );
-			        	}
-			        }
-		        }
+                if( mem_combat.panic > 5 && sees_player && is_player_ally() ) {
+                    // consider warning player about panic
+                    int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
+                    if( mem_combat.panic - personality.bravery > panic_alert ) {
+                        if( one_in( 4 ) && mem_combat.panic < 10 + personality.bravery ) {
+                            add_msg( m_bad, _( "%s is starting to panic a bit." ) );
+                        } else if( mem_combat.panic >= 10 + personality.bravery ) {
+                            add_msg( m_bad, _( "%s is panicking!" ) );
+                        }
+                    }
+                }
             } else {
-                add_msg_debug( debugmode::DF_NPC, "%s wants to run but it hasn't helped so they cancel." );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped so they cancel." );
             }
-        } else if( failed_reposition || ( npc_ranged && assess_ally < assessment * swarm_count ) ) {
+        } else if( failed_reposition || ( npc_ranged &&
+                                          assess_ally < assessment * mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>Due to ranged weapon, %s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
             if( failed_reposition ) {
-                add_msg_debug( debugmode::DF_NPC, "%s failed repositioning, trying again." );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
             } else {
-                add_msg_debug( debugmode::DF_NPC,
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s decided to reposition/kite due to %i nearby enemies.",
                                name, mem_combat.swarm_count );
             }
@@ -1137,9 +1152,10 @@ void npc::assess_danger()
             }
             mem_combat.failing_to_reposition = 0;
         }
-		
+
     }
-    add_msg_debug( debugmode::DF_NPC, "%s <color_magenta>panic level</color> is up to %i.", name,
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s <color_magenta>panic level</color> is up to %i.",
+                   name,
                    mem_combat.panic );
 
     // update the threat cache
@@ -1162,7 +1178,7 @@ void npc::assess_danger()
         // Consider cancelling fleeing.
         // Note that panic will still increment prior to this, and a truly panicked NPC will not stand and fight for any reason.
         if( mem_combat.panic - personality.bravery < mem_combat.failing_to_reposition ) {
-            add_msg_debug( debugmode::DF_NPC, "%s decided running away was futile.", name );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided running away was futile.", name );
             remove_effect( effect_npc_run_away );
         }
     }
