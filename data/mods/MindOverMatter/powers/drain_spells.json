@@ -5,7 +5,7 @@
     "name": { "str": "Psionic Drain" },
     "valid_targets": [ "self" ],
     "description": "Applies Drained to you.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "message": "",
     "effect": "effect_on_condition",
     "effect_str": "EOC_CAUSE_PSIONIC_DRAIN",

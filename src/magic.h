@@ -82,6 +82,7 @@ enum class spell_flag : int {
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     NON_MAGICAL, // ignores spell resistance
+    PSIONIC, // psychic powers instead of traditional magic
     LAST
 };
 
