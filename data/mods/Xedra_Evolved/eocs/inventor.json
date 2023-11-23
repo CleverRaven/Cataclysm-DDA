@@ -318,7 +318,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_INVENTOR_MESSAGE_GOOD",
+    "id": "EOC_INVENTOR_CRAFTED_DEGRADATION",
     "recurrence": [ "1 d", "2 d" ],
     "global": true,
     "run_for_npcs": true,
