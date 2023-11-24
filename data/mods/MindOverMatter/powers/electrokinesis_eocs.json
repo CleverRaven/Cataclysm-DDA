@@ -89,29 +89,5 @@
       }
     ],
     "false_effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_GALVANIC_AURA_BLAST",
-    "condition": { "u_has_effect": "effect_electrokinetic_lightning_aura" },
-    "effect": [
-      {
-        "u_location_variable": { "u_val": "electrokin_galvanic_aura_loc" },
-        "monster": "",
-        "max_radius": 8,
-        "true_eocs": "EOC_ELECTROKIN_GALVANIC_AURA_BLAST_2"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_GALVANIC_AURA_BLAST_2",
-    "condition": { "u_has_effect": "effect_electrokinetic_lightning_aura" },
-    "effect": [
-      {
-        "u_cast_spell": { "id": "electrokinetic_lightning_aura_attack", "hit_self": false, "loc": "electrokin_galvanic_aura_loc" }
-      },
-      { "queue_eocs": "EOC_ELECTROKIN_GALVANIC_AURA_BLAST", "time_in_future": [ "3 seconds", "10 seconds" ] }
-    ]
   }
 ]
