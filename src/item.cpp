@@ -9175,6 +9175,7 @@ std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) 
             if( bp != bpid ) {
                 continue;
             }
+            matlist.reserve( matlist.size() + d.materials.size() );
             for( const part_material &m : d.materials ) {
                 matlist.emplace_back( &m );
             }
