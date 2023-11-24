@@ -118,7 +118,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 100)"
+        "min( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.1) + 1) * (scaling_factor(u_val('intelligence') ) ), 100)"
       ]
     },
     "max_range": 100,
@@ -265,14 +265,12 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [
-        "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 80)"
-      ]
+      "math": [ "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) ), 80)" ]
     },
     "max_range": 80,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.2) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_aoe": 50,

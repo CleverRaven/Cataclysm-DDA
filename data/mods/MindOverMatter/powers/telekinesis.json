@@ -24,7 +24,7 @@
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_pull') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( ( (u_val('spell_level', 'spell: telekinetic_pull') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ), 40)"
       ]
     },
     "max_range": 40,
@@ -63,7 +63,7 @@
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_push') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( ( (u_val('spell_level', 'spell: telekinetic_push') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ), 40)"
       ]
     },
     "max_range": 40,
@@ -289,7 +289,7 @@
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ), 70)"
       ]
     },
     "max_range": 70,
@@ -323,6 +323,12 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 2) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
     },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
+    },
+    "max_range": 70,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
@@ -429,7 +435,7 @@
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) ), 60)"
+        "min( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ), 60)"
       ]
     },
     "max_range": 60,
@@ -469,6 +475,12 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
     },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ), 60)"
+      ]
+    },
+    "max_range": 60,
     "min_aoe": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
