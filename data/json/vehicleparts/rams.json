@@ -209,7 +209,7 @@
     "damage_modifier": 50,
     "durability": 40,
     "description": "A mattress, strapped onto the vehicle.  It could serve to blunt any impact.",
-    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 40, 55 ] } ],
+    "breaks_into": [ { "item": "sheet_cotton", "count": [ 5, 6 ] }, { "item": "cotton_patchwork", "count": [ 8, 15 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }

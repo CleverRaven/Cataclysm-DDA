@@ -211,8 +211,9 @@
       "moves": 120
     },
     "location": "underbarrel",
+    "//": "underbarrel to interfere with other stuff in the underbarrel slot on the SKS.",
     "mod_targets": [ "shotgun", "rifle" ],
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "stab": 10 }
@@ -417,6 +418,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": {
       "ammo": "40x46mm",
       "skill": "launcher",
@@ -454,6 +456,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": {
       "ammo": "40x46mm",
       "skill": "launcher",
@@ -505,7 +508,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 m"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -526,6 +530,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
@@ -555,6 +560,7 @@
     "symbol": ":",
     "color": "white",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
@@ -583,6 +589,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": {
       "ammo": "40x46mm",
@@ -635,6 +642,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
@@ -664,6 +672,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],

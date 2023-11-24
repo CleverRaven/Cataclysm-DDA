@@ -5591,6 +5591,20 @@ void vehicle::idle( bool on_map )
     if( is_alarm_on ) {
         alarm();
     }
+
+    // Notify player about status of all turrets if they're at controls
+    bool player_at_controls = !get_parts_at( player_character.pos(), "CONTROLS",
+                              part_status_flag::working ).empty();
+
+    for( vehicle_part *turret : turrets() ) {
+        item_location base = turret_query( *turret ).base();
+        // Notify player about status of a turret if they're on the same tile
+        if( player_at_controls || player_character.pos() == base.position() ) {
+            base->process( here, &player_character, base.position() );
+        } else {
+            base->process( here, nullptr, base.position() );
+        }
+    }
 }
 
 void vehicle::on_move()

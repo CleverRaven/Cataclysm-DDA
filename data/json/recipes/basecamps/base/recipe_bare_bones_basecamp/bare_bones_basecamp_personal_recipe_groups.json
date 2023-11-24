@@ -1,0 +1,9 @@
+[
+  {
+    "type": "recipe_group",
+    "id": "fbbb_crafting_recipes_custom",
+    "//": "Intended for player addition of recipes companions should be able to use",
+    "building_type": "BASE",
+    "recipes": [  ]
+  }
+]

@@ -490,6 +490,20 @@
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
+    "id": "telepathic_self_damage",
+    "type": "SPELL",
+    "name": "[Ψ]Telepathic Self Damage",
+    "description": "This spell passes through a bit of damage in case something the PSYSHIELD_PARTIAL flag fails, to simulate the failure.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "affected_body_parts": [ "head" ],
+    "damage_type": "psi_telepathic_damage",
+    "min_damage": 1,
+    "max_damage": 4
+  },
+  {
     "id": "telepathic_shrieking_monster",
     "type": "SPELL",
     "name": "[Ψ]Telepathic Shrieking Monster",

@@ -80,6 +80,13 @@
           "str": "THE FACE BEHIND THE 'UNCANNY' MASK.  Everyone knows about James Hawthorne, projected to become America's newest and fastest rising billionaire by next month as stock value in his tech startup, Uncanny, grows at unprecedented speeds.  We decided to explore the names behind the rise you might not have heard.  Dr. Marc Silverstein, an MIT-trained researcher formerly involved with Leapfrog Industries, has been along for the ride the whole time, and has come out nearly as wealthy as Hawthorne himself.  Though impressively reclusive, we managed to snag some pretty interesting information about Dr. S.  Could he be the real mind behind the rise?  How much does James depend on his right-hand scientist?  Details on page 12.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "many_years_old_news_20",
+        "text": {
+          "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company RivTech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },

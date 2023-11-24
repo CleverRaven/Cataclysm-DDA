@@ -193,6 +193,8 @@ std::string action_ident( action_id act )
             return "grab";
         case ACTION_HAUL:
             return "haul";
+        case ACTION_HAUL_TOGGLE:
+            return "haul_toggle";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -943,6 +945,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
+            REGISTER_ACTION( ACTION_HAUL_TOGGLE );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {

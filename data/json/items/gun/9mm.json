@@ -885,6 +885,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -909,13 +910,13 @@
     "//": "Tilelist whitelist for pistols.",
     "type": "GUN",
     "name": { "str": "Glock duty pistol" },
-    "description": "Designed for all shooters, this offering from the Glock gun company is a full-sized 9x19mm pistol marketed towards law-enforcement and military users.",
+    "description": "Designed for all shooters, this offering from the Glock gun company is a full-sized 9x19mm pistol marketed towards law-enforcement and military users.  Because of the long magazine well, it can't fit magazines shorter than the standard 17-round ones.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "glock_17",
         "name": { "str": "Glock 17" },
-        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same."
+        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same, but due to the longer magazine well, it can't fit magazines shorter than the standard 17-round ones."
       }
     ],
     "ascii_picture": "glock_17",

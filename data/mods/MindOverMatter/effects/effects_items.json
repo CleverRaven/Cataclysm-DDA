@@ -30,5 +30,14 @@
     "rating": "good",
     "max_duration": "1 minutes",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.94 } ] } ]
+  },
+  {
+    "id": "effect_psyshield_protection",
+    "type": "effect_type",
+    "//": "Blank to create uncertainty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "psi_blind", "psi_deaf", "effect_telepathic_primal_terror", "psi_dazed" ],
+    "flags": [ "PSYSHIELD_PROTECT" ]
   }
 ]

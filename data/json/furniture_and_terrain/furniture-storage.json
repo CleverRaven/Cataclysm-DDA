@@ -86,7 +86,8 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
+        { "item": "sheet_cotton", "count": 3 },
+        { "item": "cotton_patchwork", "count": 6 }
       ]
     },
     "max_volume": "875 L",
@@ -104,6 +105,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
@@ -124,7 +126,8 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
+        { "item": "sheet_cotton", "count": 3 },
+        { "item": "cotton_patchwork", "count": 6 }
       ]
     },
     "max_volume": "875 L",
@@ -137,6 +140,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
