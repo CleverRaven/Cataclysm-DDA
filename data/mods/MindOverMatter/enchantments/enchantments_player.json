@@ -114,7 +114,7 @@
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_CRITTER", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "NO_EXPLOSION_SFX", "NO_HANDS", "NO_LEGS" ],
     "effect": "emit",
     "effect_str": "emit_shock_cloud_big",
     "shape": "blast",

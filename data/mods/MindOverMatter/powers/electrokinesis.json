@@ -33,7 +33,7 @@
     "base_casting_time": 150,
     "final_casting_time": 80,
     "casting_time_increment": -6,
-    "learn_spells": { "photokinetic_create_light": 4, "photokinetic_light_beam": 8, "photokinetic_light_image": 12 }
+    "learn_spells": { "electrokinetic_personal_battery": 7, "electrokinetic_speed_boost": 14, "electrokinetic_revive": 21 }
   },
   {
     "id": "electrokinetic_shock_touch",
@@ -76,7 +76,13 @@
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_description": "zzzaaaaapp!",
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL" ],
+    "learn_spells": {
+      "electrokinetic_melee_attacks": 6,
+      "electrokinetic_paralysis": 8,
+      "electrokinetic_lightning_bolt": 12,
+      "electrokinetic_lightning_blast": 20
+    }
   },
   {
     "id": "electrokinetic_zap_enemies",
@@ -112,7 +118,7 @@
     "base_casting_time": 125,
     "final_casting_time": 45,
     "casting_time_increment": -5,
-    "learn_spells": { "photokinetic_create_light": 4, "photokinetic_light_beam": 8, "photokinetic_light_image": 12 }
+    "learn_spells": { "electrokinetic_personal_battery": 8, "electrokinetic_paralysis": 11, "electrokinetic_lightning_aura": 18 }
   },
   {
     "id": "electrokinetic_melee_attacks",
@@ -148,7 +154,7 @@
     "base_casting_time": 125,
     "final_casting_time": 45,
     "casting_time_increment": -5,
-    "learn_spells": { "photokinetic_create_light": 4, "photokinetic_light_beam": 8, "photokinetic_light_image": 12 }
+    "learn_spells": { "electrokinetic_paralysis": 8, "electrokinetic_lightning_blast": 18 }
   },
   {
     "id": "electrokinetic_personal_battery",
@@ -183,7 +189,7 @@
     "base_casting_time": 350,
     "final_casting_time": 150,
     "casting_time_increment": -9,
-    "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
+    "learn_spells": { "electrokinetic_kill_robot": 14 }
   },
   {
     "id": "electrokinetic_paralysis",
@@ -200,7 +206,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "stunned",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true }, { "id": "telepathic_fear_extra", "hit_self": false } ],
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
@@ -226,7 +232,8 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ]
+    "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ],
+    "learn_spells": { "electrokinetic_speed_boost": 9, "electrokinetic_revive": 16 }
   },
   {
     "id": "electrokinetic_lightning_bolt",
@@ -275,7 +282,7 @@
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
+    "learn_spells": { "electrokinetic_kill_robot": 7, "electrokinetic_lightning_aura": 12, "electrokinetic_lightning_blast": 14 }
   },
   {
     "id": "electrokinetic_speed_boost",
@@ -313,7 +320,7 @@
     "base_casting_time": 165,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_combat_dance": 8, "biokin_hammerhand": 12, "biokin_perfected_motion": 15 }
+    "learn_spells": { "electrokinetic_revive": 12 }
   },
   {
     "id": "electrokinetic_kill_robot",
@@ -352,13 +359,13 @@
     "casting_time_increment": -2.5,
     "targeted_monster_species": [ "CYBORG", "ROBOT" ],
     "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ],
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
+    "learn_spells": { "electrokinetic_lightning_blast": 8 }
   },
   {
     "id": "electrokinetic_kill_robot_sparks",
     "type": "SPELL",
     "name": "[Ψ]Short Circuit Lightning Burst",
-    "description": "Cause a burst of sparks near a short circuited target. It's a bug if you see this.",
+    "description": "Cause a burst of sparks near a short circuited target.  It's a bug if you see this.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile", "ally" ],
@@ -416,7 +423,7 @@
     "base_casting_time": 150,
     "final_casting_time": 55,
     "casting_time_increment": -8.5,
-    "learn_spells": { "biokin_combat_dance": 8, "biokin_hammerhand": 12, "biokin_perfected_motion": 15 }
+    "learn_spells": { "electrokinetic_lightning_blast": 8 }
   },
   {
     "id": "electrokinetic_lightning_blast",
@@ -472,14 +479,13 @@
     "casting_time_increment": -6,
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_lightning_blast_trail",
     "type": "SPELL",
     "name": "[Ψ]Ion Blast Trail",
-    "description": "This causes the lightning bolt at the target location. It's a bug if you have it directly.",
+    "description": "This causes the lightning bolt at the target location.  It's a bug if you have it directly.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
@@ -572,8 +578,8 @@
         "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
       ]
     },
-    "min_duration": 99999999999,
-    "max_duration": 99999999999,
+    "min_duration": 360000,
+    "max_duration": 360000,
     "//": "Long duration doesn't matter since the below spells will ensure the target dies",
     "targeted_monster_species": [ "ZOMBIE" ]
   },
@@ -581,7 +587,7 @@
     "id": "electrokinetic_revive_heal",
     "type": "SPELL",
     "name": "[Ψ]Revive Heal",
-    "description": "This heals the revive target so it doesn't die basically immediately after rising.  It's a bug if you have it.",
+    "description": "This heals the revivified target so it doesn't die basically immediately after rising.  It's a bug if you have it.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -613,8 +619,8 @@
     "effect": "attack",
     "effect_str": "effect_electrokin_revive_debuff",
     "shape": "blast",
-    "min_duration": 9999999999999999,
-    "max_duration": 9999999999999999,
+    "min_duration": 360000,
+    "max_duration": 360000,
     "min_range": {
       "math": [
         "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
