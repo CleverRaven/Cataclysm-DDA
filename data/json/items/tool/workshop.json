@@ -1767,5 +1767,21 @@
     "qualities": [ [ "THREAD_TAP", 2 ], [ "THREAD_CUT", 2 ] ],
     "symbol": "p",
     "color": "light_gray"
+   },
+   {
+    "id": "fanning_mill",
+    "type": "TOOL",
+    "name": { "str": "fanning mill" },
+    "description": "A machine for separating seed from chaff. It mechanized the winnowing process which separates the grain from the lighter chaff and straw with a breeze created by the wind or flapping a bedsheet",
+    "weight": "15000 g",
+    "volume": "75 L",
+    "price": 25000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "wood" ],
+    "symbol": ";",
+    "color": "brown",
+    "qualities": [ [ "BLOW_AIR", 1 ] ],
+    "melee_damage": { "bash": 3 }
   }
 ]
