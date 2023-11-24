@@ -894,7 +894,7 @@
     "remove_message": "The thrum in the air around you dissipates.",
     "decay_messages": [
       [ "The crackling aura around you is fading quickly.", "bad" ],
-      [ "The lightning blasts are growijg less powerful.", "bad" ]
+      [ "The lightning blasts are growing less powerful.", "bad" ]
     ],
     "rating": "good",
     "max_duration": "10 minutes",
