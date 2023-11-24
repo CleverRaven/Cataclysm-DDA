@@ -935,6 +935,7 @@ class item : public visitable
         ret_val<void> put_in( const item &payload, pocket_type pk_type,
                               bool unseal_pockets = false, Character *carrier = nullptr );
         void force_insert_item( const item &it, pocket_type pk_type );
+        void insert_copies( const item &it, int count, pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,

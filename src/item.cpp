@@ -747,9 +747,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     temp_ammo.charges = count;
                     count = 1;
                 }
-                for( int i = 0; i < count; i++ ) {
-                    put_in( temp_ammo, pocket_type::MAGAZINE );
-                }
+                insert_copies( temp_ammo, count, pocket_type::MAGAZINE );
             }
         }
         return *this;
@@ -778,9 +776,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             set_ammo.set_flag( flag_NO_DROP );
             set_ammo.set_flag( flag_IRREMOVABLE );
         }
-        for( int i = 0; i < count; i++ ) {
-            put_in( set_ammo, pocket_type::MAGAZINE );
-        }
+        insert_copies( set_ammo, count, pocket_type::MAGAZINE );
     } else {
         if( !magazine_current() ) {
             itype_id mag = magazine_default();
@@ -1655,6 +1651,12 @@ void item::force_insert_item( const item &it, pocket_type pk_type )
 {
     contents.force_insert_item( it, pk_type );
     update_inherited_flags();
+}
+
+void item::insert_copies( const item &it, int count, pocket_type pk_type )
+{
+    contents.insert_copies( it, count, pk_type );
+    on_contents_changed();
 }
 
 void item::set_var( const std::string &name, const int value )
