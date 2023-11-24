@@ -261,6 +261,7 @@ struct npc_combat_memory {
     int swarm_count; // remember how many enemies are around you so you can tell if you're gettign away
     int failing_to_reposition; // Increases as NPC tries to flee/move and doesn't change situation
     int reposition_countdown; // set when reposition fails so that we don't keep trying for a bit.
+    int assessment_before_repos; // assessment of enemy threat level at the start of repositioning.
     float my_health; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning; // used to distinguish an NPC who is running away from one who is just moving around.
     npc_combat_memory() {

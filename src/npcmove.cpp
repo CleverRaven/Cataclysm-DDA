@@ -1078,9 +1078,9 @@ void npc::assess_danger()
         // this check runs each turn that the NPC is repositioning and assesses if the situation is getting any better.
         // The longer they try to move without improving, the more likely they become to stop and stand their ground.
         const bool melee_reposition_fail = !npc_ranged &&
-                                           ai_cache.danger_assessment + rng( 0, 5 ) <= assessment;
+                                           mem_combat.assessment_before_repos + rng( 0, 5 ) <= assessment;
         const bool range_reposition_fail = npc_ranged &&
-                                           ai_cache.danger_assessment * mem_combat.swarm_count + rng( 0,
+                                           mem_combat.assessment_before_repos * mem_combat.swarm_count + rng( 0,
                                                    5 ) <= assessment * mem_combat.swarm_count;
         if( melee_reposition_fail || range_reposition_fail ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -1097,6 +1097,7 @@ void npc::assess_danger()
     }
 
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
+        mem_combat.assessment_before_repos = static_cast<int>( assessment );
         float my_diff = evaluate_self( npc_ranged ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s assesses own final strength as %1.2f.", name, my_diff );
@@ -1112,6 +1113,7 @@ void npc::assess_danger()
             // and duration of running away.
             // if they run to a more advantageous position, they'll reassess and rally.
             time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
+            
             if( mem_combat.reposition_countdown <= 0 ) {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s decides to reposition.  Has not yet decided to flee.", name );
@@ -1149,9 +1151,6 @@ void npc::assess_danger()
                         }
                     }
                 }
-            } else {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped so they cancel.",
-                               name );
             }
         } else if( failed_reposition || ( npc_ranged &&
                                           assess_ally < assessment * mem_combat.swarm_count ) ) {
