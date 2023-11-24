@@ -1849,6 +1849,32 @@ static void character_edit_desc_menu( Character &you )
     }
 }
 
+static faction *select_faction()
+{
+    std::vector<faction *> factions;
+    for( const auto &elem : g->faction_manager_ptr->all() ) {
+        factions.push_back( g->faction_manager_ptr->get( elem.first ) );
+    }
+
+    if( factions.empty() ) {
+        return nullptr;
+    }
+
+    uilist factionlist;
+    int facnum = 0;
+    for( const faction *faction : factions ) {
+        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
+    }
+
+    factionlist.w_y_setup = 0;
+    factionlist.query();
+    if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
+        return nullptr;
+    }
+
+    return factions[factionlist.ret];
+}
+
 static void character_edit_menu()
 {
     std::vector< tripoint > locations;
@@ -1919,7 +1945,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -1962,6 +1988,7 @@ static void character_edit_menu()
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinions" ) );
         nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
+        nmenu.addentry( D_FACTION, true, 'F', "%s", _( "Set faction" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -2259,6 +2286,115 @@ static void character_edit_menu()
             you.set_value( "npctalk_var_" + key, value );
             break;
         }
+        case D_FACTION: {
+            const faction *fac = select_faction();
+            if( fac != nullptr ) {
+                you.as_npc()->set_fac( fac->id );
+            }
+            break;
+        }
+    }
+}
+
+static void faction_edit_opinion_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', "%s: %d", _( "Like" ), fac->likes_u );
+    smenu.addentry( 1, true, 'r', "%s: %d", _( "Respect" ), fac->respects_u );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "Trust" ), fac->trusts_u );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change like from %d to: " ), fac->likes_u ) ) {
+                fac->likes_u = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Change respect from %d to: " ), fac->respects_u ) ) {
+                fac->respects_u = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Change trust from %d to: " ), fac->trusts_u ) ) {
+                fac->trusts_u = value;
+            }
+            break;
+    }
+}
+
+static void faction_edit_menu()
+{
+
+    faction *const fac = select_faction();
+
+    if( fac == nullptr ) {
+        return;
+    }
+
+    uilist nmenu;
+
+    std::stringstream data;
+    data << fac->name << std::endl;
+    data << fac->describe() << std::endl;
+    data << string_format( _( "Id: %s" ), fac->id.c_str() ) << std::endl;
+    data << string_format( _( "Wealth: %d" ), fac->wealth ) << " | "
+         << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
+    data << string_format( _( "Size: %d" ), fac->size ) << " | "
+         << string_format( _( "Power: %d" ), fac->power ) << " | "
+         << string_format( _( "Food Supply: %d" ), fac->food_supply ) << std::endl;
+    data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
+         << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
+         << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
+    data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
+         << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
+
+    nmenu.text = data.str();
+
+    enum {
+        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE
+    };
+    nmenu.addentry( D_WEALTH, true, 'w', "%s", _( "Set wealth" ) );
+    nmenu.addentry( D_SIZE, true, 's', "%s", _( "Set size" ) );
+    nmenu.addentry( D_POWER, true, 'p', "%s", _( "Set power" ) );
+    nmenu.addentry( D_FOOD, true, 'f', "%s", _( "Set food supply" ) );
+    nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
+    nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
+    nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
+
+    nmenu.query();
+    int value;
+    switch( nmenu.ret ) {
+        case D_WEALTH:
+            if( query_int( value, _( "Change wealth from %d to: " ), fac->wealth ) ) {
+                fac->wealth = value;
+            }
+            break;
+        case D_SIZE:
+            if( query_int( value, _( "Change size from %d to: " ), fac->size ) ) {
+                fac->size = value;
+            }
+            break;
+        case D_POWER:
+            if( query_int( value, _( "Change power from %d to: " ), fac->power ) ) {
+                fac->power = value;
+            }
+            break;
+        case D_FOOD:
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply ) ) {
+                fac->food_supply = value;
+            }
+            break;
+        case D_OPINION:
+            faction_edit_opinion_menu( fac );
+            break;
+        case D_KNOWN:
+            fac->known_by_u = !fac->known_by_u;
+            break;
+        case D_LONE:
+            fac->lone_wolf_faction = !fac->lone_wolf_faction;
+            break;
     }
 }
 
