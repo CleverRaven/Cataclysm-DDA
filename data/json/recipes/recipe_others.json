@@ -3385,7 +3385,7 @@
     ],
     "components": [
       [ [ "wood_panel", 4 ] ],
-      [ [ "2x4", 4 ] ],
+      [ [ "2x4", 16 ] ],
       [ [ "sieve_primitive", 1 ], [ "sieve_steel", 1 ] ],
       [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ],
       [ [ "nail", 40 ] ]
