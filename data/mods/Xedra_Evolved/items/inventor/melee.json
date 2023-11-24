@@ -65,12 +65,38 @@
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "INVENTOR_CRAFTED" ]
   },
   {
+    "type": "GENERIC",
+    "id": "megachette_folded",
+    "copy-from": "megachette",
+    "category": "weapons",
+    "name": { "str": "megachette (folded)" },
+    "description": "Probably a great weapon, it is folded now.",
+    "volume": "160 ml",
+    "longest_side": "14 cm",
+    "symbol": "/",
+    "use_action": {
+      "menu_text": "Expand",
+      "type": "transform",
+      "target": "megachette",
+      "msg": "With a quiet click, the megachette is unfolded."
+    },
+    "to_hit": -1,
+    "techniques": [  ],
+    "melee_damage": { "cut": 0, "bash": 3 }
+  },
+  {
     "id": "megachette",
     "copy-from": "mc_broadsword",
     "type": "TOOL",
-    "name": { "str": "megachette" },
-    "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.",
+    "name": { "str": "megachette (extended)" },
+    "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.  Can be folded more than it make sense.",
     "replace_materials": { "mc_steel": "steel", "leather": "steel" },
+    "use_action": {
+      "menu_text": "Fold",
+      "type": "transform",
+      "target": "megachette_folded",
+      "msg": "With a few moves, the megachette is folded."
+    },
     "relative": { "melee_damage": { "cut": 3 } }
   },
   {

@@ -14,7 +14,7 @@
           "inventor_sniper",
           "inventor_shotgun",
           "inventor_pistol",
-          "megachete",
+          "megachette",
           "software_math_inventor",
           "software_electronics_reference_inventor",
           "combatsaw_spear_off",
@@ -96,7 +96,7 @@
       { "math": [ "base_difficulty_3", "+=", "4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "mace_magic", "inventor_research_energy_1" ],
+        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "mace_magic", "inventor_fists_plus", "inventor_research_energy_1" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {

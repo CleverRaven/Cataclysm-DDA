@@ -98,7 +98,33 @@
     "reload_modifier": -90,
     "range_modifier": 2,
     "handling_modifier": 9,
-    "//": "should add an additional set of mags, boosting the amount of ammo for three times, but alas not possible.",
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": {
+          "10mm": 36,
+          "22": 48,
+          "32": 48,
+          "357mag": 30,
+          "357sig": 42,
+          "38": 30,
+          "380": 48,
+          "38super": 36,
+          "40": 42,
+          "44": 30,
+          "45": 36,
+          "454": 24,
+          "45colt": 30,
+          "46": 30,
+          "460": 36,
+          "57": 30,
+          "9mm": 42,
+          "9x18": 48,
+          "shot": 18
+        }
+      }
+    ],
     "min_skills": [ [ "weapon", 4 ], [ "deduction", 4 ] ]
   },
   {

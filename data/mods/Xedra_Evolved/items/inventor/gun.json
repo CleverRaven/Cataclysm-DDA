@@ -232,6 +232,8 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
+      "NO_UNLOAD",
+      "NO_RELOAD",
       "INVENTOR_CRAFTED"
     ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },

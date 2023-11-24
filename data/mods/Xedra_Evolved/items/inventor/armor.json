@@ -501,6 +501,23 @@
   },
   {
     "type": "TOOL_ARMOR",
+    "id": "inventor_fists_plus",
+    "copy-from": "inventor_fists",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "advanced heavy CQC system" },
+    "description": "Advanced version of heavy CQC system, it contain a self-recharging pneumatic tank, that slowly builds the pressure, that you can use in fight.",
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "oxygen": 3 }, "airtight": true } ],
+    "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP", "CQB_BRUTAL" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [ { "id": "EOC_CQC_ATTACK", "effect": [ { "u_attack": "CQB_BRUTAL" } ] } ]
+    }
+  },
+  {
+    "type": "TOOL_ARMOR",
     "id": "inventor_electric_fist",
     "symbol": "3",
     "color": "light_gray",
