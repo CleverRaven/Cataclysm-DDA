@@ -889,6 +889,12 @@ void Character::initialize( bool learn_recipes )
         add_proficiency( pri );
     }
 
+    // Add profession recipes
+    for( const recipe_id &id : prof->recipes() ) {
+        const recipe &r = recipe_dictionary::get_craft( id->result() );
+        learn_recipe( &r );
+    }
+
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
@@ -2120,6 +2126,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
         assembled += "\n" + colorize( _( "Profession proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
             assembled += prof->name() + "\n";
+        }
+    }
+    // Recipes
+    std::vector<recipe_id> prof_recipe = sorted_profs[cur_id]->recipes();
+    if( !prof_recipe.empty() ) {
+        assembled += "\n" + colorize( _( "Profession recipes:" ), COL_HEADER ) + "\n";
+        for( const recipe_id &prof : prof_recipe ) {
+            assembled += prof->result_name() + "\n";
         }
     }
     // Profession pet
