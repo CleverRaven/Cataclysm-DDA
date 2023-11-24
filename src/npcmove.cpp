@@ -379,8 +379,8 @@ tripoint npc::good_escape_direction( bool include_pos )
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;
+    int num_points_searched = 1;
     for( direction pt_dir : npc_threat_dir ) {
-        int num_points_searched = 1;
         const tripoint pt = pos() + displace_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
