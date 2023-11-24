@@ -28,7 +28,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: candle's light",
+    "name": "contemplation: candle's glow",
     "id": "practice_photokinetic_light_local",
     "description": "Contemplate your powers and improve your ability to create a small amount of light.",
     "category": "CC_*",
@@ -130,7 +130,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: snuff light",
+    "name": "contemplation: blackout",
     "id": "practice_photokinetic_snuff_light",
     "description": "Contemplate your powers and improve your ability to snuff the light of an area.",
     "category": "CC_*",
@@ -335,7 +335,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: light barrier",
+    "name": "contemplation: lucent barrier",
     "id": "practice_photokinetic_rad_immunity",
     "description": "Contemplate your powers and improve your ability to create a barrier of light around you.",
     "category": "CC_*",

@@ -253,7 +253,8 @@
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "762_m87", "prob": 15, "charges": [ 1, 30 ] },
       { "item": "762_jhp", "prob": 5, "charges": [ 1, 30 ] },
-      { "item": "30carbine", "prob": 20, "charges": [ 1, 50 ] }
+      { "item": "30carbine_jsp", "prob": 7, "charges": [ 1, 20 ] },
+      { "item": "30carbine", "prob": 13, "charges": [ 1, 50 ] }
     ]
   },
   {
@@ -438,6 +439,7 @@
       { "item": "reloaded_3006", "prob": 70 },
       { "item": "reloaded_3006fmj", "prob": 10 },
       { "item": "reloaded_3006_incendiary", "prob": 5 },
+      { "item": "reloaded_30carbine", "prob": 35 },
       { "item": "reloaded_308", "prob": 40 },
       { "item": "reloaded_556", "prob": 10 },
       { "item": "reloaded_556_incendiary", "prob": 5 },

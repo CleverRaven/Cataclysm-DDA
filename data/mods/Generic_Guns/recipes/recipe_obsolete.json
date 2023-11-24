@@ -1633,5 +1633,15 @@
     "type": "recipe",
     "result": "bot_crows_m240",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_30carbine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_30carbine_jsp",
+    "obsolete": true
   }
 ]

@@ -15,6 +15,7 @@
       { "group": "nested_glock_40", "prob": 2 },
       { "group": "nested_m1911", "prob": 50 },
       { "group": "nested_m1911_10", "prob": 15 },
+      { "group": "nested_STI_DS_10", "prob": 15 },
       { "group": "nested_m9", "prob": 30 },
       { "group": "nested_px4", "prob": 24 },
       { "group": "nested_px4_40", "prob": 20 },
@@ -67,6 +68,7 @@
       { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0 },
       { "item": "m1911_10", "prob": 15, "charges-min": 0 },
+      { "item": "STI_DS_10", "prob": 15, "charges-min": 0 },
       { "item": "m9", "variant": "m9", "prob": 30, "charges-min": 0 },
       { "item": "px4", "prob": 24, "charges-min": 0 },
       { "item": "px4_40", "prob": 20, "charges-min": 0 },
@@ -119,6 +121,7 @@
       { "item": "glock_20", "variant": "glock_40", "prob": 2 },
       { "item": "m1911", "prob": 50 },
       { "item": "m1911_10", "prob": 15 },
+      { "item": "STI_DS_10", "prob": 15, "charges-min": 0 },
       { "item": "m9", "variant": "m9", "prob": 30 },
       { "item": "px4", "prob": 24 },
       { "item": "px4_40", "prob": 20 },
@@ -973,8 +976,7 @@
       { "item": "m320", "prob": 75 },
       { "item": "m79", "prob": 100 },
       { "item": "mark19", "prob": 10, "charges-min": 0, "charges-max": 10 },
-      { "item": "mgl", "prob": 25, "charges-min": 0, "charges-max": 6 },
-      { "item": "rm802", "prob": 15, "charges-min": 0, "charges-max": 4 }
+      { "item": "mgl", "prob": 25, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {

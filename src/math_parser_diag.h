@@ -4,14 +4,11 @@
 
 #include <functional>
 #include <map>
-#include <string>
 #include <string_view>
-#include <variant>
 #include <vector>
 
-#include "dialogue_helpers.h"
+#include "math_parser_diag_value.h"
 
-class math_exp;
 struct dialogue;
 struct dialogue_func {
     dialogue_func( std::string_view sc_, int n_ ) :
@@ -19,57 +16,6 @@ struct dialogue_func {
     std::string_view scopes;
     int num_params{};
 };
-
-struct diag_value {
-    diag_value() = default;
-    template <class U>
-    explicit diag_value( U u ) : data( std::in_place_type<U>, std::forward<U>( u ) ) {}
-    template <class T, class... Args>
-    explicit diag_value( std::in_place_type_t<T> /*t*/, Args &&...args )
-        : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
-
-    // these functions can be used at parse time if the parameter needs to be of exactly this type
-    // with no conversion. These throw so they should *NOT* be used at runtime.
-    double dbl() const;
-    std::string_view str() const;
-    var_info var() const;
-
-    // evaluate and possibly convert the parameter to this type
-    double dbl( dialogue const &d ) const;
-    std::string str( dialogue const &d ) const;
-
-    using impl_t = std::variant<double, std::string, var_info, math_exp>;
-    impl_t data;
-};
-
-constexpr bool operator==( diag_value const &lhs, std::string_view rhs )
-{
-    return std::holds_alternative<std::string>( lhs.data ) && std::get<std::string>( lhs.data ) == rhs;
-}
-
-// helper struct that makes it easy to determine whether a kwarg's value has been used
-struct deref_diag_value {
-    public:
-        deref_diag_value() = default;
-        explicit deref_diag_value( diag_value &&dv ) : _val( dv ) {}
-        diag_value const *operator->() const {
-            _used = true;
-            return &_val;
-        }
-        diag_value const &operator*() const {
-            _used = true;
-            return _val;
-        }
-        bool was_used() const {
-            return _used;
-        }
-    private:
-        bool mutable _used = false;
-        diag_value _val;
-};
-
-using diag_kwargs = std::map<std::string, deref_diag_value>;
-
 struct dialogue_func_eval : dialogue_func {
     using f_t = std::function<double( dialogue & )> ( * )( char scope,
                 std::vector<diag_value> const &, diag_kwargs const & );
@@ -137,6 +83,7 @@ decl_diag_ass spell_level_adjustment_ass;
 decl_diag_eval proficiency_eval;
 decl_diag_ass proficiency_ass;
 decl_diag_eval test_diag;
+decl_diag_eval test_str_len;
 decl_diag_eval u_val;
 decl_diag_ass u_val_ass;
 decl_diag_eval vitamin_eval;
@@ -181,6 +128,7 @@ std::function<double( dialogue & )> myfunction_eval( char scope,
 // kwargs are not included in num_args
 inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
+    { "_test_str_len_", { "g", -1, test_str_len } },
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
