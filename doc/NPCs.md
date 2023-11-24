@@ -1400,7 +1400,8 @@ These functions support keyword-value pairs as optional arguments (kwargs) of th
 
 This section is a work in progress as functions are ported from `arithmetic` to `math`.
 
-_function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariables](#variables)_
+_function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariables](#variables)_<br/>
+_some functions support array arguments or kwargs, denoted with square brackets [] (ex: [`d`/`v`])_
 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|

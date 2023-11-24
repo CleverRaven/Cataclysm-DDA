@@ -3458,6 +3458,7 @@
     "points": 3,
     "skills": [ { "level": 6, "name": "traps" }, { "level": 4, "name": "survival" } ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
+    "recipes": [ "beartrap" ],
     "items": {
       "both": {
         "items": [

@@ -1146,7 +1146,7 @@
         "spell_data": { "id": "telepathic_horror_monster", "min_level": 4 },
         "cooldown": 25,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": ""
+        "monster_message": "%1$s stares at %3$s!"
       }
     ],
     "flags": [
@@ -1226,7 +1226,7 @@
         "allow_no_target": true,
         "cooldown": 25,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": ""
+        "monster_message": "%1$s eyes suddenly go wide!"
       },
       {
         "id": "psi_telepath3_freeze",
