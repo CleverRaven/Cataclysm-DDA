@@ -91,7 +91,6 @@ enum class debug_menu_index : int {
     VEHICLE_DELETE,
     VEHICLE_EXPORT,
     GENERATE_EFFECT_LIST,
-    EDIT_CAMP_LARDER,
     WRITE_GLOBAL_EOCS,
     WRITE_GLOBAL_VARS,
     EDIT_GLOBAL_VARS,
