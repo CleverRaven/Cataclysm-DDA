@@ -19,47 +19,11 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "durability": 7,
-    "default_mods": [ "retool_ar15_223rem" ],
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "50beowulf_ar15mag",
-          "450_ar15mag",
-          "762_ar15mag_5rd",
-          "762_ar15mag_10rd",
-          "762_ar15mag_20rd",
-          "762_ar15mag_30rd",
-          "survivor223mag"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -1164,7 +1128,6 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "durability": 8,
-    "default_mods": [ "retool_mdrx_223rem_medium" ],
     "min_cycle_recoil": 1250,
     "valid_mod_locations": [
       [ "bore", 1 ],
@@ -1308,7 +1271,6 @@
     "dispersion": 150,
     "durability": 8,
     "built_in_mods": [ "adjustable_stock" ],
-    "default_mods": [ "retool_cz600_223rem" ],
     "valid_mod_locations": [
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -1321,33 +1283,6 @@
     ],
     "flags": [ "NO_TURRET", "EASY_CLEAN" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "bren2_762mag10",
-          "bren2_762mag30",
-          "survivor223mag"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 10 }
   },
   {
