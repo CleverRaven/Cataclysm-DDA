@@ -193,7 +193,7 @@
     "message": "You overload the target's neurons!",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "spell_class": "TELEPATH",
+    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "attack",
