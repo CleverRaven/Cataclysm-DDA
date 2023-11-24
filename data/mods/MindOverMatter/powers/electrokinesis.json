@@ -9,13 +9,13 @@
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokin_see_electricity",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
@@ -45,14 +45,14 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "dazed",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "electric",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: electrokinetic_shock_touch') * 1) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -88,13 +88,13 @@
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokin_zap_enemies",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_zap_enemies') * 8000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
@@ -124,13 +124,13 @@
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokin_melee_attacks",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') * 6500) + 30000) * (scaling_factor(u_val('intelligence') ) )"
@@ -159,12 +159,12 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE",
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_duration": {
       "math": [
@@ -177,12 +177,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 6500,
-    "final_energy_cost": 3500,
-    "energy_increment": -150,
-    "base_casting_time": 350,
-    "final_casting_time": 150,
-    "casting_time_increment": -9,
+    "base_energy_cost": {
+      "math": [
+        "u_has_effect('effect_electrokin_personal_battery') ? 0 : min( (6500 - (u_val('spell_level', 'spell: electrokinetic_personal_battery') * -150) , 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_has_effect('effect_electrokin_personal_battery') ? 0 : min( (350 - (u_val('spell_level', 'spell: electrokinetic_personal_battery') * -9) , 150)"
+      ]
+    },
     "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
   },
   {
@@ -195,13 +199,13 @@
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "stunned",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true }, { "id": "telepathic_fear_extra", "hit_self": false } ],
     "shape": "blast",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
       "math": [
@@ -238,13 +242,13 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "line",
     "damage_type": "electric",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 2) + 20) * (scaling_factor(u_val('intelligence') ) )"
@@ -288,13 +292,13 @@
     "valid_targets": [ "self", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokinetic_speed_boost",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_speed_boost') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
@@ -325,7 +329,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -364,7 +368,7 @@
     "valid_targets": [ "ground", "hostile", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "NO_PROJECTILE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "emit",
@@ -392,7 +396,9 @@
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokinetic_lightning_aura",
     "extra_effects": [
@@ -400,8 +406,6 @@
       { "id": "electrokinetic_lightning_aura_eoc", "hit_self": true }
     ],
     "shape": "blast",
-    "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 1500) + 6000) * (scaling_factor(u_val('intelligence') ) )"
@@ -431,7 +435,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_GALVANIC_AURA_BLAST",
     "shape": "blast"
@@ -446,7 +450,9 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "extra_effects": [
       { "id": "psionic_drained_difficulty_nine", "hit_self": true },
@@ -454,8 +460,6 @@
     ],
     "shape": "blast",
     "damage_type": "electric",
-    "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 2) + 25) * (scaling_factor(u_val('intelligence') ) )"
@@ -503,12 +507,10 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
-    "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [
         "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) )"
@@ -545,7 +547,9 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "revive",
     "effect_str": "ZOMBIE",
     "extra_effects": [
@@ -554,8 +558,6 @@
       { "id": "electrokinetic_revive_debuff", "hit_self": false }
     ],
     "shape": "blast",
-    "difficulty": 10,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
       "math": [
         "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
@@ -581,7 +583,7 @@
     "valid_targets": [ "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_LEGS", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_LEGS", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
     "difficulty": 2,
@@ -604,7 +606,7 @@
     "valid_targets": [ "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_electrokin_revive_debuff",
     "shape": "blast",

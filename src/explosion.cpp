@@ -80,8 +80,8 @@ static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
 static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
