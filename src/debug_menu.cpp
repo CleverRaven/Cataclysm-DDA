@@ -1849,6 +1849,32 @@ static void character_edit_desc_menu( Character &you )
     }
 }
 
+static faction *select_faction()
+{
+    std::vector<faction *> factions;
+    for( const auto &elem : g->faction_manager_ptr->all() ) {
+        factions.push_back( g->faction_manager_ptr->get( elem.first ) );
+    }
+
+    if( factions.empty() ) {
+        return nullptr;
+    }
+
+    uilist factionlist;
+    int facnum = 0;
+    for( const faction *faction : factions ) {
+        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
+    }
+
+    factionlist.w_y_setup = 0;
+    factionlist.query();
+    if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
+        return nullptr;
+    }
+
+    return factions[factionlist.ret];
+}
+
 static void character_edit_menu()
 {
     std::vector< tripoint > locations;
@@ -1919,7 +1945,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -1962,6 +1988,7 @@ static void character_edit_menu()
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinions" ) );
         nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
+        nmenu.addentry( D_FACTION, true, 'F', "%s", _( "Set faction" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -2259,6 +2286,13 @@ static void character_edit_menu()
             you.set_value( "npctalk_var_" + key, value );
             break;
         }
+        case D_FACTION: {
+            const faction *fac = select_faction();
+            if( fac != nullptr ) {
+                you.as_npc()->set_fac( fac->id );
+            }
+            break;
+        }
     }
 }
 
@@ -2293,31 +2327,13 @@ static void faction_edit_opinion_menu( faction *fac )
 static void faction_edit_menu()
 {
 
-    std::vector<faction *> factions; // Factions that we know of.
-    for( const auto &elem : g->faction_manager_ptr->all() ) {
-        factions.push_back( g->faction_manager_ptr->get( elem.first ) );
-    }
+    faction *const fac = select_faction();
 
-    if( factions.empty() ) {
+    if( fac == nullptr ) {
         return;
     }
-
-    uilist factionlist;
-    int facnum = 0;
-    for( const faction *faction : factions ) {
-        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
-    }
-
-    factionlist.w_y_setup = 0;
-    factionlist.query();
-    if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
-        return;
-    }
-    const size_t index = factionlist.ret;
 
     uilist nmenu;
-
-    auto &fac = factions[index];
 
     std::stringstream data;
     data << fac->name << std::endl;
