@@ -1767,8 +1767,8 @@
     "qualities": [ [ "THREAD_TAP", 2 ], [ "THREAD_CUT", 2 ] ],
     "symbol": "p",
     "color": "light_gray"
-   },
-   {
+  },
+  {
     "id": "fanning_mill",
     "type": "TOOL",
     "name": { "str": "fanning mill" },
