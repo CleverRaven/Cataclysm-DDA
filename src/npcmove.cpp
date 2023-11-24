@@ -474,7 +474,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 float npc::evaluate_monster( const monster &target, int dist ) const
 {
     float speed = target.speed_rating();
-    float scaled_distance = std::max( 1.0f, dist * dist / ( target.speed_rating() + 10 ) );
+    float scaled_distance = std::max( 1.0f, dist * dist / ( speed + 10.0f ) );
     float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
     float diff = std::min( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -483,12 +483,12 @@ float npc::evaluate_monster( const monster &target, int dist ) const
                    target.type->nname(), diff );
     // Note that the danger can pass below "very low" if the monster is weak and far away.
     diff *= ( hp_percent * 0.5f + 0.5f ) / scaled_distance;
-    add_msg_debug( debugmode::DF_NPC_COMBATAI,
+    /*add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s distance from %s: %i.  Speed rating: %1.2f.  Scaled distance: %1.2f.</color>",
                    name, target.type->nname(), dist, speed, scaled_distance );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s sees %s hp percent remaining is %1.0f%%.</color>",
-                   name, target.type->nname(), hp_percent * 100 );
+                   name, target.type->nname(), hp_percent * 100 );*/
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "%s puts final %s threat level at %1.2f<color_light_gray> after counting speed, distance, hp</color>",
                    name,
@@ -591,7 +591,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
 
-float npc::evaluate_self( bool my_gun ) const
+float npc::evaluate_self( bool my_gun )
 {
     float threat = 0.0f;
     const double &my_weap_val = ai_cache.my_weapon_value;
@@ -600,7 +600,7 @@ float npc::evaluate_self( bool my_gun ) const
     // Randomize it such that it becomes more swingy as their emotions and pain grow higher.
     float pain_factor = rng( 0.0f,
                              static_cast<float>( get_pain() ) / static_cast<float>( get_per() ) );
-    float my_health = ( hp_percentage() - pain_factor ) / 100.0f;
+    mem_combat.my_health = ( hp_percentage() - pain_factor ) / 100.0f;
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
@@ -614,10 +614,11 @@ float npc::evaluate_self( bool my_gun ) const
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        my_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
     }
+
 
     threat += get_dodge();
     threat += armour;
@@ -639,11 +640,11 @@ float npc::evaluate_self( bool my_gun ) const
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s scales own threat by %1.0f%% based on speed.",
                    name, speed * 100.0f );
-    threat *= my_health;
+    threat *= mem_combat.my_health;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s scales own threat by %1.0f%% based on remaining health (reduced by %1.2f%% due to pain).</color>  Final value: %1.2f",
                    name,
-                   my_health * 100.0f, pain_factor, threat );
+                   mem_combat.my_health * 100.0f, pain_factor, threat );
     add_msg_debug( debugmode::DF_NPC, "%s assesses own threat as %1.2f", name, threat );
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
@@ -716,6 +717,7 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
+    mem_combat.swarm_count = 0;
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -1086,7 +1088,8 @@ void npc::assess_danger()
     // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
     // It's likely to get deprecated in a while?
     assessment *= NPC_COWARDICE_MODIFIER;
-    assess_ally *= NPC_COWARDICE_MODIFIER;
+    //Figure our own health more heavily here, because it doens't matter how tough our friends are if we're dying.
+    assess_ally *= mem_combat.my_health * NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_self( npc_ranged ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -1099,15 +1102,26 @@ void npc::assess_danger()
                        assess_ally );
 
         if( assess_ally < assessment ) {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                           "%s decides to reposition.  Has not yet decided to flee.", name );
-            time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
             // Each time NPC decides to run away, their panic increases, which increases likelihood
             // and duration of running away.
             // if they run to a more advantageous position, they'll reassess and rally.
-            mem_combat.repositioning = true;
-            mem_combat.panic += std::min( rng( 1,
-                                               3 ) + static_cast<int>( get_pain() / 5 ) - personality.bravery, 1 );
+            time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
+            if( mem_combat.reposition_countdown <= 0 ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s decides to reposition.  Has not yet decided to flee.", name );
+                mem_combat.repositioning = true;
+                add_effect( effect_npc_run_away, run_away_for );
+                path.clear();
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s still wants to reposition, but they just tried.",
+                               name );
+                mem_combat.reposition_countdown --;
+            }
+
+            mem_combat.panic *= ( assessment / ( assess_ally + 0.5f ) );
+            mem_combat.panic += std::min(
+                                    rng( 1, 3 ) + ( get_pain() / 5 ) - personality.bravery, 1 );
+
             if( my_diff * 5 < assessment ) {
                 // Things are looking more than a little grim, NPC should remember to keep running even
                 // if the worst baddy goes out of LOS.
@@ -1118,8 +1132,6 @@ void npc::assess_danger()
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s upgrades reposition to flat out retreat.", name );
                 mem_combat.repositioning = false; // we're not just moving, we're running.
                 warn_about( "run_away", run_away_for );
-                add_effect( effect_npc_run_away, run_away_for );
-                path.clear();
                 if( mem_combat.panic > 5 && sees_player && is_player_ally() ) {
                     // consider warning player about panic
                     int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
@@ -1132,7 +1144,8 @@ void npc::assess_danger()
                     }
                 }
             } else {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped so they cancel." );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s wants to run but it hasn't helped so they cancel.",
+                               name );
             }
         } else if( failed_reposition || ( npc_ranged &&
                                           assess_ally < assessment * mem_combat.swarm_count ) ) {
@@ -1141,6 +1154,7 @@ void npc::assess_danger()
                            name );
             if( failed_reposition ) {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
+                mem_combat.failing_to_reposition++;
             } else {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s decided to reposition/kite due to %i nearby enemies.",
@@ -1186,6 +1200,7 @@ void npc::assess_danger()
         // Note that panic will still increment prior to this, and a truly panicked NPC will not stand and fight for any reason.
         if( mem_combat.panic - personality.bravery < mem_combat.failing_to_reposition ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided running away was futile.", name );
+            mem_combat.reposition_countdown = 4;
             remove_effect( effect_npc_run_away );
         }
     }
