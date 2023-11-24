@@ -401,7 +401,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         }
         num_points_searched += 1;
     }
-    (void)num_points_searched;
+    ( void )num_points_searched;
     tripoint redirect_goal = random_entry( candidates );
     add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is repositioning to %i, %i, %i", name, redirect_goal.x,
                    redirect_goal.y, redirect_goal.z );
