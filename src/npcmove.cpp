@@ -1113,7 +1113,7 @@ void npc::assess_danger()
             // and duration of running away.
             // if they run to a more advantageous position, they'll reassess and rally.
             time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
-            
+
             if( mem_combat.reposition_countdown <= 0 ) {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s decides to reposition.  Has not yet decided to flee.", name );
