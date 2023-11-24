@@ -250,7 +250,18 @@
     "volume": "0 ml",
     "symbol": ";",
     "color": "yellow",
-    "flags": [ "TWO_WAY_RADIO", "ONLY_ONE", "TRADER_AVOID", "ZERO_WEIGHT", "NO_DROP", "INTEGRATED", "PADDED" ],
+    "flags": [
+      "TWO_WAY_RADIO",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "SEMITANGIBLE",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED"
+    ],
     "use_action": [ { "type": "transform", "target": "item_photokinetic_radio_on", "menu_text": "Switch to scanning mode" } ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
@@ -262,7 +273,17 @@
     "description": "Your powers allow you to listen for radio signals from the surrounding area.  With a moment's concentration, you may change frequency or switch to communicating by radio.",
     "use_action": [ "RADIO_ON", { "type": "transform", "target": "item_photokinetic_radio", "menu_text": "Switch to speaking mode" } ],
     "tick_action": [ "RADIO_TICK" ],
-    "flags": [ "TRADER_AVOID", "ONLY_ONE", "ZERO_WEIGHT", "NO_DROP", "INTEGRATED", "PADDED" ],
+    "flags": [
+      "TRADER_AVOID",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "ZERO_WEIGHT",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {

@@ -417,7 +417,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -435,7 +435,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -453,7 +453,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -471,7 +471,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -489,7 +489,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -507,7 +507,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -525,7 +525,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -543,7 +543,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -827,6 +827,16 @@
     "rating": "good",
     "flags": [ "PHOTOKIN_CHAR_IMMUNE", "NO_RADIATION", "GLARE_RESIST" ],
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_radio",
+    "name": [ "Radio Transception" ],
+    "desc": [ "You can interpret and transmit radio waves." ],
+    "apply_message": "",
+    "remove_message": "You stop paying attention to the radio waves around you.",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",

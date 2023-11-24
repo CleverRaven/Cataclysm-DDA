@@ -17,21 +17,25 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_light_local') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_light_local') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 1500,
-    "final_energy_cost": 450,
-    "energy_increment": -80,
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -7.5,
+    "base_energy_cost": {
+      "math": [
+        "u_has_effect('effect_photokin_light_local') ? 0 : max( (1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * -80) , 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_has_effect('effect_photokin_light_local') ? 0 : max( (125 - (u_val('spell_level', 'spell: photokinetic_light_local') * -7.5) , 50)"
+      ]
+    },
     "learn_spells": { "photokinetic_create_light": 5, "photokinetic_light_beam": 10, "photokinetic_light_image": 15 }
   },
   {
@@ -357,42 +361,6 @@
     "learn_spells": { "photokinetic_invisibility": 5, "photokinetic_light_flash": 7 }
   },
   {
-    "id": "photokinetic_invisibility",
-    "type": "SPELL",
-    "name": "[Ψ]Veil of Light",
-    "description": "Refract light around yourself to become invisible.",
-    "message": "Suddenly, the world around you seems like it's on the other side of the surface of water.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "PHOTOKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_photokin_invisibility",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
-    "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 1500) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 4000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "energy_source": "STAMINA",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "base_energy_cost": 3000,
-    "final_energy_cost": 1200,
-    "energy_increment": -125,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_flash": 6, "photokinetic_light_disintegrate": 12 }
-  },
-  {
     "id": "photokinetic_light_arms",
     "type": "SPELL",
     "name": "[Ψ]Refraction of Arms",
@@ -493,12 +461,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 1500,
-    "energy_increment": -100,
-    "base_casting_time": 250,
-    "final_casting_time": 75,
-    "casting_time_increment": -10,
+    "base_energy_cost": {
+      "math": [
+        "u_has_effect('effect_photokinetic_radio') ? 0 : max( (4000 - (u_val('spell_level', 'spell: photokinetic_radio') * -100) , 1500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_has_effect('effect_photokinetic_radio') ? 0 : max( (250 - (u_val('spell_level', 'spell: photokinetic_radio') * -10) , 75)"
+      ]
+    },
     "learn_spells": { "pyrokinetic_lance": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_blast": 8, "pyrokinetic_aura": 12 }
   },
   {
