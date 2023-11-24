@@ -2031,6 +2031,7 @@
   {
     "id": "flesh_plant",
     "type": "harvest",
+    "message": "<power_leech_harvest>",
     "entries": [
       { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }

@@ -889,6 +889,12 @@ void Character::initialize( bool learn_recipes )
         add_proficiency( pri );
     }
 
+    // Add profession recipes
+    for( const recipe_id &id : prof->recipes() ) {
+        const recipe &r = recipe_dictionary::get_craft( id->result() );
+        learn_recipe( &r );
+    }
+
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
@@ -2120,6 +2126,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
         assembled += "\n" + colorize( _( "Profession proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
             assembled += prof->name() + "\n";
+        }
+    }
+    // Recipes
+    std::vector<recipe_id> prof_recipe = sorted_profs[cur_id]->recipes();
+    if( !prof_recipe.empty() ) {
+        assembled += "\n" + colorize( _( "Profession recipes:" ), COL_HEADER ) + "\n";
+        for( const recipe_id &prof : prof_recipe ) {
+            assembled += prof->result_name() + "\n";
         }
     }
     // Profession pet
@@ -3518,10 +3532,14 @@ static void draw_blood( ui_adaptor &ui, const catacurses::window &w_blood,
 static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
                            const avatar &you, const bool highlight )
 {
-    const std::string random_start_location_text = string_format( n_gettext(
+    std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
+
+    if( get_scenario()->start_location_targets_count() == 1 ) {
+        random_start_location_text = get_scenario()->start_location().obj().name();
+    }
 
     werase( w_location );
     mvwprintz( w_location, point_zero, highlight ? COL_SELECT : c_light_gray,

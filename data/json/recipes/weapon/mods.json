@@ -621,6 +621,7 @@
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 2,
     "time": "10 m",
+    "autolearn": true,
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]

@@ -117,5 +117,13 @@
       }
     ],
     "false_effect": [ { "u_message": "Without a matrix crystal to power it, flipping the toggle does nothing.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSYSHIELD_PARTIAL_EFFECT_GRANTER",
+    "recurrence": [ "2 minutes", "8 minutes" ],
+    "condition": { "u_has_worn_with_flag": "PSYSHIELD_PARTIAL" },
+    "effect": [ { "u_add_effect": "effect_psyshield_protection", "duration": "8 minutes" } ],
+    "false_effect": [ { "u_lose_effect": "effect_psyshield_protection" } ]
   }
 ]
