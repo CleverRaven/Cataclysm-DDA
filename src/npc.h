@@ -256,6 +256,8 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
+// npc_combat_memory should store short-term trackers that don't really need to be saved if
+// the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
 struct npc_combat_memory {
     int panic = 0; // Tracks how many times NPC has had to try to run and how bad the threat
     int swarm_count = 0; // remember how many enemies are around you so you can tell if you're gettign away
