@@ -820,12 +820,13 @@
   {
     "type": "effect_type",
     "id": "effect_photokin_light_barrier",
-    "name": [ "Light Barrier" ],
+    "name": [ "Lucent Barrier" ],
     "desc": [ "You are protected from extremes of light and radiation." ],
     "apply_message": "",
     "remove_message": "The surrounding air shimmers once more as your light barrier fades.",
     "rating": "good",
-    "flags": [ "PHOTOKIN_CHAR_IMMUNE", "NO_RADIATION", "GLARE_RESIST" ]
+    "flags": [ "PHOTOKIN_CHAR_IMMUNE", "NO_RADIATION", "GLARE_RESIST" ],
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 15 } ] } ]
   },
   {
     "type": "effect_type",
