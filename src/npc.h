@@ -257,20 +257,12 @@ struct npc_opinion {
 };
 
 struct npc_combat_memory {
-    int panic; // Tracks how many times NPC has had to try to run and how bad the threat
-    int swarm_count; // remember how many enemies are around you so you can tell if you're gettign away
-    int failing_to_reposition; // Increases as NPC tries to flee/move and doesn't change situation
-    int reposition_countdown; // set when reposition fails so that we don't keep trying for a bit.
-    float my_health; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
-    bool repositioning; // used to distinguish an NPC who is running away from one who is just moving around.
-    npc_combat_memory() {
-        panic = 0;
-        swarm_count = 0;
-        my_health = 1.0f;
-        failing_to_reposition = 0;
-        reposition_countdown = 0;
-        repositioning = false;
-    }
+    int panic = 0; // Tracks how many times NPC has had to try to run and how bad the threat
+    int swarm_count = 0; // remember how many enemies are around you so you can tell if you're gettign away
+    int failing_to_reposition = 0; // Increases as NPC tries to flee/move and doesn't change situation
+    int reposition_countdown = 0; // set when reposition fails so that we don't keep trying for a bit.
+    float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
+    bool repositioning = false; // used to distinguish an NPC who is running away from one who is just moving around.
 };
 
 enum class combat_engagement : int {

@@ -401,6 +401,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         }
         num_points_searched += 1;
     }
+    (void)num_points_searched;
     tripoint redirect_goal = random_entry( candidates );
     add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is repositioning to %i, %i, %i", name, redirect_goal.x,
                    redirect_goal.y, redirect_goal.z );
@@ -516,7 +517,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        candidate_health *= std::max( 1.0f - bleed_intensity / 10, 0.25f );
+        candidate_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding…</color>, intensity %i", candidate.disp_name(), bleed_intensity );
     }
@@ -613,7 +614,7 @@ float npc::evaluate_self( bool my_gun )
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 10, 0.25f );
+        mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
         if( mem_combat.my_health < 0.25f ) {
