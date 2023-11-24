@@ -158,7 +158,7 @@
     "id": "EOC_ELECTRO_MATRIX_AWAKENING_SUCCESS",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you see thin lines beneath your skin.  They pulse with energy, bright sparks traveling to your fingers as you flex them and a burst of internal lightning when you touch the crystal with your free hand.  You raise your hand and hold up two fingers, and a thunderbolt jumps between them accompanied by a loud crackle.  Your hair stands on end as lightning travels dowm your arm, filling the air with the scent of ozone.  As the light from the crystal fades, leaving it dull and colorless, your skin tingles.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you see thin lines beneath your skin.  They pulse with energy, bright sparks traveling to your fingers as you flex them and a burst of internal lightning when you touch the crystal with your free hand.  You raise your hand and hold up two fingers, and a thunderbolt jumps between them accompanied by a loud crackle.  Your hair stands on end as lightning travels down your arm, filling the air with the scent of ozone.  As the light from the crystal fades, leaving it dull and colorless, your skin tingles.",
         "popup": true
       },
       { "u_add_trait": "ELECTROKINETIC" },
