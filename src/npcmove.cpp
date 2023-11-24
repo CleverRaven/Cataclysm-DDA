@@ -491,8 +491,7 @@ float npc::evaluate_monster( const monster &target, int dist ) const
                    name, target.type->nname(), hp_percent * 100 );*/
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "%s puts final %s threat level at %1.2f<color_light_gray> after counting speed, distance, hp</color>",
-                   name,
-                   target.type->nname(), diff );
+                   name, target.type->nname(), diff );
     return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
 
@@ -517,7 +516,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        candidate_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        candidate_health *= std::max( 1.0f - bleed_intensity / 10, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding...</color>, intensity %i", candidate.disp_name(), bleed_intensity );
     }
@@ -614,9 +613,12 @@ float npc::evaluate_self( bool my_gun )
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 20, 0.5f );
+        mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 10, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
+        if( mem_combat.my_health < 0.25f ) {
+            mem_combat.panic += 1;
+        }
     }
 
 
@@ -1052,6 +1054,14 @@ void npc::assess_danger()
                    "<color_light_blue>After checking player</color><color_light_gray>, %s assesses enemy level as </color><color_yellow>%1.2f</color><color_light_gray>, ally level at </color><color_light_green>%1.2f</color>",
                    name, assessment, assess_ally );
 
+
+    // gotta rename cowardice modifier now.
+    // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
+    // It's likely to get deprecated in a while?
+    assessment *= NPC_COWARDICE_MODIFIER;
+    //Figure our own health more heavily here, because it doens't matter how tough our friends are if we're dying.
+    assess_ally *= mem_combat.my_health * NPC_COWARDICE_MODIFIER;
+
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
     // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
@@ -1067,9 +1077,11 @@ void npc::assess_danger()
     if( has_effect( effect_npc_run_away ) ) {
         // this check runs each turn that the NPC is repositioning and assesses if the situation is getting any better.
         // The longer they try to move without improving, the more likely they become to stop and stand their ground.
-        const bool melee_reposition_fail = !npc_ranged && ai_cache.danger_assessment <= assessment;
+        const bool melee_reposition_fail = !npc_ranged &&
+                                           ai_cache.danger_assessment + rng( 0, 5 ) <= assessment;
         const bool range_reposition_fail = npc_ranged &&
-                                           ai_cache.danger_assessment * mem_combat.swarm_count <= assessment * mem_combat.swarm_count;
+                                           ai_cache.danger_assessment * mem_combat.swarm_count + rng( 0,
+                                                   5 ) <= assessment * mem_combat.swarm_count;
         if( melee_reposition_fail || range_reposition_fail ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_red>%s tried to reposition last turn, and the situation has not improved.</color>",
@@ -1084,12 +1096,6 @@ void npc::assess_danger()
         }
     }
 
-    // gotta rename cowardice modifier now.
-    // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
-    // It's likely to get deprecated in a while?
-    assessment *= NPC_COWARDICE_MODIFIER;
-    //Figure our own health more heavily here, because it doens't matter how tough our friends are if we're dying.
-    assess_ally *= mem_combat.my_health * NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_self( npc_ranged ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -1193,7 +1199,7 @@ void npc::assess_danger()
     //should also cache ally strength here?
     ai_cache.danger_assessment = assessment;
 
-    if( mem_combat.failing_to_reposition > 0 && has_effect( effect_npc_run_away ) &&
+    if( mem_combat.failing_to_reposition > 2 && has_effect( effect_npc_run_away ) &&
         !has_effect( effect_npc_fire_bad ) ) {
         // NPC is fleeing, but hasn't been able to reposition safely.
         // Consider cancelling fleeing.
@@ -1202,6 +1208,7 @@ void npc::assess_danger()
             add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided running away was futile.", name );
             mem_combat.reposition_countdown = 4;
             remove_effect( effect_npc_run_away );
+            path.clear();
         }
     }
 }
