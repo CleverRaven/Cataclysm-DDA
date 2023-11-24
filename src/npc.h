@@ -260,7 +260,8 @@ struct npc_opinion {
 // the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
 struct npc_combat_memory {
     int panic = 0; // Tracks how many times NPC has had to try to run and how bad the threat
-    int swarm_count = 0; // remember how many enemies are around you so you can tell if you're gettign away
+    int swarm_count =
+        0; //so you can tell if you're getting away over multiple turns
     int failing_to_reposition = 0; // Increases as NPC tries to flee/move and doesn't change situation
     int reposition_countdown = 0; // set when reposition fails so that we don't keep trying for a bit.
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
