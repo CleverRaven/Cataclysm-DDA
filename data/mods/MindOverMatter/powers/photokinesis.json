@@ -26,16 +26,12 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": {
-      "math": [
-        "u_has_effect('effect_photokin_light_local') ? 0 : max( (1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * -80) , 450)"
-      ]
-    },
-    "base_casting_time": {
-      "math": [
-        "u_has_effect('effect_photokin_light_local') ? 0 : max( (125 - (u_val('spell_level', 'spell: photokinetic_light_local') * -7.5) , 50)"
-      ]
-    },
+    "base_energy_cost": 1500,
+    "final_energy_cost": 450,
+    "energy_increment": -80,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7.5,
     "learn_spells": { "photokinetic_create_light": 5, "photokinetic_light_beam": 10, "photokinetic_light_image": 15 }
   },
   {
@@ -461,17 +457,13 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": {
-      "math": [
-        "u_has_effect('effect_photokinetic_radio') ? 0 : max( (4000 - (u_val('spell_level', 'spell: photokinetic_radio') * -100) , 1500)"
-      ]
-    },
-    "base_casting_time": {
-      "math": [
-        "u_has_effect('effect_photokinetic_radio') ? 0 : max( (250 - (u_val('spell_level', 'spell: photokinetic_radio') * -10) , 75)"
-      ]
-    },
-    "learn_spells": { "pyrokinetic_lance": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_blast": 8, "pyrokinetic_aura": 12 }
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1500,
+    "energy_increment": -100,
+    "base_casting_time": 250,
+    "final_casting_time": 75,
+    "casting_time_increment": -10,
+    "learn_spells": { "photokinetic_blinding_glare": 8 }
   },
   {
     "id": "photokinetic_invisibility",

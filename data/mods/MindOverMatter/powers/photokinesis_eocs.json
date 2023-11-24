@@ -23,7 +23,12 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_PHOTO_REMOVE_LIGHT_LOCAL" } ]
+    "false_effect": [
+      { "run_eocs": "EOC_PHOTO_REMOVE_LIGHT_LOCAL" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * 80) ), 450)" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -264,7 +269,12 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_RADIO" } ]
+    "false_effect": [
+      { "run_eocs": "EOC_PHOTOKIN_REMOVE_RADIO" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (4000 - (u_val('spell_level', 'spell: photokinetic_radio') * 100) ), 1500)" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
