@@ -767,7 +767,7 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         int point_shooting_limit( const item &gun ) const;
         double fastest_aiming_method_speed( const item &gun, double recoil,
-                                            Target_attributes target_attributes = Target_attributes(),
+                                            const Target_attributes &target_attributes = Target_attributes(),
                                             std::optional<std::reference_wrapper<const parallax_cache>> parallax_cache = std::nullopt ) const;
         int most_accurate_aiming_method_limit( const item &gun ) const;
         double aim_factor_from_volume( const item &gun ) const;
@@ -790,7 +790,7 @@ class Character : public Creature, public visitable
         * Use a struct to avoid repeatedly calculate some modifiers that are actually persistent for aiming UI drawing.
         */
         double aim_per_move( const item &gun, double recoil,
-                             Target_attributes target_attributes = Target_attributes(),
+                             const Target_attributes &target_attributes = Target_attributes(),
                              std::optional<std::reference_wrapper<const aim_mods_cache>> aim_cache = std::nullopt ) const;
 
         int get_dodges_left() const;
