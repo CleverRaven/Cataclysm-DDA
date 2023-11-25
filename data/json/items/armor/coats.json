@@ -1613,7 +1613,7 @@
       {
         "id": "green_white_varsity_jacket",
         "name": { "str": "Clover High School varsity jacket" },
-        "description": "It has a dark green torso and white arms.  There is an emblem of a four-leaf clover with the writing \"Clover High School\" on the left arm and front right.",
+        "description": "This one has a dark green torso and white arms.  There is an emblem of a four-leaf clover with the writing \"Clover High School\" on the left arm and front right.",
         "color": "green",
         "weight": 10,
         "append": true
@@ -1621,7 +1621,7 @@
       {
         "id": "purple_white_varsity_jacket",
         "name": { "str": "Wizards varsity jacket" },
-        "description": "It is purple with white arms.  It has an angry looking old wizard on its back, holding its staff menacingly; under it writes \"WIZARDS\".",
+        "description": "This one has a purple torso with white arms.  It has an angry looking old wizard on its back, holding its staff menacingly; under it writes \"WIZARDS\".",
         "color": "magenta",
         "weight": 10,
         "append": true
@@ -1637,7 +1637,7 @@
       {
         "id": "black_varsity_jacket",
         "name": { "str": "black varsity jacket" },
-        "description": "It is completely black.  At least a dozen different patches are sewn on it.",
+        "description": "This one is completely black.  At least a dozen different patches are sewn on it.",
         "color": "black",
         "weight": 10,
         "append": true
@@ -1653,7 +1653,7 @@
       {
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
-        "description": "Its torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Accross the front writes \"BULLS\".",
+        "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Accross the front writes \"BULLS\".",
         "color": "black",
         "weight": 10,
         "append": true
@@ -1669,15 +1669,15 @@
       {
         "id": "green_varsity_jacket",
         "name": { "str": "Zombies varsity jacket" },
-        "description": "It is completely green save for the white stripes.  It has a sprinting zombie clad in football gear on the back, above it writes \"ZOMBIES\".",
+        "description": "This one is completely green save for the white stripes around the wrists and the hip.  It has a sprinting zombie clad in football gear on the back, above it writes \"ZOMBIES\".",
         "color": "green",
         "weight": 10,
         "append": true
       },
       {
         "id": "black_red_varsity_jacket",
-        "name": { "str": "pink and white" },
-        "description": "It has a pink torso and white arms. Somone has sewn an equally pink heart on its front right.",
+        "name": { "str": "pink and white varsity jacket" },
+        "description": "This one has a pink torso and white arms. Somone has sewn an equally pink heart on its front right.",
         "color": "pink",
         "weight": 10,
         "append": true
