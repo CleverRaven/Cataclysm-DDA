@@ -3,12 +3,14 @@
 #define CATA_TEST_DATA_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <vector>
 
 #include "point.h"
 #include "type_id.h"
 
+class Character;
 class JsonObject;
 
 struct efficiency_data {
@@ -49,6 +51,35 @@ struct npc_boarding_test_data {
     void deserialize( const JsonObject &jo );
 };
 
+// TODO: Support mounts
+struct bash_test_loadout {
+    int strength;
+    int expected_smash_ability;
+    std::vector<itype_id> worn;
+    std::optional<itype_id> wielded;
+
+    void apply( Character &guy ) const;
+    void deserialize( const JsonObject &jo );
+};
+
+struct single_bash_test {
+    std::string id;
+    bash_test_loadout loadout;
+    std::map<furn_id, std::pair<int, int>> furn_tries;
+    std::map<ter_id, std::pair<int, int>> ter_tries;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct bash_test_set {
+    std::vector<furn_id> tested_furn;
+    std::vector<ter_id> tested_ter;
+
+    std::vector<single_bash_test> tests;
+
+    void deserialize( const JsonObject &jo );
+};
+
 class test_data
 {
     public:
@@ -59,6 +90,7 @@ class test_data
         static std::map<itype_id, double> expected_dps;
         static std::map<spawn_type, std::vector<container_spawn_test_data>> container_spawn_data;
         static std::map<std::string, npc_boarding_test_data> npc_boarding_data;
+        static std::vector<bash_test_set> bash_tests;
 
         static void load( const JsonObject &jo );
 };
