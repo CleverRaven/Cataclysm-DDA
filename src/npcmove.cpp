@@ -985,8 +985,8 @@ void npc::assess_danger()
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
             mem_combat.assess_enemy += handle_hostile( *foe, evaluate_character( *foe, npc_ranged ),
-                                          translate_marker( "bandit" ),
-                                          "kill_npc" );
+                                       translate_marker( "bandit" ),
+                                       "kill_npc" );
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -1020,8 +1020,9 @@ void npc::assess_danger()
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s identified player as an</color> <color_red>enemy</color> <color_light_gray>of threat level %1.2f</color>",
                            name, player_diff );
-            mem_combat.assess_enemy += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
-                                          "kill_player" );
+            mem_combat.assess_enemy += handle_hostile( player_character, player_diff,
+                                       translate_marker( "maniac" ),
+                                       "kill_player" );
         } else if( is_friendly( player_character ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s identified player as a </color><color_green>friend</color><color_light_gray> of threat level %1.2f (ily babe)",
@@ -1071,7 +1072,38 @@ void npc::assess_danger()
                        name, mem_combat.assess_enemy, hostile_count, friendly_count );
     }
 
+    if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
+        float my_diff = evaluate_self( npc_ranged ) * 0.5f;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s assesses own final strength as %1.2f.", name, my_diff );
+        mem_combat.assess_ally += my_diff;
+        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                       "%s rates total <color_yellow>enemy strength %1.2f</color>, <color_light_green>ally strength %1.2f</color>.",
+                       name, mem_combat.assess_enemy, mem_combat.assess_ally );
+        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", mem_combat.assess_enemy,
+                       mem_combat.assess_ally );
+    }
+    // update the threat cache
+    for( size_t i = 0; i < 8; i++ ) {
+        direction threat_dir = npc_threat_dir[i];
+        direction dir_right = npc_threat_dir[( i + 1 ) % 8];
+        direction dir_left = npc_threat_dir[( i + 7 ) % 8 ];
+        ai_cache.threat_map[threat_dir] = cur_threat_map[threat_dir] + 0.1f *
+                                          ( cur_threat_map[dir_right] + cur_threat_map[dir_left] );
+    }
+    if( mem_combat.assess_enemy <= 2.0f ) {
+        ai_cache.danger_assessment = -10.0f + 5.0f *
+                                     mem_combat.assess_enemy; // Low danger if no monsters around
+    } else {
+        ai_cache.danger_assessment = mem_combat.assess_enemy;
+    }
+}
+
+void npc::act_on_danger_assessment()
+{
+    bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
     bool failed_reposition = false;
+    Character &player_character = get_player_character();
     if( has_effect( effect_npc_run_away ) ) {
         // this check runs each turn that the NPC is repositioning and assesses if the situation is getting any better.
         // The longer they try to move without improving, the more likely they become to stop and stand their ground.
@@ -1093,37 +1125,8 @@ void npc::assess_danger()
             mem_combat.failing_to_reposition = 0;
         }
     }
-
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         mem_combat.assessment_before_repos = std::round( mem_combat.assess_enemy );
-        float my_diff = evaluate_self( npc_ranged ) * 0.5f;
-        add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s assesses own final strength as %1.2f.", name, my_diff );
-        mem_combat.assess_ally += my_diff;
-        add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "%s rates total <color_yellow>enemy strength %1.2f</color>, <color_light_green>ally strength %1.2f</color>.",
-                       name, mem_combat.assess_enemy, mem_combat.assess_ally );
-        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", mem_combat.assess_enemy,
-                       mem_combat.assess_ally );
-    }
-    // update the threat cache
-    for( size_t i = 0; i < 8; i++ ) {
-        direction threat_dir = npc_threat_dir[i];
-        direction dir_right = npc_threat_dir[( i + 1 ) % 8];
-        direction dir_left = npc_threat_dir[( i + 7 ) % 8 ];
-        ai_cache.threat_map[threat_dir] = cur_threat_map[threat_dir] + 0.1f *
-                                          ( cur_threat_map[dir_right] + cur_threat_map[dir_left] );
-    }
-    if( mem_combat.assess_enemy <= 2.0f ) {
-        ai_cache.danger_assessment = -10.0f + 5.0f * mem_combat.assess_enemy; // Low danger if no monsters around
-    } else {
-        ai_cache.danger_assessment = mem_combat.assess_enemy;
-    }
-}
-
-void act_on_danger_assessment(){
-    bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
-    if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         if( mem_combat.assess_ally < mem_combat.assess_enemy ) {
             // Each time NPC decides to run away, their panic increases, which increases likelihood
             // and duration of running away.
@@ -1145,17 +1148,12 @@ void act_on_danger_assessment(){
             mem_combat.panic += std::min(
                                     rng( 1, 3 ) + ( get_pain() / 5 ) - personality.bravery, 1 );
 
-            if( my_diff * 5 < mem_combat.assess_enemy ) {
-                // Things are looking more than a little grim, NPC should remember to keep running even
-                // if the worst baddy goes out of LOS.
-                mem_combat.panic += 10;
-            }
             if( mem_combat.panic - personality.bravery >= mem_combat.failing_to_reposition ) {
                 // NPC hasn't yet failed to get away
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s upgrades reposition to flat out retreat.", name );
                 mem_combat.repositioning = false; // we're not just moving, we're running.
                 warn_about( "run_away", run_away_for );
-                if( mem_combat.panic > 5 && is_player_ally() && sees( player_character.pos() ) {
+                if( mem_combat.panic > 5 && is_player_ally() && sees( player_character.pos() ) ) {
                     // consider warning player about panic
                     int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
                     if( mem_combat.panic - personality.bravery > panic_alert ) {
@@ -1166,12 +1164,13 @@ void act_on_danger_assessment(){
                         }
                     }
                 }
-            } else if( mem_combat.failed_reposition || ( npc_ranged &&
+            }
+        } else if( failed_reposition || ( npc_ranged &&
                                           mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>Due to ranged weapon, %s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
-            if( mem_combat.failed_reposition ) {
+            if( failed_reposition ) {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
                 mem_combat.failing_to_reposition++;
             } else {
