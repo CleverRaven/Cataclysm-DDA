@@ -616,6 +616,7 @@
     "type": "GUN",
     "name": { "str": "single barrel shotgun" },
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",
+    "//": "Based on a H&R Topper 58",
     "weight": "2494 g",
     "volume": "2044 ml",
     "longest_side": "109 cm",
