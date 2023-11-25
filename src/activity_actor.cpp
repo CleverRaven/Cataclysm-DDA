@@ -4629,8 +4629,26 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = total_moves;
 }
 
+void milk_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        act.set_to_null();
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        // We might end up here if the creature dies while being milked
+        who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
+        act.set_to_null();
+    }
+}
+
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
+    act.set_to_null();
     if( monster_coords.empty() ) {
         debugmsg( "milking activity with no position of monster stored" );
         return;
@@ -4666,8 +4684,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     if( !string_values.empty() && string_values[0] == "temp_tie" ) {
         source_mon->remove_effect( effect_tied );
     }
-
-    act.set_to_null();
 }
 
 void milk_activity_actor::serialize( JsonOut &jsout ) const
