@@ -656,7 +656,7 @@
     "id": "fired_mags_9mm",
     "items": [ [ "glockmag", 350 ], [ "glock17_17", 350 ], [ "uzimag", 350 ] ]
   },
-  { 
+  {
     "type": "item_group",
     "id": "feral_jackboot_shotgun",
     "subtype": "distribution",
