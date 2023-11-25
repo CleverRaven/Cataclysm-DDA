@@ -1621,7 +1621,7 @@
       {
         "id": "purple_white_varsity_jacket",
         "name": { "str": "Wizards varsity jacket" },
-        "description": "This one has a purple torso with white arms.  It has an angry looking old wizard on its back, holding its staff menacingly; under it writes \"WIZARDS\".",
+        "description": "This one has a purple torso with white arms.  It has an angry looking old wizard on its back, holding its staff menacingly; below it writes \"WIZARDS\".",
         "color": "magenta",
         "weight": 10,
         "append": true
@@ -1677,7 +1677,7 @@
       {
         "id": "black_red_varsity_jacket",
         "name": { "str": "pink and white varsity jacket" },
-        "description": "This one has a pink torso and white arms. Somone has sewn an equally pink heart on its front right.",
+        "description": "This one has a pink torso and white arms.  Somone has sewn an equally pink heart on its front right.",
         "color": "pink",
         "weight": 10,
         "append": true
