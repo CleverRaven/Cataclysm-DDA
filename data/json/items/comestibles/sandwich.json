@@ -547,8 +547,16 @@
     "id": "sandwich_deluxe_wheat_free",
     "name": { "str": "wheat-free deluxe sandwich", "str_pl": "wheat-free deluxe sandwiches" },
     "conditional_names": [
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str": "wheat-free \"deluxe\" sandwich", "str_pl": "wheat-free \"deluxe\" sandwiches" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "deluxe wheat-free breakfast sandwich" } }
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "mutant",
+        "name": { "str": "wheat-free \"deluxe\" sandwich", "str_pl": "wheat-free \"deluxe\" sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str_sp": "deluxe wheat-free breakfast sandwich" }
+      }
     ],
     "weight": "292 g",
     "color": "brown",
