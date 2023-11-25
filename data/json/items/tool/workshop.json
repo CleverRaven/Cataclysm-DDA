@@ -1772,7 +1772,7 @@
     "id": "fanning_mill",
     "type": "TOOL",
     "name": { "str": "fanning mill" },
-    "description": "A machine for separating seed from chaff. It mechanized the winnowing process, in which the grain was separated from the lighter chaff and straw by blowing a leather bellows.",
+    "description": "A machine for separating seed from chaff.  It mechanized the winnowing process, in which the grain was separated from the lighter chaff and straw by blowing a leather bellows.",
     "weight": "15000 g",
     "volume": "75 L",
     "price": 25000,
