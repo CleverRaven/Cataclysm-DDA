@@ -772,7 +772,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     } else {
         if( !magazine_current() ) {
-            itype_id mag = magazine_default();
+            itype_id mag = magazine_default( true );
             if( !mag->magazine ) {
                 debugmsg( "Tried to set ammo of %s without suitable magazine for %s",
                           ammo.c_str(), typeId().c_str() );
