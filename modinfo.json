@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Construction_Menu_Mod",
+    "name": "Construction Menu Mod",
+    "authors": [ "Carlos" ],
+    "description": "Adds the option for the player to build a swimmingpool",
+    "category": "general",
+    "dependencies": [ "dda" ],
+    "obsolete": false
+  }
+]

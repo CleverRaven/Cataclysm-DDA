@@ -1,0 +1,14 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_pool",
+    "group": "build_pool",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "water", 1000 ], [ "water_clean", 1000 ] ] ],
+    "pre_terrain": "t_concrete",
+    "post_terrain": "t_water_pool"
+  }
+]
