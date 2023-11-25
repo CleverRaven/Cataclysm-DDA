@@ -132,6 +132,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "WINNOW",
+    "name": { "str": "winnowing" }
+  },
+  {
+    "type": "tool_quality",
     "id": "STRAIN",
     "name": { "str": "straining" }
   },
