@@ -344,7 +344,7 @@
     "price_postapoc": 3000,
     "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
-    "color": "black",	
+    "color": "black",
     "ammo": [ "762" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 140,
