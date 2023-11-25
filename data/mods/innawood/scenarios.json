@@ -396,8 +396,8 @@
     "//": "Came from a portal storm, so future tech/professions are allowed",
     "allowed_locs": [ "sloc_field" ],
     "start_name": "Crash Site",
-    "map_extra": "mx_mayhem",
-    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ],
+    "map_extra": "mx_mayhem_crash",
+    "flags": [ "CHALLENGE", "LIMB_WOUNDS", "LONE_START" ],
     "reveal_locale": false
   },
   {

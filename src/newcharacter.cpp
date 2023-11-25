@@ -3183,7 +3183,8 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     const std::vector<std::pair<std::string, std::string>> flag_descriptions = {
         { "FIRE_START", translate_marker( "Fire nearby" ) },
         { "SUR_START", translate_marker( "Zombies nearby" ) },
-        { "HELI_CRASH", translate_marker( "Various limb wounds" ) },
+        { "VEHICLE_CRASH", translate_marker( "Vehicle crash" ) },
+        { "LIMB_WOUNDS", translate_marker( "Various limb wounds" ) },
         { "LONE_START", translate_marker( "No starting NPC" ) },
         { "BORDERED", translate_marker( "Starting location is bordered by an immense wall" ) },
     };

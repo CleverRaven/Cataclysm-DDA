@@ -78,7 +78,8 @@ class start_location
          */
         void add_map_extra( const tripoint_abs_omt &omtstart, const map_extra_id &map_extra ) const;
 
-        void handle_heli_crash( avatar &you ) const;
+        void handle_limb_wounds( Creature &you ) const;
+        void wound_monster( monster *mon ) const;
 
         /**
          * Adds surround start monsters.

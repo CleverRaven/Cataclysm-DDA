@@ -398,7 +398,7 @@
   {
     "id": "SmallFlier2_Wreck",
     "type": "vehicle",
-    "name": "SmallFlier2 Wreck",
+    "name": "Small helicopter",
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#cross", "seat", "dashboard", "controls", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "small_storage_battery", "roof" ] },

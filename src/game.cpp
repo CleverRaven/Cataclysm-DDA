@@ -973,22 +973,34 @@ bool game::start_game()
     if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
     }
-    if( scen->has_flag( "HELI_CRASH" ) ) {
-        start_loc.handle_heli_crash( u );
+    if( scen->has_flag( "LIMB_WOUNDS" ) ) {
+        start_loc.handle_limb_wounds( u );
+    }
+    if( scen->has_flag( "VEHICLE_CRASH" ) ) {
         bool success = false;
         for( wrapped_vehicle v : m.get_vehicles() ) {
-            std::string name = v.v->type.str();
-            std::string search = std::string( "helicopter" );
-            if( name.find( search ) != std::string::npos ) {
+            if( !success ) {
                 for( const vpart_reference &vp : v.v->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint pos = vp.pos();
-                    u.setpos( pos );
+                    u.setpos( vp.pos() );
+
+                    // not every helicopter has both id or name including "helicopter", but they all have at least one
+                    std::string helicopter = std::string( "helicopter" );
+                    // have to check for already-renamed wreckage in case we span on top of a previous helicopter crash site
+                    std::string bird_wreckage = std::string( "Bird Wreckage" );
+                    if( v.v->type.str().find( helicopter ) != std::string::npos ||
+                        v.v->name.find( helicopter ) != std::string::npos ||
+                        v.v->name.find( bird_wreckage ) != std::string::npos ) {
+                        v.v->name = bird_wreckage;
+                    } else {
+                        v.v->name = "Wrecked Vehicle";
+                    }
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
                         vpart_reference( *v.v, sp ).items().clear();
                     }
 
+                    // Delete any monster at the controls
                     auto mons = critter_tracker->find( u.get_location() );
                     if( mons != nullptr ) {
                         critter_tracker->remove( *mons );
@@ -997,9 +1009,17 @@ bool game::start_game()
                     success = true;
                     break;
                 }
-                if( success ) {
-                    v.v->name = "Bird Wreckage";
-                    break;
+            }
+            for( auto rider : v.v->get_riders() ) {
+                if( rider.psg->as_avatar() == nullptr ) {
+                    // player damage is handled by LIMB_WOUNDS
+                    if( rider.psg->as_monster() != nullptr ) {
+                        // monsters don't have limbs
+                        start_loc.wound_monster( rider.psg->as_monster() );
+                    } else {
+                        // npcs do
+                        start_loc.handle_limb_wounds( *rider.psg );
+                    }
                 }
             }
         }

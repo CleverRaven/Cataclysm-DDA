@@ -480,7 +480,7 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
     m.save();
 }
 
-void start_location::handle_heli_crash( avatar &you ) const
+void start_location::handle_limb_wounds( Creature &you ) const
 {
     for( const bodypart_id &bp : you.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
@@ -491,11 +491,11 @@ void start_location::handle_heli_crash( avatar &you ) const
             // Damage + Bleed
             case 1:
             case 2:
-                you.add_effect( effect_bleed, 6_minutes, bp );
+                you.add_effect( effect_bleed, 4_minutes * roll, bp );
             /* fallthrough */
+            // Just damage
             case 3:
             case 4:
-            // Just damage
             case 5: {
                 const int maxHp = you.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
@@ -507,6 +507,31 @@ void start_location::handle_heli_crash( avatar &you ) const
             default:
                 break;
         }
+    }
+}
+
+void start_location::wound_monster( monster *mon ) const
+{
+    const int roll = static_cast<int>( rng( 1, 8 ) );
+    switch( roll ) {
+        // Damage + Bleed
+        case 1:
+        case 2:
+            mon->make_bleed( effect_source(), 4_minutes * roll );
+        /* fallthrough */
+        // Just damage
+        case 3:
+        case 4:
+        case 5: {
+            const int maxHp = mon->get_hp_max();
+            // Health will range from 33% to 66% with occasional bleed
+            const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
+            mon->apply_damage( nullptr, bodypart_id( "bp_null" ), dmg );
+            break;
+        }
+        // No damage
+        default:
+            break;
     }
 }
 

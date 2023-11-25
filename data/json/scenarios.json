@@ -842,7 +842,7 @@
       "combat-engineer"
     ],
     "map_extra": "mx_helicopter",
-    "flags": [ "HELI_CRASH", "LONE_START" ],
+    "flags": [ "LIMB_WOUNDS", "LONE_START", "VEHICLE_CRASH" ],
     "missions": [ "MISSION_HELICOPTER_CRASH" ]
   },
   {
@@ -938,8 +938,8 @@
     "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a crash that totaled your vehicle.  Injured and alone, you'll need to think fast if you want to survive.",
     "allowed_locs": [ "sloc_road" ],
     "start_name": "Crash Site",
-    "map_extra": "mx_mayhem",
-    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+    "map_extra": "mx_mayhem_crash",
+    "flags": [ "CHALLENGE", "LIMB_WOUNDS", "LONE_START", "VEHICLE_CRASH" ]
   },
   {
     "type": "scenario",
@@ -1124,7 +1124,7 @@
     "type": "scenario",
     "name": "Challenge - Close Encounter",
     "description": "You don't know what it was but you managed to lose it for the time being.  Now you are injured, surrounded and the building is on fire.  You hope you have some time before it returns to finish the job.",
-    "flags": [ "CITY_START", "CHALLENGE", "LONE_START", "HELI_CRASH" ],
+    "flags": [ "CITY_START", "CHALLENGE", "LONE_START", "LIMB_WOUNDS" ],
     "id": "close_encounter_start",
     "points": -5,
     "start_name": "In Town",
