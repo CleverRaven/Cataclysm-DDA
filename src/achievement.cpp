@@ -565,6 +565,8 @@ void requirement_watcher::new_value( const cata_variant &new_value, stats_tracke
     }
     // set_requirement can result in this being deleted, so it must be the last
     // thing in this function
+    if (!tracker_)
+        return;
     tracker_->set_requirement( this, requirement_->satisfied_by( current_value_ ) );
 }
 
