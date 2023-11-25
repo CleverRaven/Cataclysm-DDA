@@ -1274,7 +1274,11 @@
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "wheat-free breakfast cheeseburger" } }
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str_sp": "wheat-free breakfast cheeseburger" }
+      }
     ],
     "weight": "333 g",
     "color": "brown",
