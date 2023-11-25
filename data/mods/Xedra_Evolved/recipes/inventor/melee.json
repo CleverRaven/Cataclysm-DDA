@@ -71,7 +71,13 @@
       { "proficiency": "prof_metalworking", "time_multiplier": 2, "skill_penalty": -100 },
       { "proficiency": "prof_welding_basic", "time_multiplier": 2, "skill_penalty": -100 }
     ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "pipe", 1 ] ], [ [ "steel_lump", 2 ] ], [ [ "scrap", 25 ] ], [ [ "kevlar", 25 ] ] ],
+    "components": [
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 25 ] ],
+      [ [ "thread_kevlar", 25 ] ]
+    ],
     "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 5,

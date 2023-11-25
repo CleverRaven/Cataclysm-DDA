@@ -318,7 +318,7 @@
   {
     "type": "GENERIC",
     "id": "dreamforged_nodachi",
-    "copy-from": "qt_nodachi",
+    "copy-from": "mc_nodachi",
     "name": { "str_sp": "dreamforged nodachi" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "replace_materials": { "mc_steel": "forged_dreamstuff", "leather": "forged_dreamstuff" },
