@@ -9990,7 +9990,16 @@
     "//": "4u for meat (precooked), 3u for tortiilas, 4u for beans/rice, 1u for sauce",
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
+      [
+        [ "meat_cooked", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "scrambled_eggs", 2 ],
+        [ "boiled_egg", 2 ],
+        [ "fried_eggs", 1 ],
+        [ "omelet", 1 ]
+      ],
       [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
