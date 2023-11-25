@@ -1648,7 +1648,8 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         return colstart + ( src == advanced_inventory::side::left ? w_width / 2 : 0 );
     };
     avatar &player_character = get_avatar();
-    if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
+    if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ||
+        ( spane.container && spane.container.carrier() == player_character.as_character() ) ) {
         const item_location &loc = sitem->items.front();
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
