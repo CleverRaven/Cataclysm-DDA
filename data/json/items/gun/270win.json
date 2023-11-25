@@ -29,6 +29,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_volume": "750 ml",
+    "barrel_length": "610 mm",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
