@@ -1667,7 +1667,7 @@
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "bone-chilling burrito" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "breakfast burrito" } }
-     ],
+    ],
     "weight": "142 g",
     "color": "brown",
     "spoils_in": "1 days 4 hours",
