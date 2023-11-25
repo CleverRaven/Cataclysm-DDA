@@ -72,7 +72,7 @@
     "volume": "2 L",
     "longest_side": "85 cm",
     "barrel_length": "356 mm",
-	"//" : "length of a 6 round shotshell tube",
+    "//": "length of a 6 round shotshell tube",
     "price": 10000,
     "price_postapoc": 2250,
     "to_hit": -1,
