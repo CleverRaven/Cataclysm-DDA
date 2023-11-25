@@ -34,8 +34,19 @@
             { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
           ]
         },
-        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "eater_dreamer_sequence", "++" ] } ],
-        "else": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", "++" ] } ]
+        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "eater_dreamer_sequence", "++" ] } ]
+      },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_trait": "INVENTOR" } },
+            { "not": { "u_has_trait": "DREAMSMITH" } },
+            { "math": [ "allow_sequence", "==", "1" ] },
+            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
+            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+          ]
+        },
+        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", "++" ] } ]
       }
     ]
   },
