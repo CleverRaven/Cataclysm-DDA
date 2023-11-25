@@ -78,7 +78,6 @@ void deployed_furniture( Character &you, const tripoint &pos );
 void portable_structure( Character &you, const tripoint &examp );
 void pit( Character &you, const tripoint &examp );
 void pit_covered( Character &you, const tripoint &examp );
-void slot_machine( Character &you, const tripoint &examp );
 void safe( Character &you, const tripoint &examp );
 void gunsafe_el( Character &you, const tripoint &examp );
 void harvest_furn_nectar( Character &you, const tripoint &examp );

@@ -9,7 +9,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_NIGHT_EYES_INITIATE",
     "shape": "blast",
@@ -42,7 +42,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_SPEED_READING_INITIATE",
     "shape": "blast",
@@ -77,7 +77,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_clair_premonition",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
@@ -109,7 +109,7 @@
     "valid_targets": [ "hostile" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_clair_weak_point",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
@@ -118,7 +118,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 100)"
+        "min( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.1) + 1) * (scaling_factor(u_val('intelligence') ) ), 100)"
       ]
     },
     "max_range": 100,
@@ -148,7 +148,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_RAD_SENSE",
     "//": "Drain is handled in the subspells below",
@@ -170,7 +170,7 @@
     "description": "Sense your personal radiation.  It's a bug if you have it directly.",
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
@@ -184,7 +184,7 @@
     "description": "Sense your environmental radiation.  It's a bug if you have it directly.",
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect": "attack",
     "effect_str": "effect_clair_sense_rads_self",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
@@ -204,7 +204,7 @@
     "description": "This is the reoccurring item summon for Radiation Sense.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect": "spawn_item",
     "effect_str": "clair_sense_rad_item",
     "shape": "blast",
@@ -224,7 +224,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_clair_ranged_enhance",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
@@ -258,21 +258,19 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [
-        "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 80)"
-      ]
+      "math": [ "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) ), 80)" ]
     },
     "max_range": 80,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( ( (u_val('spell_level', 'spell: clair_voyance') * 1.2) + 1.5) * (scaling_factor(u_val('intelligence') ) ), 50)"
       ]
     },
     "max_aoe": 50,
@@ -305,7 +303,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_clair_dodge",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
@@ -337,7 +335,7 @@
     "valid_targets": [ "none" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT", "NO_LEGS", "RANDOM_AOE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "CONCENTRATE", "SILENT", "NO_LEGS", "RANDOM_AOE" ],
     "effect": "map",
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
@@ -358,7 +356,7 @@
     "message": "Your senses sharpen and all distractions vanish.",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
     "effect": "attack",
@@ -390,7 +388,7 @@
     "message": "You can see forever.",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
     "effect": "attack",

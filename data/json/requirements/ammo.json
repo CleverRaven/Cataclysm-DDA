@@ -71,6 +71,12 @@
     "components": [ [ [ "270win_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_30carbine",
+    "type": "requirement",
+    "//": "Components required for 30 carbine ammo",
+    "components": [ [ [ "30carbine_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_300blk",
     "type": "requirement",
     "//": "Components required for .300 AAC Blackout ammo",
