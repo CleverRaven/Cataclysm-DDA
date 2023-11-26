@@ -25,7 +25,7 @@
     "hit_dmg_npc": "%1$s shrieks at <npcname>!",
     "no_dmg_msg_u": "%1$s's shriek radiates out at you without doing any damage.",
     "no_dmg_msg_npc": "%1$s's shriek radiates out at <npcname> without doing any damage.",
-    "miss_msg_u": "%s's shriek radiates at you, but you dodge!",
+    "miss_msg_u": "%s's shriek radiates at you, but you dodge!"
   },
   {
     "type": "monster_attack",
