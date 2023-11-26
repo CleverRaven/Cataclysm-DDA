@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_RESET_DREAM_COUNTER",
     "//": "used to prevent multiple dreams at the same sleep",
-    "effect": [ { "math": [ "dream_counter", "=", "0" ] } ]
+    "effect": [ { "math": [ "dream_counter", "==", "0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -33,7 +33,7 @@
             { "not": { "u_has_effect": "flu" } }
           ]
         },
-        { "math": [ "dream_counter", "=", "0" ] }
+        { "math": [ "dream_counter", "==", "0" ] }
       ]
     },
     "effect": [
