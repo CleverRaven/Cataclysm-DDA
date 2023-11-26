@@ -153,6 +153,7 @@
     "monsters": [
       { "monster": "mon_civilian_biokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_clairsentient", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_electrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_photokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_pyrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_telekinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
