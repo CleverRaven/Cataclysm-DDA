@@ -8,6 +8,13 @@
   },
   {
     "type": "enchantment",
+    "id": "enchant_electrokin_overload",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "emitter": "emit_shock_burst_rat"
+  },
+  {
+    "type": "enchantment",
     "id": "enchant_pyrokin_fever",
     "condition": "ALWAYS",
     "has": "HELD",

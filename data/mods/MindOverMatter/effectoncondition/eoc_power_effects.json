@@ -17,6 +17,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTRO_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_ELECTROKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PHOTOKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PYRO_MATRIX_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

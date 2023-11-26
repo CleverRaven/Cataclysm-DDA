@@ -5,12 +5,13 @@ This mod adds (currently) eight separate psionic power paths to Cataclysm, inclu
 
 1) Biokinesis - Control of the body. Biokinetics can become stronger and faster than an ordinary human, and even change their form in limited ways. (starting profession: Star Athlete)
 2) Clairsentience - Extending the senses beyond the body. Clairsentients can see in the dark and through walls, and eventually gain a bird's eye view of their surroundings, as well as perform in combat by anticipating their enemies' movements. (starting profession: Doomseer)
-3) Photokinesis - Control of light. Photokinetics can create or block light, focus light into damaging beams, shield themselves from harmful radiation, and even turn themselves invisible (starting profession: Magician)
-4) Pyrokinesis - Manipulating fire and heat. Pyrokinetics can start fires and protect themselves from heat, and even cover their whole body in raging flames to discourage attack (starting profession: Firestarter)
-5) Telekinesis - Moving objects at a distance. Telekinetics can pull objects to them and hurl their enemies away, and even collapse buildings or shield themselves with a barrier of telekinetic force. (starting profession: Test Subject, Project ONYX LIGHTNING)
-6) Telepathy - Control of the mind. Telepaths can become more persuasive and shield their presence from their enemies, and a powerful one can seize control of their enemies' minds. (starting profession: Government Interrogater (DECEASED))
-7) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division)
-8) Vitakinesis - Control of health and injury. Vitakinetics can bind their own wounds and speed healing, eventually recovering from even near-crippling injuries. (starting profession: Faith Healer)
+3) Electrokinesis - Control of lightning and electricity. Electrokinetics can zap attackers, charge devices on their person, unleash bolts of lightning and even manipulate a corpse's nervous system to raise it up to defend them briefly (starting profession: Electrical Engineer)
+4) Photokinesis - Control of light. Photokinetics can create or block light, focus light into damaging beams, shield themselves from harmful radiation, and even turn themselves invisible (starting profession: Magician)
+5) Pyrokinesis - Manipulating fire and heat. Pyrokinetics can start fires and protect themselves from heat, and even cover their whole body in raging flames to discourage attack (starting profession: Firestarter)
+6) Telekinesis - Moving objects at a distance. Telekinetics can pull objects to them and hurl their enemies away, and even collapse buildings or shield themselves with a barrier of telekinetic force. (starting profession: Test Subject, Project ONYX LIGHTNING)
+7) Telepathy - Control of the mind. Telepaths can become more persuasive and shield their presence from their enemies, and a powerful one can seize control of their enemies' minds. (starting profession: Government Interrogater (DECEASED))
+8) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division)
+9) Vitakinesis - Control of health and injury. Vitakinetics can bind their own wounds and speed healing, eventually recovering from even near-crippling injuries. (starting profession: Faith Healer)
 
 If you would like a random power path, pick the profession "Awakening Psion."
 

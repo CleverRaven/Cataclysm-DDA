@@ -71,6 +71,9 @@ Allow using snippets in item descriptions
 Infectious diseases (cold/flu) have an invisible incubation period, and start with milder symptoms
 Weapon Proficiency
 Fixes NPCs being too afraid, makes swarm danger assessment more robust
+Add option to switch between outfit (when available) at chargen
+Animals have stomachs, digest food, and benefit from eating
+Enable NPCs to reload magazines in their inventory
 
 
 ## Content:
@@ -124,6 +127,11 @@ Updates the Portal Dependent mechanics and introduces rewards for exploring the 
 Cyberhorse... CYBERHORSE!
 Make nuts and bolts craftable using thread cutting tool
 New map extra: civilians making a futile last stand against the horde
+Adds primitive cup(s)
+Add residential rolling trash cans.
+Adds Long awaited Exodii Sidearms
+Allow diving into water to remove Mycus spores.
+New Scenario: Last Stand
 
 
 ## Interface:
@@ -170,6 +178,7 @@ Add spell class selecter to spell casting menu
 'Learning is disabled' message on disabled skills
 Update gun mod removal UI to use inventory menu instead of a prompt; prevent removal of gun mods with other mods installed on it
 Show the mass of vitamins in food items
+Melee weapons tell you your skill is too low to see melee values instead of just hiding them
 
 
 ## Mods:
@@ -230,6 +239,13 @@ XE: Add gossamer material and clothing
 XE:  transformation potions to top level alchemy perk
 MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
 [MoM] Add a new power class Photokinesis
+[MoM] Add calorie cost for psionics
+[MoM] Prevent psionic creatures from using powers if nullified
+Make Aftershock and Aftershock: Exoplanet compatible with Defense Mode.
+Allow escape pods to carry loot planetside.
+[MoM] Add mi-go psions
+[Innawoods] Added meadow mutable
+[MoM] Drain overhaul  + Power Maintenance overhaul
 
 
 ## Balance:
@@ -359,6 +375,13 @@ Corrects duplicates /the/ in martial arts techs messages
 Gas masks only use charges on fields with gas_absorption_factor set
 More background stories: actually access them
 All weapon proficiencies can be learned by hitting
+Fix items applying effects multiple times when transformed
+The effect "corroding" should only be added when causing damage
+Climate control was 3.7x stronger than it should be.
+Allow sandwiches to be made using toast
+Reduce NPC faction camp task slowdown & fix save data bloat bug
+Fixed some items to cause multiple addictions
+Allow NPCs to teleport without the player
 
 
 ## Performance:
@@ -372,6 +395,7 @@ Speed up new character screen, particularly when many recipes are known
 Stop clearing weight carried cache unnecessarily
 Precalculate visitable zones to optimize inter-monster aggression checks
 Reduced wait times in high traffic areas by ~15-20%
+Reduce time of selecting large amount of items in inventory menu
 
 
 ## Infrastructure:
