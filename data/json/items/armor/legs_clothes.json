@@ -1066,7 +1066,7 @@
     "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
     "armor": [ { "encumbrance": 3, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
-    {
+  {
     "id": "pants_cargo_wool",
     "type": "ARMOR",
     "name": { "str_sp": "flannel cargo pants" },
