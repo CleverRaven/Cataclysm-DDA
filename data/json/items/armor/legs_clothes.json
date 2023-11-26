@@ -1125,7 +1125,7 @@
     ],
     "warmth": 35,
     "material_thickness": 0.6,
-	"//":"10 oz wool flannel cargo trousers based on https://web.archive.org/web/20231125235444/https://cavour.co/en/product/8878/mod-2-flannel-cargo-trouser",
+    "//": "10 oz wool flannel cargo trousers based on https://web.archive.org/web/20231125235444/https://cavour.co/en/product/8878/mod-2-flannel-cargo-trouser",
     "flags": [ "VARSIZE", "POCKETS", "SOFT", "FANCY" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
