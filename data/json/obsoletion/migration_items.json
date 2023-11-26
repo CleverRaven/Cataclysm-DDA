@@ -249,5 +249,70 @@
     "type": "MIGRATION",
     "replace": "bag_zipper",
     "sealed": false
+  },
+  {
+    "id": "bot_mininuke_hack",
+    "type": "MIGRATION",
+    "replace": "broken_mininuke_hack"
+  },
+  {
+    "id": "knife_combat_marine_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_marine"
+  },
+  {
+    "id": "knife_combat_army_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_army"
+  },
+  {
+    "id": "knife_combat_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  },
+  {
+    "id": "sword_bayonet_mod",
+    "type": "MIGRATION",
+    "replace": "sword_bayonet"
+  },
+  {
+    "id": "20x66_bootleg_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_bootleg_shot",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_bootleg_slug",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_inc",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "762_m43",
+    "type": "MIGRATION",
+    "replace": "762_m87"
+  },
+  {
+    "id": "reloaded_762_m43",
+    "type": "MIGRATION",
+    "replace": "reloaded_762_m87"
+  },
+  {
+    "id": "bp_762_m43",
+    "type": "MIGRATION",
+    "replace": "bp_762_m87"
   }
 ]

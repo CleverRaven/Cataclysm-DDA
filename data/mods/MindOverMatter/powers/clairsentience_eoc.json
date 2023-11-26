@@ -16,8 +16,8 @@
     },
     "effect": [
       { "u_message": "You open your senses to the world.", "type": "good" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_CLAIR_NIGHT_EYES_SWITCHER" ] },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
-      { "run_eocs": [ "EOC_CLAIR_NIGHT_EYES_SWITCHER" ] },
       {
         "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
@@ -43,6 +43,7 @@
       { "u_lose_effect": "effect_clair_night_eyes_6" },
       { "u_lose_effect": "effect_clair_night_eyes_7" },
       { "u_lose_effect": "effect_clair_night_eyes_8" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
       {
         "math": [ "u_val('stamina')", "+=", "max( (1500 - (u_val('spell_level', 'spell: clair_night_vision') * 50) ), 500)" ]
       }
@@ -82,6 +83,7 @@
     },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
@@ -105,6 +107,7 @@
     "id": "EOC_CLAIR_SPEED_READING_INITIATE",
     "condition": { "not": { "u_has_trait": "CLAIR_SPEED_READ" } },
     "effect": [
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_message": "You feel like sitting down with a good book.", "type": "good" },
       { "u_add_trait": "CLAIR_SPEED_READ" },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
@@ -122,12 +125,21 @@
       }
     ],
     "false_effect": [
-      { "u_lose_trait": "CLAIR_SPEED_READ" },
-      { "u_lose_effect": "effect_clair_speed_reader" },
-      { "u_message": "Your eyes ache a bit.  Maybe it's time to put the book down.", "type": "good" },
+      { "run_eocs": "EOC_CLAIR_REMOVE_SPEED_READ" },
       {
         "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: clair_speed_reading') * 125) ), 1000)" ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_REMOVE_SPEED_READ",
+    "condition": { "or": [ { "u_has_trait": "CLAIR_SPEED_READ" }, { "u_has_effect": "effect_clair_speed_reader" } ] },
+    "effect": [
+      { "u_message": "Your eyes ache a bit.  Maybe it's time to put the book down.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_lose_trait": "CLAIR_SPEED_READ" },
+      { "u_lose_effect": "effect_clair_speed_reader" }
     ]
   },
   {
@@ -161,6 +173,7 @@
     "condition": { "u_has_trait": "CLAIR_SPEED_READ" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
         "time_in_future": [

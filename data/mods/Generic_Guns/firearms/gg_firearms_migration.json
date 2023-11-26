@@ -15,7 +15,7 @@
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "launcher_simple", "m79" ],
+    "id": [ "brogyaga", "launcher_simple", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
@@ -25,12 +25,12 @@
     "replace": "grenade_hmg"
   },
   {
-    "id": [ "m320" ],
+    "id": [ "m320", "brogyeki" ],
     "type": "MIGRATION",
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "rm802", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -103,6 +103,7 @@
       "walther_p38",
       "walther_ccp",
       "makarov",
+      "STI_DS_10",
       "af2011a1_38super",
       "m1911a1_38super",
       "glock_22",

@@ -3,40 +3,40 @@ version: v1
 labels:
   - label: "<Enhancement / Feature>"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Features +\".+\"\\s*(\n|$)"
+      body: ".*Features +\".+\".*"
 
   - label: "Info / User Interface"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Interface +\".+\"\\s*(\n|$)"
+      body: ".*Interface +\".+\".*"
 
   - label: "Mods"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Mods +\".+\"\\s*(\n|$)"
+      body: ".*Mods +\".+\".*"
 
   - label: "Game: Balance"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Balance +\".+\"\\s*(\n|$)"
+      body: ".*Balance +\".+\".*"
 
   - label: "<Bugfix>"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Bugfixes +\".+\"\\s*(\n|$)"
+      body: ".*Bugfixes +\".+\".*"
 
   - label: "<Bugfix>"
     matcher:
-      body: ".*((C|c)lose(s|d)?|(F|f)ix(es|ed)?|(R|r)esolve(s|d)?):? #([1-9][0-9]{3,6})(\\s*|$)"
+      body: ".*((C|c)lose(s|d)?|(F|f)ix(es|ed)?|(R|r)esolve(s|d)?):?.*#([1-9][0-9]{3,8}).*"
 
   - label: "Code: Performance"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Performance +\".+\"\\s*(\n|$)"
+      body: ".*Performance +\".+\".*"
 
   - label: "Code: Infrastructure / Style / Static Analysis"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Infrastructure +\".+\"\\s*(\n|$)"
+      body: ".*Infrastructure +\".+\".*"
 
   - label: "Code: Build"
     matcher:
-      body: "(\\s|^)#### Summary\\s*Build +\".+\"\\s*(\n|$)"
+      body: ".*Build +\".+\".*"
 
   - label: "Translation"
     matcher:
-      body: "(\\s|^)#### Summary\\s*I18N +\".+\"\\s*(\n|$)"
+      body: ".*I18N +\".+\".*"

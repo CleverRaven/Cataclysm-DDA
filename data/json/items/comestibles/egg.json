@@ -137,13 +137,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_cockatrice",
-    "name": { "str": "cockatrice egg" },
-    "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COCKATRICE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_reptile",
     "name": { "str": "reptile egg" },
     "weight": "60 g",
@@ -954,6 +947,48 @@
     "price_postapoc": 120,
     "material": [ "egg", "veggy" ],
     "fun": 12,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "omelet",
+    "name": { "str": "omelet" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "calories": 190,
+    "description": "A fluffy beaten egg pancaked over with cheese inside.",
+    "price": 500,
+    "price_postapoc": 70,
+    "material": [ "egg", "milk" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "vegetable_omelet",
+    "name": { "str": "vegetable omelet" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "calories": 240,
+    "description": "A fluffy beaten egg pancaked over with cheese and vegetables inside.",
+    "price": 500,
+    "price_postapoc": 70,
+    "material": [ "egg", "milk", "veggy" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "supreme_omelet",
+    "name": { "str": "supreme omelet" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "calories": 350,
+    "description": "A fluffy beaten egg pancaked over with cheese, vegetables, and meat all stuffed inside.  The mother of all omelets.",
+    "price": 500,
+    "price_postapoc": 70,
+    "material": [ "egg", "milk", "veggy", "flesh" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {

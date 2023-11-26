@@ -2099,5 +2099,49 @@
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
+    "id": "suit_bostonchan",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan suit" },
+    "description": "A professional-looking bright blue wool suit for the Boston-Chan costume.",
+    "weight": "680 g",
+    "volume": "3500 ml",
+    "price": 12000,
+    "price_postapoc": 50,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "jacket_light",
+    "color": "blue",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 5, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 5, 5 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "11 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "9 cm",
+        "moves": 100
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 1.5,
+    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   }
 ]

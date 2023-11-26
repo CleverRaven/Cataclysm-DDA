@@ -46,6 +46,7 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -57,6 +58,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {

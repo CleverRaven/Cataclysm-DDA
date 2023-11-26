@@ -117,10 +117,12 @@ static void expect_cannot_contain( const item_pocket &pocket, const item &it,
 static void expect_can_insert( item_pocket &pocket, const item &it )
 {
     CAPTURE( it.tname() );
-    ret_val<item_pocket::contain_code> rate_can = pocket.insert_item( it );
+    CHECK( pocket.can_contain( it ).value() == item_pocket::contain_code::SUCCESS );
+    ret_val<item *> rate_can = pocket.insert_item( it );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
-    CHECK( rate_can.value() == item_pocket::contain_code::SUCCESS );
+    REQUIRE( rate_can.value() != nullptr );
+    CHECK( rate_can.value()->stacks_with( it ) );
 }
 
 // Call pocket.insert_item( it ) and expect it to fail, with an expected reason and contain_code
@@ -129,10 +131,11 @@ static void expect_cannot_insert( item_pocket &pocket, const item &it,
                                   item_pocket::contain_code expect_code )
 {
     CAPTURE( it.tname() );
-    ret_val<item_pocket::contain_code> rate_can = pocket.insert_item( it );
+    CHECK( pocket.can_contain( it ).value() == expect_code );
+    ret_val<item *> rate_can = pocket.insert_item( it );
     CHECK_FALSE( rate_can.success() );
     CHECK( rate_can.str() == expect_reason );
-    CHECK( rate_can.value() == expect_code );
+    CHECK( rate_can.value() == nullptr );
 }
 
 // Max item length

@@ -164,9 +164,9 @@ struct uilist_entry {
     uilist_entry( int retval, bool enabled, int key, const std::string &txt,
                   const nc_color &keycolor, const nc_color &txtcolor );
     template<typename Enum, typename... Args,
-             typename = std::enable_if_t<std::is_enum<Enum>::value>>
-    explicit uilist_entry( Enum e, Args && ... args ) :
-        uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+             typename = std::enable_if_t<std::is_enum_v<Enum>>>
+                                         explicit uilist_entry( Enum e, Args && ... args ) :
+                                             uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
     std::optional<inclusive_rectangle<point>> drawn_rect;
@@ -593,7 +593,7 @@ void kill_advanced_inv();
  * Add delta to val. If on bounds, wrap to other bound, otherwise clamp to the range [0,size)
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp_wrap( V val, int delta, S size )
 {
     if( size == 0 ) {
@@ -617,7 +617,7 @@ inc_clamp_wrap( V val, int delta, S size )
  * Add 1/-1 to val, then wrap to the range [0,size)
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp_wrap( V val, bool inc, S size )
 {
     return inc_clamp_wrap( val, static_cast<int>( inc ? 1 : -1 ), size );
@@ -629,7 +629,7 @@ inc_clamp_wrap( V val, bool inc, S size )
  * Add 1/-1 to val, then wrap to the range [0,size)
  */
 template<typename T, typename I>
-inline typename std::enable_if<std::is_enum<T>::value, T>::type
+inline std::enable_if_t<std::is_enum_v<T>, T>
 inc_clamp_wrap( T val, I inc, T size )
 {
     return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
@@ -640,7 +640,7 @@ inc_clamp_wrap( T val, I inc, T size )
  * Add delta to val, then clamp to the range [min,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, int delta, S min, S max )
 {
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
@@ -658,7 +658,7 @@ inc_clamp( V val, int delta, S min, S max )
  * Add 1/-1 to val, then clamp to the range [0,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, bool inc, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
@@ -670,7 +670,7 @@ inc_clamp( V val, bool inc, S max )
  * Add delta to val, then clamp to the range [0,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, int delta, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
@@ -682,7 +682,7 @@ inc_clamp( V val, int delta, S max )
  * Add 1/-1 to val, then clamp to the range [min,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, bool inc, S min, S max )
 {
     return inc_clamp( val, inc ? 1 : -1, min, max );
@@ -694,7 +694,7 @@ inc_clamp( V val, bool inc, S min, S max )
  * Add 1/-1 to val, then clamp to the range [0,max]
  */
 template<typename T, typename I>
-inline typename std::enable_if<std::is_enum<T>::value, T>::type
+inline std::enable_if_t<std::is_enum_v<T>, T>
 inc_clamp( T val, I inc, T size )
 {
     return static_cast<T>( inc_clamp( static_cast<int>( val ), inc, static_cast<int>( size ) ) );

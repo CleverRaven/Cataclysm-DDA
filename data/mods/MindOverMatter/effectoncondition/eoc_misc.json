@@ -14,12 +14,13 @@
     "condition": {
       "and": [
         {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
         },
         {
           "or": [
             { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
@@ -30,7 +31,7 @@
         { "math": [ "_success", "!=", "false" ] }
       ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "(100 * _difficulty)" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(100 * _difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -40,12 +41,13 @@
     "condition": {
       "and": [
         {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
         },
         {
           "or": [
             { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
@@ -56,338 +58,7 @@
         { "math": [ "_success", "==", "false" ] }
       ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "(25 * _difficulty)" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_BIOKINETIC_CHANNELING_FAILURE",
-    "//": "Once focus becomes more persistant and doesn't immediately drop to 25 on doing basically anything, low focus should also make overload more likely",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "BIOKINETIC" },
-        { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_biokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_CLAIRSENTIENT_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "CLAIRSENTIENT" },
-        { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "blind_clair_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "deaf_clair_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_PHOTOKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "PHOTOKINETIC" },
-        { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_photokin_myopia_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_photokin_lumination_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_PYROKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "PYROKINETIC" },
-        { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_pyrokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_TELEKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "TELEKINETIC" },
-        { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_telekin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_TELEPATH_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "TELEPATH" },
-        { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "nightmares",
-        "duration": {
-          "math": [ "u_val('time: 30 m') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "disrupted_sleep",
-        "duration": {
-          "math": [ "u_val('time: 30 m') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_TELEPORTER_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "TELEPORTER" },
-        { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_portal_storm_teleport",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_VITAKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "VITAKINETIC" },
-        { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_vitakin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(25 * _difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -14,8 +14,8 @@
 struct dialogue;
 class npc;
 
-using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
-using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
+using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 
@@ -146,6 +146,7 @@ struct var_info {
         name( std::move( in_name ) ) {}
     var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
         name( std::move( in_name ) ), default_val( std::move( in_default_val ) ) {}
+    var_info() : type( var_type::global ) {}
     var_type type;
     std::string name;
     std::string default_val;

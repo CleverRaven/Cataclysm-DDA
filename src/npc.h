@@ -256,6 +256,19 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
+// npc_combat_memory should store short-term trackers that don't really need to be saved if
+// the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
+struct npc_combat_memory {
+    int panic = 0; // Tracks how many times NPC has had to try to run and how bad the threat
+    int swarm_count =
+        0; //so you can tell if you're getting away over multiple turns
+    int failing_to_reposition = 0; // Increases as NPC tries to flee/move and doesn't change situation
+    int reposition_countdown = 0; // set when reposition fails so that we don't keep trying for a bit.
+    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repositioning.
+    float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
+    bool repositioning = false; // is NPC running away or just moving around / kiting.
+};
+
 enum class combat_engagement : int {
     NONE = 0,
     CLOSE,
@@ -749,6 +762,7 @@ enum talk_topic_enum {
     TALK_DEMAND_LEAVE,
 
     TALK_SIZE_UP,
+    TALK_ASSESS_PERSON,
     TALK_LOOK_AT,
     TALK_OPINION,
 
@@ -791,6 +805,8 @@ class npc : public Character
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void clear_personality_traits();
+        void generate_personality_traits();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
@@ -1083,8 +1099,10 @@ class npc : public Character
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
-        /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-        float evaluate_enemy( const Creature &target ) const;
+        /** rates how dangerous a target is */
+        float evaluate_monster( const monster &target, int dist ) const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
+        float evaluate_self( bool my_gun );
 
         void assess_danger();
         bool is_safe() const;
@@ -1095,6 +1113,7 @@ class npc : public Character
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
         void evaluate_best_weapon( const Creature *target );
+        float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 
@@ -1351,6 +1370,7 @@ class npc : public Character
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
+        npc_combat_memory mem_combat;
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;

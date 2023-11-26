@@ -223,22 +223,6 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
-    "id": "photokinetic_rad_aura",
-    "type": "ARMOR",
-    "name": { "str": "light barrier" },
-    "description": "You are surrounded by a faint glow that protects you from radiation.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "symbol": "[",
-    "color": "dark_gray",
-    "flags": [ "RAD_PROOF", "PERSONAL", "ZERO_WEIGHT", "PHOTOKIN_CHAR_IMMUNE" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -500 } ] } ]
-    }
-  },
-  {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL_ARMOR",
     "name": { "str": "pyrokinetic fire" },
@@ -256,6 +240,51 @@
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
     },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "item_photokinetic_radio",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "radio sense (speaking)" },
+    "description": "Your powers allow you to communicate by radio waves.  With a moment's concentration, you may instead scan for radio signals.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": ";",
+    "color": "yellow",
+    "flags": [
+      "TWO_WAY_RADIO",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "SEMITANGIBLE",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED"
+    ],
+    "use_action": [ { "type": "transform", "target": "item_photokinetic_radio_on", "menu_text": "Switch to scanning mode" } ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "item_photokinetic_radio_on",
+    "copy-from": "item_photokinetic_radio",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "radio sense (scanning)" },
+    "description": "Your powers allow you to listen for radio signals from the surrounding area.  With a moment's concentration, you may change frequency or switch to communicating by radio.",
+    "use_action": [ "RADIO_ON", { "type": "transform", "target": "item_photokinetic_radio", "menu_text": "Switch to speaking mode" } ],
+    "tick_action": [ "RADIO_TICK" ],
+    "flags": [
+      "TRADER_AVOID",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "ZERO_WEIGHT",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
     "id": "pyrokinetic_torch_weld",

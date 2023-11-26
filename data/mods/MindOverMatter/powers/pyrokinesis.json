@@ -9,7 +9,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
@@ -23,7 +23,9 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 26) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) ), 5)"
+      ]
     },
     "max_range": 5,
     "field_id": "fd_fire",
@@ -59,7 +61,7 @@
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_PROJECTILE", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_PROJECTILE", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_flash",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
@@ -68,15 +70,17 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 1.5) + 3 ) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flash') * 1.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
-    "max_range": 75,
+    "max_range": 50,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flash') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ), 8)"
+      ]
     },
-    "max_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 0.25) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
+    "max_aoe": 8,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flash') * 150) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -102,7 +106,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_PYROKIN_CALL_FLAME_INITIATE",
     "shape": "blast",
@@ -124,22 +128,29 @@
     "description": "As you can create fire, you can also extinguish it.",
     "message": "You disperse the flames harmlessly.",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "ter_transform",
     "effect_str": "ter_pyrokin_quell_fire",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_three", "hit_self": true },
+      { "id": "pyrokinetic_quell_flames_self", "hit_self": true }
+    ],
     "shape": "blast",
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
     "max_range": 70,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
     },
     "max_aoe": 50,
     "energy_source": "STAMINA",
@@ -152,6 +163,33 @@
     "learn_spells": { "pyrokinetic_call_flames": 5, "pyrokinetic_cloak": 7, "pyrokinetic_aura": 15, "pyrokinetic_flame_immunity": 20 }
   },
   {
+    "id": "pyrokinetic_quell_flames_self",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Fire On Self",
+    "description": "As you can create fire, you can also extinguish it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "remove_effect",
+    "effect_str": "onfire",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+      ]
+    },
+    "max_aoe": 50
+  },
+  {
     "id": "pyrokinetic_cloak",
     "type": "SPELL",
     "name": "[Ψ]Cloak of Warmth (toggle)",
@@ -161,7 +199,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_PYROKIN_WARMTH_CLOAK_INITIATE",
     "shape": "blast",
@@ -192,7 +230,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "cone",
@@ -210,14 +248,17 @@
       ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 0.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 0.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 20)"
+      ]
     },
     "max_range": 20,
-    "range_increment": 0.2,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) ), 145)"
+      ]
     },
-    "max_aoe": 180,
+    "max_aoe": 145,
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
@@ -243,7 +284,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_PYROKIN_TORCH_WELD_INITIATE",
     "shape": "blast",
@@ -272,7 +313,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_PYROKIN_THERMOGENESIS_SELECTOR",
     "//": "No drain on the spell, it's all in the selector.",
@@ -304,7 +345,7 @@
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_1",
     "shape": "blast",
@@ -328,7 +369,7 @@
     "name": "[Ψ]Thermogenesis #2",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_2",
     "shape": "blast",
@@ -352,7 +393,7 @@
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_3",
     "shape": "blast",
@@ -376,7 +417,7 @@
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_4",
     "shape": "blast",
@@ -400,7 +441,7 @@
     "name": "[Ψ]Banish Thermogenesis",
     "description": "The spell to banish existing thermogenesis nodes.  It's a bug if you have it directly.",
     "valid_targets": [ "ally" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "pure",
@@ -420,7 +461,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_aura",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
@@ -452,7 +493,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_flame_immunity",
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
@@ -488,7 +529,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
@@ -502,13 +543,17 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_blast') * 5) + 115) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_blast') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ), 70)"
+      ]
     },
     "max_range": 80,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_blast') * 0.4) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_blast') * 0.4) + 2) * (scaling_factor(u_val('intelligence') ) ), 25)"
+      ]
     },
-    "max_aoe": 20,
+    "max_aoe": 25,
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
@@ -535,7 +580,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "extra_effects": [
       { "id": "psionic_drained_difficulty_nine", "hit_self": true },
@@ -552,9 +597,11 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 8) + 120) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
     },
-    "max_aoe": 30,
+    "max_aoe": 35,
     "field_id": "fd_fire",
     "min_field_intensity": 2,
     "max_field_intensity": 2,
@@ -580,7 +627,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_flame_immunity",
     "shape": "blast",

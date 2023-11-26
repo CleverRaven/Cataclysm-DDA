@@ -387,7 +387,7 @@ struct aim_mods_cache {
     int limit;
     double aim_factor_from_volume;
     double aim_factor_from_length;
-    std::optional<std::reference_wrapper<parallax_cache>> parallaxes;
+    parallax_cache parallaxes;
 };
 
 struct special_attack {
@@ -767,8 +767,8 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         int point_shooting_limit( const item &gun ) const;
         double fastest_aiming_method_speed( const item &gun, double recoil,
-                                            Target_attributes target_attributes = Target_attributes(),
-                                            std::optional<std::reference_wrapper<parallax_cache>> parallax_cache = std::nullopt ) const;
+                                            const Target_attributes &target_attributes = Target_attributes(),
+                                            std::optional<std::reference_wrapper<const parallax_cache>> parallax_cache = std::nullopt ) const;
         int most_accurate_aiming_method_limit( const item &gun ) const;
         double aim_factor_from_volume( const item &gun ) const;
         double aim_factor_from_length( const item &gun ) const;
@@ -790,7 +790,7 @@ class Character : public Creature, public visitable
         * Use a struct to avoid repeatedly calculate some modifiers that are actually persistent for aiming UI drawing.
         */
         double aim_per_move( const item &gun, double recoil,
-                             Target_attributes target_attributes = Target_attributes(),
+                             const Target_attributes &target_attributes = Target_attributes(),
                              std::optional<std::reference_wrapper<const aim_mods_cache>> aim_cache = std::nullopt ) const;
 
         int get_dodges_left() const;
@@ -816,6 +816,7 @@ class Character : public Creature, public visitable
         int get_spell_resist() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
+        bool check_avoid_friendly_fire() const override;
         float get_hit_base() const override;
 
         /** Returns the player's sight range */
@@ -2631,7 +2632,17 @@ class Character : public Creature, public visitable
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
+
+        // Means player is hauling items along the ground
         bool hauling = false;
+        // Means player is automatically including new items in the haul
+        bool autohaul = false;
+        // Skip autohaul on the stop the hauling selection is modified manually
+        bool suppress_autohaul = false;
+        std::string hauling_filter;
+        // Items currently being hauled
+        std::vector<item_location> haul_list;
+
         tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
@@ -2733,9 +2744,16 @@ class Character : public Creature, public visitable
         int activity_vehicle_part_index = -1;
 
         // Hauling items on the ground
-        void start_hauling();
+        void toggle_hauling();
+        void start_hauling( const std::vector<item_location> &items_to_haul );
         void stop_hauling();
         bool is_hauling() const;
+
+        void start_autohaul();
+        void stop_autohaul();
+        bool is_autohauling() const;
+        // Remove items from haul list which are not in valid_items. Returns true if anything was trimmed
+        bool trim_haul_list( const std::vector<item_location> &valid_items );
 
         /**
          * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.

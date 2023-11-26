@@ -2867,25 +2867,29 @@ void map::drop_items( const tripoint &p )
 
             int creature_hit_chance = rng( 0, 100 );
             creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
-
             if( creature_hit_chance < 15 ) {
-                add_msg( _( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the head!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 30 ) {
-                add_msg( _( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the torso!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 65 ) {
-                add_msg( _( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the left arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 100 ) {
-                add_msg( _( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the right arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
                                              damage ) );
             } else {
-                add_msg( _( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s misses the %s!" ), i.tname(),
+                                        creature_below->get_name() );
             }
         }
 
@@ -8716,7 +8720,13 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
     const tripoint gp_ms = sm_to_ms_copy( gp );
 
     creature_tracker &creatures = get_creature_tracker();
-    for( spawn_point &i : current_submap->spawns ) {
+
+    // The list of spawns on the submap might be updated while we are iterating it.
+    // For example, `monster::on_load` -> `monster::try_reproduce` calls `map::add_spawn`.
+    // Therefore, this intentionally uses old-school indexed for-loop with re-check against `.size()` each step.
+    // NOLINTNEXTLINE(modernize-loop-convert)
+    for( size_t sp_i = 0; sp_i < current_submap->spawns.size(); ++sp_i ) {
+        const spawn_point i = current_submap->spawns[sp_i]; // intentional copy
         const tripoint center = gp_ms + i.pos;
         const tripoint_range<tripoint> points = points_in_radius( center, 3 );
 

@@ -84,7 +84,7 @@
   },
   {
     "type": "recipe",
-    "name": "dreamforged plate armor",
+    "name": "dreamforged arm guards",
     "id": "dreamforged_armguard_plate_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
     "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",

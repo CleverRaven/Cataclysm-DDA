@@ -34,7 +34,7 @@
     "id": "ammo_can_30_9mm_fmj_1000",
     "type": "GENERIC",
     "copy-from": "ammunition_can_30",
-    "name": { "str": "1000 9x19 mm FMJ ammo can" },
+    "name": { "str": "1000 9x19mm FMJ ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-172-9558 A363\n1000 CRTG 9 MM\nBALL M882</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -43,7 +43,7 @@
     "id": "ammo_can_30_9mm_jhp_1000",
     "type": "GENERIC",
     "copy-from": "ammunition_can_30",
-    "name": { "str": "1000 9x19 mm JHP ammo can" },
+    "name": { "str": "1000 9x19mm JHP ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-357-8488 A260\n1000 CARTRIDGES 9 MM\nSUBSONIC</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -149,7 +149,7 @@
     "id": "ammo_can_50_556tracer_820",
     "type": "GENERIC",
     "copy-from": "ammunition_can_50",
-    "name": { "str": "820 5.56 mm ammo can" },
+    "name": { "str": "820 5.56mm ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-155-5457 A063\n820 CTGS 5.56MM\nTRACER M856</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -185,7 +185,7 @@
     "id": "ammo_can_50_556_m855a1_clipped_840",
     "type": "GENERIC",
     "copy-from": "ammunition_can_50",
-    "name": { "str": "840 5.56 ammo can" },
+    "name": { "str": "840 5.56mm ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-559-3333 AB57\n840 CARTRIDGES 5.56 MM\nBALL M855A1\n10 ROUND CLIPS</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -262,7 +262,7 @@
     "id": "ammo_can_fat_50_223_1tracer4ball_800",
     "type": "GENERIC",
     "copy-from": "ammunition_can_fat_50",
-    "name": { "str": "800 5.56 mm ammo can" },
+    "name": { "str": "800 5.56mm ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-533-5663 AB03\n800 CRTG 5.56MM\n4 BALL M855\n1 TRACER M856\nM27 LINK</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -271,7 +271,7 @@
     "id": "ammo_can_fat_50_223_1tracer4ap_800",
     "type": "GENERIC",
     "copy-from": "ammunition_can_fat_50",
-    "name": { "str": "800 5.56 mm ammo can" },
+    "name": { "str": "800 5.56mm ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-393-7052 AA02\n800 CRTG 5.56MM\n4 AP M995\n1 TRACER M856\nM27 LINK</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -280,7 +280,7 @@
     "id": "ammo_can_fat_50_223ap_800",
     "type": "GENERIC",
     "copy-from": "ammunition_can_fat_50",
-    "name": { "str": "800 5.56 mm ammo can" },
+    "name": { "str": "800 5.56mm ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-393-7050 AA01\n800 CRTG 5.56MM\n5 AP M995\nM27 LINK</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -289,7 +289,7 @@
     "id": "ammo_can_fat_50_223fmj_800",
     "type": "GENERIC",
     "copy-from": "ammunition_can_fat_50",
-    "name": { "str": "800 5.56 mm ammo can" },
+    "name": { "str": "800 5.56mm ammo can" },
     "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-258-8692 A062\n800 CRTG 5.56MM\n BALL M855\nM27 LINK</color>",
     "color": "light_gray",
     "symbol": "#"
@@ -373,17 +373,17 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "2422 ml",
         "max_contains_weight": "5000 g",
-        "max_item_length": "246mm"
+        "max_item_length": "437mm"
       },
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "2422 ml",
         "max_contains_weight": "5000 g",
-        "max_item_length": "246mm"
+        "max_item_length": "437mm"
       }
     ],
     "material": [ "steel" ],
@@ -471,7 +471,7 @@
     "id": "ammo_box_army_20_223",
     "type": "GENERIC",
     "copy-from": "ammo_box_1",
-    "name": { "str": "20 5.56 mm rounds ammo box", "str_pl": "20 5.56 mm rounds ammo boxes" },
+    "name": { "str": "20 5.56mm rounds ammo box", "str_pl": "20 5.56mm rounds ammo boxes" },
     "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"20 CARTRIDGES 5.56 mm TRACER M856\"",
     "color": "brown",
     "symbol": "#"
@@ -543,7 +543,7 @@
     "weight": "38 g",
     "volume": "245 ml",
     "copy-from": "ammo_box_2",
-    "name": { "str": "100 9x19 mm fmj ammo box", "str_pl": "100 9x19 mm fmj ammo boxes" },
+    "name": { "str": "100 9x19mm FMJ ammo box", "str_pl": "100 9x19mm FMJ ammo boxes" },
     "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA FMJ FULL METAL JACKED 115 gr.\"",
     "color": "brown",
     "symbol": "#",
@@ -561,7 +561,7 @@
     "id": "ammo_box_army_100_9mm_jhp",
     "type": "GENERIC",
     "copy-from": "ammo_box_army_100_9mm_fmj",
-    "name": { "str": "100 9x19 mm jhp ammo box", "str_pl": "100 9x19 mm jhp ammo boxes" },
+    "name": { "str": "100 9x19mm JHP ammo box", "str_pl": "100 9x19mm JHP ammo boxes" },
     "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA JHP JACKED HOLLOW POINT 116gr.\"",
     "color": "brown",
     "symbol": "#"
@@ -651,7 +651,7 @@
     "id": "ammo_box_army_20_308",
     "type": "GENERIC",
     "copy-from": "ammo_box_3",
-    "name": { "str": "20 7.62 MM ammo box", "str_pl": "20 7.62 MM ammo boxes" },
+    "name": { "str": "20 7.62mm ammo box", "str_pl": "20 7.62mm ammo boxes" },
     "description": "Small, plain brown ammo box.  Black text, printed on the front, says:\"20 ROUNDS 7.62MM BALL M80\"",
     "color": "brown",
     "symbol": "#",

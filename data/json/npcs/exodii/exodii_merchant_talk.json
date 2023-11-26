@@ -337,7 +337,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_AskedRestock",
     "type": "talk_topic",
-    "dynamic_line": [ "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?.  Sure as 'ell, come back in <interval>." ],
+    "dynamic_line": [ "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back in <interval>." ],
     "//~": "HEH, you can't get enough of old Rubik's merchandise, eh? Sure as hell, come back in <interval>.",
     "responses": [
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },

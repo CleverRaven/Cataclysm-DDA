@@ -240,7 +240,8 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 into_vehicle_count += charges_added;
             }
             items_did_not_fit_count += it.count();
-            add_msg( _( "Unable to fit %s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
+            //~ %1$s is item name, %2$s is vehicle name, %3$s is vehicle part name
+            add_msg( _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                 c.i_add( it );
@@ -326,11 +327,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
-                  const tripoint_bub_ms &where )
+std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
+                                        const std::list<item> &items,
+                                        const tripoint_bub_ms &where )
 {
     if( items.empty() ) {
-        return;
+        return {};
     }
     map &here = get_map();
     const std::string ter_name = here.name( where );
@@ -417,12 +419,15 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
                 break;
         }
     }
+    std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        here.add_item_or_charges( where, it );
+        item &dropped_item = here.add_item_or_charges( where, it );
+        items_dropped.emplace_back( map_cursor( where.raw() ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
     you.recoil = MAX_RECOIL;
+    return items_dropped;
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
@@ -2787,9 +2792,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     reqs = vpi.repair_requirements();
                 }
             }
-            const std::string ran_str = random_string( 10 );
-            const requirement_id req_id( ran_str );
-            requirement_data::save_requirement( reqs, req_id );
+            const requirement_id req_id( std::to_string( reqs.make_hash() ) );
+            if( requirement_data::all().count( req_id )  == 0 ) {
+                requirement_data::save_requirement( reqs, req_id );
+            }
             what_we_need = req_id;
         } else if( reason == do_activity_reason::NEEDS_MINING ) {
             what_we_need = requirement_data_mining_standard;
@@ -2838,9 +2844,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
             // this is an activity that only requires this one tool, so we will fetch and wield it.
             requirement_data reqs_data = requirement_data( tool_comp_vector, quality_comp_vector,
                                          requirement_comp_vector );
-            const std::string ran_str = random_string( 10 );
-            const requirement_id req_id( ran_str );
-            requirement_data::save_requirement( reqs_data, req_id );
+            const requirement_id req_id( std::to_string( reqs_data.make_hash() ) );
+            if( requirement_data::all().count( req_id )  == 0 ) {
+                requirement_data::save_requirement( reqs_data, req_id );
+            }
             what_we_need = req_id;
         }
         bool tool_pickup = reason == do_activity_reason::NEEDS_TILLING ||

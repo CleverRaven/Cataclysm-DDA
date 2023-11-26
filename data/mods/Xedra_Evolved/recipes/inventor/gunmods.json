@@ -21,7 +21,7 @@
       }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -51,7 +51,7 @@
       }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -81,7 +81,44 @@
       }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "choke_wideshot",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      {
+        "proficiency": "prof_metalworking",
+        "time_multiplier": 3,
+        "skill_penalty": -100,
+        "learning_time_multiplier": 0.3
+      },
+      {
+        "proficiency": "prof_gunsmithing_improv",
+        "time_multiplier": 3,
+        "skill_penalty": -100,
+        "learning_time_multiplier": 0.3
+      }
+    ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "circuit", 1 ] ]
+    ],
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -111,7 +148,7 @@
       }
     ],
     "components": [ [ [ "pipe", 3 ] ], [ [ "scrap", 5 ] ], [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 5 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],

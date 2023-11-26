@@ -1486,6 +1486,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_OUTFIT",
+    "name": "Change outfit",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_GENDER",
     "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
@@ -2355,6 +2361,12 @@
     "category": "DEFAULTMODE",
     "id": "haul",
     "bindings": [ { "input_method": "keyboard_any", "key": "\\" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Quick toggle hauling",
+    "category": "DEFAULTMODE",
+    "id": "haul_toggle"
   },
   {
     "type": "keybinding",
@@ -4385,49 +4397,49 @@
     "category": "PLAYER_INFO",
     "id": "SELECT_STATS_TAB",
     "name": "Select stats tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_ENCUMBRANCE_TAB",
     "name": "Select encumbrance tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_SKILLS_TAB",
     "name": "Select skills tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_TRAITS_TAB",
     "name": "Select traits tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F4" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_BIONICS_TAB",
     "name": "Select bionics tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F5" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_EFFECTS_TAB",
     "name": "Select effects tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F6" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_PROFICIENCIES_TAB",
     "name": "Select proficiencies tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F7" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
   },
   {
     "type": "keybinding",
@@ -4498,6 +4510,13 @@
     "id": "SIZE_UP_STATS",
     "name": "Size up stats",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "ASSESS_PERSONALITY",
+    "name": "Assess personality",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

@@ -865,7 +865,8 @@ class item : public visitable
                        bool unseal_pockets = false,
                        bool allow_sealed = false,
                        bool ignore_settings = false,
-                       bool into_bottom = false );
+                       bool into_bottom = false,
+                       Character *carrier = nullptr );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -932,7 +933,7 @@ class item : public visitable
          * Puts the given item into this one.
          */
         ret_val<void> put_in( const item &payload, item_pocket::pocket_type pk_type,
-                              bool unseal_pockets = false );
+                              bool unseal_pockets = false, Character *carrier = nullptr );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
 
         /**
@@ -2340,6 +2341,9 @@ class item : public visitable
         void set_itype_variant( const std::string &variant );
 
         void clear_itype_variant();
+
+        // Description of the item provided by the variant, or an empty string
+        std::string variant_description() const;
 
         /**
          * Quantity of shots in the gun. Looks at both ammo and available energy.

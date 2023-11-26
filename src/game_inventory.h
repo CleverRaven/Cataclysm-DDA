@@ -111,6 +111,8 @@ item_location container_for( Character &you, const item &liquid, int radius = 0,
 item_location disassemble( Character &you );
 /** Gunmod installation menu. */
 item_location gun_to_modify( Character &you, const item &gunmod );
+/** Gunmod removal menu. */
+item_location gunmod_to_remove( Character &you, item &gun );
 /** Book reading menu. */
 item_location read( Character &you );
 /** E-Book reading menu. */

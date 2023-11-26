@@ -431,6 +431,21 @@
     ]
   },
   {
+    "id": "tools_tire",
+    "type": "item_group",
+    "//": "Equipment mostly used in tire shops",
+    "ammo": 100,
+    "items": [
+      { "item": "jack", "prob": 100 },
+      { "item": "lug_wrench", "prob": 80 },
+      { "item": "jack_small", "prob": 80 },
+      { "item": "compressor", "prob": 40 },
+      { "group": "tools_toolbox", "prob": 80 },
+      { "group": "tools_workshop", "prob": 70 },
+      { "group": "tools_general", "prob": 60 }
+    ]
+  },
+  {
     "id": "full_survival_kit",
     "type": "item_group",
     "subtype": "collection",

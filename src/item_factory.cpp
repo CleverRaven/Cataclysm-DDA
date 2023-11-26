@@ -2705,7 +2705,7 @@ void itype_variant_data::load( const JsonObject &jo )
         alt_color = color_from_string( jo.get_string( "color" ) );
     }
     optional( jo, false, "ascii_picture", art );
-    optional( jo, false, "weight", weight );
+    optional( jo, false, "weight", weight, 1 );
     optional( jo, false, "append", append );
     optional( jo, false, "expand_snippets", expand_snippets );
 }
@@ -3463,6 +3463,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
         }
     }
     assign( jo, "blacklist_mod", slot.blacklist_mod );
+    assign( jo, "blacklist_slot", slot.blacklist_slot );
     assign( jo, "barrel_length", slot.barrel_length );
 }
 

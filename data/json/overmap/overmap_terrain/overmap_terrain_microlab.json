@@ -16,6 +16,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
