@@ -1098,6 +1098,8 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
     //~ %s: "Close where?" "Pry where?" etc.
     popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
+    temp_hide_advanced_inv();
+    
     std::string action;
     do {
         ui_manager::redraw();
