@@ -5,7 +5,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "2 Shot Special" },
-    "//": "Volume+barrel length based off a bond arms derringer. with extra length in the barrel.",
+    "//": "Volume+barrel length based off a Bond Arms derringer. with extra length in the barrel.",
     "description": "A crudely made double barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "ascii_picture": "2_shot_special",
     "weight": "750 g",
