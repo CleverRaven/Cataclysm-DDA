@@ -2,8 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_NIGHT_EYES_INITIATE",
-    "condition": { "not": { "u_has_effect": "effect_clair_night_eyes" } 
-    },
+    "condition": { "not": { "u_has_effect": "effect_clair_night_eyes" } },
     "effect": [
       { "u_message": "You open your senses to the world.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_CLAIR_NIGHT_EYES_SWITCHER" ] },
