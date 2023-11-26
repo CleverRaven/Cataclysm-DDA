@@ -1063,7 +1063,7 @@
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.02,
     "movecost_swim_modifier": 1.3,
-    "hp_modifier": 0.1
+    "hp_adjustment": 14
   },
   {
     "type": "mutation",
@@ -1076,7 +1076,7 @@
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.04,
     "movecost_swim_modifier": 1.7,
-    "hp_modifier": 0.2
+    "hp_adjustment": 21
   },
   {
     "type": "mutation",
@@ -6737,7 +6737,7 @@
     "movecost_swim_modifier": 1.2,
     "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
-    "hp_modifier": 0.05,
+    "hp_adjustment": 4,
     "dodge_modifier": -1,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },

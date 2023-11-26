@@ -1366,7 +1366,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Trickle Charger CBM" },
-    "description": "A low-power, long-lasting bioelectric charger powered by small-scale nuclear decay.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
+    "description": "Ubiquitous in nearly every post atomic age dimension, betavoltaic nuclear battery implants were found by the Exodii powering pacemakers and nerve stimulators, devices that require very low power for many decades.  Stripped of its original medical purpose, the trickle charger CBM will provide a trickle of very low energy but requires no fuel source, and multiple copies can be installed.",
     "weight": "500 g",
     "price": 120000,
     "price_postapoc": 1500,
@@ -1378,7 +1378,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Throwing Assist CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A CBM that links the eyes to a series of nerve stimulators along the arms and hands, resulting in a significant increase to throwing accuracy.  The user enjoys a significant edge in baseball, and it turns out it works great with fragmentation grenades too.",
+    "description": "The culmination of decades of research into hominid palaeoanthropology and biomechanical modelling, the throwing assist CBM was brought to market to revolutionize Beqball tournaments, soon becoming exhibitions of cybernetic human effort and engineering.  A network of neurostimulators and sensors, mostly in the arms and hands, work in tandem with the eyes for a significant increase in throwing accuracy and precision.  When the Exodii came upon this cybernetic enhancement suite, they found it to be an economical way to ensure precise grenade placement in partial cyborgs.",
     "price": 220000,
     "weight": "1000 g",
     "difficulty": 3

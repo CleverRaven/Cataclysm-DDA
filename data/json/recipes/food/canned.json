@@ -971,6 +971,7 @@
         [ "irradiated_onion", 2 ],
         [ "wild_garlic", 4 ],
         [ "garlic_clove", 12 ],
+        [ "rehydrated_garlic", 12 ],
         [ "irradiated_carrot", 4 ],
         [ "carrot", 4 ]
       ],
@@ -1020,6 +1021,7 @@
         [ "irradiated_onion", 12 ],
         [ "wild_garlic", 24 ],
         [ "garlic_clove", 72 ],
+        [ "rehydrated_garlic", 72 ],
         [ "irradiated_carrot", 24 ],
         [ "carrot", 24 ]
       ],

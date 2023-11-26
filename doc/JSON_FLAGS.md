@@ -383,6 +383,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```DOWNED_RECOVERY``` Always has 50% chance to recover from downing, regardless of limb scores / stats.
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
+- ```EMP_IMMUNE`` You bionic power cannot be drained and your vulnerable electronics cannot be broken during an EMP blast.
 - ```ENHANCED_VISION``` Increases the scouting range, similarly to `ZOOM` item flag
 - ```EYE_MEMBRANE``` Lets you see underwater.
 - ```FEATHER_FALL``` You are immune to fall damage.
@@ -409,7 +410,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_SCENT``` You have no scent.
-- ```NO_SPELLCASTING``` Mutations with this flag blocks you from casting spells with the spellcasting menu. No effect on other spells sources such as activated items, mutations and bionics
+- ```NO_SPELLCASTING``` Mutations with this flag blocks you from casting spells with the spellcasting menu. No effect on other spells sources such as activated items, mutations and bionics.  Does not block spells with the PSIONIC flag.
+- ```NO_PSIONICS``` You are unable to use any psionic power (spell with the PSIONIC flag).
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NUMB``` Changes character's moral behaviour in some situations
 - ```NYCTOPHOBIA``` Apply some negative effects when the ambient light is too low

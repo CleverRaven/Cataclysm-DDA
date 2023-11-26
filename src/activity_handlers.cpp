@@ -882,7 +882,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
             action != butcher_type::DISSECT ) {
             you.add_msg_if_player( m_bad,
-                                   _( "The corpse looks a little underweight..." ) );
+                                   _( "The corpse looks a little underweight…" ) );
         }
     }
     if( corpse_item->has_flag( flag_SKINNED ) ) {
@@ -3775,11 +3775,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
+            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
+            int cost = spell_being_cast.energy_cost( *you );
+
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                // pay the cost
-                int cost = spell_being_cast.energy_cost( *you );
                 switch( spell_being_cast.energy_source() ) {
                     case magic_energy_type::mana:
                         you->magic->mod_mana( *you, -cost );

@@ -48,8 +48,8 @@
 #include "value_ptr.h"
 #include "viewer.h"
 
-static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_critter_underfed( "critter_underfed" );
+static const efftype_id effect_no_ammo( "no_ammo" );
 
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );

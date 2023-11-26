@@ -36,10 +36,9 @@
     "global": true,
     "effect": [
       { "u_teleport": { "global_val": "your_spawnpoint" } },
-      { "arithmetic": [ { "global_val": "var", "var_name": "wave_number" }, "+=", { "const": 1 } ] },
-      { "math": [ "wave_cash_number", "++" ] },
+      { "math": [ "wave_number", "++" ] },
       { "u_message": "Welcome to wave <global_val:wave_number>!", "type": "bad", "popup": false },
-      { "run_eocs": [ "defense_mode_money_add", "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" ] }
+      { "run_eocs": "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" }
     ]
   },
   {

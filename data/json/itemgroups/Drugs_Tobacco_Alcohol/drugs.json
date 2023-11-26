@@ -219,7 +219,7 @@
       { "group": "cotton_ball_bag_full", "prob": 5 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25, "charges": [ 1, 5 ] },
-      [ "contacts", 10 ],
+      { "item": "contacts", "prob": 10, "count": 6 },
       { "prob": 75, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "item": "gummy_vitamins", "prob": 25, "count": [ 1, 10 ] },
       { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },

@@ -90,12 +90,18 @@ class veh_interact
         int page_size = 0;
         // height of the stats window
         const int stats_h = 8;
+        // element width defaults for 80 column display
+        int disp_w = 26; // width of the left column
+        int pane_w = 25; // width of the center and right columns
         catacurses::window w_border;
         catacurses::window w_mode;
         catacurses::window w_msg;
         catacurses::window w_disp;
         catacurses::window w_parts;
         catacurses::window w_stats;
+        catacurses::window w_stats_1;
+        catacurses::window w_stats_2;
+        catacurses::window w_stats_3;
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
@@ -277,7 +283,6 @@ class veh_interact
          * Updated whenever the cursor moves. */
         ter_t terrain_here;
 
-        /* called by exec() */
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();

@@ -252,6 +252,37 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "land_pad_outpost_a1", "land_pad_outpost_a2", "land_pad_outpost_a1_roof", "land_pad_outpost_a2_roof" ],
+    "name": "landing pad outpost",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "land_pad_outpost_basement_a1",
+      "land_pad_outpost_basement_a2",
+      "land_pad_tunnel_a1",
+      "land_pad_tunnel_a2",
+      "land_pad_a1_above",
+      "land_pad_a2_above",
+      "land_pad_a1",
+      "land_pad_a2",
+      "land_pad_b1",
+      "land_pad_b2",
+      "land_pad_b1_above",
+      "land_pad_b2_above"
+    ],
+    "name": "landing pad",
+    "sym": "#",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "afs_shelter_1" ],
     "name": "house",
     "sym": "<",

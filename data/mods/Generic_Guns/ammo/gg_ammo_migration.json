@@ -91,6 +91,7 @@
       "bp_10mm_fmj",
       "bp_357sig_fmj",
       "bp_38_fmj",
+      "bp_38super_fmj",
       "bp_380_FMJ",
       "bp_40ball",
       "bp_40fmj",
@@ -109,14 +110,14 @@
       "matchhead_10mm_fmj",
       "matchhead_357sig_fmj",
       "matchhead_38_fmj",
+      "matchhead_38_super_fmj",
       "matchhead_380_FMJ",
       "matchhead_40ball",
       "matchhead_40fmj",
       "matchhead_45_acp",
       "matchhead_9mmfmj",
       "matchhead_9x18mmfmj",
-      "matchhead_357mag_fmj",
-      "matchhead_30carbine"
+      "matchhead_357mag_fmj"
     ],
     "type": "MIGRATION",
     "replace": "matchhead_pistol_ball"
@@ -160,6 +161,7 @@
     "id": [
       "bp_357sig_jhp",
       "bp_38_special",
+      "bp_38super",
       "bp_380_JHP",
       "bp_40sw",
       "bp_45_jhp",
@@ -175,6 +177,7 @@
     "id": [
       "matchhead_357sig_jhp",
       "matchhead_38_special",
+      "matchhead_38_super",
       "matchhead_380_JHP",
       "matchhead_40sw",
       "matchhead_45_jhp",
@@ -236,10 +239,12 @@
       "545",
       "762_54R",
       "762_m87",
+      "762_jhp",
       "8mm_bootleg",
       "8mm_civilian",
       "8mm_jhp",
-      "30carbine"
+      "30carbine",
+      "30carbine_jsp"
     ],
     "type": "MIGRATION",
     "replace": "rifle_ball"
@@ -262,6 +267,7 @@
   {
     "id": [
       "reloaded_223",
+      "reloaded_270win_fmj",
       "reloaded_270win_jsp",
       "reloaded_300_winmag",
       "reloaded_3006",
@@ -277,8 +283,10 @@
       "reloaded_303",
       "reloaded_303sp",
       "reloaded_762_54R",
+      "reloaded_762_jhp",
       "reloaded_762_m87",
-      "reloaded_30carbine"
+      "reloaded_30carbine",
+      "reloaded_30carbine_jsp"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_ball"
@@ -286,6 +294,7 @@
   {
     "id": [
       "bp_223",
+      "bp_270win_fmj",
       "bp_270win_jsp",
       "bp_300_winmag",
       "bp_3006",
@@ -299,7 +308,9 @@
       "bp_303sp",
       "bp_762_54R",
       "bp_762_m87",
-      "bp_30carbine"
+      "bp_762_jhp",
+      "bp_30carbine",
+      "bp_30carbine_jsp"
     ],
     "type": "MIGRATION",
     "replace": "bp_rifle_ball"
@@ -323,7 +334,6 @@
       "556_m995",
       "762_51",
       "762_51_incendiary",
-      "762_m43",
       "762_51_m993",
       "8mm_caseless",
       "8mm_fmj",
@@ -347,8 +357,7 @@
       "reloaded_556",
       "reloaded_556_incendiary",
       "reloaded_762_51",
-      "reloaded_762_51_incendiary",
-      "reloaded_762_m43"
+      "reloaded_762_51_incendiary"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_AP"
@@ -366,8 +375,7 @@
       "bp_556",
       "bp_556_incendiary",
       "bp_762_51",
-      "bp_762_51_incendiary",
-      "bp_762_m43"
+      "bp_762_51_incendiary"
     ],
     "type": "MIGRATION",
     "replace": "bp_rifle_AP"
@@ -423,12 +431,22 @@
     "replace": "grenade_ammo_beanbag"
   },
   {
-    "id": [ "40mm_flare" ],
+    "id": [ "40mm_flare", "273x44flare" ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_flare"
   },
   {
-    "id": [ "40x46mm_m433", "40x46mm_m651", "40x53mm_m430a1" ],
+    "id": [
+      "40x46mm_m433",
+      "40x46mm_m651",
+      "40x53mm_m430a1",
+      "273x110sluglight",
+      "273x110slugmedium",
+      "273x110slugheavy",
+      "273x44thermobaric",
+      "273x44HE",
+      "273x44RG"
+    ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_hedp"
   },
@@ -447,7 +465,9 @@
       "bp_40x46mm_flechette_m118",
       "bp_40x46mm_flechette_m199",
       "bp_40x53mm_flechette_m169",
-      "bp_40x53mm_buckshot_m169"
+      "bp_40x53mm_buckshot_m169",
+      "273x110flock",
+      "273x110canister"
     ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_shot"
@@ -459,7 +479,8 @@
       "40x53mm_slug_m169",
       "bp_40x46mm_slug_m118",
       "bp_40x46mm_slug_m199",
-      "bp_40x53mm_slug_m169"
+      "bp_40x53mm_slug_m169",
+      "273x44trainer"
     ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_slug"
@@ -470,17 +491,7 @@
     "replace": "grenade_ammo_teargas"
   },
   {
-    "id": [
-      "shot_00",
-      "shot_paper_00",
-      "410shot_000",
-      "20x66_exp",
-      "20x66_flechette",
-      "20x66_frag",
-      "20x66_inc",
-      "20x66_shot",
-      "20x66_flare"
-    ],
+    "id": [ "shot_00", "shot_paper_00", "410shot_000", "20x66_exp", "20x66_frag", "20x66_shot", "20x66_flare" ],
     "type": "MIGRATION",
     "replace": "shot_buck"
   },
@@ -510,12 +521,12 @@
     "replace": "shot_explosive"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "shot_scrap" ],
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "shot_scrap" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },

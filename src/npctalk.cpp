@@ -1488,6 +1488,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
         }
     } else if( topic == "TALK_SIZE_UP" ) {
         return actor( true )->evaluation_by( *actor( false ) );
+    } else if( topic == "TALK_ASSESS_PERSON" ) {
+        return actor( true )->view_personality_traits();
     } else if( topic == "TALK_LOOK_AT" ) {
         if( actor( false )->can_see() ) {
             return "&" + actor( true )->short_description();
@@ -1975,7 +1977,7 @@ int topic_category( const talk_topic &the_topic )
         return 9;
     }
     static const std::unordered_set<std::string> topic_99 = { {
-            "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
+            "TALK_SIZE_UP", "TALK_ASSESS_PERSON", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
         }
     };
     if( topic_99.count( topic ) > 0 ) {
@@ -2404,6 +2406,7 @@ const talk_topic &special_talk( const std::string &action )
     static const std::map<std::string, talk_topic> key_map = {{
             { "LOOK_AT", talk_topic( "TALK_LOOK_AT" ) },
             { "SIZE_UP_STATS", talk_topic( "TALK_SIZE_UP" ) },
+            { "ASSESS_PERSONALITY", talk_topic( "TALK_ASSESS_PERSON" ) },
             { "CHECK_OPINION", talk_topic( "TALK_OPINION" ) },
             { "YELL", talk_topic( "TALK_SHOUT" ) },
         }
@@ -3255,6 +3258,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
     dbl_or_var dov_y_adjust = get_dbl_or_var( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool passable_only = jo.get_bool( "passable_only", false );
     std::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {
         JsonObject target_obj = jo.get_object( "target_params" );
@@ -3303,9 +3307,9 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
-    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params, is_npc, type,
-                                dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs, search_target,
-                    search_type, dov_target_min_radius, dov_target_max_radius]( dialogue & d ) {
+    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, passable_only, target_params,
+                                is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs,
+                    search_target, search_type, dov_target_min_radius, dov_target_max_radius]( dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
@@ -3403,6 +3407,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
                 if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
+                    ( !passable_only || here.passable( target_pos ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
@@ -3864,6 +3869,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, std::string_view memb
     } else {
         interrupt_type.str_val = "default";
     }
+    const bool global = member == "message";
     str_or_var type_string;
     if( jo.has_member( "type" ) ) {
         type_string = get_str_or_var( jo.get_member( "type" ), "type", true );
@@ -3871,9 +3877,12 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, std::string_view memb
         type_string.str_val = "neutral";
     }
     function = [message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
-                         popup_w_interrupt_query_msg, interrupt_type,
+                         popup_w_interrupt_query_msg, interrupt_type, global,
              is_npc]( dialogue const & d ) {
         Character *target = d.actor( is_npc )->get_character();
+        if( global ) {
+            target = &get_player_character();
+        }
         if( !target || target->is_npc() ) {
             return;
         }
@@ -4639,9 +4648,15 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
           hide_failing, allow_cancel]( dialogue & d ) {
         uilist eoc_list;
 
+        std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
+        talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
+        talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
+
+
         eoc_list.text = title;
         eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
+        parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
             effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
@@ -4660,17 +4675,23 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
                 continue;
             }
 
+            std::string name;
             std::string description;
+            if( eoc_names.empty() ) {
+                name = eoc_id.str();
+            } else {
+                name = eoc_names[i].evaluate( d );
+                parse_tags( name, alpha, beta, d );
+            }
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
+                parse_tags( description, alpha, beta, d );
             }
 
             if( eoc_keys.empty() ) {
-                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt,
-                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt, name, description );
             } else {
-                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i],
-                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i], name, description );
             }
         }
 
@@ -5795,6 +5816,7 @@ parsers = {
     { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun_t::set_learn_recipe },
     { "u_forget_recipe", "npc_forget_recipe", jarg::member, &talk_effect_fun_t::set_forget_recipe },
     { "u_message", "npc_message", jarg::member, &talk_effect_fun_t::set_message },
+    { "message", "message", jarg::member, &talk_effect_fun_t::set_message },
     { "u_add_wet", "npc_add_wet", jarg::member | jarg::array, &talk_effect_fun_t::set_add_wet },
     { "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun_t::set_assign_activity },
     { "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun_t::set_make_sound },

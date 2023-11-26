@@ -563,6 +563,7 @@
     "material": [ "fruit", "veggy" ],
     "volume": "80 ml",
     "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
+    "fun": 4,
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
   },
   {
