@@ -642,9 +642,6 @@ class Character : public Creature, public visitable
         using Creature::mod_speed_bonus;
         void mod_speed_bonus( int nspeed, const std::string &desc );
 
-        // Prints message(s) about current health
-        void print_health() const;
-
         /** Getters for health values exclusive to characters */
         int get_lifestyle() const;
         int get_daily_health() const;

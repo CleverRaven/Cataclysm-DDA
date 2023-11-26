@@ -806,9 +806,6 @@ void avatar::clear_identified()
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
-        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
-            print_health();
-        }
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
