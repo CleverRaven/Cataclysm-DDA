@@ -15,7 +15,7 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bot_shotgunbot",
@@ -33,7 +33,7 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bot_meleebot",
@@ -51,6 +51,6 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   }
 ]

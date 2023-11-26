@@ -1,10 +1,4 @@
 abcdefghijklmnopqrstuvwxyz
-moulinet
-backswings
-backswing
-buttstroke
-spraining
-parrying
 aberrance
 aboveground
 abso
@@ -234,6 +228,8 @@ backrest
 backstep
 backstepping
 backsteps
+backswing
+backswings
 backtracing
 bagh
 bakelite
@@ -430,6 +426,7 @@ butadiene
 butternut
 butternuts
 buttstock
+buttstroke
 buzzcut
 buzzz
 bzzt
@@ -1806,6 +1803,8 @@ mealworms
 meanin
 meathook
 medibot
+megachette
+megachettes
 megacorporations
 megafauna
 megalith
@@ -1923,6 +1922,7 @@ mote
 motes
 motorpool
 motorsports
+moulinet
 mountable
 mountings
 mouthgear
@@ -2174,6 +2174,7 @@ paratrooping
 parboiling
 paroxysms
 parries
+parrying
 parst
 parthenogenetic
 partyin
@@ -2480,8 +2481,8 @@ reckonin
 reclines
 recolherem
 recrafted
-recursively
 recuperator
+recursively
 recurve
 recutita
 recycler
@@ -2688,6 +2689,7 @@ shedded
 shenandoah
 shipside
 shitstorms
+shivs
 shlip
 shlop
 shoddily
@@ -2834,6 +2836,7 @@ spongey
 sporeling
 spork
 sporter
+spraining
 sprayable
 spraypainted
 spraypainting
@@ -3471,7 +3474,6 @@ zuniceratops
 zuul
 zweitimber
 zygomaticus
-shivs
 zzz
 zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus
