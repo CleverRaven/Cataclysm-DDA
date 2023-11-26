@@ -118,7 +118,7 @@
     "copy-from": "mon_debug_grabber",
     "weight": "100 kg",
     "name": { "str": "debug dragger" },
-    "description": "This monster exists to drag you behind it briefly",
+    "description": "This monster exists to drag you behind it briefly.",
     "special_attacks": [
       {
         "id": "grab_drag",
