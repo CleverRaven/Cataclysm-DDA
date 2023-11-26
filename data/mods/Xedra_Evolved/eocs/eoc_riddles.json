@@ -25,11 +25,7 @@
           [ "EOC_XE_RIDDLE_17", { "math": [ "xe_riddle_17 + 1" ] } ],
           [ "EOC_XE_RIDDLE_18", { "math": [ "xe_riddle_18 + 1" ] } ],
           [ "EOC_XE_RIDDLE_19", { "math": [ "xe_riddle_19 + 1" ] } ],
-          [ "EOC_XE_RIDDLE_20", { "math": [ "xe_riddle_20 + 1" ] } ],
-          [ "EOC_XE_RIDDLE_21", { "math": [ "xe_riddle_21 + 1" ] } ],
-          [ "EOC_XE_RIDDLE_22", { "math": [ "xe_riddle_22 + 1" ] } ],
-          [ "EOC_XE_RIDDLE_23", { "math": [ "xe_riddle_23 + 1" ] } ],
-          [ "EOC_XE_RIDDLE_24", { "math": [ "xe_riddle_24 + 1" ] } ]
+          [ "EOC_XE_RIDDLE_20", { "math": [ "xe_riddle_20 + 1" ] } ]
         ]
       }
     ]
@@ -291,12 +287,34 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_CLASS_EATER",
-    "effect": [ { "u_add_trait": "EATER" }, { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH" ] } ]
+    "effect": [
+      { "u_add_trait": "EATER" },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_EATER" ] },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_EATER" ] },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_INITIAL_SPELL_EATER",
+    "effect": [
+      { "u_roll_remainder": [ "spring_heeled_leap", "spell_rage", "spell_stamina_wonder", "spell_dodge" ], "type": "spell" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_CLASS_DREAMER",
-    "effect": [ { "u_add_trait": "DREAMER" }, { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH" ] } ]
+    "effect": [
+      { "u_add_trait": "DREAMER" },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_DREAMER" ] },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_DREAMER" ] },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_INITIAL_SPELL_DREAMER",
+    "effect": [ { "u_roll_remainder": [ "dream_dagger", "make_constructed_hammer", "summon_shifter" ], "type": "spell" } ]
   },
   {
     "type": "effect_on_condition",
@@ -386,6 +404,33 @@
         "title": "Knowledge or Certainty?",
         "names": [ "Knowledge", "Certainty" ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_CLASS_INVENTOR",
+    "effect": [
+      { "u_add_trait": "INVENTOR" },
+      { "u_roll_remainder": [ "inventor_research_base_1" ], "type": "recipe" },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_CLASS_DREAMSMITH",
+    "effect": [
+      { "u_add_trait": "DREAMSMITH" },
+      { "run_eocs": [ "EOC_DREAMSMITHS_RECIPES_ENCH" ] },
+      { "run_eocs": [ "EOC_DREAMSMITHS_RECIPES_ENCH" ] },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH",
+    "effect": [
+      { "u_message": "Your attempts to save anything are hopeless…", "type": "mixed" },
+      { "math": [ "magic_potential", "=", "0" ] }
     ]
   }
 ]
