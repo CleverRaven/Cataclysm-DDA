@@ -86,7 +86,6 @@
     "skill_used": "survival",
     "time": "5 m",
     "batch_time_factors": [ 80, 1 ],
-    "//": "Anything that blows air can do this really quickly.",
     "autolearn": true,
     "qualities": [ { "id": "WINNOW", "level": 2 } ],
     "byproducts": [ [ "chaff", 1 ] ],
