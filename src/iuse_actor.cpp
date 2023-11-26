@@ -2794,7 +2794,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         if( print_msg ) {
             for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
+                                      _( "You don't have enough clean %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.charges_of( mat_comp, items_needed ) :
