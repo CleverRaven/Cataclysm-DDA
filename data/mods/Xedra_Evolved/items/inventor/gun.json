@@ -38,7 +38,16 @@
     ],
     "ammo_effects": [ "LASER" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "OVERHEATS",
+      "INVENTOR_CRAFTED"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -92,7 +101,16 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "OVERHEATS",
+      "INVENTOR_CRAFTED"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -146,7 +164,16 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "OVERHEATS",
+      "INVENTOR_CRAFTED"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -173,7 +200,7 @@
     "color": "magenta",
     "skill": "rifle",
     "ammo": "aetheric_charge",
-    "ammo_to_fire": 1,
+    "ammo_to_fire": 10,
     "range": 30,
     "ranged_damage": { "damage_type": "pure", "amount": 35 },
     "dispersion": 15,
@@ -197,9 +224,20 @@
     ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "OVERHEATS" ],
-    "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 m", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 480 }, "airtight": true } ]
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "OVERHEATS",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "INVENTOR_CRAFTED"
+    ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 4800 }, "airtight": true } ]
   },
   {
     "id": "bio_launcher",
@@ -220,9 +258,9 @@
     "ammo": [ "bio_warhead" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],
     "armor": [
-      { "encumbrance": [ 20, 22 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+      { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bio_warhead",
@@ -237,6 +275,7 @@
     "melee_damage": { "bash": 8 },
     "ammo_type": "bio_warhead",
     "material": [ "steel", "plastic" ],
+    "flags": [ "TRADER_AVOID", "WATER_FRIENDLY", "INVENTOR_CRAFTED" ],
     "symbol": "*",
     "color": "light_green"
   },
@@ -245,22 +284,6 @@
     "id": "bio_warhead",
     "name": "bio-warhead",
     "default": "bio_warhead"
-  },
-  {
-    "id": "rip_ticket",
-    "name": { "str": "vancian bill" },
-    "description": "A small bill, covered in odd symbols.  Ripping it up will cause a small dimensional tear.  It will last only a few milliseconds, yet make enough damage to kill something.",
-    "type": "TOOL",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "material": [ "paper" ],
-    "symbol": "|",
-    "color": "brown",
-    "flags": [ "NONCONDUCTIVE", "MAGIC_FOCUS", "TRADER_AVOID", "SINGLE_USE" ],
-    "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true },
-    "max_charges": 1,
-    "charges_per_use": 1,
-    "initial_charges": 1
   },
   {
     "id": "ion_gun",
@@ -277,7 +300,7 @@
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "MUNDANE" ],
+    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -305,6 +328,7 @@
     "min_cycle_recoil": 2700,
     "default_mods": [ "bipod" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 30 } } ]
   },
   {
@@ -328,7 +352,7 @@
     "recoil": 300,
     "durability": 9,
     "min_cycle_recoil": 1,
-    "flags": [ "TRADER_AVOID", "NO_SALVAGE" ],
+    "flags": [ "TRADER_AVOID", "NO_SALVAGE", "INVENTOR_CRAFTED" ],
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "double", 2 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "laser_sight" ],
@@ -355,7 +379,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -388,7 +412,7 @@
     "range": 1,
     "ammo": "battery",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "extend": { "flags": [ "NO_TURRET" ] },
+    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
@@ -429,6 +453,7 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
+    "flags": [ "INVENTOR_CRAFTED" ],
     "location": "energy transformer",
     "range_modifier": 35,
     "mod_targets": [ "inventor_glauncher" ],
@@ -457,6 +482,7 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "red",
+    "flags": [ "INVENTOR_CRAFTED" ],
     "location": "energy transformer",
     "range_modifier": 35,
     "mod_targets": [ "inventor_glauncher" ],
@@ -487,6 +513,7 @@
     "color": "blue",
     "location": "energy transformer",
     "//": "TODO: buff this thing somehow, emitting electricity field doesn't do any significant damage",
+    "flags": [ "INVENTOR_CRAFTED" ],
     "mod_targets": [ "inventor_glauncher" ],
     "name": { "str": "voltaic energy transformer" },
     "range_modifier": 35,
@@ -516,6 +543,7 @@
     "symbol": ":",
     "color": "blue",
     "location": "energy transformer",
+    "flags": [ "INVENTOR_CRAFTED" ],
     "mod_targets": [ "inventor_glauncher" ],
     "name": { "str": "focused energy transformer" },
     "range_modifier": 35,
@@ -537,7 +565,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID" ],
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": {
       "need_wielding": true,
       "target": "inventor_grenade_noise_expl_act",
@@ -560,7 +588,7 @@
     "color": "blue",
     "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 1200 } },
-    "flags": [ "TRADER_AVOID", "BOMB" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "inventor_grenade_noise_emp",
@@ -572,7 +600,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID" ],
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": {
       "need_wielding": true,
       "target": "inventor_grenade_noise_emp_act",
@@ -603,7 +631,7 @@
       "fields_max_intensity": 10,
       "emp_blast_radius": 12
     },
-    "flags": [ "TRADER_AVOID", "BOMB" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "inventor_grenade_noise_fire",
@@ -615,7 +643,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID" ],
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": {
       "need_wielding": true,
       "target": "inventor_grenade_noise_fire_act",
@@ -645,7 +673,7 @@
       "fields_max_intensity": 2,
       "explosion": { "power": 225 }
     },
-    "flags": [ "TRADER_AVOID", "BOMB" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "sonic_gun",
@@ -668,7 +696,16 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 0,
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "ELECTRONIC" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "ELECTRONIC",
+      "INVENTOR_CRAFTED"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -695,7 +732,7 @@
     "color": "blue",
     "charges_per_use": 50,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -758,7 +795,7 @@
       [ "muzzle", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

@@ -60,5 +60,23 @@
     "dodge_counter": true,
     "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 15 }, { "stat": "damage", "type": "cut", "scale": -1 } ],
     "tech_effects": [ { "id": "downed", "chance": 100, "duration": 5, "message": "You smash %s and make him fall" } ]
+  },
+  {
+    "type": "technique",
+    "id": "CQB_BRUTAL",
+    "name": "Pneumatic Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "needs_ammo": true,
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "down_dur": 4,
+    "knockback_dist": 3,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 }, { "stat": "movecost", "scale": 1.4 } ],
+    "condition": { "and": [ { "math": [ "u_val('size') -1", "<=", "n_val('size')" ] } ] },
+    "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
+    "messages": [ "You send %s reeling!", "<npcname> sends %s reeling!" ],
+    "description": "Down 4 turns, knockback 3 tiles, 250% damage, 120% move, crit only, min 3 melee",
+    "attack_vectors": [ "WEAPON", "HAND" ]
   }
 ]

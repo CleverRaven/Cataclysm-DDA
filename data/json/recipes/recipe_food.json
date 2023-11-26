@@ -6634,7 +6634,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "meat: 4u, cheese: 1u.  Other ingredients don't need to be cooked.",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [
@@ -6679,7 +6679,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "meat: 4u, cheese: 1u, onion: 1u-2u.  could cook it with the meat to save power.  Other ingredients don't need to be cooked.",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "pickle", 1 ], [ "veggy_pickled", 1 ], [ "sauerkraut", 1 ] ],
@@ -6859,7 +6859,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [
@@ -6942,7 +6942,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [
@@ -7082,7 +7082,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "power usage mostly for the meat, though this arguably doesn't even need power since meat is pre cooked",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -7126,7 +7126,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "power usage mostly for the meat, though this arguably doesn't even need power since meat is pre cooked",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -9990,7 +9990,16 @@
     "//": "4u for meat (precooked), 3u for tortiilas, 4u for beans/rice, 1u for sauce",
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
+      [
+        [ "meat_cooked", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "scrambled_eggs", 2 ],
+        [ "boiled_egg", 2 ],
+        [ "fried_eggs", 1 ],
+        [ "omelet", 1 ]
+      ],
       [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
