@@ -56,7 +56,7 @@
       { "limb_score": "reaction", "modifier": 0.35 },
       { "limb_score": "vision", "modifier": 0.75 }
     ],
-    "immune_flags": [ "ELECTRIC_IMMUNE" ],
+    "immune_flags": [ "ELECTRIC_IMMUNE", "ELECTRIC", "ELECTRIC_FIELD" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
