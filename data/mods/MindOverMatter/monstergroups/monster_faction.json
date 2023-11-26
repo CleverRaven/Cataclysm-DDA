@@ -4,18 +4,18 @@
     "//": "decided to give them some personality",
     "name": "fear_hawk",
     "base_faction": "mutant",
-    "hates": [ "corvid", "ratkin" ]
+    "hate": [ "corvid", "ratkin" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "corvid",
     "copy-from": "corvid",
-    "hates": "fear_hawk"
+    "hate": "fear_hawk"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "ratkin",
     "copy-from": "ratkin",
-    "hates": "fear_hawk"
+    "hate": "fear_hawk"
   }
 ]
