@@ -337,13 +337,21 @@ def adjust_item_group(jo, src):
         use_src = src
         if src not in affected:
             use_src = "dda"
-        if entry["item"] not in affected[use_src]:
+        affected_item = None
+        is_ammo = False
+        if entry["item"] in affected[use_src]:
+            affected_item = entry["item"]
+        elif "ammo-item" in entry and entry["ammo-item"] in affected[use_src]:
+            is_ammo = True
+            affected_item = entry["ammo-item"]
+
+        if affected_item is None:
             continue
 
         has_charges = ("charges" in entry or "charges-min" in entry or
                        "charges-max" in entry)
 
-        base_item = get_jo(entry["item"], src)
+        base_item = get_jo(affected_item, src)
         if not has_charges:
             base_charges = get_value(base_item, "charges", src)
             if base_charges is not None and base_charges > 1:
@@ -351,22 +359,15 @@ def adjust_item_group(jo, src):
             else:
                 continue
 
-        base_item = get_jo(entry["item"], src)
-        default_container = get_value(base_item, "container", src)
-        if ("container-item" not in entry and default_container is not None and
-                default_container != "null"):
-            entry["container-item"] = default_container
+        if not is_ammo:
+            default_container = get_value(base_item, "container", src)
+            if ("container-item" not in entry and
+                    default_container is not None and
+                    default_container != "null"):
+                entry["container-item"] = default_container
 
         if "container-item" in entry:
-            new_group = make_group(entry, default_container)
-            entry["group"] = new_group["id"]
-            if not has_group(new_group["id"], src):
-                if src not in group_migration:
-                    group_migration[src] = list()
-                group_migration[src].append(new_group["id"])
-                ret.append(new_group)
-            change = True
-            continue
+            entry["entry-wrapper"] = entry.pop("container-item")
 
         change = True
         charge_arr = "charge" in entry and type(entry["charge"]) is list
@@ -375,7 +376,7 @@ def adjust_item_group(jo, src):
         make_max = ("count-max" in entry or "charges-max" in entry or
                     ("count-min" in entry and charge_arr))
 
-        changes = get_maybe_changed(entry["item"], src)
+        changes = get_maybe_changed(affected_item, src)
         default = 1
         if changes is not None:
             default = changes[0]
