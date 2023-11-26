@@ -3781,7 +3781,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                
                 switch( spell_being_cast.energy_source() ) {
                     case magic_energy_type::mana:
                         you->magic->mod_mana( *you, -cost );
