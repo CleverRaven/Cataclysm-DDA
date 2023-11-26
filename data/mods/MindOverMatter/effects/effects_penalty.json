@@ -2,37 +2,29 @@
   {
     "type": "effect_type",
     "id": "effect_disease_psionic_drain",
-    "name": [ "Drained" ],
+    "name": [ "Nether-Attunement" ],
     "desc": [
-      "You're a little short of breath and your control over your powers isn't as sure as it was.  There might be unexpected results of you channeling psionics now."
+      "You feel a little odd and your control over your powers isn't as sure as it was.  There might be unexpected results of you channeling psionics now."
     ],
     "apply_message": [
-      [ "You feel a little tired.  All that psionic channeling is starting to wear you down.", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ]
+      [
+        "You feel a little odd, like you've just awoken from a dream.  All that psionic channeling might have unexpected effects.",
+        "mixed"
+      ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ]
     ],
     "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
-    "max_intensity": 12,
-    "base_mods": {
-      "health_amount": [ -1 ],
-      "health_chance": [ 200 ],
-      "health_tick": [ 2000 ],
-      "hunger_min": [ 1 ],
-      "hunger_chance": [ 100 ],
-      "hunger_tick": [ 400 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 200 ],
-      "fatigue_tick": [ 500 ]
-    }
+    "max_intensity": 12
   },
   {
     "type": "effect_type",

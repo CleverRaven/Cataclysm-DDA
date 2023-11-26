@@ -7,12 +7,23 @@
     "condition": {
       "and": [
         {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
         },
         {
           "or": [
             { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
@@ -29,8 +40,10 @@
         "run_eocs": [
           "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
           "EOC_DRAIN_EFFECT_CHECK_EXTRA_DRAIN",
+          "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE",
           "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED",
           "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS",
+          "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
           "EOC_DRAIN_EFFECT_CHECK_FATIGUE",
           "EOC_DRAIN_EFFECT_CHECK_WEAKNESS"
         ]
@@ -81,6 +94,29 @@
     "effect": [
       { "u_message": "You feel a sudden fatigue as your powers are unleashed.", "type": "bad" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "25" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2) - 70), 0, 50) + clamp( ( (u_val('vitamin', 'name:vitamin_psionic_drain') - 150) * 1.5 ), 0, 310) + 15)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your whole body tingles!", "type": "mixed" },
+      { "math": [ "u_val('health')", "+=", "rng(-15,15)" ] }
     ]
   },
   {
@@ -151,6 +187,32 @@
     "effect": [
       { "u_message": "As you unleash your powers, you feel weary!", "type": "bad" },
       { "math": [ "u_val('fatigue')", "+=", "rng(30,90)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "80" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_val('vitamin', 'name:vitamin_psionic_drain') - 120), 0, 100) + clamp( ( (u_val('vitamin', 'name:vitamin_psionic_drain') - 180) * 3 ), 0, 250) + 15)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a surge of energy!", "type": "good" },
+      {
+        "u_add_effect": "effect_nether_attunement_power_surge",
+        "duration": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain') * rng(1,10)" ] }
+      }
     ]
   },
   {
