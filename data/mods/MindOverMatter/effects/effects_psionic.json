@@ -48,6 +48,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_overcome_pain",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_pkill_1",
     "name": [ "Overcoming Minor Pain" ],
     "desc": [ "Your powers are slightly lessening the pain you feel." ],
@@ -59,8 +68,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "9 s",
-    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
   },
   {
     "type": "effect_type",
@@ -75,8 +83,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "12 s",
-    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 2 ], "pkill_max_val": [ 30 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 2 ], "pkill_max_val": [ 30 ] }
   },
   {
     "type": "effect_type",
@@ -91,8 +98,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "15 s",
-    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 3 ], "pkill_max_val": [ 50 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 3 ], "pkill_max_val": [ 50 ] }
   },
   {
     "type": "effect_type",
@@ -107,8 +113,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "18 s",
-    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 4 ], "pkill_max_val": [ 75 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 4 ], "pkill_max_val": [ 75 ] }
   },
   {
     "type": "effect_type",
@@ -123,8 +128,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "21 s",
-    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 5 ], "pkill_max_val": [ 100 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 5 ], "pkill_max_val": [ 100 ] }
   },
   {
     "type": "effect_type",
@@ -139,8 +143,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "24 s",
-    "base_mods": { "pkill_tick": [ 6 ], "pkill_min": [ 6 ], "pkill_max_val": [ 130 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 6 ], "pkill_min": [ 6 ], "pkill_max_val": [ 130 ] }
   },
   {
     "type": "effect_type",
@@ -270,8 +273,7 @@
                 "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
               ]
             }
-          },
-          { "value": "MAX_STAMINA", "add": -500 }
+          }
         ]
       }
     ]
@@ -284,8 +286,7 @@
     "apply_message": "",
     "remove_message": "Your gear suddenly seems to weigh you down.",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -850 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -295,8 +296,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -600 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -407,6 +407,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_night_eyes",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes_1",
     "name": [ "Night Eyes" ],
     "desc": [ "You can sense your surroundings in the dark." ],
@@ -420,8 +429,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -438,8 +446,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -456,8 +463,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -474,8 +480,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -492,8 +497,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -510,8 +514,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -528,8 +531,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -546,8 +548,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -557,8 +558,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -400 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -915,6 +915,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pyrokinetic_fire_tool",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_cloak",
     "name": [ "Cloak of Warmth" ],
     "desc": [ "The air around you has its temperature controlled." ],
@@ -930,6 +939,15 @@
     "dur_add_perc": 10,
     "int_dur_factor": "46 s",
     "enchantments": [ "enchant_pyrokin_cloak" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokinetic_torch_weld",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1057,7 +1075,6 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_STAMINA", "add": -650 },
           {
             "value": "STRENGTH",
             "add": {
@@ -1067,6 +1084,15 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_vehicle_lift",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1128,7 +1154,6 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -800 } ] } ],
     "flags": [ "LEVITATION" ]
   },
   {
@@ -1177,8 +1202,7 @@
               "math": [ "( ( u_val('spell_level', 'spell: telepathic_concentration') * 2.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
           },
-          { "value": "MOVE_COST", "multiply": 3 },
-          { "value": "MAX_STAMINA", "add": -350 }
+          { "value": "MOVE_COST", "multiply": 3 }
         ]
       }
     ],
@@ -1223,8 +1247,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -400 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1417,8 +1440,7 @@
       "h_mod_chance": [ 10 ],
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 2 ]
-    },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
+    }
   },
   {
     "type": "effect_type",
