@@ -79,5 +79,14 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
     "points": 3,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_electrokinetic",
+    "name": "Newly-Awakened Electrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were unlucky enough to be struck by lightning, but instead of dying instantly, you simply lost consciousness. You woke up to an itching sensation on the top of your head, slightly burned hair, and a strange feeling of explosive vigor.",
+    "points": 4,
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
   }
 ]
