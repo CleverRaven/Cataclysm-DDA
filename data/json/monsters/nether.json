@@ -1745,6 +1745,8 @@
       "NOGIB",
       "NO_BREATHE"
     ],
+    "vision_day": 50,
+    "vision_night": 8,
     "armor": { "bash": 8 }
   }
 ]
