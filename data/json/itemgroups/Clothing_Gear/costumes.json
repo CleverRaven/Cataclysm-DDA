@@ -113,7 +113,8 @@
       { "item": "haori", "prob": 1 },
       { "item": "trenchcoat_steampunk", "prob": 15 },
       { "item": "plaguedoctor_robe", "prob": 15 },
-      { "item": "nun_habit", "prob": 10 }
+      { "item": "nun_habit", "prob": 10 },
+      { "item": "suit_bostonchan", "prob": 20 }
     ]
   },
   {
@@ -192,6 +193,7 @@
       { "item": "hat_hard", "variant": "steampunk_hat_hard", "prob": 10 },
       { "item": "hat_hard_hooded", "variant": "steampunk_hat_hard", "prob": 1 },
       { "item": "clown_wig", "prob": 15 },
+      { "item": "bostonchan_wig", "prob": 20 },
       { "item": "tricorne", "prob": 5 },
       { "item": "wizard_hat_costume", "prob": 25 },
       { "item": "pointed_hat", "prob": 20 },
@@ -298,7 +300,8 @@
       { "item": "cheerleader_skirt", "prob": 15 },
       { "item": "cheerleader_skirt_short", "prob": 15 },
       { "item": "nanoskirt", "prob": 10 },
-      { "item": "skirt_leather", "prob": 15 }
+      { "item": "skirt_leather", "prob": 15 },
+      { "item": "skirt_bostonchan", "prob": 20 }
     ]
   },
   {

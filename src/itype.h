@@ -892,8 +892,10 @@ struct islot_gunmod : common_ranged_data {
     std::map<gunmod_location, int> add_mod;
 
     /** Not compatible on weapons that have this mod slot */
-    std::set<gunmod_location> blacklist_mod;
+    std::set<gunmod_location> blacklist_slot;
 
+    /** Not compatible on weapons that have these mods */
+    std::set<itype_id> blacklist_mod;
     // hard coded barrel length from this mod
     units::length barrel_length = 0_mm;
 

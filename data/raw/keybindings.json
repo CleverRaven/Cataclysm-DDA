@@ -2364,6 +2364,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Quick toggle hauling",
+    "category": "DEFAULTMODE",
+    "id": "haul_toggle"
+  },
+  {
+    "type": "keybinding",
     "name": "Zone activities",
     "category": "DEFAULTMODE",
     "id": "loot",
@@ -4504,6 +4510,13 @@
     "id": "SIZE_UP_STATS",
     "name": "Size up stats",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "ASSESS_PERSONALITY",
+    "name": "Assess personality",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

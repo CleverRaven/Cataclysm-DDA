@@ -94,6 +94,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "container-group": "<group-id>",
 "entry-wrapper": "<item-id>",
 "sealed": <boolean>
+"custom-flags": <array of string>,
 "variant": <string>
 "artifact": <object>
 "event": <string>
@@ -107,6 +108,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
+
+`custom-flags`: An array of flags that will be applied to this item.
 
 `variant`: A valid itype variant id for this item.
 

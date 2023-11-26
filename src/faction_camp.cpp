@@ -5413,7 +5413,25 @@ void basecamp::place_results( const item &result )
 {
     map &target_bay = get_camp_map();
     form_storage_zones( target_bay, target_bay.getglobal( target_bay.getlocal( bb_pos ) ) );
-    const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
+    tripoint new_spot = target_bay.getlocal( get_dumping_spot() );
+    // Special handling for liquids
+    // find any storage-zoned LIQUIDCONT we can dump them in, set that as the item's destination instead
+    if( result.made_of( phase_id::LIQUID ) ) {
+        for( tripoint_abs_ms potential_spot : get_liquid_dumping_spot() ) {
+            // No items at a potential spot? Set the destination there and stop checking.
+            // We could check if the item at the tile are the same as the item we're placing, but liquids of the same typeid
+            // don't always mix depending on their components...
+            if( target_bay.i_at( target_bay.getlocal( potential_spot ) ).empty() ) {
+                new_spot = target_bay.getlocal( potential_spot );
+                break;
+            }
+            // We've processed the last spot and haven't found anywhere to put it, we'll end up using dumping_spot.
+            // Throw a warning to let players know what's going on. Unfortunately we can't back out of finishing the mission this deep in the process.
+            if( potential_spot == get_liquid_dumping_spot().back() ) {
+                popup( _( "No eligible locations found to place resulting liquids, placing them at random.\n\nEligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile." ) );
+            }
+        }
+    }
     target_bay.add_item_or_charges( new_spot, result, true );
     apply_camp_ownership( target_bay, new_spot, 10 );
     target_bay.save();

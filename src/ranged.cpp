@@ -593,10 +593,9 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
-    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
+    const aim_mods_cache aim_cache = gen_aim_mods_cache( gun );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
+        const double adj = aim_per_move( gun, penalty, attributes, { std::ref( aim_cache ) } );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -2410,7 +2409,7 @@ double Character::gun_value( const item &weap, int ammo ) const
             { 10.0f, 4.0f },
             { 25.0f, 3.0f },
             { 100.0f, 1.0f },
-            { 500.0f, 5.0f },
+            { 500.0f, 0.5f },
         }
     };
 

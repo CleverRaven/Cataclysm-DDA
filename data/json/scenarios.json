@@ -1327,7 +1327,7 @@
   {
     "type": "scenario",
     "id": "road_start",
-    "name": "Middle of nowhere",
+    "name": "Middle of Nowhere",
     "points": 1,
     "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
     "start_name": "Middle of Nowhere",
@@ -1343,5 +1343,17 @@
     "start_name": "Underground",
     "allowed_locs": [ "sloc_sewer" ],
     "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "last_stand_start",
+    "name": "Challenge - Last Stand",
+    "points": -1,
+    "description": "Together with some others you decided to take up arms against the horde.  Now you are reconsidering whether that was a wise choice.",
+    "start_name": "Intersection",
+    "allowed_locs": [ "sloc_nesw_manhole" ],
+    "requirement": "achievement_kill_10_monsters",
+    "map_extra": "mx_laststand",
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

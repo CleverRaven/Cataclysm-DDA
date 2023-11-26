@@ -229,7 +229,7 @@
         { "group": "farming_tools", "x": [ 79, 81 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": [ 75, 81 ], "y": [ 17, 22 ], "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "bucket", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 20, "repeat": 4 },
-        { "item": "cattlefodder", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 6, 10 ] }
+        { "item": "cattlefodder_large", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 6, 10 ] }
       ],
       "monsters": { "[": { "monster": "GROUP_HORSES_STABLES", "chance": 1, "density": 0.01 } }
     }

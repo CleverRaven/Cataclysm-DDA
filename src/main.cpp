@@ -769,6 +769,11 @@ int main( int argc, const char *argv[] )
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
 
+    if( !assure_essential_dirs_exist() ) {
+        exit_handler( -999 );
+        return 0;
+    }
+
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
@@ -776,11 +781,6 @@ int main( int argc, const char *argv[] )
     }
 #endif
     replay_buffered_debugmsg_prompts();
-
-    if( !assure_essential_dirs_exist() ) {
-        exit_handler( -999 );
-        return 0;
-    }
 
     main_menu::queued_world_to_load = std::move( cli.world );
 

@@ -672,7 +672,8 @@
         [ "pike_copper", -1 ],
         [ "pike", -1 ],
         [ "spear_dory", -1 ],
-        [ "spear_bronze", -1 ]
+        [ "spear_bronze", -1 ],
+        [ "ji", -1 ]
       ]
     ]
   }
