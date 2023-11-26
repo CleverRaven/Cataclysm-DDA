@@ -1707,7 +1707,7 @@
     "id": "mon_nuckalavee",
     "type": "MONSTER",
     "name": { "str": "nuckalavee" },
-    "description": "A grotesque giant centaur like beast, with a skinless human torso grafted to an equally skinless horse.  Thick toxic smoke leeches from its two mouths as it affixes you with a gaze of pure malevolence.",
+    "description": "A giant grotesque centaur-like beast, with a skinless human torso grafted to an equally skinless horse.  Thick toxic smoke leeches from its two mouths as it affixes you with a gaze of pure malevolence.",
     "default_faction": "nether",
     "bodytype": "blob",
     "species": [ "NETHER" ],
