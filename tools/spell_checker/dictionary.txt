@@ -17,6 +17,7 @@ acidball
 acrocanthosaurus
 acrostic
 acrylamide
+actinic
 activatable
 actuated
 adaptors
@@ -874,6 +875,7 @@ duplicator
 duplicators
 dustbunny
 dynamically
+dynamos
 dyoplosaurus
 dysfunctions
 dysmorphia
@@ -2791,6 +2793,8 @@ spadelike
 spak
 spall
 spalling
+sparker
+sparkers
 spasmically
 spasming
 spearcat
