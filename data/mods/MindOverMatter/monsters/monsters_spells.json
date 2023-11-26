@@ -32,6 +32,24 @@
     "max_range": 10
   },
   {
+    "id": "pigeon_aura",
+    "type": "SPELL",
+    "name": "Pigeon aura",
+    "description": "You consume human blood to keep the thirst at bay.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "pigeon_aura",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "skill": "deduction",
+    "base_casting_time": 500,
+    "base_energy_cost": 0,
+    "flags": [ "SILENT", "NO_LEGS", "NO_FAIL" ],
+    "difficulty": 0,
+    "min_range": 30,
+    "max_range": 30
+  },
+  {
     "id": "delete_nullifying_fields_monster",
     "type": "SPELL",
     "name": "[Ψ]Delete Nullifying Fields Monster",

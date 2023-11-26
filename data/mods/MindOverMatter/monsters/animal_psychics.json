@@ -247,6 +247,12 @@
         "cooldown": 18,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$'s third eye opens and it coos!"
+      },
+      {
+        "id": "pigeon_aura",
+        "type": "spell",
+        "spell_data": { "id": "pigeon_aura", "min_level": 4 },
+        "cooldown": 200
       }
     ],
     "petfood": {
