@@ -834,8 +834,8 @@ int item_contents::insert_cost( const item &it ) const
     }
 }
 
-ret_val<item *> item_contents::insert_item( const item &it,
-        pocket_type pk_type, bool ignore_contents, const bool unseal_pockets )
+ret_val<item *> item_contents::insert_item( const item &it, pocket_type pk_type,
+        bool ignore_contents, const bool unseal_pockets, const bool restack_charges )
 {
     if( pk_type == pocket_type::LAST ) {
         // LAST is invalid, so we assume it will be a regular container
@@ -850,7 +850,8 @@ ret_val<item *> item_contents::insert_item( const item &it,
         return ret_val<item *>::make_failure( nullptr, _( "Can't store anything in this." ) );
     }
 
-    ret_val<item *> inserted = pocket.value()->insert_item( it, false, true, ignore_contents );
+    ret_val<item *> inserted = pocket.value()->insert_item( it, false, restack_charges,
+                               ignore_contents );
     if( inserted.success() ) {
         if( unseal_pockets ) {
             pocket.value()->unseal();

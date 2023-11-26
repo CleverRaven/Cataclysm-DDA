@@ -933,7 +933,7 @@ class item : public visitable
          * Puts the given item into this one.
          */
         ret_val<void> put_in( const item &payload, pocket_type pk_type,
-                              bool unseal_pockets = false, Character *carrier = nullptr );
+                              bool unseal_pockets = false, Character *carrier = nullptr, bool restack_charges = true );
         void force_insert_item( const item &it, pocket_type pk_type );
         void insert_copies( const item &it, int count, pocket_type pk_type );
 

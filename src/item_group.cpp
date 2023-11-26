@@ -127,7 +127,7 @@ static void put_into_container(
         ret_val<void> ret = ctr.can_contain_directly( *it );
         if( ret.success() ) {
             const pocket_type pk_type = guess_pocket_for( ctr, *it );
-            ctr.put_in( *it, pk_type );
+            ctr.put_in( *it, pk_type, false, nullptr, false );
         } else if( ctr.is_corpse() ) {
             const pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.force_insert_item( *it, pk_type );

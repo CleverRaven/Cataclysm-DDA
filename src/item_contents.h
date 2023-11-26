@@ -257,7 +257,7 @@ class item_contents
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
         ret_val<item *> insert_item( const item &it, pocket_type pk_type,
-                                     bool ignore_contents = false, bool unseal_pockets = false );
+                                     bool ignore_contents = false, bool unseal_pockets = false, bool restack_charges = true );
         void force_insert_item( const item &it, pocket_type pk_type );
         void insert_copies( const item &it, int count, pocket_type pk_type );
         bool can_unload_liquid() const;
