@@ -73,6 +73,7 @@
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
+    "fungalize_into": "mon_zombie_dog_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }
   },
@@ -107,6 +108,7 @@
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
+    "fungalize_into": "mon_zombie_dog_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -155,6 +157,7 @@
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 2 }, { "id": "scratch_grab_required" } ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_dog_zombie_brute" },
+    "fungalize_into": "mon_zombie_dog_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -366,6 +369,7 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOOSE_UPGRADE" },
+    "fungalize_into": "mon_zoose_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 2 }
   },
@@ -400,6 +404,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOUGAR_UPGRADE" },
+    "fungalize_into": "mon_zougar_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -445,6 +450,7 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_HORSE_UPGRADE" },
+    "fungalize_into": "mon_zombie_horse_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ],
     "armor": { "bash": 5, "cut": 1, "electric": 2 }
   },
@@ -462,6 +468,7 @@
     "symbol": "T",
     "melee_dice": 3,
     "dodge": 0,
+    "fungalize_into": "mon_ziger_fungus",
     "armor": { "bash": 1, "electric": 2 }
   },
   {
@@ -677,6 +684,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "vision_night": 15,
     "harvest": "zombie_leather",
+    "fungalize_into": "mon_zeer_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 1, "cut": 3, "electric": 1 }
   },
@@ -752,6 +760,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "vision_night": 10,
     "harvest": "zombie_leather",
+    "fungalize_into": "mon_zeindeer_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 5, "cut": 4, "electric": 1 }
   },
