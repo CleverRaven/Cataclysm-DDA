@@ -1066,6 +1066,69 @@
     "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
     "armor": [ { "encumbrance": 3, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
+    {
+    "id": "pants_cargo_wool",
+    "type": "ARMOR",
+    "name": { "str_sp": "flannel cargo pants" },
+    "description": "A pair of flannel pants lined with two cargo pockets. These pants are suitable for mild winters. In addition to their functionality, they boast a fancy design, evoking a sporty Italian look.",
+    "weight": "500 g",
+    "volume": "2300 ml",
+    "price": 34000,
+    "price_postapoc": 300,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+	        {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+	  {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 0.6,
+	"//":"10 oz wool flannel cargo trousers based on https://web.archive.org/web/20231125235444/https://cavour.co/en/product/8878/mod-2-flannel-cargo-trouser",
+    "flags": [ "VARSIZE", "POCKETS", "SOFT", "FANCY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
+  },
   {
     "id": "pants_cargo",
     "type": "ARMOR",
