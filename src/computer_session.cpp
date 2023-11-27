@@ -34,7 +34,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -48,6 +47,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -478,7 +478,7 @@ void computer_session::action_sample()
                 }
                 sewage.charges = std::min( sewage.charges, capa );
                 if( elem.can_contain( sewage ).success() ) {
-                    elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
+                    elem.put_in( sewage, pocket_type::CONTAINER );
                 }
                 found_item = true;
                 break;
@@ -907,7 +907,7 @@ void computer_session::action_download_software()
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
         usb->clear_items();
-        usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
+        usb->put_in( software, pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
         print_error( _( "USB drive required!" ) );
@@ -948,7 +948,7 @@ void computer_session::action_blood_anal()
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", calendar::turn_zero );
                             usb->clear_items();
-                            usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
+                            usb->put_in( software, pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
                             print_error( _( "USB drive required!" ) );
