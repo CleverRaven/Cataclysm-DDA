@@ -1454,7 +1454,7 @@ void Character::burn_fuel( bionic &bio )
             if( fuel_source->ammo_remaining() ) {
                 fuel = &fuel_source->first_ammo();
             } else {
-                fuel = fuel_source->all_items_ptr( item_pocket::pocket_type::CONTAINER ).front();
+                fuel = fuel_source->all_items_ptr( pocket_type::CONTAINER ).front();
             }
             energy_gain = fuel->fuel_energy();
 

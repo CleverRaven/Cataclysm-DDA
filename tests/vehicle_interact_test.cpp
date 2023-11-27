@@ -8,10 +8,10 @@
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -80,7 +80,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         item welder( "welder" );
         item welder_mag( welder.magazine_default() );
         welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
-        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
@@ -92,13 +92,13 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     SECTION( "UPS_modded_welder" ) {
         std::vector<item> tools;
         item welder( "welder", calendar::turn_zero, 0 );
-        welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+        welder.put_in( item( "battery_ups" ), pocket_type::MOD );
         tools.push_back( welder );
 
         item ups( "UPS_ON" );
         item ups_mag( ups.magazine_default() );
         ups_mag.ammo_set( ups_mag.ammo_default(), 1000 );
-        ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
@@ -113,7 +113,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         item welder( "welder" );
         item welder_mag( welder.magazine_default() );
         welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
-        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "hammer" );
@@ -127,7 +127,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         item welder( "welder" );
         item welder_mag( welder.magazine_default() );
         welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
-        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
@@ -139,13 +139,13 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     SECTION( "UPS_modded_welder_missing_charges" ) {
         std::vector<item> tools;
         item welder( "welder", calendar::turn_zero, 0 );
-        welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+        welder.put_in( item( "battery_ups" ), pocket_type::MOD );
         tools.push_back( welder );
 
         item ups( "UPS_ON" );
         item ups_mag( ups.magazine_default() );
         ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
-        ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
@@ -159,7 +159,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         item welder( "welder" );
         item welder_mag( welder.magazine_default() );
         welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
-        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );

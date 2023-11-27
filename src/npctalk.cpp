@@ -47,7 +47,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -67,6 +66,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -2928,7 +2928,7 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
         item container( std::string( container_name ), calendar::turn );
         new_item.charges = count;
         container.put_in( new_item,
-                          item_pocket::pocket_type::CONTAINER );
+                          pocket_type::CONTAINER );
         if( add_talker ) {
             d.actor( false )->i_add_or_drop( container, force_equip );
         } else {

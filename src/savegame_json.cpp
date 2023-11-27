@@ -257,7 +257,7 @@ void item_pocket::deserialize( const JsonObject &data )
     data.read( "contents", contents );
     int saved_type_int;
     data.read( "pocket_type", saved_type_int );
-    _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+    _saved_type = static_cast<pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
     data.read( "no_rigid", no_rigid );
@@ -1184,24 +1184,24 @@ void Character::load( const JsonObject &data )
                         item gasoline( "gasoline" );
                         gasoline.charges = std::stoi( get_value( "gasoline" ) );
                         remove_value( "gasoline" );
-                        pseudo.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+                        pseudo.put_in( gasoline, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
                         item ethanol( "chem_ethanol" );
                         ethanol.charges = std::stoi( get_value( "alcohol" ) );
                         remove_value( "alcohol" );
-                        pseudo.put_in( ethanol, item_pocket::pocket_type::CONTAINER );
+                        pseudo.put_in( ethanol, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
                         item oil( "motor_oil" );
                         oil.charges = std::stoi( get_value( "motor_oil" ) );
                         remove_value( "motor_oil" );
-                        pseudo.put_in( oil, item_pocket::pocket_type::CONTAINER );
+                        pseudo.put_in( oil, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
                         item battery( "medium_battery_cell" );
                         item battery_charge( "battery" );
                         battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
-                        battery.put_in( battery_charge, item_pocket::pocket_type::MAGAZINE );
+                        battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
-                        pseudo.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                        pseudo.put_in( battery, pocket_type::MAGAZINE_WELL );
                     }
 
                     wear_item( pseudo, false );
@@ -3185,7 +3185,7 @@ void item::io( Archive &archive )
                     still_has_charges = true;
                     copy.charges = 0;
                 }
-                put_in( copy, item_pocket::pocket_type::MIGRATION );
+                put_in( copy, pocket_type::MIGRATION );
             }
             if( still_has_charges ) {
                 debugmsg( "Item %s can't have charges, but still had them after migration.", type->get_id().str() );
@@ -3198,20 +3198,20 @@ void item::io( Archive &archive )
 void item::migrate_content_item( const item &contained )
 {
     if( contained.is_gunmod() || contained.is_toolmod() ) {
-        put_in( contained, item_pocket::pocket_type::MOD );
+        put_in( contained, pocket_type::MOD );
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
-        put_in( contained, item_pocket::pocket_type::SOFTWARE );
-    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ||
-               contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+        put_in( contained, pocket_type::SOFTWARE );
+    } else if( contents.insert_item( contained, pocket_type::MAGAZINE ).success() ||
+               contents.insert_item( contained, pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank
     } else if( is_corpse() ) {
-        put_in( contained, item_pocket::pocket_type::CORPSE );
+        put_in( contained, pocket_type::CORPSE );
     } else if( can_contain( contained ).success() ) {
-        put_in( contained, item_pocket::pocket_type::CONTAINER );
+        put_in( contained, pocket_type::CONTAINER );
     } else {
         // we want this to silently fail - the contents will fall out later
-        put_in( contained, item_pocket::pocket_type::MIGRATION );
+        put_in( contained, pocket_type::MIGRATION );
     }
 }
 

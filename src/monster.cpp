@@ -2882,14 +2882,14 @@ void monster::die( Creature *nkiller )
                 continue;
             }
             if( corpse ) {
-                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
             }
         }
         for( const item &it : dissectable_inv ) {
             if( corpse ) {
-                corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+                corpse->put_in( it, pocket_type::CORPSE );
             } else {
                 get_map().add_item( pos(), it );
             }
@@ -3028,7 +3028,7 @@ void monster::drop_items_on_death( item *corpse )
 
         // add stuff that could be worn or strapped to the creature
         if( it.is_armor() ) {
-            corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
+            corpse->force_insert_item( it, pocket_type::CONTAINER );
         }
     }
 
@@ -3051,7 +3051,7 @@ void monster::drop_items_on_death( item *corpse )
             if( current_best.second != nullptr ) {
                 current_best.second->insert_item( it );
             } else {
-                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, pocket_type::CONTAINER );
             }
         }
     }
@@ -3079,7 +3079,7 @@ void monster::spawn_dissectables_on_death( item *corpse )
                 dissectable.faults.emplace( flt );
             }
             if( corpse ) {
-                corpse->put_in( dissectable, item_pocket::pocket_type::CORPSE );
+                corpse->put_in( dissectable, pocket_type::CORPSE );
             } else {
                 get_map().add_item_or_charges( pos(), dissectable );
             }
@@ -3522,7 +3522,7 @@ void monster::init_from_item( item &itm )
         if( !up_time.empty() ) {
             upgrade_time = std::stoi( up_time );
         }
-        for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
                 it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
@@ -3530,7 +3530,7 @@ void monster::init_from_item( item &itm )
             itm.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
-        for( item *dissectable : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
             itm.remove_item( *dissectable );
         }
