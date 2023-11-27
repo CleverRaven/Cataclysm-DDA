@@ -70,6 +70,22 @@
       {
         "id": "general_graffiti_43",
         "text": "I, the Grand Consul of Old England, declare this grotto to be mine.  Suck on these law enforcement!"
+      },
+      {
+        "id": "general_graffiti_44",
+        "text": "The Way Down South is a long road traveler, ay.  The things we do for hope.  As long as the skies hold dear.  See and hear."
+      },
+      {
+        "id": "general_graffiti_45",
+        "text": "I write these words upon stone for I know my time is short.  In peace may you rest Martha.  Timothy, I'm sorry I treated you the way I did.  I'm sorry.  And Benjamin, I pray to the Lord that you reached the refugee center safely.  I know it was tough leaving me, but please, stay strong for momma and me.  I love you son.  May Divine Providence guide you to these words one day.  This is my final say."
+      },
+      {
+        "id": "general_graffiti_46",
+        "text": "I stretch my palm towards the open astral firmament.  It is purple and golden, streaks of azure and crimson flaring the dreamscape.  As I lie in my own blood, wet and rustic, I ponder over the endless questions that plague my mind.  What is a man but a living creature?  What is the undead but another form of life?  My loving parents, grandparents, and even children had to pass on and yet their flesh still roam the earth.  May Allah bless me with eternal sleep.  Never forget, Ayaan, what made you, YOU.  That all creation is Mind, and every effect a mental phenomena."
+      },
+      {
+        "id": "general_graffiti_47",
+        "text": "Have you seen it vagabond?  The road to heaven?  Everytime I breathe the fumes of decay in this broken world, I get one step closer to heaven  But when I see a child crying for its mother or a father throwing himself to the horde to save his family, one grow one step further apart from heaven.  What does this mean?  If I am going to die a sinner, I may as well take as many horrors with me and go down hell a legend.  Those post-apocalyptic poets better sing of me!  I am Johann de Winsdal, remember that."
       }
     ]
   },
@@ -138,7 +154,9 @@
         "id": "shelter_graffiti_37",
         "text": "A pregnant woman said that one of those undead fuckers fucked her in the fucking fuck fuck.  Fuck.  I had sloppy seconds.  It was worth it."
       },
-      { "id": "shelter_graffiti_38", "text": "I SAW IT ISAWITWITHMYEYESITWASTHEHUMANS" }
+      { "id": "shelter_graffiti_38", "text": "I SAW IT ISAWITWITHMYEYESITWASTHEHUMANS" },
+      { "id": "shelter_graffiti_39", "text": "If the dead get back up, is there a chance for resurrection?  Who is going to pray for them?  Who shall save them?  In this world, death is already redemption.  So what of the undead?" },
+      { "id": "shelter_graffiti_40", "text": "I sometimes dream of a time before all this." }
     ]
   }
 ]
