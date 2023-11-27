@@ -42,6 +42,7 @@
   {
     "id": [
       "10mm_fmj",
+      "10mmP",
       "357sig_fmj",
       "38_fmj",
       "380_FMJ",
@@ -135,7 +136,8 @@
       "5x50heavy",
       "762_25",
       "9mm",
-      "9x18mm"
+      "9x18mm",
+      "10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "pistol_jhp"
@@ -168,7 +170,8 @@
       "bp_45colt_jhp",
       "bp_762_25",
       "bp_9mm",
-      "bp_9x18mm"
+      "bp_9x18mm",
+      "bp_10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
@@ -185,6 +188,7 @@
       "matchhead_762_25",
       "matchhead_9mm",
       "matchhead_9x18mm",
+      "matchhead_10mm_jhp",
       "matchhead_357mag_jhp"
     ],
     "type": "MIGRATION",
