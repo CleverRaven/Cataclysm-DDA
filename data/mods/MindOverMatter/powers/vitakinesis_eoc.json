@@ -261,6 +261,7 @@
     "effect": [
       {
         "run_eoc_selector": [
+          "EOC_VITAKIN_BANISH_ILLNESS_MINOR",
           "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
           "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
           "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
@@ -271,6 +272,7 @@
           "EOC_PORTAL_NULL_AWAKENING"
         ],
         "names": [
+          "Purge Minor Ailments",
           "Purge Asthma",
           "Purge Chemical Imbalance",
           "Purge Kaluptic Psychosis",
@@ -280,8 +282,9 @@
           "Purge Narcolepsy",
           "Nevermind"
         ],
-        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8" ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
         "descriptions": [
+          "Attempt to cure your minor illnesses.",
           "Attempt to cure your asthma.",
           "Attempt to cure your chemical imbalance.",
           "Attempt to cure your kaluptic psychosis",
@@ -292,6 +295,53 @@
           "Do nothing for now."
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR",
+    "condition": {
+      "or": [
+        { "u_has_effect": "pre_common_cold" },
+        { "u_has_effect": "common_cold" },
+        { "u_has_effect": "pre_flu" },
+        { "u_has_effect": "flu" },
+        { "u_has_effect": "pre_conjunctivitis_viral" },
+        { "u_has_effect": "conjunctivitis_viral" },
+        { "u_has_effect": "pre_conjunctivitis_bacterial" },
+        { "u_has_effect": "conjunctivitis_bacterial" }
+      ]
+    },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA", "duration": "120 minutes" } ],
+    "false_effect": [ { "u_message": "You're not sick.  There is nothing to cure.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 10 },
+    "effect": [
+      { "u_message": "You feel much better.", "type": "good" },
+      { "u_lose_effect": "pre_common_cold" },
+      { "u_lose_effect": "common_cold" },
+      { "u_lose_effect": "pre_flu" },
+      { "u_lose_effect": "flu" },
+      { "u_lose_effect": "pre_conjunctivitis_viral" },
+      { "u_lose_effect": "conjunctivitis_viral" },
+      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": "conjunctivitis_bacterial" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The ailment proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ]
   },
   {
