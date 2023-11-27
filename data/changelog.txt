@@ -74,6 +74,12 @@ Fixes NPCs being too afraid, makes swarm danger assessment more robust
 Add option to switch between outfit (when available) at chargen
 Animals have stomachs, digest food, and benefit from eating
 Enable NPCs to reload magazines in their inventory
+Liquids crafted at camps will try to be placed inside zoned terrain/furniture that can hold them(LIQUIDCONT)
+Gunmod conflicts, with Bayonets Conflicts
+Hauling overhaul: you can choose which specific items to haul, whether to automatically haul new items, or haul items by filter
+The player can gauge an NPC's personality during dialogue with them
+Accidentally winds up rewriting how NPCs assess danger.
+The Han Solo Special: NPCs identify when fleeing is failing. Also adds flee modes and panic.
 
 
 ## Content:
@@ -132,6 +138,18 @@ Add residential rolling trash cans.
 Adds Long awaited Exodii Sidearms
 Allow diving into water to remove Mycus spores.
 New Scenario: Last Stand
+Adds .38 Super BP and matchhead reloads and ballistics by the inch data
+Boston-Chan costume set
+Replaces RM802 with Hub Grenade Launcher
+Adds additional .30 Carbine loads and Ballistics By the Inch data
+Adding a modernized 10mm 1911, as well as a standard and extended magazine for it, by Cataclysmo091
+Omelets
+Add looks_like mushroom to morel
+adds varsity jackets
+Eggs on sandwiches and hamburgers
+New Epilogues for NPCs
+Adds more fungalized humanoid/animal zombie variants.
+Add the nuckalavee enemy, a run you down and stomp on your corpse nether enemy
 
 
 ## Interface:
@@ -179,6 +197,8 @@ Add spell class selecter to spell casting menu
 Update gun mod removal UI to use inventory menu instead of a prompt; prevent removal of gun mods with other mods installed on it
 Show the mass of vitamins in food items
 Melee weapons tell you your skill is too low to see melee values instead of just hiding them
+Shows the starting location for a scenario when there is only one possible option.
+Spread out vehicle stats display
 
 
 ## Mods:
@@ -246,6 +266,13 @@ Allow escape pods to carry loot planetside.
 [MoM] Add mi-go psions
 [Innawoods] Added meadow mutable
 [MoM] Drain overhaul  + Power Maintenance overhaul
+Aftershock: Add Landing Pads
+[DinoMod] Animal Food Matters
+[MoM] Separate NO_SPELLCASTING from new NO_PSIONICS
+[MoM] Tinfoil hats protect against telepathy (sometimes) 
+[MoM] Slightly reduce power ranges
+[MoM] Two new Photokinetic powers + slight reorganization
+[MoM] Add Electrokinesis path
 
 
 ## Balance:
@@ -292,6 +319,10 @@ Threatening to kill NPCs(recruitment) is more likely to make them hostile
 Backup generator is much more powerful
 Bulk unloading and dropping items saves time cost
 Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
+Hand mirror recipe change from 1 glas sheet to 3 glas shards
+Autolearn primitive bow dampening kit
+Recipe "Grappling hook" Update, now also accepts 1 long cordage rope
+Professions can start with specific recipes
 
 
 ## Bugfixes:
@@ -382,6 +413,22 @@ Allow sandwiches to be made using toast
 Reduce NPC faction camp task slowdown & fix save data bloat bug
 Fixed some items to cause multiple addictions
 Allow NPCs to teleport without the player
+Undine eyes now have undine category
+Fix stair alignment for military bunker by shuffling things around
+Prevent infinite loop when spawning monsters
+Fix the Old Guard representative mission.
+Fixed laser weapons mounted on vehicles not cooling down
+zombie sinew harvest fix
+Model limb stubs more like actual body parts.
+gave the ji the spear tag
+More seed fixes
+Fix the hit size of limb stubs
+Fixed carried weight not being updated when pouring liquids into container inside player inventory
+Maps will once again show city names if they show roads.
+No more infinite aphids
+Fix missing spawn items in mapgen_loot
+Make it so s_gun_roof roof access leads to main part of roof
+Stop milking dead cows
 
 
 ## Performance:
@@ -396,6 +443,7 @@ Stop clearing weight carried cache unnecessarily
 Precalculate visitable zones to optimize inter-monster aggression checks
 Reduced wait times in high traffic areas by ~15-20%
 Reduce time of selecting large amount of items in inventory menu
+Fix armor resistances hotspot exposed by NPC AI improvements
 
 
 ## Infrastructure:
@@ -426,6 +474,12 @@ Allow specifying vitamins by weight (mass) in items
 Add more comment-commands which apply labels to issues and PRs
 Migrate arithmetics function with arguments to math
 Provide more options to name monsters placed via mapgen
+recipes now require activity_level, fake(previously substituted for MODERATE) is depreciated
+continuation of chainmail refactoring, Suits and Faraday
+JSON-ize slot machines
+Faction editing on Debug menu
+Change NPC faction from debug menu
+Move spell cost calculation up slightly to account for spell cost ternaries
 
 
 ## Build:
@@ -437,6 +491,7 @@ Fast Windows iteration with llvm-lib and lld-link
 Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
+Update vcpkg commit & windows llvm build configuration
 
 
 ## I18N and A11Y:
