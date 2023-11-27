@@ -683,7 +683,6 @@
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
       { "item": "c4", "prob": 5 },
       { "item": "flamethrower", "prob": 1 },
-      { "item": "rm451_flamethrower", "prob": 1 },
       { "item": "binoculars", "prob": 20 },
       { "item": "masterkey", "prob": 2 },
       { "item": "m26_mass", "prob": 3 },
