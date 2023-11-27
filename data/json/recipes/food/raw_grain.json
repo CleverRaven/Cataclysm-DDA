@@ -70,6 +70,7 @@
     "skill_used": "survival",
     "time": "5 m",
     "batch_time_factors": [ 80, 1 ],
+    "//": "Using a machine for separating the grain and chaff",
     "autolearn": true,
     "qualities": [ { "id": "WINNOW", "level": 2 } ],
     "byproducts": [ [ "chaff", 1 ] ],
