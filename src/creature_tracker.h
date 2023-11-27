@@ -41,7 +41,7 @@ class creature_tracker
          * Dead monsters are ignored and not returned.
          */
         template <typename PredicateFn>
-        Creature *find_reachable( const Creature &origin, PredicateFn predicate_fn );
+        Creature *find_reachable( const Creature &origin, PredicateFn &&predicate_fn );
 
         /**
          * Returns the reachable creature matching the given predicates.
@@ -51,15 +51,15 @@ class creature_tracker
          * Dead monsters are ignored and not returned.
          */
         template <typename FactionPredicateFn, typename CreaturePredicateFn>
-        Creature *find_reachable( const Creature &origin, FactionPredicateFn faction_fn,
-                                  CreaturePredicateFn creature_fn );
+        Creature *find_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+                                  CreaturePredicateFn &&creature_fn );
         /**
          * Visits all reachable creatures using the given functor.
          *  - VisitFn: void(Creature*)
          * Dead monsters are ignored and not visited.
          */
         template <typename VisitFn>
-        void for_each_reachable( const Creature &origin, VisitFn visit_fn );
+        void for_each_reachable( const Creature &origin, VisitFn &&visit_fn );
 
         /**
          * Visits all reachable creatures using the given functor matching the given predicate.
@@ -68,8 +68,8 @@ class creature_tracker
          * Dead monsters are ignored and not visited.
          */
         template <typename FactionPredicateFn, typename CreatureVisitFn>
-        void for_each_reachable( const Creature &origin, FactionPredicateFn faction_fn,
-                                 CreatureVisitFn creature_fn );
+        void for_each_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+                                 CreatureVisitFn &&creature_fn );
 
         /**
          * Returns a temporary id of the given monster (which must exist in the tracker).
@@ -177,16 +177,16 @@ creature_tracker &get_creature_tracker();
 // Implementation Details
 
 template <typename PredicateFn>
-Creature *creature_tracker::find_reachable( const Creature &origin, PredicateFn predicate_fn )
+Creature *creature_tracker::find_reachable( const Creature &origin, PredicateFn &&predicate_fn )
 {
     return find_reachable( origin, []( const mfaction_id & ) {
         return true;
-    }, std::move( predicate_fn ) );
+    }, std::forward<PredicateFn>( predicate_fn ) );
 }
 
 template <typename FactionPredicateFn, typename CreaturePredicateFn>
-Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredicateFn faction_fn,
-        CreaturePredicateFn creature_fn )
+Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+        CreaturePredicateFn &&creature_fn )
 {
     flood_fill_zone( origin );
 
@@ -209,19 +209,19 @@ Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredi
 }
 
 template <typename VisitFn>
-void creature_tracker::for_each_reachable( const Creature &origin, VisitFn visit_fn )
+void creature_tracker::for_each_reachable( const Creature &origin, VisitFn &&visit_fn )
 {
-    find_reachable( origin, [visit_fn = std::move( visit_fn )]( Creature * other ) {
+    find_reachable( origin, [&visit_fn]( Creature * other ) {
         visit_fn( other );
         return false;
     } );
 }
 
 template <typename FactionPredicateFn, typename CreatureVisitFn>
-void creature_tracker::for_each_reachable( const Creature &origin, FactionPredicateFn faction_fn,
-        CreatureVisitFn creature_fn )
+void creature_tracker::for_each_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+        CreatureVisitFn &&creature_fn )
 {
-    find_reachable( origin, std::move( faction_fn ), [creature_fn = std::move( creature_fn )](
+    find_reachable( origin, std::forward<FactionPredicateFn>( faction_fn ), [&creature_fn](
     Creature * other ) {
         creature_fn( other );
         return false;
