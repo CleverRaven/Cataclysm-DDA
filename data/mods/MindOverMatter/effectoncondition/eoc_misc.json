@@ -90,30 +90,24 @@
         { "compare_string": [ "stunned", { "context_val": "effect" } ] },
         {
           "or": [
-            { "u_has_effect": "effect_biokin_pkill_1" },
-            { "u_has_effect": "effect_biokin_pkill_2" },
-            { "u_has_effect": "effect_biokin_pkill_3" },
-            { "u_has_effect": "effect_biokin_pkill_4" },
-            { "u_has_effect": "effect_biokin_pkill_5" },
-            { "u_has_effect": "effect_biokin_pkill_6" },
+            { "u_has_effect": "effect_biokin_overcome_pain" },
             { "u_has_effect": "effect_biokin_climate_control" },
             { "u_has_effect": "effect_biokin_hammerhand" },
             { "u_has_effect": "effect_biokin_enhance_mobility" },
-            { "u_has_effect": "effect_clair_night_eyes_1" },
-            { "u_has_effect": "effect_clair_night_eyes_2" },
-            { "u_has_effect": "effect_clair_night_eyes_3" },
-            { "u_has_effect": "effect_clair_night_eyes_4" },
-            { "u_has_effect": "effect_clair_night_eyes_5" },
-            { "u_has_effect": "effect_clair_night_eyes_6" },
-            { "u_has_effect": "effect_clair_night_eyes_7" },
-            { "u_has_effect": "effect_clair_night_eyes_8" },
+            { "u_has_effect": "effect_clair_night_eyes" },
             { "u_has_effect": "effect_clair_speed_reader" },
-            { "u_has_item": "photokinetic_rad_aura" },
-            { "u_has_item": "pyrokinetic_fire_tool" },
-            { "u_has_item": "pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_electrokin_personal_battery" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_effect": "effect_photokin_light_barrier" },
+            { "u_has_effect": "effect_photokinetic_radio" },
+            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
             { "u_has_effect": "effect_pyrokinetic_cloak" },
             { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
             { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepathic_morale" },
             { "u_has_effect": "effect_vita_health" }
           ]
         }
@@ -131,34 +125,34 @@
     "required_event": "character_gains_effect",
     "condition": {
       "and": [
-        { "compare_string": [ "dazed", { "context_val": "effect" } ] },
-        { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
         {
           "or": [
-            { "u_has_effect": "effect_biokin_pkill_1" },
-            { "u_has_effect": "effect_biokin_pkill_2" },
-            { "u_has_effect": "effect_biokin_pkill_3" },
-            { "u_has_effect": "effect_biokin_pkill_4" },
-            { "u_has_effect": "effect_biokin_pkill_5" },
-            { "u_has_effect": "effect_biokin_pkill_6" },
+            { "compare_string": [ "dazed", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
+            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+          ]
+        },
+        {
+          "or": [
+            { "u_has_effect": "effect_biokin_overcome_pain" },
             { "u_has_effect": "effect_biokin_climate_control" },
             { "u_has_effect": "effect_biokin_hammerhand" },
             { "u_has_effect": "effect_biokin_enhance_mobility" },
-            { "u_has_effect": "effect_clair_night_eyes_1" },
-            { "u_has_effect": "effect_clair_night_eyes_2" },
-            { "u_has_effect": "effect_clair_night_eyes_3" },
-            { "u_has_effect": "effect_clair_night_eyes_4" },
-            { "u_has_effect": "effect_clair_night_eyes_5" },
-            { "u_has_effect": "effect_clair_night_eyes_6" },
-            { "u_has_effect": "effect_clair_night_eyes_7" },
-            { "u_has_effect": "effect_clair_night_eyes_8" },
+            { "u_has_effect": "effect_clair_night_eyes" },
             { "u_has_effect": "effect_clair_speed_reader" },
-            { "u_has_item": "photokinetic_rad_aura" },
-            { "u_has_item": "pyrokinetic_fire_tool" },
-            { "u_has_item": "pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_electrokin_personal_battery" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_effect": "effect_photokin_light_barrier" },
+            { "u_has_effect": "effect_photokinetic_radio" },
+            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
             { "u_has_effect": "effect_pyrokinetic_cloak" },
             { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
             { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepathic_morale" },
             { "u_has_effect": "effect_vita_health" }
           ]
         }
@@ -179,5 +173,62 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_CONCENTRATION_EFFECT_GAIN_CHECK",
+    "//": "When you gain an effect that changes how many powers you can concentrate on, or would otherwise interrupt concentration, check concentration",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "winded", { "context_val": "effect" } ] },
+            { "compare_string": [ "nausea", { "context_val": "effect" } ] },
+            { "compare_string": [ "asthma", { "context_val": "effect" } ] },
+            { "compare_string": [ "datura", { "context_val": "effect" } ] },
+            { "compare_string": [ "onfire", { "context_val": "effect" } ] },
+            { "compare_string": [ "staggered_character", { "context_val": "effect" } ] },
+            { "compare_string": [ "venom_dmg", { "context_val": "effect" } ] },
+            { "compare_string": [ "venom_pain", { "context_val": "effect" } ] },
+            { "compare_string": [ "boomered", { "context_val": "effect" } ] },
+            { "compare_string": [ "taint", { "context_val": "effect" } ] },
+            { "compare_string": [ "visuals", { "context_val": "effect" } ] },
+            { "compare_string": [ "hallu", { "context_val": "effect" } ] },
+            { "compare_string": [ "formication", { "context_val": "effect" } ] },
+            { "compare_string": [ "meth", { "context_val": "effect" } ] },
+            { "compare_string": [ "weed_high", { "context_val": "effect" } ] },
+            { "compare_string": [ "high", { "context_val": "effect" } ] },
+            { "compare_string": [ "drunk", { "context_val": "effect" } ] },
+            { "compare_string": [ "zapped", { "context_val": "effect" } ] }
+          ]
+        },
+        {
+          "or": [
+            { "u_has_effect": "effect_biokin_overcome_pain" },
+            { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_hammerhand" },
+            { "u_has_effect": "effect_biokin_enhance_mobility" },
+            { "u_has_effect": "effect_clair_night_eyes" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_personal_battery" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_effect": "effect_photokin_light_barrier" },
+            { "u_has_effect": "effect_photokinetic_radio" },
+            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_pyrokinetic_cloak" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepathic_morale" },
+            { "u_has_effect": "effect_vita_health" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]
   }
 ]
