@@ -12,6 +12,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_power_surge",
+    "name": [ "Power Surge" ],
+    "desc": [ "You are filled with power!" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_physical",
     "name": [ "Enhanced Prowess" ],
     "desc": [ "You are enhancing your physical prowess." ],

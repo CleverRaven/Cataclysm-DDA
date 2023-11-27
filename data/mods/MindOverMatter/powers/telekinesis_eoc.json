@@ -20,12 +20,7 @@
         ]
       }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (4000 - (u_val('spell_level', 'spell: telekinetic_strength') * 150) ), 2000)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH" } ]
   },
   {
     "type": "effect_on_condition",
@@ -186,12 +181,7 @@
         ]
       }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_TELEKIN_REMOVE_LEVITATION" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (5500 - (u_val('spell_level', 'spell: telekinetic_levitation') * 250) ), 3000)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_TELEKIN_REMOVE_LEVITATION" } ]
   },
   {
     "type": "effect_on_condition",

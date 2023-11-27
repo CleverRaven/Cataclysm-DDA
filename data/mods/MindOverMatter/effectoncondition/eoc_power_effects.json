@@ -73,6 +73,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTUNEMENT_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_nether_attunement_power_surge" },
+    "effect": [
+      { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_DRAIN_RESIST_POTION_COMEDOWN_PENALTY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -80,6 +98,8 @@
     "effect": [
       { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "-3" ] },
       { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "-3" ] },
       { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "-3" ] },
       { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "-3" ] },
       { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "-3" ] },
@@ -195,6 +215,7 @@
           "EOC_BIOKIN_REMOVE_HAMMERHAND",
           "EOC_CLAIR_REMOVE_NIGHT_EYES",
           "EOC_CLAIR_REMOVE_SPEED_READ",
+          "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
           "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL",
           "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
           "EOC_PHOTOKIN_REMOVE_RADIO",

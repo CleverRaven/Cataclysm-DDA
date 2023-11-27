@@ -13,6 +13,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "nether_attune_difficulty_scaler",
+    "num_args": 1,
+    "return": "_0 * _0"
+  },
+  {
+    "type": "jmath_function",
     "id": "psionics_kcal_cost",
     "num_args": 1,
     "return": "( (5 * _0) * rng( 0.3, 1.7) )"
