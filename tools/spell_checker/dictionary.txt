@@ -29,6 +29,7 @@ aerofoil
 aeterna
 aetheric
 aetherically
+affixes
 affordability
 affordably
 afterbirth
@@ -2059,6 +2060,8 @@ nothronychus
 npc
 npcs
 nrmmy
+nuckalavee
+nuckalavees
 nuda
 nudicaulis
 numbingly
