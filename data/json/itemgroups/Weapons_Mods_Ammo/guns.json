@@ -963,9 +963,15 @@
     "type": "item_group",
     "id": "guns_launcher_flame",
     "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
+    "items": [ { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 8000 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_flame_xedra",
+    "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
     "items": [
-      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 1500 },
-      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 1500 }
+      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 8000 },
+      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 9000 }
     ]
   },
   {
