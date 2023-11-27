@@ -340,7 +340,7 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
-                    set_to_null();
+                    you.cancel_activity();
                     break;
                 case 3:
                     ignoreQuery = true;
