@@ -19,7 +19,7 @@
     "ammo_type": "10mm",
     "casing": "10mm_casing",
     "range": 14,
-    "//": "10 mm Auto .400, 165, Hodgdon HS-6  10.4 grains ",
+    "//": ".400in 165gr Speer TMJ 4410, 10.4gr Hodgdon HS-6",
     "damage": {
       "damage_type": "bullet",
       "amount": 28,
