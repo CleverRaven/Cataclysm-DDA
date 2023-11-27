@@ -20,7 +20,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -28,6 +27,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -743,7 +743,7 @@ TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
     item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
-    ret_val<void> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    ret_val<void> result = ups->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     INFO( result.c_str() );
     REQUIRE( result.success() );
     REQUIRE( dummy.has_item( *ups ) );
@@ -776,12 +776,12 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
 
     item ups_mag( ups_loc->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), ammo_count );
-    ret_val<void> result = ups_loc->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    ret_val<void> result = ups_loc->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     REQUIRE( result.success() );
 
     item_location soldering_iron = dummy.i_add( item( "soldering_iron" ) );
     item battery_ups( "battery_ups" );
-    ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, item_pocket::pocket_type::MOD );
+    ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, pocket_type::MOD );
     REQUIRE( ret_solder.success() );
     REQUIRE( soldering_iron->has_flag( json_flag_USE_UPS ) );
 
@@ -863,15 +863,15 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools have enough charges" ) {
             item hotplate( "hotplate" );
-            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+            hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+            soldering_iron.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( soldering_iron );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
-            UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            UPS.put_in( UPS_mag, pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
             tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
 
@@ -886,16 +886,16 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
             item hotplate( "hotplate" );
-            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+            hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+            soldering_iron.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( soldering_iron );
 
             item ups( "UPS_off" );
             item ups_mag( ups.magazine_default() );
             ups_mag.ammo_set( ups_mag.ammo_default(), 10 );
-            ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL );
             tools.push_back( ups );
 
             THEN( "crafting fails, and no charges are used" ) {
@@ -913,7 +913,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -925,7 +925,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.push_back( tool_with_ammo( "survivor_mess_kit", 500 ) );
 
@@ -937,12 +937,12 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass_sealed" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        jar.put_in( item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( jar );
 
         prep_craft( recipe_water_clean, tools, false );
@@ -952,7 +952,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -1446,7 +1446,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
         WHEN( "3 full plastic bottles on the ground" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1474,7 +1474,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
         WHEN( "3 full plastic bottles in inventory" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1499,7 +1499,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1523,7 +1523,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1554,7 +1554,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1578,7 +1578,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1661,7 +1661,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
         WHEN( "10 full plastic bottles on the ground" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1682,7 +1682,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
         WHEN( "10 full plastic bottles in inventory" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1714,7 +1714,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1738,7 +1738,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1776,7 +1776,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1800,7 +1800,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -2036,7 +2036,7 @@ TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
     item thread( "thread" );
     item sheet_cotton( "sheet_cotton" );
     thread.charges = 100;
-    sew_kit.put_in( thread, item_pocket::pocket_type::MAGAZINE );
+    sew_kit.put_in( thread, pocket_type::MAGAZINE );
     REQUIRE( sew_kit.ammo_remaining() == 100 );
     clear_and_setup( c, m, pocketknife );
     c.learn_recipe( &*recipe_balclava );
@@ -2139,7 +2139,7 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
         item &bottle = tools.emplace_back( "bottle_plastic" ); // water container
-        bottle.get_contents().insert_item( item( itype_water_clean ), item_pocket::pocket_type::CONTAINER );
+        bottle.get_contents().insert_item( item( itype_water_clean ), pocket_type::CONTAINER );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
@@ -2166,7 +2166,7 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
         item &bottle = tools.emplace_back( "bottle_plastic" ); // water container
-        bottle.get_contents().insert_item( item( itype_water_clean ), item_pocket::pocket_type::CONTAINER );
+        bottle.get_contents().insert_item( item( itype_water_clean ), pocket_type::CONTAINER );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );

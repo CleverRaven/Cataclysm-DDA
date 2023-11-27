@@ -18,7 +18,6 @@
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "make_static.h"
@@ -28,6 +27,7 @@
 #include "messages.h" //for rust message
 #include "npc.h"
 #include "options.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "ret_val.h"
@@ -528,7 +528,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
             const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
                 const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
                 int amount = 0;
@@ -540,7 +540,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     amount = count_charges_in_list( ammo, m.i_at( p ) );
                 }
                 item furn_ammo( ammo_id, calendar::turn, amount );
-                furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
+                furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
             }
         }
         if( m.accessible_items( p ) ) {

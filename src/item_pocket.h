@@ -15,6 +15,7 @@
 
 #include "enums.h"
 #include "flat_set.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -36,18 +37,6 @@ template <typename E> struct enum_traits;
 class item_pocket
 {
     public:
-        enum class pocket_type : int {
-            CONTAINER,
-            MAGAZINE,
-            MAGAZINE_WELL, //holds magazines
-            MOD, // the gunmods or toolmods
-            CORPSE, // the "corpse" pocket - bionics embedded in a corpse
-            SOFTWARE, // software put into usb or some such
-            EBOOK, // holds electronic books for a device or usb
-            CABLE, // pocket for storing power/data cables and handling their connections
-            MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
-            LAST
-        };
         enum class contain_code : int {
             SUCCESS,
             // only mods can go into the pocket for mods
@@ -468,7 +457,7 @@ class pocket_data
 
         pocket_data() = default;
         // this constructor is used for special types of pockets, not loading
-        explicit pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
+        explicit pocket_data( pocket_type pk ) : type( pk ) {
             rigid = true;
         }
 
@@ -476,7 +465,7 @@ class pocket_data
         static constexpr units::volume max_volume_for_container = 200000000_ml;
         static constexpr units::mass max_weight_for_container = 2000000_kilogram;
 
-        item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
+        pocket_type type = pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
         units::volume volume_capacity = max_volume_for_container;
         // max volume of item that can be contained, otherwise it spills
@@ -573,8 +562,8 @@ class pocket_data
 };
 
 template<>
-struct enum_traits<item_pocket::pocket_type> {
-    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
+struct enum_traits<pocket_type> {
+    static constexpr pocket_type last = pocket_type::LAST;
 };
 
 template<>

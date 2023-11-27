@@ -18,12 +18,12 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "make_static.h"
 #include "options.h"
+#include "pocket_type.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -89,21 +89,21 @@ std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
 }
 } // namespace io
 
-static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
+static pocket_type guess_pocket_for( const item &container, const item &payload )
 {
     if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
             payload.is_toolmod() ) ) {
-        return item_pocket::pocket_type::MOD;
+        return pocket_type::MOD;
     }
     if( container.is_software_storage() && payload.is_software() ) {
-        return item_pocket::pocket_type::SOFTWARE;
+        return pocket_type::SOFTWARE;
     }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
-        return item_pocket::pocket_type::MAGAZINE_WELL;
+        return pocket_type::MAGAZINE_WELL;
     } else if( container.is_magazine() && payload.is_ammo() ) {
-        return item_pocket::pocket_type::MAGAZINE;
+        return pocket_type::MAGAZINE;
     }
-    return item_pocket::pocket_type::CONTAINER;
+    return pocket_type::CONTAINER;
 }
 
 static void put_into_container(
@@ -126,10 +126,10 @@ static void put_into_container(
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
         ret_val<void> ret = ctr.can_contain_directly( *it );
         if( ret.success() ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
+            const pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.put_in( *it, pk_type );
         } else if( ctr.is_corpse() ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
+            const pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.force_insert_item( *it, pk_type );
         } else {
             switch( on_overflow ) {
@@ -574,7 +574,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 if( !mag.ammo_default().is_null() ) {
                     mag.ammo_set( mag.ammo_default(), ch );
                 }
-                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                new_item.put_in( mag, pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
             } else if( new_item.magazine_current() ) {
@@ -613,7 +613,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     if( new_item.is_magazine() ||
-        new_item.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
         bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
                           ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
@@ -624,7 +624,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             if( spawn_ammo && !mag.ammo_default().is_null() ) {
                 mag.ammo_set( mag.ammo_default() );
             }
-            new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            new_item.put_in( mag, pocket_type::MAGAZINE_WELL );
         } else if( spawn_ammo && !new_item.ammo_default().is_null() ) {
             if( ammo ) {
                 const item am = ammo->create_single( new_item.birthday() );
@@ -636,7 +636,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     if( !cont.is_null() ) {
-        const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
+        const pocket_type pk_type = guess_pocket_for( cont, new_item );
         cont.put_in( new_item, pk_type );
         cont.add_automatic_whitelist();
         new_item = cont;
@@ -663,7 +663,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                     new_item.get_contents().add_pocket( it );
                 }
             } else {
-                const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
+                const pocket_type pk_type = guess_pocket_for( new_item, it );
                 new_item.put_in( it, pk_type );
             }
         }

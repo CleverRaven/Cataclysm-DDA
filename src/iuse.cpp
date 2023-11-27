@@ -4669,7 +4669,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     if( acid_blood ) {
         item acid( "blood_acid", calendar::turn );
         acid.set_item_temperature( blood_temp );
-        it->put_in( acid, item_pocket::pocket_type::CONTAINER );
+        it->put_in( acid, pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage() ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4690,7 +4690,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     }
 
     blood.set_item_temperature( blood_temp );
-    it->put_in( blood, item_pocket::pocket_type::CONTAINER );
+    it->put_in( blood, pocket_type::CONTAINER );
     p->mod_moves( -to_moves<int>( 5_seconds ) );
     return 1;
 }
@@ -5462,7 +5462,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint &
         const item mod_copy( *it );
         item modded_gun( *loc );
 
-        modded_gun.put_in( mod_copy, item_pocket::pocket_type::MOD );
+        modded_gun.put_in( mod_copy, pocket_type::MOD );
 
         if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
             continue;
@@ -7228,7 +7228,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint & )
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( &put ), item_pocket::pocket_type::CONTAINER );
+                it->put_in( p->i_rem( &put ), pocket_type::CONTAINER );
             } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
                 p->add_msg_if_player( _( "You want to arm your RC car with %s?  But how?" ),
                                       put.tname() );
@@ -7986,7 +7986,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
         it->erase_var( "COOKTIME" );
         it->convert( itype_multi_cooker, p );
         if( it->can_contain( meal ).success() ) {
-            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            it->put_in( meal, pocket_type::CONTAINER );
         } else {
             add_msg( m_info,
                      _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
@@ -8752,7 +8752,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
     auto filter = [it]( const item & itm ) {
         return !itm.is_broken() &&
                &itm != it &&
-               itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
+               itm.has_pocket_type( pocket_type::EBOOK );
     };
 
     item_location storage_card = game_menus::inv::titled_filter_menu(
@@ -8811,7 +8811,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
         books_moved = fromset.size();
         for( const item *ebook : fromset )
         {
-            toit.put_in( *ebook, item_pocket::pocket_type::EBOOK );
+            toit.put_in( *ebook, pocket_type::EBOOK );
         }
     };
 
