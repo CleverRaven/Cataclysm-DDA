@@ -68,6 +68,7 @@
   {
     "id": [
       "reloaded_10mm_fmj",
+      "reloaded_10mmP",
       "reloaded_357sig_fmj",
       "reloaded_38_fmj",
       "reloaded_380_FMJ",
@@ -154,7 +155,8 @@
       "reloaded_45colt_jhp",
       "reloaded_762_25",
       "reloaded_9mm",
-      "reloaded_9x18mm"
+      "reloaded_9x18mm",
+      "reloaded_10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_pistol_jhp"
