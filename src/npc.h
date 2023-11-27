@@ -267,6 +267,7 @@ struct npc_combat_memory {
     int assessment_before_repos = 0; // assessment of enemy threat level at the start of repositioning.
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int nearby_ranged_buddy = -1; // dist to nearest friend with a gun, or to player
 };
 
 enum class combat_engagement : int {
@@ -1101,7 +1102,7 @@ class npc : public Character
 
         /** rates how dangerous a target is */
         float evaluate_monster( const monster &target, int dist ) const;
-        float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy );
         float evaluate_self( bool my_gun );
 
         void assess_danger();

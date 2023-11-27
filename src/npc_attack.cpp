@@ -242,7 +242,8 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         return;
     }
     if( !source.is_adjacent( critter, true ) ) {
-        if( rl_dist( source.pos(), location ) <= weapon.reach_range( source ) ) {
+        int target_distance = rl_dist( source.pos(), location );
+        if( target_distance <= weapon.reach_range( source ) ) {
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
             // check for friendlies in the line of fire
@@ -268,9 +269,21 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         } else {
             source.update_path( location );
             if( source.path.size() > 1 ) {
-                if( can_move_melee( source ) ) {
+                bool clear_path = can_move_melee( source );
+                if( clear_path && source.mem_combat.nearby_ranged_buddy == -1 ) {
                     source.move_to_next();
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s has no nearby ranged allies.  Going for the attack.</color>", source.name );
+                } else if( clear_path && source.mem_combat.nearby_ranged_buddy > target_distance ) {
+                    source.move_to_next();
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s is at least %i away from ranged allies, enemy within %i.  Going for attack.</color>",
+                                   source.name, source.mem_combat.nearby_ranged_buddy, target_distance );
+
                 } else {
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s can't path to melee target, or is staying close to ranged allies.</color>",
+                                   source.name );
                     source.look_for_player( get_player_character() );
                 }
             } else if( source.path.size() == 1 ) {

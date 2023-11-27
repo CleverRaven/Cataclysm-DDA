@@ -496,7 +496,7 @@ float npc::evaluate_monster( const monster &target, int dist ) const
     return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
 
-float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true ) const
+float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true )
 {
     float threat = 0.0f;
     bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
@@ -520,6 +520,15 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
         candidate_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding…</color>, intensity %i", candidate.disp_name(), bleed_intensity );
+    }
+    if( !enemy ) {
+        if( candidate_gun || ( is_player_ally() && candidate.is_avatar() ) ) {
+            // later we should evaluate if the NPC trusts the player enough to stick to them so reliably
+            int dist = rl_dist( pos(), candidate.pos() );
+            if( dist > mem_combat.nearby_ranged_buddy ) {
+                mem_combat.nearby_ranged_buddy = std::min( dist, 3 );
+            }
+        }
     }
 
     if( !my_gun ) {
@@ -1258,6 +1267,7 @@ void npc::regen_ai_cache()
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
+    mem_combat.nearby_ranged_buddy = -1;
 
     assess_danger();
     if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
