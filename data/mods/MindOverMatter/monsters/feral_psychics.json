@@ -537,7 +537,7 @@
       {
         "id": "psi_electrokin3_lightning_bolt",
         "type": "spell",
-        "spell_data": { "id": "electrokinetic_lightning_bolt_monster", "min_level": 8 },
+        "spell_data": { "id": "electrokinetic_lightning_blast_monster", "min_level": 8 },
         "cooldown": 15,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's unleashes a bolt of lightning!"
