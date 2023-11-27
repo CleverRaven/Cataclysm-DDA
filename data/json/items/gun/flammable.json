@@ -16,9 +16,8 @@
     "range": 6,
     "dispersion": 300,
     "durability": 8,
-    "encumbrance": [ 60, 120 ],
     "modes": [ [ "DEFAULT", "Jet", 1 ], [ "AUTO", "Gout", 4 ] ],
-    "extend": { "flags": [ "BELTED", "ONLY_ONE","PRIMITIVE_RANGED_WEAPON" ] },
+    "extend": { "flags": [ "BELTED", "ONLY_ONE","PRIMITIVE_RANGED_WEAPON", "IS_ARMOR" ] },
     "armor_data": {
       "armor": [
         {
@@ -26,6 +25,8 @@
             { "type": "steel", "covered_by_mat": 40, "thickness": 2 },
             { "type": "aluminum", "covered_by_mat": 100, "thickness": 2 }
           ],
+          "volume_encumber_modifier": 0.2307,
+          "encumbrance": [ 0, 60 ],
           "coverage": 80,
           "covers": [ "torso" ],
           "specifically_covers": [ "torso_hanging_back" ]
@@ -35,8 +36,9 @@
     "valid_mod_locations": [ [ "grip", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
-        "magazine_well": "1568 ml",
+        "magazine_well": "1196 ml",
         "pocket_type": "MAGAZINE_WELL",
+		    "rigid": false, 
         "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ]
       }
     ],
