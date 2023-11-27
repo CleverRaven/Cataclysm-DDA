@@ -312,7 +312,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "charged_qualities": [ [ "BLOW_AIR", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
+    "charged_qualities": [ [ "WINNOW", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
     "to_hit": -1,
     "melee_damage": { "bash": 3 }
   },
