@@ -93,25 +93,16 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "max_level": 20,
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "line",
     "damage_type": "electric",
-    "min_damage": {
-      "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 2) + 20) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 4) + 45) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
+    "min_damage": 1,
+    "max_damage": 5,
     "min_range": 4,
     "max_range": 20,
     "range_increment": 1,
     "field_id": "fd_electricity",
-    "min_field_intensity": 1,
-    "max_field_intensity": 2,
+    "min_field_intensity": 3,
+    "max_field_intensity": 8,
     "field_chance": 1
   },
   {
