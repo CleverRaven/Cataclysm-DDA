@@ -526,7 +526,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
             // later we should evaluate if the NPC trusts the player enough to stick to them so reliably
             int dist = rl_dist( pos(), candidate.pos() );
             if( dist > mem_combat.nearby_ranged_buddy ) {
-                mem_combat.nearby_ranged_buddy = std::min( dist, 3 );
+                mem_combat.nearby_ranged_buddy = std::max( dist, 3 );
             }
         }
     }
