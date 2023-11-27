@@ -6,6 +6,7 @@
     "deactivate_condition": { "math": [ "wave_number", ">=", "1" ] },
     "effect": [
       { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
+      { "math": [ "wave_money_modifier", "=", "-1000" ] },
       { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
       { "run_eocs": "DEFENSE_MODE_WAVE_CONTROL" },
       {
@@ -39,7 +40,7 @@
     "global": false,
     "condition": { "not": { "npc_has_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" } },
     "effect": [
-      { "u_spend_cash": { "math": [ "wave_number * -1000" ] } },
+      { "u_spend_cash": { "math": [ "wave_number * wave_money_modifier" ] } },
       { "npc_add_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" }
     ]
   },
