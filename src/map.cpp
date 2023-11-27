@@ -46,7 +46,6 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flood_fill.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -2868,25 +2867,29 @@ void map::drop_items( const tripoint &p )
 
             int creature_hit_chance = rng( 0, 100 );
             creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
-
             if( creature_hit_chance < 15 ) {
-                add_msg( _( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the head!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 30 ) {
-                add_msg( _( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the torso!" ), i.tname(),
+                                        creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 65 ) {
-                add_msg( _( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the left arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
                                              damage ) );
             } else if( creature_hit_chance < 100 ) {
-                add_msg( _( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the right arm!" ),
+                                        i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
                                              damage ) );
             } else {
-                add_msg( _( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s misses the %s!" ), i.tname(),
+                                        creature_below->get_name() );
             }
         }
 
@@ -8717,7 +8720,13 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
     const tripoint gp_ms = sm_to_ms_copy( gp );
 
     creature_tracker &creatures = get_creature_tracker();
-    for( spawn_point &i : current_submap->spawns ) {
+
+    // The list of spawns on the submap might be updated while we are iterating it.
+    // For example, `monster::on_load` -> `monster::try_reproduce` calls `map::add_spawn`.
+    // Therefore, this intentionally uses old-school indexed for-loop with re-check against `.size()` each step.
+    // NOLINTNEXTLINE(modernize-loop-convert)
+    for( size_t sp_i = 0; sp_i < current_submap->spawns.size(); ++sp_i ) {
+        const spawn_point i = current_submap->spawns[sp_i]; // intentional copy
         const tripoint center = gp_ms + i.pos;
         const tripoint_range<tripoint> points = points_in_radius( center, 3 );
 
@@ -10270,68 +10279,5 @@ tripoint drawsq_params::center() const
         return player_character.pos() + player_character.view_offset;
     } else {
         return view_center;
-    }
-}
-
-/** This is lazily evaluated on demand. Each creature in a zone is visited
- * as it flood fills, then the zone number is incremented. At the end all creatures in
- * the same zone will have the same zone number assigned, which can be used to have creatures in
- * different zones ignore each other very cheaply.
- */
-void map::flood_fill_zone( const Creature &origin )
-{
-    creature_tracker &tracker = get_creature_tracker();
-
-    ff::flood_fill_visit_10_connected( origin.pos_bub(),
-    [this]( const tripoint_bub_ms & loc, int direction ) {
-        if( direction == 0 ) {
-            return inbounds( loc ) && ( is_transparent_wo_fields( loc.raw() ) ||
-                                        passable( loc ) );
-        }
-        if( direction == 1 ) {
-            const maptile &up = maptile_at( loc );
-            const ter_t &up_ter = up.get_ter_t();
-            if( up_ter.id.is_null() ) {
-                return false;
-            }
-            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
-                  is_transparent_wo_fields( loc.raw() ) ) &&
-                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
-                return true;
-            }
-        }
-        if( direction == -1 ) {
-            const maptile &up = maptile_at( loc + tripoint_above );
-            const ter_t &up_ter = up.get_ter_t();
-            if( up_ter.id.is_null() ) {
-                return false;
-            }
-            const maptile &down = maptile_at( loc );
-            const ter_t &down_ter = up.get_ter_t();
-            if( down_ter.id.is_null() ) {
-                return false;
-            }
-            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
-                  is_transparent_wo_fields( loc.raw() ) ) &&
-                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
-                return true;
-            }
-        }
-        return false;
-    },
-    [&tracker, this]( const tripoint_bub_ms & loc ) {
-        Creature *creature = tracker.creature_at<Creature>( loc );
-        if( creature ) {
-            const int n = zone_number * zone_tick;
-            creatures_by_zone[n].push_back( creature );
-            creature->set_reachable_zone( n );
-        }
-    } );
-    if( zone_number == std::numeric_limits<int>::max() ) {
-        zone_number = 1;
-    } else {
-        zone_number++;
     }
 }

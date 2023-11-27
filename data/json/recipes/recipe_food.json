@@ -727,12 +727,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 20 ],
+        [ "seed_sunflower", 20 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 20 ]
       ]
     ]
   },
@@ -768,12 +768,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 20 ],
+        [ "seed_sunflower", 20 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 20 ]
       ]
     ]
   },
@@ -887,6 +887,34 @@
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_veggy", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_chili",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_chili", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_garlic",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_garlic", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2210,6 +2238,36 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "lotus_rhizome_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "lotus_rhizome", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "seed_lotus_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "carrot_roasted",
     "category": "CC_FOOD",
@@ -2269,7 +2327,6 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_seeds",
-    "charges": 5,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -2278,27 +2335,8 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 12, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "//": "32g x5 total, oil is 15g while seeds are combined 140-150g",
-    "components": [ [ [ "seed_weed", 1 ], [ "seed_sunflower", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "fried_seeds",
-    "id_suffix": "pumpkin",
-    "charges": 4,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_SNACK",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "8 m",
-    "autolearn": true,
-    "batch_time_factors": [ 80, 1 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "//": "32g x4 total, oil is 15g while seeds are combined 120g",
-    "components": [ [ [ "seed_pumpkin", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_weed", 1 ], [ "seed_sunflower", 1 ], [ "seed_pumpkin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4487,6 +4525,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "pepper", 1 ]
@@ -4526,6 +4565,7 @@
         [ "seasoning_salt", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "pepper", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
@@ -5034,6 +5074,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "onion", 1 ],
         [ "veggy_potatolike", 1, "LIST" ]
@@ -5123,6 +5164,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5156,6 +5198,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5167,6 +5210,69 @@
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ]
     ],
     "charges": 2
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "omelet",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "7 m",
+    "autolearn": true,
+    "charges": 2,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "vegetable_omelet",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "charges": 2,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "veggy_any", 2, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "supreme_omelet",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "9 m",
+    "autolearn": true,
+    "charges": 2,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "veggy_any", 2, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -5579,6 +5685,7 @@
         [ "mustard_powder", 20 ],
         [ "garlic_powder", 20 ],
         [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 6 ],
         [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
@@ -5605,7 +5712,7 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [
       [ [ "salt", 10 ] ],
-      [ [ "garlic_clove", 3 ], [ "garlic_powder", 20 ] ],
+      [ [ "garlic_clove", 3 ], [ "rehydrated_garlic", 3 ], [ "garlic_powder", 20 ] ],
       [ [ "thyme", 1 ] ],
       [ [ "wild_herbs", 100 ] ]
     ],
@@ -5831,7 +5938,7 @@
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ]
     ]
   },
   {
@@ -6527,7 +6634,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "meat: 4u, cheese: 1u.  Other ingredients don't need to be cooked.",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [
@@ -6572,7 +6679,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "meat: 4u, cheese: 1u, onion: 1u-2u.  could cook it with the meat to save power.  Other ingredients don't need to be cooked.",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "pickle", 1 ], [ "veggy_pickled", 1 ], [ "sauerkraut", 1 ] ],
@@ -6752,7 +6859,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [
@@ -6835,7 +6942,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [
@@ -6975,7 +7082,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "power usage mostly for the meat, though this arguably doesn't even need power since meat is pre cooked",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -7019,7 +7126,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "power usage mostly for the meat, though this arguably doesn't even need power since meat is pre cooked",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -7961,6 +8068,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 2 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
@@ -7990,6 +8098,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -7999,6 +8108,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -9279,7 +9389,7 @@
         [ "oats", 1 ],
         [ "buckwheat", 1 ],
         [ "wheat", 1 ],
-        [ "veggy_potatolike", 5, "LIST" ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "barley", 1 ],
         [ "can_corn", 1 ],
         [ "raw_beans", 1 ],
@@ -9289,13 +9399,87 @@
         [ "corn", 1 ],
         [ "seed_canola", 1 ],
         [ "corn_kernels", 1 ],
-        [ "soybean", 1 ],
-        [ "dry_soybean", 1 ],
-        [ "raw_edamame", 1 ],
-        [ "straw_pile", 20 ],
-        [ "chaff", 50 ],
-        [ "veggy_green", 5, "LIST" ],
+        [ "soybean", 2 ],
+        [ "dry_soybean", 2 ],
+        [ "raw_edamame", 2 ],
+        [ "straw_pile", 12 ],
+        [ "chaff", 17 ],
+        [ "veggy_green", 2, "LIST" ],
         [ "press_cake", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "cattlefodder_medium",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "cattlefodder", 7 ],
+        [ "oats", 4 ],
+        [ "buckwheat", 4 ],
+        [ "wheat", 4 ],
+        [ "veggy_potatolike", 7, "LIST" ],
+        [ "barley", 4 ],
+        [ "can_corn", 7 ],
+        [ "raw_beans", 7 ],
+        [ "dry_beans", 7 ],
+        [ "dry_lentils", 7 ],
+        [ "dry_corn", 7 ],
+        [ "corn", 7 ],
+        [ "seed_canola", 4 ],
+        [ "corn_kernels", 4 ],
+        [ "soybean", 14 ],
+        [ "dry_soybean", 14 ],
+        [ "raw_edamame", 14 ],
+        [ "straw_pile", 80 ],
+        [ "chaff", 120 ],
+        [ "veggy_green", 6, "LIST" ],
+        [ "press_cake", 7 ]
+      ]
+    ]
+  },
+  {
+    "result": "cattlefodder_large",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "cattlefodder", 36 ],
+        [ "oats", 18 ],
+        [ "buckwheat", 10 ],
+        [ "wheat", 9 ],
+        [ "veggy_potatolike", 30, "LIST" ],
+        [ "barley", 9 ],
+        [ "can_corn", 18 ],
+        [ "raw_beans", 30 ],
+        [ "dry_beans", 30 ],
+        [ "dry_lentils", 26 ],
+        [ "dry_corn", 46 ],
+        [ "corn", 46 ],
+        [ "seed_canola", 26 ],
+        [ "corn_kernels", 46 ],
+        [ "soybean", 107 ],
+        [ "dry_soybean", 107 ],
+        [ "raw_edamame", 107 ],
+        [ "straw_pile", 400 ],
+        [ "chaff", 600 ],
+        [ "veggy_green", 150, "LIST" ],
+        [ "press_cake", 30 ]
       ]
     ]
   },
@@ -9350,6 +9534,7 @@
         [ "seed_thyme", 3 ],
         [ "seed_canola", 1 ],
         [ "seed_watermelon", 3 ],
+        [ "seed_wintergreen", 3 ],
         [ "seed_pumpkin", 3 ],
         [ "seed_sunflower", 3 ],
         [ "seed_dogbane", 3 ],
@@ -9805,7 +9990,16 @@
     "//": "4u for meat (precooked), 3u for tortiilas, 4u for beans/rice, 1u for sauce",
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
+      [
+        [ "meat_cooked", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "scrambled_eggs", 2 ],
+        [ "boiled_egg", 2 ],
+        [ "fried_eggs", 1 ],
+        [ "omelet", 1 ]
+      ],
       [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
@@ -9834,7 +10028,15 @@
         [ "irradiated_onion", 1 ],
         [ "salsa", 1 ]
       ],
-      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "garlic_powder", 20 ], [ "chili_pepper", 2 ] ]
+      [
+        [ "pepper", 20 ],
+        [ "chilly-p", 20 ],
+        [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "garlic_powder", 20 ],
+        [ "chili_pepper", 2 ],
+        [ "rehydrated_chili", 2 ]
+      ]
     ]
   },
   {
@@ -10363,6 +10565,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "tomato", 1 ]
@@ -10387,7 +10590,14 @@
     "//": "90g of snail meat.  treating it like scrap of meat, that's 6u + 1u for butter and aromatics",
     "components": [
       [ [ "gastropod_purged", 6 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "garlic_powder", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ]
+      ],
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],

@@ -1245,7 +1245,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
-                        get_player_character().getID(), mon_zombie_bio_op );
+                        get_player_character().getID(), mon_zombie_bio_op, 0 );
     get_event_bus().send( e );
     player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
     player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait

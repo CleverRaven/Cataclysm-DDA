@@ -1,6 +1,17 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_psi_intense_concentration",
+    "name": [ "Intense Concentration" ],
+    "desc": [ "It's taking a lot of concentration to maintain your powers." ],
+    "apply_message": "",
+    "remove_message": "",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 }, { "limb_score": "reaction", "modifier": 0.97 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_physical",
     "name": [ "Enhanced Prowess" ],
     "desc": [ "You are enhancing your physical prowess." ],
@@ -406,7 +417,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -424,7 +435,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -442,7 +453,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -460,7 +471,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -478,7 +489,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -496,7 +507,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -514,7 +525,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -532,7 +543,7 @@
       [ "Darkness begins to creep across your vision.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": " 7 days",
+    "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -584,6 +595,7 @@
     "apply_message": "",
     "rating": "bad",
     "max_duration": "1 minutes",
+    "show_in_info": true,
     "enchantments": [
       {
         "values": [
@@ -767,6 +779,143 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_see_electricity",
+    "name": [ "Spark Sight" ],
+    "desc": [ "Your powers reveal electrical creatures and robots to you." ],
+    "apply_message": "",
+    "remove_message": "You can no longer sense the flow of current.",
+    "decay_messages": [ [ "You can only see an occasional flicker of charge.", "bad" ], [ "Your electrical senses are fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "45 minutes",
+    "max_intensity": 83,
+    "dur_add_perc": 10,
+    "int_dur_factor": "32 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_ELECTRIC",
+            "add": {
+              "math": [
+                "( ( u_val('spell_level', 'spell: electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_zap_enemies",
+    "name": [ "Electrical Discharge" ],
+    "desc": [ "Your body is filled with electrical currents." ],
+    "apply_message": "",
+    "remove_message": "The tingling on your skin fades.",
+    "decay_messages": [ [ "The protective electrical currents are nearly gone.", "bad" ], [ "Your skin is losing its charge.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "20 minutes",
+    "max_intensity": 49,
+    "dur_add_perc": 10,
+    "int_dur_factor": "25 s",
+    "enchantments": [ "enchant_electrokin_zap_enemies" ],
+    "flags": [ "EMP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_melee_attacks",
+    "name": [ "Voltaic Strikes" ],
+    "desc": [ "Your melee attacks unleash electrical blasts." ],
+    "apply_message": "",
+    "remove_message": "Your hands no longer spark with electricity.",
+    "decay_messages": [ [ "The charge in your hands is nearly gone.", "bad" ], [ "The current in your hands is fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "20 minutes",
+    "max_intensity": 73,
+    "dur_add_perc": 10,
+    "int_dur_factor": "17 s",
+    "enchantments": [ "enchant_electrokin_electric_strikes" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_personal_battery",
+    "name": [ "Electron Overflow" ],
+    "desc": [ "You are generating a wireless aura of electrical power." ],
+    "apply_message": "",
+    "remove_message": "You stop the flow of electricity to your devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_speed_boost",
+    "name": [ "Neuro-Accelerated" ],
+    "desc": [ "You are enhancing your nervous system." ],
+    "apply_message": "",
+    "remove_message": "Your reactions return to baseline.",
+    "decay_messages": [
+      [ "Your enhanced reactions are nearly gone.", "bad" ],
+      [ "Your reaction times are gradually becoming slower.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 61,
+    "dur_add_perc": 10,
+    "int_dur_factor": "29 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LEARNING_FOCUS",
+            "add": {
+              "math": [
+                "min( ( 5 + u_val('spell_level', 'spell: electrokinetic_speed_boost') ) * ( ( u_val('intelligence') + 10) / 20 ), 35 )"
+              ]
+            }
+          },
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "min( ( 10 + ( ( u_val('spell_level', 'spell: electrokinetic_speed_boost') ) * 1.5) ) * ( ( u_val('intelligence') + 10) / 20 ), 60 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_lightning_aura",
+    "name": [ "Galvanic Aura" ],
+    "desc": [ "Anyone nearby risks being blasted by lightning." ],
+    "apply_message": "",
+    "remove_message": "The thrum in the air around you dissipates.",
+    "decay_messages": [
+      [ "The crackling aura around you is fading quickly.", "bad" ],
+      [ "The lightning blasts are growing less powerful.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 36,
+    "dur_add_perc": 10,
+    "int_dur_factor": "17 s",
+    "enchantments": [ "enchant_electrokin_lightning_aura" ],
+    "flags": [ "EMP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_light_local",
+    "name": [ "Candle's Light" ],
+    "desc": [ "The air above your hand glows faintly." ],
+    "apply_message": "A faint light springs up over your hand.",
+    "remove_message": "The glow above your hand fades.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_dodge",
     "name": [ "Trick of the Light" ],
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
@@ -799,12 +948,23 @@
   {
     "type": "effect_type",
     "id": "effect_photokin_light_barrier",
-    "name": [ "Light Barrier" ],
+    "name": [ "Lucent Barrier" ],
     "desc": [ "You are protected from extremes of light and radiation." ],
     "apply_message": "",
     "remove_message": "The surrounding air shimmers once more as your light barrier fades.",
     "rating": "good",
-    "flags": [ "PHOTOKIN_CHAR_IMMUNE", "NO_RADIATION", "GLARE_RESIST" ]
+    "flags": [ "PHOTOKIN_CHAR_IMMUNE", "NO_RADIATION", "GLARE_RESIST" ],
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_radio",
+    "name": [ "Radio Transception" ],
+    "desc": [ "You can interpret and transmit radio waves." ],
+    "apply_message": "",
+    "remove_message": "You stop paying attention to the radio waves around you.",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -825,9 +985,13 @@
     "id": "effect_photokin_arms",
     "name": [ "refraction of arms" ],
     "desc": [ "Your arms refract light to create the illusion of having multiple arms and their wielded items." ],
-    "apply_message": "Light around your arms shimmers and refracts, creating the illusion of multiple arms.",
+    "apply_message": "",
+    "decay_messages": [
+      [ "Your illusionary arms are obviously translucent.", "bad" ],
+      [ "Your illusionary arms are losing some of their solid appearance.", "bad" ]
+    ],
     "remove_message": "The light around your arms returns to normal.",
-    "rating": "neutral",
+    "rating": "good",
     "show_in_info": true,
     "base_mods": { "hit_mod": [ 4 ] },
     "max_duration": "45 m",
@@ -847,6 +1011,22 @@
     "immune_flags": [ "PHOTOKINETIC" ],
     "flags": [ "BLIND" ],
     "max_duration": "3 d"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_blinding_glare",
+    "name": [ "Blinding Radiance" ],
+    "desc": [ "You are glowing like the sun." ],
+    "apply_message": "",
+    "remove_message": "The last light finally dies.",
+    "decay_messages": [ [ "The light you are emitting is dimming rapidly.", "bad" ], [ "The intense glow has started to flicker.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 10,
+    "int_dur_factor": "20 s",
+    "base_mods": { "dodge_mod": [ 4 ] },
+    "enchantments": [ "enchant_photokin_blinding_glare" ]
   },
   {
     "type": "effect_type",
@@ -1195,8 +1375,8 @@
   {
     "type": "effect_type",
     "id": "effect_telepathic_psi_armor",
-    "name": [ "Psychic Shield" ],
-    "desc": [ "Your mind is warded against psychic attack." ],
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "Your mind is warded against telepathic attack or detection." ],
     "apply_message": "",
     "remove_message": "Your thoughts are once again unguarded.",
     "decay_messages": [

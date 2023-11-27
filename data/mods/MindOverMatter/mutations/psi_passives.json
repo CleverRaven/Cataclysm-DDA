@@ -11,8 +11,8 @@
     "cancels": [
       "BIOKIN_NEEDS",
       "CLAIR_SENSES",
-      "PYROGLOW_WEAK",
-      "PYROGLOW_STRONG",
+      "PHOTO_EYES",
+      "PYROKIN_ADAPTATION",
       "TELEKINETIC_CARRY",
       "TELEPATHIC_SUGGESTION",
       "TELEPORTER_PROTECT",
@@ -64,71 +64,53 @@
   },
   {
     "type": "mutation",
+    "id": "ELECTRO_SHIELD",
+    "name": { "str": "Galvanic Armor" },
+    "points": 0,
+    "description": "Your powers help protect you from electrical damage and slightly reduce the intensity of pain you feel.",
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'school: ELECTROKINETIC') / -4" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "u_val('spell_level', 'school: ELECTROKINETIC') * -0.007" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "PHOTO_EYES",
     "name": { "str": "Photon Regulation" },
     "points": 0,
-    "description": "Your powers adapt the amount of photons your eyes receive.",
+    "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
     "player_display": true,
     "purifiable": false
   },
   {
     "type": "mutation",
-    "id": "PYROGLOW_WEAK",
-    "name": { "str": "Pyrokinetic Radiance [soft]" },
+    "id": "PYROKIN_ADAPTATION",
+    "name": { "str": "Internal Fire" },
     "points": 0,
-    "description": "You can make the air around you emit light.",
-    "active": true,
+    "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
+    "bodytemp_modifiers": [ 250, 750 ],
+    "bodytemp_sleep": 500,
+    "wet_protection": [
+      { "part": "head", "ignored": 10 },
+      { "part": "leg_l", "ignored": 10 },
+      { "part": "leg_r", "ignored": 10 },
+      { "part": "foot_l", "ignored": 10 },
+      { "part": "foot_r", "ignored": 10 },
+      { "part": "arm_l", "ignored": 10 },
+      { "part": "arm_r", "ignored": 10 },
+      { "part": "hand_l", "ignored": 10 },
+      { "part": "hand_r", "ignored": 10 },
+      { "part": "torso", "ignored": 10 }
+    ],
     "player_display": true,
-    "purifiable": false,
-    "cost": 0,
-    "transform": {
-      "target": "PYROGLOW_WEAK_A",
-      "msg_transform": "The air around you starts glowing softly.",
-      "active": true,
-      "moves": 10
-    }
-  },
-  {
-    "type": "mutation",
-    "id": "PYROGLOW_WEAK_A",
-    "name": { "str": "Pyrokinetic Radiance [soft] (on)" },
-    "description": "The air around you is emitting light.",
-    "copy-from": "PYROGLOW_WEAK",
-    "valid": false,
-    "transform": { "target": "PYROGLOW_WEAK", "msg_transform": "The air around you loses its radiance.", "active": false, "moves": 10 },
-    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 20 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "PYROGLOW_STRONG",
-    "name": { "str": "Pyrokinetic Radiance [bright]" },
-    "points": 0,
-    "description": "You can make the air around you emit a strong light.",
-    "active": true,
-    "player_display": true,
-    "purifiable": false,
-    "cost": 0,
-    "transform": {
-      "target": "PYROGLOW_STRONG_A",
-      "msg_transform": "The air around you starts glowing brightly.",
-      "active": true,
-      "moves": 10
-    }
-  },
-  {
-    "type": "mutation",
-    "id": "PYROGLOW_STRONG_A",
-    "name": { "str": "Pyrokinetic Radiance [bright] (on)" },
-    "description": "The air around you is emitting a bright light.",
-    "copy-from": "PYROGLOW_STRONG",
-    "valid": false,
-    "transform": { "target": "PYROGLOW_STRONG", "msg_transform": "The air around you loses its radiance.", "active": false, "moves": 10 },
-    "enchantments": [
-      {
-        "values": [ { "value": "LUMINATION", "add": { "math": [ "(50 + (20 * u_val('spell_level', 'school: PYROKINETIC')))" ] } } ]
-      }
-    ]
+    "purifiable": false
   },
   {
     "type": "mutation",

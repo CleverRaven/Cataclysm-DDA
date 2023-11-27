@@ -2,10 +2,8 @@
 
 #include <functional>
 #include <string>
-#include <type_traits>
 #include <vector>
 
-#include "cata_utility.h"
 #include "condition.h"
 #include "dialogue.h"
 #include "field.h"
@@ -30,125 +28,7 @@ bool is_beta( char scope )
     }
 }
 
-template<typename T>
-constexpr std::string_view _str_type_of( T /* t */ )
-{
-    if constexpr( std::is_same_v<T, double> ) {
-        return "double";
-    } else if constexpr( std::is_same_v<T, std::string> ) {
-        return "string";
-    } else if constexpr( std::is_same_v<T, var_info> ) {
-        return "variable";
-    } else if constexpr( std::is_same_v<T, math_exp> ) {
-        return "sub-expression";
-    }
-    return "cookies";
-}
-
 } // namespace
-
-double diag_value::dbl() const
-{
-    return std::visit( overloaded{
-        []( double v )
-        {
-            return v;
-        },
-        []( auto const & v ) -> double
-        {
-            throw std::invalid_argument( string_format( "Expected number, got %s", _str_type_of( v ) ) );
-        },
-    },
-    data );
-}
-
-double diag_value::dbl( dialogue const &d ) const
-{
-    return std::visit( overloaded{
-        []( double v )
-        {
-            return v;
-        },
-        []( std::string const & v )
-        {
-            if( std::optional<double> ret = svtod( v ); ret ) {
-                return *ret;
-            }
-            debugmsg( R"(Could not convert string "%s" to double)", v );
-            return 0.0;
-        },
-        [&d]( var_info const & v )
-        {
-            std::string const val = read_var_value( v, d );
-            if( std::optional<double> ret = svtod( val ); ret ) {
-                return *ret;
-            }
-            debugmsg( R"(Could not convert variable "%s" with value "%s" to double)", v.name, val );
-            return 0.0;
-        },
-        [&d]( math_exp const & v )
-        {
-            // FIXME: maybe re-constify eval paths?
-            return v.eval( const_cast<dialogue &>( d ) );
-        }
-    },
-    data );
-}
-
-std::string_view diag_value::str() const
-{
-    return std::visit( overloaded{
-        []( std::string const & v ) -> std::string const &
-        {
-            return v;
-        },
-        []( auto const & v ) -> std::string const &
-        {
-            throw std::invalid_argument( string_format( "Expected string, got %s", _str_type_of( v ) ) );
-        },
-    },
-    data );
-}
-
-std::string diag_value::str( dialogue const &d ) const
-{
-    return std::visit( overloaded{
-        []( double v )
-        {
-            // NOLINTNEXTLINE(cata-translate-string-literal)
-            return string_format( "%g", v );
-        },
-        []( std::string const & v )
-        {
-            return v;
-        },
-        [&d]( var_info const & v )
-        {
-            return read_var_value( v, d );
-        },
-        [&d]( math_exp const & v )
-        {
-            // NOLINTNEXTLINE(cata-translate-string-literal)
-            return string_format( "%g", v.eval( const_cast<dialogue &>( d ) ) );
-        }
-    },
-    data );
-}
-
-var_info diag_value::var() const
-{
-    return std::visit( overloaded{
-        []( var_info const & v )
-        {
-            return v;
-        },
-        []( auto const & v ) -> var_info
-        {
-            throw std::invalid_argument( string_format( "Expected variable, got %s", _str_type_of( v ) ) );
-        },
-    },
-    data );
-}
 
 std::function<double( dialogue & )> u_val( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
@@ -235,6 +115,22 @@ std::function<double( dialogue & )> coverage_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> distance_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[params, beta = is_beta( scope )]( dialogue const & d ) {
+        const auto get_pos = [&d]( std::string_view str ) {
+            if( str == "u" ) {
+                return d.actor( false )->global_pos();
+            } else if( str == "npc" ) {
+                return d.actor( true )->global_pos();
+            }
+            return tripoint_abs_ms( tripoint::from_string( str.data() ) );
+        };
+        return rl_dist( get_pos( params[0].str( d ) ), get_pos( params[1].str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -284,16 +180,20 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> has_trait_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
+        return d.actor( beta )->has_trait( trait_id( tid.str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> hp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value bp_val( std::string{} );
-    if( !params.empty() ) {
-        bp_val = params[0];
-    }
-    return[bp_val, beta = is_beta( scope )]( dialogue const & d ) {
+    return[bp_val = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         std::string const bp_str = bp_val.str( d );
-        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
+        bodypart_id const bp = bp_str == "ALL" ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         return d.actor( beta )->get_cur_hp( bp );
     };
 }
@@ -301,13 +201,9 @@ std::function<double( dialogue & )> hp_eval( char scope,
 std::function<void( dialogue &, double )> hp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value bp_val( std::string{} );
-    if( !params.empty() ) {
-        bp_val = params[0];
-    }
-    return [bp_val, beta = is_beta( scope )]( dialogue const & d, double val ) {
+    return [bp_val = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
         std::string const bp_str = bp_val.str( d );
-        if( bp_str.empty() ) {
+        if( bp_str == "ALL" ) {
             d.actor( beta )->set_all_parts_hp_cur( val );
         } else {
             d.actor( beta )->set_part_hp_cur( bodypart_id( bp_str ), val );
@@ -447,8 +343,7 @@ std::function<double( dialogue & )> school_level_adjustment_eval( char scope,
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
             const trait_id school( school_value.str( d ) );
-            std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
-                        school );
+            auto it = ch->magic->caster_level_adjustment_by_school.find( school );
             if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
                 return it->second;
             } else {
@@ -466,8 +361,7 @@ std::function<void( dialogue &, double )> school_level_adjustment_ass( char scop
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
             const trait_id school( school_value.str( d ) );
-            std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
-                        school );
+            auto it = ch->magic->caster_level_adjustment_by_school.find( school );
             if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
                 it->second = val;
             } else {
@@ -495,21 +389,18 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
 }
 
 std::function<double( dialogue & )> skill_exp_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value format_value( std::string( "percentage" ) );
-    if( params.empty() ) {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "skill_exp" ) );
-    } else if( params.size() > 1 ) {
-        format_value = params[1];
+    if( kwargs.count( "format" ) != 0 ) {
+        format_value = *kwargs.at( "format" );
     }
 
     return[skill_value = params[0], format_value, beta = is_beta( scope )]( dialogue const & d ) {
         skill_id skill( skill_value.str( d ) );
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percentage" ) {
-            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+            debugmsg( R"(Unknown format type "%s" for skill_exp, assumning "percentage")", format );
         }
         bool raw = format == "raw";
         return d.actor( beta )->get_skill_exp( skill, raw );
@@ -517,14 +408,11 @@ std::function<double( dialogue & )> skill_exp_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> skill_exp_ass( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value format_value( std::string( "percentage" ) );
-    if( params.empty() ) {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "skill_exp" ) );
-    } else if( params.size() > 1 ) {
-        format_value = params[1];
+    if( kwargs.count( "format" ) != 0 ) {
+        format_value = *kwargs.at( "format" );
     }
 
     return [skill_value = params[0], format_value, beta = is_beta( scope ) ]( dialogue const & d,
@@ -532,7 +420,7 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
         skill_id skill( skill_value.str( d ) );
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percentage" ) {
-            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+            debugmsg( R"(Unknown format type "%s" for skill_exp, assumning "percentage")", format );
         }
         bool raw = format == "raw";
         return d.actor( beta )->set_skill_exp( skill, val, raw );
@@ -642,20 +530,15 @@ std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope
 std::function<double( dialogue & )> proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    std::string format = "time_spent";
-    if( kwargs.count( "format" ) ) {
-        format = kwargs.at( "format" )->str();
+    diag_value fmt_val( std::string{"time_spent"} );
+    if( kwargs.count( "format" ) != 0 ) {
+        fmt_val = *kwargs.at( "format" );
     }
-    if( format != "time_spent" && format != "percent" && format != "permille" &&
-        format != "total_time_required" && format != "time_left" ) {
-        throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
-    }
-    return [beta = is_beta( scope ), prof_value = params[0], format]( dialogue const & d ) {
+    return [beta = is_beta( scope ), prof_value = params[0], fmt_val]( dialogue const & d ) {
         proficiency_id prof( prof_value.str( d ) );
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
-        if( format == "time_spent" ) {
-            return to_turns<int>( raw );
-        } else if( format == "percent" ) {
+        std::string const format = fmt_val.str( d );
+        if( format == "percent" ) {
             return static_cast<int>( raw * 100  / prof->time_to_learn() );
         } else if( format == "permille" ) {
             return static_cast<int>( raw * 1000  / prof->time_to_learn() );
@@ -663,6 +546,11 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
             return to_turns<int>( prof->time_to_learn() );
         } else if( format == "time_left" ) {
             return to_turns<int>( prof->time_to_learn() - raw );
+        } else {
+            if( format != "time_spent" ) {
+                debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
+            }
+            return to_turns<int>( raw );
         }
         return 0;
     };
@@ -671,34 +559,57 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
 std::function<void( dialogue &, double )> proficiency_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    std::string format = "time_spent";
-    if( kwargs.count( "format" ) ) {
-        format = kwargs.at( "format" )->str();
+    diag_value fmt_val( std::string{"time_spent"} );
+    if( kwargs.count( "format" ) != 0 ) {
+        fmt_val = *kwargs.at( "format" );
     }
-    if( format != "time_spent" && format != "percent" && format != "permille" &&
-        format != "total_time_required" && format != "time_left" ) {
-        throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
-    }
-    return [prof_value = params[0], format, beta = is_beta( scope )]( dialogue const & d,
+    return [prof_value = params[0], fmt_val, beta = is_beta( scope )]( dialogue const & d,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
+        std::string const format = fmt_val.str( d );
         int to_write = 0;
-        if( format == "time_spent" ) {
-            to_write = val;
-        } else if( format == "percent" ) {
+        if( format == "percent" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 100;
         } else if( format == "permille" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 1000;
         } else if( format == "time_left" ) {
             to_write = to_turns<int>( prof->time_to_learn() ) - val;
+        } else {
+            if( format != "time_spent" ) {
+                debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
+            }
+            to_write = val;
         }
         d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
         return 0;
     };
 }
 
-std::function<double( dialogue & )> test_diag( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+namespace
+{
+double _test_add( diag_value const &v, dialogue const &d )
+{
+    double ret{};
+    if( v.is_array() ) {
+        for( diag_value const &w : v.array() ) {
+            ret += _test_add( w, d );
+        }
+    } else {
+        ret += v.dbl( d );
+    }
+    return ret;
+}
+double _test_len( diag_value const &v, dialogue const &d )
+{
+    double ret{};
+    for( diag_value const &w : v.array( d ) ) {
+        ret += w.str( d ).length();
+    }
+    return ret;
+}
+std::function<double( dialogue & )> _test_func( std::vector<diag_value> const &params,
+        diag_kwargs const &kwargs,
+        double ( *f )( diag_value const &v, dialogue const &d ) )
 {
     std::vector<diag_value> all_params( params );
     for( diag_kwargs::value_type const &v : kwargs ) {
@@ -706,13 +617,26 @@ std::function<double( dialogue & )> test_diag( char /* scope */,
             all_params.emplace_back( *v.second );
         }
     }
-    return [all_params]( dialogue const & d ) {
+    return [all_params, f]( dialogue const & d ) {
         double ret = 0;
         for( diag_value const &v : all_params ) {
-            ret += v.dbl( d );
+            ret += f( v, d );
         }
         return ret;
     };
+}
+} // namespace
+
+std::function<double( dialogue & )> test_diag( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _test_func( params, kwargs, _test_add );
+}
+
+std::function<double( dialogue & )> test_str_len( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _test_func( params, kwargs, _test_len );
 }
 
 std::function<double( dialogue & )> vitamin_eval( char scope,

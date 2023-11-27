@@ -3,12 +3,16 @@
     "type": "effect_on_condition",
     "id": "EOC_selector_test",
     "effect": [
+      { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" } },
+      { "set_string_var": "name_3", "target_var": { "context_val": "name" } },
+      { "set_string_var": "option 3", "target_var": { "context_val": "description" } },
       {
         "run_eoc_selector": [ "EOC_selector_test_1", "EOC_selector_test_2", "EOC_selector_test_3", "EOC_selector_test_4" ],
-        "names": [ "name_1", "name_2", "name_3", "should_fail" ],
+        "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
-        "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
+        "descriptions": [ "option 1", "option 2", "<context_val:description>", "should not be available" ],
         "variables": [ { "val": "8" } ],
+        "title": "<context_val:title>",
         "allow_cancel": true
       }
     ]
@@ -141,6 +145,13 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_has_any_test",
+    "condition": { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" },
+    "effect": [ { "u_message": "You are hot or cold." } ],
+    "false_effect": [ { "u_message": "You are not hot or cold." } ]
   },
   {
     "type": "effect_on_condition",
@@ -350,6 +361,94 @@
       {
         "if": { "u_query_tile": "around", "target_var": { "context_val": "pos" }, "message": "Choose direction" },
         "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_player_see_test",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_player_see_test_nest",
+            "condition": "player_see_u",
+            "effect": { "message": "You can see <u_name>." },
+            "false_effect": { "message": "You cant see <u_name>." }
+          }
+        ],
+        "local": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_can_see_location_test",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+        "then": [
+          {
+            "if": { "u_can_see_location": { "context_val": "pos" } },
+            "then": { "u_message": "You can see <context_val:pos>." },
+            "else": { "u_message": "You cant see <context_val:pos>." }
+          },
+          {
+            "u_run_npc_eocs": [
+              {
+                "id": "EOC_can_see_location_test_nest",
+                "condition": { "u_can_see_location": { "context_val": "pos" } },
+                "effect": { "message": "<u_name> can see <context_val:pos>." },
+                "false_effect": { "message": "<u_name> cant see <context_val:pos>." }
+              }
+            ],
+            "local": true
+          }
+        ],
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_teleport_test_setloc", "EOC_teleport_test_do", "EOC_teleport_test_other" ],
+        "names": [ "Set location", "Teleport", "Teleport other" ],
+        "keys": [ "a", "b", "c" ],
+        "descriptions": [ "Set location", "Teleport", "Teleport other" ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_setloc",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "teleport_test_pos" }, "message": "Select point" },
+        "then": { "u_message": "<global_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_do",
+    "effect": [ { "u_teleport": { "global_val": "teleport_test_pos" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_other",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+        "then": {
+          "run_eoc_with": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
+          "beta_loc": { "context_val": "loc" }
+        },
         "else": { "u_message": "Canceled" }
       }
     ]

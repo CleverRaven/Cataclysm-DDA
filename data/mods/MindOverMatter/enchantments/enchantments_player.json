@@ -28,6 +28,138 @@
   },
   {
     "type": "enchantment",
+    "id": "enchant_electrokin_zap_enemies",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "electrokin_zap_attacked", "hit_self": false, "once_in": 2 } ]
+  },
+  {
+    "id": "electrokin_zap_attacked",
+    "type": "SPELL",
+    "name": "Electrokinetic aura thorns",
+    "description": "Do electrical damage to a monster that attacked you.  If you have this directly its a bug.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinesis_zap_enemies') / 4 ) + 1) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinesis_zap_enemies') / 2 ) + 5) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_electrokin_electric_strikes",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 3 } ],
+    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'spell: electrokinetic_melee_attacks') * -1" ] } } ]
+  },
+  {
+    "id": "electrokin_zap_attack",
+    "type": "SPELL",
+    "name": "Electrokinetic melee attacks",
+    "description": "Do electrical damage to a monster you attack.  If you have this directly its a bug.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinesis_melee_thorns') / 3 ) + 3) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinesis_melee_thorns') / 1.5 ) + 10) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "min_aoe": 0,
+    "max_aoe": 1,
+    "field_id": "fd_electricity",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_intensity_variance": 10
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_electrokin_lightning_aura",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "electrokinetic_lightning_aura_attack" } ] } ] },
+    "values": [
+      { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_aura') * -1" ] } }
+    ]
+  },
+  {
+    "id": "electrokinetic_lightning_aura_attack",
+    "type": "SPELL",
+    "name": "[Ψ]Galvanic Aura Sparks",
+    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "LOUD", "NO_EXPLOSION_SFX", "NO_HANDS", "NO_LEGS" ],
+    "effect": "emit",
+    "effect_str": "emit_shock_cloud_big",
+    "shape": "blast",
+    "damage_type": "electric",
+    "max_level": { "math": [ "int_to_level(1)" ] }
+  },
+  {
+    "id": "electrokinetic_lightning_aura_attack_placeholder",
+    "//": "This one doesn't work currently.  Preserved here until it's fixed.",
+    "type": "SPELL",
+    "name": "[Ψ]Galvanic Aura Bolt",
+    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_CRITTER", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "line",
+    "damage_type": "electric",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 1) + 5) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 1.5) + 20) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 0.33) + 2) * (scaling_factor(u_val('intelligence') ) ), 10)"
+      ]
+    },
+    "max_range": 10,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_chance": 1
+  },
+  {
+    "type": "enchantment",
     "id": "enchant_pyrokin_cloak",
     "condition": "ALWAYS",
     "has": "HELD",
@@ -59,6 +191,40 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "intermittent_activation": { "effects": [ { "frequency": "10 seconds", "spell_effects": [ { "id": "clair_sense_rads_outside_spawn_item" } ] } ] }
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_blinding_glare",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_you_effect": [ { "id": "photokin_blinding_glare_attack", "hit_self": false, "once_in": 3 } ],
+    "hit_me_effect": [ { "id": "photokin_blinding_glare_attack", "hit_self": false, "once_in": 3 } ],
+    "values": [ { "value": "LUMINATION", "add": 10001 } ]
+  },
+  {
+    "id": "photokin_blinding_glare_attack",
+    "type": "SPELL",
+    "name": "Photokinetic Blinding Radiance burst",
+    "description": "Blind nearby targets.",
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "blind",
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
+    },
+    "max_aoe": 40,
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
+    },
+    "min_duration": 500,
+    "max_duration": 2000
   },
   {
     "type": "enchantment",

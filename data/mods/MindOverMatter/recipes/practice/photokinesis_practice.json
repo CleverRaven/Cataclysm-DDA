@@ -10,28 +10,135 @@
     "description": "Recipes related to practicing photokinesis.",
     "skill_used": "metaphysics",
     "nested_category_data": [
+      "practice_photokinetic_light_local",
+      "practice_photokinetic_create_light",
       "practice_photokinetic_snuff_light",
       "practice_photokinetic_light_dodge",
-      "practice_photokinetic_invisibility",
       "practice_photokinetic_light_beam",
-      "practice_photokinetic_light_image",
+      "practice_photokinetic_camouflage",
       "practice_photokinetic_rad_immunity",
       "practice_photokinetic_light_arms",
-      "practice_photokinetic_light_disintegrate",
-      "practice_photokinetic_light_flash"
+      "practice_photokinetic_light_image",
+      "practice_photokinetic_radio",
+      "practice_photokinetic_invisibility",
+      "practice_photokinetic_light_flash",
+      "practice_photokinetic_light_blinding_glare",
+      "practice_photokinetic_light_disintegrate"
     ],
     "difficulty": 1
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: snuff light",
+    "name": "contemplation: candle's glow",
+    "id": "practice_photokinetic_light_local",
+    "description": "Contemplate your powers and improve your ability to create a small amount of light.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_LOCAL",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_light_local')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_local')", "<=", "(difficulty_one_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_local')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_LOCAL_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_local')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: field of light",
+    "id": "practice_photokinetic_create_light",
+    "description": "Contemplate your powers and improve your ability to create light at a distance.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_CREATE_LIGHT",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_create_light')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_create_light')", "<=", "(difficulty_two_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: photokinetic_create_light')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PHOTOKIN_CREATE_LIGHT_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_create_light')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: blackout",
     "id": "practice_photokinetic_snuff_light",
     "description": "Contemplate your powers and improve your ability to snuff the light of an area.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 0,
+    "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
@@ -43,7 +150,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: photokinetic_snuff_light')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_snuff_light')", "<=", "(difficulty_one_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_snuff_light')", "<=", "(difficulty_two_contemplation(1))" ]
             }
           ]
         },
@@ -51,6 +158,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_snuff_light')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -101,6 +209,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_dodge')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -131,7 +240,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
@@ -143,7 +252,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: photokinetic_light_beam')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_beam')", "<=", "(difficulty_two_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_beam')", "<=", "(difficulty_three_contemplation(1))" ]
             }
           ]
         },
@@ -151,6 +260,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_beam')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -175,9 +285,9 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: lucid shadows",
-    "id": "practice_photokinetic_light_image",
-    "description": "Contemplate your powers and improve your ability to create light clones.",
+    "name": "contemplation: chameleoflage",
+    "id": "practice_photokinetic_camouflage",
+    "description": "Contemplate your powers and improve your ability to hide your presence from distance observers.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -189,26 +299,27 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
+        "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: photokinetic_light_image')", ">=", "1" ] },
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_camouflage')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_image')", "<=", "(difficulty_three_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_camouflage')", "<=", "(difficulty_three_contemplation(1))" ]
             }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_image')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('spell_exp', 'spell: photokinetic_camouflage')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_image')", ">=", "1" ] },
+              "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_camouflage')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -226,58 +337,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: refraction of arms",
-    "id": "practice_photokinetic_light_arms",
-    "description": "Contemplate your powers and improve your ability to create illusions of extra arms.",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "metaphysics",
-    "difficulty": 2,
-    "time": "30 m",
-    "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
-    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [
-      {
-        "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: photokinetic_light_arms')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_light arms')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
-          ]
-        },
-        "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_arms')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_arms')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: light barrier",
+    "name": "contemplation: lucent barrier",
     "id": "practice_photokinetic_rad_immunity",
     "description": "Contemplate your powers and improve your ability to create a barrier of light around you.",
     "category": "CC_*",
@@ -304,6 +364,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_rad_immunity')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -328,13 +389,168 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: refraction of arms",
+    "id": "practice_photokinetic_light_arms",
+    "description": "Contemplate your powers and improve your ability to create illusions of extra arms.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_light_arms')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_light arms')", "<=", "(difficulty_four_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_arms')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_arms')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: lucid shadows",
+    "id": "practice_photokinetic_light_image",
+    "description": "Contemplate your powers and improve your ability to create light clones.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_light_image')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_image')", "<=", "(difficulty_five_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_image')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_image')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: radio transception",
+    "id": "practice_photokinetic_radio",
+    "description": "Contemplate your powers and improve your ability to see, interpret, and transmit radio waves.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_RADIO",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_radio')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_radio')", "<=", "(difficulty_five_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: photokinetic_radio')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PHOTOKIN_RADIO_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_radio')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: veil of light",
     "id": "practice_photokinetic_invisibility",
     "description": "Contemplate your powers and improve your ability to refract light in a way that makes you invisible.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
@@ -347,7 +563,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: photokinetic_invisibility')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_invisibility')", "<=", "(difficulty_four_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_invisibility')", "<=", "(difficulty_six_contemplation(1))" ]
             }
           ]
         },
@@ -355,6 +571,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_invisibility')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -385,7 +602,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
@@ -398,7 +615,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: photokinetic_light_flash')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_flash')", "<=", "(difficulty_seven_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_flash')", "<=", "(difficulty_six_contemplation(1))" ]
             }
           ]
         },
@@ -406,6 +623,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: photokinetic_light_flash')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -413,6 +631,60 @@
             {
               "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_flash')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: blinding radiance",
+    "id": "practice_photokinetic_light_blinding_glare",
+    "description": "Contemplate your powers and improve your ability to glow so brightly you can blind your enemies.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: photokinetic_blinding_glare')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_blinding_glare')", "<=", "(difficulty_seven_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: photokinetic_blinding_glare')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_blinding_glare')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -459,6 +731,7 @@
             "math": [ "u_val('spell_exp', 'spell: photokinetic_light_disintegrate')", "+=", "(contemplation_factor(1))" ]
           },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {

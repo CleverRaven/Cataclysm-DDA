@@ -17,6 +17,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTRO_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_ELECTROKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PHOTOKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PYRO_MATRIX_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -115,7 +131,11 @@
       { "u_lose_effect": "effect_clair_dodge" },
       { "u_lose_effect": "effect_clair_clear_sight" },
       { "u_lose_effect": "effect_clair_omniscence" },
+      { "u_lose_effect": "effect_photokin_light_local" },
       { "u_lose_effect": "effect_photokin_dodge" },
+      { "u_lose_effect": "effect_photokinetic_radio" },
+      { "u_remove_item_with": "item_photokinetic_radio" },
+      { "u_remove_item_with": "item_photokinetic_radio_on" },
       { "u_lose_effect": "effect_photokin_invisibility" },
       { "u_lose_effect": "effect_photokin_arms" },
       { "u_lose_effect": "effect_pyrokinetic_cloak" },
@@ -151,12 +171,15 @@
       { "u_lose_effect": "effect_telekinetic_aegis" },
       { "u_lose_effect": "effect_telepathic_learning_bonus" },
       { "u_lose_effect": "effect_telepath_sense_minds" },
+      { "u_lose_effect": "effect_telepathic_morale" },
       { "u_lose_effect": "effect_telepath_invisibility" },
       { "u_lose_effect": "effect_telepath_network_effect" },
       { "u_lose_effect": "effect_teleport_stride" },
       { "u_lose_effect": "effect_vita_health" },
       { "u_lose_effect": "effect_vitakin_purge_rads" },
-      { "u_lose_effect": "effect_vita_super_heal" }
+      { "u_lose_effect": "effect_vita_super_heal" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   },
   {
@@ -164,6 +187,19 @@
     "id": "EOC_END_PSI_POWERS_MAINTAINED",
     "//": "This should remove only those powers which are toggleable.",
     "effect": [
+      {
+        "run_eocs": [
+          "EOC_CLAIR_REMOVE_SPEED_READ",
+          "EOC_PHOTO_REMOVE_LIGHT_LOCAL",
+          "EOC_PHOTOKIN_REMOVE_RADIO",
+          "EOC_PYRO_REMOVE_FIRE_TOOL",
+          "EOC_PYRO_REMOVE_TORCH_WELD",
+          "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
+          "EOC_TELEKIN_REMOVE_JACKING_TOOL",
+          "EOC_TELEKIN_REMOVE_LEVITATION",
+          "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION"
+        ]
+      },
       { "u_lose_effect": "effect_biokin_pkill_1" },
       { "u_lose_effect": "effect_biokin_pkill_2" },
       { "u_lose_effect": "effect_biokin_pkill_3" },
@@ -189,8 +225,6 @@
       { "u_lose_effect": "effect_clair_night_eyes_7" },
       { "u_lose_effect": "effect_clair_night_eyes_8" },
       { "u_lose_effect": "effect_clair_premonition" },
-      { "u_lose_trait": "CLAIR_SPEED_READ" },
-      { "u_lose_effect": "effect_clair_speed_reader" },
       { "u_remove_item_with": "photokinetic_rad_aura" },
       { "u_lose_effect": "effect_pyrokinetic_cloak" },
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
@@ -219,7 +253,10 @@
       { "u_remove_item_with": "telekin_lifting_jack_20" },
       { "u_lose_effect": "effect_telekinetic_levitation" },
       { "u_lose_effect": "effect_telepathic_learning_bonus" },
-      { "u_lose_effect": "effect_vita_health" }
+      { "u_lose_effect": "effect_telepathic_morale" },
+      { "u_lose_effect": "effect_vita_health" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   }
 ]

@@ -892,8 +892,10 @@ struct islot_gunmod : common_ranged_data {
     std::map<gunmod_location, int> add_mod;
 
     /** Not compatible on weapons that have this mod slot */
-    std::set<gunmod_location> blacklist_mod;
+    std::set<gunmod_location> blacklist_slot;
 
+    /** Not compatible on weapons that have these mods */
+    std::set<itype_id> blacklist_mod;
     // hard coded barrel length from this mod
     units::length barrel_length = 0_mm;
 
@@ -1397,7 +1399,7 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::map<damage_type_id, float> melee;
+        std::unordered_map<damage_type_id, float> melee;
 
         bool default_container_sealed = true;
 
@@ -1412,10 +1414,10 @@ struct itype {
 
     private:
         // load-only, for applying proportional melee values at load time
-        std::map<damage_type_id, float> melee_proportional;
+        std::unordered_map<damage_type_id, float> melee_proportional;
 
         // load-only, for applying relative melee values at load time
-        std::map<damage_type_id, float> melee_relative;
+        std::unordered_map<damage_type_id, float> melee_relative;
 
         /** Can item be combined with other identical items? */
         bool stackable_ = false;

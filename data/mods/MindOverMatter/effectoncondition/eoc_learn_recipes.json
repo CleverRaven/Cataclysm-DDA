@@ -34,17 +34,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      { "u_learn_recipe": "practice_electrokinetic_see_electric" },
+      { "u_learn_recipe": "practice_electrokinetic_shock_touch" },
+      { "u_learn_recipe": "practice_electrokinetic_zap_enemies" },
+      { "u_learn_recipe": "practice_electrokinetic_melee_attacks" },
+      { "u_learn_recipe": "practice_electrokinetic_personal_battery" },
+      { "u_learn_recipe": "practice_electrokinetic_paralysis" },
+      { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
+      { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
+      { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
+      { "u_learn_recipe": "practice_electrokinetic_lightning_aura" },
+      { "u_learn_recipe": "practice_electrokinetic_lightning_blast" },
+      { "u_learn_recipe": "practice_electrokinetic_revive" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES",
     "effect": [
+      { "u_learn_recipe": "practice_photokinetic_light_local" },
+      { "u_learn_recipe": "practice_photokinetic_create_light" },
       { "u_learn_recipe": "practice_photokinetic_snuff_light" },
       { "u_learn_recipe": "practice_photokinetic_light_dodge" },
-      { "u_learn_recipe": "practice_photokinetic_invisibility" },
       { "u_learn_recipe": "practice_photokinetic_light_beam" },
-      { "u_learn_recipe": "practice_photokinetic_light_image" },
+      { "u_learn_recipe": "practice_photokinetic_camouflage" },
       { "u_learn_recipe": "practice_photokinetic_rad_immunity" },
       { "u_learn_recipe": "practice_photokinetic_light_arms" },
-      { "u_learn_recipe": "practice_photokinetic_light_disintegrate" },
-      { "u_learn_recipe": "practice_photokinetic_light_flash" }
+      { "u_learn_recipe": "practice_photokinetic_light_image" },
+      { "u_learn_recipe": "practice_photokinetic_radio" },
+      { "u_learn_recipe": "practice_photokinetic_invisibility" },
+      { "u_learn_recipe": "practice_photokinetic_light_flash" },
+      { "u_learn_recipe": "practice_photokinetic_light_blinding_glare" },
+      { "u_learn_recipe": "practice_photokinetic_light_disintegrate" }
     ]
   },
   {
@@ -216,7 +239,10 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PHOTOKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [
+      { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] },
+      { "queue_eocs": "EOC_TEACH_PHOTOKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

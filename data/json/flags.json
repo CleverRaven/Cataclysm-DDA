@@ -313,6 +313,11 @@
     "info": "This gear <good>completely protects</good> you from <info>bash damage</info>."
   },
   {
+    "id": "EMP_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>EMP blasts</info>."
+  },
+  {
     "id": "CUT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>cut damage</info>."
@@ -2347,5 +2352,10 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "UNDERFED",
+    "type": "json_flag",
+    "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
   }
 ]

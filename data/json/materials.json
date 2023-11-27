@@ -44,6 +44,20 @@
   },
   {
     "type": "material",
+    "id": "fiberglass",
+    "name": "Fiberglass Laminate",
+    "//": "Fiberglass laminates, consisting of sheets of fiberglass and epoxy resin.  Includes FR-4, G-10, G-11 laminates.",
+    "density": 1.8,
+    "copy-from": "generic_polymer_resin",
+    "chip_resist": 9,
+    "burn_data": [
+      { "fuel": 0.1, "smoke": 5, "burn": 0.001 },
+      { "fuel": 0.2, "smoke": 8, "burn": 0.006 },
+      { "fuel": 0.6, "smoke": 15, "burn": 0.02 }
+    ]
+  },
+  {
+    "type": "material",
     "id": "pseudo_fuel",
     "name": "Pseudo Fuel",
     "density": 1,
@@ -2051,6 +2065,13 @@
   },
   {
     "type": "material",
+    "id": "rhodonite",
+    "name": "Rhodonite",
+    "copy-from": "stone",
+    "density": 3.7
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2077,6 +2098,13 @@
     "cut_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
+  },
+  {
+    "type": "material",
+    "id": "anomaly",
+    "name": "Anomalous Material",
+    "copy-from": "monolith",
+    "density": 10000
   },
   {
     "type": "material",

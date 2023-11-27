@@ -60,6 +60,20 @@
   },
   {
     "type": "effect_type",
+    "id": "critter_well_fed",
+    "name": [ "Well Fed" ],
+    "show_in_info": true,
+    "desc": [ "AI tag for when critter has had enough to eat.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "critter_underfed",
+    "name": [ "Underfed" ],
+    "show_in_info": true,
+    "desc": [ "AI tag for when critter has not had enough to eat.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
     "show_in_info": true,
@@ -524,7 +538,7 @@
     "rating": "bad",
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.2 }, { "limb_score": "reaction", "modifier": 0.0 } ],
-    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD", "NO_SPELLCASTING" ]
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD", "NO_SPELLCASTING", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -3181,7 +3195,8 @@
     "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ], "h_mod_chance": [ 512 ], "h_mod_min": [ -10 ] },
-    "blood_analysis_description": "Intracranial Parasites"
+    "blood_analysis_description": "Intracranial Parasites",
+    "flags": [ "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -3402,7 +3417,7 @@
       { "limb_score": "balance", "modifier": 0.75, "scaling": -0.05 },
       { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -3879,7 +3894,8 @@
     "int_dur_factor": "50 m",
     "base_mods": { "int_mod": [ -1 ] },
     "scaling_mods": { "int_mod": [ -2 ] },
-    "miss_messages": [ [ "You suddenly think you shouldn't do that!", 1 ] ]
+    "miss_messages": [ [ "You suddenly think you shouldn't do that!", 1 ] ],
+    "flags": [ "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -4086,7 +4102,8 @@
     "name": [ "Extremely Weary" ],
     "desc": [
       "You've been extremely active for a while; it's time to stop.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
-    ]
+    ],
+    "flags": [ "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -4094,7 +4111,8 @@
     "name": [ "Extremely Weary" ],
     "desc": [
       "You've been extremely active for a while, and can no longer keep pushing.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
-    ]
+    ],
+    "flags": [ "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",

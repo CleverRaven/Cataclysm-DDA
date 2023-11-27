@@ -1,12 +1,87 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_LOCAL_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_photokin_light_local" } },
+    "effect": [
+      { "u_add_effect": "effect_photokin_light_local", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 900) + 5400) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "run_eocs": "EOC_PHOTO_REMOVE_LIGHT_LOCAL" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * 80) ), 450)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_REMOVE_LIGHT_LOCAL",
+    "condition": { "u_has_effect": "effect_photokin_light_local" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_photokin_light_local" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
+    "condition": { "u_has_effect": "effect_photokin_light_local" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CREATE_LIGHT_SWITCH",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: photokinetic_create_light')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_01" }, "targeted": true } ] },
+        { "case": 8, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_02" }, "targeted": true } ] },
+        { "case": 16, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_03" }, "targeted": true } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
     "condition": {
       "and": [ { "not": { "u_has_item": "photokinetic_rad_aura" } }, { "not": { "u_has_effect": "effect_photokin_light_barrier" } } ]
     },
     "effect": [
       { "u_message": "The air around you shimmers as an invisible barrier of light forms around you.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_photokin_light_barrier", "duration": "PERMANENT" },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
       {
@@ -28,6 +103,7 @@
     "false_effect": [
       { "u_remove_item_with": "photokinetic_rad_aura" },
       { "u_lose_effect": "effect_photokin_light_barrier" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
       {
         "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) ), 800)" ]
       }
@@ -39,6 +115,7 @@
     "condition": { "or": [ { "u_has_item": "photokinetic_rad_aura" }, { "u_has_effect": "effect_photokin_light_barrier" } ] },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
         "time_in_future": [
@@ -51,6 +128,180 @@
             "math": [
               "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
             ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_CAMOUFLAGE_SWITCHER",
+    "effect": [
+      { "run_eocs": "EOC_PHOTO_CAMOUFLAGE_REMOVE" },
+      {
+        "queue_eocs": "EOC_PHOTO_CAMOUFLAGE_REMOVE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 50) + 60) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 100) + 120) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      },
+      {
+        "switch": { "u_val": "spell_level", "spell": "photokinetic_camouflage" },
+        "cases": [
+          { "case": 0, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_1" } },
+          { "case": 4, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_2" } },
+          { "case": 8, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_3" } },
+          { "case": 12, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_4" } },
+          { "case": 16, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_5" } },
+          { "case": 20, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_6" } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTO_CAMOUFLAGE_REMOVE",
+    "condition": {
+      "u_has_any_trait": [
+        "PHOTOKINETIC_CAMOUFLAGE_1",
+        "PHOTOKINETIC_CAMOUFLAGE_2",
+        "PHOTOKINETIC_CAMOUFLAGE_3",
+        "PHOTOKINETIC_CAMOUFLAGE_4",
+        "PHOTOKINETIC_CAMOUFLAGE_5",
+        "PHOTOKINETIC_CAMOUFLAGE_6"
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "PHOTOKINETIC_CAMOUFLAGE_1" },
+      { "u_lose_trait": "PHOTOKINETIC_CAMOUFLAGE_2" },
+      { "u_lose_trait": "PHOTOKINETIC_CAMOUFLAGE_3" },
+      { "u_lose_trait": "PHOTOKINETIC_CAMOUFLAGE_4" },
+      { "u_lose_trait": "PHOTOKINETIC_CAMOUFLAGE_5" },
+      { "u_lose_trait": "PHOTOKINETIC_CAMOUFLAGE_6" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_1",
+    "name": { "str": "Chameleoflage" },
+    "points": 1,
+    "description": "Your powers are blending nearby light to make you harder to spot.",
+    "stealth_modifier": 15,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_2",
+    "name": { "str": "Chameleoflage" },
+    "points": 1,
+    "description": "Your powers are blending nearby light to make you harder to spot.",
+    "stealth_modifier": 25,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_3",
+    "name": { "str": "Chameleoflage" },
+    "points": 1,
+    "description": "Your powers are blending nearby light to make you harder to spot.",
+    "stealth_modifier": 35,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_4",
+    "name": { "str": "Chameleoflage" },
+    "points": 1,
+    "description": "Your powers are blending nearby light to make you harder to spot.",
+    "stealth_modifier": 43,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_5",
+    "name": { "str": "Chameleoflage" },
+    "points": 1,
+    "description": "Your powers are blending nearby light to make you harder to spot.",
+    "stealth_modifier": 50,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_6",
+    "name": { "str": "Chameleoflage" },
+    "points": 1,
+    "description": "Your powers are blending nearby light to make you harder to spot.",
+    "stealth_modifier": 55,
+    "valid": false
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RADIO_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_photokinetic_radio" } },
+    "effect": [
+      { "u_message": "You attune your senses to passing radio waves.", "type": "good" },
+      { "u_add_effect": "effect_photokinetic_radio", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_spawn_item": "item_photokinetic_radio_on", "suppress_message": true, "force_equip": true },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "run_eocs": "EOC_PHOTOKIN_REMOVE_RADIO" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (4000 - (u_val('spell_level', 'spell: photokinetic_radio') * 100) ), 1500)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_RADIO",
+    "condition": { "or": [ { "u_has_item": "photokinetic_radio" }, { "u_has_item": "photokinetic_radio_on" } ] },
+    "effect": [
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_remove_item_with": "item_photokinetic_radio" },
+      { "u_remove_item_with": "item_photokinetic_radio_on" },
+      { "u_lose_effect": "effect_photokinetic_radio" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RADIO_DRAIN",
+    "condition": { "or": [ { "u_has_item": "photokinetic_radio" }, { "u_has_item": "photokinetic_radio_on" } ] },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) )" ]
           }
         ]
       }

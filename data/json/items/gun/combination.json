@@ -17,6 +17,7 @@
     "weight": "4200 g",
     "volume": "3 L",
     "longest_side": "100 cm",
+    "barrel_length": "508 mm",
     "to_hit": -1,
     "durability": 8,
     "blackpowder_tolerance": 56,

@@ -356,12 +356,12 @@
     "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
     "components": [
       [
-        [ "seed_cotton_boll", 2 ],
-        [ "seed_pumpkin", 2 ],
-        [ "seed_sunflower", 2 ],
-        [ "seed_canola", 2 ],
-        [ "seed_grapes", 2 ],
-        [ "seed_weed", 2 ]
+        [ "seed_cotton_boll", 8 ],
+        [ "seed_pumpkin", 8 ],
+        [ "seed_sunflower", 8 ],
+        [ "seed_canola", 1 ],
+        [ "seed_grapes", 8 ],
+        [ "seed_weed", 8 ]
       ]
     ]
   },

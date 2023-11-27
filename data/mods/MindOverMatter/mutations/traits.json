@@ -33,6 +33,22 @@
   },
   {
     "type": "mutation",
+    "id": "ELECTROKINETIC",
+    "name": "Awakened Electrokinetic",
+    "points": 0,
+    "description": "Mental control of lightning and electricity.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [
+      [ "electrokinetic_see_electric", 2 ],
+      [ "electrokinetic_shock_touch", 2 ],
+      [ "electrokinetic_zap_enemies", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "PHOTOKINETIC",
     "name": "Awakened Photokinetic",
     "points": 0,
@@ -41,7 +57,7 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "PHOTOKINETIC" ],
-    "spells_learned": [ [ "photokinetic_snuff_light", 2 ], [ "photokinetic_light_dodge", 2 ], [ "photokinetic_light_beam", 2 ] ]
+    "spells_learned": [ [ "photokinetic_snuff_light", 2 ], [ "photokinetic_light_dodge", 2 ], [ "photokinetic_light_local", 2 ] ]
   },
   {
     "type": "mutation",

@@ -35,7 +35,16 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "upgrades": { "half_life": 45, "into": "mon_feral_human_bio2" },
-    "special_attacks": [ { "id": "smash", "attack_upper": true, "throw_strength": 30, "cooldown": 15 }, [ "BIO_OP_DISARM", 10 ] ],
+    "special_attacks": [
+      {
+        "id": "smash",
+        "attack_upper": true,
+        "throw_strength": 30,
+        "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
+      [ "BIO_OP_DISARM", 10 ]
+    ],
     "flags": [
       "SEES",
       "HEARS",
@@ -87,9 +96,15 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "upgrades": { "half_life": 45, "into": "mon_feral_human_bio3" },
     "special_attacks": [
-      { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
+      {
+        "id": "smash",
+        "attack_upper": true,
+        "throw_strength": 50,
+        "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
       [ "BIO_OP_DISARM", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15 }
+      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
     ],
     "flags": [
       "SEES",
@@ -144,17 +159,24 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
-      { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
+      {
+        "id": "smash",
+        "attack_upper": true,
+        "throw_strength": 50,
+        "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
       {
         "type": "leap",
         "cooldown": 5,
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 5,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15 }
+      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
     ],
     "flags": [
       "SEES",
@@ -310,6 +332,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_shrieking_monster", "min_level": 3 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "Static fills your hearing for a moment, blotting out all other sounds!"
       }
     ],
@@ -371,6 +394,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 3 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
@@ -378,6 +402,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 2 },
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       }
     ],
@@ -437,6 +462,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 6 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
@@ -444,6 +470,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 5 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       },
       {
@@ -451,6 +478,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 4 },
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
       },
       {
@@ -458,6 +486,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 7 },
         "cooldown": 25,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
     ],
@@ -501,7 +530,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 4,
     "regenerates": 8,
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -4 ] ],
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -4 ], [ "effect_psi_null", -8 ] ],
     "bleed_rate": 0,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -523,6 +552,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 7 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
@@ -530,6 +560,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 6 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       },
       {
@@ -537,6 +568,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 6 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
       },
       {
@@ -544,6 +576,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
     ],
@@ -603,6 +636,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 3 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
@@ -610,6 +644,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 1 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       }
     ],
@@ -673,13 +708,15 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 6 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
-        "id": "psi_pyrokin1_flangbang",
+        "id": "psi_pyrokin2_flashbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 4 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       },
       {
@@ -687,6 +724,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 4 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s gestures and summons a conflagration!"
       }
     ],
@@ -732,7 +770,7 @@
     "dodge": 3,
     "armor": { "heat": 50 },
     "regenerates": 15,
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ] ],
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ], [ "effect_psi_null", -15 ] ],
     "bleed_rate": 0,
     "harvest": "human",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "8 s" } ],
@@ -755,6 +793,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 7 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
@@ -762,6 +801,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 5 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       },
       {
@@ -769,6 +809,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 6 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s gestures and summons a conflagration!"
       }
     ],
@@ -832,6 +873,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -844,6 +886,7 @@
         "fake_skills": [ [ "throw", 6 ] ],
         "fake_str": 11,
         "require_targeting_player": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
         "description": "%1$s makes a throwing motion and one of the rocks around them suddenly launches like a bullet!"
       },
@@ -857,6 +900,7 @@
         "throw_strength": 60,
         "blockable": false,
         "effects_require_dmg": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -924,6 +968,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -931,6 +976,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 4 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s hammers %3$s with psionic force!"
       },
       {
@@ -942,6 +988,7 @@
         "range": 8,
         "throw_strength": 100,
         "blockable": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -1012,6 +1059,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -1019,6 +1067,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 1 },
         "cooldown": 18,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       }
     ],
@@ -1080,6 +1129,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 16,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -1087,6 +1137,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       },
       {
@@ -1094,7 +1145,8 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_horror_monster", "min_level": 4 },
         "cooldown": 25,
-        "monster_message": ""
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "%1$s stares at %3$s!"
       }
     ],
     "flags": [
@@ -1156,6 +1208,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -1163,6 +1216,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 5 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       },
       {
@@ -1171,13 +1225,15 @@
         "spell_data": { "id": "telepathic_horror_aoe_monster", "min_level": 15 },
         "allow_no_target": true,
         "cooldown": 25,
-        "monster_message": ""
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "%1$s eyes suddenly go wide!"
       },
       {
         "id": "psi_telepath3_freeze",
         "type": "spell",
         "spell_data": { "id": "telepathic_primal_fear_monster", "min_level": 5 },
         "cooldown": 35,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
       }
     ],
@@ -1236,6 +1292,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 2 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s looks at %3$s and the world lurches."
       },
       {
@@ -1243,6 +1300,7 @@
         "cooldown": 8,
         "allow_no_target": true,
         "max_range": 8,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "message": "%1$s vanishes and reappears elsewhere!"
       }
     ],
@@ -1302,6 +1360,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 4 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
@@ -1313,6 +1372,7 @@
         "accuracy": 5,
         "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
         "blockable": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s touches you and the world shifts around you!",
         "hit_dmg_npc": "%1$s touches <npcname> and the world shifts around them!",
         "miss_msg_u": "%s reaches for you but you avoid their touch!",
@@ -1324,7 +1384,8 @@
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 12,
-        "message": "%1$s vanishes and reappears elsewhere!"
+        "message": "%1$s vanishes and reappears elsewhere!",
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       }
     ],
     "flags": [
@@ -1393,6 +1454,7 @@
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
         "blockable": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s touches you and the world warps around you!",
         "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
         "miss_msg_u": "%s reaches for you but you avoid their touch!",
@@ -1403,6 +1465,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
@@ -1410,6 +1473,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_blink_attack_monster", "min_level": 4 },
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s touches %3$s and the world around %3$s wavers."
       },
       {
@@ -1418,7 +1482,8 @@
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 16,
-        "message": "%1$s vanishes and reappears elsewhere!"
+        "message": "%1$s vanishes and reappears elsewhere!",
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       }
     ],
     "flags": [
@@ -1466,7 +1531,7 @@
     "regen_morale": true,
     "armor": { "bash": 5, "cut": 3, "stab": 3, "bullet": 5 },
     "regenerates": 10,
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ],
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ], [ "effect_psi_null", -10 ] ],
     "bleed_rate": 0,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -1483,6 +1548,7 @@
         "type": "spell",
         "spell_data": { "id": "vitakinetic_health_down", "min_level": 4 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s touches %3$s."
       }
     ],
@@ -1528,7 +1594,7 @@
     "regen_morale": true,
     "armor": { "bash": 5, "cut": 3, "stab": 3, "bullet": 5 },
     "regenerates": 20,
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -10 ] ],
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -10 ], [ "effect_psi_null", -20 ] ],
     "bleed_rate": 0,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -1544,6 +1610,7 @@
         "type": "spell",
         "spell_data": { "id": "vitakinetic_healing_down", "min_level": 4 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s touches %3$s."
       }
     ],

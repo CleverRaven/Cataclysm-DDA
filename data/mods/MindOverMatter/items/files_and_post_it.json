@@ -34,6 +34,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_clairsentience_item",
+    "name": { "str": "report (clairsentience)", "str_pl": "copies of report (clairsentience)" },
+    "category": "books",
+    "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_clairsentience",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_telekinesis_item",
     "name": { "str": "report (telekinesis)", "str_pl": "copies of report (telekinesis)" },
     "category": "books",

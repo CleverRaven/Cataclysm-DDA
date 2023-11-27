@@ -544,6 +544,7 @@
               { "item": "leather_police_jacket", "prob": 15 },
               { "item": "jacket_light", "prob": 40 },
               { "item": "jacket_windbreaker", "prob": 20 },
+              { "item": "jacket_varsity", "prob": 20 },
               { "item": "sweater", "prob": 50 },
               { "item": "turtleneck", "prob": 30 },
               { "item": "trenchcoat", "prob": 10 },
@@ -888,6 +889,7 @@
       { "item": "jeans", "prob": 30 },
       { "item": "sports_bra", "prob": 25 },
       { "item": "jacket_leather", "prob": 20 },
+      { "item": "jacket_varsity", "prob": 10 },
       { "prob": 30, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
@@ -1540,6 +1542,7 @@
       [ "hoodie", 65 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
       [ "blazer", 35 ],
       [ "towel", 40 ],
@@ -1805,6 +1808,7 @@
     "items": [
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
@@ -2234,6 +2238,7 @@
       { "item": "hoodie", "prob": 65 },
       { "item": "jacket_light", "prob": 50 },
       { "item": "jacket_windbreaker", "prob": 25 },
+      { "item": "jacket_varsity", "prob": 20 },
       { "item": "jacket_jean", "prob": 35 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
@@ -2802,7 +2807,10 @@
         ],
         "prob": 100
       },
-      { "collection": [ { "item": "jacket_eod_light" }, { "item": "trousers_eod_light" } ], "prob": 20 }
+      {
+        "collection": [ { "item": "jacket_eod_light" }, { "item": "face_shield_eod" }, { "item": "trousers_eod_light" } ],
+        "prob": 20
+      }
     ]
   },
   {
@@ -3088,6 +3096,7 @@
       [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
+      [ "jacket_varsity", 6 ],
       [ "leather_police_jacket", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
@@ -3375,6 +3384,7 @@
     "entries": [
       { "item": "jacket_light", "prob": 50 },
       { "item": "jacket_windbreaker", "prob": 25 },
+      { "item": "jacket_varsity", "prob": 20 },
       { "item": "jacket_jean", "prob": 35 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
@@ -3442,6 +3452,7 @@
       [ "hoodie", 65 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
       [ "blazer", 35 ],
       [ "gloves_light", 35 ],
@@ -4146,6 +4157,7 @@
           { "item": "jacket_leather_red", "prob": 25 },
           { "item": "jacket_light", "prob": 60 },
           { "item": "jacket_windbreaker", "prob": 70 },
+          { "item": "jacket_varsity", "prob": 30 },
           { "item": "poncho", "prob": 30 },
           { "item": "ski_jacket", "prob": 25 },
           { "group": "costume_jackets", "prob": 1 },

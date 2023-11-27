@@ -1167,7 +1167,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_marine", "container-item": "sheath" },
           { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
           {
@@ -1529,7 +1529,7 @@
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
             "item": "mossberg_930",
@@ -1592,7 +1592,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           {
             "item": "modular_m4_carbine",
             "variant": "modular_m4a1",
@@ -1654,7 +1654,7 @@
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_tac338" },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
           { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] }
@@ -1716,7 +1716,7 @@
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "goggles_nv" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
           {
@@ -3093,7 +3093,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_KABAR", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
@@ -3458,6 +3458,7 @@
     "points": 3,
     "skills": [ { "level": 6, "name": "traps" }, { "level": 4, "name": "survival" } ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
+    "recipes": [ "beartrap" ],
     "items": {
       "both": {
         "items": [
@@ -3779,7 +3780,7 @@
       "both": {
         "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
         "entries": [
-          { "item": "knife_combat", "container-item": "gartersheath1" },
+          { "item": "knife_rm42", "container-item": "gartersheath1" },
           { "item": "polaroid_photo", "container-item": "ankle_wallet_pouch" }
         ]
       },
@@ -4468,7 +4469,7 @@
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           {
             "item": "modular_m4_carbine",
             "variant": "modular_m4a1",
@@ -5400,7 +5401,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m110" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           { "item": "m110a1", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap" ] },
           { "item": "m17", "ammo-item": "9mmfmj", "charges": 17, "container-item": "holster" },
           { "group": "army_mags_m17" }
@@ -5449,6 +5450,7 @@
           "socks",
           "boots_combat",
           "wristwatch",
+          "pockknife",
           "molle_pack"
         ],
         "entries": [
@@ -5462,7 +5464,6 @@
             "contents-item": [ "shoulder_strap", "holo_sight", "bipod" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
@@ -5509,6 +5510,7 @@
           "gloves_tactical",
           "socks",
           "boots_combat",
+          "pockknife",
           "wristwatch",
           "molle_pack"
         ],
@@ -5524,7 +5526,6 @@
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenade_pouch", "contents-group": [ "army_grenades_40x46" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
@@ -5586,7 +5587,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
@@ -5648,7 +5649,7 @@
             "contents-item": [ "shoulder_strap", "rifle_scope" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mmfmj", "container-item": "holster", "charges": 17 },
           { "item": "legpouch_large", "contents-group": "army_mags_m17" }
         ]
@@ -5716,7 +5717,7 @@
             "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_marine", "container-item": "sheath" },
           { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
@@ -5959,7 +5960,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           {
             "item": "modular_m4_carbine",
             "variant": "modular_m4a1",
@@ -6741,9 +6742,9 @@
   },
   {
     "type": "profession",
-    "id": "explosive_ordinance_disposal",
-    "name": "Explosive Ordinance Disposal Technician",
-    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives",
+    "id": "explosive_ordnance_disposal",
+    "name": "Explosive Ordnance Disposal Technician",
+    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives.",
     "points": 5,
     "proficiencies": [
       "prof_elec_circuits",
@@ -6761,7 +6762,7 @@
       { "level": 6, "name": "traps" },
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "gun" },
-      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "rifle" },
       { "level": 3, "name": "pistol" },
       { "level": 3, "name": "dodge" },
       { "level": 3, "name": "firstaid" },
@@ -6770,19 +6771,28 @@
     ],
     "items": {
       "both": {
-        "items": [ "undershirt", "socks", "helmet_eod", "jacket_eod", "gloves_eod", "trousers_eod", "foot_protectors_eod" ],
+        "items": [
+          "undershirt",
+          "pants_army",
+          "socks",
+          "boots_combat",
+          "attached_ear_plugs_off",
+          "helmet_eod",
+          "nomex_gloves",
+          "gloves_eod",
+          "trousers_eod",
+          "foot_protectors_eod"
+        ],
         "entries": [
-          {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
-            "ammo-item": "556_mk318",
-            "charges": 30,
-            "contents-item": [ "shoulder_strap", "holo_sight" ]
-          }
+          { "item": "eod_plate", "container-item": "jacket_eod" },
+          { "item": "EOD_hotstick", "custom-flags": [ "auto_wield" ] },
+          { "item": "water_clean", "container-item": "camelbak" },
+          { "item": "multitool", "container-item": "sheath" },
+          { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 }
         ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "panties", "bra" ]
+      "female": [ "sports_bra", "boxer_shorts" ]
     }
   }
 ]

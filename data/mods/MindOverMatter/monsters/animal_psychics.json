@@ -30,6 +30,7 @@
       {
         "id": "ranged_pull",
         "cooldown": 20,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
         "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
         "miss_msg_u": "",
@@ -67,7 +68,8 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "special_attacks": [
-      [ "EAT_CROP", 40 ],
+      [ "GRAZE", 20 ],
+      [ "EAT_CROP", 60 ],
       {
         "id": "scratch",
         "move_cost": 140,
@@ -80,12 +82,14 @@
       {
         "id": "psi_hodag_speed_boost",
         "type": "spell",
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
         "cooldown": 18,
         "monster_message": "%1$s moves too quickly for the eye to follow!"
       }
     ],
     "dodge": 2,
+    "stomach_size": 6000,
     "vision_day": 35,
     "vision_night": 8,
     "path_settings": { "max_dist": 10 },
@@ -98,7 +102,7 @@
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 16, "cut": 10, "stab": 10, "bullet": 4, "electric": 1 }
   },
   {
@@ -131,6 +135,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
         "cooldown": 18,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares and lets out a silent cry!"
       }
     ],

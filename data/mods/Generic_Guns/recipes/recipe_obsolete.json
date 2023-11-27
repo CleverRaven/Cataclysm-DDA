@@ -916,7 +916,7 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_762_m43",
+    "result": "reloaded_762_jhp",
     "obsolete": true
   },
   {
@@ -1601,7 +1601,7 @@
   },
   {
     "type": "recipe",
-    "result": "reloaded_762_m43",
+    "result": "reloaded_762_jhp",
     "obsolete": true
   },
   {
@@ -1632,6 +1632,16 @@
   {
     "type": "recipe",
     "result": "bot_crows_m240",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_30carbine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_30carbine_jsp",
     "obsolete": true
   }
 ]

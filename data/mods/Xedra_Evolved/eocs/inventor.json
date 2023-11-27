@@ -14,7 +14,7 @@
           "inventor_sniper",
           "inventor_shotgun",
           "inventor_pistol",
-          "mace_magic",
+          "megachette",
           "software_math_inventor",
           "software_electronics_reference_inventor",
           "combatsaw_spear_off",
@@ -55,11 +55,13 @@
           "inventor_fists",
           "wolf_mask",
           "magnetic_holster",
+          "binary_sword",
           "bio_launcher",
           "bio_warhead",
           "trinket_damage",
           "trinket_range",
           "trinket_sound",
+          "choke_wideshot",
           "mod_inv_pistol_booster",
           "inventor_research_base_3",
           "inventor_research_energy_1",
@@ -94,7 +96,7 @@
       { "math": [ "base_difficulty_3", "+=", "4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
+        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "mace_magic", "inventor_fists_plus", "inventor_research_energy_1" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
@@ -223,8 +225,7 @@
           "inventor_lasmod_recuperator",
           "inventor_lasmod_mega_everything",
           "inventor_lasmod_more_capacitors",
-          "inventor_research_ai_1",
-          "inventor_research_dimesnion_1"
+          "inventor_research_ai_1"
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
@@ -286,43 +287,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_INVENTOR_RESEARCH_DIMENSION_1",
-    "condition": {
-      "and": [
-        { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_3" ] },
-        { "math": [ "dimension_sparks", ">=", "dimension_difficulty_1" ] }
-      ]
-    },
-    "effect": [
-      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
-      { "math": [ "dimension_sparks", "+=", "dimension_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "5" ] },
-      { "math": [ "dimension_difficulty_1", "+=", "5" ] },
-      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      {
-        "u_roll_remainder": [ "rip_ticket" ],
-        "type": "recipe",
-        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
-        "false_eocs": {
-          "id": "EOC_REMOVE_RESEARCH_DIMENSION_1",
-          "effect": [
-            { "u_forget_recipe": "inventor_research_dimesnion_1" },
-            {
-              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
-              "type": "info"
-            }
-          ]
-        }
-      }
-    ],
-    "false_effect": [
-      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "5" ] },
-      { "math": [ "dimension_sparks", "+=", "4" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_INVENTOR_PROCESS_SPARKS",
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark')", ">", "0" ] },
     "effect": [
@@ -350,5 +314,30 @@
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_MESSAGE_GOOD",
     "effect": { "u_message": "inventor_success", "snippet": true, "type": "good" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_CRAFTED_DEGRADATION",
+    "recurrence": [ "1 d", "2 d" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "not": { "u_has_trait": "INVENTOR" } },
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "flags": [ "INVENTOR_CRAFTED" ] } ],
+      "true_eocs": [
+        {
+          "id": "EOC_RUST_INVENTOR_ITEMS",
+          "effect": [
+            { "math": [ "n_hp('ALL')", "-=", "2" ] },
+            { "message": "You hear a sudden crack!" },
+            {
+              "u_message": "Your lack of an inventor's aura makes items created by their fevered mind rapidly degrade!"
+            },
+            { "npc_message": "My items are falling apart!  It isn't me!" }
+          ]
+        }
+      ]
+    }
   }
 ]

@@ -8,7 +8,7 @@
     "name": "bows",
     "description": "Recipes related to constructing bows to launch arrows with.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "selfbow", "shortbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
+    "nested_category_data": [ "selfbow", "shortbow", "reflexbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
     "difficulty": 1
   },
   {
@@ -2271,7 +2271,7 @@
   {
     "id": "nested_arm_splint",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "arm splints",
@@ -2283,7 +2283,7 @@
   {
     "id": "nested_leg_splint",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "leg splints",
@@ -2295,7 +2295,7 @@
   {
     "id": "nested_splints",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "name": "splints",
@@ -2307,7 +2307,7 @@
   {
     "id": "nested_bandages",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "bandages",
@@ -2319,7 +2319,7 @@
   {
     "id": "nested_tourniquets",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tourniquets",
@@ -2331,7 +2331,7 @@
   {
     "id": "nested_hemostatic",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hemostatic compounds",
@@ -2343,7 +2343,7 @@
   {
     "id": "nested_bleedcontrol",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "name": "bleeding control",
@@ -2355,7 +2355,7 @@
   {
     "id": "nested_antiseptics",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "name": "antiseptics",
@@ -2367,7 +2367,7 @@
   {
     "id": "nested_deflated_tires",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "name": "deflated tires",
@@ -2388,7 +2388,7 @@
   {
     "id": "nested_filled_tires",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "name": "inflated tires",
@@ -3800,7 +3800,7 @@
   {
     "id": "nested_sling_ready_explosives",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "name": "sling-ready explosives",
@@ -4114,7 +4114,7 @@
   {
     "id": "nested_modified_gunmods",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "name": "modified attachments",
@@ -4132,7 +4132,7 @@
   {
     "id": "nested_modified_gunmods_weapons",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "auxiliary weapons",
@@ -4154,7 +4154,7 @@
   {
     "id": "nested_modified_gunmods_sights",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "sights",
@@ -4165,7 +4165,7 @@
   {
     "id": "nested_ammo_flamethrower",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "name": "flamethrower fuels",
@@ -4177,7 +4177,7 @@
   {
     "id": "nested_ammo_chemthrower",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "name": "sprayable chemicals",
@@ -4189,7 +4189,7 @@
   {
     "id": "nested_ammo_pebbles",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "name": "slingshot ammunition",
@@ -4200,7 +4200,7 @@
   {
     "id": "nested_ammo_rockets",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "name": "homemade rockets",
@@ -4212,7 +4212,7 @@
   {
     "id": "nested_sewing_tools",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "name": "sewing tools",
@@ -4233,7 +4233,7 @@
   {
     "id": "nested_belts",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "name": "belts",
@@ -4256,7 +4256,7 @@
   {
     "id": "nested_lighthelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "light close helms",
@@ -4273,7 +4273,7 @@
   {
     "id": "nested_lc_lighthelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light close helms",
@@ -4284,7 +4284,7 @@
   {
     "id": "nested_mc_lighthelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light close helms",
@@ -4295,7 +4295,7 @@
   {
     "id": "nested_hc_lighthelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light close helms",
@@ -4306,7 +4306,7 @@
   {
     "id": "nested_ch_lighthelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light close helms",
@@ -4317,7 +4317,7 @@
   {
     "id": "nested_qt_lighthelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light close helms",
@@ -4328,7 +4328,7 @@
   {
     "id": "nested_helm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "close helms",
@@ -4345,7 +4345,7 @@
   {
     "id": "nested_lc_helm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel close helms",
@@ -4356,7 +4356,7 @@
   {
     "id": "nested_mc_helm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel close helms",
@@ -4367,7 +4367,7 @@
   {
     "id": "nested_hc_helm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel close helms",
@@ -4378,7 +4378,7 @@
   {
     "id": "nested_ch_helm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel close helms",
@@ -4389,7 +4389,7 @@
   {
     "id": "nested_qt_helm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel close helms",
@@ -4400,7 +4400,7 @@
   {
     "id": "nested_heavyhelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "heavy close helms",
@@ -4417,7 +4417,7 @@
   {
     "id": "nested_lc_heavyhelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy close helms",
@@ -4428,7 +4428,7 @@
   {
     "id": "nested_mc_heavyhelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy close helms",
@@ -4439,7 +4439,7 @@
   {
     "id": "nested_hc_heavyhelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy close helms",
@@ -4450,7 +4450,7 @@
   {
     "id": "nested_ch_heavyhelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy close helms",
@@ -4461,7 +4461,7 @@
   {
     "id": "nested_qt_heavyhelm_close",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy close helms",
@@ -4508,7 +4508,7 @@
   {
     "id": "nested_gun_mounts",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "name": "attachment mounts",
@@ -4517,6 +4517,7 @@
     "nested_category_data": [
       "grip_mount",
       "rail_mount",
+      "rail_bayonet_lug",
       "sights_mount",
       "sights_mount_launcher",
       "sights_mount_pistol",
@@ -4525,9 +4526,131 @@
     ]
   },
   {
+    "id": "nested_bionic_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "bionic weaponry",
+    "description": "Recipes for practice with bionic weaponry for combat.",
+    "skill_used": "cutting",
+    "nested_category_data": [
+      "prac_cutting_beg_bionics",
+      "prac_cutting_int_bionics",
+      "prac_cutting_beg_bionic_sword",
+      "prac_cutting_int_bionic_sword"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_axes_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "axes",
+    "description": "Recipes for combat practice with axes.",
+    "skill_used": "cutting",
+    "nested_category_data": [ "prac_cutting_beg_great_axe", "prac_cutting_int_great_axe", "prac_cutting_beg_hand_axe", "prac_cutting_int_hand_axe" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_cutting_swords_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "cutting swords",
+    "description": "Recipes for combat practice of slashing swords of all sizes.",
+    "skill_used": "cutting",
+    "nested_category_data": [
+      "prac_cutting_beg_short_sword",
+      "prac_cutting_int_short_sword",
+      "prac_cutting_beg_med_sword",
+      "prac_cutting_int_med_sword",
+      "prac_cutting_beg_long_sword",
+      "prac_cutting_int_long_sword",
+      "prac_cutting_beg_great_sword",
+      "prac_cutting_int_great_sword"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_stabbing_swords_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "stabbing swords",
+    "description": "Recipes for combat practice of thrusting swords, which require a different training from just slashing with your sword.",
+    "skill_used": "stabbing",
+    "nested_category_data": [ "prac_stabbing_beg_fencing", "prac_stabbing_int_fencing", "prac_stabbing_beg_thrust", "prac_stabbing_int_thrust" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_spears_polearms_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "spears and polearms",
+    "description": "Recipes for combat practice with long pointed objects, like spears and polearms.",
+    "skill_used": "stabbing",
+    "nested_category_data": [ "prac_stabbing_beg_spear", "prac_stabbing_int_spear", "prac_stabbing_beg_polearm", "prac_stabbing_int_polearm" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_knives_shivs_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "knives and shivs",
+    "description": "Recipes for combat practice with small pointed objects, like knives and shivs.",
+    "skill_used": "stabbing",
+    "nested_category_data": [ "prac_stabbing_beg_knife", "prac_stabbing_int_knife", "prac_stabbing_beg_shiv", "prac_stabbing_int_shiv" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_batons_and_staffs_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "batons and quarterstaves",
+    "description": "Recipes for combat practice with thin, stick-like bludgeons like batons and quarterstaves.",
+    "skill_used": "bashing",
+    "nested_category_data": [ "prac_bashing_beg_baton", "prac_bashing_int_baton", "prac_bashing_beg_staff", "prac_bashing_int_staff" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_maces_and_hammers_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "maces and great hammers",
+    "description": "Recipes for combat practice with weighty, smashing bludgeons, like maces and great hammers.",
+    "skill_used": "bashing",
+    "nested_category_data": [ "prac_bashing_beg_mace", "prac_bashing_int_mace", "prac_bashing_beg_great_hammer", "prac_bashing_int_great_hammer" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_firearm_cqc_practice",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "firearms CQC",
+    "description": "Recipes for CQC practice with firearms.",
+    "skill_used": "bashing",
+    "nested_category_data": [ "prac_bashing_beg_rifle", "prac_bashing_int_rifle", "prac_bashing_beg_pistol", "prac_bashing_int_pistol" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_arming_sword",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "arming swords",
@@ -4539,7 +4662,7 @@
   {
     "id": "nested_broadsword",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "broadswords",
@@ -4551,7 +4674,7 @@
   {
     "id": "nested_cavalry_sabre",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "cavalry sabres",
@@ -4563,7 +4686,7 @@
   {
     "id": "nested_cutlass",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "cutlasses",
@@ -4575,7 +4698,7 @@
   {
     "id": "nested_estoc",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "estocs",
@@ -4586,7 +4709,7 @@
   {
     "id": "nested_falx",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "falxes",
@@ -4598,7 +4721,7 @@
   {
     "id": "nested_jian",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "jians",
@@ -4610,7 +4733,7 @@
   {
     "id": "nested_katana",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "katanas",
@@ -4622,7 +4745,7 @@
   {
     "id": "nested_kriegsmesser",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kriegsmessers",
@@ -4634,7 +4757,7 @@
   {
     "id": "nested_longsword",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "longswords",
@@ -4646,7 +4769,7 @@
   {
     "id": "nested_nodachi",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "nodachis",
@@ -4658,7 +4781,7 @@
   {
     "id": "nested_rapier",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "rapiers",
@@ -4669,7 +4792,7 @@
   {
     "id": "nested_scimitar",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "shamshirs",
@@ -4681,7 +4804,7 @@
   {
     "id": "nested_talwar",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "talwars",
@@ -4693,7 +4816,7 @@
   {
     "id": "nested_kilij",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kilijes",
@@ -4705,7 +4828,7 @@
   {
     "id": "nested_rambo",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "survival knives",
@@ -4717,7 +4840,7 @@
   {
     "id": "nested_trench",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "trench knives",
@@ -4729,7 +4852,7 @@
   {
     "id": "nested_kukri",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
@@ -4741,7 +4864,7 @@
   {
     "id": "nested_wakizashi",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "wakizashis",
@@ -4753,7 +4876,7 @@
   {
     "id": "nested_zweihander",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "zweihänders",
@@ -4765,7 +4888,7 @@
   {
     "id": "nested_battleaxe",
     "type": "nested_category",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "battle axes",
@@ -5188,7 +5311,6 @@
       "bot_dispatch_military",
       "bot_turret_searchlight",
       "bot_molebot",
-      "bot_mininuke_hack",
       "bot_nursebot",
       "bot_skitterbot",
       "bot_secubot",

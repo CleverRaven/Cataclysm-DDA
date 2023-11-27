@@ -95,6 +95,9 @@ static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
+// Wether or not to use Outfit (M) at character creation
+static bool outfit = true;
+
 // Responsive screen behavior for small terminal sizes
 static bool isWide = false;
 
@@ -422,6 +425,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     *this = avatar();
 
     male = ( rng( 1, 100 ) > 50 );
+    outfit = male;
     if( !MAP_SHARING::isSharing() ) {
         play_now ? pick_name() : pick_name( true );
     } else {
@@ -607,7 +611,7 @@ void avatar::add_profession_items()
         return;
     }
 
-    std::list<item> prof_items = prof->items( male, get_mutations() );
+    std::list<item> prof_items = prof->items( outfit, get_mutations() );
 
     for( item &it : prof_items ) {
         if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
@@ -885,6 +889,12 @@ void Character::initialize( bool learn_recipes )
         add_proficiency( pri );
     }
 
+    // Add profession recipes
+    for( const recipe_id &id : prof->recipes() ) {
+        const recipe &r = recipe_dictionary::get_craft( id->result() );
+        learn_recipe( &r );
+    }
+
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
@@ -1015,11 +1025,19 @@ static const char *g_switch_msg( const avatar &u )
 {
     return  u.male ?
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+            _( "Identity: <color_magenta>%2$s</color> (<color_light_cyan>male</color>) (press <color_light_green>%1$s</color> to switch)" )
+            :
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+            _( "Identity: <color_magenta>%2$s</color> (<color_pink>female</color>) (press <color_light_green>%1$s</color> to switch)" );
+}
+
+static const char *dress_switch_msg()
+{
+    return  outfit ?
+            //~ Outfit switch message. 1s - change key name.
+            _( "Outfit: <color_light_cyan>male</color> (press <color_light_green>%1$s</color> to change)" ) :
+            //~ Outfit switch message. 1s - change key name.
+            _( "Outfit: <color_pink>female</color> (press <color_light_green>%1$s</color> to change)" );
 }
 
 void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
@@ -1970,7 +1988,8 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
 
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
-                                sorted_profs[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
+                                sorted_profs[cur_id]->gender_appropriate_name( u.male ) ) + "\n";
+    assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
@@ -2045,7 +2064,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession items
-    const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
+    const auto prof_items = sorted_profs[cur_id]->items( outfit, u.get_mutations() );
     assembled += "\n" + colorize( _( "Profession items:" ), COL_HEADER ) + "\n";
     if( prof_items.empty() ) {
         assembled += pgettext( "set_profession_item", "None" ) + std::string( "\n" );
@@ -2107,6 +2126,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
         assembled += "\n" + colorize( _( "Profession proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
             assembled += prof->name() + "\n";
+        }
+    }
+    // Recipes
+    std::vector<recipe_id> prof_recipe = sorted_profs[cur_id]->recipes();
+    if( !prof_recipe.empty() ) {
+        assembled += "\n" + colorize( _( "Profession recipes:" ), COL_HEADER ) + "\n";
+        for( const recipe_id &prof : prof_recipe ) {
+            assembled += prof->result_name() + "\n";
         }
     }
     // Profession pet
@@ -2227,6 +2254,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
+    ctxt.register_action( "CHANGE_OUTFIT" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
@@ -2384,6 +2412,9 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits();
+        } else if( action == "CHANGE_OUTFIT" ) {
+            outfit = !outfit;
+            recalc_profs = true;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             profession_sorter.male = u.male;
@@ -3501,10 +3532,14 @@ static void draw_blood( ui_adaptor &ui, const catacurses::window &w_blood,
 static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
                            const avatar &you, const bool highlight )
 {
-    const std::string random_start_location_text = string_format( n_gettext(
+    std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
+
+    if( get_scenario()->start_location_targets_count() == 1 ) {
+        random_start_location_text = get_scenario()->start_location().obj().name();
+    }
 
     werase( w_location );
     mvwprintz( w_location, point_zero, highlight ? COL_SELECT : c_light_gray,

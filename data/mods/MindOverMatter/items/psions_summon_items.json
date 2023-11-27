@@ -223,6 +223,83 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
+    "id": "electrokinetic_ups_1",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "=",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "IS_UPS"
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17500 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_6",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 25000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL_ARMOR",
     "name": { "str": "pyrokinetic fire" },
@@ -240,6 +317,51 @@
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
     },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "item_photokinetic_radio",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "radio sense (speaking)" },
+    "description": "Your powers allow you to communicate by radio waves.  With a moment's concentration, you may instead scan for radio signals.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": ";",
+    "color": "yellow",
+    "flags": [
+      "TWO_WAY_RADIO",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "SEMITANGIBLE",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED"
+    ],
+    "use_action": [ { "type": "transform", "target": "item_photokinetic_radio_on", "menu_text": "Switch to scanning mode" } ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "item_photokinetic_radio_on",
+    "copy-from": "item_photokinetic_radio",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "radio sense (scanning)" },
+    "description": "Your powers allow you to listen for radio signals from the surrounding area.  With a moment's concentration, you may change frequency or switch to communicating by radio.",
+    "use_action": [ "RADIO_ON", { "type": "transform", "target": "item_photokinetic_radio", "menu_text": "Switch to speaking mode" } ],
+    "tick_action": [ "RADIO_TICK" ],
+    "flags": [
+      "TRADER_AVOID",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "ZERO_WEIGHT",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
     "id": "pyrokinetic_torch_weld",

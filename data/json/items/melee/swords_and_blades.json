@@ -291,32 +291,49 @@
     "symbol": ";",
     "color": "dark_gray",
     "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "location": "bayonet lug",
+      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "blacklist_mod": [
+        "crafted_suppressor",
+        "filter_suppressor",
+        "bottle_suppressor",
+        "shot_suppressor",
+        "suppressor",
+        "suppressor_compact",
+        "m203",
+        "m203_mod",
+        "m320_mod_mod",
+        "m320_mod",
+        "M6_shotgun",
+        "makeshift_bayonet",
+        "m26_mass",
+        "m26_mass_mod",
+        "pipe_launcher40mm",
+        "rm121aux",
+        "rm121aux_mod",
+        "masterkey",
+        "masterkey_mod",
+        "u_shotgun",
+        "u_shotgun_mod"
+      ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE", "CONDUCTIVE" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "SHEATH_KNIFE",
+      "NPC_THROWN",
+      "ALLOWS_BODY_BLOCK",
+      "PUMP_RAIL_COMPATIBLE",
+      "NO_SALVAGE",
+      "CONDUCTIVE"
+    ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 22 }
-  },
-  {
-    "id": "knife_combat_marine_mod",
-    "copy-from": "knife_combat_marine",
-    "type": "TOOL",
-    "name": { "str": "modified USMC bayonet" },
-    "description": "A modern bayonet in use with the US Marine Corps, adopted in an effort to improve USMC hand-to-hand fighting capabilities.  The bayonet is optimized to function as a fighting knife, sporting an ergonomic handle that will minimize hand fatigue during combat.  The blade tip is sharper in profile than other bayonets to assist in penetrating body armor, and also features a small serrated section to provide for some utility.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "5 s"
-    },
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "knife_combat_army",
@@ -335,32 +352,49 @@
     "symbol": ";",
     "color": "dark_gray",
     "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "location": "bayonet lug",
+      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "blacklist_mod": [
+        "crafted_suppressor",
+        "filter_suppressor",
+        "bottle_suppressor",
+        "shot_suppressor",
+        "suppressor",
+        "suppressor_compact",
+        "m203",
+        "m203_mod",
+        "m320_mod_mod",
+        "m320_mod",
+        "M6_shotgun",
+        "makeshift_bayonet",
+        "m26_mass",
+        "m26_mass_mod",
+        "pipe_launcher40mm",
+        "rm121aux",
+        "rm121aux_mod",
+        "masterkey",
+        "masterkey_mod",
+        "u_shotgun",
+        "u_shotgun_mod"
+      ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE", "CONDUCTIVE" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "SHEATH_KNIFE",
+      "NPC_THROWN",
+      "ALLOWS_BODY_BLOCK",
+      "PUMP_RAIL_COMPATIBLE",
+      "NO_SALVAGE",
+      "CONDUCTIVE"
+    ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 20 }
-  },
-  {
-    "id": "knife_combat_army_mod",
-    "copy-from": "knife_combat_army",
-    "type": "TOOL",
-    "name": { "str": "modified Army bayonet" },
-    "description": "The current issue Army bayonet, before the Cataclysm anyways.  It is thick, heavy, and surprisingly sharp.  The M9 bayonet also functions as a wire cutter, a mediocre saw, and an unwieldy screwdriver.  That the handle and tang can be completely disassembled from the blade is surely a fact of great comfort to the soldier, survivalist, and you.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "5 s"
-    },
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "knife_combat",
@@ -379,32 +413,49 @@
     "symbol": ";",
     "color": "dark_gray",
     "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "location": "bayonet lug",
+      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "blacklist_mod": [
+        "crafted_suppressor",
+        "filter_suppressor",
+        "bottle_suppressor",
+        "shot_suppressor",
+        "suppressor",
+        "suppressor_compact",
+        "m203",
+        "m203_mod",
+        "m320_mod_mod",
+        "m320_mod",
+        "M6_shotgun",
+        "makeshift_bayonet",
+        "m26_mass",
+        "m26_mass_mod",
+        "pipe_launcher40mm",
+        "rm121aux",
+        "rm121aux_mod",
+        "masterkey",
+        "masterkey_mod",
+        "u_shotgun",
+        "u_shotgun_mod"
+      ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE", "CONDUCTIVE" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "SHEATH_KNIFE",
+      "NPC_THROWN",
+      "ALLOWS_BODY_BLOCK",
+      "PUMP_RAIL_COMPATIBLE",
+      "NO_SALVAGE",
+      "CONDUCTIVE"
+    ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 22 }
-  },
-  {
-    "id": "knife_combat_mod",
-    "copy-from": "knife_combat",
-    "type": "TOOL",
-    "name": { "str": "modified National Guard bayonet" },
-    "description": "A cold war era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang, double-edged blade of high carbon steel terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "5 s"
-    },
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "knife_hunting",
@@ -460,6 +511,7 @@
   {
     "id": "lc_knife_rambo",
     "copy-from": "mc_knife_rambo",
+    "looks_like": "knife_rambo",
     "type": "GENERIC",
     "name": { "str": "mild steel survival knife", "str_pl": "mild steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  It's custom-made of mild steel, you could probably find better in a hunting store.",
@@ -471,6 +523,7 @@
   },
   {
     "id": "mc_knife_rambo",
+    "looks_like": "knife_rambo",
     "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "medium steel survival knife", "str_pl": "medium steel survival knives" },
@@ -506,6 +559,7 @@
   {
     "id": "hc_knife_rambo",
     "copy-from": "mc_knife_rambo",
+    "looks_like": "knife_rambo",
     "type": "GENERIC",
     "name": { "str": "high steel survival knife", "str_pl": "high steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  A competent weapon and tool, if not the best at any of them.",
@@ -516,6 +570,7 @@
   {
     "id": "ch_knife_rambo",
     "copy-from": "mc_knife_rambo",
+    "looks_like": "knife_rambo",
     "type": "GENERIC",
     "name": { "str": "hardened steel survival knife", "str_pl": "hardened steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Now this, this is a knife.",
@@ -526,6 +581,7 @@
   {
     "id": "qt_knife_rambo",
     "copy-from": "mc_knife_rambo",
+    "looks_like": "knife_rambo",
     "type": "GENERIC",
     "name": { "str": "tempered steel survival knife", "str_pl": "tempered steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Time to go Rambo on this apocalypse.",
@@ -587,6 +643,7 @@
   {
     "id": "lc_knife_trench",
     "copy-from": "mc_knife_trench",
+    "looks_like": "knife_trench",
     "type": "TOOL",
     "name": { "str": "mild steel trench knife", "str_pl": "mild steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is poorly made of mild steel with barely a proper grip.",
@@ -600,6 +657,7 @@
     "id": "mc_knife_trench",
     "type": "TOOL",
     "category": "weapons",
+    "looks_like": "knife_trench",
     "name": { "str": "medium steel trench knife", "str_pl": "medium steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of medium steel and is about shop quality.",
     "weight": "530 g",
@@ -621,6 +679,7 @@
   {
     "id": "hc_knife_trench",
     "copy-from": "mc_knife_trench",
+    "looks_like": "knife_trench",
     "type": "TOOL",
     "name": { "str": "high steel trench knife", "str_pl": "high steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of high steel and is probably as good as a WWI trench knife.",
@@ -631,6 +690,7 @@
   {
     "id": "ch_knife_trench",
     "copy-from": "mc_knife_trench",
+    "looks_like": "knife_trench",
     "type": "TOOL",
     "name": { "str": "hardened steel trench knife", "str_pl": "hardened steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of hardened steel, an officer's weapon if ever there was one.",
@@ -641,6 +701,7 @@
   {
     "id": "qt_knife_trench",
     "copy-from": "mc_knife_trench",
+    "looks_like": "knife_trench",
     "type": "TOOL",
     "name": { "str": "tempered steel trench knife", "str_pl": "tempered steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of tempered steel, and you feel you could hold a trench against an army of zombies with it.",
@@ -775,6 +836,7 @@
         "name": { "str": "tempered combat machete" },
         "description": "This common gardening tool has been customized, rebalanced and quench tempered to dramatically improve its performance as a weapon.",
         "color": "dark_gray",
+        "weight": 1,
         "append": false
       },
       {
@@ -1003,6 +1065,7 @@
   {
     "id": "jian",
     "copy-from": "mc_jian",
+    "looks_like": "arming_sword",
     "type": "TOOL",
     "name": { "str_sp": "jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.",
@@ -1011,6 +1074,7 @@
   {
     "id": "lc_jian",
     "copy-from": "mc_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "name": { "str_sp": "mild steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
@@ -1045,6 +1109,7 @@
   },
   {
     "id": "hc_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "high steel jian" },
@@ -1055,6 +1120,7 @@
   },
   {
     "id": "ch_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "hardened steel jian" },
@@ -1065,6 +1131,7 @@
   },
   {
     "id": "qt_jian",
+    "looks_like": "jian",
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "tempered steel jian" },
@@ -1075,6 +1142,7 @@
   },
   {
     "id": "jian_inferior",
+    "looks_like": "jian",
     "copy-from": "mc_jian",
     "type": "TOOL",
     "name": { "str_sp": "jian" },
@@ -1085,6 +1153,7 @@
   },
   {
     "id": "jian_fake",
+    "looks_like": "jian",
     "copy-from": "mc_jian",
     "type": "GENERIC",
     "name": { "str_sp": "jian" },
@@ -1097,6 +1166,7 @@
   {
     "id": "scimitar",
     "copy-from": "mc_scimitar",
+    "looks_like": "katana",
     "type": "TOOL",
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
@@ -1574,25 +1644,40 @@
     "symbol": "/",
     "color": "light_gray",
     "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "location": "bayonet lug",
+      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "blacklist_mod": [
+        "crafted_suppressor",
+        "filter_suppressor",
+        "bottle_suppressor",
+        "shot_suppressor",
+        "suppressor",
+        "suppressor_compact",
+        "m203",
+        "m203_mod",
+        "m320_mod_mod",
+        "m320_mod",
+        "M6_shotgun",
+        "makeshift_bayonet",
+        "m26_mass",
+        "m26_mass_mod",
+        "pipe_launcher40mm",
+        "rm121aux",
+        "rm121aux_mod",
+        "masterkey",
+        "masterkey_mod",
+        "u_shotgun",
+        "u_shotgun_mod"
+      ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "PUMP_RAIL_COMPATIBLE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 7, "stab": 21 }
-  },
-  {
-    "id": "sword_bayonet_mod",
-    "copy-from": "sword_bayonet",
-    "type": "TOOL",
-    "name": { "str": "modified sword bayonet" },
-    "description": "A long, knife bladed bayonet that can be attached to the front of a rifle, converting it into a pike.  It is long enough to be used as a short sword when unmounted.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "tanto",
@@ -2901,14 +2986,37 @@
     "price_postapoc": 3000,
     "melee_damage": { "bash": 7, "stab": 12 },
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
-    "//": "VERY not  intended for usage unmounted.",
+    "//": "VERY not intended for usage unmounted.",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "gunmod_data": {
-      "location": "underbarrel",
+      "location": "bayonet lug",
       "mod_targets": [ "number4_mki" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "blacklist_mod": [
+        "crafted_suppressor",
+        "filter_suppressor",
+        "bottle_suppressor",
+        "shot_suppressor",
+        "suppressor",
+        "suppressor_compact",
+        "m203",
+        "m203_mod",
+        "m320_mod_mod",
+        "m320_mod",
+        "M6_shotgun",
+        "makeshift_bayonet",
+        "m26_mass",
+        "m26_mass_mod",
+        "pipe_launcher40mm",
+        "rm121aux",
+        "rm121aux_mod",
+        "masterkey",
+        "masterkey_mod",
+        "u_shotgun",
+        "u_shotgun_mod"
+      ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],

@@ -2107,7 +2107,11 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                        dest );
+                if( who.is_hauling() ) {
+                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
+                }
             }
             // If we picked up a whole stack, remove the leftover item
             if( leftovers.charges <= 0 ) {
@@ -2119,8 +2123,17 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
-        if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
-            who.stop_hauling();
+        if( who.is_hauling() ) {
+            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos() );
+            bool overflow = who.trim_haul_list( haulable_items );
+            if( who.is_hauling() && haulable_items.empty() ) {
+                who.stop_hauling();
+            }
+
+            if( overflow ) {
+                add_msg( m_warning,
+                         _( "You lose track of some hauled items as they didn't fit on the current tile." ) );
+            }
         }
     }
 }
@@ -4616,8 +4629,26 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = total_moves;
 }
 
+void milk_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        act.set_to_null();
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        // We might end up here if the creature dies while being milked
+        who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
+        act.set_to_null();
+    }
+}
+
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
+    act.set_to_null();
     if( monster_coords.empty() ) {
         debugmsg( "milking activity with no position of monster stored" );
         return;
@@ -4653,8 +4684,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     if( !string_values.empty() && string_values[0] == "temp_tie" ) {
         source_mon->remove_effect( effect_tied );
     }
-
-    act.set_to_null();
 }
 
 void milk_activity_actor::serialize( JsonOut &jsout ) const

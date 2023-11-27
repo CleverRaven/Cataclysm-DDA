@@ -3447,15 +3447,29 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", string_format( _( "Location: %s" ), mod.location.name() ) );
     }
 
-    if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
-        std::string mod_black_str = _( "<bold>Incompatible with mod location: </bold> " );
+    if( !mod.blacklist_slot.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_SLOT ) ) {
+        std::string mod_black_str = _( "<bold>Incompatible with gunmods: </bold> " );
 
         int iternum = 0;
-        for( const gunmod_location &black : mod.blacklist_mod ) {
+        for( const gunmod_location &black : mod.blacklist_slot ) {
             if( iternum != 0 ) {
                 mod_black_str += ", ";
             }
-            mod_black_str += string_format( "%s", black.name() );
+            mod_black_str += string_format( "%s", ( black.name() ) );
+            iternum++;
+        }
+        mod_black_str += ".";
+        info.emplace_back( "GUNMOD", mod_black_str );
+    }
+    if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
+        std::string mod_black_str = _( "<bold>Incompatible with slots: </bold> " );
+
+        int iternum = 0;
+        for( const itype_id &black : mod.blacklist_mod ) {
+            if( iternum != 0 ) {
+                mod_black_str += ", ";
+            }
+            mod_black_str += string_format( "%s", ( black->nname( 1 ) ) );
             iternum++;
         }
         mod_black_str += ".";
@@ -5446,6 +5460,14 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                                iteminfo::lower_is_better, attack_cost );
         }
         insert_separation_line( info );
+    } else if( player_character.get_skill_level( skill_melee ) < 3 &&
+               ( !dmg_types.empty() || type->m_to_hit > 0 ) ) {
+        insert_separation_line( info );
+        if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) );
+            info.emplace_back( "BASE",
+                               _( "You don't know enough about fighting to know how effectively you could use this." ) );
+        }
     }
 }
 
@@ -9153,6 +9175,7 @@ std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) 
             if( bp != bpid ) {
                 continue;
             }
+            matlist.reserve( matlist.size() + d.materials.size() );
             for( const part_material &m : d.materials ) {
                 matlist.emplace_back( &m );
             }
@@ -11278,10 +11301,17 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<void>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 
-    for( const gunmod_location &slot : mod.type->gunmod->blacklist_mod ) {
+    for( const gunmod_location &slot : mod.type->gunmod->blacklist_slot ) {
         if( get_mod_locations().count( slot ) ) {
             return ret_val<void>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
                                                 slot.name() );
+        }
+    }
+
+    for( const itype_id &testmod : mod.type->gunmod->blacklist_mod ) {
+        if( gunmod_find( testmod ) ) {
+            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with a \"%s\"" ),
+                                                ( testmod->nname( 1 ) ) );
         }
     }
 
