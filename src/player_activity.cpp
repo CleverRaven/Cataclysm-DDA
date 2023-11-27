@@ -346,6 +346,7 @@ void player_activity::do_turn( Character &you )
                     ignoreQuery = true;
                     break;
                 default:
+                    canceled( you );
                     break;
             }
         }
