@@ -299,7 +299,7 @@
     "volume": "2500 ml",
     "price": 0,
     "price_postapoc": 100,
-    "qualities": [ [ "BLOW_AIR", 1 ] ],
+    "qualities": [ [ "WINNOW", 1 ] ],
     "to_hit": 1,
     "material": [ "leather", "wood" ],
     "symbol": ";",
