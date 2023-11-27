@@ -33,7 +33,7 @@
         }
       ]
     },
-    "valid_mod_locations": [ [ "grip", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "rail mount", 1 ], [ "grip", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "1196 ml",
@@ -57,6 +57,6 @@
     "price_postapoc": 10000,
     "material": [ "aluminum", "carbonfiber" ],
     "range": 10,
-    "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel", 1 ] ]
   }
 ]
