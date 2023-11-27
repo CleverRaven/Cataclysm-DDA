@@ -267,7 +267,8 @@ struct npc_combat_memory {
     int assessment_before_repos = 0; // assessment of enemy threat level at the start of repositioning.
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning = false; // is NPC running away or just moving around / kiting.
-    int nearby_ranged_buddy = -1; // dist to nearest friend with a gun, or to player
+    int formation_distance = -1; // dist to nearest ally with a gun, or to player
+    int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
 
 enum class combat_engagement : int {

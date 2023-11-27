@@ -525,8 +525,8 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
         if( candidate_gun || ( is_player_ally() && candidate.is_avatar() ) ) {
             // later we should evaluate if the NPC trusts the player enough to stick to them so reliably
             int dist = rl_dist( pos(), candidate.pos() );
-            if( dist > mem_combat.nearby_ranged_buddy ) {
-                mem_combat.nearby_ranged_buddy = std::max( dist, 3 );
+            if( dist > mem_combat.formation_distance ) {
+                mem_combat.formation_distance = std::max( dist, mem_combat.engagement_distance );
             }
         }
     }
@@ -754,6 +754,7 @@ void npc::assess_danger()
             def_radius = 1;
         }
     }
+    mem_combat.engagement_distance = def_radius;
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
     int dist, int scaled_dist ) {
@@ -1267,7 +1268,7 @@ void npc::regen_ai_cache()
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
-    mem_combat.nearby_ranged_buddy = -1;
+    mem_combat.formation_distance = -1;
 
     assess_danger();
     if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
