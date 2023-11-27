@@ -616,7 +616,7 @@ float npc::evaluate_self( bool my_gun )
         }
         mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                       "<color_red>%s is bleeeeeeding...</color>, intensity %i", name, bleed_intensity );
+                       "<color_red>%s is bleeeeeeding…</color>, intensity %i", name, bleed_intensity );
         if( mem_combat.my_health < 0.25f ) {
             mem_combat.panic += 1;
         }
