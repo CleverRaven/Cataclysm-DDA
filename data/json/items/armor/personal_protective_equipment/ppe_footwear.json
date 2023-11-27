@@ -1,0 +1,52 @@
+[
+  {
+    "id": "boots_malo",
+    "type": "ARMOR",
+    "name": { "str": "pair of MALO overboots", "str_pl": "pairs of MALO overboots" },
+    "description": "A pair of tall butyl rubber boots built to withstand chemical, biological, radiological, and nuclear hazards, the MOULDED AIRBOSS LIGHTWEIGHT OVERBOOT is intended to be worn over a soldier’s pre-war combat boot, secured with straps, and its shaft tucked under the cuff of a CBRN protective suit. Ambidextrous in nature, the footwear’s smooth rubber shell will provide an impenetrable barrier to practically all contaminants you’ll encounter as you tromp about the blood latrine known as New England, including radioactive fallout, industrial toxins, and zombie bits.",
+    "weight": "1190 g",
+    "volume": "1950 ml",
+    "//": "Weight and volume statistics were surprisingly, and conveniently, provided within https://opeccbrne.com/wp-content/uploads/2018/08/Moulded-Airboss-CBRN-Lightweight-Overboot.pdf",
+    "price": 10500,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "black",
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 12,
+    "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_lower_l", "leg_lower_r" ],
+        "encumbrance": 30,
+        "coverage": 100
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "encumbrance": 30,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "coverage": 100
+      }
+    ]
+  }
+]
