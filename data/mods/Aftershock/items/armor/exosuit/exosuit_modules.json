@@ -690,7 +690,7 @@
     "name": { "str": "UCIA Drone Controller" },
     "description": "This is a closely-held military module used by the UCIA to both control their own drones and disable hostile drones.  A large phased array fits over the torso and an onboard controller links to the suit's systems.  Without the command keys, this will still disable a drone or robot for a few seconds.",
     "weight": "4 kg",
-    "volume": "7 l",
+    "volume": "7 L",
     "range": 30,
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
