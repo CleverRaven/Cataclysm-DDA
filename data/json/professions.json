@@ -1784,12 +1784,7 @@
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
-          {
-            "item": "hk_mp5",
-            "ammo-item": "9mm",
-            "charges": 30,
-            "contents-item": [ "suppressor", "holo_sight" ]
-          }
+          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "suppressor", "holo_sight" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2382,12 +2377,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          {
-            "item": "hk_mp5",
-            "ammo-item": "9mm",
-            "charges": 30,
-            "contents-item": [ "rail_laser_sight" ]
-          }
+          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "rail_laser_sight" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -5713,12 +5703,7 @@
           { "group": "us_ballistic_vest_pristine" },
           { "group": "army_mags_mp7" },
           { "item": "water_clean", "container-item": "canteen" },
-          {
-            "item": "hk_mp7",
-            "ammo-item": "46mm",
-            "charges": 20,
-            "contents-item": [ "holo_sight", "suppressor" ]
-          },
+          { "item": "hk_mp7", "ammo-item": "46mm", "charges": 20, "contents-item": [ "holo_sight", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat_marine", "container-item": "sheath" },
           { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
