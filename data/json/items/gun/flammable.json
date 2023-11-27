@@ -38,7 +38,7 @@
       {
         "magazine_well": "1196 ml",
         "pocket_type": "MAGAZINE_WELL",
-		    "rigid": false, 
+        "rigid": false,
         "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ]
       }
     ],
