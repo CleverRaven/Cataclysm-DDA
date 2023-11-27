@@ -1458,7 +1458,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
     if( action == "YES" ) {
         u.cancel_activity();
-        for ( player_activity activity : u.backlog ) {
+        for( player_activity activity : u.backlog ) {
             activity.canceled( u );
         }
         return true;
