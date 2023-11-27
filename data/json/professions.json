@@ -1774,7 +1774,8 @@
           "socks",
           "boots_combat",
           "dive_bag",
-          "diving_watch"
+          "diving_watch",
+		  "single_sling"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -1787,7 +1788,7 @@
             "item": "hk_mp5",
             "ammo-item": "9mm",
             "charges": 30,
-            "contents-item": [ "shoulder_strap", "suppressor", "holo_sight" ]
+            "contents-item": [ "suppressor", "holo_sight" ]
           }
         ]
       },
@@ -2369,7 +2370,8 @@
           "wristwatch",
           "pants_tactical",
           "elbow_pads",
-          "knee_pads"
+          "knee_pads",
+		  "single_sling"
         ],
         "entries": [
           { "group": "swat_ballistic_vest_pristine" },
@@ -2384,7 +2386,7 @@
             "item": "hk_mp5",
             "ammo-item": "9mm",
             "charges": 30,
-            "contents-item": [ "shoulder_strap", "rail_laser_sight" ]
+            "contents-item": [ "rail_laser_sight" ]
           }
         ]
       },
@@ -2699,7 +2701,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           {
@@ -5703,7 +5705,8 @@
           "boots_combat",
           "diving_watch",
           "molle_pack",
-          "multitool"
+          "multitool",
+		  "single_sling"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -5714,7 +5717,7 @@
             "item": "hk_mp7",
             "ammo-item": "46mm",
             "charges": 20,
-            "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+            "contents-item": [ "holo_sight", "suppressor" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat_marine", "container-item": "sheath" },
