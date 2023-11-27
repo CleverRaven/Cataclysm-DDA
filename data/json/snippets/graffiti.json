@@ -155,7 +155,10 @@
         "text": "A pregnant woman said that one of those undead fuckers fucked her in the fucking fuck fuck.  Fuck.  I had sloppy seconds.  It was worth it."
       },
       { "id": "shelter_graffiti_38", "text": "I SAW IT ISAWITWITHMYEYESITWASTHEHUMANS" },
-      { "id": "shelter_graffiti_39", "text": "If the dead get back up, is there a chance for resurrection?  Who is going to pray for them?  Who shall save them?  In this world, death is already redemption.  So what of the undead?" },
+      {
+        "id": "shelter_graffiti_39",
+        "text": "If the dead get back up, is there a chance for resurrection?  Who is going to pray for them?  Who shall save them?  In this world, death is already redemption.  So what of the undead?"
+      },
       { "id": "shelter_graffiti_40", "text": "I sometimes dream of a time before all this." }
     ]
   }
