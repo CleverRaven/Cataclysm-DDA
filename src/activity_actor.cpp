@@ -296,12 +296,13 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
-        if( !load_RAS_weapon() ) {
-            aborted = true;
-            act.moves_left = 0;
-            return;
-        }
+    // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
+    // therefore the order of evaluation matters here
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
+            first_turn ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -553,20 +554,20 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
             return;
         }
         switch( player_vehicle->do_autodrive( who ) ) {
-            case autodrive_result::ok:
-                if( who.moves > 0 ) {
-                    // if do_autodrive() didn't eat up all our moves, end the turn
-                    // equivalent to player pressing the "pause" button
-                    who.moves = 0;
-                }
-                sounds::reset_markers();
-                break;
-            case autodrive_result::abort:
-                who.cancel_activity();
-                break;
-            case autodrive_result::finished:
-                act.moves_left = 0;
-                break;
+        case autodrive_result::ok:
+            if( who.moves > 0 ) {
+                // if do_autodrive() didn't eat up all our moves, end the turn
+                // equivalent to player pressing the "pause" button
+                who.moves = 0;
+            }
+            sounds::reset_markers();
+            break;
+        case autodrive_result::abort:
+            who.cancel_activity();
+            break;
+        case autodrive_result::finished:
+            act.moves_left = 0;
+            break;
         }
     } else {
         who.cancel_activity();
@@ -769,53 +770,53 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     tripoint examp = get_map().getlocal( act.placement );
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
-        case hack_result::UNABLE:
-            who.add_msg_if_player( _( "You cannot hack this." ) );
-            break;
-        case hack_result::FAIL:
-            // currently all things that can be hacked have equivalent alarm failure states.
-            // this may not always be the case with new hackable things.
-            get_event_bus().send<event_type::triggers_alarm>( who.getID() );
-            sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            break;
-        case hack_result::NOTHING:
-            who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
-            break;
-        case hack_result::SUCCESS:
-            map &here = get_map();
-            if( type == hack_type::GAS ) {
-                int tankUnits;
-                fuel_station_fuel_type fuelType;
-                const std::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
-                                                       fuelType );
-                if( !pTank_ ) {
-                    break;
-                }
-                const tripoint pTank = *pTank_;
-                const std::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
-                        uistate.ags_pay_gas_selected_pump );
-                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankUnits ) ) {
-                    who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
-                    sounds::sound( examp, 6, sounds::sound_t::activity,
-                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
-                } else {
-                    who.add_msg_if_player( _( "Nothing happens." ) );
-                }
-            } else if( type == hack_type::SAFE ) {
-                who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                here.furn_set( examp, furn_f_safe_o );
-            } else if( type == hack_type::DOOR ) {
-                who.add_msg_if_player( _( "You activate the panel!" ) );
-                who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                here.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-                    if( here.ter( tmp ) == t_door_metal_locked ) {
-                        here.ter_set( tmp, t_door_metal_c );
-                    }
+    case hack_result::UNABLE:
+        who.add_msg_if_player( _( "You cannot hack this." ) );
+        break;
+    case hack_result::FAIL:
+        // currently all things that can be hacked have equivalent alarm failure states.
+        // this may not always be the case with new hackable things.
+        get_event_bus().send<event_type::triggers_alarm>( who.getID() );
+        sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        break;
+    case hack_result::NOTHING:
+        who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
+        break;
+    case hack_result::SUCCESS:
+        map &here = get_map();
+        if( type == hack_type::GAS ) {
+            int tankUnits;
+            fuel_station_fuel_type fuelType;
+            const std::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
+                                                   fuelType );
+            if( !pTank_ ) {
+                break;
+            }
+            const tripoint pTank = *pTank_;
+            const std::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
+                    uistate.ags_pay_gas_selected_pump );
+            if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankUnits ) ) {
+                who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
+                sounds::sound( examp, 6, sounds::sound_t::activity,
+                               _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
+            } else {
+                who.add_msg_if_player( _( "Nothing happens." ) );
+            }
+        } else if( type == hack_type::SAFE ) {
+            who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
+            here.furn_set( examp, furn_f_safe_o );
+        } else if( type == hack_type::DOOR ) {
+            who.add_msg_if_player( _( "You activate the panel!" ) );
+            who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
+            here.ter_set( examp, t_card_reader_broken );
+            for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
+                if( here.ter( tmp ) == t_door_metal_locked ) {
+                    here.ter_set( tmp, t_door_metal_c );
                 }
             }
-            break;
+        }
+        break;
     }
     act.set_to_null();
 }
@@ -1026,9 +1027,9 @@ void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
         std::set<recipe_id> candidates;
         for( const auto& [rid, r] : recipe_dict ) {
             if( r.never_learn || r.obsolete || mmd->recipes_categories.count( r.category ) == 0 ||
-                saved_recipes.count( rid ) ||
-                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ||
-                ( r.has_flag( "SECRET" ) && !mmd->secret_recipes ) ) {
+                    saved_recipes.count( rid ) ||
+                    r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ||
+                    ( r.has_flag( "SECRET" ) && !mmd->secret_recipes ) ) {
                 continue;
             }
             candidates.emplace( rid );
@@ -1718,8 +1719,8 @@ bool read_activity_actor::player_read( avatar &you )
         }
 
         if( skill &&
-            learner->get_knowledge_level( skill ) < islotbook->level &&
-            learner->get_skill_level_object( skill ).can_train() ) {
+                learner->get_knowledge_level( skill ) < islotbook->level &&
+                learner->get_skill_level_object( skill ).can_train() ) {
 
             SkillLevel &skill_level = learner->get_skill_level_object( skill );
             std::string skill_name = skill.obj().name();
@@ -1755,8 +1756,8 @@ bool read_activity_actor::player_read( avatar &you )
             }
 
             if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-                ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
-                  one_in( 25 ) ) ) {
+                    ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
+                      one_in( 25 ) ) ) {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
                 } else {
@@ -1821,22 +1822,22 @@ bool read_activity_actor::player_readma( avatar &you )
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
-            case 1:
-                add_msg( m_info,
-                         _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
-                break;
-            case 2:
-                add_msg( m_info,
-                         _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
-                break;
-            case 3:
-                add_msg( m_info,
-                         _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
-                break;
-            case 4: // intentionally empty
-            case 5:
-                add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
-                break;
+        case 1:
+            add_msg( m_info,
+                     _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
+            break;
+        case 2:
+            add_msg( m_info,
+                     _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
+            break;
+        case 3:
+            add_msg( m_info,
+                     _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
+            break;
+        case 4: // intentionally empty
+        case 5:
+            add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+            break;
         }
     } else {
         add_msg( m_info, _( "You train for a while." ) );
@@ -1866,8 +1867,8 @@ bool read_activity_actor::npc_read( npc &learner )
     book->mark_chapter_as_read( learner );
 
     if( skill &&
-        learner.get_knowledge_level( skill ) < islotbook->level &&
-        learner.get_skill_level_object( skill ).can_train() ) {
+            learner.get_knowledge_level( skill ) < islotbook->level &&
+            learner.get_skill_level_object( skill ).can_train() ) {
 
         SkillLevel &skill_level = learner.get_skill_level_object( skill );
         std::string skill_name = skill.obj().name();
@@ -1893,9 +1894,9 @@ bool read_activity_actor::npc_read( npc &learner )
         }
 
         if( display_messages &&
-            ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
-                one_in( 25 ) ) ) ) {
+                ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
+                  ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
+                    one_in( 25 ) ) ) ) {
             add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
                      book->type_name() );
         }
@@ -2011,9 +2012,9 @@ std::string read_activity_actor::get_progress_message( const player_activity & )
     const skill_id &skill = islotbook->skill;
 
     if( skill &&
-        you.get_knowledge_level( skill ) < islotbook->level &&
-        you.get_skill_level_object( skill ).can_train() &&
-        you.has_identified( book->typeId() ) ) {
+            you.get_knowledge_level( skill ) < islotbook->level &&
+            you.get_skill_level_object( skill ).can_train() &&
+            you.has_identified( book->typeId() ) ) {
         const SkillLevel &skill_level = you.get_skill_level_object( skill );
         //~ skill_name current_skill_level -> next_skill_level (% to next level)
         return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
@@ -3055,17 +3056,17 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
                           _( "Continue trying to fall asleep and don't ask again." ) );
     sleep_query.query();
     switch( sleep_query.ret ) {
-        case UILIST_CANCEL:
-        case 1:
-            act.set_to_null();
-            who.set_movement_mode( move_mode_walk );
-            break;
-        case 3:
-            disable_query = true;
-            break;
-        case 2:
-        default:
-            break;
+    case UILIST_CANCEL:
+    case 1:
+        act.set_to_null();
+        who.set_movement_mode( move_mode_walk );
+        break;
+    case 3:
+        disable_query = true;
+        break;
+    case 2:
+    default:
+        break;
     }
 }
 
@@ -3216,10 +3217,10 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         bool changed = false;
 
         for( item_pocket::pocket_type ptype : {
-                 item_pocket::pocket_type::CONTAINER,
-                 item_pocket::pocket_type::MAGAZINE_WELL,
-                 item_pocket::pocket_type::MAGAZINE
-             } ) {
+                    item_pocket::pocket_type::CONTAINER,
+                    item_pocket::pocket_type::MAGAZINE_WELL,
+                    item_pocket::pocket_type::MAGAZINE
+                } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
                 int old_charges = contained->charges;
@@ -3475,7 +3476,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         }
     } else {
         if( level_up && craft.get_making().is_practice() &&
-            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
+                query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
             crafter.cancel_activity();
         } else if( craft.item_counter >= craft.get_next_failure_point() ) {
             bool destroy = craft.handle_craft_failure( crafter );
@@ -3589,10 +3590,10 @@ void workout_activity_actor::start( player_activity &act, Character &who )
         return;
     }
     if( !hand_equipment && !leg_equipment &&
-        ( who.is_limb_broken( body_part_arm_l ) ||
-          who.is_limb_broken( body_part_arm_r ) ||
-          who.is_limb_broken( body_part_leg_l ) ||
-          who.is_limb_broken( body_part_leg_r ) ) ) {
+            ( who.is_limb_broken( body_part_arm_l ) ||
+              who.is_limb_broken( body_part_arm_r ) ||
+              who.is_limb_broken( body_part_leg_l ) ||
+              who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train freely with a broken limb." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -3613,27 +3614,27 @@ void workout_activity_actor::start( player_activity &act, Character &who )
                                  _( "High intensity exercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {
-        case UILIST_CANCEL:
-            act.set_to_null();
-            act_id = activity_id::NULL_ID();
-            return;
-        case 4:
-            act_id = ACT_WORKOUT_HARD;
-            intensity_modifier = 4;
-            break;
-        case 3:
-            act_id = ACT_WORKOUT_ACTIVE;
-            intensity_modifier = 3;
-            break;
-        case 2:
-            act_id = ACT_WORKOUT_MODERATE;
-            intensity_modifier = 2;
-            break;
-        case 1:
-        default:
-            act_id = ACT_WORKOUT_LIGHT;
-            intensity_modifier = 1;
-            break;
+    case UILIST_CANCEL:
+        act.set_to_null();
+        act_id = activity_id::NULL_ID();
+        return;
+    case 4:
+        act_id = ACT_WORKOUT_HARD;
+        intensity_modifier = 4;
+        break;
+    case 3:
+        act_id = ACT_WORKOUT_ACTIVE;
+        intensity_modifier = 3;
+        break;
+    case 2:
+        act_id = ACT_WORKOUT_MODERATE;
+        intensity_modifier = 2;
+        break;
+    case 1:
+    default:
+        act_id = ACT_WORKOUT_LIGHT;
+        intensity_modifier = 1;
+        break;
     }
     int length;
     query_int( length, _( "Train for how long (minutes): " ) );
@@ -3680,7 +3681,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
-            ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
+                ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
             who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
@@ -3725,28 +3726,28 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
     workout_query.addentry( 3, true, 'C', _( "Continue training and don't ask again." ) );
     workout_query.query();
     switch( workout_query.ret ) {
-        case UILIST_CANCEL:
-        case 1:
-            act_id = activity_id::NULL_ID();
-            act.set_to_null();
-            return false;
-        case 3:
-            disable_query = true;
-            elapsed += act.moves_total - act.moves_left;
-            act.moves_total = to_moves<int>( 60_minutes );
-            act.moves_left = act.moves_total;
-            return true;
-        case 2:
-        default:
-            query_int( length, _( "Train for how long (minutes): " ) );
-            elapsed += act.moves_total - act.moves_left;
-            duration = 0_minutes;
-            if( length > 0 ) {
-                duration = length * 1_minutes;
-            }
-            act.moves_total = to_moves<int>( duration );
-            act.moves_left = act.moves_total;
-            return true;
+    case UILIST_CANCEL:
+    case 1:
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return false;
+    case 3:
+        disable_query = true;
+        elapsed += act.moves_total - act.moves_left;
+        act.moves_total = to_moves<int>( 60_minutes );
+        act.moves_left = act.moves_total;
+        return true;
+    case 2:
+    default:
+        query_int( length, _( "Train for how long (minutes): " ) );
+        elapsed += act.moves_total - act.moves_left;
+        duration = 0_minutes;
+        if( length > 0 ) {
+            duration = length * 1_minutes;
+        }
+        act.moves_total = to_moves<int>( duration );
+        act.moves_left = act.moves_total;
+        return true;
     }
 }
 
@@ -3806,7 +3807,7 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
 static bool is_bulk_unload( const item_location &lhs, const item_location &rhs )
 {
     if( lhs.where() == item_location::type::container &&
-        rhs.where() == item_location::type::container && lhs.parent_item() == rhs.parent_item() ) {
+            rhs.where() == item_location::type::container && lhs.parent_item() == rhs.parent_item() ) {
         return true;
     }
     return false;
@@ -3863,7 +3864,7 @@ static std::list<item> obtain_activity_items( std::vector<drop_or_stash_item_inf
 
         // Take off the item or remove it from where it's been
         if( loc.where_recursive() == item_location::type::map ||
-            loc.where_recursive() == item_location::type::vehicle ) {
+                loc.where_recursive() == item_location::type::vehicle ) {
             item copy( *loc );
             if( loc->count_by_charges() && loc->count() > it->count() ) {
                 copy.charges -= it->count();
@@ -4172,7 +4173,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 {
     if( get_avatar().get_knowledge_level( skill_electronics ) + get_avatar().get_knowledge_level(
-            skill_mechanics ) <= 0 ) {
+                skill_mechanics ) <= 0 ) {
         return false;
     }
 
@@ -4271,15 +4272,15 @@ static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
 {
     if( lhs.where() == rhs.where() && lhs->stacks_with( *rhs ) ) {
         switch( lhs.where() ) {
-            case item_location::type::container:
-                return lhs.parent_item() == rhs.parent_item();
-                break;
-            case item_location::type::map:
-            case item_location::type::vehicle:
-                return lhs.position() == rhs.position();
-                break;
-            default:
-                break;
+        case item_location::type::container:
+            return lhs.parent_item() == rhs.parent_item();
+            break;
+        case item_location::type::map:
+        case item_location::type::vehicle:
+            return lhs.position() == rhs.position();
+            break;
+        default:
+            break;
         }
     }
     return false;
@@ -4574,21 +4575,21 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     reload_query.query();
 
     switch( reload_query.ret ) {
-        case 1:
-            // This case is only reachable if wield_check is true
-            who.wield( reloadable );
-            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
-                     reloadable_name );
-            break;
-        case 2:
-        default:
-            // In player inventory and player is wielding something.
-            loc.carrier()->add_msg_if_player( m_neutral,
-                                              _( "The %s no longer fits in your inventory so you drop it instead." ),
-                                              reloadable_name );
-            get_map().add_item_or_charges( loc.position(), reloadable );
-            loc.remove_item();
-            break;
+    case 1:
+        // This case is only reachable if wield_check is true
+        who.wield( reloadable );
+        add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                 reloadable_name );
+        break;
+    case 2:
+    default:
+        // In player inventory and player is wielding something.
+        loc.carrier()->add_msg_if_player( m_neutral,
+                                          _( "The %s no longer fits in your inventory so you drop it instead." ),
+                                          reloadable_name );
+        get_map().add_item_or_charges( loc.position(), reloadable );
+        loc.remove_item();
+        break;
     }
 }
 
@@ -6109,7 +6110,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
 
     tripoint direction;
     if( !who.is_npc() &&
-        ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
+            ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
             if( const std::optional<tripoint> dir = choose_direction(
                     _( "Select a direction for the tree to fall in." ) ) ) {
@@ -6317,7 +6318,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+                it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
@@ -6333,7 +6334,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     // Return to first eat or consume meds menu activity in the backlog.
     for( player_activity &backlog_act : who.backlog ) {
         if( backlog_act.id() == ACT_EAT_MENU ||
-            backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
+                backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
             backlog_act.auto_resume = true;
             break;
         }
@@ -6403,24 +6404,24 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     ter_str_id next_ter;
 
     switch( season_of_year( calendar::turn ) ) {
-        case SPRING:
-            group_id = Item_spawn_data_forage_spring;
-            next_ter = ter_t_underbrush_harvested_spring;
-            break;
-        case SUMMER:
-            group_id = Item_spawn_data_forage_summer;
-            next_ter = ter_t_underbrush_harvested_summer;
-            break;
-        case AUTUMN:
-            group_id = Item_spawn_data_forage_autumn;
-            next_ter = ter_t_underbrush_harvested_autumn;
-            break;
-        case WINTER:
-            group_id = Item_spawn_data_forage_winter;
-            next_ter = ter_t_underbrush_harvested_winter;
-            break;
-        default:
-            debugmsg( "Invalid season" );
+    case SPRING:
+        group_id = Item_spawn_data_forage_spring;
+        next_ter = ter_t_underbrush_harvested_spring;
+        break;
+    case SUMMER:
+        group_id = Item_spawn_data_forage_summer;
+        next_ter = ter_t_underbrush_harvested_summer;
+        break;
+    case AUTUMN:
+        group_id = Item_spawn_data_forage_autumn;
+        next_ter = ter_t_underbrush_harvested_autumn;
+        break;
+    case WINTER:
+        group_id = Item_spawn_data_forage_winter;
+        next_ter = ter_t_underbrush_harvested_winter;
+        break;
+    default:
+        debugmsg( "Invalid season" );
     }
 
     const tripoint bush_pos = here.getlocal( act.placement );
@@ -6790,14 +6791,14 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
-                           fac_id ) ) {
+                mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+                              fac_id ) ) {
             coord_set.insert( p.raw() );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
-                           fac_id ) ) {
+                mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+                              fac_id ) ) {
             coord_set.insert( p.raw() );
         }
         stage = THINK;
@@ -6848,8 +6849,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, fac_id ) ||
-                here.get_field( src_loc, fd_fire ) != nullptr ||
-                !here.can_put_items_ter_furn( src_loc ) ) {
+                    here.get_field( src_loc, fd_fire ) != nullptr ||
+                    !here.can_put_items_ter_furn( src_loc ) ) {
                 continue;
             }
 
@@ -6980,9 +6981,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
             if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
-                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
+                    ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
-                    !it->first->any_pockets_sealed() ) {
+                        !it->first->any_pockets_sealed() ) {
                     std::unordered_map<itype_id, int> item_counts;
                     if( unload_sparse_only ) {
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
@@ -6995,7 +6996,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( unload_sparse_only &&
-                                item_counts[contained->typeId()] > unload_sparse_threshold ) {
+                                    item_counts[contained->typeId()] > unload_sparse_threshold ) {
                                 continue;
                             }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
@@ -7344,7 +7345,7 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     };
     const inventory &crafting_inv = p.crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, requirements.water, is_liquid_crafting_component ) &&
-        !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
+            !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
         p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                              requirements.water );
         act.set_to_null();
