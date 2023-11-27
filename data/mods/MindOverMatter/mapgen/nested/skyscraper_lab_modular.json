@@ -316,7 +316,7 @@
         "CA.Aç...F",
         "C.......F",
         "VfVVGVVfV",
-        "xh......h",
+        "xc......c",
         "...xEx..x",
         "ççççç5555"
       ],
@@ -354,7 +354,7 @@
         "F...çA.AC",
         "F.......C",
         "VfVVGVVfV",
-        "h......hx",
+        "c......cx",
         "x..xEx...",
         "5555ççççç"
       ],
@@ -942,11 +942,11 @@
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        ".??",
-        "nnh",
-        "..."
+        "HHH",
+        "AAc",
+        "..c"
       ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -959,11 +959,11 @@
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "ttM",
-        "ttM",
+        "ttc",
+        "ttc",
         "..."
       ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { ".": "t_linoleum_gray" },
       "furniture": { "M": "f_armchair" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -977,11 +977,11 @@
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "xcx",
-        "cxx",
+        "xMx",
+        "Mxx",
         "c.."
       ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -998,7 +998,7 @@
         "S..",
         "..&"
       ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "items": {
@@ -1020,7 +1020,7 @@
         "...",
         "..&"
       ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "items": {
