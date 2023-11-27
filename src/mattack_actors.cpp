@@ -1232,7 +1232,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         } else {
             item mag( gun.magazine_default() );
             mag.ammo_set( ammo, z.ammo[ammo_type] );
-            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            gun.put_in( mag, pocket_type::MAGAZINE_WELL );
         }
     }
 

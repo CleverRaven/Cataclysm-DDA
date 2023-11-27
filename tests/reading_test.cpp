@@ -491,11 +491,11 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         item_location ereader = dummy.i_add( item( "test_ebook_reader" ) );
 
         item book{"test_textbook_fabrication"};
-        ereader->put_in( book, item_pocket::pocket_type::EBOOK );
+        ereader->put_in( book, pocket_type::EBOOK );
 
         item battery( "test_battery_disposable" );
         battery.ammo_set( battery.ammo_default(), 100 );
-        ereader->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        ereader->put_in( battery, pocket_type::MAGAZINE_WELL );
 
         THEN( "player can read the book" ) {
 
