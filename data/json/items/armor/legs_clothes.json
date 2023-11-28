@@ -501,7 +501,7 @@
         "id": "leggings_tiger",
         "name": { "str_sp": "tiger stripe leggings" },
         "description": "This pair has a tiger stripe pattern.",
-        "color": "orange",
+        "color": "yellow",
         "append": true,
         "weight": 5
       },
