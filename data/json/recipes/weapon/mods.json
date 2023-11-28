@@ -801,12 +801,12 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "barrel_ported",
+    "result": "compensator",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
-    "difficulty": 6,
+    "difficulty": 4,
     "time": "30 m",
     "book_learn": [
       [ "textbook_mechanics", 3 ],
@@ -815,7 +815,12 @@
       [ "manual_smg", 4 ],
       [ "manual_rifle", 4 ]
     ],
-    "tools": [ [ [ "small_repairkit", 75 ], [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
