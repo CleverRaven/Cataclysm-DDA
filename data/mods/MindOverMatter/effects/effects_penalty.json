@@ -222,6 +222,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_overload",
+    "name": [ "Electrified" ],
+    "desc": [ "Your skin is emitting sparks." ],
+    "apply_message": "Your skin begins to tingle!",
+    "remove_message": "The tingling sensation stops",
+    "rating": "bad",
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "grip", "modifier": 0.8 },
+      { "limb_score": "block", "modifier": 0.9 }
+    ],
+    "enchantments": [ "enchant_electrokin_overload" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_lumination_overload",
     "name": [ "Illuminated" ],
     "desc": [ "Your skin is glowing brightly." ],

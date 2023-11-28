@@ -67,6 +67,41 @@
   },
   {
     "type": "profession",
+    "id": "psi_electrokinetic_engineer",
+    "name": "Electrical Engineer",
+    "description": "You followed your parents' wishes and became an engineer, and to your surprise you were extremely good at it.  It was like the electronics you built just spoke to you, like you could see inside the wires and circuits, and then when the sky broke that literally came true.",
+    "points": 8,
+    "skills": [
+      { "level": 4, "name": "mechanics" },
+      { "level": 8, "name": "electronics" },
+      { "level": 3, "name": "traps" },
+      { "level": 6, "name": "computer" },
+      { "level": 1, "name": "metaphysics" }
+    ],
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "spells": [
+      { "id": "electrokinetic_see_electric", "level": 6 },
+      { "id": "electrokinetic_shock_touch", "level": 2 },
+      { "id": "electrokinetic_zap_enemies", "level": 4 },
+      { "id": "electrokinetic_personal_battery", "level": 4 }
+    ],
+    "proficiencies": [ "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
+    "items": {
+      "both": {
+        "items": [ "socks", "technician_coveralls", "boots", "wristwatch", "mbag", "water_clean" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_electrical_measuring" },
+          { "group": "charged_laptop" },
+          { "group": "charged_cigs" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "psi_photokinetic_magician",
     "name": "Magician",
     "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",

@@ -5,6 +5,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 1 },
+      { "monster": "mon_feral_human_electrokin", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_photokin", "weight": 1 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 1, "cost_multiplier": 2 },
@@ -42,6 +43,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 60 },
+      { "monster": "mon_feral_human_electrokin", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_photokin", "weight": 60 },
       { "monster": "mon_feral_human_pyrokin", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 60, "cost_multiplier": 2 },
@@ -152,6 +154,7 @@
     "monsters": [
       { "monster": "mon_civilian_biokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_clairsentient", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_electrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_photokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_pyrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_telekinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
