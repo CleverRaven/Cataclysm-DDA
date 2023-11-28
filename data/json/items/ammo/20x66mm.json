@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "20x66 abstract",
     "ascii_picture": "20x66_abstract",
-    "weight": "151 g",
+    "weight": "66 g",
     "volume": "415 ml",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "plastic", "steel", "powder" ],
