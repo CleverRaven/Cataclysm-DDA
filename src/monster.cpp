@@ -1179,7 +1179,8 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ||has_effect( effect_downed ) ||
+    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
+        has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
         has_effect( effect_tied ) ||
         has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret = hilite( ret );
