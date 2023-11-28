@@ -4778,7 +4778,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ 
+    "tools": [
       [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
       [ "rope_30", "vine_30", "rope_makeshift_30" ]
     ],
