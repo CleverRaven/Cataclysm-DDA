@@ -5186,7 +5186,7 @@
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "shoulder_strap", 1 ] ],
+      [ [ "shoulder_strap_simple", 1 ] ],
       [ [ "2x4", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 10 ] ],

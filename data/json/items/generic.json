@@ -2144,7 +2144,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
+    "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
