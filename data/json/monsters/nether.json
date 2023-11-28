@@ -1246,7 +1246,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "flatlander_attack", "min_lavel": 1 },
+        "spell_data": { "id": "flatlander_attack", "min_level": 1 },
         "cooldown": 10,
         "monster_message": "For a fraction of an instant, your body is flattened as you are violently pulled into the second dimension.  The fleeting experience is enough to send you reeling."
       }
