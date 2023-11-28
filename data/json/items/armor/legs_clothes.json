@@ -492,7 +492,7 @@
       {
         "id": "leggings_leopard",
         "name": { "str": "leopard print leggings" },
-        "description": "This pair has a leopord print pattern.",
+        "description": "This pair has a leopard print pattern.",
         "color": "yellow",
         "append": true,
         "weight": 5
