@@ -977,6 +977,17 @@
   },
   {
     "type": "SPELL",
+    "id": "flatlander_attack",
+    "name": { "str": "flatlander attack" },
+    "description": "dazes the player and makes them nauseous",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "effect_str": "stunned",
+    "max_range": 4,
+    "extra_effects": [ { "id": "nausea" } ]
+  },
+  {
+    "type": "SPELL",
     "id": "sloth_attack",
     "name": { "str": "Sloth Attack" },
     "description": "Slows you.",
