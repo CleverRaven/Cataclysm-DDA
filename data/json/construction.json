@@ -4913,7 +4913,7 @@
       ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
-    "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ] ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
     "post_special": "done_mine_upstair",
