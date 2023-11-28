@@ -1289,7 +1289,8 @@ bool monster::can_act() const
 {
     return moves > 0 &&
            ( effects->empty() ||
-             ( !has_effect( effect_stunned ) && !has_effect( effect_psi_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
+             ( !has_effect( effect_stunned ) && !has_effect( effect_psi_stunned ) &&
+               !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
 int monster::sight_range( const float light_level ) const
