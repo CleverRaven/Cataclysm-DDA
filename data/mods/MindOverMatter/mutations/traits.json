@@ -155,8 +155,8 @@
     "points": 2,
     "description": "You can keep your mind on something even if there are plenty of distractions.  The number of psionic powers you can maintain at once is increased by 1.",
     "starting_trait": true,
-    "valid": false,
-    "category": [ "PLANT", "TROGLOBITE" ],
+    "valid": true,
+    "category": [ "PLANT", "TROGLOBITE", "ALPHA", "ELFA" ],
     "cancels": [ "CONCENTRATION_BAD" ]
   },
   {
@@ -177,7 +177,7 @@
     "points": 99,
     "description": "You could keep every single bug in the game in mind simultaneously with this one.",
     "starting_trait": false,
-    "valid": true,
+    "valid": false,
     "debug": true
   }
 ]
