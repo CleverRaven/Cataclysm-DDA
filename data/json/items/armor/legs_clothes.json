@@ -427,7 +427,7 @@
     "variants": [
       {
         "id": "leggings_red",
-        "name": { "str": "red leggings" },
+        "name": { "str_sp": "red leggings" },
         "description": "This pair is red.",
         "color": "red",
         "append": true,
@@ -435,7 +435,7 @@
       },
       {
         "id": "leggings_blue",
-        "name": { "str": "blue leggings" },
+        "name": { "str_sp": "blue leggings" },
         "description": "This pair is blue.",
         "color": "blue",
         "append": true,
@@ -443,7 +443,7 @@
       },
       {
         "id": "leggings_purple",
-        "name": { "str": "purple leggings" },
+        "name": { "str_sp": "purple leggings" },
         "description": "This pair is a vibrant purple.",
         "color": "purple",
         "append": true,
@@ -451,7 +451,7 @@
       },
       {
         "id": "leggings_olive",
-        "name": { "str": "olive leggings" },
+        "name": { "str_sp": "olive leggings" },
         "description": "This pair is a muted olive green.",
         "color": "green",
         "append": true,
@@ -459,7 +459,7 @@
       },
       {
         "id": "leggings_brown",
-        "name": { "str": "brown leggings" },
+        "name": { "str_sp": "brown leggings" },
         "description": "This pair is brown.",
         "color": "brown",
         "append": true,
@@ -467,7 +467,7 @@
       },
       {
         "id": "leggings_black",
-        "name": { "str": "black leggings" },
+        "name": { "str_sp": "black leggings" },
         "description": "This pair is black.",
         "color": "black",
         "append": true,
@@ -475,7 +475,7 @@
       },
       {
         "id": "leggings_fire",
-        "name": { "str": "fire leggings" },
+        "name": { "str_sp": "fire leggings" },
         "description": "This pair has a printed flame pattern.",
         "color": "orange",
         "append": true,
@@ -483,7 +483,7 @@
       },
       {
         "id": "leggings_zerba",
-        "name": { "str": "zebra leggings" },
+        "name": { "str_sp": "zebra leggings" },
         "description": "This pair has a zebra stripe pattern.",
         "color": "light_gray",
         "append": true,
@@ -491,7 +491,7 @@
       },
       {
         "id": "leggings_leopard",
-        "name": { "str": "leopard print leggings" },
+        "name": { "str_sp": "leopard print leggings" },
         "description": "This pair has a leopard print pattern.",
         "color": "yellow",
         "append": true,
@@ -499,7 +499,7 @@
       },
       {
         "id": "leggings_tiger",
-        "name": { "str": "tiger stripe leggings" },
+        "name": { "str_sp": "tiger stripe leggings" },
         "description": "This pair has a tiger stripe pattern.",
         "color": "orange",
         "append": true,
@@ -507,7 +507,7 @@
       },
       {
         "id": "leggings_geometric",
-        "name": { "str": "geometric leggings" },
+        "name": { "str_sp": "geometric leggings" },
         "description": "This pair has a simple geometric pattern.",
         "color": "dark_gray",
         "append": true,
