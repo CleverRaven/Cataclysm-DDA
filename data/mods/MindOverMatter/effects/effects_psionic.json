@@ -12,6 +12,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_power_surge",
+    "name": [ "Power Surge" ],
+    "desc": [ "You are filled with power!" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_physical",
     "name": [ "Enhanced Prowess" ],
     "desc": [ "You are enhancing your physical prowess." ],
@@ -33,18 +42,27 @@
           {
             "value": "STRENGTH",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: biokin_physical_enhance') / 5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: biokin_physical_enhance') / 5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "DEXTERITY",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: biokin_physical_enhance') / 5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: biokin_physical_enhance') / 5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_overcome_pain",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -59,8 +77,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "9 s",
-    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
   },
   {
     "type": "effect_type",
@@ -75,8 +92,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "12 s",
-    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 2 ], "pkill_max_val": [ 30 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 2 ], "pkill_max_val": [ 30 ] }
   },
   {
     "type": "effect_type",
@@ -91,8 +107,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "15 s",
-    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 3 ], "pkill_max_val": [ 50 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 3 ], "pkill_max_val": [ 50 ] }
   },
   {
     "type": "effect_type",
@@ -107,8 +122,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "18 s",
-    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 4 ], "pkill_max_val": [ 75 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 4 ], "pkill_max_val": [ 75 ] }
   },
   {
     "type": "effect_type",
@@ -123,8 +137,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "21 s",
-    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 5 ], "pkill_max_val": [ 100 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 5 ], "pkill_max_val": [ 100 ] }
   },
   {
     "type": "effect_type",
@@ -139,8 +152,7 @@
     "max_intensity": 100,
     "dur_add_perc": 10,
     "int_dur_factor": "24 s",
-    "base_mods": { "pkill_tick": [ 6 ], "pkill_min": [ 6 ], "pkill_max_val": [ 130 ] },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "base_mods": { "pkill_tick": [ 6 ], "pkill_min": [ 6 ], "pkill_max_val": [ 130 ] }
   },
   {
     "type": "effect_type",
@@ -164,7 +176,9 @@
           {
             "value": "FALL_DAMAGE",
             "multiply": {
-              "math": [ "( -0.2 + ( u_val('spell_level', 'spell: biokin_flexibility') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [
+                "( -0.2 + ( u_val('spell_level', 'spell: biokin_flexibility') * -0.02) * (scaling_factor(u_val('intelligence') ) ) )"
+              ]
             }
           }
         ]
@@ -192,13 +206,13 @@
           {
             "value": "PERCEPTION",
             "add": {
-              "math": [ "( 1 + ( u_val('spell_level', 'spell: biokin_reflex_enhance') / 5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( 1 + ( u_val('spell_level', 'spell: biokin_reflex_enhance') / 5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "SPEED",
             "add": {
-              "math": [ "( 5 + ( u_val('spell_level', 'spell: biokin_physical_enhance') ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( 5 + ( u_val('spell_level', 'spell: biokin_physical_enhance') ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -225,13 +239,13 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ARMOR_CUT", "add": { "math": [ "( -4 * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "( -6 * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "( -3 * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "( -4 * (scaling_factor(u_val('intelligence') ) ) )" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "( -6 * (scaling_factor(u_val('intelligence') ) ) )" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "( -3 * (scaling_factor(u_val('intelligence') ) ) )" ] } },
           {
             "value": "PAIN",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: biokin_armor_skin') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_armor_skin') * -0.02) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -259,7 +273,7 @@
             "value": "CLIMATE_CONTROL_HEAT",
             "add": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
+                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * (scaling_factor(u_val('intelligence') ) ) )"
               ]
             }
           },
@@ -267,11 +281,10 @@
             "value": "CLIMATE_CONTROL_CHILL",
             "add": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
+                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * (scaling_factor(u_val('intelligence') ) ) )"
               ]
             }
-          },
-          { "value": "MAX_STAMINA", "add": -500 }
+          }
         ]
       }
     ]
@@ -284,8 +297,7 @@
     "apply_message": "",
     "remove_message": "Your gear suddenly seems to weigh you down.",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -850 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -295,8 +307,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -600 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -355,7 +366,7 @@
           {
             "value": "ATTACK_SPEED",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.02) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           { "value": "MOVE_COST", "multiply": -0.1 },
@@ -363,13 +374,13 @@
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * 0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * 0.02) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "PAIN",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -396,7 +407,7 @@
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "max(( -0.5 + ( u_val('spell_level', 'spell: biokin_perfected_motion') * -0.015) * ( ( u_val('intelligence') + 10) / 20 ) ), -0.96)"
+                "max(( -0.5 + ( u_val('spell_level', 'spell: biokin_perfected_motion') * -0.015) * (scaling_factor(u_val('intelligence') ) ) ), -0.96)"
               ]
             }
           }
@@ -404,6 +415,15 @@
       }
     ],
     "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -420,8 +440,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -438,8 +457,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -456,8 +474,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -474,8 +491,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -492,8 +508,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -510,8 +525,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -528,8 +542,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -546,8 +559,7 @@
     "max_duration": "7 days",
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -300 } ] } ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -557,8 +569,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -400 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -581,7 +592,9 @@
         "values": [
           {
             "value": "MOTION_VISION_RANGE",
-            "add": { "math": [ "( ( u_val('spell_level', 'spell: clair_danger_sense') * 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
           }
         ]
       }
@@ -602,43 +615,43 @@
           {
             "value": "ARMOR_CUT",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_BASH",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_STAB",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_BULLET",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_ELEC",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_HEAT",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_COLD",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -664,13 +677,13 @@
           {
             "value": "RANGE",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "WEAPON_DISPERSION",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -718,13 +731,13 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "BONUS_BLOCK",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -936,7 +949,7 @@
             "value": "EVASION",
             "add": {
               "math": [
-                "min(( 15 + (2 * ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) ) + ( ( u_val('intelligence') + 10) / 20 ) ), 0.85)"
+                "min(( 15 + (2 * ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) ) + (scaling_factor(u_val('intelligence') ) ) ), 0.85)"
               ]
             }
           }
@@ -1043,6 +1056,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pyrokinetic_fire_tool",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_cloak",
     "name": [ "Cloak of Warmth" ],
     "desc": [ "The air around you has its temperature controlled." ],
@@ -1058,6 +1080,15 @@
     "dur_add_perc": 10,
     "int_dur_factor": "46 s",
     "enchantments": [ "enchant_pyrokin_cloak" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokinetic_torch_weld",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1110,39 +1141,39 @@
           {
             "value": "ARMOR_CUT",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_BASH",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_STAB",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_BULLET",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.02 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "max(( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) ), -0.15)"
+                "max(( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.15)"
               ]
             }
           },
           {
             "value": "ATTACK_SPEED",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -1164,7 +1195,9 @@
           {
             "value": "FALL_DAMAGE",
             "multiply": {
-              "math": [ "( -0.5 + ( u_val('spell_level', 'spell: telekinetic_slowfall') * -0.04) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [
+                "( -0.5 + ( u_val('spell_level', 'spell: telekinetic_slowfall') * -0.04) * (scaling_factor(u_val('intelligence') ) ) )"
+              ]
             }
           }
         ]
@@ -1185,16 +1218,24 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_STAMINA", "add": -650 },
           {
             "value": "STRENGTH",
             "add": {
-              "math": [ "( 15 + ( u_val('spell_level', 'spell: telekinetic_strength') * 3 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( 15 + ( u_val('spell_level', 'spell: telekinetic_strength') * 3 ) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_vehicle_lift",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1220,25 +1261,25 @@
           {
             "value": "ARMOR_CUT",
             "add": {
-              "math": [ "( -3 + ( u_val('spell_level', 'spell: telekinetic_shield') * -1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( -3 + ( u_val('spell_level', 'spell: telekinetic_shield') * -1) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_BASH",
             "add": {
-              "math": [ "( -2 + ( u_val('spell_level', 'spell: telekinetic_shield') * -0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( -2 + ( u_val('spell_level', 'spell: telekinetic_shield') * -0.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_STAB",
             "add": {
-              "math": [ "( -5 + ( u_val('spell_level', 'spell: telekinetic_shield') * -1.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( -5 + ( u_val('spell_level', 'spell: telekinetic_shield') * -1.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "ARMOR_BULLET",
             "add": {
-              "math": [ "( -8 + ( u_val('spell_level', 'spell: telekinetic_shield') * -2.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( -8 + ( u_val('spell_level', 'spell: telekinetic_shield') * -2.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -1256,7 +1297,6 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -800 } ] } ],
     "flags": [ "LEVITATION" ]
   },
   {
@@ -1302,11 +1342,10 @@
           {
             "value": "LEARNING_FOCUS",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: telepathic_concentration') * 2.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telepathic_concentration') * 2.5) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
-          { "value": "MOVE_COST", "multiply": 3 },
-          { "value": "MAX_STAMINA", "add": -350 }
+          { "value": "MOVE_COST", "multiply": 3 }
         ]
       }
     ],
@@ -1334,7 +1373,7 @@
           {
             "value": "SIGHT_RANGE_MINDS",
             "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: telepathic_mind_sense') * 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           }
         ]
@@ -1351,8 +1390,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -400 } ] } ]
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1426,32 +1464,32 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: telepathic_network') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: telepathic_network') / 12) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "BONUS_BLOCK",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: telepathic_network') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: telepathic_network') / 12) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "PERCEPTION",
             "add": {
-              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.2) + 1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.2) + 1) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "RANGE",
             "add": {
-              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.25) + 3) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
           },
           {
             "value": "EVASION",
             "multiply": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * ( ( u_val('intelligence') + 10) / 20 ) )"
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )"
               ]
             }
           },
@@ -1459,7 +1497,7 @@
             "value": "RANGED_DAMAGE",
             "multiply": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * ( ( u_val('intelligence') + 10) / 20 ) )"
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )"
               ]
             }
           },
@@ -1467,14 +1505,16 @@
             "value": "MELEE_DAMAGE",
             "multiply": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * ( ( u_val('intelligence') + 10) / 20 ) )"
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )"
               ]
             }
           },
           {
             "value": "COMBAT_CATCHUP",
             "multiply": {
-              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.25) + 1.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.25) + 1.5) * (scaling_factor(u_val('intelligence') ) ) )"
+              ]
             }
           }
         ]
@@ -1514,7 +1554,9 @@
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * (scaling_factor(u_val('intelligence') ) ) )"
+              ]
             }
           }
         ]
@@ -1545,8 +1587,7 @@
       "h_mod_chance": [ 10 ],
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 2 ]
-    },
-    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
+    }
   },
   {
     "type": "effect_type",

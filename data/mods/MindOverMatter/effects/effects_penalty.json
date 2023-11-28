@@ -1,41 +1,6 @@
 [
   {
     "type": "effect_type",
-    "id": "effect_disease_psionic_drain",
-    "name": [ "Drained" ],
-    "desc": [
-      "You're a little short of breath and your control over your powers isn't as sure as it was.  There might be unexpected results of you channeling psionics now."
-    ],
-    "apply_message": [
-      [ "You feel a little tired.  All that psionic channeling is starting to wear you down.", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ],
-      [ "", "bad" ]
-    ],
-    "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
-    "max_intensity": 12,
-    "base_mods": {
-      "health_amount": [ -1 ],
-      "health_chance": [ 200 ],
-      "health_tick": [ 2000 ],
-      "hunger_min": [ 1 ],
-      "hunger_chance": [ 100 ],
-      "hunger_tick": [ 400 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 200 ],
-      "fatigue_tick": [ 500 ]
-    }
-  },
-  {
-    "type": "effect_type",
     "id": "psionic_awakened",
     "name": [ "Awakened" ],
     "desc": [ "Your exposure to the portal storm has awakened latent psionic powers in you." ],
@@ -152,6 +117,7 @@
       "effect_biokin_pkill_4",
       "effect_biokin_pkill_5",
       "effect_biokin_pkill_6",
+      "effect_biokin_overcome_pain",
       "effect_biokin_flexibility",
       "effect_biokin_enhance_mobility",
       "effect_biokin_hammerhand",
@@ -161,6 +127,7 @@
       "effect_biokin_sealed",
       "effect_biokin_combat_dance",
       "effect_biokin_perfected_motion",
+      "effect_clair_night_eyes",
       "effect_clair_night_eyes_1",
       "effect_clair_night_eyes_2",
       "effect_clair_night_eyes_3",
@@ -203,19 +170,6 @@
     ],
     "max_duration": "24 hours",
     "flags": [ "NO_PSIONICS" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "psi_nether_attention",
-    "name": [ "Observed" ],
-    "desc": [ "You have the strong impression that someone, or something, is watching you." ],
-    "remove_message": "The endless feeling of being watched finally fades away.",
-    "rating": "bad",
-    "show_intensity": false,
-    "max_intensity": 10,
-    "max_duration": "21 days",
-    "dur_add_perc": 25,
-    "int_dur_factor": "3 days"
   },
   {
     "type": "effect_type",
