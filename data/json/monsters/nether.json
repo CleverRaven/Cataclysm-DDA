@@ -1248,7 +1248,7 @@
         "type": "spell",
         "spell_data": { "id": "flatlander_attack", "min_lavel": 1 },
         "cooldown": 10,
-        "monster_message": "For a fraction of a second your body is pulled down to the %s's dimension, leaving you disoriented and reeling from the experience."
+        "monster_message": "For a fraction of an instant, your body is flattened as you are violently pulled into the second dimension.  The fleeting experience is enough to send you reeling."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
