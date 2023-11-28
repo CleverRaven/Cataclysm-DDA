@@ -37,6 +37,8 @@
     "entries": [
       { "prob": 40, "group": "flour_bag_paper_powder_1_70" },
       { "prob": 10, "group": "flour_bag_plastic_1_175" },
+      { "prob": 10, "group": "potato_bag_plastic_1" },
+      { "prob": 10, "group": "onion_bag_plastic_1" },
       { "prob": 50, "group": "yeast_bag_plastic_25" },
       { "prob": 8, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "prob": 40, "group": "cornmeal_box_small_10" },
