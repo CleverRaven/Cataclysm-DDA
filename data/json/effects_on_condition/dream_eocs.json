@@ -1,0 +1,56 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESET_DREAM_COUNTER",
+    "//": "used to prevent multiple dreams at the same sleep",
+    "effect": [ { "math": [ "dream_counter", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_NIGHTMARES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_effect": "nightmares" }, { "math": [ "dream_counter", "==", "0" ] } ] },
+    "effect": [
+      { "u_message": "nightmares", "snippet": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
+      { "math": [ "dream_counter", "=", "1" ] },
+      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_HEALTH_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "not": { "u_has_effect": "pre_common_cold" } },
+            { "not": { "u_has_effect": "common_cold" } },
+            { "not": { "u_has_effect": "pre_flu" } },
+            { "not": { "u_has_effect": "flu" } }
+          ]
+        },
+        { "math": [ "dream_counter", "==", "0" ] }
+      ]
+    },
+    "effect": [
+      {
+        "switch": { "u_val": "health" },
+        "cases": [
+          { "case": -100, "effect": { "u_message": "health_horrible", "snippet": true, "type": "bad" } },
+          { "case": -50, "effect": { "u_message": "health_very_bad", "snippet": true, "type": "bad" } },
+          { "case": -10, "effect": { "u_message": "health_bad", "snippet": true, "type": "bad" } },
+          { "case": 10, "effect": { "u_message": "" } },
+          { "case": 50, "effect": { "u_message": "health_good", "snippet": true, "type": "good" } },
+          { "case": 100, "effect": { "u_message": "health_very_good", "snippet": true, "type": "good" } },
+          { "case": 200, "effect": { "u_message": "health_great", "snippet": true, "type": "good" } }
+        ]
+      },
+      { "math": [ "dream_counter", "=", "1" ] },
+      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+    ]
+  }
+]

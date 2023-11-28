@@ -246,7 +246,9 @@ std::string filter_name( debug_filter value )
         case DF_MONSTER: return "DF_MONSTER";
         case DF_MUTATION: return "DF_MUTATION";
         case DF_NPC: return "DF_NPC";
+        case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
         case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
+        case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";

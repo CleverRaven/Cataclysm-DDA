@@ -2281,5 +2281,31 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "skirt_bostonchan",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan skirt" },
+    "description": "A short skirt for the Boston-Chan costume.",
+    "weight": "230 g",
+    "volume": "250 ml",
+    "price": 9500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "blue",
+    "warmth": 10,
+    "material_thickness": 0.6,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   }
 ]

@@ -77,6 +77,40 @@ Z-levels became a mandatory feature in 0.E experimental in order to support grou
 
 There has been an extensive optimization effort in the fall of 2020 to bring back performance, and it's been mostly successful.  Current experimentals should run faster with z-levels on than 0.E runs with z-levels off.
 
+#### Bringing charges back: No.
+
+We are in the process of removing charges, that's a fact that won't be changed.  We should have made this decision much earlier or never started implementing them in the first place, but it is what it is.
+
+The main reason we are doing this, contrary to popular belief, is to resolve technical debt. To handle both items and charges, every function of the code that interacts with them in any way needs to be effectively duplicated - each function in the code works by their own rules, each interacts with items in their own way, and usually have to be maintained separately. It introduces a tremendous amount of difficulty for any contributor, for even the most basic of tasks.
+
+Some examples:
+If you define an item without charges, its weight and volume would be equal according to the `weight` and `volume` fields:
+
+```
+"weight": "800 g", "volume": "200ml" = 1 item weight 800 g and has volume of 200 ml
+```
+
+But if you add charges, the volume would be divided by it's `count`:
+
+```
+"weight": "800 g", "volume": "200ml", "count": 50 = 1 item has weight 800g, and volume of 4 ml
+```
+(The same applies to the price, by the way)
+
+
+> Wolfram Alpha tells me that the current density of bean seeds is greater than that of our sun. I do not think beans are denser than a star. (1L beans = 77.6kg) - RenechCDDA
+
+
+It sounds like an issue that is easy to fix, but it is very difficult to properly fix if you don't know about this "feature".
+
+Next, when you use charges in item definitions, you can't properly use `count` in item group spawns, instead you should stick to the `charges` field, that is there only and specifically for charges. Trying to use `charges` to spawn item? Only `count` of it would be spawned.  Trying to not use `count` to spawn charged items? nothing will spawn, because `count` is zero, therefore no item will spawn. Do you remember that the game spawns an amount of `charges` by default, if nothing else is specified? There are many, many instances of bugs, too many to count, that occurred simply because someone forgot to specify amount of charges in item groups.
+
+Crafting is also one of the mechanics that has more issues than it should because of this: By default the game crafts `count` amount of item, which is trivial to miss when you edit a lot of recipes at once.
+
+In the end, it's just odd to be able to hold 10000 rounds in your hands at once.
+
+Again, we do not want to make the game worse with this - there are some unavoidable problems caused by this migration, but after it is done, not only it would be easier to contribute for everyone, but the game would work better, and maybe even faster.
+
 ### Multiplayer
 This has come up [many times](https://discourse.cataclysmdda.org/search?q=multiplayer), and it simply can not be added to DDA.
 

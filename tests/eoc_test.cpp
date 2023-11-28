@@ -77,6 +77,10 @@ effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id
+effect_on_condition_EOC_meta_test_message( "EOC_meta_test_message" );
+static const effect_on_condition_id
+effect_on_condition_EOC_meta_test_talker_type( "EOC_meta_test_talker_type" );
+static const effect_on_condition_id
 effect_on_condition_EOC_mon_nearby_test( "EOC_mon_nearby_test" );
 static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_mutator_test" );
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
@@ -693,6 +697,82 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     d3_copy.set_value( "suppress", "1" );
     CHECK( d3_copy.actor( false )->get_monster() != nullptr );
     CHECK( d3_copy.actor( true )->get_character() == nullptr );
+}
+
+TEST_CASE( "EOC_meta_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    standard_npc dude;
+    monster zombie( mon_zombie );
+    item hammer( "hammer" ) ;
+    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    computer comp( "test_computer", 0, tripoint_zero );
+
+    dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
+    dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    dialogue d_npc( get_talker_for( dude ), std::make_unique<talker>() );
+    dialogue d_monster( get_talker_for( zombie ), std::make_unique<talker>() );
+    dialogue d_item( get_talker_for( hloc ), std::make_unique<talker>() );
+    dialogue d_furniture( get_talker_for( comp ), std::make_unique<talker>() );
+
+    CHECK( effect_on_condition_EOC_meta_test_message->activate( d_empty ) );
+
+    std::vector<std::pair<std::string, std::string>> messages = Messages::recent_messages( 0 );
+
+    REQUIRE( !messages.empty() );
+    CHECK( messages.back().second == "message ok." );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_avatar ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_npc ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_monster ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_item ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_furniture ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ) == "yes" );
 }
 
 TEST_CASE( "EOC_increment_var_var", "[eoc]" )

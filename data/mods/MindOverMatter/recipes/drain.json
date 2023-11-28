@@ -19,7 +19,7 @@
         "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "1" ] } ],
         "false_effect": [
           {
-            "u_message": "After your meditations, your mind is free and clear.  The toll of psionic channeling has entirely left you.",
+            "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
             "type": "good"
           }
         ]

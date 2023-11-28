@@ -170,6 +170,11 @@ int talker_monster_const::get_grab_strength() const
     return  me_mon_const->get_grab_strength();
 }
 
+bool talker_monster_const::can_see_location( const tripoint &pos ) const
+{
+    return me_mon_const->sees( pos );
+}
+
 int talker_monster_const::get_volume() const
 {
     return units::to_milliliter( me_mon_const->get_volume() );

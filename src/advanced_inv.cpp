@@ -37,7 +37,6 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "localized_comparator.h"
 #include "map.h"
@@ -1642,7 +1641,7 @@ void advanced_inventory::display()
             redraw_sidebar();
 
             if( filter_edit && spopup ) {
-                draw_item_filter_rules( panes[dest].window, 1, 11, item_filter_type::FILTER );
+                draw_item_filter_rules( panes[dest].window, 1, w_height - 2, item_filter_type::FILTER );
                 mvwprintz( panes[src].window, point( 2, getmaxy( panes[src].window ) - 1 ), c_cyan, "< " );
                 mvwprintz( panes[src].window, point( w_width / 2 - 4, getmaxy( panes[src].window ) - 1 ), c_cyan,
                            " >" );

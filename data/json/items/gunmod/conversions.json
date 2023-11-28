@@ -55,7 +55,7 @@
     "install_time": "5 m",
     "ammo_modifier": [ "223" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_223rem_medium",
@@ -84,7 +84,8 @@
     "integral_weight": "1819 g",
     "integral_longest_side": "262 mm",
     "barrel_length": "262 mm",
-    "price": 26999
+    "price": 26999,
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_300blk",
@@ -128,7 +129,7 @@
     "install_time": "5 m",
     "ammo_modifier": [ "300blk" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_300blk_medium",
@@ -154,7 +155,8 @@
     "longest_side": "240 mm",
     "integral_weight": "1590 g",
     "integral_longest_side": "191 mm",
-    "barrel_length": "191 mm"
+    "barrel_length": "191 mm",
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_50beowulf",
@@ -199,7 +201,7 @@
     "dispersion_modifier": 15,
     "ammo_modifier": [ "50beowulf" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_50beowulf_medium",
@@ -229,7 +231,8 @@
     "integral_weight": "1615 g",
     "integral_longest_side": "191 mm",
     "barrel_length": "191 mm",
-    "price": 10999
+    "price": 10999,
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_450",
@@ -274,7 +277,7 @@
     "dispersion_modifier": 15,
     "ammo_modifier": [ "450" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_450_medium",
@@ -304,7 +307,8 @@
     "integral_volume": "850 ml",
     "integral_longest_side": "191 mm",
     "barrel_length": "191 mm",
-    "price": 10699
+    "price": 10699,
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_762",
@@ -348,7 +352,7 @@
     "install_time": "5 m",
     "ammo_modifier": [ "762" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_mdrx_223rem",

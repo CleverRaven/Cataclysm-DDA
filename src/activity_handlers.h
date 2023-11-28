@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "item_location.h"
 #include "type_id.h"
 #include "requirements.h"
 
@@ -143,8 +144,9 @@ enum class item_drop_reason : int {
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                const tripoint_bub_ms &where, bool force_ground = false );
-void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
-                  const tripoint_bub_ms &where );
+std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
+                                        const std::list<item> &items,
+                                        const tripoint_bub_ms &where );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 

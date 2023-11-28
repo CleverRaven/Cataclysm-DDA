@@ -257,7 +257,7 @@ void item_pocket::deserialize( const JsonObject &data )
     data.read( "contents", contents );
     int saved_type_int;
     data.read( "pocket_type", saved_type_int );
-    _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+    _saved_type = static_cast<pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
     data.read( "no_rigid", no_rigid );
@@ -1184,24 +1184,24 @@ void Character::load( const JsonObject &data )
                         item gasoline( "gasoline" );
                         gasoline.charges = std::stoi( get_value( "gasoline" ) );
                         remove_value( "gasoline" );
-                        pseudo.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+                        pseudo.put_in( gasoline, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
                         item ethanol( "chem_ethanol" );
                         ethanol.charges = std::stoi( get_value( "alcohol" ) );
                         remove_value( "alcohol" );
-                        pseudo.put_in( ethanol, item_pocket::pocket_type::CONTAINER );
+                        pseudo.put_in( ethanol, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
                         item oil( "motor_oil" );
                         oil.charges = std::stoi( get_value( "motor_oil" ) );
                         remove_value( "motor_oil" );
-                        pseudo.put_in( oil, item_pocket::pocket_type::CONTAINER );
+                        pseudo.put_in( oil, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
                         item battery( "medium_battery_cell" );
                         item battery_charge( "battery" );
                         battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
-                        battery.put_in( battery_charge, item_pocket::pocket_type::MAGAZINE );
+                        battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
-                        pseudo.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                        pseudo.put_in( battery, pocket_type::MAGAZINE_WELL );
                     }
 
                     wear_item( pseudo, false );
@@ -1256,6 +1256,13 @@ void Character::load( const JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+
+    data.read( "hauling", hauling );
+    data.read( "autohaul", autohaul );
+    data.read( "hauling_filter", hauling_filter );
+    data.read( "haul_list", haul_list );
+    data.read( "suppress_autohaul", suppress_autohaul );
+
     //load queued_eocs
     for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {
         queued_eoc temp;
@@ -1487,6 +1494,13 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    // Hauling state
+    json.member( "hauling", hauling );
+    json.member( "autohaul", autohaul );
+    json.member( "hauling_filter", hauling_filter );
+    json.member( "haul_list", haul_list );
+    json.member( "suppress_autohaul", suppress_autohaul );
 
     //save queued effect_on_conditions
     queued_eocs temp_queued( queued_effect_on_conditions );
@@ -2365,6 +2379,8 @@ void npc::load( const JsonObject &data )
         complaints.emplace( member.name(), p );
     }
     data.read( "unique_id", unique_id );
+    clear_personality_traits();
+    generate_personality_traits();
 }
 
 /*
@@ -3169,7 +3185,7 @@ void item::io( Archive &archive )
                     still_has_charges = true;
                     copy.charges = 0;
                 }
-                put_in( copy, item_pocket::pocket_type::MIGRATION );
+                put_in( copy, pocket_type::MIGRATION );
             }
             if( still_has_charges ) {
                 debugmsg( "Item %s can't have charges, but still had them after migration.", type->get_id().str() );
@@ -3182,20 +3198,20 @@ void item::io( Archive &archive )
 void item::migrate_content_item( const item &contained )
 {
     if( contained.is_gunmod() || contained.is_toolmod() ) {
-        put_in( contained, item_pocket::pocket_type::MOD );
+        put_in( contained, pocket_type::MOD );
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
-        put_in( contained, item_pocket::pocket_type::SOFTWARE );
-    } else if( contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ||
-               contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+        put_in( contained, pocket_type::SOFTWARE );
+    } else if( contents.insert_item( contained, pocket_type::MAGAZINE ).success() ||
+               contents.insert_item( contained, pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank
     } else if( is_corpse() ) {
-        put_in( contained, item_pocket::pocket_type::CORPSE );
+        put_in( contained, pocket_type::CORPSE );
     } else if( can_contain( contained ).success() ) {
-        put_in( contained, item_pocket::pocket_type::CONTAINER );
+        put_in( contained, pocket_type::CONTAINER );
     } else {
         // we want this to silently fail - the contents will fall out later
-        put_in( contained, item_pocket::pocket_type::MIGRATION );
+        put_in( contained, pocket_type::MIGRATION );
     }
 }
 
@@ -4395,6 +4411,7 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member( "liquid_dumping_spots", liquid_dumping_spots );
         json.member( "hidden_missions" );
         json.start_array();
         for( const std::vector<ui_mission_id> &list : hidden_missions ) {
@@ -4479,6 +4496,7 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    data.read( "liquid_dumping_spots", liquid_dumping_spots );
     for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         std::vector<ui_mission_id> temp;
         hidden_missions.push_back( temp );

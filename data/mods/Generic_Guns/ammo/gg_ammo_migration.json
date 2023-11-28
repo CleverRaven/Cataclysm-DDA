@@ -42,6 +42,7 @@
   {
     "id": [
       "10mm_fmj",
+      "10mmP",
       "357sig_fmj",
       "38_fmj",
       "380_FMJ",
@@ -67,6 +68,7 @@
   {
     "id": [
       "reloaded_10mm_fmj",
+      "reloaded_10mmP",
       "reloaded_357sig_fmj",
       "reloaded_38_fmj",
       "reloaded_380_FMJ",
@@ -91,6 +93,7 @@
       "bp_10mm_fmj",
       "bp_357sig_fmj",
       "bp_38_fmj",
+      "bp_38super_fmj",
       "bp_380_FMJ",
       "bp_40ball",
       "bp_40fmj",
@@ -109,14 +112,14 @@
       "matchhead_10mm_fmj",
       "matchhead_357sig_fmj",
       "matchhead_38_fmj",
+      "matchhead_38_super_fmj",
       "matchhead_380_FMJ",
       "matchhead_40ball",
       "matchhead_40fmj",
       "matchhead_45_acp",
       "matchhead_9mmfmj",
       "matchhead_9x18mmfmj",
-      "matchhead_357mag_fmj",
-      "matchhead_30carbine"
+      "matchhead_357mag_fmj"
     ],
     "type": "MIGRATION",
     "replace": "matchhead_pistol_ball"
@@ -134,7 +137,8 @@
       "5x50heavy",
       "762_25",
       "9mm",
-      "9x18mm"
+      "9x18mm",
+      "10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "pistol_jhp"
@@ -151,7 +155,8 @@
       "reloaded_45colt_jhp",
       "reloaded_762_25",
       "reloaded_9mm",
-      "reloaded_9x18mm"
+      "reloaded_9x18mm",
+      "reloaded_10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_pistol_jhp"
@@ -160,13 +165,15 @@
     "id": [
       "bp_357sig_jhp",
       "bp_38_special",
+      "bp_38super",
       "bp_380_JHP",
       "bp_40sw",
       "bp_45_jhp",
       "bp_45colt_jhp",
       "bp_762_25",
       "bp_9mm",
-      "bp_9x18mm"
+      "bp_9x18mm",
+      "bp_10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
@@ -175,6 +182,7 @@
     "id": [
       "matchhead_357sig_jhp",
       "matchhead_38_special",
+      "matchhead_38_super",
       "matchhead_380_JHP",
       "matchhead_40sw",
       "matchhead_45_jhp",
@@ -182,6 +190,7 @@
       "matchhead_762_25",
       "matchhead_9mm",
       "matchhead_9x18mm",
+      "matchhead_10mm_jhp",
       "matchhead_357mag_jhp"
     ],
     "type": "MIGRATION",
@@ -240,7 +249,8 @@
       "8mm_bootleg",
       "8mm_civilian",
       "8mm_jhp",
-      "30carbine"
+      "30carbine",
+      "30carbine_jsp"
     ],
     "type": "MIGRATION",
     "replace": "rifle_ball"
@@ -263,6 +273,7 @@
   {
     "id": [
       "reloaded_223",
+      "reloaded_270win_fmj",
       "reloaded_270win_jsp",
       "reloaded_300_winmag",
       "reloaded_3006",
@@ -280,7 +291,8 @@
       "reloaded_762_54R",
       "reloaded_762_jhp",
       "reloaded_762_m87",
-      "reloaded_30carbine"
+      "reloaded_30carbine",
+      "reloaded_30carbine_jsp"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_ball"
@@ -288,6 +300,7 @@
   {
     "id": [
       "bp_223",
+      "bp_270win_fmj",
       "bp_270win_jsp",
       "bp_300_winmag",
       "bp_3006",
@@ -302,7 +315,8 @@
       "bp_762_54R",
       "bp_762_m87",
       "bp_762_jhp",
-      "bp_30carbine"
+      "bp_30carbine",
+      "bp_30carbine_jsp"
     ],
     "type": "MIGRATION",
     "replace": "bp_rifle_ball"

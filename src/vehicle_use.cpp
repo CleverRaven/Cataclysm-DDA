@@ -28,7 +28,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "game_inventory.h"
@@ -44,6 +43,7 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -1779,13 +1779,13 @@ int vehicle::prepare_tool( item &tool ) const
     }
     item mag_mod( "pseudo_magazine_mod" );
     mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
-    if( !tool.put_in( mag_mod, item_pocket::pocket_type::MOD ).success() ) {
+    if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
     }
     item mag( tool.magazine_default() );
     mag.clear_items(); // no initial ammo
-    if( !tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+    if( !tool.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
         debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
                   mag.typeId().str(), tool.typeId().str() );
         return 0;

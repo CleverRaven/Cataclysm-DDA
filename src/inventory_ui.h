@@ -23,9 +23,9 @@
 #include "input.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "memory_fast.h"
+#include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "units.h"
@@ -258,7 +258,7 @@ class inventory_selector_preset
             return check_components;
         }
 
-        item_pocket::pocket_type get_pocket_type() const {
+        pocket_type get_pocket_type() const {
             return _pk_type;
         }
 
@@ -296,7 +296,7 @@ class inventory_selector_preset
         bool _indent_entries = true;
         bool _collate_entries = false;
 
-        item_pocket::pocket_type _pk_type = item_pocket::pocket_type::CONTAINER;
+        pocket_type _pk_type = pocket_type::CONTAINER;
 
     private:
         class cell_t
@@ -954,7 +954,7 @@ class inventory_multiselector : public inventory_selector
                                           const std::string &selection_column_title = "",
                                           const GetStats & = {},
                                           bool allow_select_contained = false );
-        drop_locations execute();
+        drop_locations execute( bool allow_empty = false );
         void toggle_entry( inventory_entry &entry, size_t count );
     protected:
         void rearrange_columns( size_t client_width ) override;
@@ -973,6 +973,20 @@ class inventory_multiselector : public inventory_selector
     private:
         std::unique_ptr<inventory_column> selection_col;
         GetStats get_stats;
+};
+
+class inventory_haul_selector : public inventory_multiselector
+{
+    public:
+        explicit inventory_haul_selector( Character &p );
+        void apply_selection( std::vector<item_location> &items );
+};
+
+class haul_selector_preset : public inventory_selector_preset
+{
+    public:
+        bool is_shown( const item_location &item ) const override;
+        std::string get_denial( const item_location &item ) const override;
 };
 
 class inventory_compare_selector : public inventory_multiselector

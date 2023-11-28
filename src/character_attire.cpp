@@ -1173,7 +1173,7 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
         if( without.empty() ) {
             ret += i.weight();
         } else if( !without.count( &i ) ) {
-            for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *j : i.all_items_ptr( pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );
                 } else if( without.count( j ) ) {
@@ -1915,7 +1915,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             destroyed_armor_msg( guy, pre_damage_name );
             armor_destroyed = true;
             armor.on_takeoff( guy );
-            for( const item *it : armor.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                 worn_remains.push_back( *it );
             }
             // decltype is the type name of the iterator, note that reverse_iterator::base returns the
@@ -2440,7 +2440,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         // Crawl all pockets regardless of priority
         // Crawl First : wielded item
         item_location carried_item = guy.get_wielded_item();
-        if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
+        if( carried_item && !carried_item->has_pocket_type( pocket_type::MAGAZINE ) &&
             carried_item->can_contain_partial( newit ).success() ) {
             int used_charges = carried_item->fill_with( newit, remaining_charges, /*unseal_pockets=*/false,
                                /*allow_sealed=*/false, /*ignore_settings=*/false, /*into_bottom*/false, &guy );

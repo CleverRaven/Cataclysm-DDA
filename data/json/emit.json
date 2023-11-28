@@ -97,6 +97,14 @@
     "chance": 15
   },
   {
+    "id": "emit_toxic_stream",
+    "type": "emit",
+    "//": "Steady stream of toxic gas",
+    "field": "fd_toxic_gas",
+    "intensity": 3,
+    "qty": 24
+  },
+  {
     "id": "emit_relax_gas_blast",
     "type": "emit",
     "//": "Large blast of relaxation gas (similar to riot control bot)",
