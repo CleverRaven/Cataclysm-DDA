@@ -32,14 +32,6 @@ class talker_character_const: public talker_cloner<talker_character_const>
         }
         ~talker_character_const() override = default;
 
-        const Character *get_character() const override {
-            return me_chr_const;
-        }
-
-        Character *get_character() override {
-            return nullptr;
-        }
-
         // underlying element accessor functions
         Character *get_character() override {
             return nullptr;
