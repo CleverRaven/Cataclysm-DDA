@@ -102,6 +102,21 @@
     "replace": "badge_marshal"
   },
   {
+    "id": "rm298",
+    "type": "MIGRATION",
+    "replace": "rcmg840"
+  },
+  {
+    "id": "rm614_lmg",
+    "type": "MIGRATION",
+    "replace": "rcmg840"
+  },
+  {
+    "id": "rm51_assault_rifle",
+    "type": "MIGRATION",
+    "replace": "rsa840"
+  },
+  {
     "id": "bio_power_armor_interface",
     "type": "MIGRATION",
     "replace": "burnt_out_bionic"
