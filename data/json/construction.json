@@ -4906,11 +4906,7 @@
         "tac_helmet",
         "miner_hat_on"
       ],
-      [
-        "rope_30",
-        "vine_30",
-        "rope_makeshift_30"
-      ]
+      [ "rope_30", "vine_30", "rope_makeshift_30" ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ] ],
