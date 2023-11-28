@@ -1232,7 +1232,7 @@
     "type": "MONSTER",
     "name": { "str": "flatlander" },
     "description": "An oblong figure floating parallel with the ground, some feet in the air like a piece of paper - Its far thinner than one as well, to the point it would be invisible if looked at with the right angle.",
-    "default faction": "nether_player_hate",
+    "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
