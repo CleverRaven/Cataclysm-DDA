@@ -2070,9 +2070,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         quantities.pop_back();
 
         if( !target ) {
-            if( !hauling_mode ) {
-                debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
-            }
+            debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
             continue;
         }
 

@@ -12110,6 +12110,7 @@ void game::start_hauling( const tripoint &pos )
 {
     std::vector<item_location> candidate_items = m.get_haulable_items( pos );
     // Find target items and quantities thereof for the new activity
+    u.trim_haul_list( candidate_items );
     std::vector<item_location> target_items = u.haul_list;
 
     if( u.is_autohauling() && !u.suppress_autohaul ) {
