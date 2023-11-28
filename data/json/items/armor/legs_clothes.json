@@ -445,7 +445,7 @@
         "id": "leggings_purple",
         "name": { "str_sp": "purple leggings" },
         "description": "This pair is a vibrant purple.",
-        "color": "purple",
+        "color": "magenta",
         "append": true,
         "weight": 15
       },
@@ -477,7 +477,7 @@
         "id": "leggings_fire",
         "name": { "str_sp": "fire leggings" },
         "description": "This pair has a printed flame pattern.",
-        "color": "orange",
+        "color": "red",
         "append": true,
         "weight": 1
       },
