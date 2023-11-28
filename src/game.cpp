@@ -12147,7 +12147,8 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
+                                           true );
     u.assign_activity( actor );
 }
 
