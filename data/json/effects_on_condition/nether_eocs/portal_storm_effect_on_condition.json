@@ -544,7 +544,7 @@
       "min_radius": 3,
       "max_radius": 20,
       "lifespan": [ "1 minutes", "3 minutes" ],
-      "spawn message": "something glides into your field of vision out of thin air, slipping between the space between atoms.",
+      "spawn_message": "something glides into your field of vision out of thin air, slipping between the space between atoms.",
       "spawn_message_plural": "several things glide into your field of vision out of thin air, slipping between the spaces between atoms."
     }
   },
