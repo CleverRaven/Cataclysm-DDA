@@ -675,10 +675,7 @@
         "id": "note_257",
         "text": "\"I found a corpse with strange berries shoved down their gullet, seems to have choked to death on the stuff.  greedy bastard\""
       },
-      {
-        "id": "note_258",
-        "text": "\"Don't trust them.  The mushrooms aren't your friends.  They're delusional\""
-      },
+      { "id": "note_258", "text": "\"Don't trust them.  The mushrooms aren't your friends.  They're delusional\"" },
       {
         "id": "note_259",
         "text": "\"trust me!  The mushrooms are your friends!  They brung her back! they'll bring everybody back! \""
