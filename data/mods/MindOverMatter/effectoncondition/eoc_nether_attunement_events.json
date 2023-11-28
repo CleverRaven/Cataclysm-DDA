@@ -383,7 +383,7 @@
     },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] },
-      { 
+      {
         "run_eocs": [
           {
             "id": "EOC_PSIONICS_NETHER_AREA_ATTENTION_CHECK",
