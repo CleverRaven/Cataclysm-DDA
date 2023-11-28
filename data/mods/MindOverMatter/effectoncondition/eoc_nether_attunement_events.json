@@ -387,7 +387,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSIONICS_NETHER_AREA_ATTENTION_CHECK",
-            "condition": { 
+            "condition": {
               "and": [
                 { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
                 { "x_in_y_chance": { "x": { "math": [ "rand(50 * (1 +  _difficulty - ( u_skill('metaphysics') / 2 ) ) )" ] }, "y": 1000 } }
