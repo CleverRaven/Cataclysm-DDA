@@ -1426,13 +1426,22 @@ void advanced_inventory::start_activity(
                 --amount_to_move;
             }
             if( to_vehicle && sitem->items.front()->is_bucket_nonempty() ) {
-                if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
-                               sitem->items.front()->tname() ) ) {
-                    return;
-                }
-                for( item *it : sitem->items.front()->get_contents().all_items_top() ) {
-                    target_items.emplace_back( item_location( sitem->items.front(), it ) );
-                    quantities.emplace_back( it->count() );
+                // Copy the pointers so they won't break if the list gets reordered as buckets are partly emptied.
+                std::vector<item_location> target_buckets = sitem->items;
+                if( target_buckets.front()->contains_no_solids() ) {
+                    target_buckets.front()->handle_liquid_or_spill( player_character, &*target_buckets.front() );
+                    if( !target_buckets.front()->empty_container() ) {
+                        return;
+                    }
+                } else {
+                    if( !query_yn( _( "The %s would spill if stored there.  Store its contents separately first?" ),
+                                   target_buckets.front()->tname() ) ) {
+                        return;
+                    }
+                    for( item *it : target_buckets.front()->get_contents().all_items_top() ) {
+                        target_items.emplace_back( item_location( target_buckets.front(), it ) );
+                        quantities.emplace_back( it->count() );
+                    }
                 }
             }
         }
@@ -1483,12 +1492,22 @@ void advanced_inventory::start_activity(
                 --amount_to_move;
             }
             if( sitem->items.front()->is_bucket_nonempty() ) {
-                if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
-                               sitem->items.front()->tname() ) ) {
-                    return;
-                }
-                for( item *it : sitem->items.front()->get_contents().all_items_top() ) {
-                    target_inserts.emplace_back( item_location( sitem->items.front(), it ), it->count() );
+                // Copy the pointers so they won't break if the list gets reordered as buckets are partly emptied.
+                std::vector<item_location> target_buckets = sitem->items;
+                if( target_buckets.front()->contains_no_solids() ) {
+                    target_buckets.front()->handle_liquid_or_spill( player_character, &*target_buckets.front() );
+                    if( !target_buckets.front()->empty_container() ) {
+                        return;
+                    }
+                } else {
+                    if( !query_yn( _( "The %s would spill if stored there.  Store its contents separately first?" ),
+                                   target_buckets.front()->tname() ) ) {
+                        return;
+                    }
+                    // Emplace contents in front of the container because insert_item_activity_actor processes from the front.
+                    for( item *it : target_buckets.front()->get_contents().all_items_top() ) {
+                        target_inserts.emplace_front( item_location( target_buckets.front(), it ), it->count() );
+                    }
                 }
             }
         }
