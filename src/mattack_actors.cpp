@@ -1237,7 +1237,8 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 
