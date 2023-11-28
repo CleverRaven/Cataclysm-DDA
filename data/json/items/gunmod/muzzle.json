@@ -3,7 +3,7 @@
     "id": "compensator",
     "type": "GUNMOD",
     "name": { "str": "compensator" },
-	"\\": "Only compensators that are more noticeable than, say, an A2 birdcage.",
+    "\\": "Only compensators that are more noticeable than, say, an A2 birdcage.",
     "description": "A compensator contains a number of holes or slits to vent some of the exhaust gasses of a gun upwards to reduce muzzle climb, while also increasing noise and bulk slightly.",
     "weight": "82 g",
     "volume": "17 ml",
