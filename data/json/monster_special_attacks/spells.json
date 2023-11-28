@@ -1004,7 +1004,7 @@
     "max_duration": 1000,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION"  ],
     "effect_str": "nausea"
-  }
+  },
   {
     "type": "SPELL",
     "id": "sloth_attack",
