@@ -568,7 +568,8 @@ void conditional_t::set_has_activity( bool is_npc )
     };
 }
 
-void conditional_t::set_has_proficiency( const JsonObject &jo, std::string_view member, bool is_npc )
+void conditional_t::set_has_proficiency( const JsonObject &jo, std::string_view member,
+        bool is_npc )
 {
     str_or_var proficiency_to_check = get_str_or_var( jo.get_member( member ), member, true );
     condition = [proficiency_to_check, is_npc]( dialogue const & d ) {
