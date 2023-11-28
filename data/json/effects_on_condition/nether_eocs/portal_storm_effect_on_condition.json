@@ -308,6 +308,7 @@
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
+        [ "EOC_PORTAL_FLATLANDER", { "const": 5 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
         [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
         [ "EOC_PORTAL_NPC", { "const": 1 } ]
