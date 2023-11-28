@@ -642,9 +642,6 @@ class Character : public Creature, public visitable
         using Creature::mod_speed_bonus;
         void mod_speed_bonus( int nspeed, const std::string &desc );
 
-        // Prints message(s) about current health
-        void print_health() const;
-
         /** Getters for health values exclusive to characters */
         int get_lifestyle() const;
         int get_daily_health() const;
@@ -1762,7 +1759,7 @@ class Character : public Creature, public visitable
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER,
+                    pocket_type pk_type = pocket_type::CONTAINER,
                     bool check_best_pkt = false );
         void store( item_pocket *pocket, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY );
@@ -1853,7 +1850,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, item_pocket::pocket_type::SOFTWARE );
+                }, pocket_type::SOFTWARE );
             }
         };
 

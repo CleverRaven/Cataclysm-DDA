@@ -56,7 +56,6 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -82,6 +81,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "pocket_type.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "relic.h"
@@ -5203,7 +5203,7 @@ item &map::add_item( const tripoint &p, item new_item, int copies )
         !new_item.has_var( "spawn_location_omt" ) ) {
         new_item.set_var( "spawn_location_omt", ms_to_omt_copy( getabs( p ) ) );
     }
-    for( item *const it : new_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *const it : new_item.all_items_top( pocket_type::CONTAINER ) ) {
         if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
             !it->has_var( "spawn_location_omt" ) ) {
             it->set_var( "spawn_location_omt", ms_to_omt_copy( getabs( p ) ) );
@@ -8356,7 +8356,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
                 // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
                 sap.poison = one_in( 10 ) ? 1 : 0;
 
-                it.put_in( sap, item_pocket::pocket_type::CONTAINER );
+                it.put_in( sap, pocket_type::CONTAINER );
             }
             // Only fill up the first container.
             break;

@@ -1771,6 +1771,8 @@
       { "item": "bead_bracelet", "prob": 3 },
       { "item": "bead_necklace", "prob": 3 },
       { "item": "cassock", "prob": 40 },
+      { "item": "cape_catholic", "prob": 20 },
+      { "item": "zucchetto", "prob": 20 },
       { "item": "nun_habit", "prob": 35 },
       { "item": "nun_wimple", "prob": 35 },
       { "item": "thawb", "prob": 10 },

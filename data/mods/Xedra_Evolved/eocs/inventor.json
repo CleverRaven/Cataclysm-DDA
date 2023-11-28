@@ -225,8 +225,7 @@
           "inventor_lasmod_recuperator",
           "inventor_lasmod_mega_everything",
           "inventor_lasmod_more_capacitors",
-          "inventor_research_ai_1",
-          "inventor_research_dimesnion_1"
+          "inventor_research_ai_1"
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],

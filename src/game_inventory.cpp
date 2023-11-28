@@ -517,7 +517,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                                           bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
             skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
             save_state = &pickup_sel_default_state;
-            _pk_type = item_pocket::pocket_type::LAST;
+            _pk_type = pocket_type::LAST;
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1860,7 +1860,7 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+        for( item *it : droplc.first->all_items_top( pocket_type::CONTAINER, true ) ) {
             // no liquids and no items marked as favorite
             if( ( !it->made_of( phase_id::LIQUID ) || ( it->made_of( phase_id::LIQUID ) &&
                     it->is_frozen_liquid() ) ) && !it->is_favorite ) {

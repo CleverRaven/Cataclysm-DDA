@@ -31,7 +31,7 @@
       "//": "cloth as any other zombie (always), additional items from group hive (sometimes)"
     },
     "burn_into": "mon_zombie_scorched",
-    "fungalize_into": "mon_zombie_fungus",
+    "fungalize_into": "mon_beekeeper_fungal",
     "flags": [
       "HEARS",
       "STUMBLES",
@@ -177,7 +177,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "fungalize_into": "mon_zombie_fungus",
+    "fungalize_into": "mon_zombie_crawler_fungal",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "ATTACK_LOWER" ],
     "armor": { "electric": 1 }
@@ -212,7 +212,7 @@
     "special_attacks": [ { "id": "grab" }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "fungalize_into": "mon_zombie_fungus",
+    "fungalize_into": "mon_zombie_fat_fungus",
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_FAT" },
     "flags": [
       "SEES",
@@ -365,7 +365,7 @@
     "special_attacks": [ { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "fungalize_into": "mon_zombie_fungus",
+    "fungalize_into": "mon_zombie_rot_fungal",
     "upgrades": { "half_life": 43, "into": "mon_devourer" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "electric": 1 }
@@ -455,7 +455,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "fungalize_into": "mon_zombie_fungus",
+    "fungalize_into": "mon_zombie_tough_fungal",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
