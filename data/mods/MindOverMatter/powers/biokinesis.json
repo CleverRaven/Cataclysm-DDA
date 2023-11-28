@@ -10,16 +10,12 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_physical",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
@@ -30,6 +26,10 @@
         "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -175,
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
@@ -45,16 +45,11 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_PAIN_INITIATE",
     "shape": "blast",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": 0,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 1750,
-    "final_energy_cost": 850,
-    "energy_increment": -75,
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
@@ -65,9 +60,17 @@
         "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -7,
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 0 : max((1750 - (u_val('spell_level', 'spell: biokin_overcome_pain') * 75)), 850)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 10 : max((125 -(u_val('spell_level', 'spell: biokin_overcome_pain') * 7)), 50)"
+      ]
+    },
     "learn_spells": { "biokin_armor_skin": 9, "biokin_climate_control": 12, "biokin_sealed_system": 18 }
   },
   {
@@ -81,12 +84,12 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_flexibility",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
@@ -109,12 +112,12 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_armor_skin",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1750,
@@ -141,11 +144,11 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
     "shape": "blast",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) )"
@@ -157,12 +160,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
-    "base_casting_time": 250,
-    "final_casting_time": 150,
-    "casting_time_increment": -8.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 0 : max((3500 - (u_val('spell_level', 'spell: biokin_climate_control') * 175)), 1250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 10 : max((250 -(u_val('spell_level', 'spell: biokin_climate_control') * 8.5)), 150)"
+      ]
+    },
     "learn_spells": { "biokin_sealed_system": 6 }
   },
   {
@@ -175,11 +182,11 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_INITIATE",
     "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_duration": {
       "math": [
@@ -192,12 +199,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 2500,
-    "energy_increment": -150,
-    "base_casting_time": 275,
-    "final_casting_time": 50,
-    "casting_time_increment": -15,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 0 : max((4500 - (u_val('spell_level', 'spell: biokin_enhance_mobility') * 150)), 2500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 10 : max((275 -(u_val('spell_level', 'spell: biokin_enhance_mobility') * 15)), 50)"
+      ]
+    },
     "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
   },
   {
@@ -211,24 +222,28 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_HAMMERHAND_INITIATE",
     "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 2250,
-    "energy_increment": -225,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "base_casting_time": 350,
-    "final_casting_time": 150,
-    "casting_time_increment": -12.5
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 0 : max((4500 - (u_val('spell_level', 'spell: biokin_hammerhand') * 225)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 10 : max((350 -(u_val('spell_level', 'spell: biokin_hammerhand') * 12.5)), 150)"
+      ]
+    }
   },
   {
     "id": "biokin_reflex_enhance",
@@ -241,12 +256,12 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_reflex",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2250,
@@ -277,6 +292,8 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_sealed",
     "extra_effects": [
@@ -284,8 +301,6 @@
       { "id": "psionic_drained_difficulty_seven", "hit_self": false }
     ],
     "shape": "blast",
-    "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2750,
@@ -310,8 +325,8 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "flags": [ "PSIONIC", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "biokin_climate_control",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
     "shape": "blast",
     "max_level": 1
   },
@@ -326,22 +341,22 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_combat_dance",
     "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": false } ],
     "shape": "blast",
-    "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 5500,
-    "final_energy_cost": 2250,
-    "energy_increment": -125,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5500,
+    "final_energy_cost": 2250,
+    "energy_increment": -125,
     "base_casting_time": 100,
     "final_casting_time": 40,
     "casting_time_increment": -4,
@@ -358,16 +373,12 @@
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_perfected_motion",
     "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": false } ],
     "shape": "blast",
-    "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 3500,
-    "energy_increment": -175,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -376,6 +387,10 @@
         "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 3500,
+    "energy_increment": -175,
     "base_casting_time": 75,
     "final_casting_time": 15,
     "casting_time_increment": -4

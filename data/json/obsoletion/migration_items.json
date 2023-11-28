@@ -314,5 +314,15 @@
     "id": "bp_762_m43",
     "type": "MIGRATION",
     "replace": "bp_762_m87"
+  },
+  {
+    "id": "rm4502",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank_modern"
+  },
+  {
+    "id": "rm4504",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank_modern"
   }
 ]

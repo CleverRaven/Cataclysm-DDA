@@ -1,0 +1,7 @@
+[
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  }
+]
