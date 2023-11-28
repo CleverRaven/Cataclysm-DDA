@@ -988,7 +988,7 @@
     "message": "",
     "min_duration": 100,
     "max_duration": 400,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION"  ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "extra_effects": [ { "id": "flatlander_attack_nausea", "hit_self": true } ]
   },
   {
@@ -1002,7 +1002,7 @@
     "message": "",
     "min_duration": 300,
     "max_duration": 1000,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION"  ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect_str": "nausea"
   },
   {
