@@ -15,7 +15,7 @@
     "type": "jmath_function",
     "id": "maintenance_exp_factor",
     "num_args": 1,
-    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( u_skill('metaphysics') / 10), 1)"
+    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
   },
   {
     "type": "jmath_function",
