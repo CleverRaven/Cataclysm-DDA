@@ -51,6 +51,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_null( "null" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
@@ -1236,7 +1237,8 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 

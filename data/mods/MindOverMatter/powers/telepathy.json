@@ -202,18 +202,17 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "effect_str": "stunned",
-    "damage_type": "psi_telepathic_damage",
+    "effect_str": "psi_stunned",
     "extra_effects": [
       { "id": "telepathic_confusion_blind", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_five", "hit_self": true }
     ],
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 400) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 50) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 800) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
       "math": [

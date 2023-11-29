@@ -27,6 +27,7 @@
 #include "mapgen_helpers.h"
 #include "player_helpers.h"
 #include "ret_val.h"
+#include "test_data.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -2809,5 +2810,46 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
         get_map().process_items();
         REQUIRE( spawned_w_modifier->empty_container() );
         check_whitelist( *spawned_w_modifier, edited, id );
+    }
+}
+
+TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
+{
+    for( std::pair<const std::string, pocket_mod_test_data> &pocket_mod_data :
+         test_data::pocket_mod_data ) {
+        SECTION( pocket_mod_data.first ) {
+            item base_it( pocket_mod_data.second.base_item );
+            item mod_it( pocket_mod_data.second.mod_item );
+
+            base_it.put_in( mod_it, pocket_type::MOD );
+
+            std::vector<item_pocket *> new_pockets( base_it.get_contents().get_pockets( [](
+            item_pocket const & ) {
+                return true;
+            } ) );
+
+            for( std::pair<const pocket_type, uint64_t> &expected :
+                 pocket_mod_data.second.expected_pockets ) {
+                std::vector<item_pocket *> pockets( base_it.get_contents().get_pockets( [expected](
+                item_pocket const & pock ) {
+                    return pock.is_type( expected.first );
+                } ) );
+                CAPTURE( expected.first );
+                CHECK( expected.second == pockets.size() );
+            }
+
+            bool same_pocket_data = new_pockets.size() == base_it.type->pockets.size();
+            if( same_pocket_data ) {
+                for( const item_pocket *pocket : new_pockets ) {
+                    if( std::find( base_it.type->pockets.begin(), base_it.type->pockets.end(),
+                                   *pocket->get_pocket_data() ) == base_it.type->pockets.end() ) {
+                        same_pocket_data = false;
+                        break;
+                    }
+                }
+            }
+
+            CHECK_FALSE( same_pocket_data );
+        }
     }
 }
