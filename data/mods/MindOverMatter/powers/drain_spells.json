@@ -2,9 +2,9 @@
   {
     "id": "psionic_drained_spell",
     "type": "SPELL",
-    "name": { "str": "Psionic Drain" },
+    "name": { "str": "Nether-Attunement" },
     "valid_targets": [ "self" ],
-    "description": "Applies Drained to you.",
+    "description": "Applies Nether Attunement to you.",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "message": "",
     "effect": "effect_on_condition",
@@ -16,11 +16,11 @@
     "id": "EOC_CAUSE_PSIONIC_DRAIN",
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
-      { "u_message": "You feel a sudden fatigue as your powers are unleashed.", "type": "bad" },
+      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
     ],
     "false_effect": [
-      { "u_message": "You feel a sudden fatigue as your powers are unleashed.", "type": "bad" },
+      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,5 )" ] }
     ]
   },

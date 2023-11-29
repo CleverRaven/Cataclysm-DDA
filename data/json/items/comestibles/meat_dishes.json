@@ -1246,7 +1246,8 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "breakfast cheeseburger" } }
     ],
     "weight": "333 g",
     "color": "brown",
@@ -1272,7 +1273,12 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str_sp": "wheat-free breakfast cheeseburger" }
+      }
     ],
     "weight": "333 g",
     "color": "brown",
@@ -1328,7 +1334,8 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "bobburger" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Moreauburger" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "breakfast burger" } }
     ],
     "weight": "300 g",
     "color": "brown",
@@ -1353,7 +1360,8 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "wheat-free bobburger" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "wheat-free Moreauburger" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "wheat-free breakfast burger" } }
     ],
     "weight": "300 g",
     "color": "brown",
@@ -1660,7 +1668,10 @@
     "type": "COMESTIBLE",
     "id": "homemade_burrito",
     "name": { "str": "homemade burrito" },
-    "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "bone-chilling burrito" } ],
+    "conditional_names": [
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "bone-chilling burrito" },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str_sp": "breakfast burrito" } }
+    ],
     "weight": "142 g",
     "color": "brown",
     "spoils_in": "1 days 4 hours",

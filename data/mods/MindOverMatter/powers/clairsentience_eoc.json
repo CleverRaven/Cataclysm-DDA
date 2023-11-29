@@ -2,21 +2,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_NIGHT_EYES_INITIATE",
-    "condition": {
-      "and": [
-        { "not": { "u_has_effect": "effect_clair_night_eyes_1" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_2" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_3" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_4" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_5" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_6" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_7" } },
-        { "not": { "u_has_effect": "effect_clair_night_eyes_8" } }
-      ]
-    },
+    "condition": { "not": { "u_has_effect": "effect_clair_night_eyes" } },
     "effect": [
       { "u_message": "You open your senses to the world.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_CLAIR_NIGHT_EYES_SWITCHER" ] },
+      { "u_add_effect": "effect_clair_night_eyes", "duration": "PERMANENT" },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
@@ -34,20 +24,7 @@
         ]
       }
     ],
-    "false_effect": [
-      { "u_lose_effect": "effect_clair_night_eyes_1" },
-      { "u_lose_effect": "effect_clair_night_eyes_2" },
-      { "u_lose_effect": "effect_clair_night_eyes_3" },
-      { "u_lose_effect": "effect_clair_night_eyes_4" },
-      { "u_lose_effect": "effect_clair_night_eyes_5" },
-      { "u_lose_effect": "effect_clair_night_eyes_6" },
-      { "u_lose_effect": "effect_clair_night_eyes_7" },
-      { "u_lose_effect": "effect_clair_night_eyes_8" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (1500 - (u_val('spell_level', 'spell: clair_night_vision') * 50) ), 500)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_CLAIR_REMOVE_NIGHT_EYES" } ]
   },
   {
     "type": "effect_on_condition",
@@ -65,6 +42,23 @@
         { "case": 21, "effect": { "u_add_effect": "effect_clair_night_eyes_8", "duration": "PERMANENT" } }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_REMOVE_NIGHT_EYES",
+    "condition": { "u_has_effect": "effect_clair_night_eyes" },
+    "effect": [
+      { "u_lose_effect": "effect_clair_night_eyes_1" },
+      { "u_lose_effect": "effect_clair_night_eyes_2" },
+      { "u_lose_effect": "effect_clair_night_eyes_3" },
+      { "u_lose_effect": "effect_clair_night_eyes_4" },
+      { "u_lose_effect": "effect_clair_night_eyes_5" },
+      { "u_lose_effect": "effect_clair_night_eyes_6" },
+      { "u_lose_effect": "effect_clair_night_eyes_7" },
+      { "u_lose_effect": "effect_clair_night_eyes_8" },
+      { "u_lose_effect": "effect_clair_night_eyes" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -124,12 +118,7 @@
         ]
       }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_CLAIR_REMOVE_SPEED_READ" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: clair_speed_reading') * 125) ), 1000)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_CLAIR_REMOVE_SPEED_READ" } ]
   },
   {
     "type": "effect_on_condition",

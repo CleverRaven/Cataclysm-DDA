@@ -51,6 +51,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_null( "null" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
@@ -1232,11 +1233,12 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         } else {
             item mag( gun.magazine_default() );
             mag.ammo_set( ammo, z.ammo[ammo_type] );
-            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            gun.put_in( mag, pocket_type::MAGAZINE_WELL );
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 

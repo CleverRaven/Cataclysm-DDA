@@ -198,7 +198,7 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
-If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic.
+If `npc` has the following fields, the game will display a dialogue with the indicated topic instead of default topic.
 
 Field | Default topic ID  | Uses for...
 ---|---|---

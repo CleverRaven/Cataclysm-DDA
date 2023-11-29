@@ -56,7 +56,6 @@
       [ "battery_gun", 100 ],
       [ "ray_gun", 50 ],
       [ "ray_rifle", 10 ],
-      [ "rip_ticket", 100 ],
       [ "ion_gun", 100 ],
       [ "inventor_shotgun", 100 ],
       [ "sonic_gun", 100 ],

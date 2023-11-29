@@ -1999,7 +1999,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         return false;
     }
 
-    std::list<item *> const items = preset.get_pocket_type() == item_pocket::pocket_type::LAST
+    std::list<item *> const items = preset.get_pocket_type() == pocket_type::LAST
                                     ? container->all_items_top()
                                     : container->all_items_top( preset.get_pocket_type() );
 

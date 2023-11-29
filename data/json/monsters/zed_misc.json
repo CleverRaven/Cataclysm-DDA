@@ -1181,6 +1181,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
+    "fungalize_into": "mon_zombie_runner_fungal",
     "flags": [ "SEES", "HEARS", "GRABS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "electric": 1 }
   },
