@@ -283,7 +283,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
                     source.move_to_next();
                     add_msg_debug( debugmode::DF_NPC_MOVEAI,
                                    "<color_light_gray>%s is at least %i away from allies, enemy within %i of them.  Going for attack.</color>",
-                                   source.name, source.mem_combat.formation_distance, closest_enemy_to_friendly_distance() );
+                                   source.name, source.mem_combat.formation_distance, source.closest_enemy_to_friendly_distance() );
 			    } else {
                     add_msg_debug( debugmode::DF_NPC_MOVEAI,
                                    "<color_light_gray>%s can't path to melee target, or is staying close to ranged allies.</color>",
