@@ -410,8 +410,6 @@
     "items": [
       { "item": "ppsh", "prob": 50 },
       { "item": "hk_mp5_10_semi", "prob": 1 },
-      { "item": "skorpion_61", "prob": 100 },
-      { "item": "skorpion_82", "prob": 100 },
       { "item": "greasegun", "prob": 150 },
       { "group": "guns_smg_collectible", "prob": 1 }
     ]
