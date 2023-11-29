@@ -31,6 +31,7 @@
       "=": "t_door_locked",
       "D": "t_door_metal_c",
       "!": "t_door_metal_locked",
+      "1": "t_door_metal_interior_locked",
       "E": "t_elevator",
       "G": "t_door_glass_frosted_lab_c",
       "R": "t_railing_v",
