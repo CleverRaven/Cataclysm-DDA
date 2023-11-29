@@ -1248,7 +1248,7 @@
         "type": "spell",
         "spell_data": { "id": "flatlander_attack", "min_level": 1 },
         "cooldown": 10,
-        "monster_message": "Standing close to the %s, your body is violently dragged down to the second dimension. You're there for only an instant but the experience is enough to send you reeling."
+        "monster_message": "Standing close to the %s, your body is violently dragged down to the second dimension.  You're there for only an instant but the experience is enough to send you reeling."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
