@@ -128,6 +128,7 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
@@ -2828,7 +2829,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     recoil = MAX_RECOIL;
 
-    if( has_effect( effect_stunned ) ) {
+    if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
         p.x = rng( posx() - 1, posx() + 1 );
         p.y = rng( posy() - 1, posy() + 1 );
         p.z = posz();

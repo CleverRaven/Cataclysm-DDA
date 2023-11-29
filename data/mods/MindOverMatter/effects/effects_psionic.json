@@ -1426,7 +1426,7 @@
     "max_intensity": 17,
     "dur_add_perc": 10,
     "int_dur_factor": "35 s",
-    "removes_effects": [ "taint", "tindrift", "hallu", "hallucination_attacks", "visuals", "fearparalyze", "amigara" ],
+    "removes_effects": [ "taint", "tindrift", "hallu", "hallucination_attacks", "visuals", "fearparalyze", "amigara", "psi_stunned" ],
     "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
   },
   {

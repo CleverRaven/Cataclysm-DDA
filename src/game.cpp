@@ -237,6 +237,7 @@ static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
@@ -10185,7 +10186,7 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
-    if( u.has_effect( effect_stunned ) ) {
+    if( u.has_effect( effect_stunned ) || u.has_effect( effect_psi_stunned ) ) {
         return true;
     }
 
