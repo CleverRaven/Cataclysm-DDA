@@ -296,12 +296,13 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
-        if( !load_RAS_weapon() ) {
-            aborted = true;
-            act.moves_left = 0;
-            return;
-        }
+    // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
+    // therefore the order of evaluation matters here
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
+        first_turn ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -2109,7 +2110,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             } else {
                 std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
                         dest );
-                if( who.is_hauling() ) {
+                if( hauling_mode ) {
                     who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
                 }
             }
@@ -2123,7 +2124,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
-        if( who.is_hauling() ) {
+        if( hauling_mode ) {
             std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos() );
             bool overflow = who.trim_haul_list( haulable_items );
             if( who.is_hauling() && haulable_items.empty() ) {
@@ -2146,6 +2147,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
     jsout.member( "relative_destination", relative_destination );
+    jsout.member( "hauling_mode", hauling_mode );
 
     jsout.end_object();
 }
@@ -2160,6 +2162,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValu
     data.read( "quantities", actor.quantities );
     data.read( "to_vehicle", actor.to_vehicle );
     data.read( "relative_destination", actor.relative_destination );
+    data.read( "hauling_mode", actor.hauling_mode );
 
     return actor.clone();
 }

@@ -1839,6 +1839,7 @@ void item_contents::update_modified_pockets(
     const std::optional<const pocket_data *> &mag_or_mag_well,
     std::vector<const pocket_data *> container_pockets )
 {
+    bool mag_or_well_found = false;
     for( auto pocket_iter = contents.begin(); pocket_iter != contents.end(); ) {
         item_pocket &pocket = *pocket_iter;
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
@@ -1878,9 +1879,9 @@ void item_contents::update_modified_pockets(
                         // in case the debugmsg wasn't clear, this should never happen
                         debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
                     }
-                    contents.emplace_back( *mag_or_mag_well );
                     pocket_iter = contents.erase( pocket_iter );
                 } else {
+                    mag_or_well_found = true;
                     ++pocket_iter;
                 }
             } else {
@@ -1895,6 +1896,9 @@ void item_contents::update_modified_pockets(
     // we've deleted all of the superfluous copies already, so time to add the new pockets
     for( const pocket_data *container_pocket : container_pockets ) {
         contents.emplace_back( container_pocket );
+    }
+    if( mag_or_mag_well && !mag_or_well_found ) {
+        contents.emplace_back( *mag_or_mag_well );
     }
 
 }

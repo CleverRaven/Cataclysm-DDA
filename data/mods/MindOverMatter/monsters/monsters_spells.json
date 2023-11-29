@@ -479,7 +479,7 @@
     "difficulty": 1,
     "max_level": 20,
     "effect": "attack",
-    "effect_str": "stunned",
+    "effect_str": "psi_stunned",
     "extra_effects": [
       { "id": "telepathic_deprivation_monster", "hit_self": false, "max_level": 3 },
       { "id": "telepathic_deafening_monster", "hit_self": false, "max_level": 3 }
