@@ -188,6 +188,14 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> knows_proficiency_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
+        return d.actor( beta )->knows_proficiency( proficiency_id( tid.str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> hp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
