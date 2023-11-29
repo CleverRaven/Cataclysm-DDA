@@ -338,7 +338,7 @@ void tutorial_game::post_action( action_id act )
             item it( player_character.last_item, calendar::turn_zero );
             if( it.is_holster() ) {
                 add_message( tut_lesson::LESSON_HOLSTERS_ACTIVATE );
-            } else if( it.has_pocket_type( item_pocket::pocket_type::CONTAINER ) ) {
+            } else if( it.has_pocket_type( pocket_type::CONTAINER ) ) {
                 add_message( tut_lesson::LESSON_WORE_STORAGE );
             } else if( it.is_armor() ) {
                 if( it.get_env_resist() >= 2 ) {

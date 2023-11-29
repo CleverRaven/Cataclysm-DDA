@@ -69,6 +69,8 @@
         { "item": "matrix_shard", "count": [ 4, 20 ] },
         { "item": "matrix_crystal_biokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_clair_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_electrokin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_photokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_pyrokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_telekin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_telepath_dust", "count": [ 0, 3 ] },

@@ -118,11 +118,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
+    "condition": { "and": [ { "u_has_trait": "EYEGLEAM" }, { "u_has_trait": "STAMINAFORBLOOD" }, { "u_has_trait": "COMMUNE_NIGHT" } ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
+    "condition": { "and": [ { "u_has_trait": "COAGULANTWEAVE" }, { "u_has_trait": "BLOODHEAL" } ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {

@@ -23,9 +23,9 @@
 #include "input.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "memory_fast.h"
+#include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "units.h"
@@ -258,7 +258,7 @@ class inventory_selector_preset
             return check_components;
         }
 
-        item_pocket::pocket_type get_pocket_type() const {
+        pocket_type get_pocket_type() const {
             return _pk_type;
         }
 
@@ -296,7 +296,7 @@ class inventory_selector_preset
         bool _indent_entries = true;
         bool _collate_entries = false;
 
-        item_pocket::pocket_type _pk_type = item_pocket::pocket_type::CONTAINER;
+        pocket_type _pk_type = pocket_type::CONTAINER;
 
     private:
         class cell_t

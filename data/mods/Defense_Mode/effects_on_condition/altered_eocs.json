@@ -1,0 +1,35 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_EARLY_PORTAL_STORM",
+    "global": true,
+    "//": "This sets up all the variables for the start of an early portal storm.",
+    "condition": {
+      "and": [
+        { "math": [ "portal_storms_allowed", "==", "0" ] },
+        {
+          "not": {
+            "or": [
+              { "is_weather": "portal_storm" },
+              { "is_weather": "early_portal_storm" },
+              { "math": [ "cause_portal_storm", "==", "1" ] },
+              { "math": [ "cause_early_portal_storm", "==", "1" ] }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
+      { "math": [ "cause_early_portal_storm", "=", "1" ] },
+      "next_weather",
+      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
+      { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
+      {
+        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby, a tiny cataclysm has begun (check mission log for details).",
+        "type": "bad",
+        "popup": true
+      }
+    ]
+  }
+]

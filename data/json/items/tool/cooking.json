@@ -899,7 +899,7 @@
     "price_postapoc": 10,
     "material": [ "paper" ],
     "symbol": ";",
-    "qualities": [ [ "SIEVE", 1 ] ],
+    "qualities": [ [ "SIEVE", 1 ], [ "WINNOW", 1 ] ],
     "color": "light_gray",
     "melee_damage": { "bash": 1 }
   },
@@ -916,7 +916,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ], [ "WINNOW", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -932,7 +932,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ]
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ], [ "WINNOW", 1 ] ]
   },
   {
     "id": "still",

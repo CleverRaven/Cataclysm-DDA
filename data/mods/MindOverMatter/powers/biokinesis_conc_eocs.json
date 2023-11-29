@@ -2,18 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_PAIN_INITIATE",
-    "condition": {
-      "and": [
-        { "not": { "u_has_effect": "effect_biokin_pkill_1" } },
-        { "not": { "u_has_effect": "effect_biokin_pkill_2" } },
-        { "not": { "u_has_effect": "effect_biokin_pkill_3" } },
-        { "not": { "u_has_effect": "effect_biokin_pkill_4" } },
-        { "not": { "u_has_effect": "effect_biokin_pkill_5" } },
-        { "not": { "u_has_effect": "effect_biokin_pkill_6" } }
-      ]
-    },
+    "condition": { "not": { "u_has_effect": "effect_biokin_overcome_pain" } },
     "effect": [
       { "u_message": "You breathe deeply and your pain lessens.", "type": "good" },
+      { "u_add_effect": "effect_biokin_overcome_pain", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_BIOKIN_OVERCOME_PAIN_SWITCHER" ] },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
@@ -32,18 +24,7 @@
         ]
       }
     ],
-    "false_effect": [
-      { "u_lose_effect": "effect_biokin_pkill_1" },
-      { "u_lose_effect": "effect_biokin_pkill_2" },
-      { "u_lose_effect": "effect_biokin_pkill_3" },
-      { "u_lose_effect": "effect_biokin_pkill_4" },
-      { "u_lose_effect": "effect_biokin_pkill_5" },
-      { "u_lose_effect": "effect_biokin_pkill_6" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (1750 - (u_val('spell_level', 'spell: biokin_overcome_pain') * 75) ), 850)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_OVERCOME_PAIN" } ]
   },
   {
     "type": "effect_on_condition",
@@ -62,17 +43,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
+    "condition": { "u_has_effect": "effect_biokin_overcome_pain" },
+    "effect": [
+      { "u_lose_effect": "effect_biokin_pkill_1" },
+      { "u_lose_effect": "effect_biokin_pkill_2" },
+      { "u_lose_effect": "effect_biokin_pkill_3" },
+      { "u_lose_effect": "effect_biokin_pkill_4" },
+      { "u_lose_effect": "effect_biokin_pkill_5" },
+      { "u_lose_effect": "effect_biokin_pkill_6" },
+      { "u_lose_effect": "effect_biokin_overcome_pain" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
-    "condition": {
-      "or": [
-        { "u_has_effect": "effect_biokin_pkill_1" },
-        { "u_has_effect": "effect_biokin_pkill_2" },
-        { "u_has_effect": "effect_biokin_pkill_3" },
-        { "u_has_effect": "effect_biokin_pkill_4" },
-        { "u_has_effect": "effect_biokin_pkill_5" },
-        { "u_has_effect": "effect_biokin_pkill_6" }
-      ]
-    },
+    "condition": { "u_has_effect": "effect_biokin_overcome_pain" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -118,13 +105,13 @@
         ]
       }
     ],
-    "false_effect": [
-      { "u_lose_effect": "effect_biokin_climate_control" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (3500 - (u_val('spell_level', 'spell: biokin_climate_control') * 175) ), 1250)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
+    "condition": { "u_has_effect": "effect_biokin_climate_control" },
+    "effect": [ { "u_lose_effect": "effect_biokin_climate_control" }, { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" } ]
   },
   {
     "type": "effect_on_condition",
@@ -174,19 +161,7 @@
         ]
       }
     ],
-    "false_effect": [
-      { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
-      { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
-      { "u_remove_item_with": "biokin_enhance_mobility_item_3" },
-      { "u_remove_item_with": "biokin_enhance_mobility_item_4" },
-      { "u_remove_item_with": "biokin_enhance_mobility_item_5" },
-      { "u_remove_item_with": "biokin_enhance_mobility_item_6" },
-      { "u_lose_effect": "effect_biokin_enhance_mobility" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (4500 - (u_val('spell_level', 'spell: biokin_enhance_mobility') * 150) ), 2500)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY" } ]
   },
   {
     "type": "effect_on_condition",
@@ -220,6 +195,21 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
+    "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
+    "effect": [
+      { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_3" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_4" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_5" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_6" },
+      { "u_lose_effect": "effect_biokin_enhance_mobility" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -268,12 +258,16 @@
         ]
       }
     ],
-    "false_effect": [
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_HAMMERHAND" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_HAMMERHAND",
+    "condition": { "u_has_effect": "effect_biokin_hammerhand" },
+    "effect": [
+      { "u_remove_item_with": "effect_biokin_hammerhand" },
       { "u_lose_effect": "effect_biokin_hammerhand" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (4500 - (u_val('spell_level', 'spell: biokin_hammerhand') * 225) ), 2250)" ]
-      }
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
     ]
   },
   {
