@@ -102,8 +102,8 @@
   {
     "id": "teleport_stride",
     "type": "SPELL",
-    "name": "[Ψ]Extended Stride (toggle)",
-    "description": "By warping space to shorten distances, you can make each of your movements carry you much further.",
+    "name": "[Ψ]Extended Stride (C)",
+    "description": "By warping space to shorten distances, you can make each of your movements carry you much further.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "Your steps devour the distance.",
     "teachable": false,
     "valid_targets": [ "self" ],

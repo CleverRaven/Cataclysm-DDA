@@ -100,8 +100,8 @@
   {
     "id": "pyrokinetic_call_flames",
     "type": "SPELL",
-    "name": "[Ψ]Banked Flames (toggle)",
-    "description": "Call up flames over your outstretched hand.  You can use them to heat up food, boil water, start fires, or anything else fire can accomplish.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Banked Flames (C)",
+    "description": "Call up flames over your outstretched hand.  You can use them to heat up food, boil water, start fires, or anything else fire can accomplish.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -196,8 +196,8 @@
   {
     "id": "pyrokinetic_cloak",
     "type": "SPELL",
-    "name": "[Ψ]Cloak of Warmth (toggle)",
-    "description": "Control the temperature of the nearby air, warming you and protecting you against flames.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Cloak of Warmth (C)",
+    "description": "Control the temperature of the nearby air, warming you and protecting you against flames.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -286,8 +286,8 @@
   {
     "id": "pyrokinetic_lance",
     "type": "SPELL",
-    "name": "[Ψ]Incandescent Lance (toggle)",
-    "description": "Concentrate heat into a thin, searing beam capable of cutting through solid metal or welding it together.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Incandescent Lance (C)",
+    "description": "Concentrate heat into a thin, searing beam capable of cutting through solid metal or welding it together.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
