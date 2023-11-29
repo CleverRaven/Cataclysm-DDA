@@ -209,7 +209,6 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -267,6 +266,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
@@ -10783,7 +10783,7 @@ void Character::process_effects()
         if( has_trait( trait_INFRESIST ) ) {
             checked_health += 50;
         }
-        float pinkeye_chance = ( 4 + 6 / 25 * checked_health );
+        float pinkeye_chance = 4 + 6 / 25 * checked_health;
         if( one_in( pinkeye_chance ) ) {
             if( one_in( 2 ) ) {
                 add_effect( effect_pre_conjunctivitis_bacterial, 70_hours );
