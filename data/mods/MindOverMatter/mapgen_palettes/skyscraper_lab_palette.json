@@ -88,8 +88,6 @@
     "type": "palette",
     "id": "phavian_skyscraper_office_room_palette",
     "terrain": {
-      "G": "t_door_glass_frosted_lab_c",
-      "V": "t_reinforced_glass",
       "ꞝ": "t_carpet_linoleum_gray_green",
       ".": "t_linoleum_white",
       ":": "t_reinforced_glass",
