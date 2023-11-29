@@ -65,7 +65,7 @@
   {
     "id": "ar_pistol",
     "copy-from": "rifle_semi",
-    "looks_like": "skorpion_61",
+    "looks_like": "oa93",
     "type": "GUN",
     "name": { "str": "AR pistol" },
     "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
@@ -128,7 +128,7 @@
   {
     "id": "plr16",
     "copy-from": "rifle_semi",
-    "looks_like": "skorpion_61",
+    "looks_like": "oa93",
     "type": "GUN",
     "name": { "str": "Rifle caliber pistol" },
     "description": "This is a semi-automatic pistol chambered in 5.56x45, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
@@ -837,7 +837,7 @@
   {
     "id": "oa93",
     "copy-from": "rifle_semi",
-    "looks_like": "skorpion_61",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "OA-93" },
     "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",

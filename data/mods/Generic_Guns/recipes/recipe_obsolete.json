@@ -431,11 +431,6 @@
   },
   {
     "type": "recipe",
-    "result": "bp_32_acp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bp_38_fmj",
     "obsolete": true
   },
@@ -512,6 +507,11 @@
   {
     "type": "recipe",
     "result": "reloaded_32_acp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_32_acp_jhp",
     "obsolete": true
   },
   {
@@ -1126,6 +1126,11 @@
   },
   {
     "type": "recipe",
+    "result": "bp_32_acp_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bp_38_fmj",
     "obsolete": true
   },
@@ -1202,6 +1207,11 @@
   {
     "type": "recipe",
     "result": "reloaded_32_acp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_32_acp_jhp",
     "obsolete": true
   },
   {
