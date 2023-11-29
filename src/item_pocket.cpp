@@ -208,6 +208,9 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
            airtight == rhs.airtight &&
            fire_protection == rhs.fire_protection &&
            get_flag_restrictions() == rhs.get_flag_restrictions() &&
+           ammo_restriction == rhs.ammo_restriction &&
+           item_id_restriction == rhs.item_id_restriction &&
+           material_restriction == rhs.material_restriction &&
            type == rhs.type &&
            volume_capacity == rhs.volume_capacity &&
            min_item_volume == rhs.min_item_volume &&
