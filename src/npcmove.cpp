@@ -3724,15 +3724,20 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 bool npc::find_corpse_to_pulp()
 {
     Character &player_character = get_player_character();
-    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) ||
-                                player_character.in_vehicle ) ) ||
-        is_hallucination() ) {
-        return false;
+    if( ( is_player_ally() ) ) {
+    if( !rules.has_flag( ally_rule::allow_pulp ) ||
+            player_character.in_vehicle || is_hallucination() ) {
+            return false;
+        }
+        if( rl_dist( pos(), player_character.pos() ) >= mem_combat.engagement_distance ) {
+            // don't start to pulp corpses if you're already far from the player.
+            return false;
+        }
     }
 
     map &here = get_map();
-    // Pathing with overdraw can get expensive, limit it
-    int path_counter = 4;
+                // Pathing with overdraw can get expensive, limit it
+                int path_counter = 4;
     const auto check_tile = [this, &path_counter, &here]( const tripoint & p ) -> const item * {
         if( !here.sees_some_items( p, *this ) || !sees( p ) )
         {
@@ -3769,17 +3774,17 @@ bool npc::find_corpse_to_pulp()
 
     const int range = 6;
 
-    const item *corpse = nullptr;
+                      const item *corpse = nullptr;
     if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {
-        corpse = check_tile( here.getlocal( *pulp_location ) );
+    corpse = check_tile( here.getlocal( *pulp_location ) );
     }
 
     // Find the old target to avoid spamming
     const item *old_target = corpse;
 
     if( corpse == nullptr ) {
-        // If we're following the player, don't wander off to pulp corpses
-        const tripoint around = is_walking_with() ? player_character.pos() : pos();
+    // If we're following the player, don't wander off to pulp corpses
+    const tripoint around = is_walking_with() ? player_character.pos() : pos();
         for( const item_location &location : here.get_active_items_in_radius( around, range,
                 special_item_type::corpse ) ) {
             corpse = check_tile( location.position() );
@@ -3796,8 +3801,8 @@ bool npc::find_corpse_to_pulp()
     }
 
     if( corpse != nullptr && corpse != old_target && is_walking_with() ) {
-        std::string talktag = chatbin.snip_pulp_zombie;
-        parse_tags( talktag, get_player_character(), *this );
+    std::string talktag = chatbin.snip_pulp_zombie;
+    parse_tags( talktag, get_player_character(), *this );
         say( string_format( _( talktag ), corpse->tname() ) );
     }
 
