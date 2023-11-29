@@ -25,7 +25,7 @@
     "replace": "matchhead_tiny_pistol_jhp"
   },
   {
-    "id": [ "22_cb", "22_lr", "22_ratshot", "32_acp_jhp"  ],
+    "id": [ "22_cb", "22_lr", "22_ratshot", "32_acp_jhp" ],
     "type": "MIGRATION",
     "replace": "tiny_pistol_jhp"
   },
