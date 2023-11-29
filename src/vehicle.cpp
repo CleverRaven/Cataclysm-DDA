@@ -6512,8 +6512,8 @@ void vehicle::refresh_pivot() const
             weight_p = contact_area * 2.0;
         } else if( part_with_feature( wheel.mount, "STEERABLE", true ) != -1 ) {
             // Unbroken steerable wheels can handle motion on both axes
-            // (but roll a little more easily inline)
-            weight_i = contact_area * 0.1;
+            // and don't move the pivot away from non-steerable wheels/axles
+            weight_i = contact_area * 0.001;
             weight_p = contact_area * 0.2;
         } else {
             // Regular wheels resist perpendicular motion
