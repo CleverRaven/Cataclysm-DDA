@@ -248,6 +248,36 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
+// Split the eoc array to two part, first part includes eoc id/eoc objects, second part includes variables object 
+static std::pair<std::vector<effect_on_condition_id>, std::vector<str_or_var>> load_eoc_vector_id_and_var(
+    const JsonObject& jo, const std::string_view member) 
+{
+    std::vector<effect_on_condition_id> eocs_id;
+    std::vector<str_or_var> eocs_var;
+
+    auto process_jv = [member, &eocs_id, &eocs_var](const JsonValue& jv) {
+        try {
+            eocs_id.push_back(effect_on_conditions::load_inline_eoc(jv, ""));
+        }
+        catch (const JsonError& e) {
+            std::optional<str_or_var> jv_var = get_str_or_var(jv, member);
+            if (jv_var.has_value()) {
+                eocs_var.push_back(jv_var.value());
+            }
+        }
+    };
+    if (jo.has_array(member)) {
+        for (JsonValue jv : jo.get_array(member)) {
+            process_jv(jv);
+        }
+    }
+    else if (jo.has_member(member)) {
+        process_jv(jo.get_member(member));
+    }
+    return { eocs_id, eocs_var };
+}
+
+
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill )
@@ -4519,17 +4549,22 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
     };
 }
 
-void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, std::string_view member )
+void talk_effect_fun_t::set_run_eocs(const JsonObject& jo, std::string_view member)
 {
-    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-    if( eocs.empty() ) {
+    auto [eocs_id, eocs_var] = load_eoc_vector_id_and_var(jo, member);
+    if( eocs_id.empty() and eocs_var.empty()) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
-    function = [eocs]( dialogue const & d ) {
-        for( const effect_on_condition_id &eoc : eocs ) {
-            dialogue newDialog( d );
-            eoc->activate( newDialog );
-        }
+    function = [eocs_id, eocs_var]( dialogue const & d ) {
+        for (const effect_on_condition_id& eoc : eocs_id) {
+            dialogue newDialog(d);
+            eoc->activate(newDialog);
+        };
+        for (const str_or_var& eoc_var : eocs_var) {
+            effect_on_condition_id eoc(eoc_var.evaluate(d));
+            dialogue newDialog(d);
+            eoc->activate(newDialog);
+        };
     };
 }
 
@@ -5030,30 +5065,40 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
 
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-    if( eocs.empty() ) {
+    auto [eocs_id, eocs_var] = load_eoc_vector_id_and_var(jo, member);
+    if( eocs_id.empty() and eocs_var.empty()) {
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
                                          0_seconds );
-    function = [dov_time_in_future, eocs]( dialogue & d ) {
-        time_duration time_in_future = dov_time_in_future.evaluate( d );
-        for( const effect_on_condition_id &eoc : eocs ) {
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
-                if( alpha ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, d.get_context() );
-                } else if( eoc->global ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
-                            d.get_context() );
+    auto process_eoc = [](const effect_on_condition_id& eoc, dialogue& d,time_duration time_in_future) {
+            if (eoc->type == eoc_type::ACTIVATION) {
+                Character* alpha = d.has_alpha ? d.actor(false)->get_character() : nullptr;
+                if (alpha) {
+                    effect_on_conditions::queue_effect_on_condition(time_in_future, eoc, *alpha, d.get_context());
+                }
+                else if (eoc->global) {
+                    effect_on_conditions::queue_effect_on_condition(time_in_future, eoc, get_player_character(),
+                        d.get_context());
                 }
                 // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
                 // this is so monster attacks against other monsters won't give error messages.
-            } else {
-                debugmsg( "Cannot queue a non activation effect_on_condition.  %s", d.get_callstack() );
             }
+            else {
+                debugmsg("Cannot queue a non activation effect_on_condition.  %s", d.get_callstack());
+            }
+        };
+
+    function = [dov_time_in_future, eocs_id, eocs_var,process_eoc]( dialogue & d ) {
+        time_duration time_in_future = dov_time_in_future.evaluate( d );
+        for( const effect_on_condition_id &eoc : eocs_id ) {
+            process_eoc(eoc, d,time_in_future);
         }
+        for (const str_or_var& eoc_var : eocs_var) {
+            effect_on_condition_id eoc(eoc_var.evaluate(d));
+            process_eoc(eoc, d, time_in_future);
+        };
     };
 }
 
