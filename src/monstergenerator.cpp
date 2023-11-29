@@ -399,7 +399,7 @@ void MonsterGenerator::finalize_mtypes()
                 continue;
             }
             const melee_actor *matk = dynamic_cast<const melee_actor *>( &*special.second );
-            if( matk != nullptr() && matk->damage_max_instance.total_damage() > 0 ) {
+            if( matk != nullptr && matk->damage_max_instance.total_damage() > 0 ) {
                 float bonus_increment = 0.0f;
                 float total_damage = matk->damage_max_instance.total_damage() * ( matk->min_mul +
                                      matk->max_mul ) / 2;
@@ -410,17 +410,17 @@ void MonsterGenerator::finalize_mtypes()
                 if( !matk->blockable || !matk->dodgeable ) {
                     bonus_increment *= 1.5f;
                 }
-                special_attack_bonus += bonus_increment;
+                special_attack_bonus += std::min( bonus_increment, 1.0f );
             }
             const gun_actor *ratk = dynamic_cast<const gun_actor *>( &*special.second );
-            if( ratk != nullptr() && ratk->get_max_range() > 1 ) {
+            if( ratk != nullptr && ratk->get_max_range() > 1 ) {
                 // this doesn't really look at the quality of the gun, but it will give
                 // a large difficulty boost to any monsters with guns of any kind.
                 // That's a good start but this could be refined significantly.
                 float bonus_increment = 0.0f;
                 bonus_increment += static_cast<float>( ratk->get_max_range() * ratk->max_ammo );
                 bonus_increment /= ( ( ratk->move_cost + ratk->targeting_cost ) / 20.0f );
-                special_attack_bonus += bonus_increment;
+                special_attack_bonus += std::min( bonus_increment, 1.0f );
             }
             other_special_attacks -= 1;
         }
