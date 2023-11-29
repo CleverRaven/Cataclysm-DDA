@@ -405,7 +405,7 @@ void MonsterGenerator::finalize_mtypes()
                                      matk->max_mul ) / 2;
                 bonus_increment += total_damage;
                 bonus_increment += matk->throw_strength;
-                bonus_increment *= std::min( matk->range - 1, 1.0f );
+                bonus_increment *= static_cast<float>( std::min( matk->range - 1, 1 ) );
                 bonus_increment /= ( matk->move_cost / 10.0f );
                 if( !matk->blockable || !matk->dodgeable ) {
                     bonus_increment *= 1.5f;
