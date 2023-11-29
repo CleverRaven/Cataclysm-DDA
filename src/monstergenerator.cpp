@@ -357,6 +357,7 @@ void MonsterGenerator::finalize_mtypes()
         }
 
         finalize_damage_map( mon.armor.resist_vals, true );
+        //check for changes in copy-from
         if( mon.armor_proportional.has_value() ) {
             finalize_damage_map( mon.armor_proportional->resist_vals, false, 1.f );
             for( std::pair<const damage_type_id, float> &dt : mon.armor.resist_vals ) {
@@ -379,13 +380,53 @@ void MonsterGenerator::finalize_mtypes()
         float melee_dmg_total = mon.melee_damage.total_damage();
         float armor_diff = 3.0f;
         for( const auto &dt : mon.armor.resist_vals ) {
+            // mon_difficulty is defined in JSON by damage type.
+            // Only damage types explicitly set to true will be counted.
             if( dt.first->mon_difficulty ) {
                 armor_diff += dt.second;
             }
         }
+        // We can't track the extra difficulty of *all* special attacks, but
+        // certain ones can be specifically tracked.
+        float special_attack_bonus = 0.0f;
+        // "other" special attacks counts up any specials we haven't run details for and
+        // makes them count a bit.
+        int other_special_attacks = mon.special_attacks.size();
+        for( const std::pair<const std::string, mtype_special_attack> &special : mon.special_attacks ) {
+            if( special.first == "grab" ) {
+                special_attack_bonus += 2.0f;
+                other_special_attacks -= 1;
+                continue;
+            }
+            const melee_actor *matk = dynamic_cast<const melee_actor *>( &*special.second );
+            if( matk != nullptr() && matk->damage_max_instance.total_damage() > 0 ) {
+                float bonus_increment = 0.0f;
+                float total_damage = matk->damage_max_instance.total_damage() * ( matk->min_mul +
+                                     matk->max_mul ) / 2;
+                bonus_increment += total_damage;
+                bonus_increment += matk->throw_strength;
+                bonus_increment *= std::min( matk->range - 1, 1.0f );
+                bonus_increment /= ( matk->move_cost / 10.0f );
+                if( !matk->blockable || !matk->dodgeable ) {
+                    bonus_increment *= 1.5f;
+                }
+                special_attack_bonus += bonus_increment;
+            }
+            const gun_actor *ratk = dynamic_cast<const gun_actor *>( &*special.second );
+            if( ratk != nullptr() && ratk->get_max_range() > 1 ) {
+                // this doesn't really look at the quality of the gun, but it will give
+                // a large difficulty boost to any monsters with guns of any kind.
+                // That's a good start but this could be refined significantly.
+                float bonus_increment = 0.0f;
+                bonus_increment += static_cast<float>( ratk->get_max_range() * ratk->max_ammo );
+                bonus_increment /= ( ( ratk->move_cost + ratk->targeting_cost ) / 20.0f );
+                special_attack_bonus += bonus_increment;
+            }
+            other_special_attacks -= 1;
+        }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
-                         0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + mon.special_attacks.size() + 8 * mon.emit_fields.size() );
+                         0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 + special_attack_bonus +
+                         ( mon.difficulty_base + other_special_attacks + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
