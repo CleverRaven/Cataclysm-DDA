@@ -2629,11 +2629,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-		    if( m.has_flag( mon_flag_HIT_AND_RUN ) ) {
+            if( m.has_flag( mon_flag_HIT_AND_RUN ) ) {
                 return Attitude::HOSTILE;
             } else {
                 return Attitude::NEUTRAL;
-			}
+            }
         case MATT_FRIEND:
             return Attitude::FRIENDLY;
         case MATT_ATTACK:
