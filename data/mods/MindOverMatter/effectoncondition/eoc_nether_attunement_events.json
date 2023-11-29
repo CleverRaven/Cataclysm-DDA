@@ -382,7 +382,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rand( 1 )" ] },
       {
         "run_eocs": [
           {
@@ -391,7 +391,14 @@
               "and": [
                 { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
                 {
-                  "x_in_y_chance": { "x": { "math": [ "rand(50 * (1 +  _difficulty - ( u_skill('metaphysics') / 2 ) ) )" ] }, "y": 1000 }
+                  "x_in_y_chance": {
+                    "x": {
+                      "math": [
+                        "rand(50 * (1 +  (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) - ( u_skill('metaphysics') / 2 ) ) )"
+                      ]
+                    },
+                    "y": 1000
+                  }
                 }
               ]
             },
