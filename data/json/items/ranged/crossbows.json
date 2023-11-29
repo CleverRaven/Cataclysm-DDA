@@ -250,7 +250,7 @@
     "//": "27in Fiberglass pistol crossbow at 11in draw, 48J, 80 lbs draw, 0.3 Slugs with 30g bolt.",
     "price": 55000,
     "price_postapoc": 2500,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "wood" ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "pistol",
     "ammo": [ "bolt" ],
