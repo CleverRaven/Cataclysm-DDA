@@ -164,7 +164,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_RAD_SENSE",
-    "//": "Drain is handled in the subspells below",
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,

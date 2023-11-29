@@ -356,7 +356,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_RAD_PURGE",
-    "//": "Drain is handled in the EoC",
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
