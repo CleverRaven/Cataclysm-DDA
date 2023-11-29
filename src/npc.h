@@ -572,7 +572,7 @@ struct npc_short_term_cache {
 
     npc_attack_rating current_attack_evaluation;
     std::shared_ptr<npc_attack> current_attack;
-	
+
 
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
@@ -1378,7 +1378,7 @@ class npc : public Character
         npc_personality personality;
         npc_opinion op_of_u;
         npc_combat_memory_cache mem_combat;
-		
+
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;

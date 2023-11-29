@@ -681,7 +681,7 @@ float npc::estimate_armour( const Character &candidate ) const
             armour_step *= 4;
             number_of_parts += 3;
         }
-		// obtain an average value of the 4 armour types we checked.
+        // obtain an average value of the 4 armour types we checked.
         armour += static_cast<float>( armour_step ) / 4.0f;
     }
     armour /= number_of_parts;
@@ -732,13 +732,13 @@ void npc::assess_danger()
     }
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
-	// Radius in which enemy threats are multiplied to avoid surrounding
-	int preferred_medium_range = std::max( max_range, 8 );
-	preferred_medium_range = std::min( preferred_medium_range, 15 );
-	// Radius in which enemy threats are hugely multiplied to encourage repositioning
-	int preferred_close_range = std::max( max_range, 1 );
-	preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
-	
+    // Radius in which enemy threats are multiplied to avoid surrounding
+    int preferred_medium_range = std::max( max_range, 8 );
+    preferred_medium_range = std::min( preferred_medium_range, 15 );
+    // Radius in which enemy threats are hugely multiplied to encourage repositioning
+    int preferred_close_range = std::max( max_range, 1 );
+    preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+
     Character &player_character = get_player_character();
     bool sees_player = sees( player_character.pos() );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
@@ -758,7 +758,7 @@ void npc::assess_danger()
         }
     }
     mem_combat.engagement_distance = def_radius;
-	
+
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
     int dist, int scaled_dist ) {
         // If we're forbidden to attack, no need to check engagement rules
@@ -1180,7 +1180,8 @@ void npc::act_on_danger_assessment()
                     }
                 }
             }
-        } else if( failed_reposition || ( mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
+        } else if( failed_reposition ||
+                   ( mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
