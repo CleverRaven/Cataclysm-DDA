@@ -568,6 +568,15 @@ void conditional_t::set_has_activity( bool is_npc )
     };
 }
 
+void conditional_t::set_has_proficiency( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var proficiency_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [proficiency_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->knows_proficiency( proficiency_id( proficiency_to_check.evaluate( d ) ) );
+    };
+}
+
 void conditional_t::set_is_riding( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
@@ -3443,6 +3452,7 @@ parsers = {
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_t::set_has_visible_trait },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_t::set_has_martial_art },
     {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_t::set_using_martial_art },
+    {"u_has_proficiency", "npc_has_proficiency", jarg::member, &conditional_t::set_has_proficiency },
     {"u_has_flag", "npc_has_flag", jarg::member, &conditional_t::set_has_flag },
     {"u_has_species", "npc_has_species", jarg::member, &conditional_t::set_has_species },
     {"u_bodytype", "npc_bodytype", jarg::member, &conditional_t::set_bodytype },

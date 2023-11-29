@@ -496,7 +496,7 @@ float npc::evaluate_monster( const monster &target, int dist ) const
     return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
 
-float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true ) const
+float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true )
 {
     float threat = 0.0f;
     bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
@@ -520,6 +520,15 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
         candidate_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding…</color>, intensity %i", candidate.disp_name(), bleed_intensity );
+    }
+    if( !enemy ) {
+        if( candidate_gun || ( is_player_ally() && candidate.is_avatar() ) ) {
+            // later we should evaluate if the NPC trusts the player enough to stick to them so reliably
+            int dist = rl_dist( pos(), candidate.pos() );
+            if( dist > mem_combat.formation_distance ) {
+                mem_combat.formation_distance = std::max( dist, mem_combat.engagement_distance );
+            }
+        }
     }
 
     if( !my_gun ) {
@@ -742,6 +751,7 @@ void npc::assess_danger()
             def_radius = 1;
         }
     }
+    mem_combat.engagement_distance = def_radius;
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
     int dist, int scaled_dist ) {
@@ -1253,6 +1263,7 @@ void npc::regen_ai_cache()
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
+    mem_combat.formation_distance = -1;
 
     mem_combat.assess_enemy = 0.0f;
     mem_combat.assess_ally = 0.0f;

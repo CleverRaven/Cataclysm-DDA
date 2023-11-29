@@ -84,6 +84,7 @@ struct conditional_t {
         void set_has_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_species( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_proficiency( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_bodytype( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_expects_vars( const JsonObject &jo, std::string_view member );
