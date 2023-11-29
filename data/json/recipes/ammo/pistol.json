@@ -450,10 +450,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_32", 1 ] ],
     "//": "207 mg gunpowder rounded to 2 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_32_acp_jhp",
@@ -472,10 +469,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_32", 1 ] ],
     "//": "207 mg gunpowder rounded to 2 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_38_fmj",
