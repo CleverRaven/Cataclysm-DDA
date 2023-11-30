@@ -1426,7 +1426,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "> Choose any one of the available expansions.  Starting with "
                                       "a farm is always a solid choice since food is used to support "
                                       "companion missions and minimal investment is needed to get it going.  "
-                                      "A forge is also a great idea, allowing you to refine ressources for "
+                                      "A forge is also a great idea, allowing you to refine resources for "
                                       "subsequent expansions, craft better gear and make charcoal.\n\n"
                                       "NOTE: Actions available through expansions are located in "
                                       "separate tabs of the Camp Manager window.\n\n"
