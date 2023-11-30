@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cabin_liam" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "...%.......~~...........",
+        "**######w##++#########**",
+        "**#R  d#sT#  #A DBBD #**",
+        "**#R  c#  #  #A  BB  w**",
+        "**wR   #  =  =       w**",
+        "**wR   #  #  #########**",
+        "**#R   ####  =  DBBD #**",
+        "**#R   L##A  #A  BB  w**",
+        "**####=####  #A      w**",
+        "**#ttb  uu#  #########**",
+        "**wttb   u#  #a OOO  w**",
+        "**wbb     =  =    rrrw**",
+        "**#      u#  #    rSr#**",
+        "**#1F5V234#  #a   rrr#**",
+        "**###ww####++####ww###**",
+        "..o bbbb             o..",
+        "..-                  -..",
+        "..-                  -..",
+        "..o-------o  o-------o..",
+        "...........~~...........",
+        "...........~~...........",
+        "...........~~..........."
+      ],
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+      "terrain": { "-": "t_railing" },
+      "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 30, "ammo": 90, "magazine": 100 } ],
+      "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 14 }, ]
+    }
+  }
+]
