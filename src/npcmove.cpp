@@ -3764,7 +3764,7 @@ bool npc::find_corpse_to_pulp()
         return nullptr;
     };
 
-    const int range = 6;
+    const int range = mem_combat.engagement_distance;
 
     const item *corpse = nullptr;
     if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {
