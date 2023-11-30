@@ -423,13 +423,13 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.rules.engagement = combat_engagement::ALL;
     talker_npc.rules.aim = aim_rule::SPRAY;
-    //talker_npc.rules.set_flag( ally_rule::avoid_doors );
+    talker_npc.rules.set_flag( ally_rule::avoid_doors );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
     CHECK( d.responses[2].text == "This is a npc aim rule test response." );
-    //CHECK( d.responses[3].text == "This is a npc rule test response." );
-    //talker_npc.rules.clear_flag( ally_rule::avoid_doors );
+    CHECK( d.responses[3].text == "This is a npc rule test response." );
+    talker_npc.rules.clear_flag( ally_rule::avoid_doors );
 }
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
