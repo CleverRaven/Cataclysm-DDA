@@ -23,7 +23,7 @@
     "subtype": "hobby",
     "id": "chess_master",
     "name": "Chess Master",
-    "description": "Before the Cataclysm, many of your weekends were spent either competiting in tournaments or studying records of past games, always trying to find the patterns.  All that time has also made you a master of concentrating on a specific subject, despite whatever is going on around you.",
+    "description": "Before the Cataclysm, many of your weekends were spent either competing in tournaments or studying records of past games, always trying to find the patterns.  All that time has also made you a master of concentrating on a specific subject, despite whatever is going on around you.",
     "points": 4,
     "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate" ]
   },
