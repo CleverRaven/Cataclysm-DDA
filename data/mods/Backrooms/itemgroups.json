@@ -34,7 +34,7 @@
     ]
   },
   {
-    "type" : "item_group",
+    "type": "item_group",
     "id": "vending_drink_items",
     "copy-from": "vending_drink_items",
     "extend": {
