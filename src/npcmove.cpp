@@ -3716,7 +3716,7 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 bool npc::find_corpse_to_pulp()
 {
     Character &player_character = get_player_character();
-    if( ( is_player_ally() ) ) {
+    if( is_player_ally() ) {
         if( !rules.has_flag( ally_rule::allow_pulp ) ||
             player_character.in_vehicle || is_hallucination() ) {
             return false;
