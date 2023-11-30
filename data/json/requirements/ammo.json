@@ -11,6 +11,12 @@
     "components": [ [ [ "9mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_32",
+    "type": "requirement",
+    "//": "Components required for 32 ammo",
+    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_380",
     "type": "requirement",
     "//": "Components required for 380 ammo",
