@@ -475,23 +475,16 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 float npc::evaluate_monster( const monster &target, int dist ) const
 {
     float speed = target.speed_rating();
-    float scaled_distance = std::max( 1.0f, dist * dist / ( speed + 10.0f ) );
+    float scaled_distance = std::max( 1.0f, dist * dist / ( speed * 250.0f ) );
     float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
-    float diff = std::min( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
+    float diff = std::max( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_yellow>evaluate_monster </color><color_light_gray>%s thinks %s threat level is %1.2f before considering situation.</color>",
-                   name,
-                   target.type->nname(), diff );
+                   "<color_yellow>evaluate_monster </color><color_dark_gray>%s thinks %s threat level is <color_light_gray>%1.2f</color><color_dark_gray> before considering situation.  Speed rating: %1.2f; dist: %i; scaled_distance: %1.0f; HP: %1.0f%%</color>",
+                   name, target.type->nname(), diff, speed, dist, scaled_distance, hp_percent * 100 );
     // Note that the danger can pass below "very low" if the monster is weak and far away.
     diff *= ( hp_percent * 0.5f + 0.5f ) / scaled_distance;
-    /*add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s distance from %s: %i.  Speed rating: %1.2f.  Scaled distance: %1.2f.</color>",
-                   name, target.type->nname(), dist, speed, scaled_distance );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s sees %s hp percent remaining is %1.0f%%.</color>",
-                   name, target.type->nname(), hp_percent * 100 );*/
-    add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "%s puts final %s threat level at %1.2f<color_light_gray> after counting speed, distance, hp</color>",
+                   "<color_light_gray>%s puts final %s threat level at </color>%1.2f<color_light_gray> after counting speed, distance, hp</color>",
                    name, target.type->nname(), diff );
     return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
@@ -859,14 +852,14 @@ void npc::assess_danger()
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
             if( is_enemy() || !critter.friendly ) {
                 // still warn about enemies behind impassable glass walls, but not as often.
-                add_msg_debug( debugmode::DF_NPC,
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s ignored %s because there's an obstacle in between.  Might warn about it.",
                                name, critter.type->nname() );
                 if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                     warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
                 }
             } else {
-                add_msg_debug( debugmode::DF_NPC,
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s ignored %s because there's an obstacle in between, and it's not worth warning about.",
                                name, critter.type->nname() );
             }
@@ -895,8 +888,7 @@ void npc::assess_danger()
             continue;
         }
 
-
-        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+        add_msg_debug( debugmode::DF_NPC,
                        "%s assessed threat of critter %s as %1.2f.",
                        name, critter.type->nname(), critter_threat );
         ai_cache.total_danger += critter_threat;
