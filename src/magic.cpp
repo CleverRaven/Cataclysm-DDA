@@ -1234,7 +1234,7 @@ float spell::spell_fail( const Character &guy ) const
         fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
     }
     // concentration spells work better than you'd expect with a higher focus pool
-    if( has_flag(spell_flag::CONCENTRATE) && temp_concentration_difficulty_multiplyer > 0 ) {
+    if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
         if( guy.get_focus() <= 0 ) {
             return 0.0f;
         }

@@ -334,7 +334,7 @@
     "id": "perk_metamagic_silent",
     "name": { "str": "Metamagic: Silent Spell" },
     "points": 0,
-    "description": "You have learned to cast spells quietly.  -100% noice, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+    "description": "You have learned to cast spells quietly.  -100% noise, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_silent" ]
@@ -364,7 +364,7 @@
     "id": "perk_metamagic_intuitive",
     "name": { "str": "Metamagic: Intuitive Spell" },
     "points": 0,
-    "description": "Casting spells comes more naturaly for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
+    "description": "Casting spells comes more naturally for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_intuitive" ]

@@ -552,7 +552,7 @@ class spell
 
         bool casting_time_encumbered( const Character &guy ) const;
         bool energy_cost_encumbered( const Character &guy ) const;
-        std::string enumerate_spell_data( const Character & guy) const;
+        std::string enumerate_spell_data( const Character &guy ) const;
 
         // get spell id (from type)
         spell_id id() const;
