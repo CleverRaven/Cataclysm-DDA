@@ -6764,6 +6764,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
         }
+        if( has_own_flag( flag_IRRADIATED ) ) {
+            tagtext += _( " (irradiated)" );
+        }
     }
     if( has_temperature() ) {
         if( has_flag( flag_HOT ) ) {
@@ -7999,6 +8002,15 @@ void item::calc_rot( units::temperature temp, const float spoil_modifier,
     }
     if( has_own_flag( flag_MUSHY ) ) {
         factor *= 3.0;
+    }
+    // Food irradiation can quadruple the shelf life.
+    // "Shelf life of ground beef patties treated by gamma radiation":
+    // > Beef patties treated at 1.0 and 3.0 kGy [spoiled] by day 14 and 21, ...
+    // > patties treated at 5.0 kGy did not spoil until 42 days.
+    // > The nonirradiated control samples for both batches of ground beef spoiled within 7 days
+    // We get 0.5, 0.33, and 0.167. 0.25 seems reasonable for irradiation
+    if( has_own_flag( flag_IRRADIATED ) ) {
+        factor *= 0.25;
     }
 
     if( has_own_flag( flag_COLD ) ) {
