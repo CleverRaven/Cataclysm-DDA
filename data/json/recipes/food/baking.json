@@ -57,7 +57,7 @@
     "components": [
       [ [ "flour_any", 4, "LIST" ] ],
       [ [ "yeast", 2 ] ],
-      [ [ "apple_cider", 2 ], [ "apple", 2 ], [ "irradiated_apple", 2 ] ],
+      [ [ "apple_cider", 2 ], [ "apple", 2 ] ],
       [ [ "pumpkin_cut", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "eggs_any_shape", 2, "LIST" ] ],

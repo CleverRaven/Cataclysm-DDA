@@ -83,8 +83,8 @@
   {
     "id": "vita_health_power",
     "type": "SPELL",
-    "name": "[Ψ]Healthy Glow (toggle)",
-    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Healthy Glow (C)",
+    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -356,7 +356,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_RAD_PURGE",
-    "//": "Drain is handled in the EoC",
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,

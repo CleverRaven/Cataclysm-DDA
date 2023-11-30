@@ -2,8 +2,8 @@
   {
     "id": "photokinetic_light_local",
     "type": "SPELL",
-    "name": "[Ψ]Candle's Glow (toggle)",
-    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Candle's Glow (C)",
+    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -328,8 +328,8 @@
   {
     "id": "photokinetic_rad_immunity",
     "type": "SPELL",
-    "name": "[Ψ]Lucent Barrier (toggle)",
-    "description": "Create a barrier of light around yourself to protect against radiation and light damage.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Lucent Barrier (C)",
+    "description": "Create a barrier of light around yourself to protect against radiation and light damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -442,8 +442,8 @@
   {
     "id": "photokinetic_radio",
     "type": "SPELL",
-    "name": "[Ψ]Radio Transception (toggle)",
-    "description": "Attune your senses to radio waves, allowing you to listen to transmissions and send them yourself.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Radio Transception (C)",
+    "description": "Attune your senses to radio waves, allowing you to listen to transmissions and send them yourself.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
