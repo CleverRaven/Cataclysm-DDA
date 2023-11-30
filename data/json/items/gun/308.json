@@ -1,17 +1,17 @@
 [
   {
     "id": "fn_fal",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi_vintage",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "heavy automatic rifle" },
-    "description": "Originally designed in the mid 1950s, this gun is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
+    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up when amongst modern competitors.  This is a semi-automatic built by a domestic manufacturer.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "fn_fal",
         "name": { "str_sp": "FN FAL" },
-        "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors."
+        "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up when amongst modern competitors.  This is a semi-automatic built by a domestic manufacturer."
       }
     ],
     "weight": "4250 g",
@@ -25,20 +25,22 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
-    "dispersion": 150,
+    "dispersion": 200,
+    "//": "The front and rear sights aren't on the same receiver.",
+    "sight_dispersion": 250,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "barrel_volume": "500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "hk_g3",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi_vintage",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "H&K G3" },
+    "name": { "str_sp": "H&K 91" },
     "description": "An early battle rifle developed after the end of WWII.  The G3 is designed to unload large amounts of deadly ammunition, but it is less suitable over long ranges.",
     "weight": "4380 g",
     "volume": "3724 ml",
@@ -54,7 +56,7 @@
     "dispersion": 150,
     "min_cycle_recoil": 2700,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -101,6 +103,7 @@
     "price": 195000,
     "price_postapoc": 6500,
     "material": [ "steel", "plastic" ],
+    "//": "These *sometimes* have the mode selector disabled, but disabling it isn't difficult for operators.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -145,7 +148,7 @@
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "sights", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
