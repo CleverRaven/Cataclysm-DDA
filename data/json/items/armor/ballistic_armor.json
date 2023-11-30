@@ -468,7 +468,10 @@
     "weight": "1400 g",
     "volume": "262 ml",
     "longest_side": "30 cm",
-    "material": [ "leather", "lc_steel" ],
+    "material": [
+      { "type": "lc_steel", "portion": 5 },
+      { "type": "leather" }
+    ],
     "repairs_with": [ "lc_steel" ],
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
@@ -495,7 +498,10 @@
     "weight": "1400 g",
     "volume": "262 ml",
     "longest_side": "30 cm",
-    "material": [ "leather", "mc_steel" ],
+    "material": [
+      { "type": "mc_steel", "portion": 5 },
+      { "type": "leather" }
+    ],
     "repairs_with": [ "mc_steel" ],
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
@@ -523,7 +529,10 @@
     "weight": "1400 g",
     "volume": "262 ml",
     "longest_side": "30 cm",
-    "material": [ "leather", "hc_steel" ],
+    "material": [
+      { "type": "hc_steel", "portion": 5 },
+      { "type": "leather" }
+    ],
     "repairs_with": [ "hc_steel" ],
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
@@ -551,7 +560,10 @@
     "weight": "1400 g",
     "volume": "262 ml",
     "longest_side": "20 cm",
-    "material": [ "leather", "lc_steel" ],
+    "material": [
+      { "type": "lc_steel", "portion": 5 },
+      { "type": "leather" }
+    ],
     "repairs_with": [ "lc_steel" ],
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
     "armor": [
@@ -578,7 +590,10 @@
     "weight": "1400 g",
     "volume": "262 ml",
     "longest_side": "20 cm",
-    "material": [ "leather", "mc_steel" ],
+    "material": [
+      { "type": "mc_steel", "portion": 5 },
+      { "type": "leather" }
+    ],
     "repairs_with": [ "mc_steel" ],
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
     "armor": [
@@ -605,7 +620,10 @@
     "weight": "1400 g",
     "volume": "262 ml",
     "longest_side": "20 cm",
-    "material": [ "leather", "hc_steel" ],
+    "material": [
+      { "type": "hc_steel", "portion": 5 },
+      { "type": "leather" }
+    ],
     "repairs_with": [ "hc_steel" ],
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
     "armor": [
