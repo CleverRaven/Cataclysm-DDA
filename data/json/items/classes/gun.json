@@ -191,7 +191,7 @@
     "abstract": "rifle_semi_vintage",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": { "str": "vintage semi rifle", "str_pl": "vintage semi rifle" },
+    "name": { "str": "vintage semi rifle" },
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
