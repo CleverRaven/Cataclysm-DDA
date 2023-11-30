@@ -17,12 +17,51 @@
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
-    "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "intensity_levels": [
+      {
+        "name": "bile splatter",
+        "sym": "}",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 1,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "bile stain",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 2,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "puddle of bile",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 3,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
     "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
-    "half_life": "1 days",
+    "half_life": "30 minutes",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
@@ -176,15 +215,50 @@
     "type": "field_type",
     "legacy_enum_id": 6,
     "intensity_levels": [
-      { "name": "slime trail", "color": "light_green" },
-      { "name": "slime stain" },
-      { "name": "puddle of slime", "color": "green" }
+      {
+        "name": "slime trail",
+        "color": "light_green",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 1,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "slime stain",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 2,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "puddle of slime",
+        "color": "green",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 3,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      }
     ],
     "description_affix": "covered_in",
     "decay_amount_factor": 2,
     "apply_slime_factor": 10,
     "is_splattering": true,
-    "half_life": "1 days",
+    "half_life": "25 minutes",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
