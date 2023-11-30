@@ -415,9 +415,6 @@ class spell_type
 // functions for spell description
 namespace spell_desc
 {
-bool casting_time_encumbered( const spell &sp, const Character &guy );
-bool energy_cost_encumbered( const spell &sp, const Character &guy );
-std::string enumerate_spell_data( const spell &sp, const Character &guy );
 } // namespace spell_desc
 
 class spell
@@ -442,6 +439,7 @@ class spell
         int temp_difficulty_adjustment = 0;
         float temp_somatic_difficulty_multiplyer = 1;
         float temp_sound_multiplyer = 1;
+        float temp_concentration_difficulty_multiplyer = 1;
 
 
         // alternative cast message
@@ -546,11 +544,15 @@ class spell
         bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
-        bool has_flag(const std::string flag) const;
+        bool has_flag( const std::string flag ) const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
         bool in_aoe( const tripoint &source, const tripoint &target, const Creature &caster ) const;
+
+        bool casting_time_encumbered( const Character &guy ) const;
+        bool energy_cost_encumbered( const Character &guy ) const;
+        std::string enumerate_spell_data( const Character & guy) const;
 
         // get spell id (from type)
         spell_id id() const;

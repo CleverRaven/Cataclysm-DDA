@@ -514,7 +514,9 @@
         "topic": "TALK_PERK_MENU_PLAYSTYLE"
       },
       {
-        "condition": { "or": [ {"mod_is_loaded": "magiclysm"}, {"mod_is_loaded": "mindovermatter"}, {"mod_is_loaded": "xedra_evolved"} ] },
+        "condition": {
+          "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "mindovermatter" }, { "mod_is_loaded": "xedra_evolved" } ]
+        },
         "text": "Metamagic Perks",
         "topic": "TALK_PERK_MENU_METAMAGIC"
       },
@@ -644,10 +646,115 @@
             "set_string_var": "Requires a spell known of level 2 or above",
             "target_var": { "context_val": "trait_requirement_description" }
           },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_widen" } },
+        "text": "Gain [<trait_name:perk_metamagic_widen>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_widen>", "target_var": { "context_val": "trait_name" } },
           {
-            "set_condition": "perk_condition",
-            "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] }
-          }
+            "set_string_var": "<trait_description:perk_metamagic_widen>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_widen", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_reach" } },
+        "text": "Gain [<trait_name:perk_metamagic_reach>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_reach>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_reach>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_reach", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_silent" } },
+        "text": "Gain [<trait_name:perk_metamagic_silent>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_silent>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_silent>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_silent", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_still" } },
+        "text": "Gain [<trait_name:perk_metamagic_still>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_still>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_still>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_still", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_careful" } },
+        "text": "Gain [<trait_name:perk_metamagic_careful>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_careful>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_careful>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_careful", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_intuitive" } },
+        "text": "Gain [<trait_name:perk_metamagic_intuitive>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_intuitive>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_intuitive>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_intuitive", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 8 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "8" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
