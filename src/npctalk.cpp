@@ -4556,7 +4556,7 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, std::string_view mem
     std::vector<str_or_var> eocs_var;
     std::tie( eocs_id, eocs_var ) = load_eoc_vector_id_and_var( jo, member );
 
-    if( eocs_id.empty() and eocs_var.empty() ) {
+    if( eocs_id.empty() && eocs_var.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
     function = [eocs_id, eocs_var]( dialogue const & d ) {
@@ -5072,7 +5072,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view m
     std::vector<effect_on_condition_id> eocs_id;
     std::vector<str_or_var> eocs_var;
     std::tie( eocs_id, eocs_var ) = load_eoc_vector_id_and_var( jo, member );
-    if( eocs_id.empty() and eocs_var.empty() ) {
+    if( eocs_id.empty() && eocs_var.empty() ) {
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
