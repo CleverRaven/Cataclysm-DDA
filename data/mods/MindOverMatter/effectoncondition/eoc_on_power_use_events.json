@@ -791,7 +791,7 @@
       "math": [
         "u_val('vitamin', 'name:vitamin_maintained_powers')",
         ">=",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
       ]
     },
     "effect": [
@@ -811,7 +811,7 @@
       "math": [
         "u_val('vitamin', 'name:vitamin_maintained_powers')",
         "==",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + 1"
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()) + 1"
       ]
     },
     "effect": [
@@ -830,14 +830,14 @@
           "math": [
             "u_val('vitamin', 'name:vitamin_maintained_powers')",
             ">",
-            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
           ]
         },
         {
           "x_in_y_chance": {
             "x": {
               "math": [
-                "((u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers))) * 5"
+                "((u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
               ]
             },
             "y": 100
@@ -852,7 +852,7 @@
         "math": [
           "u_val('vitamin', 'name:vitamin_psionic_drain')",
           "+=",
-          "rng( 3,8 ) * (u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers))"
+          "rng( 3,8 ) * (u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
         ]
       }
     ]
