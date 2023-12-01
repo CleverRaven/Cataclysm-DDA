@@ -91,7 +91,7 @@
   {
     "id": "TELEPATHICDAMPENER_SHIELD",
     "type": "mutation",
-    "name": { "str": "Psionic negation" },
+    "name": { "str": "Telepathic Dampening" },
     "description": "The telepathic dampener you're wearing is protecting your mind.",
     "points": 5,
     "visibility": 0,
