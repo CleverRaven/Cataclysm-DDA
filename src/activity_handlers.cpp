@@ -2526,7 +2526,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() && !can_refit ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
