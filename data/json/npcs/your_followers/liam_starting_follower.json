@@ -1,5 +1,11 @@
 [
   {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Introdialogue",
+    "dynamic_line": "Years ago, you and your old group of friends made a pact.  It seemed like a joke at the time: if the world ended, you'd all meet up at Liam's cabin, if you could, and work together to help each other out.  Now, the unthinkable has happened, and somehow you've made it out in one piece.  It's been years since you saw those friends, though you've kept a little bit in touch on social media, and you can only hope that the others perhaps took the idea seriously.  Even if they did, it would be a hard trip.  The roads were blocked off by military forces trying to prevent the riots from spreading, and you had to make the last part of the journey on foot.\n\nAs the morning light breaks into day, you've reached Liam's cabin, a ramshackle building in the woods outside <city>.  You can see Liam's car in front, looking a bit more run down since you last saw him a few years ago.  You feel a swell of relief: at least Liam seems to have made it!  As you approach the door, you hear a shout of terror from inside, and then the unmistakable sound of a gunshot.  Were you a moment too late?",
+    "responses": [ { "text": "I'd better get in there and check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
     "type": "npc",
     "id": "starting_follower_liam",
     "//": "Special NPC you can only meet through the 'start with a friend' scenario. Will need his own class and items before completing this.",
@@ -112,6 +118,7 @@
       "no": "*, your old friend, stares at you with blank, confused eyes.  He is standing over a freshly mangled corpse, a smoking shotgun at his feet.  \"Holy shit dude.\"  He blinks.  \"Are you with Chris?  If you're here to kill me, just get it over with man.  I don't know what the fuck is happening but I can't take you out too.\"",
       "yes": "<talk_snippet_modded_liam_meeting1>"
     },
+    "speaker_effect": { "effect": { "u_add_var": "talked_liam", "value": "yes" } },
     "responses": [
       {
         "text": "Get ahold of yourself, man.  What's happening?  Chris?",
@@ -163,5 +170,29 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "id": "MISSION_FIND_LIAM",
+    "type": "mission_definition",
+    "name": { "str": "Check to see if Liam is OK" },
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_var": "talked_liam", "value": "yes" },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_liam", "om_special": "cabin_liam", "reveal_radius": 1, "random": false, "search_range": 10 }
+    },
+    "difficulty": 0,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "-",
+      "offer": "-",
+      "accepted": "-",
+      "rejected": "-",
+      "advice": "-",
+      "inquire": "-",
+      "success": "-",
+      "success_lie": "-",
+      "failure": "-"
+    }
   }
 ]
