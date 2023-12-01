@@ -705,7 +705,7 @@ static void spell_description(
     description << spl.description() << '\n';
 
     // Spell Casting flags
-    description << spell_desc::enumerate_spell_data( spl, chrc ) << '\n';
+    description << spl.enumerate_spell_data( chrc ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
     description << string_format(
