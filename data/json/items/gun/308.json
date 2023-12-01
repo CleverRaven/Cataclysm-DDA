@@ -50,17 +50,12 @@
     "description": "A semi-automatic, domestically produce clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired.",
     "variants": [
       {
-        "id": "hk91",
-        "name": { "str_sp": "HK 91" },
-        "description": "A semi-automatic, imported variant of an early battle rifle developed after the end of WWII.  The HK 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
-      },
-      {
-        "id": "ptr_91",
+        "id": "g3_ptr",
         "name": { "str_sp": "PTR 91" },
         "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       },
       {
-        "id": "c308",
+        "id": "g3_cetme",
         "name": { "str_sp": "Century C308" },
         "description": "A semi-automatic, domestically produced clone of the CETME Model C, the progenitor of the famous H&K G3 battle rifle.  The CETME is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       }
