@@ -122,7 +122,7 @@
     "type": "effect_on_condition",
     "id": "scenario_liam",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "open_dialogue": "TALK_Liam_Introdialogue" } ]
+    "effect": [ { "open_dialogue": { "topic": "TALK_Liam_Introdialogue" } } ]
   },
   {
     "type": "effect_on_condition",

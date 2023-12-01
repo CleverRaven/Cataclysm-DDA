@@ -230,7 +230,6 @@
       "cabin_5",
       "cabin_6",
       "cabin_7",
-      "cabin_liam",
       "cabin_lapin",
       "bandit_cabin",
       "cabin_prepper"
@@ -242,6 +241,17 @@
     "extras": "build",
     "mondensity": 2,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_liam" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

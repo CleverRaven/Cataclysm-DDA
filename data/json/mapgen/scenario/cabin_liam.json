@@ -32,7 +32,7 @@
         "...........~~.~~~.~~~...",
         "...........~~~~~~~~~...."
       ],
-      "palettes": "cabin_liam_palette",
+      "palettes": [ "cabin_palette", "cabin_palette_common" ],
       "item": {
         "6": [ { "item": "corpse_gunned" }, { "item": "ax" } ],
         "7": { "item": "shotgun_d" },
@@ -52,7 +52,12 @@
         "$": { "field": "fd_blood", "intensity": 1 }
       },
       "furniture": { "9": "f_floor_mattress", "ť": "f_table", "Ŕ": "f_rack", "Ŗ": "f_utility_shelf" },
-      "terrain": { "-": "t_railing", "+": "t_door_c", "Ɣ": "t_region_groundcover_barren" },
+      "terrain": {
+        "-": "t_railing",
+        "+": "t_door_c",
+        "Ɣ": "t_region_groundcover_barren",
+        "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 2 ] ]
+      },
       "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90 } },
       "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 14 } ]
     }

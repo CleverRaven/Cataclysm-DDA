@@ -96,7 +96,7 @@
   },
   {
     "type": "item_group",
-    "id": "Liam_carried",
+    "id": "Liam_carry",
     "subtype": "collection",
     "entries": [
       { "group": "candy_chocolate" },
@@ -182,17 +182,6 @@
     },
     "difficulty": 0,
     "value": 0,
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "-",
-      "offer": "-",
-      "accepted": "-",
-      "rejected": "-",
-      "advice": "-",
-      "inquire": "-",
-      "success": "-",
-      "success_lie": "-",
-      "failure": "-"
-    }
+    "origins": [ "ORIGIN_GAME_START" ]
   }
 ]
