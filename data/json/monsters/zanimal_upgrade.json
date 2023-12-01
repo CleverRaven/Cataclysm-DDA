@@ -341,6 +341,7 @@
     "color": "red",
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+    "harvest": "zombie_animal",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
     "regenerates": 9,
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ]

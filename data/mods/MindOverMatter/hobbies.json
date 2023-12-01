@@ -1,12 +1,40 @@
 [
   {
     "type": "profession",
+    "subtype": "hobby",
     "id": "meditation",
     "name": "Meditation",
     "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
     "copy-from": "meditation",
     "points": 4,
     "skills": [ { "level": 3, "name": "metaphysics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "chess_enthusiast",
+    "name": "Chess Enthusiast",
+    "description": "You never made master, but you did very well in chess competitions before the Cataclysm.  All those hours of staring at the board, trying to keep all the pieces in your mind at once, have left you with an great ability to focus your attention on a single problem when you need to.",
+    "points": 2,
+    "proficiencies": [ "prof_concentration_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "chess_master",
+    "name": "Chess Master",
+    "description": "Before the Cataclysm, many of your weekends were spent either competing in tournaments or studying records of past games, always trying to find the patterns.  All that time has also made you a master of concentrating on a specific subject, despite whatever is going on around you.",
+    "points": 4,
+    "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "chess_grandmaster",
+    "name": "Chess Grandmaster",
+    "description": "You were one of the best of the best, awarded a grandmaster title in your early twenties.  Chess was your passion and your life, and you were good enough at it to make a living competing before the Catalcysm.  You have an almost-inhuman ability to focus on a task and ignore all distractions.",
+    "points": 6,
+    "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_concentration_master" ]
   },
   {
     "type": "profession",

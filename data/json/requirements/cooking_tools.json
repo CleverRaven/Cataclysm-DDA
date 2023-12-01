@@ -103,7 +103,7 @@
     "//": "acidic additives to lower PH and prevent the growth of botulinum, for a 3L jar.",
     "//1": "lemon is about 20-25% juice by weight. Formic acid is non toxic and can be safely ingested in dilute amounts.",
     "//2": "Even many pressure canning recipes should require this for safety.",
-    "components": [ [ [ "chem_citric_acid", 6 ], [ "formic_acid", 2 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 6 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 6 ], [ "formic_acid", 2 ], [ "lemon", 1 ], [ "vinegar", 6 ] ] ]
   },
   {
     "id": "canning_acid_small",

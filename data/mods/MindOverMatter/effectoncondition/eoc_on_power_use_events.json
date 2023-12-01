@@ -791,7 +791,7 @@
       "math": [
         "u_val('vitamin', 'name:vitamin_maintained_powers')",
         ">=",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
       ]
     },
     "effect": [
@@ -811,7 +811,7 @@
       "math": [
         "u_val('vitamin', 'name:vitamin_maintained_powers')",
         "==",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + 1"
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()) + 1"
       ]
     },
     "effect": [
@@ -830,14 +830,14 @@
           "math": [
             "u_val('vitamin', 'name:vitamin_maintained_powers')",
             ">",
-            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
+            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
           ]
         },
         {
           "x_in_y_chance": {
             "x": {
               "math": [
-                "((u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers))) * 5"
+                "((u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
               ]
             },
             "y": 100
@@ -852,10 +852,39 @@
         "math": [
           "u_val('vitamin', 'name:vitamin_psionic_drain')",
           "+=",
-          "rng( 3,8 ) * (u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers))"
+          "rng( 3,8 ) * (u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
         ]
       }
-    ]
+    ],
+    "false_effect": [ { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+    "condition": { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+    "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_basic', 'format: 2400')", "+=", "rand(4)" ] } ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
+          "condition": { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+          "effect": [
+            {
+              "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_intermediate', 'format: 4800')", "+=", "rand(4)" ]
+            }
+          ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
+                "condition": { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_master', 'format: 9600')", "+=", "rand(4)" ] } ]
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",

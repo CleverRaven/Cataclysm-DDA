@@ -132,7 +132,10 @@ void Character::update_body_wetness( const w_point &weather )
             }
 
             // Make clothing slow down drying
-            const float clothing_mult = worn.clothing_wetness_mult( bp );
+            const float base_clothing_mult = worn.clothing_wetness_mult( bp );
+            // always some evaporation even if completely covered
+            // doesn't handle things that would be "air tight"
+            const float clothing_mult = std::max( base_clothing_mult, .1f );
 
             const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
                                          temp_mult / clothing_mult;

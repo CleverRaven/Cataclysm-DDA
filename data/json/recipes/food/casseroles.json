@@ -77,7 +77,7 @@
       [ [ "spaghetti_raw", 2 ], [ "macaroni_raw", 2 ], [ "noodles_fast", 2 ] ],
       [ [ "corn", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ],
       [ [ "broth", 2 ] ],
-      [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ], [ "carrot_wild", 1 ] ],
+      [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ],
       [ [ "milk_standard_raw", 4, "LIST" ], [ "lf_milk_standard", 4, "LIST" ] ],
       [
         [ "seasoning_italian", 7 ],
