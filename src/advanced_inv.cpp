@@ -1563,6 +1563,22 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
     }
+    if( destarea == AIM_CONTAINER ) {
+        ret_val<void> can_contain = dpane.container->can_contain( *sitem->items.front() );
+        if( can_contain.success() ) {
+            can_contain = dpane.container.parents_can_contain_recursive( &*sitem->items.front() );
+        }
+        if( !can_contain.success() ) {
+            popup_getkey( can_contain.str().empty() ?
+                          //~ %1$s: item we failed to put in the container, %2$s: container to put item in
+                          string_format( _( "Could not put %1$s into %2$s." ),
+                                         sitem->items.front()->tname(), dpane.container->tname() ).c_str() :
+                          //~ %1$s: item we failed to put in the container, %2$s: container to put item in, %3$s: reason it failed
+                          string_format( _( "Could not put %1$s into %2$s, %3$s." ),
+                                         sitem->items.front()->tname(), dpane.container->tname(), can_contain.str() ).c_str() );
+            return false;
+        }
+    }
     // This makes sure that all item references in the advanced_inventory_pane::items vector
     // are recalculated, even when they might not have changed, but they could (e.g. items
     // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
@@ -1625,17 +1641,19 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // exit so that the activity can be carried out
         exit = true;
     } else {
-        bool can_stash = false;
-        if( sitem->items.front()->count_by_charges() ) {
-            item dummy = *sitem->items.front();
-            dummy.charges = amount_to_move;
-            can_stash = player_character.can_stash( dummy );
-        } else {
-            can_stash = player_character.can_stash( *sitem->items.front() );
-        }
-        if( destarea == AIM_INVENTORY && !can_stash ) {
-            popup_getkey( _( "You have no space for the %s." ), sitem->items.front()->tname() );
-            return false;
+        if( destarea == AIM_INVENTORY ) {
+            bool can_stash = false;
+            if( sitem->items.front()->count_by_charges() ) {
+                item dummy = *sitem->items.front();
+                dummy.charges = amount_to_move;
+                can_stash = player_character.can_stash( dummy );
+            } else {
+                can_stash = player_character.can_stash( *sitem->items.front() );
+            }
+            if( !can_stash ) {
+                popup_getkey( _( "You have no space for the %s." ), sitem->items.front()->tname() );
+                return false;
+            }
         }
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
