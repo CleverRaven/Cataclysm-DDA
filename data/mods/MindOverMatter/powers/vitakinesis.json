@@ -377,7 +377,13 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "base_casting_time": 360000,
-    "learn_spells": { "vita_sleeping_trance": 4, "vita_banish_illness": 6, "vita_blood_purge": 8, "vita_super_heal": 15 }
+    "learn_spells": {
+      "vita_sleeping_trance": 4,
+      "vita_banish_illness": 6,
+      "vita_blood_purge": 8,
+      "vita_super_heal": 15,
+      "vita_return_from_death": 18
+    }
   },
   {
     "id": "vita_purge_rads",
@@ -491,7 +497,7 @@
     "final_energy_cost": 8000,
     "energy_increment": -150,
     "base_casting_time": 1000,
-    "learn_spells": { "vita_limb_restore": 10 }
+    "learn_spells": { "vita_limb_restore": 10, "vita_return_from_death": 14 }
   },
   {
     "id": "vita_super_heal_healing",
@@ -544,5 +550,39 @@
     "final_energy_cost": 8000,
     "energy_increment": -150,
     "base_casting_time": 1200
+  },
+  {
+    "id": "vita_return_from_death",
+    "type": "SPELL",
+    "name": "[Ψ]Accelerated Resuscitation (C)",
+    "description": "While this power is active, if you suffer potentially fatal damage, your vitakinesis will go into overdrive to keep you alive.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RETURN_FROM_DEATH_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_return_from_death') * 90000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_return_from_death') * 270000) + 1440000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_return_from_death') > -1 ? 0 : max((9000 - (u_val('spell_level', 'spell: vita_return_from_death') * 125)), 6000)"
+      ]
+    },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 3000" ] }
   }
 ]

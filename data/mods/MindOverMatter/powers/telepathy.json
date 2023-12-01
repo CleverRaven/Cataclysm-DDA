@@ -216,22 +216,22 @@
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 4) + 30) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 8) + 40) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 6) + 120) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 15) + 200) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 375) + 1950) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 1125) + 18000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 680) + 7500) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: telepathic_animal_mind_control') * 2500) + 36000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "min_range": {
