@@ -27,7 +27,7 @@
     "dynamic_line": { "u_has_var": "modded", "type": "flag", "value": "ddotd",
         "no": "*, your old friend, stares at you with blank, confused eyes.  He is standing over a freshly mangled corpse, a smoking shotgun at his feet.  \"Holy shit dude.\"  He blinks.  \"Are you with Chris?  If you're here to kill me, just get it over with man.  I don't know what the fuck is happening but I can't take you out too.\"",
         "yes": "<talk_snippet_modded_liam_meeting1>"
-    }
+    },
     "responses": [
       { "text": "Get ahold of yourself, man.  What's happening?  Chris?", "topic": "TALK_Liam_Meeting2", "condition": { "not": {"u_has_var": "modded", "type": "flag", "value": "ddotd"} } }
     ]

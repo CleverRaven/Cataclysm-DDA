@@ -34,31 +34,24 @@
       ],
       "palettes": "cabin_liam_palette",
       "item": {
-		  "6": { "item": "corpse_gunned" },
-		  "7": { "item": "shotgun_d" },
-		  "8": { "item": "shot_hull" },
-		  "9": { "item": "quilt" }
-	  },
-	  "items": {
-		  "Ŕ": { "item": "stash_wood", "repeat": [ 2, 4 ] },
-		  "$": { "item": "used_1st_aid" },
-		  "ť": { "item": "ammo_can_shot_part" }
-	  },
-	  "fields": {
-		  "6": { "field": "fd_blood", "intensity": 1 },
-		  "7": { "field": "fd_blood", "intensity": 3 },
-		  "9": { "field": "fd_blood", "intensity": 2 },
-		  "$": { "field": "fd_blood", "intensity": 1 }
-	  },
-	  "furniture": {
-		  "9": "f_floor_mattress",
-		  "ť": "f_table",
-		  "Ŕ": "f_rack"
-	  },
-      "terrain": {
-		  "-": "t_railing",
-          "+": "t_door_c"
-	  },
+        "6": { "item": "corpse_gunned" },
+        "7": { "item": "shotgun_d" },
+        "8": { "item": "shot_hull" },
+        "9": { "item": "quilt" }
+      },
+      "items": {
+        "Ŕ": { "item": "stash_wood", "repeat": [ 2, 4 ] },
+        "$": { "item": "used_1st_aid" },
+        "ť": { "item": "ammo_can_shot_part" }
+      },
+      "fields": {
+        "6": { "field": "fd_blood", "intensity": 1 },
+        "7": { "field": "fd_blood", "intensity": 3 },
+        "9": { "field": "fd_blood", "intensity": 2 },
+        "$": { "field": "fd_blood", "intensity": 1 }
+      },
+      "furniture": { "9": "f_floor_mattress", "ť": "f_table", "Ŕ": "f_rack" },
+      "terrain": { "-": "t_railing", "+": "t_door_c" },
       "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 14 } ]
     }
   }

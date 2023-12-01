@@ -3,6 +3,7 @@
     "type": "snippet",
     "category": "<talk_snippet_modded_liam_meeting1>",
      "text": "*, your old friend, looks up at you in shock.  At his feet lies a a corpse, its head almost completely blown off by the shotgun that drops limply from Liam's fingers as you approach.  \"I swear, dude, this is not what it looks like.\""
+  },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Meeting1",
@@ -41,7 +42,7 @@
     "id": "TALK_DDotD_Liam_Tut1_bit",
     "dynamic_line": "You got it.  I know, it feels really contrived, doesn't it?  It's exactly like the old movies in every way, like someone had designed it to be.  I don't know if it's every bite or what, but Chris just had one that barely broke the skin and you see where that ended up.  Took about three days.  My advice is, we don't let these things teeth anywhere near our skin.  They're pretty clumsy bastards, though.  They definitely can't just nibble you as they go by, they've gotta grab you first.  Unfortunately, seems like they're pretty fuckin' good at that.  Once you get grabbed, best bet is to go full ham on the zombie grabbing you with everything you've got, and try to shake loose, but honestly it's better to not get grabbed.",
     "responses": [
-      { "text": "Well, no bites. I'm fine.  Want to get this cleaned up?", "topic": "TALK_DDotD_Liam_Meeting4" },
+      { "text": "Well, no bites. I'm fine.  Want to get this cleaned up?", "topic": "TALK_DDotD_Liam_Meeting4" }
     ]
   },
   {
