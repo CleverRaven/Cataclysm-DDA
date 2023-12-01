@@ -431,8 +431,7 @@
     "looks_like": "scrap_esapi_plate",
     "name": { "str": "makeshift hard ESAPI plate" },
     "description": "Hardened steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
-    "replace_materials": { "lc_steel": "ch_steel" },
-    "repairs_with": [ "ch_steel" ]
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "qt_esapi_plate",
@@ -442,7 +441,7 @@
     "name": { "str": "makeshift tempered ESAPI plate" },
     "description": "Tempered steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "qt_steel" },
-    "repairs_with": [ "qt_steel" ]
+    "repairs_with": [ "mc_steel" ]
   },
   {
     "id": "deltoid_plates",
@@ -579,8 +578,7 @@
     "looks_like": "scrap_esbi_plate",
     "name": { "str": "makeshift hard ESBI plate" },
     "description": "A hexagonal piece of hardened steel forged into a side plate and padded with leather.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
-    "replace_materials": { "lc_steel": "ch_steel" },
-    "repairs_with": [ "ch_steel" ]
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "qt_esbi_plate",
@@ -590,7 +588,7 @@
     "name": { "str": "makeshift tempered ESBI plate" },
     "description": "A hexagonal piece of tempered steel forged into a side plate and padded with leather.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "qt_steel" },
-    "repairs_with": [ "qt_steel" ]
+    "repairs_with": [ "mc_steel" ]
   },
   {
     "id": "destroyed_large_ceramic_plate",
