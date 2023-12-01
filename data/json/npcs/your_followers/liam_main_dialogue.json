@@ -133,7 +133,7 @@
       {
         "text": "Let's trade items.",
         "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
-        "topic": "TALK_FRIEND_Luo",
+        "topic": "TALK_FRIEND_Liam",
         "effect": "start_trade",
         "switch": true,
         "default": true
