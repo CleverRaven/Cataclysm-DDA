@@ -636,6 +636,16 @@
   },
   {
     "type": "overmap_special",
+    "id": "cabin_liam",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_liam_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_1_north" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Strange Cabin",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_strange_north" },

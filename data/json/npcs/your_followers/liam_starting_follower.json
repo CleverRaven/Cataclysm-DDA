@@ -35,7 +35,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Meeting2",
-    "dynamic_line": "*gestures at the body.  \"Chris.  You know Chris.  We all agreed to meet up here if shit got bad, remember?  We got here around the same time, set up a little camp.  Something seemed really off since we arrived though, Chris kept going on and on about how the food wasn't good enough.\"  He shifts his gaze back to you, eyes red.  \"We got plenty of food!  I tried to calm him down but just now the fucker came running in with an axe, tried to take my head off!  I… I…/" Liam gestures again to the corpse.  \"Then you came in.  Do you got anything to do with this?/"",
+    "dynamic_line": "*gestures at the body.  \"Chris.  You know Chris.  We all agreed to meet up here if shit got bad, remember?  We got here around the same time, set up a little camp.  Something seemed really off since we arrived though, Chris kept going on and on about how the food wasn't good enough.\"  He shifts his gaze back to you, eyes red.  \"We got plenty of food!  I tried to calm him down but just now the fucker came running in with an axe, tried to take my head off!  I… I…\" Liam gestures again to the corpse.  \"Then you came in.  Do you got anything to do with this?\"",
     "responses": [
       { "text": "I heard gunshots, so I came in to see what's up.  I was just on my way here to see if you'd made it.", "topic": "TALK_Liam_Meeting3" }
     ]
