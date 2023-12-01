@@ -1,0 +1,85 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "hallucinate_effect",
+    "recurrence": [ "1 hour", "4 hours" ],
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "u_has_trait": "SCHIZOPHRENIC_2" } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [ [ "minor_hallucinations", { "const": 10 } ], [ "intermediate_hallucinations", { "const": 6 } ] ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "minor_hallucinations",
+    "global": false,
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ { "id": "paranoid", "effect": { "u_message": "schizo_delusion_paranoid", "snippet": true } }, { "const": 20 } ],
+          [ { "id": "self_talk", "effect": { "u_message": "schizo_self_talk", "snippet": true } }, { "const": 14 } ],
+          [
+            { "id": "grandiose", "effect": { "u_message": "schizo_delusion_grandiose", "snippet": true } },
+            { "const": 10 }
+          ],
+          [
+            {
+              "id": "weapon_talk",
+              "effect": {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "wielded_only": true } ],
+                "true_eocs": [
+                  {
+                    "id": "injured_talk",
+                    "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
+                    "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_damaged>\"" },
+                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_misc>\"" } } }
+                  }
+                ]
+              },
+              "false_effect": { "run_eocs": "minor_hallucinations" }
+            },
+            { "const": 12 }
+          ],
+          [
+            {
+              "id": "weapon_talk_you_bleeding",
+              "effect": {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "wielded_only": true } ],
+                "true_eocs": [
+                  {
+                    "id": "you_bleeding_talk",
+                    "condition": { "u_has_effect": "bleed" },
+                    "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_bleeding>\"" }
+                  }
+                ]
+              },
+              "false_effect": { "run_eocs": "minor_hallucinations" }
+            },
+            { "const": 12 }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "intermediate_hallucinations",
+    "global": false,
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [
+            {
+              "id": "self_shout",
+              "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true, "type": "speech" }
+            },
+            { "const": 20 }
+          ]
+        ]
+      }
+    ]
+  }
+]
