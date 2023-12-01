@@ -4,7 +4,7 @@
     "id": "starting_follower_liam",
     "//": "Special NPC you can only meet through the 'start with a friend' scenario. Will need his own class and items before completing this.",
     "name_unique": "Liam",
-    "class": "NC_MOTORHEAD",
+    "class": "NC_STARTINGNPC_LIAM",
     "gender": "male",
     "attitude": 0,
     "mission": 7,
@@ -19,6 +19,85 @@
     "chat": "TALK_Liam_Meeting1",
     "talk_friend": "TALK_FRIEND_Liam",
     "talk_friend_guard": "TALK_FRIEND_GUARD_Liam"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_STARTINGNPC_LIAM",
+    "name": { "str": "expert in entry level jobs" },
+    "job_description": "It's you and me in this together, buddy.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "skills": [
+      { "skill": "archery", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 0, 1 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 2 ] } }
+    ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_carpentry_basic",
+      "prof_driver",
+      "prof_food_prep",
+      "prof_frying",
+      "prof_gun_cleaning",
+      "prof_wound_care"
+    ],
+    "worn_override": "Liam_worn",
+    "carry_override": "Liam_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "BADHEARING", "prob": 50 },
+      { "trait": "LIGHTSTEP", "prob": 70 },
+      { "trait": "OPTIMIST" },
+      { "trait": "PACKMULE", "prob": 80 },
+      { "trait": "SLOWREADER", "prob": 50 },
+      { "trait": "STRONGBACK", "prob": 80 },
+      { "trait": "TOUGH", "prob": 80 },
+      { "group": "Hair_Black" },
+      { "group": "Skin_Medium" },
+      { "group": "Eye_light" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "Liam_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "socks" },
+      { "item": "boxer_shorts" },
+      { "item": "longshirt" },
+      { "item": "hoodie" },
+      { "item": "jeans" },
+      { "item": "backpack" },
+      { "item": "boots" },
+      { "item": "gloves_light" },
+      { "item": "jacket_light" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "Liam_carried",
+    "subtype": "collection",
+    "entries": [
+      { "group": "candy_chocolate" },
+      { "group": "foodintincan" },
+      { "item": "multitool" },
+      { "item": "lighter", "charges": 100 },
+      { "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "item": "bandages", "count": 3 },
+      { "item": "water_clean", "container-item": "canteen" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -41,7 +120,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Meeting2",
-    "dynamic_line": "*gestures at the body.  \"Chris.  You know Chris.  We all agreed to meet up here if shit got bad, remember?  We got here around the same time, set up a little camp.  Something seemed really off since we arrived though, Chris kept going on and on about how the food wasn't good enough.\"  He shifts his gaze back to you, eyes red.  \"We got plenty of food!  I tried to calm him down but just now the fucker came running in with an axe, tried to take my head off!  I… I…\" Liam gestures again to the corpse.  \"Then you came in.  Do you got anything to do with this?\"",
+    "dynamic_line": "*gestures at the body.  \"Chris.  You know Chris, you've known Chris for years.  We all agreed to meet up here if shit got bad, remember?  We got here around the same time, set up a little camp.  Something seemed really off since we arrived though, Chris kept going on and on about how the food wasn't good enough.\"  He shifts his gaze back to you, eyes red.  \"We got plenty of food!  I tried to calm him down but just now the fucker came running in with an axe, tried to take my head off!  I… I…\" Liam gestures again to the corpse.  \"Then you came in.  Do you got anything to do with this?\"",
     "responses": [
       {
         "text": "I heard gunshots, so I came in to see what's up.  I was just on my way here to see if you'd made it.",
