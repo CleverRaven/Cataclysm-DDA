@@ -307,7 +307,7 @@
     "sound_type": "combat",
     "sound_description": "a heavy thud!",
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12 }
+    "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12, "telekinetic_earthshaker": 18 }
   },
   {
     "id": "tele_mindhammer_bash",
@@ -371,7 +371,7 @@
         "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 8)), 125)"
       ]
     },
-    "learn_spells": { "telekinetic_wave": 4, "telekinetic_explosion": 6 }
+    "learn_spells": { "telekinetic_wave": 4, "telekinetic_explosion": 8, "telekinetic_earthshaker": 15 }
   },
   {
     "id": "telekinetic_shield",
@@ -463,7 +463,7 @@
     "sound_type": "combat",
     "sound_description": "a loud crash!",
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telekinetic_push": 4, "telekinetic_pull": 4 }
+    "learn_spells": { "telekinetic_earthshaker": 10 }
   },
   {
     "id": "tele_explosion_damage",
@@ -506,11 +506,11 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_LEVITATION_INITIATE",
     "shape": "blast",
-    "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 75) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -540,12 +540,12 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_telekinetic_aegis",
     "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": 100,
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -557,5 +557,87 @@
     "base_casting_time": 125,
     "final_casting_time": 55,
     "casting_time_increment": -5
+  },
+  {
+    "id": "telekinetic_earthshaker",
+    "type": "SPELL",
+    "name": "[Ψ]Earthshaker",
+    "description": "Seize the nearby earth with your powers and *wrench* it, toppling buildings and knocking everyone nearby off their feet.",
+    "message": "The earth shakes!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_ten", "hit_self": true },
+      { "id": "telekinetic_earthshaker_bash_terrain", "hit_self": false },
+      { "id": "telekinetic_earthshaker_spawn_rubble", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 45) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 75) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
+    },
+    "max_aoe": 30,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8500,
+    "final_energy_cost": 6500,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -6,
+    "sound_description": "the ground shaking!",
+    "sound_id": "earth_spell",
+    "sound_variant": "strong"
+  },
+  {
+    "id": "telekinetic_earthshaker_bash_terrain",
+    "type": "SPELL",
+    "name": "[Ψ]Earthshaker Bash Terrain",
+    "description": "Destroy furniture and terrain nearby.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
+    "effect": "bash",
+    "shape": "blast",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 2.5) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 7) + 80) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
+    },
+    "max_aoe": 35
+  },
+  {
+    "id": "telekinetic_earthshaker_bash_terrain",
+    "type": "SPELL",
+    "name": "[Ψ]Earthshaker Rubble",
+    "description": "Causes rubble to be spawned occasionally.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "ter_transform",
+    "effect_str": "telekinetic_earthshaker_transform",
+    "shape": "blast",
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
+    },
+    "max_aoe": 35
   }
 ]

@@ -40,6 +40,7 @@
     "final_casting_time": 35,
     "casting_time_increment": -4,
     "sound_type": "combat",
+    "sound_id": "fire_spell",
     "sound_description": "a crackle!",
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": {
@@ -279,6 +280,7 @@
     "final_casting_time": 35,
     "casting_time_increment": -6,
     "sound_type": "combat",
+    "sound_id": "fire_spell",
     "sound_description": "a crackle!",
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
@@ -494,6 +496,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -6.5,
+    "sound_id": "fire_spell",
     "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_flame_immunity": 15 }
   },
   {
@@ -579,7 +582,8 @@
     "final_casting_time": 35,
     "casting_time_increment": -9,
     "sound_type": "combat",
-    "sound_description": "a crackle!",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!",
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_aoe_blast": 7, "pyrokinetic_incineration": 14 }
   },
@@ -629,7 +633,8 @@
     "final_casting_time": 55,
     "casting_time_increment": -8,
     "sound_type": "combat",
-    "sound_description": "a crackle!"
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!"
   },
   {
     "id": "pyrokinetic_aoe_blast_immunity",
@@ -693,6 +698,7 @@
     "final_casting_time": 75,
     "casting_time_increment": -4,
     "sound_type": "combat",
+    "sound_id": "fire_spell",
     "sound_description": "the roar of flames!",
     "ignored_monster_species": [ "PSI_NULL" ]
   }
