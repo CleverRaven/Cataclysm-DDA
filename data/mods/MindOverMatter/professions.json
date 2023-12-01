@@ -181,6 +181,7 @@
       { "id": "telekinetic_momentum", "level": 2 },
       { "id": "telekinetic_wave", "level": 2 }
     ],
+    "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
         "items": [ "pants_army", "gloves_tactical", "army_top", "boots_combat", "socks" ],
@@ -204,6 +205,7 @@
       { "id": "telepathic_morale", "level": 4 },
       { "id": "telepathic_confusion", "level": 2 }
     ],
+    "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
         "items": [ "pants", "dress_shirt", "socks", "dress_shoes" ],
@@ -237,6 +239,7 @@
       { "id": "teleport_phase", "level": 5 },
       { "id": "teleport_farstep", "level": 3 }
     ],
+    "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
         "items": [ "wristwatch", "pants", "dress_shirt", "socks", "dress_shoes", "officer_uniform", "beret", "holster" ],
