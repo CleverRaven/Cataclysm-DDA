@@ -148,6 +148,13 @@ class advanced_inventory
         void redraw_sidebar();
 
         bool move_all_items();
+        /**
+        * Fills drop_or_stash_item_info vectors with the contents of the AIM's panes, for use with move_all_items.
+        */
+        bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortby sort_priority,
+                                         advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
+                                         std::vector<drop_or_stash_item_info> &item_list,
+                                         std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets );
 
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.

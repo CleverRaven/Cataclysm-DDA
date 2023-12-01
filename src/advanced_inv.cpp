@@ -860,10 +860,11 @@ void advanced_inventory::redraw_pane( side p )
     }
 }
 
-bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortby sort_priority,
-                                 advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
-                                 std::vector<drop_or_stash_item_info> &item_list,
-                                 std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets )
+bool advanced_inventory::fill_lists_with_pane_items( Character &player_character,
+        advanced_inv_sortby sort_priority,
+        advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
+        std::vector<drop_or_stash_item_info> &item_list,
+        std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets )
 {
     std::vector<move_all_entry> unsorted_item_list;
     std::vector<move_all_entry> unsorted_fav_list;
