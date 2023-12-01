@@ -3321,7 +3321,11 @@ void monster::process_effects()
         !digging() && !has_effect( effect_downed ) ) {
         map &here = get_map();
         if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
-            int intensity = get_effect_int( effect_slippery_terrain );
+            int intensity = -1 += get_effect_int( effect_slippery_terrain );
+                //ROAD tiles are hard, flat surfaces, and easier to slip on.
+                if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
+                intensity++;
+                }
             int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
             if( intensity + slipchance > dice( 1, 12 ) ) {
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
