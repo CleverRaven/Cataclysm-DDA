@@ -10,11 +10,11 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -49,11 +49,11 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -88,11 +88,11 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_MOMENTUM_INITIATE",
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -127,12 +127,12 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_telekinetic_slowfall",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_slowfall') * 100) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -159,14 +159,14 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "WONDER" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "extra_effects": [
       { "id": "telekinetic_wavepush", "hit_self": false, "max_level": 10 },
       { "id": "psionic_drained_difficulty_four", "hit_self": true }
     ],
     "shape": "blast",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 12,
     "max_damage": 12,
     "energy_source": "STAMINA",
@@ -196,9 +196,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
     "shape": "blast",
-    "difficulty": 1,
-    "damage_type": "psi_telekinetic_damage",
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
         "min( ( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 15)"
@@ -279,11 +278,11 @@
       { "id": "tele_mindhammer_bash", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_five", "hit_self": true }
     ],
-    "effect": "attack",
-    "shape": "blast",
     "damage_type": "psi_telekinetic_damage",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -319,7 +318,6 @@
     "effect": "bash",
     "shape": "blast",
     "damage_type": "bash",
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -344,11 +342,11 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_SUMMON_JACKING_TOOL_INITIATE",
     "shape": "blast",
-    "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 18000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
@@ -429,14 +427,14 @@
       "IGNORE_WALLS",
       "NO_EXPLOSION_SFX"
     ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "bash",
     "extra_effects": [
       { "id": "tele_explosion_damage", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_seven", "hit_self": true }
     ],
-    "effect": "bash",
     "shape": "blast",
-    "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -478,7 +476,6 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "psi_telekinetic_damage",
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -535,7 +532,7 @@
     "id": "telekinetic_aegis",
     "type": "SPELL",
     "name": "[Ψ]Aegis",
-    "description": "Create a shield impenetrable to physical damage around yourself.  It will only last a few moments.  You will be unable to move while the power is in effect.",
+    "description": "Create a shield impenetrable to physical damage around yourself.  It will <color_yellow>only last a few moments</color>.  You will be <color_red>unable to move</color> while the power is in effect.",
     "message": "The air around you becomes as hard as adamant.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -626,7 +623,7 @@
     "max_aoe": 35
   },
   {
-    "id": "telekinetic_earthshaker_bash_terrain",
+    "id": "telekinetic_earthshaker_spawn_rubble",
     "type": "SPELL",
     "name": "[Ψ]Earthshaker Rubble",
     "description": "Causes rubble to be spawned occasionally.",

@@ -10,24 +10,24 @@
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_STOP_BLEEDING_EOC",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "max_damage": 1,
+    "min_duration": 1200,
+    "max_duration": 1200,
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 750,
     "energy_increment": -125,
-    "min_duration": 1200,
-    "max_duration": 1200,
     "base_casting_time": 50,
     "final_casting_time": 20,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_health_power": 10, "vita_blood_purge": 15 }
+    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_remove_poison": 11, "vita_blood_purge": 15 }
   },
   {
     "id": "vita_stop_bleeding_01",
@@ -113,7 +113,13 @@
         "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_val('spell_level', 'spell: vita_health_power') * 7.5)), 25)"
       ]
     },
-    "learn_spells": { "vita_health_power_ally": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
+    "learn_spells": {
+      "vita_health_power_ally": 5,
+      "vita_remove_poison": 7,
+      "vita_sleeping_trance": 9,
+      "vita_healing_trance": 15,
+      "vita_banish_illness": 18
+    }
   },
   {
     "id": "vita_hurt_touch",
@@ -189,6 +195,38 @@
     "casting_time_increment": -7.5,
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
+  },
+  {
+    "id": "vita_remove_poison",
+    "type": "SPELL",
+    "name": "[Ψ]Detoxification",
+    "description": "When poisoned, you can isolate the poison and move it to your sweat glands where you will harmlessly sweat it out.  While doing so, your flesh will be toxic to any creatures that take a bite.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 500) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 3000) + 40000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -115,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -5,
+    "learn_spells": { "vita_stop_infection": 7, "vita_blood_purge": 12 }
   },
   {
     "id": "vita_pain_split",

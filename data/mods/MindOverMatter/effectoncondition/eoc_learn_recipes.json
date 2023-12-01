@@ -155,6 +155,7 @@
       { "u_learn_recipe": "practice_telekinetic_explosion" },
       { "u_learn_recipe": "practice_telekinetic_levitation" },
       { "u_learn_recipe": "practice_telekinetic_aegis" },
+      { "u_learn_recipe": "practice_telekinetic_earthshaker" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
@@ -167,6 +168,7 @@
       { "u_learn_recipe": "practice_telepathic_morale" },
       { "u_learn_recipe": "practice_telepathic_mind_sense" },
       { "u_learn_recipe": "practice_telepathic_blast" },
+      { "u_learn_recipe": "practice_telepathic_beastmaster" },
       { "u_learn_recipe": "practice_telepathic_confusion" },
       { "u_learn_recipe": "practice_telepathic_invisibility" },
       { "u_learn_recipe": "practice_telepathic_fear" },
@@ -199,6 +201,7 @@
       { "u_learn_recipe": "practice_vita_health_power" },
       { "u_learn_recipe": "practice_vita_stop_bleeding" },
       { "u_learn_recipe": "practice_vita_healing_touch" },
+      { "u_learn_recipe": "practice_vita_remove_poison" },
       { "u_learn_recipe": "practice_vita_hurt_touch" },
       { "u_learn_recipe": "practice_vita_sleeping_trance" },
       { "u_learn_recipe": "practice_vita_pain_split" },
