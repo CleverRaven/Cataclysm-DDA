@@ -16,7 +16,7 @@
         "**wR   #  =  =       w**",
         "**wR   #  #  #########**",
         "**#R   ####  =  DBBD #**",
-        "**#R   L##A  #A  BB  w**",
+        "**#Ŗ   L##A  #A  BB  w**",
         "**####=####  #A      w**",
         "**#ttb  uu#  #########**",
         "**wttb   u#  #  OOOť w**",
@@ -24,20 +24,21 @@
         "**#      u#  #   6rSr#**",
         "**#1F5S234#  #a $9rrŔ#**",
         "**###ww####++####ww###**",
-        "..o bbbb             o..",
-        "..-                  -..",
-        "..-                  -..",
-        "..o-------o  o-------o..",
-        "...........~~...........",
-        "...........~~...........",
-        "...........~~..........."
+        "..o bbbb     =~Ɣ~~~~~o..",
+        "..-          #~~~~~~~#..",
+        "..-          #~~~~~~~#..",
+        "..o-------o  o~~~~~~~o..",
+        "...........~~.~~~~~~~...",
+        "...........~~.~~~.~~~...",
+        "...........~~~~~~~~~...."
       ],
       "palettes": "cabin_liam_palette",
       "item": {
-        "6": { "item": "corpse_gunned" },
+        "6": [ { "item": "corpse_gunned" }, { "item": "ax" } ],
         "7": { "item": "shotgun_d" },
         "8": { "item": "shot_hull" },
-        "9": { "item": "quilt" }
+        "9": { "item": "quilt" },
+        "Ŗ": [ { "item": "compbow" }, { "item": "arrow_cf", "count": 12 }, { "item": "quiver" } ]
       },
       "items": {
         "Ŕ": { "item": "stash_wood", "repeat": [ 2, 4 ] },
@@ -50,8 +51,9 @@
         "9": { "field": "fd_blood", "intensity": 2 },
         "$": { "field": "fd_blood", "intensity": 1 }
       },
-      "furniture": { "9": "f_floor_mattress", "ť": "f_table", "Ŕ": "f_rack" },
-      "terrain": { "-": "t_railing", "+": "t_door_c" },
+      "furniture": { "9": "f_floor_mattress", "ť": "f_table", "Ŕ": "f_rack", "Ŗ": "f_utility_shelf" },
+      "terrain": { "-": "t_railing", "+": "t_door_c", "Ɣ": "t_region_groundcover_barren" },
+      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90 } },
       "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 14 } ]
     }
   }
