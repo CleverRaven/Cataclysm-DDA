@@ -1555,7 +1555,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( destarea == AIM_WORN ) {
         ret_val<void> can_wear = player_character.can_wear( *sitem->items.front().get_item() );
         if( !can_wear.success() ) {
-            popup( can_wear.str(), PF_GET_KEY );
+            popup_getkey( can_wear.c_str(), PF_GET_KEY );
             return false;
         }
     }
