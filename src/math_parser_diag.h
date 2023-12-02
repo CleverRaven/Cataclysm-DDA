@@ -126,6 +126,9 @@ decl_diag_ass skill_ass;
 decl_diag_eval skill_exp_eval;
 decl_diag_ass skill_exp_ass;
 decl_diag_ass spellcasting_adjustment_ass;
+decl_diag_ass spellcasting_adjustment_by_mod_ass;
+decl_diag_ass spellcasting_adjustment_by_school_ass;
+decl_diag_ass spellcasting_adjustment_by_spell_ass;
 decl_diag_eval spell_count_eval;
 decl_diag_eval spell_exp_eval;
 decl_diag_ass spell_exp_ass;
@@ -182,7 +185,10 @@ inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "hp", { "un", -1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
-    { "spellcasting_adjustment", { "un", -1, spellcasting_adjustment_ass } },
+    { "spellcasting_adjustment", { "un", 1, spellcasting_adjustment_ass } },
+    { "spellcasting_adjustment_by_mod", { "un", 2, spellcasting_adjustment_by_mod_ass } },
+    { "spellcasting_adjustment_by_school", { "un", 2, spellcasting_adjustment_by_school_ass } },
+    { "spellcasting_adjustment_by_spell", { "un", 2, spellcasting_adjustment_by_spell_ass } },
     { "skill", { "un", 1, skill_ass } },
     { "skill_exp", { "un", -1, skill_exp_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},

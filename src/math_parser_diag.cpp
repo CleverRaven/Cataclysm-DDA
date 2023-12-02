@@ -319,31 +319,8 @@ std::function<void( dialogue &, double )> hp_ass( char scope,
 std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    enum spell_scope {
-        all,
-        mod,
-        school,
-        spell
-    };
-    spell_scope spellsearch_scope;
-    diag_value filter( std::string{} );
+    diag_value spellcasting_property = params[0];
 
-    diag_value spellcasting_property( std::string{} );
-    if( !params.empty() ) {
-        spellcasting_property = params[0];
-    }
-    if( kwargs.count( "mod" ) != 0 ) {
-        filter = *kwargs.at( "mod" );
-        spellsearch_scope = mod;
-    } else if( kwargs.count( "school" ) != 0 ) {
-        filter = *kwargs.at( "school" );
-        spellsearch_scope = school;
-    } else if( kwargs.count( "spell" ) != 0 ) {
-        filter = *kwargs.at( "spell" );
-        spellsearch_scope = spell;
-    } else {
-        spellsearch_scope = all;
-    }
     diag_value whitelist( std::string{} );
     diag_value blacklist( std::string{} );
     if( kwargs.count( "flag_whitelist" ) != 0 ) {
@@ -353,51 +330,96 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
         blacklist = *kwargs.at( "flag_blacklist" );
     }
 
-    return[spellsearch_scope, filter, beta = is_beta( scope ),
-                       spellcasting_property, whitelist, blacklist]( dialogue const & d, double val ) {
-        std::string const filter_str = filter.str( d );
-        switch( spellsearch_scope ) {
-            case spell:
-                d.actor( beta )->get_character()->magic->get_spell( spell_id( filter_str ) ).set_temp_adjustment(
-                    spellcasting_property.str( d ), val );
-                break;
-            case school: {
-                const trait_id school_id( filter_str );
-                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( spellIt->spell_class() == school_id
-                        && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
-                        && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
-                      ) {
-                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
-                    }
-                }
-                break;
+    return[beta = is_beta( scope ),
+         spellcasting_property, whitelist, blacklist]( dialogue const & d, double val ) {
+        for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+            if( ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
+                && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
+              ) {
+                spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
             }
-            case mod: {
-                const mod_id target_mod_id( filter_str );
-                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( spellIt->get_src() == target_mod_id
-                        && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
-                        && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
-                      ) {
-                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
-                    }
-                }
-                break;
-            }
-            case all:
-                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
-                        && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
-                      ) {
-                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
-                    }
-                }
-                break;
-            default:
-                debugmsg( "Yeah this should not happen" );
-                break;
         }
+    };
+}
+
+std::function<void( dialogue &, double )> spellcasting_adjustment_by_mod_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value spellcasting_property = params[0];
+    diag_value mod_id_val = params[1];
+
+    diag_value whitelist( std::string{} );
+    diag_value blacklist( std::string{} );
+    if( kwargs.count( "flag_whitelist" ) != 0 ) {
+        whitelist = *kwargs.at( "flag_whitelist" );
+    }
+    if( kwargs.count( "flag_blacklist" ) != 0 ) {
+        blacklist = *kwargs.at( "flag_blacklist" );
+    }
+
+    return[mod_id_val, beta = is_beta( scope ),
+                spellcasting_property, whitelist, blacklist]( dialogue const & d, double val ) {
+        const mod_id target_mod_id( mod_id_val.str( d ) );
+        for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+            if( spellIt->get_src() == target_mod_id
+                && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
+                && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
+              ) {
+                spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+            }
+        }
+    };
+}
+
+std::function<void( dialogue &, double )> spellcasting_adjustment_by_school_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value spellcasting_property = params[0];
+    diag_value school_val = params[1];
+
+    diag_value whitelist( std::string{} );
+    diag_value blacklist( std::string{} );
+    if( kwargs.count( "flag_whitelist" ) != 0 ) {
+        whitelist = *kwargs.at( "flag_whitelist" );
+    }
+    if( kwargs.count( "flag_blacklist" ) != 0 ) {
+        blacklist = *kwargs.at( "flag_blacklist" );
+    }
+
+    return[school_val, beta = is_beta( scope ),
+                spellcasting_property, whitelist, blacklist]( dialogue const & d, double val ) {
+        const trait_id school_id( school_val.str( d ) );
+        for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+            if( spellIt->spell_class() == school_id
+                && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
+                && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
+              ) {
+                spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+            }
+        }
+    };
+}
+
+std::function<void( dialogue &, double )> spellcasting_adjustment_by_spell_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value spellcasting_property = params[0];
+    diag_value spell_id_val = params[1];
+
+    diag_value whitelist( std::string{} );
+    diag_value blacklist( std::string{} );
+    if( kwargs.count( "flag_whitelist" ) != 0 ) {
+        whitelist = *kwargs.at( "flag_whitelist" );
+    }
+    if( kwargs.count( "flag_blacklist" ) != 0 ) {
+        blacklist = *kwargs.at( "flag_blacklist" );
+    }
+
+    return[spell_id_val, beta = is_beta( scope ),
+                  spellcasting_property, whitelist, blacklist]( dialogue const & d, double val ) {
+        d.actor( beta )->get_character()->magic->get_spell( spell_id( spell_id_val.str(
+                    d ) ) ).set_temp_adjustment(
+                        spellcasting_property.str( d ), val );
     };
 }
 
