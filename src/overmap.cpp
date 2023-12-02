@@ -5129,7 +5129,7 @@ void overmap::place_cities()
     // used to increase city size as we move East and South.
     int city_size_adjust = 0;
     // used to space cities out as we go more into the West and the Appalachians.
-    int city_space_adjust = 0; 
+    int city_space_adjust = 0;
     const point_abs_om this_om = pos();
     city_space_adjust += this_om.x() / 2;
     if( this_om.x() > 0 ) {
