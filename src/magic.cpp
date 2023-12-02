@@ -1056,7 +1056,7 @@ int spell::energy_cost( const Character &guy ) const
                 break;
         }
     }
-    return std::max( ( int )( ( float )cost * temp_spell_cost_multiplyer ), 0 );
+    return std::max( cost * temp_spell_cost_multiplyer, 0.0f );
 }
 
 bool spell::has_flag( const spell_flag &flag ) const
@@ -1172,7 +1172,7 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
             casting_time += arms_encumb * 2 * temp_somatic_difficulty_multiplyer;
         }
     }
-    return std::max( ( int )( ( float )casting_time * temp_cast_time_multiplyer ), 0 );
+    return std::max( casting_time * temp_cast_time_multiplyer, 0.0f );
 }
 
 const requirement_data &spell::components() const
