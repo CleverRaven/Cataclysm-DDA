@@ -248,21 +248,26 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
-// Split the eoc array to two part, first part includes eoc id/eoc objects, second part includes variables object
-static std::pair<std::vector<effect_on_condition_id>, std::vector<str_or_var>>
-        load_eoc_vector_id_and_var(
-            const JsonObject &jo, const std::string_view member )
+struct eoc_entry {
+    std::optional<effect_on_condition_id> id;
+    std::optional<str_or_var> var;
+};
+static std::vector<eoc_entry>
+load_eoc_vector_id_and_var(
+    const JsonObject &jo, const std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs_id;
-    std::vector<str_or_var> eocs_var;
-
-    auto process_jv = [member, &eocs_id, &eocs_var]( const JsonValue & jv ) {
+    std::vector<eoc_entry> eocs_entries;
+    auto process_jv = [member, &eocs_entries]( const JsonValue & jv ) {
         try {
-            eocs_id.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+            eoc_entry entry;
+            entry.id = effect_on_conditions::load_inline_eoc( jv, "" );
+            eocs_entries.push_back( entry );
         } catch( const JsonError &e ) {
             std::optional<str_or_var> jv_var = get_str_or_var( jv, member );
             if( jv_var.has_value() ) {
-                eocs_var.push_back( jv_var.value() );
+                eoc_entry entry;
+                entry.var = jv_var;
+                eocs_entries.push_back( entry );
             }
         }
     };
@@ -273,7 +278,7 @@ static std::pair<std::vector<effect_on_condition_id>, std::vector<str_or_var>>
     } else if( jo.has_member( member ) ) {
         process_jv( jo.get_member( member ) );
     }
-    return { eocs_id, eocs_var };
+    return eocs_entries;
 }
 
 
@@ -4552,22 +4557,21 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
 
 void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs_id;
-    std::vector<str_or_var> eocs_var;
-    std::tie( eocs_id, eocs_var ) = load_eoc_vector_id_and_var( jo, member );
+    std::vector<eoc_entry> eocs_entries = load_eoc_vector_id_and_var( jo, member );
 
-    if( eocs_id.empty() && eocs_var.empty() ) {
+    if( eocs_entries.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
-    function = [eocs_id, eocs_var]( dialogue const & d ) {
-        for( const effect_on_condition_id &eoc : eocs_id ) {
-            dialogue newDialog( d );
-            eoc->activate( newDialog );
-        };
-        for( const str_or_var &eoc_var : eocs_var ) {
-            effect_on_condition_id eoc( eoc_var.evaluate( d ) );
-            dialogue newDialog( d );
-            eoc->activate( newDialog );
+    function = [eocs_entries]( dialogue const & d ) {
+        for( const eoc_entry &entry : eocs_entries ) {
+            if( entry.id.has_value() ) {
+                dialogue newDialog( d );
+                entry.id.value()->activate( newDialog );
+            } else if( entry.var.has_value() ) {
+                effect_on_condition_id eoc_id( entry.var.value().evaluate( d ) );
+                dialogue newDialog( d );
+                eoc_id->activate( newDialog );
+            }
         };
     };
 }
@@ -5069,10 +5073,8 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
 
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs_id;
-    std::vector<str_or_var> eocs_var;
-    std::tie( eocs_id, eocs_var ) = load_eoc_vector_id_and_var( jo, member );
-    if( eocs_id.empty() && eocs_var.empty() ) {
+    std::vector<eoc_entry> eocs_entries = load_eoc_vector_id_and_var( jo, member );
+    if( eocs_entries.empty() ) {
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
@@ -5095,14 +5097,15 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view m
         }
     };
 
-    function = [dov_time_in_future, eocs_id, eocs_var, process_eoc]( dialogue & d ) {
+    function = [dov_time_in_future, eocs_entries, process_eoc]( dialogue & d ) {
         time_duration time_in_future = dov_time_in_future.evaluate( d );
-        for( const effect_on_condition_id &eoc : eocs_id ) {
-            process_eoc( eoc, d, time_in_future );
-        }
-        for( const str_or_var &eoc_var : eocs_var ) {
-            effect_on_condition_id eoc( eoc_var.evaluate( d ) );
-            process_eoc( eoc, d, time_in_future );
+        for( const eoc_entry &entry : eocs_entries ) {
+            if( entry.id.has_value() ) {
+                process_eoc( entry.id.value(), d, time_in_future );
+            } else if( entry.var.has_value() ) {
+                effect_on_condition_id eoc_id( entry.var.value().evaluate( d ) );
+                process_eoc( eoc_id, d, time_in_future );
+            }
         };
     };
 }
