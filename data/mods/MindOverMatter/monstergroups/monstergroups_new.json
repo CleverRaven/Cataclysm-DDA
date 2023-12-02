@@ -33,6 +33,18 @@
     ]
   },
   {
+    "name": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_clair", "weight": 25 },
+      { "monster": "mon_feral_human_teep", "weight": 25 },
+      { "monster": "mon_feral_human_clair2", "weight": 8 },
+      { "monster": "mon_feral_human_teep2", "weight": 8 },
+      { "monster": "mon_feral_human_clair3", "weight": 1 },
+      { "monster": "mon_feral_human_teep3", "weight": 1 }
+    ]
+  },
+  {
     "name": "GROUP_FERAL_TELEPATH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_feral_human_teep", "weight": 25 }, { "monster": "mon_feral_human_teep2", "weight": 8 } ]
