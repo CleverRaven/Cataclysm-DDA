@@ -34,14 +34,14 @@
         ".|1111=      ||::|::||||",
         ".|1111= |  |Ñ|566|665||.",
         "|||||||||]]|||666|666||.",
-        "|qqq  ]     ú||||||||||.",
+        "|qqq  ]      ||||||||||.",
         "| ,,  ]      %||ÑÑÑ = ||",
-        "|   jj|,,Í|   ]_    = q=",
-        "|   jh|==||,, ]_    = q=",
-        "|   j | í |  =|| ,, = q=",
-        "|     |   |   1| ,, = q=",
-        "||=]|:||!||  =||    = q=",
-        "| ,,|, |,! ,, 1|    = ||",
+        "|   jj|,,Í|   ]_    = Ï=",
+        "|   jh|==||,, ]_    = Ï=",
+        "|   j | í |  =|| ,, =ïÏ=",
+        "|     |   |   1| ,, = Ï=",
+        "||=]|:||!||  =||    = Ï=",
+        "| ,,|, |,!ú,, 1|    = ||",
         "||23|||||||  ||||  ||||.",
         ".||||,sss,]  |ÑÑ ,, ÑÑ|.",
         ".|, k     ]  |Ñ      Ñ|.",
@@ -90,7 +90,16 @@
         "Ñ": "f_vending_reinforced",
         "á": "f_neuralnet_inserter"
       },
-      "npcs": { "í": { "class": "augustmoon_shipping_chief" }, "ú": { "class": "augustmoon_security" } }
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 22, "y": 2 },
+        { "type": "LOOT_CURRENCY", "faction": "UICA", "x": 22, "y": 3 }
+      ],
+      "items": { "Ï": { "item": "afs_civilian_armory", "chance": 100, "repeat": [ 3, 4 ] } },
+      "npcs": {
+        "í": { "class": "augustmoon_shipping_chief" },
+        "ï": { "class": "augustmoon_gun_trader" },
+        "ú": { "class": "augustmoon_security" }
+      }
     }
   },
   {
