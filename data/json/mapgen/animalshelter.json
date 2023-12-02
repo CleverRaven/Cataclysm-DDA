@@ -349,40 +349,32 @@
         { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20, "density": 0.05 },
+      "place_monster": [
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20 },
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5 },
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20 },
         {
-          "monster": "GROUP_STRAY_CATS",
+          "group": "GROUP_STRAY_CATS",
           "x": [ 14, 20 ],
           "y": [ 4, 6 ],
           "chance": 20,
-          "repeat": [ 2, 3 ],
-          "density": 0.05
+          "repeat": [ 2, 3 ]
         },
-        { "monster": "GROUP_STRAY_CATS", "x": 14, "y": 8, "chance": 70, "density": 0.5 },
-        { "monster": "GROUP_STRAY_CATS", "x": 16, "y": 8, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_STRAY_CATS", "x": 18, "y": 8, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_STRAY_CATS", "x": 20, "y": 8, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_STRAY_CATS", "x": 14, "y": 12, "chance": 70, "density": 0.5 },
-        { "monster": "GROUP_STRAY_CATS", "x": 16, "y": 12, "chance": 100, "density": 1 },
-        { "monster": "GROUP_STRAY_CATS", "x": 18, "y": 12, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_STRAY_CATS", "x": 20, "y": 12, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 13, "y": 14, "chance": 100, "density": 1 },
-        { "monster": "GROUP_PET_DOGS", "x": 16, "y": 14, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 19, "y": 14, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 13, "y": 19, "chance": 100, "density": 1 },
-        { "monster": "GROUP_PET_DOGS", "x": 16, "y": 19, "chance": 70, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 19, "y": 19, "chance": 90, "density": 0.5 },
-        {
-          "monster": "GROUP_PET_DOGS",
-          "x": [ 14, 20 ],
-          "y": [ 21, 22 ],
-          "chance": 2,
-          "repeat": [ 1, 2 ],
-          "density": 0.05
-        }
+        { "group": "GROUP_STRAY_CATS", "x": 14, "y": 8, "chance": 70 },
+        { "group": "GROUP_STRAY_CATS", "x": 16, "y": 8, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 18, "y": 8, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 20, "y": 8, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 14, "y": 12, "chance": 70 },
+        { "group": "GROUP_STRAY_CATS", "x": 16, "y": 12, "chance": 100 },
+        { "group": "GROUP_STRAY_CATS", "x": 18, "y": 12, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 20, "y": 12, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": 13, "y": 14, "chance": 100 },
+        { "group": "GROUP_STRAY_DOGS", "x": 16, "y": 14, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": 19, "y": 14, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": 13, "y": 19, "chance": 100 },
+        { "group": "GROUP_STRAY_DOGS", "x": 16, "y": 19, "chance": 70 },
+        { "group": "GROUP_STRAY_DOGS", "x": 19, "y": 19, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 2, "repeat": [ 1, 2 ] }
       ],
       "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ]
     }
