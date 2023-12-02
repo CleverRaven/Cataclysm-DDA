@@ -4410,7 +4410,7 @@ void overmap::place_forest_trails()
             // Figure out how many random points we'll add to our trail system, based on the forest
             // size and our configuration.
             int max_random_points = forest_trail.random_point_min + forest_points.size() /
-                                    forest_trail.random_point_size_adjust;
+                                    forest_trail.random_point_size_scalar;
             max_random_points = std::min( max_random_points, forest_trail.random_point_max );
 
             // Start with the center...
