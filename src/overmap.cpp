@@ -4500,6 +4500,14 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
+    const point_abs_om this_om;
+    int forest_size_scalar = 0;
+    if( this_om.x() < 0 ){
+        forest_size_scalar += this_om.x() * 10;
+    }
+    if( this_om.y() > 0 ){
+        forest_size_scalar += this_om.y() * 20;
+    }
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -4517,9 +4525,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_scalar > settings->overmap_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_scalar > settings->overmap_forest.noise_threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -4529,9 +4537,15 @@ void overmap::place_forests()
 void overmap::place_lakes()
 {
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
+    
+    const point_abs_om this_om;
+    int lake_size_scalar = 0; // for now, this is mainly meant to create an ocean in the east.
+    if( this_om.x() > 25 ){
+        lake_size_scalar += this_om.x() * 10;
+    }
 
     const auto is_lake = [&]( const point_om_omt & p ) {
-        return f.noise_at( p ) > settings->overmap_lake.noise_threshold_lake;
+        return f.noise_at( p ) * lake_size_scalar > settings->overmap_lake.noise_threshold_lake;
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -5115,11 +5129,19 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int city_size_scalar = 0; // used to increase city size as we move East and South.
+    const point_abs_om this_om;
+    if( this_om.x() > 0 ){
+        city_size_scalar += this_om.x() * 20;
+    }
+    if( this_om.y() > 0 ){
+        city_size_scalar += this_om.y();
+    }
+    int op_city_size = get_option<int>( "CITY_SIZE" ) + city_size_scalar;
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_option<int>( "CITY_SPACING" );
+    int op_city_spacing = get_option<int>( "CITY_SPACING" ) - static_cast<int>(city_size_scalar / 5);
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -5170,9 +5192,11 @@ void overmap::place_cities()
 
         tripoint_om_omt p;
         city tmp;
+
+        
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
-            int size = rng( op_city_size - 1, op_city_size + 1 );
+            int size = rng( op_city_size - 1, op_city_size + city_size_scalar );
             if( one_in( 3 ) ) { // 33% tiny
                 size = size * 1 / 3;
             } else if( one_in( 2 ) ) { // 33% small
