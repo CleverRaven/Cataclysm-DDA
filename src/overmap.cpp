@@ -6593,18 +6593,42 @@ void overmap::place_mongroups()
 {
     // Cities can be full of zombies
     for( city &elem : cities ) {
-        if( get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) > -1 ) {
-            if( !one_in( get_option<int>( "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE" ) ) ||
-                elem.size > get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) ) {
+        if( get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) > -1 &&
+            ( elem.size > get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) ||
+              !one_in( get_option<int>( "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE" ) ) ) ) {
 
-                mongroup m( GROUP_ZOMBIE, project_to<coords::sm>( project_combine( elem.pos_om,
-                            tripoint_om_omt( elem.pos, 0 ) ) ), elem.size * get_option<int>( "SPAWN_CITY_HORDE_SCALAR" ) );
-                if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-                    m.horde = true;
-                    m.wander( *this );
+            int desired_zombies = elem.size * get_option<float>( "SPAWN_CITY_HORDE_SCALAR" ) *
+                                  get_option<float>( "SPAWN_DENSITY" );
+
+            tripoint_abs_omt city_center = project_combine( elem.pos_om, tripoint_om_omt( elem.pos, 0 ) );
+
+            std::vector<tripoint_abs_sm> submap_list;
+            for( tripoint_abs_omt const &t : points_in_radius( city_center, elem.size * 1.5, 0 ) ) {
+                if( overmap_buffer.ter( t )->get_type_id() == oter_type_road ) {
+                    tripoint_abs_sm this_sm = project_to<coords::sm>( t );
+                    submap_list.push_back( this_sm );
+                    submap_list.push_back( this_sm + point( 0, 1 ) );
+                    submap_list.push_back( this_sm + point( 1, 0 ) );
+                    submap_list.push_back( this_sm + point( 1, 1 ) );
                 }
-                add_mon_group( m );
             }
+
+            while( desired_zombies > 0 ) {
+                std::shuffle( submap_list.begin(), submap_list.end(), rng_get_engine() );
+                for( tripoint_abs_sm const &s : submap_list ) {
+                    if( desired_zombies <= 0 ) {
+                        break;
+                    }
+                    mongroup m( GROUP_ZOMBIE, s, desired_zombies > 10 ? 10 : desired_zombies );
+                    if( get_option<bool>( "WANDER_SPAWNS" ) ) {
+                        m.horde = true;
+                        m.wander( *this );
+                    }
+                    add_mon_group( m );
+                    desired_zombies = - 10;
+                }
+            }
+
         }
     }
 

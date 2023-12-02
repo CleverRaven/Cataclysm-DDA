@@ -120,10 +120,17 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_CITY_HORDE_SPREAD",
+    "info": "A scaling factor that determines how far from the center of cities extra zombies spawn, multiplied by city size, when city hordes are indicated.",
+    "stype": "float",
+    "value": 1.5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "SPAWN_CITY_HORDE_SCALAR",
     "info": "A scaling factor that determines how many zombies are spawned in cites, multiplied by city size, when city hordes are indicated.",
-    "stype": "int",
-    "value": 80
+    "stype": "float",
+    "value": 80.0
   },
   {
     "type": "EXTERNAL_OPTION",
