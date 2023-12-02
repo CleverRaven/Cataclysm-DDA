@@ -1645,7 +1645,7 @@
   {
     "type": "AMMO",
     "id": "paper",
-    "name": { "str": "paper" },
+    "name": { "str_sp": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
