@@ -100,6 +100,7 @@
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 
 //***********************************
 //Globals                           *
@@ -891,7 +892,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const tripoint_abs_omt omp = origin + point( col, row );
 
             const bool see = overmap_buffer.seen( omp );
-            const bool los = see && you.overmap_los( omp, sight_points );
+            const bool los = see && ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
+                                      trait_DEBUG_CLAIRVOYANCE );
             // the full string from the ter_id including _north etc.
             std::string id;
             int rotation = 0;
