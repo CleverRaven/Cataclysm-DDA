@@ -939,7 +939,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         // NOLINTNEXTLINE(cata-translate-string-literal)
-                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
