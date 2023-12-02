@@ -207,7 +207,9 @@
       { "u_message": "magic_potential: <global_val:magic_potential>", "type": "info" },
       { "u_message": "allow_sequence: <global_val:allow_sequence>", "type": "info" },
       { "u_message": "eater_dreamer_sequence: <global_val:eater_dreamer_sequence>", "type": "info" },
-      { "u_message": "inventor_dreamsmith_sequence: <global_val:inventor_dreamsmith_sequence>", "type": "info" }
+      { "u_message": "inventor_dreamsmith_sequence: <global_val:inventor_dreamsmith_sequence>", "type": "info" },
+      { "u_message": "xe_eater_leveling: <global_val:xe_eater_leveling>", "type": "info" },
+      { "u_message": "xe_dreamer_leveling: <global_val:xe_dreamer_leveling>", "type": "info" }
     ]
   }
 ]

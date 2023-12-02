@@ -334,8 +334,7 @@
           "It doesn't matter…"
         ]
       },
-      { "u_message": "Since your kind is doomed…", "type": "mixed" },
-      { "math": [ "magic_potential", "=", "0" ] }
+      { "u_message": "Since your kind is doomed…", "type": "mixed" }
     ]
   },
   {
