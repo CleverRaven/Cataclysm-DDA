@@ -3323,8 +3323,8 @@ void monster::process_effects()
         if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
             int intensity = get_effect_int( effect_slippery_terrain );
             intensity -= 1;
-                //ROAD tiles are hard, flat surfaces, and easier to slip on.
-                if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
+            //ROAD tiles are hard, flat surfaces, and easier to slip on.
+            if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
                 intensity++;
             }
             int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
