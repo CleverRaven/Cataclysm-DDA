@@ -4410,7 +4410,7 @@ void overmap::place_forest_trails()
             // Figure out how many random points we'll add to our trail system, based on the forest
             // size and our configuration.
             int max_random_points = forest_trail.random_point_min + forest_points.size() /
-                                    forest_trail.random_point_size_scalar;
+                                    forest_trail.random_point_size_adjust;
             max_random_points = std::min( max_random_points, forest_trail.random_point_max );
 
             // Start with the center...
@@ -4501,14 +4501,16 @@ void overmap::place_forests()
 {
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
     const point_abs_om this_om = pos();
-    float forest_size_scalar = 0.0f;
+    float forest_size_adjust = 0.0f;
+    float low_forest_threshold = settings->overmap_forest.noise_threshold_forest;
     if( this_om.x() < 0 ) {
-        forest_size_scalar += static_cast<float>( this_om.x() * -0.02f );
+        forest_size_adjust += static_cast<float>( this_om.x() * -0.02f );
     }
     if( this_om.y() < 0 ) {
-        forest_size_scalar *= static_cast<float>( 1.0f + this_om.y() * -0.1f );
+        forest_size_adjust *= static_cast<float>( 1.0f + this_om.y() * -0.1f );
     }
-    forest_size_scalar = std::min( forest_size_scalar, 0.5f );
+    // make sure forest size never totally overwhelms the map
+    forest_size_adjust = std::min( forest_size_adjust, 0.9f - low_forest_threshold );
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -4526,9 +4528,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n + forest_size_scalar > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n + forest_size_scalar > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_adjust > low_forest_threshold ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -5124,21 +5126,22 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int city_size_scalar = 0; // used to increase city size as we move East and South.
-    int city_space_scalar =
-        0; // used to space cities out as we go more into the West and the Appalachians.
+    // used to increase city size as we move East and South.
+    int city_size_adjust = 0;
+    // used to space cities out as we go more into the West and the Appalachians.
+    int city_space_adjust = 0; 
     const point_abs_om this_om = pos();
-    city_space_scalar += this_om.x() / 2;
+    city_space_adjust += this_om.x() / 2;
     if( this_om.x() > 0 ) {
-        city_size_scalar += this_om.x();
+        city_size_adjust += this_om.x();
         if( this_om.y() < 0 ) {
             // the megacity reduces as we head north towards what would be New Hampshire, but the
             // cities remain a bit more close packed.
-            city_size_scalar /= this_om.y() * -1;
+            city_size_adjust /= this_om.y() * -1;
         }
     }
     if( this_om.y() > 0 ) {
-        city_size_scalar += this_om.y() / 2;
+        city_size_adjust += this_om.y() / 2;
     }
     int op_city_size = get_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
@@ -5146,8 +5149,8 @@ void overmap::place_cities()
     }
     int op_city_spacing = get_option<int>( "CITY_SPACING" );
     if( op_city_spacing > 0 ) {
-        city_space_scalar = std::min( city_space_scalar, op_city_spacing - 2 );
-        op_city_spacing = op_city_spacing - city_space_scalar;
+        city_space_adjust = std::min( city_space_adjust, op_city_spacing - 2 );
+        op_city_spacing = op_city_spacing - city_space_adjust;
     }
     op_city_spacing = std::min( op_city_spacing, 10 );
 
@@ -5204,7 +5207,7 @@ void overmap::place_cities()
 
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
-            int size = rng( op_city_size - 1, op_city_size + city_size_scalar );
+            int size = rng( op_city_size - 1, op_city_size + city_size_adjust );
             if( one_in( 3 ) ) { // 33% tiny
                 size = size * 1 / 3;
             } else if( one_in( 2 ) ) { // 33% small
