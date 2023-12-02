@@ -687,7 +687,13 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_metamagic_silent" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "perk_metamagic_silent" } },
+            { "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "xedra_evolved" } ] }
+          ]
+        },
+        "//": "Not relevant to MoM, so won't be available if that is the only magic mod.",
         "text": "Gain [<trait_name:perk_metamagic_silent>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_metamagic_silent>", "target_var": { "context_val": "trait_name" } },
@@ -705,7 +711,13 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_metamagic_still" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "perk_metamagic_still" } },
+            { "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "xedra_evolved" } ] }
+          ]
+        },
+        "//": "Not relevant to MoM, so won't be available if that is the only magic mod.",
         "text": "Gain [<trait_name:perk_metamagic_still>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_metamagic_still>", "target_var": { "context_val": "trait_name" } },

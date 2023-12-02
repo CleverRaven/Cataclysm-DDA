@@ -319,13 +319,13 @@ std::function<void( dialogue &, double )> hp_ass( char scope,
 std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    enum Scope {
+    enum spell_scope {
         all,
         mod,
         school,
         spell
     };
-    Scope spellsearch_scope;
+    spell_scope spellsearch_scope;
     diag_value filter( std::string{} );
 
     diag_value spellcasting_property( std::string{} );

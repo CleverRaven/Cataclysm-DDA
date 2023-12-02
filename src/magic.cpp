@@ -844,17 +844,19 @@ int spell::aoe( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_aoe = min_leveled_aoe( caster );
+    int return_value;
 
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
-        return rng( std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ),
-                    std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ) );
+        return_value = rng( std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ),
+                            std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ) );
     } else {
         if( type->max_aoe.evaluate( d ) >= type->min_aoe.evaluate( d ) ) {
-            return std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
+            return_value = std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
         } else {
-            return std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
+            return_value = std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
         }
     }
+    return return_value * temp_aoe_multiplyer;
 }
 
 std::set<tripoint> spell::effect_area( const spell_effect::override_parameters &params,
@@ -1039,8 +1041,7 @@ int spell::energy_cost( const Character &guy ) const
     } else {
         cost = type->base_energy_cost.evaluate( d );
     }
-    if( !has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) &&
-        temp_somatic_difficulty_multiplyer > 0 ) {
+    if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
                                            guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
@@ -1067,6 +1068,10 @@ bool spell::has_flag( const spell_flag &flag ) const
 bool spell::has_flag( const std::string flag ) const
 {
     return type->flags.count( flag ) > 0;
+}
+bool spell::no_hands() const
+{
+    return ( has_flag( spell_flag::NO_HANDS ) || temp_somatic_difficulty_multiplyer <= 0 );
 }
 
 bool spell::is_spell_class( const trait_id &mid ) const
@@ -2354,8 +2359,7 @@ bool spell::casting_time_encumbered( const Character &guy ) const
 
 bool spell::energy_cost_encumbered( const Character &guy ) const
 {
-    if( !has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) &&
-        temp_somatic_difficulty_multiplyer > 0 ) {
+    if( !no_hands() && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
                0;
     }
@@ -2370,19 +2374,19 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
     }
-    if( has_flag( spell_flag::VERBAL ) ) {
-        spell_data.emplace_back( _( "verbal" ) && temp_sound_multiplyer > 0 );
+    if( has_flag( spell_flag::VERBAL ) && temp_sound_multiplyer > 0 ) {
+        spell_data.emplace_back( _( "verbal" ) );
     }
     if( has_flag( spell_flag::SOMATIC ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "somatic" ) );
     }
-    if( !has_flag( spell_flag::NO_HANDS ) && temp_somatic_difficulty_multiplyer > 0 ) {
+    if( !no_hands() ) {
         spell_data.emplace_back( _( "impeded by gloves" ) );
     } else {
         spell_data.emplace_back( _( "does not require hands" ) );
     }
-    if( !has_flag( spell_flag::NO_LEGS ) ) {
-        spell_data.emplace_back( _( "requires mobility" ) && temp_somatic_difficulty_multiplyer > 0 );
+    if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
+        spell_data.emplace_back( _( "requires mobility" ) );
     }
     if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );

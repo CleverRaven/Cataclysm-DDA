@@ -412,11 +412,6 @@ class spell_type
         static const float casting_time_increment_default;
 };
 
-// functions for spell description
-namespace spell_desc
-{
-} // namespace spell_desc
-
 class spell
 {
     private:
@@ -545,6 +540,7 @@ class spell
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         bool has_flag( const std::string flag ) const;
+        bool no_hands() const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
