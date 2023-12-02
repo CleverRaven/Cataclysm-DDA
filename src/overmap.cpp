@@ -4500,14 +4500,14 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
-    const point_abs_om this_om;
-    int forest_size_scalar = 0;
+    //const point_abs_om this_om = pos();
+    /*float forest_size_scalar = 0.5f;
     if( this_om.x() < 0 ){
-        forest_size_scalar += this_om.x() * 10;
+        forest_size_scalar *= static_cast<float>( this_om.x() * -0.5f );
     }
     if( this_om.y() > 0 ){
-        forest_size_scalar += this_om.y() * 20;
-    }
+        forest_size_scalar *= static_cast<float>( this_om.y() * 0.75f );
+    }*/
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -4525,9 +4525,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n + forest_size_scalar > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n /* + forest_size_scalar */ > settings->overmap_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n + forest_size_scalar > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n /*+ forest_size_scalar*/ > settings->overmap_forest.noise_threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -4538,14 +4538,20 @@ void overmap::place_lakes()
 {
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
     
-    const point_abs_om this_om;
-    int lake_size_scalar = 0; // for now, this is mainly meant to create an ocean in the east.
-    if( this_om.x() > 25 ){
-        lake_size_scalar += this_om.x() * 10;
+    const point_abs_om this_om = pos();
+    float lake_size_scalar = 0.0f; // for now, this is mainly meant to create an ocean in the east.
+    if( this_om.x() > 5 ){
+        lake_size_scalar += static_cast<float>( this_om.x() * 0.01f );
+    }
+    if( this_om.x() > 10 ){
+        lake_size_scalar += static_cast<float>( this_om.x() * 0.01f );
+    }
+    if( this_om.x() > 15 ){
+        lake_size_scalar += 1.0f;
     }
 
     const auto is_lake = [&]( const point_om_omt & p ) {
-        return f.noise_at( p ) * lake_size_scalar > settings->overmap_lake.noise_threshold_lake;
+        return f.noise_at( p ) + lake_size_scalar > settings->overmap_lake.noise_threshold_lake;
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -5130,18 +5136,24 @@ spawns happen at... <cue Clue music>
 void overmap::place_cities()
 {
     int city_size_scalar = 0; // used to increase city size as we move East and South.
-    const point_abs_om this_om;
+    int city_space_scalar = 0; // used to space cities out as we go more into the West and the Appalachians.
+    const point_abs_om this_om = pos();
+    city_space_scalar += this_om.x() / 2;
     if( this_om.x() > 0 ){
-        city_size_scalar += this_om.x() * 20;
+        city_size_scalar += this_om.x();
     }
     if( this_om.y() > 0 ){
-        city_size_scalar += this_om.y();
+        city_size_scalar += this_om.y() / 2;
     }
-    int op_city_size = get_option<int>( "CITY_SIZE" ) + city_size_scalar;
+    int op_city_size = get_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_option<int>( "CITY_SPACING" ) - static_cast<int>(city_size_scalar / 5);
+    int op_city_spacing = get_option<int>( "CITY_SPACING" );
+    if( op_city_spacing > 0 ){
+      op_city_spacing = std::max( op_city_spacing - city_space_scalar, city_size_scalar / 2 );
+    }
+    op_city_spacing = std::min( op_city_spacing, 10 );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -5208,6 +5220,7 @@ void overmap::place_cities()
             }
             // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
             size = std::max( size, 2 );
+            size = std::min( size, 55 );
             // TODO: put cities closer to the edge when they can span overmaps
             // don't draw cities across the edge of the map, they will get clipped
             point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
