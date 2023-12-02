@@ -5,6 +5,7 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_BIOKIN_REMOVE_METABOLISM_ENHANCE",
           "EOC_CLAIR_REMOVE_SPEED_READ",
           "EOC_PHOTO_REMOVE_LIGHT_LOCAL",
           "EOC_PHOTOKIN_REMOVE_RADIO",
