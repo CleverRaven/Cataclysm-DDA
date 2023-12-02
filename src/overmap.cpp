@@ -6591,14 +6591,18 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
 void overmap::place_mongroups()
 {
-    // Cities are full of zombies
+    // Cities can be full of zombies
     for( city &elem : cities ) {
-        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            if( !one_in( 16 ) || elem.size > 5 ) {
+        if( get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) > -1 ) {
+            if( !one_in( get_option<int>( "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE" ) ) ||
+                elem.size > get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) ) {
+
                 mongroup m( GROUP_ZOMBIE, project_to<coords::sm>( project_combine( elem.pos_om,
-                            tripoint_om_omt( elem.pos, 0 ) ) ), elem.size * 80 );
-                m.horde = true;
-                m.wander( *this );
+                            tripoint_om_omt( elem.pos, 0 ) ) ), elem.size * get_option<int>( "SPAWN_CITY_HORDE_SCALAR" ) );
+                if( get_option<bool>( "WANDER_SPAWNS" ) ) {
+                    m.horde = true;
+                    m.wander( *this );
+                }
                 add_mon_group( m );
             }
         }
