@@ -504,7 +504,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
                     } else {
                     guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                     bodypart_effected = true;
-                    }
+                }
             }
         }
     }
