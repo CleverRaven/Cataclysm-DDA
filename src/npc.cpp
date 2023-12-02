@@ -118,6 +118,7 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
 
+static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
@@ -2629,7 +2630,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-            return Attitude::NEUTRAL;
+            if( m.has_flag( mon_flag_HIT_AND_RUN ) ) {
+                return Attitude::HOSTILE;
+            } else {
+                return Attitude::NEUTRAL;
+            }
         case MATT_FRIEND:
             return Attitude::FRIENDLY;
         case MATT_ATTACK:
@@ -3781,8 +3786,8 @@ npc_follower_rules::npc_follower_rules()
     override_enable = ally_rule::DEFAULT;
 
     set_flag( ally_rule::use_guns );
-    set_flag( ally_rule::use_grenades );
-    clear_flag( ally_rule::use_silent );
+    clear_flag( ally_rule::use_grenades );
+    set_flag( ally_rule::use_silent );
     set_flag( ally_rule::avoid_friendly_fire );
 
     clear_flag( ally_rule::allow_pick_up );
@@ -3790,13 +3795,13 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::allow_sleep );
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
-    clear_flag( ally_rule::close_doors );
-    clear_flag( ally_rule::follow_close );
+    set_flag( ally_rule::close_doors );
+    set_flag( ally_rule::follow_close );
     clear_flag( ally_rule::avoid_doors );
     clear_flag( ally_rule::hold_the_line );
-    clear_flag( ally_rule::ignore_noise );
+    set_flag( ally_rule::ignore_noise );
     clear_flag( ally_rule::forbid_engage );
-    set_flag( ally_rule::follow_distance_2 );
+    clear_flag( ally_rule::follow_distance_2 );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const
