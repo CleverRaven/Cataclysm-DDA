@@ -28,7 +28,7 @@
     "eoc_type": "EVENT",
     "required_event": "player_levels_spell",
     "//": "time_since_cataclysm check is used because spells, given by scenario, call player_levels_spell event also",
-    "condition": { "and": [ { "one_in_chance": 1 }, { "math": [ "u_val('time_since_cataclysm: turns')", ">", "2" ] } ] },
+    "condition": { "and": [ { "one_in_chance": 4 }, { "math": [ "u_val('time_since_cataclysm: turns')", ">", "2" ] } ] },
     "effect": [
       {
         "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },
@@ -58,25 +58,13 @@
     "recurrence": [ "1 h", "3 h" ],
     "condition": { "u_has_effect": "sleep" },
     "effect": [
-      {
-        "if": { "math": [ "xe_eater_leveling", ">", "0" ] },
-        "then": [
-          { "set_condition": "eater_leveling", "condition": { "math": [ "xe_eater_leveling", ">", "0" ] } },
-          { "run_eoc_until": "EOC_XE_PICK_SPELL_EATER", "condition": "eater_leveling" }
-        ]
-      },
-      {
-        "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] },
-        "then": [
-          { "set_condition": "dreamer_leveling", "condition": { "math": [ "xe_dreamer_leveling", ">", "0" ] } },
-          { "run_eoc_until": "EOC_XE_PICK_SPELL_DREAMER", "condition": "dreamer_leveling" }
-        ]
-      }
+      { "if": { "math": [ "xe_eater_leveling", ">", "0" ] }, "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER" } ] },
+      { "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] }, "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER" } ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_PICK_SPELL_EATER",
+    "id": "EOC_PICK_SPELL_EATER",
     "//": "each context value _xe_spell is assigned a random string, that contain spell id, then all four variables are sent to EoC selector",
     "effect": [
       {
@@ -116,7 +104,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_PICK_SPELL_DREAMER",
+    "id": "EOC_PICK_SPELL_DREAMER",
     "effect": [
       {
         "foreach": "array",
