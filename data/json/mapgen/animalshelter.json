@@ -353,13 +353,7 @@
         { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20 },
         { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5 },
         { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20 },
-        {
-          "group": "GROUP_STRAY_CATS",
-          "x": [ 14, 20 ],
-          "y": [ 4, 6 ],
-          "chance": 20,
-          "repeat": [ 2, 3 ]
-        },
+        { "group": "GROUP_STRAY_CATS", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 20, "repeat": [ 2, 3 ] },
         { "group": "GROUP_STRAY_CATS", "x": 14, "y": 8, "chance": 70 },
         { "group": "GROUP_STRAY_CATS", "x": 16, "y": 8, "chance": 90 },
         { "group": "GROUP_STRAY_CATS", "x": 18, "y": 8, "chance": 90 },
