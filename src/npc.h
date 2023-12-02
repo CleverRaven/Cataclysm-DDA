@@ -259,14 +259,17 @@ struct npc_opinion {
 // npc_combat_memory should store short-term trackers that don't really need to be saved if
 // the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
 struct npc_combat_memory {
-    int panic = 0; // Tracks how many times NPC has had to try to run and how bad the threat
-    int swarm_count =
-        0; //so you can tell if you're getting away over multiple turns
-    int failing_to_reposition = 0; // Increases as NPC tries to flee/move and doesn't change situation
-    int reposition_countdown = 0; // set when reposition fails so that we don't keep trying for a bit.
-    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repositioning.
+    float assess_ally = 0.0f;
+    float assess_enemy = 0.0f;
+    int panic = 0;
+    int swarm_count = 0; //so you can tell if you're getting away over multiple turns
+    int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
+    int reposition_countdown = 0; // set when repos fails so that we don't keep trying.
+    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int formation_distance = -1; // dist to nearest ally with a gun, or to player
+    int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
 
 enum class combat_engagement : int {
@@ -1101,10 +1104,11 @@ class npc : public Character
 
         /** rates how dangerous a target is */
         float evaluate_monster( const monster &target, int dist ) const;
-        float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy );
         float evaluate_self( bool my_gun );
 
         void assess_danger();
+        void act_on_danger_assessment();
         bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();

@@ -58,6 +58,16 @@
   },
   {
     "type": "material",
+    "id": "carbonfiber",
+    "name": "Carbon Fiber Composite",
+    "//": "CF composites, consisting of sheets of woven CF and epoxy resin.",
+    "density": 1.55,
+    "copy-from": "fiberglass",
+    "conductive": true,
+    "chip_resist": 10
+  },
+  {
+    "type": "material",
     "id": "pseudo_fuel",
     "name": "Pseudo Fuel",
     "density": 1,

@@ -10,12 +10,12 @@
 #include "cata_catch.h"
 #include "game.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "options_helpers.h"
 #include "pimpl.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -395,7 +395,7 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         item gasoline = item( "gasoline" );
         gasoline.charges = 2;
         CHECK( gasoline_tank->can_reload_with( gasoline, true ) );
-        gasoline_tank->put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+        gasoline_tank->put_in( gasoline, pocket_type::CONTAINER );
         REQUIRE( gasoline_tank->only_item().charges == 2 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( bio.id ).empty() );
@@ -429,7 +429,7 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         // Add empty battery. Still won't work
         item battery = item( "light_battery_cell" );
         CHECK( bat_compartment->can_reload_with( battery, true ) );
-        bat_compartment->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        bat_compartment->put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( bat_compartment->ammo_remaining() == 0 );
         CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
         CHECK( dummy.get_cable_ups().empty() );
@@ -490,7 +490,7 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
 
         // Put empty battery into ups. Still does not work.
         item ups_mag( ups->magazine_default() );
-        ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        ups->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
         REQUIRE( ups->ammo_remaining() == 0 );
         CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
         CHECK_FALSE( dummy.activate_bionic( bio ) );
@@ -564,8 +564,8 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         item wood = item( "splinter" );
         item wood_2 = item( "splinter" );
         REQUIRE_FALSE( wood.count_by_charges() );
-        woodshed->put_in( wood, item_pocket::pocket_type::CONTAINER );
-        woodshed->put_in( wood_2, item_pocket::pocket_type::CONTAINER );
+        woodshed->put_in( wood, pocket_type::CONTAINER );
+        woodshed->put_in( wood_2, pocket_type::CONTAINER );
         REQUIRE( woodshed->all_items_ptr().size() == 2 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( bio.id ).empty() );

@@ -991,7 +991,7 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
         const inventory *inv = static_cast<const inventory *>( &crafting_inv );
         // Will use non-empty liquid container
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
-        return d.type == item_pocket::pocket_type::CONTAINER && d.watertight;
+        return d.type == pocket_type::CONTAINER && d.watertight;
     } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
             return c_magenta;
         }

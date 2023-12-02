@@ -1859,7 +1859,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         const itype_id casing = *current_ammo->ammo->casing;
         if( cur_weapon.get_item()->has_flag( flag_RELOAD_EJECT ) ) {
             cur_weapon.get_item()->force_insert_item( item( casing ).set_flag( flag_CASING ),
-                    item_pocket::pocket_type::MAGAZINE );
+                    pocket_type::MAGAZINE );
             cur_weapon.get_item()->on_contents_changed();
         }
     }

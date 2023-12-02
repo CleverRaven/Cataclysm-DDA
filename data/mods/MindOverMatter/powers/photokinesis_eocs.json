@@ -23,16 +23,11 @@
         ]
       }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_PHOTO_REMOVE_LIGHT_LOCAL" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * 80) ), 450)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTO_REMOVE_LIGHT_LOCAL",
+    "id": "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL",
     "condition": { "u_has_effect": "effect_photokin_light_local" },
     "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_photokin_light_local" } ]
   },
@@ -42,18 +37,22 @@
     "condition": { "u_has_effect": "effect_photokin_light_local" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      {
+        "math": [ "u_val('spell_exp', 'spell: photokinetic_light_local')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
             ]
           }
         ]
@@ -100,13 +99,16 @@
         ]
       }
     ],
-    "false_effect": [
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
+    "condition": { "u_has_effect": "effect_photokin_light_barrier" },
+    "effect": [
       { "u_remove_item_with": "photokinetic_rad_aura" },
       { "u_lose_effect": "effect_photokin_light_barrier" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) ), 800)" ]
-      }
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
     ]
   },
   {
@@ -115,6 +117,10 @@
     "condition": { "or": [ { "u_has_item": "photokinetic_rad_aura" }, { "u_has_effect": "effect_photokin_light_barrier" } ] },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      {
+        "math": [ "u_val('spell_exp', 'spell: photokinetic_rad_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
@@ -269,17 +275,12 @@
         ]
       }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_PHOTOKIN_REMOVE_RADIO" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (4000 - (u_val('spell_level', 'spell: photokinetic_radio') * 100) ), 1500)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_RADIO" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_REMOVE_RADIO",
-    "condition": { "or": [ { "u_has_item": "photokinetic_radio" }, { "u_has_item": "photokinetic_radio_on" } ] },
+    "condition": { "u_has_effect": "effect_photokinetic_radio" },
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
       { "u_remove_item_with": "item_photokinetic_radio" },
@@ -290,7 +291,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RADIO_DRAIN",
-    "condition": { "or": [ { "u_has_item": "photokinetic_radio" }, { "u_has_item": "photokinetic_radio_on" } ] },
+    "condition": { "u_has_effect": "effect_photokinetic_radio" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },

@@ -11,12 +11,12 @@
 #include "cata_assert.h"
 #include "flag.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "item_search.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
+#include "pocket_type.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
@@ -137,7 +137,7 @@ std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index
         }
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
                  item_location( you, &worn_item ),
-                 worn_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+                 worn_item.all_items_top( pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -160,7 +160,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     item_location weapon = get_wielded_item();
     if( weapon && weapon->is_container() ) {
         for( const std::vector<item_location> &it_stack : item_list_to_stack( weapon,
-                weapon->all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+                weapon->all_items_top( pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -258,7 +258,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 } else {
                     locs.emplace_back( loc_cursor, it );
                     if( it->is_corpse() ) {
-                        for( item *loot : it->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        for( item *loot : it->all_items_top( pocket_type::CONTAINER ) ) {
                             if( !is_filtered( *loot ) ) {
                                 advanced_inv_listitem aim_item( item_location( item_location( loc_cursor, it ), loot ),
                                                                 0, 1, square.id, is_in_vehicle );

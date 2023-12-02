@@ -2,9 +2,9 @@
   {
     "id": "electrokinetic_see_electric",
     "type": "SPELL",
-    "name": "[Ψ]Spark Sight",
-    "description": "Open your senses to the flow of electricity, revealing nearby electrical creatures or robots.",
-    "message": "You open your senses to the flow of current.",
+    "name": "[Ψ]Spark Sight (C)",
+    "description": "Open your senses to the flow of electricity, revealing nearby electrical creatures or robots.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
@@ -12,9 +12,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokin_see_electricity",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_SEE_ELECTRICITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -27,12 +26,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 2000,
-    "final_energy_cost": 750,
-    "energy_increment": -75,
-    "base_casting_time": 150,
-    "final_casting_time": 80,
-    "casting_time_increment": -6,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max((2000 - (u_val('spell_level', 'spell: electrokinetic_see_electric') * 75)), 750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: electrokinetic_see_electric') * 6)), 80)"
+      ]
+    },
     "learn_spells": { "electrokinetic_personal_battery": 7, "electrokinetic_speed_boost": 14, "electrokinetic_revive": 21 }
   },
   {
@@ -49,7 +52,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "effect_str": "dazed",
+    "effect_str": "psi_dazed_zap",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "electric",
@@ -159,8 +162,8 @@
   {
     "id": "electrokinetic_personal_battery",
     "type": "SPELL",
-    "name": "[Ψ]Electron Overflow (toggle)",
-    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Electron Overflow (C)",
+    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],

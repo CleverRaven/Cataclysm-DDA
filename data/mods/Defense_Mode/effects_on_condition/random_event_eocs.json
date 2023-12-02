@@ -1,0 +1,47 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_RANDOM_EVENT",
+    "recurrence": [ "2 days", "4 days" ],
+    "//": "A general EOC for selecting a random event.  Can and should be expanded.",
+    "condition": {
+      "and": [
+        { "math": [ "random_events_allowed", "==", "0" ] },
+        { "not": { "is_weather": "portal_storm" } },
+        { "x_in_y_chance": { "x": 7, "y": 10 } }
+      ]
+    },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC", { "const": 10 } ],
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER", { "const": 6 } ],
+          [ "EOC_DEFENSE_MODE_BANDIT_ATTACK", { "const": 1 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC",
+    "effect": [ { "u_spawn_npc": "random_survivor", "outdoor_only": true, "real_count": 1, "min_radius": 15, "max_radius": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER",
+    "effect": [
+      {
+        "u_spawn_npc": "random_survivor_nefarious",
+        "outdoor_only": true,
+        "real_count": 1,
+        "min_radius": 15,
+        "max_radius": 40
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_BANDIT_ATTACK",
+    "effect": [ { "u_spawn_npc": "defense_mode_raider", "outdoor_only": true, "real_count": 5, "min_radius": 15, "max_radius": 25 } ]
+  }
+]

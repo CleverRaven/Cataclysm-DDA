@@ -7,6 +7,7 @@ std::map<vproto_id, std::vector<double>> test_data::drag_data;
 std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
 std::map<spawn_type, std::vector<container_spawn_test_data>> test_data::container_spawn_data;
+std::map<std::string, pocket_mod_test_data> test_data::pocket_mod_data;
 std::map<std::string, npc_boarding_test_data> test_data::npc_boarding_data;
 
 void efficiency_data::deserialize( const JsonObject &jo )
@@ -38,6 +39,13 @@ void container_spawn_test_data::deserialize( const JsonObject &jo )
     if( jo.has_member( "charges" ) ) {
         jo.read( "charges", charges );
     }
+}
+
+void pocket_mod_test_data::deserialize( const JsonObject &jo )
+{
+    jo.read( "base_item", base_item );
+    jo.read( "mod_item", mod_item );
+    jo.read( "expected_pockets", expected_pockets );
 }
 
 void npc_boarding_test_data::deserialize( const JsonObject &jo )
@@ -109,6 +117,12 @@ void test_data::load( const JsonObject &jo )
             container_spawn_data[spawn_type::map].insert( container_spawn_data[spawn_type::map].end(),
                     test_map.begin(), test_map.end() );
         }
+    }
+
+    if( jo.has_object( "pocket_mod_data" ) ) {
+        std::map<std::string, pocket_mod_test_data> new_pocket_mod_data;
+        jo.read( "pocket_mod_data", new_pocket_mod_data );
+        pocket_mod_data.insert( new_pocket_mod_data.begin(), new_pocket_mod_data.end() );
     }
 
     if( jo.has_object( "npc_boarding_data" ) ) {

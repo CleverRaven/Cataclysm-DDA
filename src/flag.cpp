@@ -163,6 +163,7 @@ const flag_id flag_INSPIRATIONAL( "INSPIRATIONAL" );
 const flag_id flag_INSTALL_DIFFICULT( "INSTALL_DIFFICULT" );
 const flag_id flag_INTEGRATED( "INTEGRATED" );
 const flag_id flag_IN_CBM( "IN_CBM" );
+const flag_id flag_IRRADIATED( "IRRADIATED" );
 const flag_id flag_IRREMOVABLE( "IRREMOVABLE" );
 const flag_id flag_IR_EFFECT( "IR_EFFECT" );
 const flag_id flag_IS_ARMOR( "IS_ARMOR" );

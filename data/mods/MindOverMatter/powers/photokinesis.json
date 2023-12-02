@@ -2,8 +2,8 @@
   {
     "id": "photokinetic_light_local",
     "type": "SPELL",
-    "name": "[Ψ]Candle's Glow (toggle)",
-    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Candle's Glow (C)",
+    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -26,12 +26,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 1500,
-    "final_energy_cost": 450,
-    "energy_increment": -80,
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -7.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_local') > -1 ? 0 : max((1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * 80)), 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_local') > -1 ? 10 : max((125 -(u_val('spell_level', 'spell: photokinetic_light_local') * 7.5)), 50)"
+      ]
+    },
     "learn_spells": { "photokinetic_create_light": 5, "photokinetic_light_beam": 10, "photokinetic_light_image": 15 }
   },
   {
@@ -324,8 +328,8 @@
   {
     "id": "photokinetic_rad_immunity",
     "type": "SPELL",
-    "name": "[Ψ]Lucent Barrier",
-    "description": "Create a barrier of light around yourself to protect against radiation and light damage.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Lucent Barrier (C)",
+    "description": "Create a barrier of light around yourself to protect against radiation and light damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -348,12 +352,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3000,
-    "final_energy_cost": 700,
-    "energy_increment": -125,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -4.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 0 : max((3000 - (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 125)), 800)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: photokinetic_rad_immunity') * 4.5)), 100)"
+      ]
+    },
     "learn_spells": { "photokinetic_invisibility": 5, "photokinetic_light_flash": 7 }
   },
   {
@@ -434,8 +442,8 @@
   {
     "id": "photokinetic_radio",
     "type": "SPELL",
-    "name": "[Ψ]Radio Transception (toggle)",
-    "description": "Attune your senses to radio waves, allowing you to listen to transmissions and send them yourself.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Radio Transception (C)",
+    "description": "Attune your senses to radio waves, allowing you to listen to transmissions and send them yourself.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -457,12 +465,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 1500,
-    "energy_increment": -100,
-    "base_casting_time": 250,
-    "final_casting_time": 75,
-    "casting_time_increment": -10,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: photokinetic_radio') * 100)), 1500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: biokin_hammerhand') * 10)), 75)"
+      ]
+    },
     "learn_spells": { "photokinetic_blinding_glare": 8 }
   },
   {

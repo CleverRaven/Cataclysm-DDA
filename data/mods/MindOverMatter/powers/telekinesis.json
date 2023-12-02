@@ -80,17 +80,16 @@
   {
     "id": "telekinetic_momentum",
     "type": "SPELL",
-    "name": "[Ψ]Momentum Alteration",
-    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.",
-    "message": "The air around you feels more yielding.",
+    "name": "[Ψ]Momentum Alteration (C)",
+    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_telekinetic_momentum",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_MOMENTUM_INITIATE",
     "shape": "blast",
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -99,7 +98,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: telekinetic_momentum') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
@@ -222,8 +221,8 @@
   {
     "id": "telekinetic_strength",
     "type": "SPELL",
-    "name": "[Ψ]Enhance Strength (toggle)",
-    "description": "Focus your powers to allow you move much heavier objects and smash through walls.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Enhance Strength (C)",
+    "description": "Focus your powers to allow you move much heavier objects and smash through walls.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -238,11 +237,11 @@
       "RANDOM_DURATION",
       "EXTRA_EFFECTS_FIRST"
     ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_STRENGTH_INITIATE",
     "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 1500) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -253,12 +252,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 2000,
-    "energy_increment": -150,
-    "base_casting_time": 1500,
-    "final_casting_time": 200,
-    "casting_time_increment": -86,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_strength') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: telekinetic_strength') * 150)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_strength') > -1 ? 10 : max((1500 -(u_val('spell_level', 'spell: telekinetic_strength') * 86)), 200)"
+      ]
+    },
     "learn_spells": { "telekinetic_vehicle_lift": 4, "telekinetic_shield": 8 }
   },
   {
@@ -334,8 +337,8 @@
   {
     "id": "telekinetic_vehicle_lift",
     "type": "SPELL",
-    "name": "[Ψ]Lift Vehicle (toggle)",
-    "description": "Focus your powers to raise a vehicle just enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Lift Vehicle (C)",
+    "description": "Focus your powers to raise a vehicle just enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -357,31 +360,34 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 2750,
-    "energy_increment": -250,
-    "base_casting_time": 250,
-    "final_casting_time": 125,
-    "casting_time_increment": -8,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 0 : max((6500 - (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 200)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 8)), 125)"
+      ]
+    },
     "learn_spells": { "telekinetic_wave": 4, "telekinetic_explosion": 6 }
   },
   {
     "id": "telekinetic_shield",
     "type": "SPELL",
-    "name": "[Ψ]Inertial Barrier",
-    "description": "Create a telekinetic barrier around yourself to protect you from damage.",
-    "message": "The air around you shimmers slightly.",
+    "name": "[Ψ]Inertial Barrier (C)",
+    "description": "Create a telekinetic barrier around yourself to protect you from damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_telekinetic_armor",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
-    "shape": "blast",
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_SHIELD_INITIATE",
+    "shape": "blast",
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -389,12 +395,16 @@
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 2500) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 7000,
-    "final_energy_cost": 4500,
-    "energy_increment": -250,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_armor') > -1 ? 0 : max((6000 - (u_val('spell_level', 'spell: telekinetic_shield') * 250)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_armor') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: telekinetic_shield') * 5)), 75)"
+      ]
+    },
     "learn_spells": { "telekinetic_push": 4, "telekinetic_wave": 6, "telekinetic_aegis": 8 }
   },
   {
@@ -490,8 +500,8 @@
   {
     "id": "telekinetic_levitation",
     "type": "SPELL",
-    "name": "[Ψ]Levitation (toggle)",
-    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Levitation (C)",
+    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -510,12 +520,16 @@
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 200) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 5500,
-    "final_energy_cost": 3000,
-    "energy_increment": -250,
-    "base_casting_time": 75,
-    "final_casting_time": 15,
-    "casting_time_increment": -7.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 0 : max((7500 - (u_val('spell_level', 'spell: telekinetic_levitation') * 250)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 10 : max((75 -(u_val('spell_level', 'spell: telekinetic_levitation') * 7.5)), 15)"
+      ]
+    }
   },
   {
     "id": "telekinetic_aegis",

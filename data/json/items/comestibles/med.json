@@ -914,6 +914,30 @@
     "use_action": [ "FLUSLEEP" ]
   },
   {
+    "id": "antihistamine",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "antihistamine pill" },
+    "description": "Over-the-counter allergy medication.  These are meant to be taken once a day and can cause drowsiness.",
+    "//": "Flu meds contain antihistamines among other things, so it's intended that there's some overlap between this and cough syrup.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "25 cent",
+    "price_postapoc": "25 cent",
+    "symbol": "!",
+    "color": "light_red",
+    "container": "bottle_plastic_pill_supplement",
+    "stim": -6,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "addiction_potential": 4,
+    "addiction_type": "sleeping pill",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take an antihistamine pill.",
+      "effects": [ { "id": "took_antihistamine", "duration": "10 h" } ]
+    }
+  },
+  {
     "id": "oxycodone",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

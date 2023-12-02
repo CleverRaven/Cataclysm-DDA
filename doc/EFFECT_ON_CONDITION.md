@@ -675,6 +675,22 @@ checks are you hot or cold
 { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
 ```
 
+### `u_has_proficiency`, `npc_has_proficiency`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has mastered a proficiency (to 100%).
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you have `Principles of Chemistry`
+```json
+{ "u_has_proficiency": "prof_intro_chemistry" }
+```
+
 ### `u_can_stow_weapon`, `npc_can_stow_weapon`
 - type: simple string
 - return true if alpha or beta talker wield an item, and have enough space to put it away

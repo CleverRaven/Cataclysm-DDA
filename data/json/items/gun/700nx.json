@@ -9,6 +9,7 @@
     "weight": "8082 g",
     "volume": "4500 ml",
     "longest_side": "110 cm",
+    "barrel_length": "660 mm",
     "price": 2000000,
     "price_postapoc": 5000,
     "to_hit": 1,

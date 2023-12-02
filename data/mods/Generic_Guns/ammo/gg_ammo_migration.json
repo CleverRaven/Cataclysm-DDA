@@ -15,22 +15,27 @@
     "replace": "bp_tiny_pistol_ball"
   },
   {
-    "id": [ "matchhead_22_fmj", "matchhead_22_lr", "matchhead_32_acp" ],
+    "id": [ "matchhead_22_fmj", "matchhead_32_acp" ],
     "type": "MIGRATION",
     "replace": "matchhead_tiny_pistol_ball"
   },
   {
-    "id": [ "22_cb", "22_lr", "22_ratshot" ],
+    "id": [ "matchhead_22_lr", "matchhead_32_acp_jhp" ],
+    "type": "MIGRATION",
+    "replace": "matchhead_tiny_pistol_jhp"
+  },
+  {
+    "id": [ "22_cb", "22_lr", "22_ratshot", "32_acp_jhp" ],
     "type": "MIGRATION",
     "replace": "tiny_pistol_jhp"
   },
   {
-    "id": [ "reloaded_22_lr" ],
+    "id": [ "reloaded_22_lr", "reloaded_32_acp_jhp" ],
     "type": "MIGRATION",
     "replace": "reloaded_tiny_pistol_jhp"
   },
   {
-    "id": [ "bp_22_lr" ],
+    "id": [ "bp_22_lr", "bp_32_acp_jhp" ],
     "type": "MIGRATION",
     "replace": "bp_tiny_pistol_jhp"
   },
@@ -42,6 +47,7 @@
   {
     "id": [
       "10mm_fmj",
+      "10mmP",
       "357sig_fmj",
       "38_fmj",
       "380_FMJ",
@@ -67,6 +73,7 @@
   {
     "id": [
       "reloaded_10mm_fmj",
+      "reloaded_10mmP",
       "reloaded_357sig_fmj",
       "reloaded_38_fmj",
       "reloaded_380_FMJ",
@@ -135,7 +142,8 @@
       "5x50heavy",
       "762_25",
       "9mm",
-      "9x18mm"
+      "9x18mm",
+      "10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "pistol_jhp"
@@ -152,7 +160,8 @@
       "reloaded_45colt_jhp",
       "reloaded_762_25",
       "reloaded_9mm",
-      "reloaded_9x18mm"
+      "reloaded_9x18mm",
+      "reloaded_10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_pistol_jhp"
@@ -168,7 +177,8 @@
       "bp_45colt_jhp",
       "bp_762_25",
       "bp_9mm",
-      "bp_9x18mm"
+      "bp_9x18mm",
+      "bp_10mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
@@ -185,6 +195,7 @@
       "matchhead_762_25",
       "matchhead_9mm",
       "matchhead_9x18mm",
+      "matchhead_10mm_jhp",
       "matchhead_357mag_jhp"
     ],
     "type": "MIGRATION",

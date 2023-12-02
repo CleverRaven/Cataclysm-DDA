@@ -20,13 +20,13 @@
         ]
       }
     ],
-    "false_effect": [
-      { "u_lose_effect": "effect_vita_health" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      {
-        "math": [ "u_val('stamina')", "+=", "max( (3500 - (u_val('spell_level', 'spell: vita_health_power') * 75) ), 2000)" ]
-      }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_VITAKIN_REMOVE_HEALTH_POWER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_REMOVE_HEALTH_POWER",
+    "condition": { "u_has_effect": "effect_vita_health" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_vita_health" } ]
   },
   {
     "type": "effect_on_condition",
