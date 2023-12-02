@@ -916,11 +916,9 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
                                                   std::make_pair( it->volume().value(), weight_int ) :
                                                   std::make_pair( weight_int, it->volume().value() );
                 if( it->is_favorite ) {
-                    unsorted_fav_list.emplace_back( std::make_pair( sort_values,
-                                                    drop_or_stash_item_info( it, it->count() ) ) );
+                    unsorted_fav_list.emplace_back( sort_values, drop_or_stash_item_info( it, it->count() ) );
                 } else {
-                    unsorted_item_list.emplace_back( std::make_pair( sort_values,
-                                                     drop_or_stash_item_info( it, it->count() ) ) );
+                    unsorted_item_list.emplace_back( sort_values, drop_or_stash_item_info( it, it->count() ) );
                 }
             }
         }
@@ -975,10 +973,10 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
     std::sort( std::begin( unsorted_item_list ), std::end( unsorted_item_list ), sort );
     std::sort( std::begin( unsorted_fav_list ), std::end( unsorted_fav_list ), sort );
 
-    for( move_all_entry entry : unsorted_item_list ) {
+    for( const move_all_entry &entry : unsorted_item_list ) {
         item_list.push_back( entry.second );
     }
-    for( move_all_entry entry : unsorted_fav_list ) {
+    for( const move_all_entry &entry : unsorted_fav_list ) {
         item_list.push_back( entry.second );
     }
     return true;
@@ -1440,7 +1438,7 @@ void advanced_inventory::start_activity(
                         return;
                     }
                     for( item *it : target_buckets.front()->get_contents().all_items_top() ) {
-                        target_items.emplace_back( item_location( target_buckets.front(), it ) );
+                        target_items.emplace_back( target_buckets.front(), it );
                         quantities.emplace_back( it->count() );
                     }
                 }
