@@ -361,7 +361,7 @@
             "value": "HUNGER",
             "multiply": {
               "math": [
-                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           },
@@ -369,7 +369,7 @@
             "value": "THIRST",
             "multiply": {
               "math": [
-                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           },
@@ -377,7 +377,7 @@
             "value": "METABOLISM",
             "multiply": {
               "math": [
-                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           },
@@ -385,7 +385,7 @@
             "value": "FATIGUE",
             "multiply": {
               "math": [
-                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           }

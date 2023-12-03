@@ -519,7 +519,7 @@
       {
         "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
-      { "math": [ "u_val('sleep_deprivation')", "-=", "15" ] },
+      { "math": [ "u_val('sleep_deprivation')", "-=", "10" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
