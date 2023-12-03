@@ -73,7 +73,7 @@
           }
         ]
       },
-      { "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS", "time_in_future": [ "1 minutes", "30 minutes" ] }
+      { "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS", "time_in_future": [ "10 minutes", "60 minutes" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_VITAKIN_REMOVE_CURE_DISEASE" } ]
   },

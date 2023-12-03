@@ -77,43 +77,65 @@
           "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_BACTERIA"
         ]
       },
-      {  }
+      {
+        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
+        "time_in_future": [
+          { "math": [ "max( ( 600 - (u_val('spell_level', 'spell: vita_cure_disease') * 5  ) ), 1)" ] },
+          { "math": [ "max( ( 3600 - (u_val('spell_level', 'spell: vita_cure_disease') * 30) ), 1)" ] }
+        ]
+      }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CURE_DISEASE_VS_COMMON_COLD",
-    "condition": [
-      { "or": [ { "u_has_effect": "pre_common_cold" }, { "u_has_effect": "common_cold" } ] },
-      { "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 } }
-    ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_common_cold" }, { "u_has_effect": "common_cold" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 }
+        }
+      ]
+    },
     "effect": [ { "u_add_effect": "effect_vita_health_common_cold_protection", "duration": "10 days" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CURE_DISEASE_VS_FLU",
-    "condition": [
-      { "or": [ { "u_has_effect": "pre_flu" }, { "u_has_effect": "flu" } ] },
-      { "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 } }
-    ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_flu" }, { "u_has_effect": "flu" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 }
+        }
+      ]
+    },
     "effect": [ { "u_add_effect": "effect_vita_health_flu_protection", "duration": "10 days" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_VIRAL",
-    "condition": [
-      { "or": [ { "u_has_effect": "pre_conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_viral" } ] },
-      { "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 } }
-    ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_viral" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 }
+        }
+      ]
+    },
     "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_viral_protection", "duration": "10 days" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_BACTERIA",
-    "condition": [
-      { "or": [ { "u_has_effect": "pre_conjunctivitis_bacterial" }, { "u_has_effect": "conjunctivitis_bacterial" } ] },
-      { "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 } }
-    ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_conjunctivitis_bacterial" }, { "u_has_effect": "conjunctivitis_bacterial" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_cure_disease')" ] }, "y": 100 }
+        }
+      ]
+    },
     "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_bacterial_protection", "duration": "10 days" } ]
   },
   {
