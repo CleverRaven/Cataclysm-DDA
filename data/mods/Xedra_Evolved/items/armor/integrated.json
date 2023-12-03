@@ -524,7 +524,8 @@
         "cover_vitals": 100
       }
     ]
-  },{
+  },
+  {
     "id": "integrated_sylph_breath",
     "type": "ARMOR",
     "category": "armor",
@@ -541,16 +542,7 @@
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
-    "flags": [
-      "INTEGRATED",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "SOFT",
-      "WATER_FRIENDLY",
-      "REBREATHER",
-      "NO_REPAIR",
-      "NO_SALVAGE"
-    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "REBREATHER", "NO_REPAIR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.1 } ],
