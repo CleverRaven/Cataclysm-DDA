@@ -2063,7 +2063,7 @@
     "type": "ARMOR",
     "copy-from": "qt_mirror_armor",
     "looks_like": "qt_mirror_armor",
-    "name": { "str": "XS tempered steel mirror armor", "str_pl": "XS cuirasses" },
+    "name": { "str": "XS tempered steel mirror armor", "str_pl": "sets of XS tempered steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   }

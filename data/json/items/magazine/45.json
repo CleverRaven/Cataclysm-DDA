@@ -150,7 +150,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "USP .45 pistol 12-round magazine" },
-    "description": "A 12-round magazine for use with the USP pistol",
+    "description": "A 12-round magazine for use with the USP pistol.",
     "variant_type": "gun",
     "variants": [
       {

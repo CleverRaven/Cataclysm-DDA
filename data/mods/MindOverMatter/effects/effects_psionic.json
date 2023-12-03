@@ -1009,7 +1009,7 @@
     "name": [ "Trick of the Light" ],
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
     "apply_message": "",
-    "remove_message": "The illusions around you suddenly vanish!.",
+    "remove_message": "The illusions around you suddenly vanish!",
     "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
     "max_duration": "15 minutes",

@@ -101,7 +101,7 @@
     "id": "bp_38super",
     "copy-from": "38_super",
     "type": "AMMO",
-    "name": { "str_sp": ".38 Super JHP black powder" },
+    "name": { "str_sp": ".38 Super JHP, black powder" },
     "description": ".38 Super ammunition with a 115gr JHP bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
