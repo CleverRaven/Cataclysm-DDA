@@ -5203,8 +5203,7 @@ void overmap::place_cities()
 
         tripoint_om_omt p;
         city tmp;
-
-
+        tmp.pos_om = pos();
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
             int size = rng( op_city_size - 1, op_city_size + city_size_adjust );
@@ -6592,43 +6591,74 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 void overmap::place_mongroups()
 {
     // Cities can be full of zombies
-    for( city &elem : cities ) {
-        if( get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) > -1 &&
-            ( elem.size > get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" ) ||
-              !one_in( get_option<int>( "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE" ) ) ) ) {
+    int city_spawn_threshold = get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" );
+    if( city_spawn_threshold > -1 ) {
+        int city_spawn_chance = get_option<int>( "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE" );
+        float city_spawn_scalar = get_option<float>( "SPAWN_CITY_HORDE_SCALAR" );
+        float city_spawn_spread = get_option<float>( "SPAWN_CITY_HORDE_SPREAD" );
+        float spawn_density = get_option<float>( "SPAWN_DENSITY" );
 
-            int desired_zombies = elem.size * get_option<float>( "SPAWN_CITY_HORDE_SCALAR" ) *
-                                  get_option<float>( "SPAWN_DENSITY" );
+        for( city &elem : cities ) {
+            if( elem.size > city_spawn_threshold || !one_in( city_spawn_chance ) ) {
 
-            tripoint_abs_omt city_center = project_combine( elem.pos_om, tripoint_om_omt( elem.pos, 0 ) );
+                // with the default numbers (80 scalar, 1 density), a size 16 city
+                // will produce 1280 zombies.
+                int desired_zombies = elem.size * city_spawn_scalar * spawn_density;
 
-            std::vector<tripoint_abs_sm> submap_list;
-            for( tripoint_abs_omt const &t : points_in_radius( city_center, elem.size * 1.5, 0 ) ) {
-                if( overmap_buffer.ter( t )->get_type_id() == oter_type_road ) {
-                    tripoint_abs_sm this_sm = project_to<coords::sm>( t );
-                    submap_list.push_back( this_sm );
-                    submap_list.push_back( this_sm + point( 0, 1 ) );
-                    submap_list.push_back( this_sm + point( 1, 0 ) );
-                    submap_list.push_back( this_sm + point( 1, 1 ) );
+                tripoint_abs_omt city_center = project_combine( elem.pos_om, tripoint_om_omt( elem.pos, 0 ) );
+
+                std::vector<tripoint_abs_sm> submap_list;
+
+                // gather all of the points in range to test for viable placement of hordes.
+                for( tripoint_abs_omt const &temp_omt : points_in_radius( city_center,
+                        static_cast<int>( elem.size * city_spawn_spread ), 0 ) ) {
+
+                    // right now we're only placing city horde spawns on roads, for simplicity.
+                    // this can be replaced with an OMT flag for later for better flexibility.
+                    if( overmap_buffer.ter( temp_omt )->get_type_id() == oter_type_road ) {
+                        tripoint_abs_sm this_sm = project_to<coords::sm>( temp_omt );
+
+                        // for some reason old style spawns are submap-aligned.
+                        // get all four quadrants for better distribution.
+                        submap_list.push_back( this_sm );
+                        submap_list.push_back( this_sm + point( 0, 1 ) );
+                        submap_list.push_back( this_sm + point( 1, 0 ) );
+                        submap_list.push_back( this_sm + point( 1, 1 ) );
+                    }
+                }
+
+                if( submap_list.empty() ) {
+                    // somehow the city has no roads. this shouldn't happen.
+                    add_msg_debug( debugmode::DF_OVERMAP, "city %s centered at omt %s, but there were no roads!",
+                                   elem.name, city_center.to_string() );
+                    continue;
+                }
+
+                add_msg_debug( debugmode::DF_OVERMAP, "adding %i zombies in hordes to city %s centered at omt %s.",
+                               desired_zombies, elem.name, city_center.to_string() );
+
+                // if there aren't enough roads, we'll just reuse them, re-shuffled.
+                while( desired_zombies > 0 ) {
+                    std::shuffle( submap_list.begin(), submap_list.end(), rng_get_engine() );
+                    for( tripoint_abs_sm const &s : submap_list ) {
+                        if( desired_zombies <= 0 ) {
+                            break;
+                        }
+                        mongroup m( GROUP_ZOMBIE, s, desired_zombies > 10 ? 10 : desired_zombies );
+
+                        // with wander_spawns (aka wandering hordes) off, these become 'normal'
+                        // zombie spawns and behave like ants, triffids, fungals, etc.
+                        // they won't try very hard to get placed in the world, so there will
+                        // probably be fewer zombies than expected.
+                        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
+                            m.horde = true;
+                            m.wander( *this );
+                        }
+                        add_mon_group( m );
+                        desired_zombies -= 10;
+                    }
                 }
             }
-
-            while( desired_zombies > 0 ) {
-                std::shuffle( submap_list.begin(), submap_list.end(), rng_get_engine() );
-                for( tripoint_abs_sm const &s : submap_list ) {
-                    if( desired_zombies <= 0 ) {
-                        break;
-                    }
-                    mongroup m( GROUP_ZOMBIE, s, desired_zombies > 10 ? 10 : desired_zombies );
-                    if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-                        m.horde = true;
-                        m.wander( *this );
-                    }
-                    add_mon_group( m );
-                    desired_zombies = - 10;
-                }
-            }
-
         }
     }
 
