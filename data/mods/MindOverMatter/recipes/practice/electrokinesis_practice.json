@@ -357,7 +357,7 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS",
+        "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN",
         "condition": {
           "and": [
             { "math": [ "u_val('spell_level', 'spell: electrokinetic_reduce_pain')", ">=", "1" ] },
@@ -376,7 +376,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS_FALSE",
+              "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_reduce_pain')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -515,7 +515,7 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST",
+        "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE",
         "condition": {
           "and": [
             { "math": [ "u_val('spell_level', 'spell: electrokinetic_pain_immune')", ">=", "1" ] },
@@ -534,7 +534,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST_FALSE",
+              "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_pain_immune')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
