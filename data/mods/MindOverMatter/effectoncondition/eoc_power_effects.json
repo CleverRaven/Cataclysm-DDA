@@ -84,6 +84,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSI_EXTENDED_CHANNELING_ATTUNEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_ON" },
+    "effect": [ { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NETHER_ATTUNEMENT_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
