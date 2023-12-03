@@ -1877,59 +1877,6 @@ void Character::mend( int rate_multiplier )
     }
 }
 
-void Character::sound_hallu()
-{
-    if( is_npc() ) {
-        return;
-    }
-
-    // Random 'dangerous' sound from a random direction
-    // 1/5 chance to be a loud sound
-    std::vector<std::string> dir{ "north",
-                                  "northeast",
-                                  "northwest",
-                                  "south",
-                                  "southeast",
-                                  "southwest",
-                                  "east",
-                                  "west" };
-
-    std::vector<std::string> dirz{ "and above you", "and below you" };
-
-    std::vector<std::tuple<std::string, std::string, std::string>> desc{
-        std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
-        std::make_tuple( "crash!", "smash_success", "t_door_c" ),
-        std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
-
-    std::vector<std::tuple<std::string, std::string, std::string>> desc_big{
-        std::make_tuple( "a huge explosion!", "explosion", "default" ),
-        std::make_tuple( "bang!", "fire_gun", "glock_19" ),
-        std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
-        std::make_tuple( "crash!", "smash_success", "t_wall" ),
-        std::make_tuple( "SMASH!", "smash_success", "t_wall" ) };
-
-    std::string i_dir = dir[rng( 0, dir.size() - 1 )];
-
-    if( one_in( 10 ) ) {
-        i_dir += " " + dirz[rng( 0, dirz.size() - 1 )];
-    }
-
-    std::string i_desc;
-    std::pair<std::string, std::string> i_sound;
-    if( one_in( 5 ) ) {
-        int r_int = rng( 0, desc_big.size() - 1 );
-        i_desc = std::get<0>( desc_big[r_int] );
-        i_sound = std::make_pair( std::get<1>( desc_big[r_int] ), std::get<2>( desc_big[r_int] ) );
-    } else {
-        int r_int = rng( 0, desc.size() - 1 );
-        i_desc = std::get<0>( desc[r_int] );
-        i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
-    }
-
-    add_msg_if_player( m_warning, _( "From the %1$s you hear %2$s" ), i_dir, i_desc );
-    sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
-}
-
 void Character::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
     bool in_shell = has_active_mutation( trait_SHELL2 ) ||
