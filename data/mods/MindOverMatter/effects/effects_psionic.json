@@ -150,6 +150,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_breathe_skin",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_flexibility",
     "name": [ "Flexibility" ],
     "desc": [ "You are enhancing your range of motion." ],
@@ -338,6 +347,54 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_metabolism_enhance",
+    "name": [ "Hyperenhanced Metabolism" ],
+    "desc": [ "c ." ],
+    "apply_message": "",
+    "remove_message": "Your stomach rumbles.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": {
+              "math": [
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+              ]
+            }
+          },
+          {
+            "value": "THIRST",
+            "multiply": {
+              "math": [
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+              ]
+            }
+          },
+          {
+            "value": "METABOLISM",
+            "multiply": {
+              "math": [
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+              ]
+            }
+          },
+          {
+            "value": "FATIGUE",
+            "multiply": {
+              "math": [
+                "max(( -0.25 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_combat_dance",
     "name": [ "Combat Dance" ],
     "desc": [ "You are a dynamo of death." ],
@@ -393,6 +450,7 @@
     "max_intensity": 18,
     "dur_add_perc": 10,
     "int_dur_factor": "3 s",
+    "removes_effects": [ "slippery_terrain" ],
     "enchantments": [
       {
         "values": [
@@ -830,6 +888,54 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_reduce_pain",
+    "name": [ "Pain Suppression" ],
+    "desc": [ "When it hurts, it won't hurt as much." ],
+    "apply_message": "",
+    "remove_message": "Your nerves burn for a moment as a surge of pain hits them.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PAIN",
+            "multiply": {
+              "math": [
+                "max(( -0.15 + ( u_val('spell_level', 'spell: electrokinetic_reduce_pain') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.5)"
+              ]
+            }
+          },
+          {
+            "value": "PAIN_REMOVE",
+            "multiply": {
+              "math": [
+                "min(( 0.1 + ( u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), 0.5)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_pain_immune",
+    "name": [ "Analgesic Block" ],
+    "desc": [ "You can't feel anything.  That means everything is fine, right?  Everything is fine." ],
+    "apply_message": "",
+    "remove_message": "All of your pain rushes back in!",
+    "decay_messages": [ [ "Your wounds are starting to ache.", "bad" ], [ "Your wounds sting a bit.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 48,
+    "dur_add_perc": 10,
+    "int_dur_factor": "13 s",
+    "removes_effects": [ "effect_electrokinetic_speed_boost" ],
+    "flags": [ "PAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokinetic_speed_boost",
     "name": [ "Neuro-Accelerated" ],
     "desc": [ "You are enhancing your nervous system." ],
@@ -844,6 +950,7 @@
     "max_intensity": 61,
     "dur_add_perc": 10,
     "int_dur_factor": "29 s",
+    "removes_effects": [ "effect_electrokinetic_pain_immune" ],
     "enchantments": [
       {
         "values": [

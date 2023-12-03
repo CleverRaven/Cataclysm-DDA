@@ -5,6 +5,7 @@
     "effect": [
       { "u_learn_recipe": "practice_biokin_physical_enhance" },
       { "u_learn_recipe": "practice_biokin_overcome_pain" },
+      { "u_learn_recipe": "practice_biokin_breathe_skin" },
       { "u_learn_recipe": "practice_biokin_flexibility" },
       { "u_learn_recipe": "practice_biokin_climate_control" },
       { "u_learn_recipe": "practice_biokin_enhance_mobility" },
@@ -12,6 +13,7 @@
       { "u_learn_recipe": "practice_biokin_armor_skin" },
       { "u_learn_recipe": "practice_biokin_reflex_enhance" },
       { "u_learn_recipe": "practice_biokin_sealed_system" },
+      { "u_learn_recipe": "practice_biokin_metabolism_enhance" },
       { "u_learn_recipe": "practice_biokin_combat_dance" },
       { "u_learn_recipe": "practice_biokin_perfected_motion" }
     ]
@@ -42,8 +44,10 @@
       { "u_learn_recipe": "practice_electrokinetic_melee_attacks" },
       { "u_learn_recipe": "practice_electrokinetic_personal_battery" },
       { "u_learn_recipe": "practice_electrokinetic_paralysis" },
+      { "u_learn_recipe": "practice_electrokinetic_reduce_pain" },
       { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
       { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
+      { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
       { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
       { "u_learn_recipe": "practice_electrokinetic_lightning_aura" },
       { "u_learn_recipe": "practice_electrokinetic_lightning_blast" },
