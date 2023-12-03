@@ -1,6 +1,6 @@
 [
   {
-    "id": "biokin_breath_skin_item",
+    "id": "biokin_breathe_skin_item",
     "type": "TOOL_ARMOR",
     "name": { "str_sp": "oxygen absorption" },
     "description": "You are breathing through your skin.",
@@ -23,8 +23,9 @@
       "ONLY_ONE",
       "NO_DROP"
     ],
+    "environmental_protection": -5,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "biokin_hammerhand_item",

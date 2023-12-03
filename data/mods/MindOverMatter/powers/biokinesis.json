@@ -37,7 +37,7 @@
       ]
     },
     "learn_spells": {
-      "biokin_breath_skin": 5,
+      "biokin_breathe_skin": 5,
       "biokin_enhance_mobility": 7,
       "biokin_hammerhand": 12,
       "biokin_reflex_enhance": 15,
@@ -84,7 +84,7 @@
     "learn_spells": { "biokin_armor_skin": 9, "biokin_climate_control": 12, "biokin_sealed_system": 18 }
   },
   {
-    "id": "biokin_breath_skin",
+    "id": "biokin_breathe_skin",
     "type": "SPELL",
     "name": "[Ψ]Oxygen Absorption (C)",
     "description": "You can make the entire surface of your skin selectively permiable, allowing you to 'breathe' through it.  You can breathe in low-oxygen environments or underwater, but are more vulnerable to toxic gas.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Oxygen Absorption <color_red>cannot be active</color> with Sealed System.",
@@ -96,23 +96,23 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_BIOKIN_BREATH_SKIN_INITIATE",
+    "effect_str": "EOC_BIOKIN_BREATHE_SKIN_INITIATE",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_breath_skin') * 3600) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 3600) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_breath_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_breath_skin') > 0 ? 0 : max((2500 - (u_val('spell_level', 'spell: biokin_breath_skin') * 85)), 1200)"
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 0 : max((2500 - (u_val('spell_level', 'spell: biokin_breathe_skin') * 85)), 1200)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_breath_skin') > 0 ? 10 : max((700 -(u_val('spell_level', 'spell: biokin_breath_skin') * 6)), 25)"
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 10 : max((700 -(u_val('spell_level', 'spell: biokin_breathe_skin') * 6)), 25)"
       ]
     },
     "learn_spells": { "biokin_armor_skin": 6, "biokin_enhance_mobility": 9, "biokin_sealed_system": 15 }
@@ -143,13 +143,7 @@
     "base_casting_time": 50,
     "final_casting_time": 15,
     "casting_time_increment": -2.5,
-    "learn_spells": {
-      "biokin_change_appearance": 6,
-      "biokin_enhance_mobility": 8,
-      "biokin_hammerhand": 10,
-      "biokin_reflex_enhance": 12,
-      "biokin_combat_dance": 18
-    }
+    "learn_spells": { "biokin_enhance_mobility": 8, "biokin_hammerhand": 10, "biokin_reflex_enhance": 12, "biokin_combat_dance": 18 }
   },
   {
     "id": "biokin_change_appearance",
