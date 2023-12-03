@@ -195,6 +195,7 @@
     "type": "vehicle_part",
     "name": { "str": "industrial trash can" },
     "categories": [ "cargo" ],
+    "looks_like": "f_recycle_bin",
     "color": "light_gray",
     "broken_color": "light_gray",
     "size": "359614 ml",

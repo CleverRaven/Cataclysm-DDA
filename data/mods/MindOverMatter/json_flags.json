@@ -20,6 +20,11 @@
     "info": "You are immune to forcible teleportation."
   },
   {
+    "id": "PSYSHIELD_PROTECT",
+    "type": "json_flag",
+    "info": "You are protected against telepathic attack.  Sometimes."
+  },
+  {
     "id": "MATRIX_CRYSTAL_BIOKINESIS",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to biokinesis."
@@ -28,6 +33,11 @@
     "id": "MATRIX_CRYSTAL_CLAIRSENTIENCE",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to clairsentience."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_ELECTROKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to electrokinesis."
   },
   {
     "id": "MATRIX_CRYSTAL_PHOTOKINESIS",

@@ -121,13 +121,58 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GIVE_NIGHTMARES",
-    "eoc_type": "EVENT",
-    "required_event": "character_wakes_up",
-    "condition": { "u_has_effect": "nightmares" },
+    "id": "EOC_PRE_CONJUNCTIVITIS_VIRAL",
+    "recurrence": [ "24 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "pre_conjunctivitis_viral" },
+        { "not": { "u_has_effect": "conjunctivitis_bacterial" } },
+        { "not": { "u_has_effect": "conjunctivitis_viral" } },
+        { "not": { "u_has_trait": "SEESLEEP" } },
+        { "not": { "u_has_bionics": "armor_bio_eyes" } }
+      ]
+    },
     "effect": [
-      { "u_message": "nightmares", "snippet": true, "type": "bad" },
-      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
+      { "u_add_effect": "conjunctivitis_viral", "duration": { "math": [ "rand(259200) + 432000" ] }, "target_part": "eyes" },
+      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": "pre_conjunctivitis_viral" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRE_CONJUNCTIVITIS_BACTERIAL",
+    "recurrence": [ "24 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "pre_conjunctivitis_bacterial" },
+        { "not": { "u_has_effect": "conjunctivitis_bacterial" } },
+        { "not": { "u_has_effect": "conjunctivitis_viral" } },
+        { "not": { "u_has_trait": "SEESLEEP" } },
+        { "not": { "u_has_bionics": "armor_bio_eyes" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "conjunctivitis_bacterial",
+        "duration": { "math": [ "rand(259200) + 432000" ] },
+        "target_part": "eyes"
+      },
+      { "u_lose_effect": "pre_conjunctivitis_viral" },
+      { "u_lose_effect": "pre_conjunctivitis_bacterial" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJUNCTIVITIS",
+    "recurrence": [ "10 minutes", "45 minutes" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_bacterial" } ] },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "formication", "duration": "5 minutes", "target_part": "head" } ]
   }
 ]

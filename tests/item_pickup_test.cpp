@@ -64,7 +64,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         }
 
         WHEN( "using put_in to put a rope directly into the backpack" ) {
-            REQUIRE( backpack.put_in( rope_map, item_pocket::pocket_type::CONTAINER ).success() );
+            REQUIRE( backpack.put_in( rope_map, pocket_type::CONTAINER ).success() );
 
             THEN( "the original rope is not in inventory or the backpack" ) {
                 CHECK_FALSE( they.has_item( rope_map ) );

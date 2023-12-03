@@ -1,17 +1,17 @@
 [
   {
     "id": "fn_fal",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi_vintage",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "heavy automatic rifle" },
-    "description": "Originally designed in the mid 1950s, this gun is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
+    "name": { "str_sp": "Belgian battle rifle" },
+    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "fn_fal",
-        "name": { "str_sp": "FN FAL" },
-        "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors."
+        "id": "fal_dsa",
+        "name": { "str_sp": "DSA SA-58" },
+        "description": "Originally designed during the Cold War, the FAL is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone of the SA-58 pattern built by DSA."
       }
     ],
     "weight": "4250 g",
@@ -25,21 +25,36 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
-    "dispersion": 150,
+    "dispersion": 200,
+    "//": "The front and rear sights aren't on the same receiver.",
+    "sight_dispersion": 250,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "barrel_volume": "500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "hk_g3",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi_vintage",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "H&K G3" },
-    "description": "An early battle rifle developed after the end of WWII.  The G3 is designed to unload large amounts of deadly ammunition, but it is less suitable over long ranges.",
+    "variant_type": "gun",
+    "name": { "str_sp": "German battle rifle" },
+    "description": "A semi-automatic, domestically produce clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired.",
+    "variants": [
+      {
+        "id": "g3_ptr",
+        "name": { "str_sp": "PTR 91" },
+        "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
+      },
+      {
+        "id": "g3_cetme",
+        "name": { "str_sp": "Century C308" },
+        "description": "A semi-automatic, domestically produced clone of the CETME Model C, the progenitor of the famous H&K G3 battle rifle.  The CETME is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
+      }
+    ],
     "weight": "4380 g",
     "volume": "3724 ml",
     "longest_side": "1025 mm",
@@ -53,8 +68,9 @@
     "ammo": [ "308" ],
     "dispersion": 150,
     "min_cycle_recoil": 2700,
-    "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "recoil": 100,
+    "durability": 9,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -100,7 +116,9 @@
     "longest_side": "889 mm",
     "price": 195000,
     "price_postapoc": 6500,
+    "dispersion": 150,
     "material": [ "steel", "plastic" ],
+    "//": "These *sometimes* have the mode selector disabled, but disabling it isn't difficult for operators.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -122,8 +140,16 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "M1A" },
-    "description": "The child of the M1 Garand World War II rifle, the M1A is a semi-automatic variant of the M14, favored for its accuracy and modular use.",
+    "name": { "str_sp": "American battle rifle" },
+    "description": "This civilian variant of an American battle rifle is essentially a rifle from World War 2 with a detachable magazine stuck in it that was sold to the military as a cheap, do-all rifle that could replace many other weapon systems.  While it delivered none of those things, it was an acceptable rifle, if marginally inferior to its contemporaries.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1a",
+        "name": { "str_sp": "M1A" },
+        "description": "This civilian variant of the M14 is essentially the M1 Garand from World War 2 with a detachable magazine stuck in it that was sold to the military as a cheap, do-all rifle that could replace many other weapon systems.  While it delivered none of those things, it was an acceptable rifle, if marginally inferior to its contemporaries."
+      }
+    ],
     "weight": "4230 g",
     "volume": "3970 ml",
     "longest_side": "1126 mm",
@@ -135,8 +161,8 @@
     "symbol": "(",
     "color": "brown",
     "ammo": [ "308" ],
-    "dispersion": 110,
-    "durability": 8,
+    "dispersion": 200,
+    "durability": 7,
     "min_cycle_recoil": 2700,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
@@ -145,7 +171,7 @@
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "sights", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],

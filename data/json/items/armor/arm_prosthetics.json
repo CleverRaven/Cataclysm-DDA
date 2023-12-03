@@ -15,7 +15,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_r", "arm_prosthetic_r", "hand_prosthetic_r" ] } ]
   },
@@ -35,7 +35,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_l", "arm_prosthetic_l", "hand_prosthetic_l" ] } ]
   },
@@ -55,7 +55,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_NEUROPROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_r", "arm_neuroprosthetic_r", "hand_neuroprosthetic_r" ] } ]
   },
@@ -75,7 +75,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_NEUROPROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_l", "arm_neuroprosthetic_l", "hand_neuroprosthetic_l" ] } ]
   },
@@ -95,7 +95,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_COSMETIC_PROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_r", "arm_prosthetic_cosmetic_r", "hand_prosthetic_r" ] } ]
   },
@@ -115,7 +115,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_COSMETIC_PROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_l", "arm_prosthetic_cosmetic_l", "hand_prosthetic_l" ] } ]
   },
@@ -135,7 +135,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_r", "arm_prosthetic_r", "hand_prosthetic_r" ] } ]
   },
@@ -155,7 +155,7 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE" ],
+    "flags": [ "ARM_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_ARM" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_stub_l", "arm_prosthetic_l", "hand_prosthetic_l" ] } ]
   }

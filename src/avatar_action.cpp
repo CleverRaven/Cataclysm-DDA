@@ -66,6 +66,7 @@ static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
@@ -88,7 +89,7 @@ static const trait_id trait_SHELL3( "SHELL3" );
 
 static bool check_water_affect_items( avatar &you )
 {
-    if( you.has_effect( effect_stunned ) ) {
+    if( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) {
         return true;
     }
 
@@ -177,7 +178,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
-    if( d.z == 0 && you.has_effect( effect_stunned ) ) {
+    if( d.z == 0 && ( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) ) {
         dest_loc.x = rng( you.posx() - 1, you.posx() + 1 );
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
@@ -204,7 +205,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !is_riding && !you.has_effect( effect_incorporeal ) ) {
+        !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "JACKHAMMER" ) &&
                 weapon->ammo_sufficient( &you ) ) {
@@ -907,7 +908,7 @@ bool avatar_action::eat_here( avatar &you )
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        if( here.ter( you.pos() ) == ( t_grass_golf ) || here.ter( you.pos() ) == ( t_grass ) ) {
+        if( here.ter( you.pos() ) == t_grass_golf || here.ter( you.pos() ) == t_grass ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
         } else if( here.ter( you.pos() ) == t_grass_dead ) {

@@ -18,6 +18,7 @@
     "weight": "730 g",
     "volume": "346 ml",
     "longest_side": "196 mm",
+    "barrel_length": "94 mm",
     "price": 25000,
     "price_postapoc": 2000,
     "to_hit": -2,
@@ -42,30 +43,6 @@
     ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ],
     "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "skorpion_82",
-    "copy-from": "skorpion_61",
-    "looks_like": "hk_mp5",
-    "type": "GUN",
-    "name": { "str": "vz. 82 submachine gun" },
-    "description": "A compact submachine gun hailing from Czechoslovakia during the Cold War, featuring a suppressively high rate of automatic fire and shooting the Soviet 9x18mm round.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "skorpion_82",
-        "name": { "str": "Škorpion vz. 82" },
-        "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",
-        "description": "A version of the Škorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design."
-      }
-    ],
-    "weight": "1440 g",
-    "price": 20000,
-    "price_postapoc": 2000,
-    "ammo": [ "9x18" ],
-    "min_cycle_recoil": 270,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion82mag" ] } ]
   },
   {
     "id": "rifle_9x18",

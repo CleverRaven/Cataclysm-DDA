@@ -9,6 +9,7 @@
     "weight": "4100 g",
     "volume": "2720 ml",
     "longest_side": "1015 mm",
+    "barrel_length": "514 mm",
     "price": 23000,
     "price_postapoc": 3000,
     "variant_type": "gun",
@@ -38,6 +39,7 @@
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 4 ],
@@ -65,6 +67,7 @@
     "weight": "4000 g",
     "volume": "3120 ml",
     "longest_side": "1241 mm",
+    "barrel_length": "1232 mm",
     "price": 19000,
     "price_postapoc": 3000,
     "variant_type": "gun",
@@ -92,6 +95,7 @@
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 4 ],
@@ -120,6 +124,7 @@
     "weight": "4100 g",
     "volume": "7339 ml",
     "longest_side": "1150 mm",
+    "barrel_length": "620 mm",
     "price": 290000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -132,6 +137,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

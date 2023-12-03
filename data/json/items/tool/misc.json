@@ -291,6 +291,21 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "leather_bellow",
+    "type": "TOOL",
+    "name": { "str": "leather bellow" },
+    "description": "A bellow is a device constructed to furnish a strong blast of air",
+    "weight": "450 g",
+    "volume": "2500 ml",
+    "price": 0,
+    "price_postapoc": 100,
+    "qualities": [ [ "WINNOW", 1 ] ],
+    "to_hit": 1,
+    "material": [ "leather", "wood" ],
+    "symbol": ";",
+    "color": "brown"
+  },
+  {
     "id": "horn_bicycle",
     "type": "TOOL",
     "category": "veh_parts",

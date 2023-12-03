@@ -725,6 +725,32 @@ std::string oter_type_t::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case oter_travel_cost_type::other: return "other";
+        case oter_travel_cost_type::road: return "road";
+        case oter_travel_cost_type::field: return "field";
+        case oter_travel_cost_type::dirt_road: return "dirt_road";
+        case oter_travel_cost_type::trail: return "trail";
+        case oter_travel_cost_type::forest: return "forest";
+        case oter_travel_cost_type::shore: return "shore";
+        case oter_travel_cost_type::swamp: return "swamp";
+        case oter_travel_cost_type::water: return "water";
+        case oter_travel_cost_type::air: return "air";
+        case oter_travel_cost_type::impassable: return "impassable";
+        // *INDENT-ON*
+        case oter_travel_cost_type::last:
+            break;
+    }
+    cata_fatal( "Invalid oter_travel_cost_type" );
+}
+} // namespace io
+
 void oter_type_t::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -733,7 +759,6 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
-    assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "entry_eoc", entry_EOC, strict );
@@ -759,6 +784,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
+    optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
 
     if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {
@@ -4474,6 +4500,17 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
+    const point_abs_om this_om = pos();
+    float forest_size_adjust = 0.0f;
+    float low_forest_threshold = settings->overmap_forest.noise_threshold_forest;
+    if( this_om.x() < 0 ) {
+        forest_size_adjust += static_cast<float>( this_om.x() * -0.02f );
+    }
+    if( this_om.y() < 0 ) {
+        forest_size_adjust *= static_cast<float>( 1.0f + this_om.y() * -0.1f );
+    }
+    // make sure forest size never totally overwhelms the map
+    forest_size_adjust = std::min( forest_size_adjust, 0.9f - low_forest_threshold );
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -4491,9 +4528,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_adjust > low_forest_threshold ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -5089,11 +5126,33 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
+    // used to increase city size as we move East and South.
+    int city_size_adjust = 0;
+    // used to space cities out as we go more into the West and the Appalachians.
+    int city_space_adjust = 0;
+    const point_abs_om this_om = pos();
+    city_space_adjust += this_om.x() / 2;
+    if( this_om.x() > 0 ) {
+        city_size_adjust += this_om.x();
+        if( this_om.y() < 0 ) {
+            // the megacity reduces as we head north towards what would be New Hampshire, but the
+            // cities remain a bit more close packed.
+            city_size_adjust /= this_om.y() * -1;
+        }
+    }
+    if( this_om.y() > 0 ) {
+        city_size_adjust += this_om.y() / 2;
+    }
     int op_city_size = get_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
         return;
     }
     int op_city_spacing = get_option<int>( "CITY_SPACING" );
+    if( op_city_spacing > 0 ) {
+        city_space_adjust = std::min( city_space_adjust, op_city_spacing - 2 );
+        op_city_spacing = op_city_spacing - city_space_adjust;
+    }
+    op_city_spacing = std::min( op_city_spacing, 10 );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -5144,9 +5203,11 @@ void overmap::place_cities()
 
         tripoint_om_omt p;
         city tmp;
+
+
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
-            int size = rng( op_city_size - 1, op_city_size + 1 );
+            int size = rng( op_city_size - 1, op_city_size + city_size_adjust );
             if( one_in( 3 ) ) { // 33% tiny
                 size = size * 1 / 3;
             } else if( one_in( 2 ) ) { // 33% small
@@ -5158,6 +5219,7 @@ void overmap::place_cities()
             }
             // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
             size = std::max( size, 2 );
+            size = std::min( size, 55 );
             // TODO: put cities closer to the edge when they can span overmaps
             // don't draw cities across the edge of the map, they will get clipped
             point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );

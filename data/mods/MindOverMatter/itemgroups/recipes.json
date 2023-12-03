@@ -37,7 +37,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_armor",
-    "items": [ [ "schematics_anchoring_crown", 1 ] ]
+    "items": [ [ "schematics_anchoring_crown", 1 ], [ "schematics_telepathic_dampener", 1 ] ]
   },
   {
     "type": "item_group",

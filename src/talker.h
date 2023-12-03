@@ -328,6 +328,9 @@ class talker
         virtual bool can_see() const {
             return false;
         }
+        virtual bool can_see_location( const tripoint & ) const {
+            return false;
+        }
         virtual bool is_mute() const {
             return false;
         }
@@ -470,6 +473,9 @@ class talker
             return "";
         }
         virtual std::string evaluation_by( const talker & ) const {
+            return "";
+        }
+        virtual std::string view_personality_traits() const {
             return "";
         }
         virtual std::string short_description() const {

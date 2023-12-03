@@ -76,12 +76,48 @@
     "magic_color": "white",
     "name": "telepathic",
     "skill": "metaphysics",
-    "immune_flags": { "character": [ "TEEPSHIELD" ], "monster": [ "TEEP_IMMUNE" ] },
-    "ondamage_eocs": [
-      "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE",
-      "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE",
-      "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE",
-      "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE"
+    "immune_flags": { "character": [ "TEEPSHIELD", "PSYSHIELD_PROTECT" ], "monster": [ "TEEP_IMMUNE" ] },
+    "ondamage_eocs": [ "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK", "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK",
+    "condition": {
+      "and": [
+        { "npc_has_worn_with_flag": "PSYSHIELD_PARTIAL" },
+        { "math": [ "_damage_taken", ">", "-2" ] },
+        { "npc_has_effect": "effect_psyshield_protection" },
+        { "not": { "npc_has_flag": "HIVE_MIND" } },
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK_2",
+            "condition": { "x_in_y_chance": { "x": 1, "y": 2 } },
+            "effect": [
+              {
+                "npc_message": "Your head prickles.  It feels like spiders crawling across the surface of your brain.",
+                "type": "bad"
+              },
+              { "npc_lose_effect": "effect_psyshield_protection" }
+            ],
+            "false_effect": [
+              { "npc_lose_effect": "effect_psyshield_protection" },
+              { "npc_cast_spell": { "id": "telepathic_self_damage", "hit_self": true } },
+              { "npc_message": "Your minds reels!", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [ "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE", "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE", "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE" ]
+      }
     ]
   },
   {
@@ -110,7 +146,7 @@
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
       ]
     },
-    "effect": [ { "npc_add_effect": "stunned", "duration": "1 s" } ]
+    "effect": [ { "npc_add_effect": "psi_stunned", "duration": "1 s" } ]
   },
   {
     "type": "effect_on_condition",
@@ -132,7 +168,7 @@
     "condition": {
       "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken", ">", "0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
     },
-    "effect": [ { "npc_add_effect": "stunned", "duration": "5 s" } ]
+    "effect": [ { "npc_add_effect": "psi_stunned", "duration": "5 s" } ]
   },
   {
     "id": "psi_telepathic_damage",

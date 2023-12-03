@@ -8,6 +8,7 @@
 
 #include "point.h"
 #include "type_id.h"
+#include "pocket_type.h"
 
 class JsonObject;
 
@@ -40,6 +41,14 @@ struct container_spawn_test_data {
     void deserialize( const JsonObject &jo );
 };
 
+struct pocket_mod_test_data {
+    itype_id base_item;
+    itype_id mod_item;
+    std::map<pocket_type, uint64_t> expected_pockets;
+
+    void deserialize( const JsonObject &jo );
+};
+
 struct npc_boarding_test_data {
     vproto_id veh_prototype;
     tripoint player_pos;
@@ -58,6 +67,7 @@ class test_data
         static std::map<vproto_id, efficiency_data> eff_data;
         static std::map<itype_id, double> expected_dps;
         static std::map<spawn_type, std::vector<container_spawn_test_data>> container_spawn_data;
+        static std::map<std::string, pocket_mod_test_data> pocket_mod_data;
         static std::map<std::string, npc_boarding_test_data> npc_boarding_data;
 
         static void load( const JsonObject &jo );

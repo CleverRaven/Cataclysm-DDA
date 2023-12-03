@@ -312,5 +312,24 @@
     "material_thickness": 1.0,
     "environmental_protection": 0,
     "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "bostonchan_wig",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan wig" },
+    "description": "A long blue hair wig for the Boston-Chan costume.",
+    "weight": "125 g",
+    "volume": "750 ml",
+    "price": 2500,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
   }
 ]

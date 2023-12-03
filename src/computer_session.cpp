@@ -27,6 +27,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -34,7 +35,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -48,6 +48,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -478,7 +479,7 @@ void computer_session::action_sample()
                 }
                 sewage.charges = std::min( sewage.charges, capa );
                 if( elem.can_contain( sewage ).success() ) {
-                    elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
+                    elem.put_in( sewage, pocket_type::CONTAINER );
                 }
                 found_item = true;
                 break;
@@ -907,7 +908,7 @@ void computer_session::action_download_software()
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
         usb->clear_items();
-        usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
+        usb->put_in( software, pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
         print_error( _( "USB drive required!" ) );
@@ -948,7 +949,7 @@ void computer_session::action_blood_anal()
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", calendar::turn_zero );
                             usb->clear_items();
-                            usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
+                            usb->put_in( software, pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
                             print_error( _( "USB drive required!" ) );
@@ -1206,9 +1207,8 @@ void computer_session::action_irradiator()
                 player_character.moves -= 300;
                 for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
                     // actual food processing
-                    itype_id irradiated_type( "irradiated_" + it->typeId().str() );
-                    if( !it->rotten() && item_controller->has_template( irradiated_type ) ) {
-                        it->convert( irradiated_type );
+                    if( !it->rotten() ) {
+                        it->set_flag( flag_IRRADIATED );
                     }
                     // critical failure - radiation spike sets off electronic detonators
                     if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||

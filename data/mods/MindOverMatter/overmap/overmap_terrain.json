@@ -255,5 +255,23 @@
     "looks_like": "lab_surface_brick_block5A2",
     "color": "dark_gray",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavan_office_skyscraper_lab_lower_nw",
+      "phavan_office_skyscraper_lab_lower_ne",
+      "phavan_office_skyscraper_lab_lower_sw",
+      "phavan_office_skyscraper_lab_lower_se",
+      "phavan_office_skyscraper_lab_middle_nw",
+      "phavan_office_skyscraper_lab_middle_ne",
+      "phavan_office_skyscraper_lab_middle_sw",
+      "phavan_office_skyscraper_lab_middle_se",
+      "phavan_office_skyscraper_lab_upper_nw",
+      "phavan_office_skyscraper_lab_upper_ne",
+      "phavan_office_skyscraper_lab_upper_sw",
+      "phavan_office_skyscraper_lab_upper_se"
+    ],
+    "copy-from": "generic_office_skyscraper"
   }
 ]

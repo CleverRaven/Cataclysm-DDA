@@ -2,7 +2,7 @@
   {
     "type": "furniture",
     "id": "f_telepathic_amplifier",
-    "name": "strange electronic chair",
+    "name": "telepathic amplifier",
     "description": "A bulky machine with a chair and a hat-like mechanism designed to fit over the wearer's head, like something you would find in a hair salon.  You have no idea how to operate it, but you could scavenge it for parts.",
     "symbol": "#",
     "color": "white",
@@ -69,6 +69,8 @@
         { "item": "matrix_shard", "count": [ 4, 20 ] },
         { "item": "matrix_crystal_biokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_clair_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_electrokin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_photokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_pyrokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_telekin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_telepath_dust", "count": [ 0, 3 ] },

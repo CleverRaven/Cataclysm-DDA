@@ -1,65 +1,14 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "scenario_defense_mode",
-    "eoc_type": "SCENARIO_SPECIFIC",
-    "deactivate_condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, ">=", { "const": 1 } ] },
-    "effect": [
-      { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
-      { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
-      { "run_eocs": "DEFENSE_MODE_WAVE_CONTROL" },
-      {
-        "u_location_variable": { "global_val": "your_spawnpoint" },
-        "target_max_radius": 2,
-        "min_radius": 0,
-        "max_radius": 0
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "defense_mode_caravan_spawn",
-    "recurrence": [ "2 days", "4 days" ],
-    "global": true,
-    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
-    "effect": [
-      { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
-      { "u_message": "A caravan approaches!", "type": "good", "popup": false }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "defense_mode_hire_merc_true",
-    "global": true,
-    "effect": [ { "u_spawn_npc": "follower_mercenary", "real_count": 1, "min_radius": 2, "max_radius": 3 } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "defense_mode_money_add",
-    "global": true,
-    "effect": [ { "math": [ "wave_cash", "=", "wave_cash_number * -1000" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "defense_mode_money_add_npc",
-    "global": false,
-    "condition": { "not": { "npc_has_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" } },
-    "effect": [
-      { "u_spend_cash": { "global_val": "wave_cash" } },
-      { "npc_add_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_CONTROL",
     "recurrence": "1 day",
     "global": true,
     "effect": [
       { "u_teleport": { "global_val": "your_spawnpoint" } },
-      { "arithmetic": [ { "global_val": "var", "var_name": "wave_number" }, "+=", { "const": 1 } ] },
-      { "math": [ "wave_cash_number", "++" ] },
+      { "math": [ "wave_number", "++" ] },
       { "u_message": "Welcome to wave <global_val:wave_number>!", "type": "bad", "popup": false },
-      { "run_eocs": [ "defense_mode_money_add", "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" ] }
+      { "run_eocs": "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" }
     ]
   },
   {
@@ -68,11 +17,16 @@
     "global": true,
     "//": "This is used to decide for special waves, like shadow spawns and ultimate victory.",
     "condition": {
-      "or": [
-        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 5 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 15 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 30 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 50 } ] }
+      "and": [
+        { "math": [ "special_waves_allowed", "==", "0" ] },
+        {
+          "or": [
+            { "math": [ "wave_number", "==", "5" ] },
+            { "math": [ "wave_number", "==", "15" ] },
+            { "math": [ "wave_number", "==", "30" ] },
+            { "math": [ "wave_number", "==", "50" ] }
+          ]
+        }
       ]
     },
     "effect": [
@@ -110,7 +64,8 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_MYTHOS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_EXODII", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_XEDRA", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_XEDRA", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_AFTERSHOCK", { "const": 1 } ]
         ]
       }
     ]
@@ -122,7 +77,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_VANILLA_ONLY_HUMANS",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -130,7 +85,7 @@
       },
       {
         "u_spawn_monster": "GROUP_VANILLA_ONLY_HUMANS",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -138,7 +93,7 @@
       },
       {
         "u_spawn_monster": "GROUP_VANILLA_ONLY_HUMANS",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -154,7 +109,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_ZOMBIE",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -162,7 +117,7 @@
       },
       {
         "u_spawn_monster": "GROUP_ZOMBIE",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -170,7 +125,7 @@
       },
       {
         "u_spawn_monster": "GROUP_ZOMBIE",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -186,7 +141,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_SPIDER_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -194,7 +149,7 @@
       },
       {
         "u_spawn_monster": "GROUP_SPIDER_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -202,7 +157,7 @@
       },
       {
         "u_spawn_monster": "GROUP_SPIDER_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -218,7 +173,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_ROBOT_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -226,7 +181,7 @@
       },
       {
         "u_spawn_monster": "GROUP_ROBOT_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -234,7 +189,7 @@
       },
       {
         "u_spawn_monster": "GROUP_ROBOT_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -250,7 +205,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_TRIFFID_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -258,7 +213,7 @@
       },
       {
         "u_spawn_monster": "GROUP_TRIFFID_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -266,7 +221,7 @@
       },
       {
         "u_spawn_monster": "GROUP_TRIFFID_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -282,7 +237,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_NETHER_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -290,7 +245,7 @@
       },
       {
         "u_spawn_monster": "GROUP_NETHER_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -298,7 +253,7 @@
       },
       {
         "u_spawn_monster": "GROUP_NETHER_DM",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -310,11 +265,11 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPECIAL_FERALS",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 5 } ] },
+    "condition": { "math": [ "wave_number", "==", "5" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_FERAL",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -322,7 +277,7 @@
       },
       {
         "u_spawn_monster": "GROUP_FERAL",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -330,7 +285,7 @@
       },
       {
         "u_spawn_monster": "GROUP_FERAL",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -346,11 +301,11 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPECIAL_RATKIN",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 15 } ] },
+    "condition": { "math": [ "wave_number", "==", "15" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -358,7 +313,7 @@
       },
       {
         "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -366,7 +321,7 @@
       },
       {
         "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -382,11 +337,11 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPECIAL_MILITARY",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 30 } ] },
+    "condition": { "math": [ "wave_number", "==", "30" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_MIL_HELIPAD",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -394,7 +349,7 @@
       },
       {
         "u_spawn_monster": "GROUP_MIL_HELIPAD",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -402,7 +357,7 @@
       },
       {
         "u_spawn_monster": "GROUP_MIL_HELIPAD",
-        "real_count": { "global_val": "wave_number", "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -418,7 +373,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPECIAL_SHADOW",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 50 } ] },
+    "condition": { "math": [ "wave_number", "==", "50" ] },
     "effect": [
       { "u_spawn_monster": "mon_boss_shadow", "real_count": 1, "outdoor_only": true, "min_radius": 20, "max_radius": 40 },
       {
@@ -427,64 +382,5 @@
         "popup": true
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "DEFENSE_MODE_FORTRESS_TRAP",
-    "//": "Keeps you from running away from your hideout.",
-    "global": true,
-    "recurrence": 100,
-    "condition": {
-      "or": [
-        { "u_near_om_location": "field", "range": 0 },
-        { "u_near_om_location": "forest", "range": 0 },
-        { "u_near_om_location": "forest_thick", "range": 0 },
-        { "u_near_om_location": "lake_shore", "range": 0 },
-        { "u_near_om_location": "lake_surface", "range": 0 }
-      ]
-    },
-    "effect": [
-      { "u_message": "You can't leave your fortress behind!", "type": "bad", "popup": false },
-      { "u_teleport": { "global_val": "your_spawnpoint" } }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "DEFENSE_MODE_RANDOM_EVENT",
-    "recurrence": [ "2 days", "4 days" ],
-    "//": "A general EOC for selecting a random event.  Can and should be expanded.",
-    "condition": { "and": [ { "not": { "is_weather": "portal_storm" } }, { "x_in_y_chance": { "x": 7, "y": 10 } } ] },
-    "effect": [
-      {
-        "weighted_list_eocs": [
-          [ "EOC_DEFENSE_MODE_RANDOM_NPC", { "const": 10 } ],
-          [ "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER", { "const": 6 } ],
-          [ "EOC_DEFENSE_MODE_BANDIT_ATTACK", { "const": 1 } ]
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DEFENSE_MODE_RANDOM_NPC",
-    "effect": [ { "u_spawn_npc": "random_survivor", "outdoor_only": true, "real_count": 1, "min_radius": 15, "max_radius": 40 } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER",
-    "effect": [
-      {
-        "u_spawn_npc": "random_survivor_nefarious",
-        "outdoor_only": true,
-        "real_count": 1,
-        "min_radius": 15,
-        "max_radius": 40
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DEFENSE_MODE_BANDIT_ATTACK",
-    "effect": [ { "u_spawn_npc": "defense_mode_raider", "outdoor_only": true, "real_count": 5, "min_radius": 15, "max_radius": 25 } ]
   }
 ]

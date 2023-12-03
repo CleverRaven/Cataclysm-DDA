@@ -422,7 +422,98 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "leggings_red",
+        "name": { "str_sp": "red leggings" },
+        "description": "This pair is red.",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "leggings_blue",
+        "name": { "str_sp": "blue leggings" },
+        "description": "This pair is blue.",
+        "color": "blue",
+        "append": true,
+        "weight": 15
+      },
+      {
+        "id": "leggings_purple",
+        "name": { "str_sp": "purple leggings" },
+        "description": "This pair is a vibrant purple.",
+        "color": "magenta",
+        "append": true,
+        "weight": 15
+      },
+      {
+        "id": "leggings_olive",
+        "name": { "str_sp": "olive leggings" },
+        "description": "This pair is a muted olive green.",
+        "color": "green",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "leggings_brown",
+        "name": { "str_sp": "brown leggings" },
+        "description": "This pair is brown.",
+        "color": "brown",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "leggings_black",
+        "name": { "str_sp": "black leggings" },
+        "description": "This pair is black.",
+        "color": "black",
+        "append": true,
+        "weight": 50
+      },
+      {
+        "id": "leggings_fire",
+        "name": { "str_sp": "fire leggings" },
+        "description": "This pair has a printed flame pattern.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "leggings_zerba",
+        "name": { "str_sp": "zebra leggings" },
+        "description": "This pair has a zebra stripe pattern.",
+        "color": "light_gray",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "leggings_leopard",
+        "name": { "str_sp": "leopard print leggings" },
+        "description": "This pair has a leopard print pattern.",
+        "color": "yellow",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "leggings_tiger",
+        "name": { "str_sp": "tiger stripe leggings" },
+        "description": "This pair has a tiger stripe pattern.",
+        "color": "yellow",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "leggings_geometric",
+        "name": { "str_sp": "geometric leggings" },
+        "description": "This pair has a simple geometric pattern.",
+        "color": "dark_gray",
+        "append": true,
+        "weight": 5
+      }
+    ]
   },
   {
     "id": "loincloth",
@@ -2280,6 +2371,32 @@
         "color": "green",
         "append": true
       }
+    ]
+  },
+  {
+    "id": "skirt_bostonchan",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan skirt" },
+    "description": "A short skirt for the Boston-Chan costume.",
+    "weight": "230 g",
+    "volume": "250 ml",
+    "price": 9500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "blue",
+    "warmth": 10,
+    "material_thickness": 0.6,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   }
 ]

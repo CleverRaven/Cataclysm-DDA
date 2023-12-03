@@ -147,9 +147,9 @@
         [ "reloaded_545_ap", 1 ],
         [ "700nx", 1 ],
         [ "reloaded_700nx", 1 ],
-        [ "762_m43", 1 ],
+        [ "762_jhp", 1 ],
         [ "762_m87", 1 ],
-        [ "reloaded_762_m43", 1 ],
+        [ "reloaded_762_jhp", 1 ],
         [ "reloaded_762_m87", 1 ],
         [ "762_54R", 1 ],
         [ "762_25", 1 ],
@@ -170,7 +170,7 @@
         [ "reloaded_4570_pen", 1 ],
         [ "reloaded_4570_low", 1 ],
         [ "reloaded_4570_bp", 1 ],
-        [ "reloaded_762_m43", 1 ]
+        [ "reloaded_762_jhp", 1 ]
       ]
     ]
   },

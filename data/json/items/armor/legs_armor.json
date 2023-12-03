@@ -240,17 +240,17 @@
     "armor": [ { "encumbrance": [ 24, 30 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "chainmail_junk_legs",
+    "abstract": "base_chainmail_legs",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
-    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion, and some chain links have fallen away.",
+    "name": { "str": "base chainmail leggings" },
     "weight": "4212 g",
     "volume": "1500 ml",
+    "longest_side": "11 cm",
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
+    "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
@@ -281,56 +281,7 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "encumbrance": 14
-      }
-    ]
-  },
-  {
-    "id": "lc_chainmail_legs",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "weight": "4212 g",
-    "volume": "1500 ml",
-    "price": 7500,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "lc_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "legguard_hard",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3300 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "armor": [
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 14
@@ -338,158 +289,10 @@
     ]
   },
   {
-    "id": "xl_lc_chainmail_legs",
+    "abstract": "xl_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "XL mild steel chainmail leggings", "str_pl": "pairs of XL mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_lc_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "XS mild steel chainmail leggings", "str_pl": "pairs of XS mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "mc_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
-  },
-  {
-    "id": "xl_mc_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "mc_chainmail_legs",
-    "name": { "str": "XL medium steel chainmail leggings", "str_pl": "pairs of XL medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_mc_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "mc_chainmail_legs",
-    "name": { "str": "XS medium steel chainmail leggings", "str_pl": "pairs of XS medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "hc_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
-    "description": "Customized high steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
-  },
-  {
-    "id": "xl_hc_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "hc_chainmail_legs",
-    "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" },
+    "copy-from": "base_chainmail_legs",
+    "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
     "description": "Customized high steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -519,11 +322,11 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_hc_chainmail_legs",
+    "abstract": "xs_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_legs",
-    "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" },
-    "description": "Customized high steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "copy-from": "base_chainmail_legs",
+    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
+    "description": "Customized chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -552,196 +355,18 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "ch_chainmail_legs",
+    "abstract": "base_chainmail_half_legs",
+    "copy-from": "base_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
-  },
-  {
-    "id": "xl_ch_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "ch_chainmail_legs",
-    "name": { "str": "XL hardened steel chainmail leggings", "str_pl": "pairs of XL hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_ch_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "ch_chainmail_legs",
-    "name": { "str": "XS hardened steel chainmail leggings", "str_pl": "pairs of XS hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "qt_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
-  },
-  {
-    "id": "xl_qt_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "qt_chainmail_legs",
-    "name": { "str": "XL tempered steel chainmail leggings", "str_pl": "pairs of XL tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_qt_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "qt_chainmail_legs",
-    "name": { "str": "XS tempered steel chainmail leggings", "str_pl": "pairs of XS tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "lc_chainmail_half_legs",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" },
-    "description": "Customized mild steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "name": { "str": "base chainmail half-leggings" },
     "weight": "3159 g",
     "volume": "1125 ml",
+    "longest_side": "10 cm",
     "price": 5625,
     "price_postapoc": 1500,
-    "to_hit": -1,
-    "material": [ "lc_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "legguard_hard",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3300 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 75,
         "encumbrance": 11
@@ -749,11 +374,10 @@
     ]
   },
   {
-    "id": "xl_lc_chainmail_half_legs",
+    "abstract": "xl_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_half_legs",
+    "copy-from": "base_chainmail_half_legs",
     "name": { "str": "XL mild steel chainmail half-leggings", "str_pl": "pairs of XL mild steel chainmail half-leggings" },
-    "description": "Customized mild steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -780,336 +404,286 @@
       }
     ],
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "abstract": "xs_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_junk_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "budget_steel_chain" },
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion, and some chain links have fallen away."
+  },
+  {
+    "id": "lc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" },
+    "description": "Customized mild steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xl_lc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "XL mild steel chainmail leggings", "str_pl": "pairs of XL mild steel chainmail leggings" },
+    "description": "Customized mild steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xs_lc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "XS mild steel chainmail leggings", "str_pl": "pairs of XS mild steel chainmail leggings" },
+    "description": "Customized mild steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "mc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" },
+    "description": "Customized medium steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xl_mc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "XL medium steel chainmail leggings", "str_pl": "pairs of XL medium steel chainmail leggings" },
+    "description": "Customized medium steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xs_mc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "XS medium steel chainmail leggings", "str_pl": "pairs of XS medium steel chainmail leggings" },
+    "description": "Customized medium steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "hc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
+    "description": "Customized high steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xl_hc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" },
+    "description": "Customized high steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xs_hc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" },
+    "description": "Customized high steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "ch_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" },
+    "description": "Customized hardened steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xl_ch_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "XL hardened steel chainmail leggings", "str_pl": "pairs of XL hardened steel chainmail leggings" },
+    "description": "Customized hardened steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xs_ch_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "XS hardened steel chainmail leggings", "str_pl": "pairs of XS hardened steel chainmail leggings" },
+    "description": "Customized hardened steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "qt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" },
+    "description": "Customized tempered steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xl_qt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "XL tempered steel chainmail leggings", "str_pl": "pairs of XL tempered steel chainmail leggings" },
+    "description": "Customized tempered steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xs_qt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "XS tempered steel chainmail leggings", "str_pl": "pairs of XS tempered steel chainmail leggings" },
+    "description": "Customized tempered steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "lc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" },
+    "description": "Customized mild steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
+  },
+  {
+    "id": "xl_lc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "XL mild steel chainmail half-leggings", "str_pl": "pairs of XL mild steel chainmail half-leggings" },
+    "description": "Customized mild steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xs_lc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_half_legs",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "XS mild steel chainmail half-leggings", "str_pl": "pairs of XS mild steel chainmail half-leggings" },
-    "description": "Customized mild steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized mild steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "mc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_half_legs",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" },
-    "description": "Customized medium steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
+    "description": "Customized medium steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xl_mc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_half_legs",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "XL medium steel chainmail half-leggings", "str_pl": "pairs of XL medium steel chainmail half-leggings" },
-    "description": "Customized medium steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized medium steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xs_mc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_half_legs",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "XS medium steel chainmail half-leggings", "str_pl": "pairs of XS medium steel chainmail half-leggings" },
-    "description": "Customized medium steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized medium steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "hc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_half_legs",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" },
-    "description": "Customized high steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
+    "description": "Customized high steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xl_hc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_half_legs",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "XL high steel chainmail half-leggings", "str_pl": "pairs of XL high steel chainmail half-leggings" },
-    "description": "Customized high steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized high steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xs_hc_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_half_legs",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "XS high steel chainmail half-leggings", "str_pl": "pairs of XS high steel chainmail half-leggings" },
-    "description": "Customized high steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized high steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "ch_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_half_legs",
-    "material": [ "ch_steel_chain" ],
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" },
-    "description": "Customized hardened steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
+    "description": "Customized hardened steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xl_ch_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_half_legs",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "XL hardened steel chainmail half-leggings", "str_pl": "pairs of XL hardened steel chainmail half-leggings" },
-    "description": "Customized hardened steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized hardened steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xs_ch_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_half_legs",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "XS hardened steel chainmail half-leggings", "str_pl": "pairs of XS hardened steel chainmail half-leggings" },
-    "description": "Customized hardened steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized hardened steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "qt_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_half_legs",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" },
-    "description": "Customized tempered steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
+    "description": "Customized tempered steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xl_qt_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_half_legs",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "XL tempered steel chainmail half-leggings", "str_pl": "pairs of XL tempered steel chainmail half-leggings" },
-    "description": "Customized tempered steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "3800 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "1050 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "description": "Customized tempered steel partial chainmail leggings for the largest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "xs_qt_chainmail_half_legs",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_half_legs",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "XS tempered steel chainmail half-leggings", "str_pl": "pairs of XS tempered steel chainmail half-leggings" },
-    "description": "Customized tempered steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1500,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "ablative": true,
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "65 cm",
-        "moves": 1000,
-        "description": "You can wear some armor over chainmail without penalty.",
-        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
-      }
-    ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "description": "Customized tempered steel partial chainmail leggings for the smallest of transhumans only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear."
   },
   {
     "id": "leggings_thessalonian",

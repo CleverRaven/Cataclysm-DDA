@@ -39,11 +39,11 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
 #include "options.h"
+#include "pocket_type.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -449,7 +449,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         for( pocket_data &magazine : obj.pockets ) {
-            if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
+            if( magazine.type != pocket_type::MAGAZINE ) {
                 continue;
             }
             migrate_ammo_map( magazine.ammo_restriction );
@@ -544,7 +544,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         // generate cached map for [mag type_id] -> [set of compatible guns]
         for( const pocket_data &pocket : obj.pockets ) {
-            if( pocket.type != item_pocket::pocket_type::MAGAZINE_WELL ) {
+            if( pocket.type != pocket_type::MAGAZINE_WELL ) {
                 continue;
             }
             for( const itype_id &mag_type_id : pocket.item_id_restriction ) {
@@ -556,7 +556,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         for( pocket_data &magazine : obj.pockets ) {
-            if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
+            if( magazine.type != pocket_type::MAGAZINE ) {
                 continue;
             }
             migrate_ammo_map( magazine.ammo_restriction );
@@ -1892,7 +1892,7 @@ void Item_factory::check_definitions() const
     auto is_container = []( const itype * t ) {
         bool am_container = false;
         for( const pocket_data &pocket : t->pockets ) {
-            if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+            if( pocket.type == pocket_type::CONTAINER ) {
                 am_container = true;
                 // no need to look further
                 break;
@@ -1923,8 +1923,8 @@ void Item_factory::check_definitions() const
 
         int mag_pocket_number = 0;
         for( const pocket_data &data : type->pockets ) {
-            if( data.type == item_pocket::pocket_type::MAGAZINE ||
-                data.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+            if( data.type == pocket_type::MAGAZINE ||
+                data.type == pocket_type::MAGAZINE_WELL ) {
                 mag_pocket_number++;
             }
             std::string pocket_error = data.check_definition();
@@ -2365,7 +2365,7 @@ void Item_factory::check_definitions() const
                 } else {
                     // Verify that every magazine type can actually be put in
                     // this item
-                    item( type ).put_in( item( magazine ), item_pocket::pocket_type::MAGAZINE_WELL );
+                    item( type ).put_in( item( magazine ), pocket_type::MAGAZINE_WELL );
                 }
             }
         }
@@ -3463,6 +3463,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
         }
     }
     assign( jo, "blacklist_mod", slot.blacklist_mod );
+    assign( jo, "blacklist_slot", slot.blacklist_slot );
     assign( jo, "barrel_length", slot.barrel_length );
 }
 
@@ -3658,7 +3659,7 @@ void Item_factory::npc_implied_flags( itype &item_template )
     }
 }
 
-static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
+static bool has_pocket_type( const std::vector<pocket_data> &data, pocket_type pk )
 {
     for( const pocket_data &pocket : data ) {
         if( pocket.type == pk ) {
@@ -3678,7 +3679,7 @@ static bool has_only_special_pockets( const itype &def )
         return true;
     }
 
-    const std::vector<item_pocket::pocket_type> special_pockets = { item_pocket::pocket_type::CORPSE, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MIGRATION };
+    const std::vector<pocket_type> special_pockets = { pocket_type::CORPSE, pocket_type::MOD, pocket_type::MIGRATION };
 
     for( const pocket_data &pocket : def.pockets ) {
         if( std::find( special_pockets.begin(), special_pockets.end(),
@@ -3730,7 +3731,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     mag_data.max_item_length = 2_km;
     mag_data.watertight = true;
     if( !def.magazines.empty() ) {
-        mag_data.type = item_pocket::pocket_type::MAGAZINE_WELL;
+        mag_data.type = pocket_type::MAGAZINE_WELL;
         mag_data.rigid = false;
         ammotype default_ammo = ammotype::NULL_ID();
         if( def.tool ) {
@@ -3752,7 +3753,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
             }
         }
     } else {
-        mag_data.type = item_pocket::pocket_type::MAGAZINE;
+        mag_data.type = pocket_type::MAGAZINE;
         mag_data.rigid = true;
         if( def.magazine ) {
             for( const ammotype &amtype : def.magazine->type ) {
@@ -3774,18 +3775,18 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
 void Item_factory::add_special_pockets( itype &def )
 {
     if( def.has_flag( flag_CORPSE ) &&
-        !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
-        def.pockets.emplace_back( item_pocket::pocket_type::CORPSE );
+        !has_pocket_type( def.pockets, pocket_type::CORPSE ) ) {
+        def.pockets.emplace_back( pocket_type::CORPSE );
     }
-    if( ( def.tool || def.gun ) && !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
-        def.pockets.emplace_back( item_pocket::pocket_type::MOD );
+    if( ( def.tool || def.gun ) && !has_pocket_type( def.pockets, pocket_type::MOD ) ) {
+        def.pockets.emplace_back( pocket_type::MOD );
     }
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
-        def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
+    if( !has_pocket_type( def.pockets, pocket_type::MIGRATION ) ) {
+        def.pockets.emplace_back( pocket_type::MIGRATION );
     }
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) &&
+    if( !has_pocket_type( def.pockets, pocket_type::CABLE ) &&
         def.get_use( "link_up" ) != nullptr ) {
-        pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
+        pocket_data cable_pocket( pocket_type::CABLE );
         cable_pocket.rigid = false;
         def.pockets.emplace_back( cable_pocket );
     }
@@ -3984,7 +3985,7 @@ void acc_data::load( const JsonObject &jo )
 static void migrate_mag_from_pockets( itype &def )
 {
     for( const pocket_data &pocket : def.pockets ) {
-        if( pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+        if( pocket.type == pocket_type::MAGAZINE_WELL ) {
             if( def.gun ) {
                 for( const ammotype &atype : def.gun->ammo ) {
                     def.magazine_default.emplace( atype, pocket.default_magazine );
@@ -4592,8 +4593,8 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             count = 1;
         }
         for( ; count > 0; --count ) {
-            if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
-                obj.put_in( content, item_pocket::pocket_type::MIGRATION );
+            if( !obj.put_in( content, pocket_type::CONTAINER ).success() ) {
+                obj.put_in( content, pocket_type::MIGRATION );
             }
         }
     }

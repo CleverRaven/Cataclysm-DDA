@@ -311,9 +311,9 @@ void veh_interact::allocate_windows()
 
     const int pane_y = grid.y + mode_h + 1;
 
-    const int pane_w = ( grid_w / 3 ) - 1;
+    pane_w = ( grid_w / 3 ) - 1;
 
-    const int disp_w = grid_w - ( pane_w * 2 ) - 2;
+    disp_w = grid_w - ( pane_w * 2 ) - 2;
     const int disp_h = page_size * 0.45;
     const int parts_h = page_size - disp_h;
     const int parts_y = pane_y + disp_h;
@@ -324,7 +324,6 @@ void veh_interact::allocate_windows()
     const int list_x = grid.x + disp_w + 1;
     const int msg_x  = list_x + pane_w + 1;
 
-    // covers right part of w_name and w_stats in vertical/hybrid
     const int details_y = name_y;
     const int details_x = list_x;
 
@@ -338,9 +337,13 @@ void veh_interact::allocate_windows()
     w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid.x, pane_y ) );
     w_parts = catacurses::newwin( parts_h,   disp_w, point( grid.x, parts_y ) );
     w_list  = catacurses::newwin( page_size, pane_w, point( list_x, pane_y ) );
-    w_stats = catacurses::newwin( stats_h,   grid_w, point( grid.x, stats_y ) );
     w_name  = catacurses::newwin( name_h,    grid_w, point( grid.x, name_y ) );
     w_details = catacurses::newwin( details_h, details_w, point( details_x, details_y ) );
+    w_stats_1 = catacurses::newwin( stats_h, disp_w - 2, point( grid.x + 1, stats_y ) );
+    w_stats_2 = catacurses::newwin( stats_h, pane_w - 2, point( grid.x + disp_w + 2, stats_y ) );
+    w_stats_3 = catacurses::newwin( stats_h, pane_w - 2, point( grid.x + disp_w + pane_w + 3,
+                                    stats_y ) );
+
 }
 
 bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
@@ -2461,15 +2464,20 @@ static std::string wheel_state_description( const vehicle &veh )
  */
 void veh_interact::display_stats() const
 {
-    werase( w_stats );
+    werase( w_stats_1 );
+    werase( w_stats_2 );
+    werase( w_stats_3 );
 
-    // see exec()
-    const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
+    on_out_of_scope refresh_windows( [&]() {
+        wnoutrefresh( w_stats_1 );
+        wnoutrefresh( w_stats_2 );
+        wnoutrefresh( w_stats_3 );
+    } );
+
     // 3 * stats_h
     const int slots = 24;
-    std::array<int, slots> x;
-    std::array<int, slots> y;
-    std::array<int, slots> w;
+    std::array<const catacurses::window *, slots> win;
+    std::array<int, slots> row;
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;
@@ -2479,24 +2487,19 @@ void veh_interact::display_stats() const
         free_cargo += vs.free_volume();
     }
 
-    const int second_column = 33 + ( extraw / 4 );
-    const int third_column = 65 + ( extraw / 2 );
     for( int i = 0; i < slots; i++ ) {
         if( i < stats_h ) {
             // First column
-            x[i] = 1;
-            y[i] = i;
-            w[i] = second_column - 2;
+            win[i] = &w_stats_1;
+            row[i] = i;
         } else if( i < ( 2 * stats_h ) ) {
             // Second column
-            x[i] = second_column;
-            y[i] = i - stats_h;
-            w[i] = third_column - second_column - 1;
+            win[i] = &w_stats_2;
+            row[i] = i - stats_h;
         } else {
             // Third column
-            x[i] = third_column;
-            y[i] = i - 2 * stats_h;
-            w[i] = extraw - third_column - 2;
+            win[i] = &w_stats_3;
+            row[i] = i - 2 * stats_h;
         }
     }
 
@@ -2510,27 +2513,27 @@ void veh_interact::display_stats() const
 
     int i = 0;
     if( is_aircraft ) {
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+        fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Air Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                         vel_to_int( veh->safe_rotor_velocity( false ) ),
                         vel_to_int( veh->max_rotor_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+        fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Air acceleration: <color_light_blue>%3d</color> %s/s" ),
                         vel_to_int( veh->rotor_acceleration( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
         if( is_ground ) {
-            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                             vel_to_int( veh->safe_ground_velocity( false ) ),
                             vel_to_int( veh->max_ground_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
-            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
                             _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
                             vel_to_int( veh->ground_acceleration( false ) ),
@@ -2540,14 +2543,14 @@ void veh_interact::display_stats() const
             i += 2;
         }
         if( is_boat ) {
-            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                             vel_to_int( veh->safe_water_velocity( false ) ),
                             vel_to_int( veh->max_water_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
-            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
                             _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
                             vel_to_int( veh->water_acceleration( false ) ),
@@ -2557,31 +2560,41 @@ void veh_interact::display_stats() const
             i += 2;
         }
     }
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+    fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                     _( "Mass: <color_light_blue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() ), weight_units() );
     i += 1;
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Cargo volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
+    fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                    disp_w > 35 ? _( "Cargo volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ) :
+                    _( "Cargo: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ),
                     format_volume( total_cargo ), volume_units_abbr() );
     i += 1;
     // Write the overall damage
-    mvwprintz( w_stats, point( x[i], y[i] ), c_light_gray, _( "Status: " ) );
-    x[i] += utf8_width( _( "Status: " ) );
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], total_durability_color, total_durability_text );
+    mvwprintz( *win[i], point( 0, row[i] ), c_light_gray, _( "Status: " ) );
+    fold_and_print( *win[i], point( utf8_width( _( "Status: " ) ), row[i] ), getmaxx( *win[i] ),
+                    total_durability_color, total_durability_text );
     i += 1;
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+    fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                     wheel_state_description( *veh ) );
     i += 1;
+
+    if( install_info || remove_info ) {
+        // don't draw the second and third columns which would be overwritten by w_details
+        return;
+    }
+
+    // advance to next column if necessary
+    i = std::max( i, stats_h );
 
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
     const auto print_part = [&]( const std::string & str, int slot, vehicle_part * pt ) {
-        mvwprintz( w_stats, point( x[slot], y[slot] ), c_light_gray, str );
+        mvwprintz( *win[slot], point( 0, row[slot] ), c_light_gray, str );
         int iw = utf8_width( str ) + 1;
-        return fold_and_print( w_stats, point( x[slot] + iw, y[slot] ), w[slot], c_light_gray, pt->name() );
+        return fold_and_print( *win[slot], point( iw, row[slot] ), getmaxx( *win[slot] ), c_light_gray,
+                               pt->name() );
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
@@ -2605,31 +2618,31 @@ void veh_interact::display_stats() const
         i += 1;
     }
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+    fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                     _( "Air drag:       <color_light_blue>%5.2f</color>" ),
                     veh->coeff_air_drag() );
     i += 1;
 
     if( is_boat ) {
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+        fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Water drag:     <color_light_blue>%5.2f</color>" ),
                         veh->coeff_water_drag() );
     }
     i += 1;
 
     if( is_ground ) {
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+        fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Rolling drag:   <color_light_blue>%5.2f</color>" ),
                         veh->coeff_rolling_drag() );
     }
     i += 1;
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+    fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                     _( "Static drag:    <color_light_blue>%5d</color>" ),
                     units::to_watt( veh->static_drag( false ) ) );
     i += 1;
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+    fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
                     static_cast<int>( veh->k_traction( veh->wheel_area() *
                                       veh->average_offroad_rating() ) * 100 ) );
@@ -2642,31 +2655,20 @@ void veh_interact::display_stats() const
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" ) ;
 
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+        fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         draft_string,
                         veh->water_draft(), water_clearance );
         i += 1;
     }
 
+    // advance to next column if necessary
     i = std::max( i, 2 * stats_h );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators( w_stats, point( x[i], y[i] ), fuel_index, true,
-                                ( x[ i ] + 10 < getmaxx( w_stats ) ),
-                                ( x[ i ] + 10 < getmaxx( w_stats ) ) );
+    veh->print_fuel_indicators( *win[i], point( 0, row[i] ), fuel_index, true,
+                                ( getmaxx( *win[i] ) > 10 ),
+                                ( getmaxx( *win[i] ) > 10 ) );
 
-    if( install_info || remove_info ) {
-        const int details_w = getmaxx( w_details );
-        // clear rightmost blocks of w_stats to avoid overlap
-        int stats_col_2 = 33;
-        int stats_col_3 = 65 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 );
-        int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
-        for( int i = 0; i < getmaxy( w_stats ); i++ ) {
-            mvwhline( w_stats, point( clear_x, i ), ' ', getmaxx( w_stats ) - clear_x );
-        }
-    }
-
-    wnoutrefresh( w_stats );
 }
 
 void veh_interact::display_name()
