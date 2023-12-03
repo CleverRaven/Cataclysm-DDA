@@ -1190,9 +1190,8 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-            it.set_duration( 0_turns );
-            woke_up = true;
-        }
+        it.set_duration( 0_turns );
+        woke_up = true;
     }
 
     // A bit of a hack: check if we are about to wake up for any reason, including regular
