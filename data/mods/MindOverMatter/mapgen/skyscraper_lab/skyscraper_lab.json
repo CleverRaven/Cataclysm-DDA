@@ -93,14 +93,38 @@
       "place_monster": [
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 22, 23 ], "y": [ 5, 12 ], "chance": 60, "repeat": [ 2, 4 ] },
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 24, 25 ], "y": [ 5, 12 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 23 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 24, 38 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 11 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 11 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 23 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 24, 38 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 36, 38 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 36, 38 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 23 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 38 ],
+          "y": [ 14, 16 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 11 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 11 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 23 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 38 ],
+          "y": [ 31, 32 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 36, 38 ],
+          "y": [ 14, 23 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 36, 38 ],
+          "y": [ 24, 30 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        }
       ]
     }
   },
@@ -198,14 +222,38 @@
       "place_monster": [
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 22, 23 ], "y": [ 5, 12 ], "chance": 60, "repeat": [ 2, 4 ] },
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 24, 25 ], "y": [ 5, 12 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 23 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 24, 38 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 11 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 11 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 23 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 24, 38 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 36, 38 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 36, 38 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 23 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 38 ],
+          "y": [ 14, 16 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 11 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 11 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 23 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 38 ],
+          "y": [ 31, 32 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 36, 38 ],
+          "y": [ 14, 23 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 36, 38 ],
+          "y": [ 24, 30 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        }
       ]
     }
   },
@@ -303,14 +351,38 @@
       "place_monster": [
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 22, 23 ], "y": [ 5, 12 ], "chance": 60, "repeat": [ 2, 4 ] },
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 24, 25 ], "y": [ 5, 12 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 23 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 24, 38 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 11 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 11 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 9, 23 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 24, 38 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 36, 38 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 36, 38 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 23 ], "y": [ 14, 16 ], "chance": 60, "repeat": [ 2, 4 ] },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 38 ],
+          "y": [ 14, 16 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 11 ], "y": [ 14, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 11 ], "y": [ 24, 30 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 9, 23 ], "y": [ 31, 32 ], "chance": 60, "repeat": [ 2, 4 ] },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 24, 38 ],
+          "y": [ 31, 32 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 36, 38 ],
+          "y": [ 14, 23 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        },
+        {
+          "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+          "x": [ 36, 38 ],
+          "y": [ 24, 30 ],
+          "chance": 60,
+          "repeat": [ 2, 4 ]
+        }
       ]
     }
   }

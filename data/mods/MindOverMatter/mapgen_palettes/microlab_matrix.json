@@ -1,30 +1,5 @@
 [
   {
-    "type": "mapgen",
-    "method": "json",
-    "weight": 333,
-    "nested_mapgen_id": "microlab_distorted_chunk",
-    "object": {
-      "mapgensize": [ 12, 12 ],
-      "rows": [
-        "| .....  ||.",
-        "|.....   ...",
-        "  |.C...C...",
-        "   ....,.C..",
-        "   ..| ..C. ",
-        "   Cc....|  ",
-        "  .CC.. .  |",
-        "  |  ,  .C..",
-        ".  ,,    ..|",
-        "..   ..   . ",
-        ",.  .. CC   ",
-        "|           "
-      ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "microlab_matrix_chunk" ]
-    }
-  },
-  {
     "type": "palette",
     "id": "microlab_matrix_chunk",
     "remove_all": {
