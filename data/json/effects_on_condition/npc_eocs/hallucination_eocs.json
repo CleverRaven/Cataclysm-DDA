@@ -113,6 +113,13 @@
               "false_effect": { "run_eocs": "minor_hallucinations" }
             },
             { "const": 12 }
+          ],
+          [
+            {
+              "id": "false_npc_talk",
+              "effect": { "u_message": "<random_anysex_first_name> <random_last_name> says \"<lets_talk>\"" }
+            },
+            { "const": 10 }
           ]
         ]
       }
@@ -131,6 +138,10 @@
               "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true, "type": "speech" }
             },
             { "const": 30 }
+          ],
+          [
+            { "id": "hear_false_sound", "effect": [ { "u_message": "schizo_hear_sound", "snippet": true, "type": "warning" } ] },
+            { "const": 20 }
           ],
           [
             {

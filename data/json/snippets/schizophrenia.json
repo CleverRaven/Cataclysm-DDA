@@ -213,6 +213,14 @@
   },
   {
     "type": "snippet",
+    "category": "schizo_hear_sound",
+    "text": [
+      "From the <random_direction> you hear <random_sound>",
+      "From the <random_direction> <up_or_down> you hear <random_sound>"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "broken_limb",
     "text": [ "Your limb breaks!" ]
   }
