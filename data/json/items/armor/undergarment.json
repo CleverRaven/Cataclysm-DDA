@@ -500,7 +500,7 @@
   {
     "id": "briefs",
     "type": "ARMOR",
-    "name": { "str": "briefs" },
+    "name": { "str_sp": "briefs" },
     "description": "A pair of briefs.  Comfortable underwear worn by men.",
     "weight": "32 g",
     "volume": "250 ml",
