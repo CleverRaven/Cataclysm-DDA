@@ -24,103 +24,16 @@
   {
     "type": "effect_on_condition",
     "id": "minor_hallucinations",
-    "global": false,
     "effect": [
       {
         "weighted_list_eocs": [
-          [
-            {
-              "id": "paranoid",
-              "effect": [
-                { "u_message": "schizo_delusion_paranoid", "snippet": true },
-                {
-                  "u_add_morale": "morale_feeling_bad",
-                  "bonus": -20,
-                  "max_bonus": -100,
-                  "duration": "30 minutes",
-                  "decay_start": "30 minutes"
-                }
-              ]
-            },
-            { "const": 75 }
-          ],
-          [
-            { "id": "self_talk", "effect": { "u_make_sound": "schizo_self_talk", "volume": 5, "snippet": true, "type": "speech" } },
-            { "const": 14 }
-          ],
-          [
-            {
-              "id": "grandiose",
-              "effect": [
-                { "u_message": "schizo_delusion_grandiose", "snippet": true },
-                {
-                  "u_add_morale": "morale_feeling_good",
-                  "bonus": 20,
-                  "max_bonus": 100,
-                  "duration": "30 minutes",
-                  "decay_start": "30 minutes"
-                }
-              ]
-            },
-            { "const": 25 }
-          ],
-          [
-            {
-              "id": "weapon_talk",
-              "effect": {
-                "u_run_inv_eocs": "random",
-                "search_data": [ { "wielded_only": true } ],
-                "true_eocs": [
-                  {
-                    "id": "injured_talk",
-                    "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
-                    "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_damaged>\"" },
-                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_misc>\"" } } }
-                  }
-                ]
-              },
-              "false_effect": { "run_eocs": "minor_hallucinations" }
-            },
-            { "const": 12 }
-          ],
-          [
-            {
-              "id": "weapon_talk_you_bleeding",
-              "effect": {
-                "u_run_inv_eocs": "random",
-                "search_data": [ { "wielded_only": true } ],
-                "true_eocs": [
-                  {
-                    "id": "you_bleeding_talk",
-                    "condition": { "u_has_effect": "bleed" },
-                    "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_bleeding>\"" }
-                  }
-                ]
-              },
-              "false_effect": { "run_eocs": "minor_hallucinations" }
-            },
-            { "const": 12 }
-          ],
-          [
-            {
-              "id": "weapon_talk_monsters_nearby",
-              "condition": { "math": [ "u_monsters_nearby('radius': 60)", ">=", "1" ] },
-              "effect": {
-                "u_run_inv_eocs": "random",
-                "search_data": [ { "wielded_only": true } ],
-                "true_eocs": [ { "id": "monsters_nearby_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_monster>\"" } } ]
-              },
-              "false_effect": { "run_eocs": "minor_hallucinations" }
-            },
-            { "const": 12 }
-          ],
-          [
-            {
-              "id": "false_npc_talk",
-              "effect": { "u_message": "<random_anysex_first_name> <random_last_name> says \"<lets_talk>\"" }
-            },
-            { "const": 10 }
-          ]
+          [ "paranoid", { "const": 75 } ],
+          [ "grandiose", { "const": 25 } ],
+          [ "self_talk", { "const": 14 } ],
+          [ "weapon_talk", { "const": 12 } ],
+          [ "weapon_talk_you_bleeding", { "const": 12 } ],
+          [ "weapon_talk_monsters_nearby", { "const": 12 } ],
+          [ "false_npc_talk", { "const": 10 } ]
         ]
       }
     ]
@@ -128,53 +41,14 @@
   {
     "type": "effect_on_condition",
     "id": "intermediate_hallucinations",
-    "global": false,
     "effect": [
       {
         "weighted_list_eocs": [
-          [
-            {
-              "id": "self_shout",
-              "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true, "type": "speech" }
-            },
-            { "const": 30 }
-          ],
-          [
-            { "id": "hear_false_sound", "effect": [ { "u_message": "schizo_hear_sound", "snippet": true, "type": "warning" } ] },
-            { "const": 20 }
-          ],
-          [
-            {
-              "id": "formication",
-              "effect": [
-                { "u_message": "schizo_formication", "snippet": true, "type": "bad" },
-                { "u_add_effect": "formication", "duration": "45 minutes" }
-              ]
-            },
-            { "const": 20 }
-          ],
-          [
-            {
-              "id": "numbness",
-              "effect": [
-                { "u_message": "You suddenly feel so numb…", "type": "mixed" },
-                { "u_add_effect": "pkill1", "duration": "15 minutes" }
-              ]
-            },
-            { "const": 15 }
-          ],
-          [
-            {
-              "id": "shaking",
-              "condition": { "not": { "u_has_effect": "valium" } },
-              "effect": [
-                { "u_message": "You begin to shake uncontrollably.", "type": "mixed" },
-                { "u_add_effect": "shakes", "duration": [ "2 minutes", "5 minutes" ] }
-              ],
-              "false_effect": { "run_eocs": "intermediate_hallucinations" }
-            },
-            { "const": 10 }
-          ]
+          [ "self_shout", { "const": 30 } ],
+          [ "hear_false_sound", { "const": 20 } ],
+          [ "formication", { "const": 20 } ],
+          [ "numbness", { "const": 15 } ],
+          [ "shaking", { "const": 10 } ]
         ]
       }
     ]
@@ -182,32 +56,140 @@
   {
     "type": "effect_on_condition",
     "id": "bad_hallucinations",
-    "global": false,
+    "effect": [ { "weighted_list_eocs": [ [ "creature_hallucinations", { "const": 20 } ], [ "visuals", { "const": 10 } ] ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "paranoid",
     "effect": [
+      { "u_message": "schizo_delusion_paranoid", "snippet": true },
       {
-        "weighted_list_eocs": [
-          [
-            {
-              "id": "creature_hallucinations",
-              "effect": [
-                { "u_message": "You can't trust everything you see…", "type": "bad" },
-                { "u_add_effect": "hallu", "duration": [ "1 hour", "3 hours" ] }
-              ]
-            },
-            { "const": 20 }
-          ],
-          [
-            {
-              "id": "visuals",
-              "effect": [
-                { "u_message": "Your vision becomes very distorted…", "type": "bad" },
-                { "u_add_effect": "visuals", "duration": [ 15, 60 ] }
-              ]
-            },
-            { "const": 10 }
-          ]
-        ]
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -20,
+        "max_bonus": -100,
+        "duration": "30 minutes",
+        "decay_start": "30 minutes"
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "self_talk",
+    "effect": { "u_make_sound": "schizo_self_talk", "volume": 5, "snippet": true, "type": "speech" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "grandiose",
+    "effect": [
+      { "u_message": "schizo_delusion_grandiose", "snippet": true },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 20,
+        "max_bonus": 100,
+        "duration": "30 minutes",
+        "decay_start": "30 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weapon_talk",
+    "effect": {
+      "u_run_inv_eocs": "random",
+      "search_data": [ { "wielded_only": true } ],
+      "true_eocs": [
+        {
+          "id": "injured_talk",
+          "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
+          "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_damaged>\"" },
+          "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_misc>\"" } } }
+        }
+      ]
+    },
+    "false_effect": { "run_eocs": "minor_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weapon_talk_you_bleeding",
+    "effect": {
+      "u_run_inv_eocs": "random",
+      "search_data": [ { "wielded_only": true } ],
+      "true_eocs": [
+        {
+          "id": "you_bleeding_talk",
+          "condition": { "u_has_effect": "bleed" },
+          "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_bleeding>\"" }
+        }
+      ]
+    },
+    "false_effect": { "run_eocs": "minor_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weapon_talk_monsters_nearby",
+    "condition": { "math": [ "u_monsters_nearby('radius': 60)", ">=", "1" ] },
+    "effect": {
+      "u_run_inv_eocs": "random",
+      "search_data": [ { "wielded_only": true } ],
+      "true_eocs": [ { "id": "monsters_nearby_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_monster>\"" } } ]
+    },
+    "false_effect": { "run_eocs": "minor_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "false_npc_talk",
+    "effect": { "u_message": "<random_anysex_first_name> <random_last_name> says \"<lets_talk>\"", "type": "info" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "self_shout",
+    "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true, "type": "speech" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hear_false_sound",
+    "effect": [ { "u_message": "schizo_hear_sound", "snippet": true, "type": "warning" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "formication",
+    "effect": [
+      { "u_message": "schizo_formication", "snippet": true, "type": "bad" },
+      { "u_add_effect": "formication", "duration": "45 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "numbness",
+    "effect": [
+      { "u_message": "You suddenly feel so numb…", "type": "mixed" },
+      { "u_add_effect": "pkill1", "duration": "15 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shaking",
+    "condition": { "not": { "u_has_effect": "valium" } },
+    "effect": [
+      { "u_message": "You begin to shake uncontrollably.", "type": "mixed" },
+      { "u_add_effect": "shakes", "duration": [ "2 minutes", "5 minutes" ] }
+    ],
+    "false_effect": { "run_eocs": "intermediate_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "creature_hallucinations",
+    "effect": [
+      { "u_message": "You can't trust everything you see…", "type": "bad" },
+      { "u_add_effect": "hallu", "duration": [ "1 hour", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "visuals",
+    "effect": [
+      { "u_message": "Your vision becomes very distorted…", "type": "bad" },
+      { "u_add_effect": "visuals", "duration": [ 15, 60 ] }
     ]
   }
 ]
