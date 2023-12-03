@@ -23,15 +23,15 @@
         ]
       }
     ],
-    "false_effect": [ { "u_message": "You are already under the effects of Wildfire Soul!", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You are already under the effects of Analgesic Block!", "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PAIN_IMMUNE_OFF",
     "condition": { "u_has_effect": "effect_electrokinetic_pain_immune" },
     "effect": [
-      { "math": [ "u_pain()", "+=", "(u_electrokin_pain_value * 1.1)" ] },
-      { "u_lose_effect": "effect_electrokinetic_pain_immune" }
+      { "u_lose_effect": "effect_electrokinetic_pain_immune" },
+      { "math": [ "u_pain()", "+=", "(u_electrokin_pain_value * 1.1)" ] }
     ]
   }
 ]
