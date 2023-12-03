@@ -363,7 +363,7 @@ Field | Used for...
 `<item_description:ID>` | The description of the item from ID
 `<trait_name:ID>` | The name of the trait from ID
 `<trait_description:ID>` | The description of the trait from ID
-`<spell_name:ID>` | The description of the name ID
+`<spell_name:ID>` | The description of the name from ID
 `<spell_description:ID>` | The description of the trait from ID
 
 item_name and similar tags, that parse the text out of the id, are able to parse the tags of variables, so it is possible to use `<item_name:<global_val:VAR>>`
