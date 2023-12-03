@@ -98,7 +98,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -130,14 +129,6 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
-static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
-
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
@@ -164,7 +155,6 @@ static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
@@ -195,7 +185,6 @@ static void while_grabbed( Character &you );
 static void from_addictions( Character &you );
 static void while_awake( Character &you, int current_stim );
 static void from_chemimbalance( Character &you );
-static void from_schizophrenia( Character &you );
 static void from_asthma( Character &you, int current_stim );
 static void from_item_dropping( Character &you );
 static void from_other_mutations( Character &you );
@@ -423,11 +412,6 @@ void suffer::while_awake( Character &you, const int current_stim )
         suffer::from_chemimbalance( you );
     }
 
-    if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-        !you.has_effect( effect_took_thorazine ) ) {
-        suffer::from_schizophrenia( you );
-    }
-
     if( you.has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
             you.add_msg_if_player( m_bad,
@@ -544,195 +528,6 @@ void suffer::from_chemimbalance( Character &you )
         } else {
             you.add_msg_if_player( m_bad, _( "You suddenly feel hot." ) );
             you.set_all_parts_temp_cur( BODYTEMP_HOT );
-        }
-    }
-}
-
-void suffer::from_schizophrenia( Character &you )
-{
-    std::string i_name_w;
-    item_location weap = you.get_wielded_item();
-    if( weap ) {
-        i_name_w = weap->has_var( "item_label" ) ?
-                   weap->get_var( "item_label" ) :
-                   //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), weap->type_name() );
-    }
-    // Start with the effects that both NPCs and avatars can suffer from
-    // Delusions
-    if( one_turn_in( 8_hours ) ) {
-        if( rng( 1, 20 ) > 5 ) {  // 75% chance
-            const translation snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" ).value_or(
-                                         translation() );
-            you.add_msg_if_player( m_warning, "%s", snip );
-            you.add_morale( MORALE_FEELING_BAD, -20, -100 );
-        } else { // 25% chance
-            const translation snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" ).value_or(
-                                         translation() );
-            you.add_msg_if_player( m_good, "%s", snip );
-            you.add_morale( MORALE_FEELING_GOOD, 20, 100 );
-        }
-        return;
-    }
-    // Formication
-    if( one_turn_in( 6_hours ) ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
-                                     translation() );
-        const bodypart_id &bp = you.random_body_part( true );
-        you.add_effect( effect_formication, 45_minutes, bp );
-        you.add_msg_if_player( m_bad, "%s", snip );
-        return;
-    }
-    // Numbness
-    if( one_turn_in( 4_hours ) ) {
-        you.add_msg_if_player( m_bad, _( "You suddenly feel so numb…" ) );
-        you.mod_painkiller( 25 );
-        return;
-    }
-    // Hallucination
-    if( one_turn_in( 6_hours ) ) {
-        you.add_effect( effect_hallu, 6_hours );
-        return;
-    }
-    // Visuals
-    if( one_turn_in( 2_hours ) ) {
-        you.add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
-        return;
-    }
-    // Shaking
-    if( !you.has_effect( effect_valium ) && one_turn_in( 4_hours ) ) {
-        you.add_msg_player_or_npc( m_bad, _( "You start to shake uncontrollably." ),
-                                   _( "<npcname> starts to shake uncontrollably." ) );
-        you.add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
-        return;
-    }
-    // Shout
-    if( one_turn_in( 4_hours ) ) {
-        you.shout( SNIPPET.random_from_category( "schizo_self_shout" ).value_or(
-                       translation() ).translated() );
-        return;
-    }
-    // Drop weapon
-    if( one_turn_in( 2_days ) && weap ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
-                                     translation() );
-        you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
-        you.drop( weap, you.pos() );
-        return;
-    }
-    // Talk to self
-    if( one_turn_in( 4_hours ) ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
-                                     translation() );
-        you.add_msg_if_player( _( "%1$s says: \"%2$s\"" ), you.get_name(), snip );
-        return;
-    }
-
-    // effects of this point are entirely internal, so NPCs can't suffer from them
-    if( you.is_npc() ) {
-        return;
-    }
-    // Sound
-    if( one_turn_in( 4_hours ) ) {
-        you.sound_hallu();
-    }
-    // Follower turns hostile
-    if( one_turn_in( 4_hours ) ) {
-        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
-
-        std::string who_gets_angry = you.get_name();
-        if( !followers.empty() ) {
-            who_gets_angry = random_entry_ref( followers )->get_name();
-        }
-        you.add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
-        return;
-    }
-
-    // Monster dies
-    if( one_turn_in( 6_hours ) ) {
-        // TODO: move to monster group json
-        static const std::array<mtype_id, 5> monsters = { {
-                mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
-            }
-        };
-        you.add_msg_if_player( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
-        return;
-    }
-
-    // Limb Breaks
-    if( one_turn_in( 4_hours ) ) {
-        const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
-        you.add_msg_if_player( m_bad, "%s", snip );
-        return;
-    }
-
-    // NPC chat
-    if( one_turn_in( 4_hours ) ) {
-        std::string i_name = Name::generate( one_in( 2 ) );
-
-        std::string i_talk = SNIPPET.expand( SNIPPET.random_from_category( "<lets_talk>" ).value_or(
-                translation() ).translated() );
-        parse_tags( i_talk, you, you );
-
-        you.add_msg_if_player( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
-        return;
-    }
-
-    // Skill raise
-    if( one_turn_in( 12_hours ) ) {
-        const skill_id raised_skill = Skill::random_skill();
-        const SkillLevel level = you.get_all_skills().get_skill_level_object( raised_skill );
-        if( level.level() == level.knowledgeLevel() && one_in( 2 ) ) {
-            you.add_msg_if_player( m_good, _( "Your practical skill in %s has increased to %d!" ),
-                                   raised_skill->name(), level.level() + 1 );
-        }
-        you.add_msg_if_player( m_good, _( "Your theoretical understanding of %s has increased to %d!" ),
-                               raised_skill->name(), level.knowledgeLevel() + 1 );
-        return;
-    }
-
-    // Talking weapon
-    if( weap ) {
-        // If player has a weapon, picks a message from said weapon
-        // Weapon tells player to kill a monster if any are nearby
-        // Weapon is concerned for player if bleeding
-        // Weapon is concerned for itself if damaged
-        // Otherwise random chit-chat
-        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
-
-        std::string i_talk_w;
-        bool does_talk = false;
-        if( !mons.empty() && one_turn_in( 12_minutes ) ) {
-            std::vector<std::string> seen_mons;
-            for( weak_ptr_fast<monster> &n : mons ) {
-                if( you.sees( *n.lock() ) ) {
-                    seen_mons.emplace_back( n.lock()->get_name() );
-                }
-            }
-            if( !seen_mons.empty() ) {
-                const translation talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" ).value_or(
-                                               translation() );
-                i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
-                does_talk = true;
-            }
-        }
-        if( !does_talk && you.has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
-                           translation() ).translated();
-            does_talk = true;
-        } else if( weap->damage() >= ( weap->max_damage() - weap->degradation() ) / 3 +
-                   weap->degradation() && one_turn_in( 1_hours ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
-                           translation() ).translated();
-            does_talk = true;
-        } else if( one_turn_in( 4_hours ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" ).value_or(
-                           translation() ).translated();
-            does_talk = true;
-        }
-        if( does_talk ) {
-            add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
-            return;
         }
     }
 }
