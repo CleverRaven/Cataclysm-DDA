@@ -893,7 +893,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             const bool see = overmap_buffer.seen( omp );
             const bool los = see && ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
-                                      trait_DEBUG_CLAIRVOYANCE );
+                                      you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
             // the full string from the ter_id including _north etc.
             std::string id;
             int rotation = 0;
