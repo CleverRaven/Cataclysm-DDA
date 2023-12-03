@@ -231,6 +231,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "ELECTROKINETIC" },
+    "effect": [ { "queue_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
