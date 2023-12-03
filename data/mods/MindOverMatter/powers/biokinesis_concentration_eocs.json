@@ -144,7 +144,7 @@
     "id": "EOC_BIOKIN_BREATHE_SKIN_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_biokin_breathe_skin" } },
     "effect": [
-      { "u_message": "You enhance your physical prowess.", "type": "good" },
+      { "u_message": "As you seal your lips, your chest still rises and falls.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_breathe_skin", "duration": "PERMANENT" },
       { "u_spawn_item": "biokin_breathe_skin_item", "suppress_message": true, "force_equip": true },
@@ -519,7 +519,7 @@
       {
         "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
-      { "math": [ "u_val('sleep_deprivation')", "-=", "45" ] },
+      { "math": [ "u_val('sleep_deprivation')", "-=", "15" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",

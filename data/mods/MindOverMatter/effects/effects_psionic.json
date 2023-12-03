@@ -150,7 +150,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_biokin_breath_skin",
+    "id": "effect_biokin_breathe_skin",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ],
@@ -361,7 +361,7 @@
             "value": "HUNGER",
             "multiply": {
               "math": [
-                "max( (-0.4 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02) ) * (scaling_factor(u_val('intelligence') ) ) ), -0.80)"
+                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           },
@@ -369,7 +369,7 @@
             "value": "THIRST",
             "multiply": {
               "math": [
-                "max( (-0.4 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02) ) * (scaling_factor(u_val('intelligence') ) ) ), -0.80)"
+                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           },
@@ -377,7 +377,7 @@
             "value": "METABOLISM",
             "multiply": {
               "math": [
-                "max( ( (-0.4 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02) ) * (scaling_factor(u_val('intelligence') ) ) ), -0.80)"
+                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           },
@@ -385,7 +385,7 @@
             "value": "FATIGUE",
             "multiply": {
               "math": [
-                "max( ( (-0.4 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02) ) * (scaling_factor(u_val('intelligence') ) ) ), -0.80)"
+                "max(( -0.35 + ( u_val('spell_level', 'spell: biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.7)"
               ]
             }
           }
@@ -900,17 +900,17 @@
         "values": [
           {
             "value": "PAIN",
-            "add": {
+            "multiply": {
               "math": [
-                "( -1 + ( ( u_val('spell_level', 'spell: electrokinetic_reduce_pain') ) * -0.4) ) * ( ( u_val('intelligence') + 10) / 20 )"
+                "max(( -0.15 + ( u_val('spell_level', 'spell: electrokinetic_reduce_pain') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), -0.5)"
               ]
             }
           },
           {
             "value": "PAIN_REMOVE",
-            "add": {
+            "multiply": {
               "math": [
-                "( 20 + ( ( u_val('spell_level', 'spell: electrokinetic_reduce_pain') ) * 2 ) ) * ( ( u_val('intelligence') + 10) / 20 )"
+                "min(( 0.1 + ( u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 0.02 ) * (scaling_factor(u_val('intelligence') ) ) ), 0.5)"
               ]
             }
           }
