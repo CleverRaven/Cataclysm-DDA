@@ -10799,8 +10799,12 @@ void Character::process_effects()
     map &here = get_map();
     if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() &&
         here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
-        int rolls = 1;
+        int rolls = 0;
         bool u_see = get_player_view().sees( *this );
+        //ROAD tiles are hard, flat surfaces, so they are extra slippery.
+        if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
+            rolls++;
+        }
         if( has_trait( trait_DEFT ) ) {
             rolls--;
         }

@@ -1721,7 +1721,7 @@
     "type": "material",
     "id": "rubber",
     "name": "Rubber",
-    "//1": "this is sythetic rubber, which is much different than natural, but called rubber for ease of use",
+    "//1": "this is synthetic rubber, which is much different than natural, but called rubber for ease of use",
     "density": 1.6,
     "soft": false,
     "specific_heat_liquid": 0.4,
@@ -1740,6 +1740,31 @@
       { "fuel": 1, "smoke": 4, "burn": 0.3 }
     ],
     "resist": { "bash": 5, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
+    "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "vinyl",
+    "name": "Vinyl",
+    "//1": "Can be several synthetic polymers such as silicone or pvc, in a soft and very flexible form suitable for making a raincoat or a hazmat suit",
+    "density": 1.4,
+    "soft": true,
+    "specific_heat_liquid": 0.4,
+    "specific_heat_solid": 0.13,
+    "latent_heat": 165,
+    "chip_resist": 5,
+    "repaired_with": "plastic_sheet",
+    "salvaged_into": "plastic_sheet",
+    "dmg_adj": [ "worn", "stressed", "shredded", "ruined" ],
+    "bash_dmg_verb": "stressed",
+    "cut_dmg_verb": "slashed",
+    "//2": "based on synthetic fabric and wood, trying to get long burning with much smoke but little fuel",
+    "burn_data": [
+      { "fuel": 1, "smoke": 3, "burn": 0.1, "volume_per_turn": "100 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 0.2 },
+      { "fuel": 1, "smoke": 4, "burn": 0.3 }
+    ],
+    "resist": { "bash": 3, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
     "repair_difficulty": 3
   },
   {
