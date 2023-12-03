@@ -18,6 +18,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_private_correspondence",
+    "name": { "str": "private note" },
+    "category": "books",
+    "description": "Some paper with what looks to be private communication on it.  The writer would be very annoyed at you for reading this if they weren't almost-certainly shambling around looking for brains.",
+    "snippet_category": "lab_file_phavian_private",
+    "weight": "3 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "6 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_biokinesis_item",
     "name": { "str": "report (biokinesis)", "str_pl": "copies of report (biokinesis)" },
     "category": "books",

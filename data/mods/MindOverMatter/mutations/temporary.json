@@ -86,6 +86,17 @@
     "visibility": 0,
     "ugliness": 0,
     "player_display": true,
-    "flags": [ "NO_SPELLCASTING" ]
+    "flags": [ "NO_PSIONICS" ]
+  },
+  {
+    "id": "TELEPATHICDAMPENER_SHIELD",
+    "type": "mutation",
+    "name": { "str": "Telepathic Dampening" },
+    "description": "The telepathic dampener you're wearing is protecting your mind.",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": true,
+    "flags": [ "TEEPSHIELD", "PORTAL_PROOF" ]
   }
 ]

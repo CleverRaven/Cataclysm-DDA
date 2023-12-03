@@ -789,12 +789,17 @@ bool tinymap::pl_sees( const tripoint &, int ) const
 
 bool map::pl_sees( const tripoint &t, const int max_range ) const
 {
+    Character &player_character = get_player_character();
+
+    if( square_dist( t, player_character.pos() ) > MAX_VIEW_DISTANCE ) {
+        return false;
+    }
+
     if( !inbounds( t ) ) {
         return false;
     }
 
     const level_cache &map_cache = get_cache_ref( t.z );
-    Character &player_character = get_player_character();
     if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range &&
         map_cache.camera_cache[t.x][t.y] == 0 ) {
         return false;    // Out of range!

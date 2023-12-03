@@ -317,10 +317,9 @@
         "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or in-phase environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
       },
       {
-        "name": "Hastily-scribbled note on XEDRA stationary",
+        "name": "Preliminary report: OBSIDIAN RING",
         "id": "lab_file_matrix_research_02",
-        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
-        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, starships, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 researchers have this problem?"
+        "text": "Dr. Richardson,\nAs you directed, we've been attempting to find a way to increase the strength of mathematicians' powers without having to send them on an immersion and we've made a breakthrough.  With some caveats, I'm afraid.\n\nWe put five volunteers through the OBSIDIAN RING process and achieved complete success with two of them.  LOST RAIN mathematician U23, previously capable of expanding or contracting the effective volume of a space up to two meters across by 15%, is now capable of displacing his entire body up to two-thirds of a meter, effectively allowing him to walk through walls.  CRYPTIC FORGE mathematician V97 displayed similar enhancements, suffering no ill effects when exposed to up to 4 Gy of radiation.\n\nUnfortunately, the process is imperfect.  While B54 underwent the process with no apparent effects, BURNT NOVEMBER mathematician E43 has suffered from persistent tremors and muscle weakness since emerging and NOBLE HORIZON mathematician Q12 is currently on leave after suffering from hallucinatory psychosis.  Both candidates are undergoing SMOKE USHER treatment and hopefully will recover soon.\n\nwhile matrix crystals are a rare resource, the sheer amount of additional power available to an OBSIDIAN RING candidate makes the resource expenditure worthwhile.  ONYX LIGHTNING may soon show real progress.\nAlexandra da Silva\nLead Researcher, OBSIDIAN RING"
       },
       {
         "name": "Preliminary Report: Matrix Awakening",
@@ -378,6 +377,24 @@
         "name": "Something is seriously wrong",
         "id": "lab_file_phavian_memo_05",
         "text": "Dr. Liu,\nSorry for the inflammatory title but, well, something is seriously wrong.  The LOST RAIN mathematicians are universally reporting that something strange is happening to space itself.  You've seen the testing data about them being able to change effective distance between two points and they're reporting that ALL distances are being affected to a very small degree.  I don't know if this has anything to do with the erratic behavior from the staff or XE037 contamination but coupled with all the BURNT NOVEMBER reports of impending doom, plus all the news filtering from the outside, I think we need to prepare for the worst.\n\nJohn Goldberg\nResearcher"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_phavian_private",
+    "text": [
+      {
+        "name": "Hastily-scribbled note on XEDRA stationary",
+        "id": "lab_file_phavian_private_01",
+        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
+        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, starships, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 researchers have this problem?"
+      },
+      {
+        "name": "OSHA violations",
+        "id": "lab_file_phavian_private_02",
+        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
+        "text": "Mo,\nI know you're worried about maintaining secrecy what with the NOBLE HORIZON/GRAY DAWN research locations, but I assure you that it's fine.  We need them higher-up to test for line-of-sight-based range anyway, and we don't have all the problems that XEDRA-12 has with maintaining secrecy.  If some normie somehow gets past security and wanders in, they're just going to see an ordinary office with maybe a few weird room layouts, there aren't going to be wolfmen wandering the halls.  The mathematicians are just people, and if some of them are creepy, we've ALL worked with the creepy guy before.  If it were really that serious of a concern, we'd be underground like the LOST RAIN guys.  And with a bunch of clears here, we'll get warning hours or days before anything goes wrong.\n\nAnd besides, look at the advantages!  There's a gym and a bar on the ground floor.  Drinks with Priya and Ishaan on Friday?  I've already checked the menu and I know there'll be something there for you.\nSridhar"
       }
     ]
   }
