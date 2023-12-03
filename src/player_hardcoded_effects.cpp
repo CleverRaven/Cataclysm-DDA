@@ -1190,26 +1190,6 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
-            one_in( 43200 ) && u.is_avatar() ) {
-            if( one_in( 2 ) ) {
-                u.sound_hallu();
-            } else {
-                int max_count = rng( 1, 3 );
-                int count = 0;
-                for( const tripoint &mp : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( mp == u.pos() ) {
-                        continue;
-                    }
-                    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, mp ) &&
-                        here.pl_sees( mp, 2 ) ) {
-                        g->spawn_hallucination( mp );
-                        if( ++count > max_count ) {
-                            break;
-                        }
-                    }
-                }
-            }
             it.set_duration( 0_turns );
             woke_up = true;
         }
