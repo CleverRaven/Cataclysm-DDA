@@ -3477,7 +3477,7 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
     ]
   },
-    {
+  {
     "id": "huntjacket",
     "type": "ARMOR",
     "name": { "str": "hunting jacket" },
@@ -3508,7 +3508,7 @@
         "max_item_length": "14 cm",
         "moves": 80
       },
-	        {
+      {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "300 ml",
         "max_contains_weight": "1 kg",
