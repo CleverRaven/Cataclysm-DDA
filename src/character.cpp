@@ -7717,6 +7717,9 @@ ret_val<void> Character::can_wield( const item &it ) const
     if( it.made_of( phase_id::LIQUID ) ) {
         return ret_val<void>::make_failure( _( "You can't wield spilt liquids." ) );
     }
+    if( it.made_of( phase_id::GAS ) ) {
+        return ret_val<void>::make_failure( _( "You can't wield loose gases." ) );
+    }
     if( it.is_frozen_liquid() && !it.has_flag( flag_SHREDDED ) ) {
         return ret_val<void>::make_failure( _( "You can't wield unbroken frozen liquids." ) );
     }
