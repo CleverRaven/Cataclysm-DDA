@@ -152,7 +152,7 @@ void check_ter_in_radius( tripoint_abs_ms const &center, int range, ter_id const
     tm.load( project_to<coords::sm>( center - point{ range, range } ), false, false );
     tripoint_bub_ms const center_local = tm.bub_from_abs( center );
     for( tripoint_bub_ms p : tm.points_in_radius( center_local, range ) ) {
-        if( trig_dist( center_local, p ) <= range ) {
+        if( static_cast<int>( trig_dist( center_local, p ) ) <= range ) {
             REQUIRE( tm.ter( p ) == ter );
         }
     }

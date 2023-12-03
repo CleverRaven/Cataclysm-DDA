@@ -4670,7 +4670,7 @@ void map::transform_radius( const ter_furn_transform_id &transform, int radi,
     }
     tripoint const loc = getlocal( p );
     for( tripoint const &t : points_in_radius( loc, radi, 0 ) ) {
-        if( trig_dist( loc, t ) <= radi ) {
+        if( static_cast<int>( trig_dist( loc, t ) ) <= radi ) {
             transform->transform( *this, t );
         }
     }

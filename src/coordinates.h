@@ -550,8 +550,8 @@ inline int square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline int trig_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
-                      const coords::coord_point<Point, Origin, Scale> &loc2 )
+inline float trig_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2 )
 {
     return trig_dist( loc1.raw(), loc2.raw() );
 }
