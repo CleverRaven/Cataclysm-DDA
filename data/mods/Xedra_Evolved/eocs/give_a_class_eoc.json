@@ -167,10 +167,10 @@
                   { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }
                 ]
               }
-            ],
-            "else": [ { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }, { "math": [ "magic_potential", "=", "-1" ] } ]
+            ]
           }
-        ]
+        ],
+        "else": [ { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }, { "math": [ "magic_potential", "=", "-1" ] } ]
       }
     ]
   }
