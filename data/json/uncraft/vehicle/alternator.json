@@ -40,7 +40,7 @@
     "difficulty": 4,
     "time": "40 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 80 ], [ "toolset", 80 ], [ "oxy_torch", 40 ] ] ],
+    "tools": [ [ [ "soldering_iron", 80 ], [ "soldering_iron_portable", 80 ], [ "toolset", 80 ], [ "oxy_torch", 40 ] ] ],
     "components": [
       [ [ "power_supply", 4 ] ],
       [ [ "cable", 400 ] ],

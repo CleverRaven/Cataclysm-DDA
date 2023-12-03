@@ -636,14 +636,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -1199,7 +1191,7 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  Has a short cable that you can plug to your grid.",
     "weight": "90 g",
     "volume": "120 ml",
     "longest_side": "22 cm",
@@ -1222,6 +1214,26 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "melee_damage": { "bash": 2, "stab": 6 }
+  },
+  {
+    "id": "soldering_iron_portable",
+    "copy-from": "soldering_iron",
+    "type": "TOOL",
+    "name": { "str": "portable soldering iron" },
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  This one is portable version, and contain a slot for a battery.",
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1336,27 +1348,6 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "500 ml",
-        "default_magazine": "medium_storage_battery",
-        "item_restriction": [
-          "medium_storage_battery",
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1408,27 +1399,6 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "1500 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "1250 ml",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1482,27 +1452,6 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "500 ml",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ],
-        "default_magazine": "medium_storage_battery"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {

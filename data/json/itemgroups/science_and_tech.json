@@ -74,7 +74,8 @@
       [ "recipe_maiar", 1 ],
       [ "recipe_caseless", 1 ],
       [ "recipe_labchem", 2 ],
-      { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron", "prob": 70 },
+      { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       [ "solder_wire", 70 ],
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 2, "charges": [ 0, 50 ] },
@@ -184,7 +185,7 @@
       [ "syringe", 8 ],
       [ "adrenaline_injector", 4 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "hotplate_induction", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 10 },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 200, 400 ] } ],
         "prob": 5
