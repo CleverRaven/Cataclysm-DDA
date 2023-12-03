@@ -686,7 +686,7 @@ bool can_examine_at( const tripoint &p, bool with_pickup )
     if( here.has_furn( p ) && xfurn_t.can_examine( p ) ) {
         return true;
     }
-    if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr ) {
+    if( here.partial_con_at( p ) != nullptr ) {
         return true;
     }
     if( xter_t.can_examine( p ) ) {

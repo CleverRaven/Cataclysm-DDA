@@ -215,6 +215,11 @@ std::optional<std::pair<trap_str_id, std::pair<translation, bool>>> ter_furn_tra
 
 void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) const
 {
+    transform( m, m.getlocal( location ) );
+}
+
+void ter_furn_transform::transform( map &m, const tripoint &location ) const
+{
     avatar &you = get_avatar();
     const ter_id ter_at_loc = m.ter( location );
     std::optional<std::pair<ter_str_id, std::pair<translation, bool>>> ter_potential = next_ter(

@@ -59,7 +59,7 @@ void wipe_map_terrain( map *target )
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( { x, y, z}, terrain, f_null );
-                here.partial_con_remove( { x, y, z } );
+                here.partial_con_remove( tripoint{ x, y, z } );
             }
         }
     }

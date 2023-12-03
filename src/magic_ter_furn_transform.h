@@ -78,6 +78,7 @@ class ter_furn_transform
         std::vector<std::pair<ter_furn_transform_id, mod_id>> src;
         bool was_loaded = false;
 
+        void transform( map &m, const tripoint &location ) const;
         void transform( map &m, const tripoint_bub_ms &location ) const;
 
         static void reset();

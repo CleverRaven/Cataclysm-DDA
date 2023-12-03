@@ -866,19 +866,23 @@ class map
         // "fire" item to be used for example when crafting or when
         // a iuse function needs fire.
         bool has_nearby_fire( const tripoint &p, int radius = 1 ) const;
+        bool has_nearby_fire( const tripoint_bub_ms &p, int radius = 1 ) const;
         /**
          * Check whether a table/workbench/vehicle kitchen or other flat
          * surface is nearby that could be used for crafting or eating.
          */
+        bool has_nearby_table( const tripoint &p, int radius = 1 ) const;
         bool has_nearby_table( const tripoint_bub_ms &p, int radius = 1 ) const;
         /**
          * Check whether a chair or vehicle seat is nearby.
          */
         bool has_nearby_chair( const tripoint &p, int radius = 1 ) const;
+        bool has_nearby_chair( const tripoint_bub_ms &p, int radius = 1 ) const;
         /**
          * Checks whether a specific terrain is nearby.
         */
         bool has_nearby_ter( const tripoint &p, const ter_id &type, int radius = 1 ) const;
+        bool has_nearby_ter( const tripoint_bub_ms &p, const ter_id &type, int radius = 1 ) const;
         /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
@@ -1178,12 +1182,14 @@ class map
          * @param p the location
          * @return true if anything is moppable here, false otherwise.
          */
+        bool terrain_moppable( const tripoint &p );
         bool terrain_moppable( const tripoint_bub_ms &p );
         /**
          * Remove moppable fields/items at this location
          * @param p the location
          * @return true if anything moppable was there, false otherwise.
          */
+        bool mop_spills( const tripoint &p );
         bool mop_spills( const tripoint_bub_ms &p );
         /**
          * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
@@ -1446,8 +1452,11 @@ class map
         }
 
         // Partial construction functions
+        void partial_con_set( const tripoint &p, const partial_con &con );
         void partial_con_set( const tripoint_bub_ms &p, const partial_con &con );
+        void partial_con_remove( const tripoint &p );
         void partial_con_remove( const tripoint_bub_ms &p );
+        partial_con *partial_con_at( const tripoint &p );
         partial_con *partial_con_at( const tripoint_bub_ms &p );
         // Traps
         // TODO: fix point types (remove the first overload)
@@ -1804,6 +1813,7 @@ class map
          */
         tripoint getlocal( const tripoint &p ) const;
         tripoint getlocal( const tripoint_abs_ms &p ) const;
+        tripoint getlocal( const tripoint_bub_ms &p ) const;
         point getlocal( const point &p ) const {
             return getlocal( tripoint( p, abs_sub.z() ) ).xy();
         }
@@ -2023,9 +2033,8 @@ class map
             offset_p.y = p.y % SEEY;
             return unsafe_get_submap_at( p );
         }
-        submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
-            tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+        submap *unsafe_get_submap_at( const tripoint &p, point_sm_ms &offset_p ) {
+            offset_p = { p.x % SEEX, p.y % SEEY };
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)

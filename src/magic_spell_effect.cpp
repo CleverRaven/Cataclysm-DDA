@@ -1292,7 +1292,7 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
     for( const tripoint &location : area ) {
         if( one_in( sp.damage( caster ) ) ) {
-            transform->transform( get_map(), tripoint_bub_ms{ location } );
+            transform->transform( get_map(), location );
         }
     }
 }
