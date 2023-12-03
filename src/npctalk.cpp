@@ -516,7 +516,7 @@ static std::string training_select_menu( const Character &c, const std::string &
     std::vector<std::string> trainlist;
     for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
         bool enabled = s.first->is_teachable() && s.second.level() > 0;
-        std::string entry = string_format( "%s: %s (%d)", _( "Skill" ), s.first.str(), s.second.level() );
+        std::string entry = string_format( "%s: %s (%d)", _( "Skill" ), s.first->name(), s.second.level() );
         nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
         trainlist.emplace_back( s.first.c_str() );
         i++;
