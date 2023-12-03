@@ -36,7 +36,12 @@
         "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: electrokinetic_see_electric') * 6)), 80)"
       ]
     },
-    "learn_spells": { "electrokinetic_personal_battery": 7, "electrokinetic_speed_boost": 14, "electrokinetic_revive": 21 }
+    "learn_spells": {
+      "electrokinetic_personal_battery": 7,
+      "electrokinetic_reduce_pain": 12,
+      "electrokinetic_speed_boost": 14,
+      "electrokinetic_revive": 21
+    }
   },
   {
     "id": "electrokinetic_shock_touch",
@@ -121,7 +126,12 @@
     "base_casting_time": 125,
     "final_casting_time": 45,
     "casting_time_increment": -5,
-    "learn_spells": { "electrokinetic_personal_battery": 8, "electrokinetic_paralysis": 11, "electrokinetic_lightning_aura": 18 }
+    "learn_spells": {
+      "electrokinetic_personal_battery": 8,
+      "electrokinetic_reduce_pain": 10,
+      "electrokinetic_paralysis": 13,
+      "electrokinetic_lightning_aura": 18
+    }
   },
   {
     "id": "electrokinetic_melee_attacks",
@@ -236,7 +246,56 @@
     "final_casting_time": 75,
     "casting_time_increment": -5,
     "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "electrokinetic_speed_boost": 9, "electrokinetic_revive": 16 }
+    "learn_spells": {
+      "electrokinetic_reduce_pain": 7,
+      "electrokinetic_speed_boost": 9,
+      "electrokinetic_pain_immune": 12,
+      "electrokinetic_revive": 16
+    }
+  },
+  {
+    "id": "electrokinetic_reduce_pain",
+    "type": "SPELL",
+    "name": "[Ψ]Pain Suppression (C)",
+    "description": "With your control over electricity, reduce the strength of the pain signals in your own body.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_REDUCE_PAIN_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 12000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 28000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_reduce_pain') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 105)), 1250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_reduce_pain') > -1 ? 10 : max((125 -(u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 4)), 75)"
+      ]
+    },
+    "learn_spells": {
+      "electrokinetic_personal_battery": 7,
+      "electrokinetic_pain_immune": 10,
+      "electrokinetic_speed_boost": 14,
+      "electrokinetic_revive": 21
+    }
   },
   {
     "id": "electrokinetic_lightning_bolt",
@@ -288,10 +347,45 @@
     "learn_spells": { "electrokinetic_kill_robot": 7, "electrokinetic_lightning_aura": 12, "electrokinetic_lightning_blast": 14 }
   },
   {
+    "id": "electrokinetic_pain_immune",
+    "type": "SPELL",
+    "name": "[Ψ]Analgesic Block",
+    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-Acceleration.",
+    "message": "The pain just…disappears.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_pain_immune') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_pain_immune') * 1300) + 15000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1750,
+    "energy_increment": -155,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -4.5
+  },
+  {
     "id": "electrokinetic_speed_boost",
     "type": "SPELL",
     "name": "[Ψ]Neuro-acceleration",
-    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.",
+    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.\n\nNeuro-acceleration is <color_red>incompatible</color> with Analgesic Block.",
     "//": "This does not increase intelligence for balance reasons.",
     "message": "You enhance your target's neurons.",
     "teachable": false,

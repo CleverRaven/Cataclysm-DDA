@@ -256,21 +256,7 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
-// npc_combat_memory should store short-term trackers that don't really need to be saved if
-// the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
-struct npc_combat_memory {
-    float assess_ally = 0.0f;
-    float assess_enemy = 0.0f;
-    int panic = 0;
-    int swarm_count = 0; //so you can tell if you're getting away over multiple turns
-    int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
-    int reposition_countdown = 0; // set when repos fails so that we don't keep trying.
-    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
-    float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
-    bool repositioning = false; // is NPC running away or just moving around / kiting.
-    int formation_distance = -1; // dist to nearest ally with a gun, or to player
-    int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
-};
+
 
 enum class combat_engagement : int {
     NONE = 0,
@@ -587,6 +573,7 @@ struct npc_short_term_cache {
     npc_attack_rating current_attack_evaluation;
     std::shared_ptr<npc_attack> current_attack;
 
+
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
@@ -600,6 +587,22 @@ struct npc_short_term_cache {
     // friendly creature.
     // returns nullopt if not applicable
     std::optional<int> closest_enemy_to_friendly_distance() const;
+};
+
+// npc_combat_memory should store short-term trackers that don't really need to be saved if
+// the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
+struct npc_combat_memory_cache {
+    float assess_ally = 0.0f;
+    float assess_enemy = 0.0f;
+    int panic = 0;
+    int swarm_count = 0; //so you can tell if you're getting away over multiple turns
+    int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
+    int reposition_countdown = 0; // set when repos fails so that we don't keep trying.
+    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
+    float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
+    bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int formation_distance = -1; // dist to nearest ally with a gun, or to player
+    int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
 
 struct npc_need_goal_cache {
@@ -1374,7 +1377,8 @@ class npc : public Character
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
-        npc_combat_memory mem_combat;
+        npc_combat_memory_cache mem_combat;
+
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;

@@ -295,7 +295,7 @@
     "id": "xl_binder_top",
     "type": "ARMOR",
     "copy-from": "binder_top",
-    "name": { "str_sp": "XL binder" },
+    "name": { "str": "XL binder" },
     "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate larger mutants.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -305,7 +305,7 @@
     "type": "ARMOR",
     "copy-from": "binder_top",
     "looks_like": "binder_top",
-    "name": { "str_sp": "XS binder" },
+    "name": { "str": "XS binder" },
     "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate smaller mutants.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -482,7 +482,7 @@
     "id": "xl_bra",
     "type": "ARMOR",
     "copy-from": "bra",
-    "name": { "str_sp": "XL bra" },
+    "name": { "str": "XL bra" },
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for larger mutants.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -492,7 +492,7 @@
     "type": "ARMOR",
     "copy-from": "bra",
     "looks_like": "bra",
-    "name": { "str_sp": "XS bra" },
+    "name": { "str": "XS bra" },
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for smaller mutants.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

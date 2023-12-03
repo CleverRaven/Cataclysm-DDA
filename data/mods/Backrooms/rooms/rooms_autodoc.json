@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_autodoc_room",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ---D---        ",
+        "        --S...S--       ",
+        "        -S.....S-       ",
+        "        D...X...D       ",
+        "        -...Y...-       ",
+        "        --.....--       ",
+        "         ---D---        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "D": [ "t_door_c" ],
+        "-": [ "t_backroom_wall" ],
+        ".": [ "t_carpet_backrooms" ],
+        "S": [ "t_carpet_backrooms" ],
+        "X": [ "t_carpet_backrooms" ],
+        "Y": [ "t_carpet_backrooms" ]
+      },
+      "furniture": { "X": [ "f_autodoc" ], "Y": [ "f_autodoc_couch" ], "D": [ "f_null" ], ".": [ "f_null" ], "S": [ "f_utility_shelf" ] },
+      "items": { "S": { "item": "backrooms_shelf_chems", "chance": 70, "repeat": [ 1, 4 ] } },
+      "place_loot": [ { "group": "autodoc_supplies", "x": 12, "y": 10, "chance": 100, "repeat": [ 1, 2 ] } ]
+    }
+  }
+]

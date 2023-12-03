@@ -1037,7 +1037,7 @@
   {
     "id": "zucchetto",
     "type": "ARMOR",
-    "name": { "str": "Zucchetto" },
+    "name": { "str": "zucchetto" },
     "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
     "weight": "100 g",
     "volume": "300 ml",

@@ -423,13 +423,13 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.rules.engagement = combat_engagement::ALL;
     talker_npc.rules.aim = aim_rule::SPRAY;
-    talker_npc.rules.set_flag( ally_rule::use_silent );
+    talker_npc.rules.set_flag( ally_rule::avoid_doors );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
     CHECK( d.responses[2].text == "This is a npc aim rule test response." );
     CHECK( d.responses[3].text == "This is a npc rule test response." );
-    talker_npc.rules.clear_flag( ally_rule::use_silent );
+    talker_npc.rules.clear_flag( ally_rule::avoid_doors );
 }
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
@@ -836,11 +836,11 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
     gen_response_lines( d, 10 );
     CHECK( d.responses[0].text == "Change your engagement rules…" );
     CHECK( d.responses[1].text == "Change your aiming rules…" );
-    CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_4_text>" );
+    CHECK( d.responses[2].text == "Move freely as you need to." );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_2_text>" );
     CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[5].text == "Use only silent weapons." );
-    CHECK( d.responses[6].text == "Don't use grenades anymore." );
+    CHECK( d.responses[5].text == "Don't worry about noise." );
+    CHECK( d.responses[6].text == "You can use grenades." );
     CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
     CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
     CHECK( d.responses[9].text == "Never mind." );
