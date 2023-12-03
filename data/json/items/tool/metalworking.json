@@ -197,7 +197,7 @@
     "price": 40000,
     "price_postapoc": 4000,
     "to_hit": -2,
-    "material": [ "steel", "plastic" ], 
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
