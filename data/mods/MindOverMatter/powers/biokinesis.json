@@ -87,7 +87,7 @@
     "id": "biokin_breathe_skin",
     "type": "SPELL",
     "name": "[Ψ]Oxygen Absorption (C)",
-    "description": "You can make the entire surface of your skin selectively permiable, allowing you to 'breathe' through it.  You can breathe in low-oxygen environments or underwater, but are more vulnerable to toxic gas.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Oxygen Absorption <color_red>cannot be active</color> with Sealed System.",
+    "description": "You can make the entire surface of your skin selectively permeable, allowing you to 'breathe' through it.  You can breathe in low-oxygen environments or underwater, but are more vulnerable to toxic gas.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Oxygen Absorption <color_red>cannot be active</color> with Sealed System.",
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
