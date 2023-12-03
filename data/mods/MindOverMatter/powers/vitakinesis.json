@@ -27,7 +27,7 @@
     "base_casting_time": 50,
     "final_casting_time": 20,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_health_power": 10, "vita_blood_purge": 15 }
+    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_cure_disease": 12, "vita_blood_purge": 15 }
   },
   {
     "id": "vita_stop_bleeding_01",
@@ -113,7 +113,13 @@
         "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_val('spell_level', 'spell: vita_health_power') * 7.5)), 25)"
       ]
     },
-    "learn_spells": { "vita_health_power_ally": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
+    "learn_spells": {
+      "vita_health_power_ally": 5,
+      "vita_sleeping_trance": 7,
+      "vita_cure_disease": 10,
+      "vita_healing_trance": 15,
+      "vita_banish_illness": 18
+    }
   },
   {
     "id": "vita_hurt_touch",
