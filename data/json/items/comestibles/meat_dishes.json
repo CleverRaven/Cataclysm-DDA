@@ -1790,7 +1790,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lahmacun",
-    "name": { "str_sp": "lahmacun" },
+    "name": { "str": "lahmacun" },
     "weight": "50 g",
     "color": "brown",
     "spoils_in": "3 days",

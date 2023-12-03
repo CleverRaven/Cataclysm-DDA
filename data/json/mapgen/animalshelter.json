@@ -78,75 +78,22 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALSHELTER_CATS",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_null", "weight": 500 },
-      { "monster": "mon_cat", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_cat_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_tabby", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_cat_tabby_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_longhair", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_longhair_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_siamese", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_siamese_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_persian", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_persian_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_calico", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_calico_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_maine_coon", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_cat_maine_coon_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_bengal", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_cat_bengal_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_devon_rex", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_devon_rex_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_sphynx", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_sphynx_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_chonker", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_chonker_kitten", "weight": 5, "cost_multiplier": 0 }
-    ]
-  },
-  {
     "name": "GROUP_ANIMALSHELTER_DOGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_dog", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_rot", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_dog", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_bull", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_bull_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_pitbullmix", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_pitbullmix_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_beagle", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_beagle_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_bcollie", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_bcollie_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_boxer", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_boxer_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_chihuahua", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_chihuahua_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_dachshund", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_dachshund_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_gshepherd", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_gshepherd_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_gpyrenees", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_gpyrenees_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_rottweiler", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_rottweiler_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_auscattle", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_auscattle_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_samoyed", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_samoyed_pup", "weight": 5, "cost_multiplier": 0 }
+      { "group": "GROUP_STRAY_DOGS", "weight": 700, "cost_multiplier": 0 }
     ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_OTHER",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_null", "weight": 500 },
-      { "monster": "mon_chicken", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_rabbit", "weight": 300, "cost_multiplier": 0 }
+      { "monster": "mon_null", "weight": 5 },
+      { "monster": "mon_ferret", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_chicken", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_rabbit", "weight": 3, "cost_multiplier": 0 }
     ]
   },
   {
@@ -259,40 +206,26 @@
         { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20, "density": 0.05 },
-        {
-          "monster": "GROUP_ANIMALSHELTER_CATS",
-          "x": [ 14, 20 ],
-          "y": [ 4, 6 ],
-          "chance": 2,
-          "repeat": [ 2, 3 ],
-          "density": 0.05
-        },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 14, "y": 8, "chance": 2, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 16, "y": 8, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 18, "y": 8, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 20, "y": 8, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 14, "y": 12, "chance": 2, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 16, "y": 12, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 18, "y": 12, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 20, "y": 12, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 13, "y": 14, "chance": 2, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 16, "y": 14, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 14, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 13, "y": 19, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 16, "y": 19, "chance": 2, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 19, "chance": 5, "density": 0.05 },
-        {
-          "monster": "GROUP_ANIMALSHELTER_DOGS",
-          "x": [ 14, 20 ],
-          "y": [ 21, 22 ],
-          "chance": 2,
-          "repeat": [ 1, 2 ],
-          "density": 0.05
-        }
+      "place_monster": [
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 50 },
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 50 },
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 50 },
+        { "group": "GROUP_STRAY_CATS", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 80, "repeat": [ 2, 3 ] },
+        { "group": "GROUP_STRAY_CATS", "x": 14, "y": 8, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 16, "y": 8, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 18, "y": 8, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 20, "y": 8, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 14, "y": 12, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 16, "y": 12, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 18, "y": 12, "chance": 80 },
+        { "group": "GROUP_STRAY_CATS", "x": 20, "y": 12, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 13, "y": 14, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 16, "y": 14, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 14, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 13, "y": 19, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 16, "y": 19, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 19, "chance": 80 },
+        { "group": "GROUP_ANIMALSHELTER_DOGS", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ]
     }
@@ -416,40 +349,26 @@
         { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5, "density": 0.05 },
-        { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20, "density": 0.05 },
-        {
-          "monster": "GROUP_ANIMALSHELTER_CATS",
-          "x": [ 14, 20 ],
-          "y": [ 4, 6 ],
-          "chance": 20,
-          "repeat": [ 2, 3 ],
-          "density": 0.05
-        },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 14, "y": 8, "chance": 70, "density": 0.5 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 16, "y": 8, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 18, "y": 8, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 20, "y": 8, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 14, "y": 12, "chance": 70, "density": 0.5 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 16, "y": 12, "chance": 100, "density": 1 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 18, "y": 12, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 20, "y": 12, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 13, "y": 14, "chance": 100, "density": 1 },
-        { "monster": "GROUP_PET_DOGS", "x": 16, "y": 14, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 19, "y": 14, "chance": 90, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 13, "y": 19, "chance": 100, "density": 1 },
-        { "monster": "GROUP_PET_DOGS", "x": 16, "y": 19, "chance": 70, "density": 0.5 },
-        { "monster": "GROUP_PET_DOGS", "x": 19, "y": 19, "chance": 90, "density": 0.5 },
-        {
-          "monster": "GROUP_PET_DOGS",
-          "x": [ 14, 20 ],
-          "y": [ 21, 22 ],
-          "chance": 2,
-          "repeat": [ 1, 2 ],
-          "density": 0.05
-        }
+      "place_monster": [
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20 },
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5 },
+        { "group": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20 },
+        { "group": "GROUP_STRAY_CATS", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 20, "repeat": [ 2, 3 ] },
+        { "group": "GROUP_STRAY_CATS", "x": 14, "y": 8, "chance": 70 },
+        { "group": "GROUP_STRAY_CATS", "x": 16, "y": 8, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 18, "y": 8, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 20, "y": 8, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 14, "y": 12, "chance": 70 },
+        { "group": "GROUP_STRAY_CATS", "x": 16, "y": 12, "chance": 100 },
+        { "group": "GROUP_STRAY_CATS", "x": 18, "y": 12, "chance": 90 },
+        { "group": "GROUP_STRAY_CATS", "x": 20, "y": 12, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": 13, "y": 14, "chance": 100 },
+        { "group": "GROUP_STRAY_DOGS", "x": 16, "y": 14, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": 19, "y": 14, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": 13, "y": 19, "chance": 100 },
+        { "group": "GROUP_STRAY_DOGS", "x": 16, "y": 19, "chance": 70 },
+        { "group": "GROUP_STRAY_DOGS", "x": 19, "y": 19, "chance": 90 },
+        { "group": "GROUP_STRAY_DOGS", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 2, "repeat": [ 1, 2 ] }
       ],
       "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ]
     }

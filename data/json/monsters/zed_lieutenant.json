@@ -122,7 +122,7 @@
   {
     "id": "LTNT_attract_nearby",
     "type": "SPELL",
-    "name": { "str": "Visual sundering" },
+    "name": { "str": "Visual Sundering" },
     "description": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],

@@ -1028,7 +1028,7 @@
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
     "rotates_to": "INDOORFLOOR",
     "lockpick_result": "f_displaycase_o",
-    "lockpick_message": "With a satisfying click, the lock and the display case opens",
+    "lockpick_message": "With a satisfying click, the lock and the display case opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
@@ -1107,7 +1107,7 @@
       ]
     },
     "lockpick_result": "f_board_map_o",
-    "lockpick_message": "With a satisfying click, the locked glass panel opens",
+    "lockpick_message": "With a satisfying click, the locked glass panel opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
