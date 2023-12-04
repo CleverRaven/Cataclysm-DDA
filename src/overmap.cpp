@@ -4540,9 +4540,22 @@ void overmap::place_forests()
 void overmap::place_lakes()
 {
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
-
+    const point_abs_om this_om = pos();
+    float oceanize_adjust = 0.0f;
+    if( this_om.x() > 8 ){
+        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    }
+    if( this_om.x() > 10 ){
+        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    }
+    if( this_om.x() > 12 ){
+        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    }
+    if( this_om.x() > 14 ){
+        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    }
     const auto is_lake = [&]( const point_om_omt & p ) {
-        return f.noise_at( p ) > settings->overmap_lake.noise_threshold_lake;
+        return f.noise_at( p ) + oceanize_adjust > settings->overmap_lake.noise_threshold_lake;
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -5152,6 +5165,12 @@ void overmap::place_cities()
         city_space_adjust = std::min( city_space_adjust, op_city_spacing - 2 );
         op_city_spacing = op_city_spacing - city_space_adjust;
     }
+    if( this_om.x() > 8 ){
+        op_city_spacing += this_om.x() / 4;
+    }
+    if( this_om.x() > 12 ){
+        op_city_spacing += this_om.x() / 4;
+    }
     op_city_spacing = std::min( op_city_spacing, 10 );
 
     // spacing dictates how much of the map is covered in cities
@@ -5193,7 +5212,7 @@ void overmap::place_cities()
 
     // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
-    const int MAX_PLACEMENT_ATTEMPTS = OMAPX * OMAPY;
+    const int MAX_PLACEMENT_ATTEMPTS = 50;//OMAPX * OMAPY;
     int placement_attempts = 0;
 
     // place a seed for num_cities_on_this_overmap cities, and maybe one more
