@@ -812,11 +812,14 @@
   {
     "type": "effect_type",
     "id": "effect_clair_craft_bonus",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Intuitive Artistry" ],
+    "desc": [
+      "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however."
+    ],
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 3 } ] } ],
+    "flags": [ "MYOPIC" ]
   },
   {
     "type": "effect_type",
