@@ -6610,26 +6610,33 @@ void overmap::place_mongroups()
                 std::vector<tripoint_abs_sm> submap_list;
 
                 // gather all of the points in range to test for viable placement of hordes.
-                for( tripoint_abs_omt const &temp_omt : points_in_radius( city_center,
+                for( tripoint_om_omt const &temp_omt : points_in_radius( tripoint_om_omt( elem.pos, 0 ),
                         static_cast<int>( elem.size * city_spawn_spread ), 0 ) ) {
 
-                    // right now we're only placing city horde spawns on roads, for simplicity.
-                    // this can be replaced with an OMT flag for later for better flexibility.
-                    if( overmap_buffer.ter( temp_omt )->get_type_id() == oter_type_road ) {
-                        tripoint_abs_sm this_sm = project_to<coords::sm>( temp_omt );
+                    // running too close to the edge of the overmap can get us cascading mapgen
+                    if( inbounds( temp_omt, 2 ) ) {
 
-                        // for some reason old style spawns are submap-aligned.
-                        // get all four quadrants for better distribution.
-                        submap_list.push_back( this_sm );
-                        submap_list.push_back( this_sm + point( 0, 1 ) );
-                        submap_list.push_back( this_sm + point( 1, 0 ) );
-                        submap_list.push_back( this_sm + point( 1, 1 ) );
+                        tripoint_abs_omt target_omt = project_combine( elem.pos_om, temp_omt );
+
+                        // right now we're only placing city horde spawns on roads, for simplicity.
+                        // this can be replaced with an OMT flag for later for better flexibility.
+                        if( overmap_buffer.ter( target_omt )->get_type_id() == oter_type_road ) {
+                            tripoint_abs_sm this_sm = project_to<coords::sm>( target_omt );
+
+                            // for some reason old style spawns are submap-aligned.
+                            // get all four quadrants for better distribution.
+                            submap_list.push_back( this_sm );
+                            submap_list.push_back( this_sm + point( 0, 1 ) );
+                            submap_list.push_back( this_sm + point( 1, 0 ) );
+                            submap_list.push_back( this_sm + point( 1, 1 ) );
+                        }
                     }
                 }
 
                 if( submap_list.empty() ) {
                     // somehow the city has no roads. this shouldn't happen.
-                    add_msg_debug( debugmode::DF_OVERMAP, "city %s centered at omt %s, but there were no roads!",
+                    add_msg_debug( debugmode::DF_OVERMAP,
+                                   "tried to add zombie hordes to city %s centered at omt %s, but there were no roads!",
                                    elem.name, city_center.to_string() );
                     continue;
                 }
