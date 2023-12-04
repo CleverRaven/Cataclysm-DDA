@@ -4792,5 +4792,77 @@
     "volume": "250 ml",
     "to_hit": -3,
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "debug_welder",
+    "type": "TOOL",
+    "name": { "str": "debug old arc welder" },
+    "description": "Copy of old arc welder that uses batteries.",
+    "weight": "4200 g",
+    "volume": "2500 ml",
+    "price": 9000,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "charges_per_use": 20,
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "fancy_bronze",
+          "silver",
+          "gold",
+          "budget_steel",
+          "lc_steel",
+          "mc_steel",
+          "hc_steel",
+          "ch_steel",
+          "lc_steel_chain",
+          "mc_steel_chain",
+          "hc_steel_chain",
+          "ch_steel_chain",
+          "platinum",
+          "superalloy"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 10,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      },
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "500 ml",
+        "default_magazine": "medium_storage_battery",
+        "item_restriction": [
+          "medium_storage_battery",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 7 }
   }
 ]
