@@ -1307,10 +1307,10 @@ int Character::overmap_sight_range( float light_level ) const
 
         // Binoculars double your sight range.
         // When adding checks here, also call game::update_overmap_seen at the place they first become true
-        const bool has_optic = cache_has_item_with(flag_ZOOM) ||
-            has_flag(json_flag_ENHANCED_VISION) ||
-            (is_mounted() && mounted_creature->has_flag(mon_flag_MECH_RECON_VISION)) ||
-            get_map().veh_at(pos()).avail_part_with_feature("ENHANCED_VISION").has_value();
+        const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
+                               has_flag( json_flag_ENHANCED_VISION ) ||
+                               ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
+                               get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
         if (has_optic) {
             multiplier += 1;
