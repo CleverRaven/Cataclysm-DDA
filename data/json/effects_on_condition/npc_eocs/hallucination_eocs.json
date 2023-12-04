@@ -137,7 +137,9 @@
           "false_effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "4 hours", "6 hours" ] }
         }
       }
-    ]
+    ],
+
+                    "false_effect": { "run_eocs": "minor_hallucinations" }
   },
   {
     "type": "effect_on_condition",
