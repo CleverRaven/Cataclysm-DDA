@@ -222,7 +222,7 @@
       { "prob": 15, "group": "pur_tablets_bottle_plastic_small_1_15" },
       { "item": "lye_powder", "prob": 20, "charges-min": 100 },
       { "item": "oxy_powder", "prob": 24, "charges-min": 100 },
-      { "item": "chemistry_set", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "chemistry_set", "prob": 10 },
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       { "item": "eyedrops", "prob": 25, "count": 10 },
       { "item": "charcoal", "prob": 15 },

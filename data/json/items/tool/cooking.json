@@ -678,14 +678,6 @@
     "color": "green",
     "ammo": [ "battery" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {

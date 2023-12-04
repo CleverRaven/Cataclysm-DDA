@@ -870,8 +870,7 @@
         "entries": [
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_smart_phone" },
-          { "item": "wrench", "container-item": "tool_belt" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" }
+          { "item": "wrench", "container-item": "tool_belt" }
         ]
       },
       "male": [ "boxer_shorts" ],

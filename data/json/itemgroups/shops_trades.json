@@ -97,7 +97,7 @@
       { "item": "charcoal", "prob": 50, "charges": [ 200, 400 ] },
       { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
       [ "material_sand", 80 ],
-      { "item": "chemistry_set", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "chemistry_set", "prob": 5 },
       [ "sandpaper", 50 ]
     ]
   },
