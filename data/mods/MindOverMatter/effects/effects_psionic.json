@@ -616,7 +616,7 @@
     "type": "effect_type",
     "id": "effect_clair_speed_reader",
     "name": [ "Speed Reader" ],
-    "desc": [ "You are absorb knowledge from books like a sponge absorbs water." ],
+    "desc": [ "You are absorbing knowledge from books like a sponge absorbs water." ],
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
@@ -639,6 +639,40 @@
             "value": "MOTION_VISION_RANGE",
             "add": {
               "math": [ "( ( u_val('spell_level', 'spell: clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_see_auras",
+    "name": [ "Aura Sight" ],
+    "desc": [ "Swirling colors are visible around others, revealing their emotions." ],
+    "apply_message": "",
+    "remove_message": "The colors fade away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SOCIAL_INTIMIDATE",
+            "add": {
+              "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
+            }
+          },
+          {
+            "value": "SOCIAL_LIE",
+            "add": {
+              "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
+            }
+          },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": {
+              "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
             }
           }
         ]
@@ -780,6 +814,15 @@
       }
     ],
     "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_craft_bonus",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
