@@ -1288,7 +1288,7 @@ int Character::overmap_sight_range( float light_level ) const
         sight = 0;
     }
     if( sight <= SEEX * 4 ) {
-        sight /= (SEEX / 2);
+        sight /= ( SEEX / 2 );
     }
 
     if (sight > 0) {
