@@ -3486,7 +3486,7 @@
     "volume": "2250 ml",
     "price": 4500,
     "price_postapoc": 250,
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
     "symbol": "[",
     "color": "blue",
     "looks_like": "jacket_army",
@@ -3500,33 +3500,37 @@
         "max_contains_volume": "700 ml",
         "max_contains_weight": "3 kg",
         "max_item_length": "14 cm",
-        "moves": 80
+        "moves": 80,
+        "description": "Side pocket."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "700 ml",
         "max_contains_weight": "3 kg",
         "max_item_length": "14 cm",
-        "moves": 80
+        "moves": 80,
+        "description": "Side pocket."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "300 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "10 cm",
-        "moves": 120
+        "moves": 120,
+        "description": "Arm pocket."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "300 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "10 cm",
-        "moves": 120
+        "moves": 120,
+        "description": "Arm pocket."
       }
     ],
     "warmth": 15,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "HOOD", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -3602,6 +3606,27 @@
         "id": "huntjacket_arctic",
         "name": { "str": "arctic-camo hunting jacket", "str_pl": "pairs of arctic-camo hunting jackets" },
         "description": "Featuring a camouflage pattern consisting of white, shades of gray, and a slight tinge of brown, this hunting jacket is fit for snowy tundra and polar regions—or it would be, had the garment not been only moderately warmer than a light jacket.  You have yet to grasp their point for existing.",
+        "color": "white",
+        "weight": 6
+      },
+      {
+        "id": "huntjacket_grey",
+        "name": { "str": "ocean-camo hunting jacket", "str_pl": "pairs of ocean-camo hunting jackets" },
+        "description": "This particular hunting jacket is dyed a muted, beige-like shade of wolf gray.",
+        "color": "blue",
+        "weight": 6
+      },
+      {
+        "id": "huntjacket_coyote",
+        "name": { "str": "river-camo hunting jacket", "str_pl": "pairs of river-camo hunting jackets" },
+        "description": "This hunting jacket is predominantly an earthy shade of coyote brown.",
+        "color": "green",
+        "weight": 6
+      },
+      {
+        "id": "huntjacket_green",
+        "name": { "str": "arctic-camo hunting jacket", "str_pl": "pairs of arctic-camo hunting jackets" },
+        "description": "This remarkably drab, traditional camouflage hunting jacket is dyed a muted shade of OD green, much like old US Army battle dress.",
         "color": "white",
         "weight": 6
       },
