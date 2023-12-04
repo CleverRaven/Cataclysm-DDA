@@ -658,12 +658,6 @@
       {
         "values": [
           {
-            "value": "SOCIAL_INTIMIDATE",
-            "add": {
-              "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
-            }
-          },
-          {
             "value": "SOCIAL_LIE",
             "add": {
               "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
