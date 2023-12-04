@@ -779,23 +779,23 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     ret_val<void> result = ups_loc->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     REQUIRE( result.success() );
 
-    item_location soldering_iron = dummy.i_add( item( "soldering_iron" ) );
+    item_location soldering_iron_portable = dummy.i_add( item( "soldering_iron_portable" ) );
     item battery_ups( "battery_ups" );
-    ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, pocket_type::MOD );
+    ret_val<void> ret_solder = soldering_iron_portable->put_in( battery_ups, pocket_type::MOD );
     REQUIRE( ret_solder.success() );
-    REQUIRE( soldering_iron->has_flag( json_flag_USE_UPS ) );
+    REQUIRE( soldering_iron_portable->has_flag( json_flag_USE_UPS ) );
 
     REQUIRE( ups_loc->ammo_remaining() == ammo_count );
     if( !ups_on_ground ) {
-        REQUIRE( dummy.charges_of( soldering_iron->typeId() ) == ammo_count );
+        REQUIRE( dummy.charges_of( soldering_iron_portable->typeId() ) == ammo_count );
     }
-    REQUIRE( dummy.crafting_inventory().charges_of( soldering_iron->typeId() ) == ammo_count );
+    REQUIRE( dummy.crafting_inventory().charges_of( soldering_iron_portable->typeId() ) == ammo_count );
     temp_crafting_inventory tinv;
     tinv.add_all_ref( dummy );
     if( ups_on_ground ) {
         tinv.add_item_ref( *ups_loc );
     }
-    REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
+    REQUIRE( tinv.charges_of( soldering_iron_portable->typeId() ) == ammo_count );
 }
 
 TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
@@ -832,7 +832,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item hotplate = tool_with_ammo( "hotplate_induction", 500 );
             REQUIRE( hotplate.ammo_remaining() == 500 );
             tools.push_back( hotplate );
-            item soldering = tool_with_ammo( "soldering_iron", 20 );
+            item soldering = tool_with_ammo( "soldering_iron_portable", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
             tools.push_back( soldering );
             item plastic_molding = tool_with_ammo( "vac_mold", 4 );
@@ -844,20 +844,20 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 10 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
             tools.insert( tools.end(), 2, tool_with_ammo( "hotplate_induction", 250 ) );
-            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron_portable", 5 ) );
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off, tools, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
             }
         }
 
@@ -865,9 +865,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item hotplate( "hotplate" );
             hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), pocket_type::MOD );
-            tools.push_back( soldering_iron );
+            item soldering_iron_portable( "soldering_iron_portable" );
+            soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( soldering_iron_portable );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
@@ -879,7 +879,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 CHECK( get_remaining_charges( "UPS_off" ) == 290 );
             }
         }
@@ -888,9 +888,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item hotplate( "hotplate" );
             hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), pocket_type::MOD );
-            tools.push_back( soldering_iron );
+            item soldering_iron_portable( "soldering_iron_portable" );
+            soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( soldering_iron_portable );
 
             item ups( "UPS_off" );
             item ups_mag( ups.magazine_default() );
