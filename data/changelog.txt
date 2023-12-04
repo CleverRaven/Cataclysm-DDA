@@ -78,6 +78,10 @@ Liquids crafted at camps will try to be placed inside zoned terrain/furniture th
 Hauling overhaul: you can choose which specific items to haul, whether to automatically haul new items, or haul items by filter
 The player can gauge an NPC's personality during dialogue with them
 The Han Solo Special: NPCs identify when fleeing is failing. Also adds flee modes and panic.
+Melee NPCs shouldn't dive out of formation to get surrounded anymore
+Boomer bile is slippery, causes pinkeye, and is blocked by waterproof eyewear
+Several more small adjustments to NPC logic and bugfixes from reports
+The map changes as you travel east-west and north-south, revealing either rural areas or oceans and megacities
 
 
 ## Content:
@@ -140,6 +144,23 @@ Boston-Chan costume set
 Omelets and other egg based foods
 New Epilogues for NPCs
 Adds more fungalized humanoid/animal zombie variants.
+Edit rabbi description + specify holy symbol variant
+Adds 10mm JHP and +P loads (and ballistics data)
+Winnowing, new method of obtaining raw grain
+Adds Non-Adjustable, Non-tactical slings
+Un-variants the Glock40
+Adjusts flamethrowers for XEDRA
+Adds 20x66 ballistics data, and buffs it to 10ga magnum energies
+Adds compensators, adds conflict for suppressors/barrel porting
+Added legging variants
+Changes some items' material to fiberglass
+Adds .32 ACP JHP, and .32 ballistics data, and obsoletes VZ61/82
+New portal storm monster based off a dream I had
+Adds more mycus/fungus related snippets, as well as wallet photo snippets.
+Adds alternate .308 recipes, .308 ballistics data, and adjusts .308 guns
+Adds .30-06 FMJ, redoes ballistics , and minor gun adjustments
+Typo, grammar, missing or unnecessary plurals/punctuation fixing and other various issues
+Adds a military field cap
 
 
 ## Interface:
@@ -260,6 +281,23 @@ Aftershock: Add Landing Pads
 [MoM] Separate NO_SPELLCASTING from new NO_PSIONICS
 [MoM] Tinfoil hats protect against telepathy (sometimes) 
 [MoM] Add Electrokinesis path
+Add more customizable options to Defense Mode.
+[Magiclysm] Add triffid weakpoints
+Fix zombie hostility and remove panicked civilians from Defense Mode.
+[MoM] Various maintenance tasks
+[MoM] Electrokinesis part 2
+[MoM] Readme update
+[MoM] Separate psi_stunned from stunned
+[MoM] Gain more Nether attunement in Nether areas
+Add Bombastic Perk compatibility to Defense Mode.
+[MoM] Add concentration traits
+[MoM] More maintained powers
+[MoM] Add Concentration proficiencies, link them to concentration limit
+[Backrooms] Autodoc special and long-term progression tweaks
+[Defense Mode] Fix `copy-from` issues pertaining to scenario extensions.
+[MoM] Add Project PHAVIAN skyscraper lab
+[MoM] Add telepathic dampener
+[MoM] Even more powers
 
 
 ## Balance:
@@ -307,6 +345,9 @@ Backup generator is much more powerful
 Bulk unloading and dropping items saves time cost
 Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
 Professions can start with specific recipes
+Food irradiation slows food decay to a quarter, instead of making it last forever
+Cat coat distrbution, animal shelter and pound maintenance
+Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
 
 
 ## Bugfixes:
@@ -402,6 +443,29 @@ Fixed laser weapons mounted on vehicles not cooling down
 Maps will once again show city names if they show roads.
 No more infinite aphids
 Stop milking dead cows
+Remove obsolete dimension research reference
+add catholic attire and drive jacket spawns
+[Magiclysm] Fix missing standard for Voltaic Touch
+Clear AIM pane when filtering items
+Mirror armor can fit as extra plating on brigandine as intended
+[MoM] potion effects typo fix
+Do not autopickup spilt liquids
+Fix camera not being reset after struggling with aiming
+Fix some bugs with revivification in Defense Mode.
+Allow pocket_mods to add magazine or magazine well pockets to items without them
+Mining Staircases Doesn't Consume Rope
+Fix armor sorting bugging active items in inventory
+Lets the Glock 40 install a glock sear plate
+Allow repair&refit actions if item is fully repaired but can be refitted
+[Xedra Evolved] Fix Goblin fruits
+[Magiclysm] Fix potion fruits
+make sure sees checks outside of max view distance always fail
+Sets Prosthetic Legs, Peg Legs, and Steel Prosthetic Legs to cover the appropriate location rather than attempting to cover a non-prosthetic leg.
+Check BMR value to prevent dividing by 0
+[MoM} Add Extended Stride to concentration EoC
+remove ALL-SEEING to make Instiller of Nightmares less of an unavoidable death trap
+[MoM] Teach electrokinetics their recipes
+Revert 69935 Turn FOV3d on for LTO test failures
 
 
 ## Performance:
@@ -451,6 +515,9 @@ recipes now require activity_level, fake(previously substituted for MODERATE) is
 JSON-ize slot machines
 Faction editing on Debug menu
 Change NPC faction from debug menu
+Remove action portion out of assess_danger into a dedicated method
+Add u_has_proficiency to EoC conditions
+Add "has_proficiency" as a math condition for ternaries
 
 
 ## Build:
