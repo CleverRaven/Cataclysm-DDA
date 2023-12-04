@@ -848,8 +848,7 @@
         "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
         "entries": [
           { "item": "pants", "variant": "pants_stone" },
-          { "group": "charged_smart_phone" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "chemistry_set" }
+          { "group": "charged_smart_phone" }
         ]
       },
       "male": [ "briefs" ],
