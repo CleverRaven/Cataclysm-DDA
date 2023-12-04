@@ -6605,13 +6605,17 @@ void overmap::place_mongroups()
                 // will produce 1280 zombies.
                 int desired_zombies = elem.size * city_spawn_scalar * spawn_density;
 
+                float city_effective_radius = elem.size * city_spawn_spread;
+
+                int city_distance_increment = std::ceil( city_effective_radius / 4 );
+
                 tripoint_abs_omt city_center = project_combine( elem.pos_om, tripoint_om_omt( elem.pos, 0 ) );
 
                 std::vector<tripoint_abs_sm> submap_list;
 
                 // gather all of the points in range to test for viable placement of hordes.
                 for( tripoint_om_omt const &temp_omt : points_in_radius( tripoint_om_omt( elem.pos, 0 ),
-                        static_cast<int>( elem.size * city_spawn_spread ), 0 ) ) {
+                        static_cast<int>( city_effective_radius ), 0 ) ) {
 
                     // running too close to the edge of the overmap can get us cascading mapgen
                     if( inbounds( temp_omt, 2 ) ) {
@@ -6625,10 +6629,23 @@ void overmap::place_mongroups()
 
                             // for some reason old style spawns are submap-aligned.
                             // get all four quadrants for better distribution.
-                            submap_list.push_back( this_sm );
-                            submap_list.push_back( this_sm + point( 0, 1 ) );
-                            submap_list.push_back( this_sm + point( 1, 0 ) );
-                            submap_list.push_back( this_sm + point( 1, 1 ) );
+                            std::vector<tripoint_abs_sm> local_sm_list;
+                            local_sm_list.push_back( this_sm );
+                            local_sm_list.push_back( this_sm + point( 0, 1 ) );
+                            local_sm_list.push_back( this_sm + point( 1, 0 ) );
+                            local_sm_list.push_back( this_sm + point( 1, 1 ) );
+
+                            // shuffle, then prune submaps based on distance from city center
+                            // this should let us concentrate hordes closer to the center.
+                            // the shuffling is so they aren't all aligned consistently.
+                            int new_size = 4 - ( trig_dist( target_omt, city_center ) / city_distance_increment );
+                            if( new_size > 0 ) {
+                                std::shuffle( local_sm_list.begin(), local_sm_list.end(), rng_get_engine() );
+                                local_sm_list.resize( new_size );
+
+                                submap_list.insert( submap_list.end(), local_sm_list.begin(), local_sm_list.end() );
+                            }
+
                         }
                     }
                 }
