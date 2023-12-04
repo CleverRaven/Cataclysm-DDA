@@ -1221,7 +1221,7 @@
     "copy-from": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "portable soldering iron" },
-    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  This one is portable version, and contain a slot for a battery.",
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  This one is a portable version, and contains a slot for a battery.",
     "symbol": ",",
     "color": "light_gray",
     "use_action": [
