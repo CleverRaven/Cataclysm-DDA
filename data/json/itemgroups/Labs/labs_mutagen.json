@@ -102,7 +102,7 @@
     "entries": [
       { "item": "hotplate", "prob": 200 },
       { "item": "esbit_stove", "prob": 50 },
-      { "item": , "p"chemistry_set"rob": 300 },
+      { "item": "chemistry_set", "prob": 300 },
       { "item": "still_lab", "prob": 100 },
       { "item": "microcentrifuge", "prob": 100 },
       { "item": "rotovap", "prob": 100 },
