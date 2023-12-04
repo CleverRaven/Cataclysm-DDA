@@ -107,7 +107,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "SPAWN_CITY_HORDE_THRESHOLD",
-    "info": "Minimum city size to guarantee extra zombies are spawned in cities. 0 means all cities spawn extra zombies. Negative values disable extra city zombies.",
+    "info": "Minimum city size to guarantee extra zombies are spawned in cities.  0 means all cities spawn extra zombies.  Negative values disable extra city zombies.",
     "stype": "int",
     "value": 4
   },

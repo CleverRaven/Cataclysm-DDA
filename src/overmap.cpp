@@ -6631,9 +6631,9 @@ void overmap::place_mongroups()
                             // get all four quadrants for better distribution.
                             std::vector<tripoint_abs_sm> local_sm_list;
                             local_sm_list.push_back( this_sm );
-                            local_sm_list.push_back( this_sm + point( 0, 1 ) );
-                            local_sm_list.push_back( this_sm + point( 1, 0 ) );
-                            local_sm_list.push_back( this_sm + point( 1, 1 ) );
+                            local_sm_list.push_back( this_sm + point_east );
+                            local_sm_list.push_back( this_sm + point_south );
+                            local_sm_list.push_back( this_sm + point_south_east );
 
                             // shuffle, then prune submaps based on distance from city center
                             // this should let us concentrate hordes closer to the center.
@@ -6654,12 +6654,12 @@ void overmap::place_mongroups()
                     // somehow the city has no roads. this shouldn't happen.
                     add_msg_debug( debugmode::DF_OVERMAP,
                                    "tried to add zombie hordes to city %s centered at omt %s, but there were no roads!",
-                                   elem.name, city_center.to_string() );
+                                   elem.name, city_center.to_string_writable() );
                     continue;
                 }
 
                 add_msg_debug( debugmode::DF_OVERMAP, "adding %i zombies in hordes to city %s centered at omt %s.",
-                               desired_zombies, elem.name, city_center.to_string() );
+                               desired_zombies, elem.name, city_center.to_string_writable() );
 
                 // if there aren't enough roads, we'll just reuse them, re-shuffled.
                 while( desired_zombies > 0 ) {
