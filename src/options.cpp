@@ -3649,10 +3649,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
 
+#if defined(LOCALIZE)
             if( current_opt.getName() == "USE_LANG" ) {
                 current_opt.setValue( select_language() );
                 return;
             }
+#endif
 
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
