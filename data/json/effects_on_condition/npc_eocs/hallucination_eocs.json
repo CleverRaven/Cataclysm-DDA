@@ -8,7 +8,7 @@
       "and": [
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_effect": "took_thorazine" } },
-        { "u_has_trait": "SCHIZOPHRENIC" }
+        { "or": [ { "u_has_trait": "SCHIZOPHRENIC" }, { "u_has_effect": "hallu" } ] }
       ]
     },
     "effect": [
@@ -30,10 +30,8 @@
           [ "paranoid", { "const": 75 } ],
           [ "grandiose", { "const": 25 } ],
           [ "self_talk", { "const": 14 } ],
-          [ "weapon_talk", { "const": 12 } ],
-          [ "weapon_talk_you_bleeding", { "const": 12 } ],
-          [ "weapon_talk_monsters_nearby", { "const": 12 } ],
-          [ "false_npc_talk", { "const": 10 } ]
+          [ "weapon_talk_hallucination", { "const": 14 } ],
+          [ "false_npc_talk", { "const": 12 } ]
         ]
       }
     ]
@@ -93,47 +91,53 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "weapon_talk",
-    "effect": {
-      "u_run_inv_eocs": "random",
-      "search_data": [ { "wielded_only": true } ],
-      "true_eocs": [
-        {
-          "id": "injured_talk",
-          "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
-          "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_damaged>\"" },
-          "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_misc>\"" } } }
-        }
+    "id": "weapon_talk_hallucination",
+    "//": "Goes in this order: Weapon will fear for its life if injured, then be concerned for yours if you're injured, then alert you to monsters nearby.  Otherwise, random chit-chat.",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_effect": "took_thorazine" } },
+        { "or": [ { "u_has_trait": "SCHIZOPHRENIC" }, { "u_has_effect": "hallu" } ] }
       ]
     },
-    "false_effect": { "run_eocs": "minor_hallucinations" }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "weapon_talk_you_bleeding",
-    "effect": {
-      "u_run_inv_eocs": "random",
-      "search_data": [ { "wielded_only": true } ],
-      "true_eocs": [
-        {
-          "id": "you_bleeding_talk",
-          "condition": { "u_has_effect": "bleed" },
-          "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_bleeding>\"" }
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "injured_talk",
+            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
+            "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_damaged>\"" },
+            "false_effect": {
+              "run_eocs": {
+                "id": "you_injured_talk",
+                "//": "Weapon will be concerned for you if you're significantly injured.",
+                "condition": { "math": [ "(u_hp('ALL') * 1.4)", "<", "u_hp_max('bp_null')" ] },
+                "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_bleeding>\"" },
+                "false_effect": {
+                  "run_eocs": {
+                    "id": "monsters_nearby_talk",
+                    "condition": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
+                    "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_monster>\"" },
+                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_misc>\"" } } }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "run_eocs": {
+          "id": "determine_if_coversation",
+          "//": "85% chance for your weapon to make a conversation.  If not, try again some time later.",
+          "condition": { "x_in_y_chance": { "x": 85, "y": 100 } },
+          "effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "10 seconds", "15 seconds" ] },
+          "false_effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "4 hours", "6 hours" ] }
         }
-      ]
-    },
-    "false_effect": { "run_eocs": "minor_hallucinations" }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "weapon_talk_monsters_nearby",
-    "condition": { "math": [ "u_monsters_nearby('radius': 60)", ">=", "1" ] },
-    "effect": {
-      "u_run_inv_eocs": "random",
-      "search_data": [ { "wielded_only": true } ],
-      "true_eocs": [ { "id": "monsters_nearby_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_monster>\"" } } ]
-    },
-    "false_effect": { "run_eocs": "minor_hallucinations" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -155,7 +159,7 @@
     "id": "formication",
     "effect": [
       { "u_message": "schizo_formication", "snippet": true, "type": "bad" },
-      { "u_add_effect": "formication", "duration": "45 minutes" }
+      { "u_add_effect": "formication", "duration": "45 minutes", "target_part": "RANDOM" }
     ]
   },
   {
