@@ -1291,7 +1291,7 @@ int Character::overmap_sight_range( float light_level ) const
         sight /= ( SEEX / 2 );
     }
 
-    if (sight > 0) {
+    if( sight > 0 ) {
         sight = 6;
     }
     // Mutations like Scout and Topographagnosia affect how far you can see.
