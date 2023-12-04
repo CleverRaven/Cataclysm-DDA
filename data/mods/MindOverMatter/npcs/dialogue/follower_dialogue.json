@@ -136,7 +136,7 @@
     "id": [ "TALK_FRIEND_VITAKINETIC_CURE_DISEASE_LUNGS" ],
     "type": "talk_topic",
     "dynamic_line": [
-      "&coughs. \"Yeah, I'm not feel so great",
+      "* coughs. \"Yeah, I'm not feeling so great",
       "No.  No I don't.",
       "Yeah, I think I'm coming down with something.",
       "Ugh, yeah.  If only I could call in sick, you know?"
