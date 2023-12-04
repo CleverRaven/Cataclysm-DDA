@@ -1317,7 +1317,7 @@ int Character::overmap_sight_range( float light_level ) const
         }
     }
 
-    if (sight == 0) {
+    if( sight == 0 ) {
         return 0;
     }
 
