@@ -456,7 +456,10 @@ bool do_turn()
 
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
-        overmap_buffer.move_hordes();
+
+        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
+            overmap_buffer.move_hordes();
+        }
         if( u.has_trait( trait_HAS_NEMESIS ) ) {
             overmap_buffer.move_nemesis();
         }

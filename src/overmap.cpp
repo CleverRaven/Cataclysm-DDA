@@ -6657,8 +6657,8 @@ void overmap::place_mongroups()
                         // zombie spawns and behave like ants, triffids, fungals, etc.
                         // they won't try very hard to get placed in the world, so there will
                         // probably be fewer zombies than expected.
+                        m.horde = true;
                         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-                            m.horde = true;
                             m.wander( *this );
                         }
                         add_mon_group( m );
