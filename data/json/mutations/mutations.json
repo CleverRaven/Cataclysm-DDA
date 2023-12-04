@@ -1407,7 +1407,22 @@
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
-    "overmap_sight": 5
+    "overmap_sight": 5,
+    "triggers": [ [ { "condition": { "not": "is_day" }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "EAGLEEYED_NIGHT",
+    "//": "Indistinguishable to player, version without overmap_sight so it doesn't work at night.",
+    "name": { "str": "Scout" },
+    "points": 1,
+    "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
+    "cancels": [ "UNOBSERVANT" ],
+    "valid": false,
+    "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
