@@ -138,8 +138,7 @@
         }
       }
     ],
-
-                    "false_effect": { "run_eocs": "minor_hallucinations" }
+    "false_effect": { "run_eocs": "minor_hallucinations" }
   },
   {
     "type": "effect_on_condition",
