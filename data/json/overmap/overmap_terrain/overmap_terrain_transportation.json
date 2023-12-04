@@ -480,6 +480,7 @@
     "extras": "road",
     "name": "road",
     "sym": "│",
+    "travel_cost_type": "road",
     "color": "light_gray"
   },
   {
