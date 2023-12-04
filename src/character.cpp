@@ -1299,7 +1299,7 @@ int Character::overmap_sight_range( float light_level ) const
 
     float multiplier = mutation_value( "overmap_multiplier" );
     // If sight is change due to overmap_sight, process the rest of the modifiers, otherwise skip them
-    if (sight > 0) {
+    if( sight > 0 ) {
         // The higher your perception, the farther you can see.
         sight += static_cast<int>(get_per() / 2);
         // The higher up you are, the farther you can see.
