@@ -1264,7 +1264,8 @@ void spell::gain_exp( const Character &guy, int nxp )
     int oldLevel = get_level();
     experience += nxp;
     if( guy.is_avatar() && oldLevel != get_level() ) {
-        get_event_bus().send<event_type::player_levels_spell>( guy.getID(), id(), get_level() );
+        get_event_bus().send<event_type::player_levels_spell>( guy.getID(), id(), get_level(),
+                spell_class() );
     }
 }
 
@@ -1989,7 +1990,8 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
             int old_level = temp_sp.get_level();
             temp_sp.set_exp( new_exp );
             if( guy->is_avatar() && old_level != temp_sp.get_level() ) {
-                get_event_bus().send<event_type::player_levels_spell>( guy->getID(), sp->id, temp_sp.get_level() );
+                get_event_bus().send<event_type::player_levels_spell>( guy->getID(), sp->id, temp_sp.get_level(),
+                        sp->spell_class );
             }
         } else {
             get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );

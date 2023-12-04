@@ -1,0 +1,435 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RUN_RIDDLE",
+    "//": "just a list of random riddles, separate file to prevent bloating.  This one does nothing, and just a fluff.",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_XE_RIDDLE_01", { "math": [ "xe_riddle_01 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_02", { "math": [ "xe_riddle_02 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_03", { "math": [ "xe_riddle_03 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_04", { "math": [ "xe_riddle_04 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_05", { "math": [ "xe_riddle_05 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_06", { "math": [ "xe_riddle_06 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_07", { "math": [ "xe_riddle_07 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_08", { "math": [ "xe_riddle_08 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_09", { "math": [ "xe_riddle_09 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_10", { "math": [ "xe_riddle_10 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_11", { "math": [ "xe_riddle_11 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_12", { "math": [ "xe_riddle_12 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_13", { "math": [ "xe_riddle_13 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_14", { "math": [ "xe_riddle_14 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_15", { "math": [ "xe_riddle_15 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_16", { "math": [ "xe_riddle_16 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_17", { "math": [ "xe_riddle_17 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_18", { "math": [ "xe_riddle_18 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_19", { "math": [ "xe_riddle_19 + 1" ] } ],
+          [ "EOC_XE_RIDDLE_20", { "math": [ "xe_riddle_20 + 1" ] } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_01",
+    "effect": [
+      { "math": [ "xe_riddle_01", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "All or Nothing?", "names": [ "All", "Nothing" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_02",
+    "effect": [
+      { "math": [ "xe_riddle_02", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Dead or Alive?", "names": [ "Dead", "Alive" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_03",
+    "effect": [
+      { "math": [ "xe_riddle_03", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Deep or Shallow?", "names": [ "Deep", "Shallow" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_04",
+    "effect": [
+      { "math": [ "xe_riddle_04", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Dusk or Dawn?", "names": [ "Dusk", "Dawn" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_05",
+    "effect": [
+      { "math": [ "xe_riddle_05", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Enemy or Friend?", "names": [ "Enemy", "Friend" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_06",
+    "effect": [
+      { "math": [ "xe_riddle_06", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Even or Odd?", "names": [ "Even", "Odd" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_07",
+    "effect": [
+      { "math": [ "xe_riddle_07", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Fail or Success?", "names": [ "Fail", "Success" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_08",
+    "effect": [
+      { "math": [ "xe_riddle_08", "--" ] },
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
+        "title": "Guilty or Innocent?",
+        "names": [ "Guilty", "Innocent" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_09",
+    "effect": [
+      { "math": [ "xe_riddle_09", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Hero or Coward?", "names": [ "Hero", "Coward" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_10",
+    "effect": [
+      { "math": [ "xe_riddle_10", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Hope or Despair?", "names": [ "Hope", "Despair" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_11",
+    "effect": [
+      { "math": [ "xe_riddle_11", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Inner or Outer?", "names": [ "Inner", "Outer" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_12",
+    "effect": [
+      { "math": [ "xe_riddle_12", "--" ] },
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
+        "title": "Victory or Defeat?",
+        "names": [ "Victory", "Defeat" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_13",
+    "effect": [
+      { "math": [ "xe_riddle_13", "--" ] },
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
+        "title": "Madness or Sanity?",
+        "names": [ "Madness", "Sanity" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_14",
+    "effect": [
+      { "math": [ "xe_riddle_14", "--" ] },
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
+        "title": "Opressed or Opressor?",
+        "names": [ "Opressed", "Opressor" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_15",
+    "effect": [
+      { "math": [ "xe_riddle_15", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Rapid or Slow?", "names": [ "Rapid", "Slow" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_16",
+    "effect": [
+      { "math": [ "xe_riddle_16", "--" ] },
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
+        "title": "Remember or Forget?",
+        "names": [ "Remember", "Forget" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_17",
+    "effect": [
+      { "math": [ "xe_riddle_17", "--" ] },
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
+        "title": "The Beginning or The End?",
+        "names": [ "The Beginning", "The End" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_18",
+    "effect": [
+      { "math": [ "xe_riddle_18", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Truth or Lie?", "names": [ "Truth", "Lie" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_19",
+    "effect": [
+      { "math": [ "xe_riddle_19", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "War or Peace?", "names": [ "War", "Peace" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RIDDLE_20",
+    "effect": [
+      { "math": [ "xe_riddle_20", "--" ] },
+      { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Yes or No?", "names": [ "Yes", "No" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RUN_RIDDLE_EATER_DREAMER",
+    "//": "This one gives you a specific class once picked.",
+    "//2": "dreamer is an allusion of king, ruler or noble, when eater is soldier and layman",
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_XE_ED_RIDDLE_1", { "const": 1 } ],
+        [ "EOC_XE_ED_RIDDLE_2", { "const": 1 } ],
+        [ "EOC_XE_ED_RIDDLE_3", { "const": 1 } ],
+        [ "EOC_XE_ED_RIDDLE_4", { "const": 1 } ],
+        [ "EOC_XE_ED_RIDDLE_5", { "const": 1 } ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ED_RIDDLE_1",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_DREAMER", "EOC_XE_GIVE_CLASS_EATER" ],
+        "title": "Lord or Peasant?",
+        "names": [ "Lord", "Peasant" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ED_RIDDLE_2",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_DREAMER", "EOC_XE_GIVE_CLASS_EATER" ],
+        "title": "King or Pawn?",
+        "names": [ "King", "Pawn" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ED_RIDDLE_3",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_EATER", "EOC_XE_GIVE_CLASS_DREAMER" ],
+        "title": "Executed or Executioner?",
+        "names": [ "Executed", "Executioner" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ED_RIDDLE_4",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_EATER", "EOC_XE_GIVE_CLASS_DREAMER" ],
+        "title": "Reality or Dreams?",
+        "names": [ "Reality", "Dreams" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ED_RIDDLE_5",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_DREAMER", "EOC_XE_GIVE_CLASS_EATER" ],
+        "title": "Leader or Follower?",
+        "names": [ "Leader", "Follower" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_CLASS_EATER",
+    "effect": [
+      { "u_add_trait": "EATER" },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_EATER" ] },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_EATER" ] },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_INITIAL_SPELL_EATER",
+    "effect": [
+      { "u_roll_remainder": [ "spring_heeled_leap", "spell_rage", "spell_stamina_wonder", "spell_dodge" ], "type": "spell" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_CLASS_DREAMER",
+    "effect": [
+      { "u_add_trait": "DREAMER" },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_DREAMER" ] },
+      { "run_eocs": [ "EOC_XE_GIVE_INITIAL_SPELL_DREAMER" ] },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_INITIAL_SPELL_DREAMER",
+    "effect": [ { "u_roll_remainder": [ "dream_dagger", "make_constructed_hammer", "summon_shifter" ], "type": "spell" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RUN_GIVE_CLASS_1_AFTERMATCH",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_NONE", "EOC_NONE", "EOC_NONE", "EOC_NONE", "EOC_NONE", "EOC_NONE", "EOC_NONE", "EOC_NONE" ],
+        "title": "It doesn't matter…",
+        "names": [
+          "It doesn't matter…",
+          "It doesn't matter…",
+          "It doesn't matter…",
+          "It doesn't matter…",
+          "It doesn't matter…",
+          "It doesn't matter…",
+          "It doesn't matter…",
+          "It doesn't matter…"
+        ]
+      },
+      { "u_message": "Since your kind is doomed…", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RUN_RIDDLE_INVENTOR_DREAMSMITH",
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_XE_ID_RIDDLE_1", { "const": 1 } ],
+        [ "EOC_XE_ID_RIDDLE_2", { "const": 1 } ],
+        [ "EOC_XE_ID_RIDDLE_3", { "const": 1 } ],
+        [ "EOC_XE_ID_RIDDLE_4", { "const": 1 } ],
+        [ "EOC_XE_ID_RIDDLE_5", { "const": 1 } ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ID_RIDDLE_1",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_INVENTOR", "EOC_XE_GIVE_CLASS_DREAMSMITH" ],
+        "title": "Wisdom or Foolishness?",
+        "names": [ "Wisdom", "Foolishness" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ID_RIDDLE_2",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_DREAMSMITH", "EOC_XE_GIVE_CLASS_INVENTOR" ],
+        "title": "Purity or Contamination?",
+        "names": [ "Purity", "Contamination" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ID_RIDDLE_3",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_DREAMSMITH", "EOC_XE_GIVE_CLASS_INVENTOR" ],
+        "title": "Past or Future?",
+        "names": [ "Past", "Future" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ID_RIDDLE_4",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_INVENTOR", "EOC_XE_GIVE_CLASS_DREAMSMITH" ],
+        "title": "Complex or Straightforward?",
+        "names": [ "Complex", "Straightforward" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ID_RIDDLE_5",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_CLASS_INVENTOR", "EOC_XE_GIVE_CLASS_DREAMSMITH" ],
+        "title": "Knowledge or Certainty?",
+        "names": [ "Knowledge", "Certainty" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_CLASS_INVENTOR",
+    "effect": [
+      { "u_add_trait": "INVENTOR" },
+      { "u_roll_remainder": [ "inventor_research_base_1" ], "type": "recipe" },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_CLASS_DREAMSMITH",
+    "effect": [
+      { "u_add_trait": "DREAMSMITH" },
+      { "run_eocs": [ "EOC_DREAMSMITHS_RECIPES_ENCH" ] },
+      { "run_eocs": [ "EOC_DREAMSMITHS_RECIPES_ENCH" ] },
+      { "run_eocs": [ "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH",
+    "effect": [
+      { "u_message": "Your attempts to save anything are hopeless…", "type": "mixed" },
+      { "math": [ "magic_potential", "=", "0" ] }
+    ]
+  }
+]
