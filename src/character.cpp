@@ -1312,7 +1312,7 @@ int Character::overmap_sight_range( float light_level ) const
                                ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                                get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
-        if (has_optic) {
+        if( has_optic ) {
             multiplier += 1;
         }
     }
