@@ -1303,7 +1303,7 @@ int Character::overmap_sight_range( float light_level ) const
         // The higher your perception, the farther you can see.
         sight += static_cast<int>( get_per() / 2 );
         // The higher up you are, the farther you can see.
-        sight += std::max(0, posz()) * 2;
+        sight += std::max( 0, posz() ) * 2;
 
         // Binoculars double your sight range.
         // When adding checks here, also call game::update_overmap_seen at the place they first become true
