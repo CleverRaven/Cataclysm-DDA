@@ -119,7 +119,6 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
-static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -858,20 +857,10 @@ static void smash()
                           player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
-    int smashskill = player_character.get_arm_str();
-    ///\EFFECT_STR increases smashing capability
+    int smashskill = player_character.smash_ability();
     if( player_character.is_mounted() ) {
-        auto *mon = player_character.mounted_creature.get();
-        smashskill += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
         mech_smash = true;
-    } else if( player_character.get_wielded_item() ) {
-        smashskill += player_character.get_wielded_item()->damage_melee( damage_bash );
     }
-    smashskill = player_character.calculate_by_enchantment( smashskill, enchant_vals::mod::MELEE_DAMAGE,
-                 true );
-    smashskill = player_character.calculate_by_enchantment( smashskill,
-                 enchant_vals::mod::ITEM_DAMAGE_BASH,
-                 true );
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
@@ -952,18 +941,7 @@ static void smash()
 
     if( !player_character.has_weapon() ) {
         const bodypart_id bp_null( "bp_null" );
-        std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
-        int tmp_bash_armor = 0;
-        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-            tmp_bash_armor += player_character.worn.damage_resist( damage_bash, bp );
-            for( const trait_id &mut : player_character.get_mutations() ) {
-                const resistances &res = mut->damage_resistance( bp );
-                tmp_bash_armor += std::floor( res.type_resist( damage_bash ) );
-            }
-            if( tmp_bash_armor > best_part_to_smash.second ) {
-                best_part_to_smash = {bp, tmp_bash_armor};
-            }
-        }
+        std::pair<bodypart_id, int> best_part_to_smash = player_character.best_part_to_smash();
         if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
             std::string name_to_bash = _( "thing" );
             if( here.is_bashable_furn( smashp ) ) {
@@ -978,10 +956,8 @@ static void smash()
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
         }
-        const int min_smashskill = smashskill * best_part_to_smash.first->smash_efficiency;
-        const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
-        smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
+
     const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;

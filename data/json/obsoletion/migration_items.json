@@ -55,6 +55,17 @@
     "replace": "ammo_box_4"
   },
   {
+    "id": "ammunition_can_carlgustav",
+    "type": "MIGRATION",
+    "replace": "ammunition_can_carlgustav_hedp"
+  },
+  {
+    "id": "glock_20",
+    "from_variant": "glock_40",
+    "type": "MIGRATION",
+    "replace": "glock_40"
+  },
+  {
     "id": "r_paint",
     "type": "MIGRATION",
     "replace": "paint_can_steel",

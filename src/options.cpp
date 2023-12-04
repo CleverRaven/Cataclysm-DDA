@@ -2845,8 +2845,8 @@ void options_manager::add_options_debug()
                                       to_translation( "Options regarding 3D field of vision." ) ),
     [&]( const std::string & page_id ) {
         add( "FOV_3D", page_id, to_translation( "Experimental 3D field of vision" ),
-             to_translation( "If true, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level.  It affects only visibility, activity on different z-levels is still calculated regardless." ),
-             true
+             to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level." ),
+             false
            );
 
         add( "FOV_3D_Z_RANGE", page_id, to_translation( "Vertical range of 3D field of vision" ),
@@ -3648,6 +3648,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
+
+            if( current_opt.getName() == "USE_LANG" ) {
+                current_opt.setValue( select_language() );
+                return;
+            }
 
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();

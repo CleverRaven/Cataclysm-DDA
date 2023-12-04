@@ -31,7 +31,7 @@ int detail::get_current_language_version()
 #include "system_locale.h"
 #include "ui.h"
 
-void select_language()
+std::string select_language()
 {
     auto languages = get_options().get_option( "USE_LANG" ).getItems();
 
@@ -48,8 +48,7 @@ void select_language()
     }
     sm.query();
 
-    get_options().get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
-    get_options().save();
+    return languages[sm.ret].first;
 }
 #endif // LOCALIZE
 

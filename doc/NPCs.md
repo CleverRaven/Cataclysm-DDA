@@ -359,10 +359,14 @@ Field | Used for...
 `<npc_val:VAR>` | The npc variable VAR
 `<context_val:VAR>` | The context variable VAR
 `<global_val:VAR>` | The global variable VAR
-`<item_name:ID>` | The name of the item with ID
-`<item_description:ID>` | The description of the item with ID
-`<trait_name:ID>` | The name of the trait with ID
-`<trait_description:ID>` | The description of the trait with ID
+`<item_name:ID>` | The name of the item from ID
+`<item_description:ID>` | The description of the item from ID
+`<trait_name:ID>` | The name of the trait from ID
+`<trait_description:ID>` | The description of the trait from ID
+`<spell_name:ID>` | The description of the name from ID
+`<spell_description:ID>` | The description of the trait from ID
+
+item_name and similar tags, that parse the text out of the id, are able to parse the tags of variables, so it is possible to use `<item_name:<global_val:VAR>>`
 
 ---
 
