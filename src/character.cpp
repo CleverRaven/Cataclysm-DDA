@@ -8560,6 +8560,14 @@ units::volume Character::free_space() const
     return volume_capacity;
 }
 
+units::mass Character::free_weight_capacity() const
+{
+    units::mass weight_capacity = 0_gram;
+    weight_capacity += weapon.get_remaining_weight_capacity();
+    weight_capacity += worn.free_weight_capacity();
+    return weight_capacity;
+}
+
 units::volume Character::holster_volume() const
 {
     units::volume holster_volume = 0_ml;
