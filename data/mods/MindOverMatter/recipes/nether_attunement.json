@@ -49,10 +49,9 @@
         "id": "EOC_MATRIX_DRAIN_MEDITATION",
         "effect": [
           {
-            "u_message": "You channel all of your powers into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, the strange feelings that caused by using your powers vanish."
+            "u_message": "You channel all of your powers into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, the strange feelings caused by using your powers vanish."
           },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] },
-          { "u_lose_effect": "psi_nether_attention" },
           { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 }
         ]
       }
