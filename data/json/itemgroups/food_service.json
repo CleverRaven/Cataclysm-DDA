@@ -1720,6 +1720,20 @@
   },
   {
     "type": "item_group",
+    "id": "potato_bag_plastic_1",
+    "subtype": "collection",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "potato", "container-item": "null", "count": [ 1, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "onion_bag_plastic_1",
+    "subtype": "collection",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "onion", "container-item": "null", "count": [ 1, 25 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "chips2_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
