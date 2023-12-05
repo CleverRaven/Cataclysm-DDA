@@ -1763,7 +1763,7 @@
     "name": [ "Accelerated Resuscitation" ],
     "desc": [ "If you suffer potentially-fatal damage, your powers will attempt to save you." ],
     "rating": "good",
-    "max_duration": "7 days",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
