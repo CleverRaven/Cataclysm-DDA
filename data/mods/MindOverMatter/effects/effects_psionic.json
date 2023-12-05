@@ -1087,6 +1087,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_hide_ugly",
+    "name": [ "Mirror-Mask" ],
+    "desc": [ "You're just another survivor.  There's definitely nothing odd about you at all." ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokinetic_radio",
     "name": [ "Radio Transception" ],
     "desc": [ "You can interpret and transmit radio waves." ],
