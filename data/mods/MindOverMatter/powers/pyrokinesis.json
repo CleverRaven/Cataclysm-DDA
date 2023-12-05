@@ -682,7 +682,7 @@
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: pyrokinetic_incineration') * 1) + 2) * (scaling_factor(u_val('intelligence') ) ), 20)"
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_incineration') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ), 20)"
       ]
     },
     "max_range": 20,
