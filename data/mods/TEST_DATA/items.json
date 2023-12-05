@@ -4798,7 +4798,7 @@
     "type": "TOOL",
     "copy-from": "welder",
     "name": { "str": "debug old arc welder" },
-    "description": "Copy of old arc welder that uses batteries.",
+    "description": "Copy of old arc welder that still uses batteries.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -4826,7 +4826,7 @@
     "type": "TOOL",
     "copy-from": "forge",
     "name": { "str": "electric forge" },
-    "description": "Copy of electric forge, that still can use batteries.",
+    "description": "Copy of electric forge, that still can uses batteries.",
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ]
@@ -4836,13 +4836,43 @@
     "type": "TOOL",
     "copy-from": "vac_mold",
     "name": { "str": "vacuum molder" },
-    "description": "Copy of vacuum molder, that still can use batteries.",
+    "description": "Copy of vacuum molder, that still can uses batteries.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "dehydrator",
+    "type": "TOOL",
+    "copy-from": "dehydrator",
+    "name": { "str": "food dehydrator" },
+    "description": "Copy of food dehydrator, that still can uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "soldering_iron",
+    "type": "TOOL",
+    "copy-from": "soldering_iron",
+    "name": { "str": "soldering iron" },
+    "description": "Copy of soldering iron, that still can uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   }
