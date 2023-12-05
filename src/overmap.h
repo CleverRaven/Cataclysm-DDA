@@ -200,7 +200,7 @@ class overmap
         const point_abs_om &pos() const {
             return loc;
         }
-        int get_urbanity() {
+        int get_urbanity() const {
             return urbanity;
         }
 
