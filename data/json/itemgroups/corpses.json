@@ -508,6 +508,7 @@
   {
     "id": "corpses_all",
     "type": "item_group",
+    "//": "Used in the code for the biogas digester.",
     "items": [ { "group": "corpses" }, { "item": "corpse" } ]
   }
 ]
