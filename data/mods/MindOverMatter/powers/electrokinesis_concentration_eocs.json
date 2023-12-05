@@ -75,7 +75,7 @@
         "time_in_future": [
           {
             "math": [
-              "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_batter') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+              "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
             ]
           },
           {
