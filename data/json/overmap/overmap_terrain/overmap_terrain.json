@@ -251,7 +251,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
