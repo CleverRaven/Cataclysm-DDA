@@ -70,7 +70,7 @@
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",
-    "name": "potion starter",
+    "name": { "str_sp": "potion starter" },
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
@@ -78,7 +78,7 @@
     "copy-from": "chem_ethanol",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": "superior potion starter",
+    "name": { "str_sp": "superior potion starter" },
     "charges": 1,
     "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
@@ -167,7 +167,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "light_red",
-    "name": "dragon essence",
+    "name": { "str_sp": "dragon essence" },
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
     "comestible_type": "DRINK",
     "volume": "250 ml",

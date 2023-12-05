@@ -27,7 +27,7 @@
     "base_casting_time": 50,
     "final_casting_time": 20,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_health_power": 10, "vita_blood_purge": 15 }
+    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_cure_disease": 12, "vita_blood_purge": 15 }
   },
   {
     "id": "vita_stop_bleeding_01",
@@ -113,7 +113,13 @@
         "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_val('spell_level', 'spell: vita_health_power') * 7.5)), 25)"
       ]
     },
-    "learn_spells": { "vita_health_power_ally": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
+    "learn_spells": {
+      "vita_health_power_ally": 5,
+      "vita_sleeping_trance": 7,
+      "vita_cure_disease": 10,
+      "vita_healing_trance": 15,
+      "vita_banish_illness": 18
+    }
   },
   {
     "id": "vita_hurt_touch",
@@ -191,6 +197,63 @@
     "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
   },
   {
+    "id": "vita_sleeping_trance",
+    "type": "SPELL",
+    "name": "[Ψ]Wakeful Rest",
+    "description": "In lieu of sleep, you can meditate.  As long as you maintain your meditations, you will rarely need to spend a night sleeping.",
+    "message": "You begin meditating.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SLEEP",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1000,
+    "base_casting_time": 100,
+    "learn_spells": { "vita_healing_trance": 9, "vita_blood_purge": 12, "vita_banish_illness": 15 }
+  },
+  {
+    "id": "vita_cure_disease",
+    "type": "SPELL",
+    "name": "[Ψ]Immunostimulus (C)",
+    "description": "Kick your immune system into overdrive in order to overcome any illnesses you may be suffering from.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_CURE_DISEASE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 4500) + 125000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 12000) + 275000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 0 : max((5500 - (u_val('spell_level', 'spell: vita_cure_disease') * 125)), 2500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 10 : max((500 -(u_val('spell_level', 'spell: vita_cure_disease') * 18)), 50)"
+      ]
+    },
+    "learn_spells": { "vita_stop_infection": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
+  },
+  {
     "id": "vita_pain_split",
     "type": "SPELL",
     "name": "[Ψ]Damage Balancing",
@@ -214,28 +277,6 @@
     "final_casting_time": 75,
     "casting_time_increment": -12,
     "learn_spells": { "vita_healing_trance": 12, "vita_sleeping_trance": 14, "vita_blood_purge": 15 }
-  },
-  {
-    "id": "vita_sleeping_trance",
-    "type": "SPELL",
-    "name": "[Ψ]Wakeful Rest",
-    "description": "In lieu of sleep, you can meditate.  As long as you maintain your meditations, you will rarely need to spend a night sleeping.",
-    "message": "You begin meditating.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VITAKIN_SLEEP",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
-    "shape": "blast",
-    "energy_source": "STAMINA",
-    "base_energy_cost": 1000,
-    "base_casting_time": 100,
-    "learn_spells": { "vita_healing_trance": 9, "vita_blood_purge": 12, "vita_banish_illness": 15 }
   },
   {
     "id": "vita_stop_infection",

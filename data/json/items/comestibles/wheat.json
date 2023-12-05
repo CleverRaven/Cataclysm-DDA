@@ -321,7 +321,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frenchtoast",
-    "name": { "str": "French toast" },
+    "name": { "str_sp": "French toast" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -402,7 +402,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oyster_crackers",
-    "name": { "ctxt": "oyster crackers", "str_sp": "oyster crackers" },
+    "name": { "str": "oyster cracker" },
     "copy-from": "crackers",
     "weight": "25 g",
     "container": "plastic_bag_vac",
@@ -523,7 +523,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cloutie_dumpling",
-    "name": { "str": "cloutie dumpling" },
+    "name": { "str_sp": "cloutie dumplings" },
     "weight": "91 g",
     "color": "brown",
     "spoils_in": "2 days",

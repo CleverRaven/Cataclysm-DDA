@@ -3,7 +3,7 @@
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str": "protein drink" },
+    "name": { "str_sp": "protein drink" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
@@ -79,7 +79,7 @@
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
-    "name": { "str": "protein shake" },
+    "name": { "str_sp": "protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
@@ -98,7 +98,7 @@
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
     "type": "COMESTIBLE",
-    "name": { "str": "fortified protein shake" },
+    "name": { "str_sp": "fortified protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
@@ -111,7 +111,7 @@
     "id": "milk_fortified",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str": "fortified milk" },
+    "name": { "str_sp": "fortified milk" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
@@ -140,7 +140,7 @@
     "id": "protein_smoothie",
     "copy-from": "milk_fortified",
     "type": "COMESTIBLE",
-    "name": { "str": "protein smoothie" },
+    "name": { "str_sp": "protein smoothie" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },

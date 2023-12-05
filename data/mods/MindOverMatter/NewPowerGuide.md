@@ -2,7 +2,7 @@
 
 When adding powers, keep the following in mind:
 
-1) Choose a Difficulty, which is important for determining how much Drain the power causes.
+1) Choose a Difficulty, which is important for determining how much Nether Attunement the power causes.
 2) Make sure to use the "extra_effects" field to apply drain
 3) Make sure the power has some element of randomness--unlike magical spells, psionic powers are not completely predictable. The standard formula I've used is generally { "math": [ "( ( (u_val('spell_level', 'spell: [NAME]') * [LEVELED_VALUE]) + [BASE_VALUE]) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }. This makes sure that the power scales appropriately with its level and also that its effects are modified by intelligence: +5% effectiveness for every point of intelligence above 10, -5% for every point below 10. Generally damage, duration, and range are all scaled this way, while maximum level is a simple 1.5 * intelligence.
 4) Make sure the power has connections to other powers, either teaching them or being learned by them.

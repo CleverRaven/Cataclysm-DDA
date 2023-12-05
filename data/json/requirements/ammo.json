@@ -11,6 +11,12 @@
     "components": [ [ [ "9mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_38spc",
+    "type": "requirement",
+    "//": "Components required for 308 ammo",
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_308",
     "type": "requirement",
     "//": "Components required for 308 ammo",
