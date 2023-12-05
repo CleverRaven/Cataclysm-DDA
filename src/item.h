@@ -1983,8 +1983,19 @@ class item : public visitable
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
+         */
+        std::optional<furn_str_id> get_plant_seedling_form() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
+         */
+        std::optional<furn_str_id> get_plant_mature_form() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
+         */
+        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
-
         /**
          * @name Armor related functions.
          *

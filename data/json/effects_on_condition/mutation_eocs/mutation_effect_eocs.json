@@ -574,5 +574,71 @@
       { "u_lose_trait": "ROSEBUDS_FALL" },
       { "u_add_trait": "ROSEBUDS_WINTER" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shed_summer_timer_lupine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
+    "effect": [
+      {
+        "u_message": "You've been shedding for a while, and your coat feels noticably lighter.",
+        "type": "good"
+      },
+      { "u_lose_trait": "LUPINE_FUR" },
+      { "u_add_trait": "LUPINE_FUR_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "regrow_timer_lupine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "LUPINE_FUR_SUMMER" },
+        { "not": { "is_season": "summer" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "It looks like your coat has grown back in for the colder seasons.",
+        "type": "good"
+      },
+      { "u_lose_trait": "LUPINE_FUR_SUMMER" },
+      { "u_add_trait": "LUPINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shed_summer_timer_ursine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
+    "effect": [
+      {
+        "u_message": "You've been shedding for a while, and your coat feels noticably lighter.",
+        "type": "good"
+      },
+      { "u_lose_trait": "URSINE_FUR" },
+      { "u_add_trait": "URSINE_FUR_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "regrow_timer_ursine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "URSINE_FUR_SUMMER" },
+        { "not": { "is_season": "summer" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "It looks like your coat has grown back in for the colder seasons.",
+        "type": "good"
+      },
+      { "u_lose_trait": "URSINE_FUR_SUMMER" },
+      { "u_add_trait": "URSINE_FUR" }
+    ]
   }
 ]

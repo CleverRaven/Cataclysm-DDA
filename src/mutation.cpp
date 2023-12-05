@@ -1208,6 +1208,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             std::vector<trait_id> prospective_traits;
             prospective_traits.insert( prospective_traits.end(), upgrades.begin(), upgrades.end() );
             prospective_traits.insert( prospective_traits.end(), valid.begin(), valid.end() );
+            
             for( trait_id dummy_trait : dummies ) {
                 // Only dummy traits with conflicts are considered
                 if( has_conflicting_trait( dummy_trait ) ) {
@@ -1478,9 +1479,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     bool c_has_both_prereqs = false;
     bool c_has_prereq1 = false;
     bool c_has_prereq2 = false;
+    bool c_has_prevented_by = false;
     std::vector<trait_id> canceltrait;
     std::vector<trait_id> prereqs1 = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
+    std::vector<trait_id> prevented_by = mdata.prevented_by;
     std::vector<trait_id> cancel = mdata.cancels;
     std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
@@ -1496,6 +1499,14 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: same-typed trait %s added to cancel list",
                            consider.c_str() );
             cancel.push_back( consider );
+        }
+    }
+
+    for( size_t i = 0; ( !c_has_prevented_by ) && i < prevented_by.size(); i++ ) {
+        if( has_trait( prevented_by[i] ) ) {
+                add_msg_debug( debugmode::DF_MUTATION,
+                               "mutate_towards: tried to gain %s, but it's prevented by an existing mutation.", mdata.id.c_str() );
+            return false;
         }
     }
 

@@ -8199,6 +8199,7 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
+
     const time_duration plantEpoch = seed->get_plant_epoch();
     if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
         !furn.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST ) ) {
@@ -8216,12 +8217,14 @@ void map::grow_plant( const tripoint &p )
             }
 
             rotten_item_spawn( *seed, p );
-            furn_set( p, furn_str_id( furn.plant->transform ) );
+            //Become a seedling
+            std::optional<furn_str_id> seedling_form = seed->get_plant_seedling_form();
+            furn_set( p, furn_str_id( seedling_form.value() ) );
+                        
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
                 return;
             }
-
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.has_flag( flag_FERTILIZER );
@@ -8229,13 +8232,15 @@ void map::grow_plant( const tripoint &p )
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
             }
-
             rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
             if( !has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
                 rotten_item_spawn( *seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant->transform ) );
+            //Become a mature plant
+            std::optional<furn_str_id> mature_form = seed->get_plant_mature_form();
+            furn_set( p, furn_str_id( mature_form.value() ) );
+
         } else {
             //You've skipped two stages so roll monsters two times
             if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
@@ -8250,7 +8255,9 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( *seed, p );
                 rotten_item_spawn( *seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant->transform ) );
+            //Become a harvestable plant.
+            std::optional<furn_str_id> harvestable_form = seed->get_plant_harvestable_form();
+            furn_set( p, furn_str_id( harvestable_form.value() ) );
         }
     }
 }

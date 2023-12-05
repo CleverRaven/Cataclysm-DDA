@@ -3237,7 +3237,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         } else {
             here.furn_set( examp, f_plant_seed );
         }
-        you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+        you->add_msg_player_or_npc( _( "You plant your %s." ), _( "<npcname> plants their %s." ),
                                     item::nname( seed_id ) );
     }
     // Go back to what we were doing before

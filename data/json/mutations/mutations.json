@@ -18,7 +18,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
+    "types": [ "BIOLUM", "HORNS", "HAIR", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
     "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
@@ -3035,7 +3035,21 @@
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
     "category": [ "URSINE" ],
+    "prevented_by": [ "URSINE_FUR_SUMMER" ],
     "integrated_armor": [ "integrated_ursine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "URSINE_FUR_SUMMER",
+    "name": { "str": "Scruffy Fur" },
+    "points": 4,
+    "visibility": 10,
+    "ugliness": 4,
+    "bodytemp_sleep": 225,
+    "description": "You've lost your fluffy undercoat for the summer.  This feels a lot better in the heat, but it's less protective and looks a little bedraggled.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "FUR" ],
+    "integrated_armor": [ "integrated_ursine_fur_summer" ]
   },
   {
     "type": "mutation",
@@ -3049,7 +3063,21 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "LUPINE" ],
+    "prevented_by": [ "LUPINE_FUR_SUMMER" ],
     "integrated_armor": [ "integrated_lupine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LUPINE_FUR_SUMMER",
+    "name": { "str": "Summer Coat" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,
+    "bodytemp_sleep": 175,
+    "description": "Your entire body is covered in dense fur, but it's thinned out a bit for the summer, which may provide some relief from the heat at the cost of physical protection.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "LIGHTFUR" ],
+    "integrated_armor": [ "integrated_lupine_fur_summer" ]
   },
   {
     "type": "mutation",
@@ -3603,6 +3631,7 @@
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
+    "prevented_by": [ "LEAVES_WINTER" ],
     "wet_protection": [ { "part": "head", "ignored": 1 } ]
   },
   {
@@ -3614,7 +3643,6 @@
     "ugliness": 2,
     "description": "In place of hair, you have long, grassy leaves which have gone dormant for the winter, turning dry and yellow like straw.  They help keep you warm, but that's about it.",
     "types": [ "HAIR" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
     "leads_to": [ "LEAVES2" ],
     "bodytemp_modifiers": [ 25, 75 ]
   },
@@ -3627,11 +3655,13 @@
     "ugliness": 5,
     "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize nutrients while in sunlight.  Reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES" ],
+    "prereqs": [ "LEAVES", "LEAVES_WINTER" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "cancels": [ "LEAVES_WINTER" ],
     "changes_to": [ "LEAVES3" ],
     "category": [ "PLANT" ],
+    "prevented_by": [ "LEAVES2_WINTER", "LEAVES2_FALL" ],
     "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
     "encumbrance_covered": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ]
   },
@@ -3641,11 +3671,9 @@
     "name": { "str": "Turning Leaves" },
     "points": 6,
     "visibility": 10,
-    "ugliness": -2,
+    "ugliness": -1,
     "description": "The leaves growing from your head and arms have taken on fall colors.  While pretty, they can't photosynthesize as well as the green ones.  Reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES" ],
-    "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
     "leads_to": [ "LEAVES3" ],
     "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
@@ -3659,8 +3687,6 @@
     "player_display": false,
     "description": "You have no leaves because it's wintertime.  This keeps you warm by reducing heat loss, but you don't know that because you shouldn't be able to see this.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES_WINTER" ],
-    "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
     "leads_to": [ "LEAVES3" ],
     "bodytemp_modifiers": [ 50, 150 ]
@@ -3674,9 +3700,11 @@
     "ugliness": 6,
     "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrients for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrients by standing in the sunlight.  Reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES2" ],
+    "prereqs": [ "LEAVES2", "LEAVES2_FALL", "LEAVES2_WINTER" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "cancels": [ "LEAVES2_FALL", "LEAVES2_WINTER" ],
+    "prevented_by": [ "LEAVES3_FALL", "LEAVES3_WINTER" ],
     "category": [ "PLANT" ],
     "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
     "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
@@ -3690,8 +3718,6 @@
     "ugliness": -4,
     "description": "Your head and upper limbs are covered in beautiful autumn leaves.  If they're uncovered you'll still be able to photosynthesize, but not as well as in the warmer months.  Reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES2" ],
-    "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
     "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
     "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
@@ -3704,8 +3730,6 @@
     "player_display": false,
     "description": "It's winter, so all your leaves are gone.  This keeps you warm by reducing heat loss, but you don't know that because you shouldn't be able to see this.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES2" ],
-    "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
     "bodytemp_modifiers": [ 100, 300 ]
   },
@@ -3737,7 +3761,8 @@
     "category": [ "PLANT", "ELFA" ],
     "changes_to": [ "ROSEBUDS" ],
     "scent_mask": -200,
-    "social_modifiers": { "lie": 10 }
+    "social_modifiers": { "lie": 10 },
+    "prevented_by": [ "FLOWERS_WINTER", "ROSEBUDS_SUMMER", "ROSEBUDS_FALL", "ROSEBUDS_WINTER" ]
   },
   {
     "type": "mutation",
@@ -3745,8 +3770,6 @@
     "name": { "str": "Dead Flowers" },
     "points": 2,
     "description": "No flowers in wintertime.  As such this mutation is not supposed to be visible to the player.",
-    "prereqs": [ "PLANTSKIN" ],
-    "prereqs2": [ "HAIRROOTS" ],
     "types": [ "SCENT" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "leads_to": [ "ROSEBUDS" ],
@@ -3761,11 +3784,12 @@
     "ugliness": -6,
     "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a mild fragrance that makes you pleasant to be around.",
     "types": [ "SCENT" ],
-    "prereqs": [ "FLOWERS" ],
-    "cancels": [ "SMELLY", "SMELLY2" ],
+    "prereqs": [ "FLOWERS", "FLOWERS_WINTER" ],
+    "cancels": [ "SMELLY", "SMELLY2", "FLOWERS_WINTER" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
-    "social_modifiers": { "lie": 10, "persuade": 8 }
+    "social_modifiers": { "lie": 10, "persuade": 8 },
+    "prevented_by": [ "ROSEBUDS_SUMMER", "ROSEBUDS_FALL", "ROSEBUDS_FALL_PICKED", "ROSEBUDS_WINTER" ]
   },
   {
     "type": "mutation",
@@ -3787,13 +3811,28 @@
     "points": 3,
     "visibility": 12,
     "ugliness": 2,
-    "description": "A few odd-looking fruits ripen on stems growing out of your head.  Activate to pick them.",
+    "active": true,
+    "description": "A few odd-looking fruits ripen on stems growing out of your head.  They'll probably die off come winter, but you could pick them before then, if you wanted.",
     "encumbrance_always": [ [ "head", 10 ] ],
+    "spells_learned": [ [ "spell_rosebuds_fall", 1 ] ],
     "restricts_gear": [ "head_crown" ],
     "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "//": "Sorry elves, only true plants can reproduce this way.",
     "threshreq": [ "THRESH_PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_FALL_PICKED",
+    "name": { "str": "Fruiting (picked)" },
+    "points": 3,
+    "description": "You've picked all your fruit and no longer have any, as such this mutation is not supposed to be visible.",
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
+    "cancels": [ "SMELLY", "SMELLY2", "ROSEBUDS_FALL" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -3802,6 +3841,7 @@
     "points": 3,
     "description": "No flowers in wintertime.  As such this mutation is not supposed to be visible to the player.",
     "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "player_display": false

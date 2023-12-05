@@ -480,6 +480,18 @@
     "types": [ "hair_style" ]
   },
   {
+    "id": "HAIR_INVALID",
+    "type": "mutation",
+    "name": { "str": "Hair: something else" },
+    "description": "You have something other than human hair growing from your scalp.  This invisible trait gets rid of your old hair to make room for it.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": false,
+    "vanity": false,
+    "types": [ "hair_style" ]
+  },
+  {
     "id": "eye_color",
     "type": "mutation",
     "name": { "str": "Eye color" },
