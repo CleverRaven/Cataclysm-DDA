@@ -27,7 +27,13 @@
     "base_casting_time": 50,
     "final_casting_time": 20,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_remove_poison": 11, "vita_cure_disease": 15, "vita_blood_purge": 18 }
+    "learn_spells": {
+      "vita_pain_split": 7,
+      "vita_stop_infection": 9,
+      "vita_remove_poison": 11,
+      "vita_cure_disease": 15,
+      "vita_blood_purge": 18
+    }
   },
   {
     "id": "vita_stop_bleeding_01",
