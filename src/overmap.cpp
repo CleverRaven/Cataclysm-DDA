@@ -5124,7 +5124,7 @@ void overmap::calculate_forestosity()
         forest_size_adjust += this_om.y() * southern_forest_increase;
     }
     forestosity = forest_size_adjust * 25.0f;
-    debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
+    //debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
     // make sure forest size never totally overwhelms the map
     forest_size_adjust = std::min( forest_size_adjust,
                                    get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
@@ -5187,7 +5187,7 @@ void overmap::calculate_urbanity()
         }
     }
     urbanity = static_cast<int>( urbanity_adj );
-    debugmsg( "urbanity = %i at OM %i, %i", urbanity, this_om.x(), this_om.y() );
+    //debugmsg( "urbanity = %i at OM %i, %i", urbanity, this_om.x(), this_om.y() );
 }
 
 /*: the root is overmap::place_cities()
