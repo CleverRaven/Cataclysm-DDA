@@ -141,7 +141,7 @@
     "type": "furniture",
     "id": "f_mutant_tree_adult",
     "name": "mutant tree",
-    "description": "This bizarre tree spreads its twisted branches at odd angles toward the sky.  If you squint, it almost looks like a human figure with its arms raised to catch the sun on its many broad, hand-shaped leaves.",
+    "description": "This bizarre tree spreads its twisted branches at odd angles toward the sky.  If you squint, it almost looks like a human figure with its arms raised to catch the sun.",
     "symbol": "#",
     "color": "light_green",
     "move_cost_mod": 0,
@@ -155,9 +155,9 @@
       "TINY",
       "DONT_REMOVE_ROTTEN",
       "GROWTH_HARVEST",
-      "SMALL_HIDE"
+      "MUTANT_TREE",
+      "TREE"
     ],
-    "examine_action": "harvest_plant_ex",
     "bash": { "str_min": 16, "str_max": 20, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_null", "base": "f_null" }
   },
@@ -165,12 +165,12 @@
     "type": "furniture",
     "id": "f_mutant_tree_sapling",
     "name": "mutant sapling",
-    "description": "A twisted and gnarled tree, about waist high.  Its shape is at once alien and familiar.",
+    "description": "A twisted and gnarled little tree.  Its shape is at once alien and familiar.",
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE", "YOUNG" ],
     "bash": { "str_min": 8, "str_max": 14, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
   },

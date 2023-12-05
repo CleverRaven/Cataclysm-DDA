@@ -59,6 +59,8 @@ static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
+static const move_mode_id move_mode_prone( "prone" );
+
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
@@ -888,7 +890,7 @@ void Character::activate_mutation( const trait_id &mut )
             }
         }
         if( !adjacent_tree ) {
-            add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
+            add_msg_if_player( m_info, _( "You can only do that next to a fully grown tree." ) );
             return;
         }
 
@@ -898,8 +900,9 @@ void Character::activate_mutation( const trait_id &mut )
                    has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
+            set_movement_mode( move_mode_prone );
             add_msg_if_player(
-                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+                _( "You lie down, letting your hair roots tangle with the tree's." ) );
         }
 
         assign_activity( ACT_TREE_COMMUNION );
