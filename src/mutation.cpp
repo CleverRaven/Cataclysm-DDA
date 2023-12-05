@@ -877,18 +877,23 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
-        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
-            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
-            return;
-        }
         // Check for adjacent trees.
         bool adjacent_tree = false;
+        bool adjacent_mutant_tree = false;
         map &here = get_map();
         for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;
             }
+            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                adjacent_mutant_tree = true;
+            }
         }
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() && !adjacent_mutant_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
+            return;
+        }
+
         if( !adjacent_tree ) {
             add_msg_if_player( m_info, _( "You can only do that next to a fully grown tree." ) );
             return;

@@ -3656,7 +3656,9 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                         }
                     }
             if( adjacent_mutant_tree == true ) {
-                you->add_msg_if_player( m_good, _( "Something familiar reaches out to your roots as the communion begins." ) );               
+                you->add_msg_if_player( m_good, _( "Something familiar reaches out to your roots as the communion begins." ) );  
+                you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion_mutant" ).value_or(
+                        translation() ) );         
             } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
@@ -3681,26 +3683,12 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     while( !q.empty() ) {
         tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
-            if( adjacent_mutant_tree == true && you->has_trait( trait_SPIRITUAL ) ) {
-                you->add_morale( MORALE_TREE_COMMUNION, 10, 30, 18_hours, 14_hours );
-            }
-            else if( adjacent_mutant_tree == true ) {
-                you->add_morale( MORALE_TREE_COMMUNION, 8, 30, 16_hours, 12_hours );
-            }
-            else if( you->has_trait( trait_SPIRITUAL ) ) {
-                you->add_morale( MORALE_TREE_COMMUNION, 6, 30, 8_hours, 6_hours );
+            if( you->has_trait( trait_SPIRITUAL ) ) {
+                you->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
             } else {
-                you->add_morale( MORALE_TREE_COMMUNION, 5, 15, 2_hours, 1_hours );
+                you->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
             }
-            if( adjacent_mutant_tree == true ) {
-                if( one_in( 256 ) ) {
-                you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion_mutant" ).value_or(
-                                            translation() ) );
-                } else if( one_in( 256 ) ) {
-                you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
-                                            translation() ) );
-                }
-            } else if( one_in( 128 ) ) {
+            if( one_in( 128 ) ) {
                 you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
                                             translation() ) );
             }
