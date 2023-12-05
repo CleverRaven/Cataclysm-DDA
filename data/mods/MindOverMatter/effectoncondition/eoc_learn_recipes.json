@@ -203,6 +203,7 @@
       { "u_learn_recipe": "practice_vita_stop_bleeding" },
       { "u_learn_recipe": "practice_vita_healing_touch" },
       { "u_learn_recipe": "practice_vita_hurt_touch" },
+      { "u_learn_recipe": "practice_vita_cure_disease" },
       { "u_learn_recipe": "practice_vita_sleeping_trance" },
       { "u_learn_recipe": "practice_vita_pain_split" },
       { "u_learn_recipe": "practice_vita_stop_infection" },

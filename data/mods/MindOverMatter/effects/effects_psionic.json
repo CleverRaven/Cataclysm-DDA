@@ -1628,14 +1628,10 @@
     "desc": [ "You feel amazing." ],
     "apply_message": "",
     "remove_message": "The surge of vitality leaves you in a rush.",
-    "decay_messages": [
-      [ "All of the day's hardships seem like they're catching up to you.", "bad" ],
-      [ "The vitality your powers gave you is starting to fade.", "bad" ]
-    ],
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 97,
-    "blocks_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ],
+    "blocks_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup" ],
     "removes_effects": [ "asthma" ],
     "base_mods": {
       "health_min": [ 1 ],
@@ -1646,6 +1642,16 @@
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 2 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_cure_disease",
+    "name": [ "Immunostimulized" ],
+    "desc": [ "You are not going to get sick.  You absolutely refuse.  And if you do, you're going to get better." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1721,5 +1727,45 @@
       }
     ],
     "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_health_common_cold_protection",
+    "//": "Hidden effect, prevents pre-common cold from becoming a cold",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "pre_common_cold", "common_cold" ],
+    "max_duration": "10 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_health_flu_protection",
+    "//": "Hidden effect, prevents pre-flu from becoming the flu",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "pre_flu", "flu" ],
+    "max_duration": "10 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_health_conjunctivitis_viral_protection",
+    "//": "Hidden effect, prevents viral conjunctivitis from becoming conjunctivitis",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "pre_conjunctivitis_viral", "conjunctivitis_viral" ],
+    "max_duration": "10 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_health_conjunctivitis_bacterial_protection",
+    "//": "Hidden effect, prevents bacterial conjunctivitis from becoming conjunctivitis",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "pre_conjunctivitis_bacterial", "conjunctivitis_bacterial" ],
+    "max_duration": "10 days"
   }
 ]
