@@ -307,6 +307,7 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
+    "travel_cost_type": "road",
     "mondensity": 2
   },
   {
@@ -426,6 +427,7 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
+    "travel_cost_type": "road",
     "mondensity": 2
   },
   {

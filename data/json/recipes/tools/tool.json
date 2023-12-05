@@ -1415,7 +1415,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 6 ] ],
-      [ [ "grinder_blade", 1 ] ],
+      [ [ "grinder_blade", 1 ], [ "grinder_metal_grinding_disc", 1 ], [ "grinder_cutoff_disc", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],

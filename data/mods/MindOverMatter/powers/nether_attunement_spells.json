@@ -27,7 +27,7 @@
   {
     "id": "psionic_drained_difficulty_one",
     "type": "SPELL",
-    "name": { "str": "Five Percent Drained Chance" },
+    "name": { "str": "Five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "5% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -62,7 +62,7 @@
   {
     "id": "psionic_drained_difficulty_two",
     "type": "SPELL",
-    "name": { "str": "Six point six Percent Drained Chance" },
+    "name": { "str": "Six point six Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "6.6% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -92,7 +92,7 @@
   {
     "id": "psionic_drained_difficulty_three",
     "type": "SPELL",
-    "name": { "str": "Eight Point Three Percent Drained Chance" },
+    "name": { "str": "Eight Point Three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "8.3% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -119,7 +119,7 @@
   {
     "id": "psionic_drained_difficulty_four",
     "type": "SPELL",
-    "name": { "str": "Eleven Percent Drained Chance" },
+    "name": { "str": "Eleven Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "11% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -143,7 +143,7 @@
   {
     "id": "psionic_drained_difficulty_five",
     "type": "SPELL",
-    "name": { "str": "Foirteen Percent Drained Chance" },
+    "name": { "str": "Foirteen Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "14% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -165,7 +165,7 @@
   {
     "id": "psionic_drained_difficulty_six",
     "type": "SPELL",
-    "name": { "str": "Twenty Percent Drained Chance" },
+    "name": { "str": "Twenty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "20% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -185,7 +185,7 @@
   {
     "id": "psionic_drained_difficulty_seven",
     "type": "SPELL",
-    "name": { "str": "Thirty-three Percent Drained Chance" },
+    "name": { "str": "Thirty-three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "33% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -203,7 +203,7 @@
   {
     "id": "psionic_drained_difficulty_eight",
     "type": "SPELL",
-    "name": { "str": "Fifty Percent Drained Chance" },
+    "name": { "str": "Fifty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "50% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -217,7 +217,7 @@
   {
     "id": "psionic_drained_difficulty_nine",
     "type": "SPELL",
-    "name": { "str": "Seventy-five Percent Drained Chance" },
+    "name": { "str": "Seventy-five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "75% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -236,7 +236,7 @@
   {
     "id": "psionic_drained_difficulty_ten",
     "type": "SPELL",
-    "name": { "str": "One hundred Percent Drained Chance" },
+    "name": { "str": "One hundred Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "100% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -250,9 +250,9 @@
   {
     "id": "psionic_maintenance_drain_spell",
     "type": "SPELL",
-    "name": { "str": "Psionic Maintenance Drain" },
+    "name": { "str": "Psionic Maintenance Nether Attunement" },
     "valid_targets": [ "self" ],
-    "description": "Applies Drained to you when maintaining a power.",
+    "description": "Applies Nether Attunement to you when maintaining a power.",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "message": "",
     "effect": "effect_on_condition",
@@ -275,7 +275,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_one",
     "type": "SPELL",
-    "name": { "str": "Five Percent Drained Chance" },
+    "name": { "str": "Five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "5% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -310,7 +310,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_two",
     "type": "SPELL",
-    "name": { "str": "Six point six Percent Drained Chance" },
+    "name": { "str": "Six point six Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "6.6% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -340,7 +340,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_three",
     "type": "SPELL",
-    "name": { "str": "Eight Point Three Percent Drained Chance" },
+    "name": { "str": "Eight Point Three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "8.3% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -367,7 +367,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_four",
     "type": "SPELL",
-    "name": { "str": "Eleven Percent Drained Chance" },
+    "name": { "str": "Eleven Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "11% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -391,7 +391,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_five",
     "type": "SPELL",
-    "name": { "str": "Foirteen Percent Drained Chance" },
+    "name": { "str": "Foirteen Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "14% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -413,7 +413,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_six",
     "type": "SPELL",
-    "name": { "str": "Twenty Percent Drained Chance" },
+    "name": { "str": "Twenty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "20% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -433,7 +433,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_seven",
     "type": "SPELL",
-    "name": { "str": "Thirty-three Percent Drained Chance" },
+    "name": { "str": "Thirty-three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "33% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -451,7 +451,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_eight",
     "type": "SPELL",
-    "name": { "str": "Fifty Percent Drained Chance" },
+    "name": { "str": "Fifty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "50% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -465,7 +465,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_nine",
     "type": "SPELL",
-    "name": { "str": "Seventy-five Percent Drained Chance" },
+    "name": { "str": "Seventy-five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "75% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -484,7 +484,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_ten",
     "type": "SPELL",
-    "name": { "str": "One hundred Percent Drained Chance" },
+    "name": { "str": "One hundred Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "100% chance to get drained.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
