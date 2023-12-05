@@ -61,7 +61,7 @@
     "id": "enchant_electrokin_electric_strikes",
     "condition": "ALWAYS",
     "has": "HELD",
-    "hit_you_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 3 } ],
+    "hit_you_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 2 } ],
     "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'spell: electrokinetic_melee_attacks') * -1" ] } } ]
   },
   {
