@@ -58,8 +58,7 @@
         "Ɣ": "t_region_groundcover_barren",
         "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 2 ] ]
       },
-      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90 } },
-      "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 14 } ]
+      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90 } }
     }
   }
 ]
