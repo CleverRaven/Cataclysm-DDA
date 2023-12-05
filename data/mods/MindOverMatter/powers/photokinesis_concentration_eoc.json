@@ -22,7 +22,7 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": [ "EOC_PHOTOKIN_REMOVE_HIDE_UGLY", "EOC_PHOTOKIN_HIDE_UGLY_GRANT_GODCO_VARS" ] } ]
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_HIDE_UGLY" } ]
   },
   {
     "type": "effect_on_condition",
@@ -51,7 +51,8 @@
       { "u_lose_trait": "PHOTOKIN_HIDE_UGLY_03" },
       { "u_lose_trait": "PHOTOKIN_HIDE_UGLY_04" },
       { "u_lose_trait": "PHOTOKIN_HIDE_UGLY_05" },
-      { "u_lose_trait": "PHOTOKIN_HIDE_UGLY_06" }
+      { "u_lose_trait": "PHOTOKIN_HIDE_UGLY_06" },
+      { "run_eocs": "EOC_PHOTOKIN_HIDE_UGLY_GRANT_GODCO_VARS" }
     ]
   },
   {
