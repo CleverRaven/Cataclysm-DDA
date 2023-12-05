@@ -5123,10 +5123,12 @@ void overmap::calculate_forestosity()
     if( southern_forest_increase != 0 && this_om.y() > 0 ) {
         forest_size_adjust += this_om.y() * southern_forest_increase;
     }
-    forestosity = static_cast<int>( forest_size_adjust * 50 );
-    
+    forestosity = forest_size_adjust * 25.0f;
+    debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
     // make sure forest size never totally overwhelms the map
-    forest_size_adjust = std::min( forest_size_adjust, get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>( settings->overmap_forest.noise_threshold_forest ));
+    forest_size_adjust = std::min( forest_size_adjust,
+                                   get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
+                                   ( settings->overmap_forest.noise_threshold_forest ) );
 }
 
 void overmap::calculate_urbanity()
@@ -5139,11 +5141,12 @@ void overmap::calculate_urbanity()
     int eastern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_EAST" );
     int western_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_WEST" );
     int southern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_SOUTH" );
-    if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 && southern_urban_increase == 0 ){
+    if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 &&
+        southern_urban_increase == 0 ) {
         return;
     }
     float urbanity_adj = 0.0f;
-    
+
     const point_abs_om this_om = pos();
     if( northern_urban_increase != 0 && this_om.y() < 0 ) {
         urbanity_adj -= this_om.y() * northern_urban_increase / 10.0f;
@@ -5156,7 +5159,7 @@ void overmap::calculate_urbanity()
             urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
         }
     }
-    if( eastern_urban_increase != 0 && this_om.x() > 0  ) {
+    if( eastern_urban_increase != 0 && this_om.x() > 0 ) {
         urbanity_adj += this_om.x() * eastern_urban_increase / 10.0f;
         if( this_om.y() < 0 && northern_urban_increase == 0 ) {
             urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
@@ -5183,7 +5186,8 @@ void overmap::calculate_urbanity()
             urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
         }
     }
-    urbanity = static_cast<int>( urbanity_adj);
+    urbanity = static_cast<int>( urbanity_adj );
+    debugmsg( "urbanity = %i at OM %i, %i", urbanity, this_om.x(), this_om.y() );
 }
 
 /*: the root is overmap::place_cities()
@@ -5205,12 +5209,17 @@ void overmap::place_cities()
         return;
     }
     // make sure city size adjust is never high enough to drop op_city_size below 2
-    int city_size_adjust = std::min( urbanity - forestosity / 2, -1 * op_city_size + 2);
-    int city_space_adjust = urbanity / 2 - forestosity;
+    int city_size_adjust = std::min( urbanity -  static_cast<int>( forestosity / 2.0f ),
+                                     -1 * op_city_size + 2 );
+    int city_space_adjust = urbanity / 2;
     int max_city_size = std::min( op_city_size + city_size_adjust, op_city_size * max_urbanity );
+    if( max_city_size < op_city_size ) {
+        // funny things happen if max_city_size is less than op_city_size.
+        max_city_size = op_city_size;
+    }
     if( op_city_spacing > 0 ) {
         city_space_adjust = std::min( city_space_adjust, op_city_spacing - 2 );
-        op_city_spacing = op_city_spacing - city_space_adjust;
+        op_city_spacing = op_city_spacing - city_space_adjust + static_cast<int>( forestosity );
     }
     // make sure not to get too extreme on the spacing if you go way far.
     op_city_spacing = std::min( op_city_spacing, 10 );
