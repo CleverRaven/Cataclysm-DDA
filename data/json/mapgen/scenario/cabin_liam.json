@@ -34,16 +34,16 @@
       ],
       "palettes": [ "cabin_palette", "cabin_palette_common" ],
       "item": {
-        "6": [ { "item": "ax" }, { "item": "corpse", "damage": 4 } ],
         "7": { "item": "shotgun_d" },
         "8": { "item": "shot_hull" },
         "9": { "item": "quilt" },
-        "Ŗ": [ { "item": "compbow" }, { "item": "arrow_cf", "count": 12 }, { "item": "quiver" } ]
+        "Ŗ": [ { "item": "compbow" }, { "item": "arrow_cf", "amount": 12 }, { "item": "quiver" } ]
       },
       "items": {
-        "Ŕ": { "item": "stash_wood", "repeat": [ 2, 4 ] },
-        "$": { "item": "used_1st_aid" },
-        "ť": { "item": "ammo_can_shot_part" }
+        "6": { "item": "chris_body", "chance": 100 },
+        "Ŕ": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
+        "$": { "item": "used_1st_aid", "chance": 100 },
+        "ť": { "item": "ammo_can_shot_part", "chance": 100 }
       },
       "fields": {
         "6": { "field": "fd_blood", "intensity": 1 },
@@ -58,7 +58,13 @@
         "Ɣ": "t_region_groundcover_barren",
         "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 2 ] ]
       },
-      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90 } }
+      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90, "status": 0 } }
     }
+  },
+  {
+    "id": "chris_body",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ax" }, { "item": "corpse_gunned", "damage": 4 } ]
   }
 ]
