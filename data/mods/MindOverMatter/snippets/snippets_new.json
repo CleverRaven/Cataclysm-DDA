@@ -288,9 +288,9 @@
         "id": "lab_file_teleportation_03", 
         "text": "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the disortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by an defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached."
       },
-      { 
-        "name": "testing report B4-2567", 
-        "id": "lab_file_teleportation_04", 
+      {
+        "name": "testing report B4-2567",
+        "id": "lab_file_teleportation_04",
         "text": "Attempt 1: Move pencil at least 400 cm: Successful\nAttempt 2: Move pencil at least 2 m: Failed\nAttempt 3: Move pencil inside sealed, clear plastic bag to outside the bag: Successful\nAttempt 4: Move pencil inside sealed, opaque plastic bag outside the bag: Failed\nAttempt 5: Move eraser without moving the rest of the pencil: Failed\nAttempt 6: Rotate pencil during transit of at least 400 cm so that eraser previously facing the door is now facing away from the door: Successful\nAttempt 7: Move pencil 400 cm into pencil sharpener: Successful\nAttempt 8: Move pencil at least 400 cm into bucket of water: Successful\nAttempt 9: Move pencil at least 400 cm into block of ice: Failed\nAttempt 10: Move stationary pencil 400 cm so that it arrives at destination with upward velocity: Failed\nAttempt 11: Preserve velocity of falling pencil after moving it at least 400 cm: Successful\nAttempt 12: Move pencil gripped firmly in hand at least 400 cm: Successful"
       }
     ]
