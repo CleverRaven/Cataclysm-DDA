@@ -433,7 +433,13 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 1 ], [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 15 ] ], [ [ "cable", 519 ] ], [ [ "pipe", 1 ] ], [ [ "bearing", 10 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+    "components": [
+      [ [ "e_scrap", 15 ] ],
+      [ [ "cable", 519 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "bearing", 10 ] ],
+      [ [ "sheet_metal_small", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
