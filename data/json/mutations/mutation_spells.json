@@ -19,6 +19,7 @@
     "difficulty": -20,
     "flags": [
       "SILENT",
+      "LIQUID",
       "NO_LEGS",
       "NO_HANDS",
       "RANDOM_DAMAGE",
@@ -44,7 +45,16 @@
     "max_range": 1,
     "spell_class": "SLIME_SPRAY",
     "difficulty": -20,
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "MUST_HAVE_CLASS_TO_LEARN", "NO_EXPLOSION_SFX" ],
+    "flags": [
+      "SILENT",
+      "NO_LEGS",
+      "NO_HANDS",
+      "RANDOM_DAMAGE",
+      "RANDOM_DURATION",
+      "MUST_HAVE_CLASS_TO_LEARN",
+      "NO_EXPLOSION_SFX",
+      "LIQUID"
+    ],
     "energy_source": "NONE",
     "damage_type": "biological"
   },

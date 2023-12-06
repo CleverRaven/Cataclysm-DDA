@@ -266,6 +266,7 @@ Flag                       | Description
 `HOSTILE_50`               | Summoned monster spawns friendly 50% of the time.
 `IGNITE_FLAMMABLE`         | If the spell area has anything flammable, a fire will be produced
 `IGNORE_WALLS`             | Spell's aoe goes through walls.
+`LIQUID`                   | Effects applied by spell will be resisted by waterproof armor if the spell targets a character's body part. Does not currently affect damage.
 `LOUD`                     | Spell makes extra noise at target.
 `MUST_HAVE_CLASS_TO_LEARN` | The spell is autolearned when you have `spell_class`, and removed when you lost it.
 `MUTATE_TRAIT`             | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.

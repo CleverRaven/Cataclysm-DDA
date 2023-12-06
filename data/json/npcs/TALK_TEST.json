@@ -214,7 +214,11 @@
         "topic": "TALK_DONE",
         "condition": { "npc_aim_rule": "AIM_SPRAY" }
       },
-      { "text": "This is a npc rule test response.", "topic": "TALK_DONE", "condition": { "npc_rule": "use_silent" } }
+      {
+        "text": "This is a npc rule test response.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_rule": "avoid_doors" }
+      }
     ]
   },
   {

@@ -27,6 +27,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -1206,9 +1207,8 @@ void computer_session::action_irradiator()
                 player_character.moves -= 300;
                 for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
                     // actual food processing
-                    itype_id irradiated_type( "irradiated_" + it->typeId().str() );
-                    if( !it->rotten() && item_controller->has_template( irradiated_type ) ) {
-                        it->convert( irradiated_type );
+                    if( !it->rotten() ) {
+                        it->set_flag( flag_IRRADIATED );
                     }
                     // critical failure - radiation spike sets off electronic detonators
                     if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||

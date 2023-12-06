@@ -32,7 +32,6 @@ struct iteminfo;
 struct itype;
 struct tripoint;
 class map;
-template <typename E> struct enum_traits;
 
 class item_pocket
 {
@@ -559,11 +558,6 @@ class pocket_data
     private:
 
         FlagsSetType flag_restrictions;
-};
-
-template<>
-struct enum_traits<pocket_type> {
-    static constexpr pocket_type last = pocket_type::LAST;
 };
 
 template<>

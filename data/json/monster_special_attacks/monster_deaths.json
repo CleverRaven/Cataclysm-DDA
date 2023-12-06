@@ -453,7 +453,7 @@
     "name": { "str": "Boomer Death" },
     "description": "Vomitous explosion.",
     "valid_targets": [ "ground", "hostile", "ally", "self" ],
-    "flags": [ "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_EXPLOSION_SFX", "LIQUID" ],
     "min_aoe": 1,
     "max_aoe": 2,
     "aoe_increment": 1,
@@ -467,7 +467,7 @@
     "field_id": "fd_bile",
     "max_field_intensity": 2,
     "min_field_intensity": 2,
-    "affected_body_parts": [ "EYES" ],
+    "affected_body_parts": [ "eyes" ],
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
@@ -477,11 +477,11 @@
     "description": "Boomers and glow.",
     "valid_targets": [ "ground", "hostile", "ally", "self" ],
     "shape": "blast",
-    "flags": [ "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_EXPLOSION_SFX", "LIQUID" ],
     "effect": "attack",
     "effect_str": "glowing",
     "max_level": 1,
-    "affected_body_parts": [ "TORSO", "ARM_R", "ARM_L", "LEG_R", "LEG_L" ],
+    "affected_body_parts": [ "torso", "arm_r", "arm_l", "leg_r", "leg_l" ],
     "extra_effects": [ { "id": "death_boomer", "hit_self": true } ],
     "min_duration": 24000,
     "max_duration": 24000

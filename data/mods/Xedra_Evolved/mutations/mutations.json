@@ -134,7 +134,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Gleaming eyes" },
+    "name": { "str": "Gleaming Eyes" },
     "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
     "active": true,
     "activated_eocs": [ "EOC_EYEGLEAM_activated" ]

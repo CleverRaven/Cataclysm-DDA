@@ -1910,7 +1910,7 @@
     "type": "effect_type",
     "id": "boomered",
     "name": [ "Boomered" ],
-    "desc": [ "Range of Sight: 1; You are covered in magenta bile!" ],
+    "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
@@ -2655,10 +2655,11 @@
   {
     "type": "effect_type",
     "id": "formication",
-    "name": [ "Itchy Skin", "Writhing Skin", "Bugs in Skin" ],
+    "name": [ "Itchy", "Very Itchy", "Terribly Itchy" ],
     "desc": [ "You stop to scratch yourself frequently; high INT helps you resist the urge." ],
-    "apply_message": "Your skin feels extremely itchy!",
+    "apply_message": "You feel extremely itchy!",
     "rating": "bad",
+    "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
@@ -2810,6 +2811,74 @@
     "dur_add_perc": 50
   },
   {
+    "//": "For player, indistinguishable from pre_conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "pre_conjunctivitis_viral",
+    "show_in_info": false,
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "blood_analysis_description": "Viral Infection",
+    "max_duration": "71 h"
+  },
+  {
+    "//": "For player, indistinguishable from pre_conjunctivitis_viral, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "pre_conjunctivitis_bacterial",
+    "show_in_info": false,
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "blood_analysis_description": "Bacterial Infection",
+    "max_duration": "71 h"
+  },
+  {
+    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "conjunctivitis_viral",
+    "name": [ "Conjunctivitis" ],
+    "desc": [
+      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
+    ],
+    "apply_memorial_log": "Got pinkeye.",
+    "remove_memorial_log": "Got over a pinkeye infection.",
+    "apply_message": "Your itchy eye leaks a filmy discharge.",
+    "rating": "bad",
+    "resist_effects": [ "took_antihistamine", "took_flumed" ],
+    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "int_dur_factor": "50 m",
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
+    ],
+    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "blood_analysis_description": "Viral Infection"
+  },
+  {
+    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "conjunctivitis_bacterial",
+    "name": [ "Conjunctivitis" ],
+    "desc": [
+      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
+    ],
+    "apply_memorial_log": "Got pinkeye.",
+    "remove_memorial_log": "Got over a pinkeye infection.",
+    "apply_message": "Your itchy eye leaks a filmy discharge.",
+    "rating": "bad",
+    "resist_effects": [ "took_antihistamine", "took_flumed" ],
+    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "int_dur_factor": "50 m",
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
+    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "blood_analysis_description": "Bacterial Infection"
+  },
+  {
     "type": "effect_type",
     "id": "prophylactic_antivenom",
     "name": [ "Antivenom Resistance" ],
@@ -2825,6 +2894,14 @@
     "rating": "good",
     "max_duration": 86400,
     "blood_analysis_description": "Antiasthmatics"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_antihistamine",
+    "name": [ "Took Antihistamine Drugs" ],
+    "desc": [ "You have taken an antihistamine drug recently." ],
+    "rating": "good",
+    "blood_analysis_description": "Antihistamines"
   },
   {
     "type": "effect_type",
@@ -2849,7 +2926,11 @@
       "infected",
       "asthma",
       "common_cold",
-      "flu"
+      "flu",
+      "pre_conjunctivitis_viral",
+      "pre_conjunctivitis_bacterial",
+      "conjunctivitis_viral",
+      "conjunctivitis_bacterial"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -4396,5 +4477,20 @@
         ]
       }
     ]
+  },
+  {
+    "id": "slippery_terrain",
+    "type": "effect_type",
+    "max_duration": "1 s",
+    "name": [ "Slick Surface", "Slippery Terrain", "Dangerously Slippery" ],
+    "desc": [
+      "There's a slippery surface here, running may be a bad idea.",
+      "It's quite slippery, it may not be safe to stand here.",
+      "This area is extremely slippery."
+    ],
+    "rating": "bad",
+    "show_intensity": true,
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "show_in_info": true
   }
 ]

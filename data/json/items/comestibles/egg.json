@@ -450,7 +450,7 @@
   {
     "type": "COMESTIBLE",
     "id": "razorclaw_roe",
-    "name": { "str": "razorclaw roe" },
+    "name": { "str_sp": "razorclaw roe" },
     "weight": "236 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -470,7 +470,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fish",
-    "name": { "str": "roe" },
+    "name": { "str_sp": "roe" },
     "weight": "24 g",
     "color": "red",
     "spoils_in": "7 days",
@@ -765,7 +765,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": { "str": "powdered egg" },
+    "name": { "str_sp": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -787,7 +787,7 @@
     "type": "COMESTIBLE",
     "id": "rehydrated_eggs",
     "copy-from": "egg_bird",
-    "name": { "str": "rehydrated egg" },
+    "name": { "str_sp": "rehydrated egg" },
     "weight": "50 g",
     "color": "yellow",
     "symbol": "%",
@@ -842,7 +842,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_salad",
-    "name": { "str": "egg salad" },
+    "name": { "str_sp": "egg salad" },
     "copy-from": "boiled_egg",
     "color": "white",
     "symbol": "o",

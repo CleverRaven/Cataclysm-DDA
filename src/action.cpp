@@ -1189,5 +1189,10 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
         g->add_draw_callback( hilite_cb );
     }
 
-    return choose_adjacent( pos, message, allow_vertical );
+    const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
+        return chosen;
+    }
+
+    return std::nullopt;
 }

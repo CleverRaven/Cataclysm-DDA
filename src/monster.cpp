@@ -111,8 +111,10 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
@@ -1178,7 +1180,8 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) || has_effect( effect_downed ) ||
+    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
+        has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
         has_effect( effect_tied ) ||
         has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret = hilite( ret );
@@ -1287,7 +1290,8 @@ bool monster::can_act() const
 {
     return moves > 0 &&
            ( effects->empty() ||
-             ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
+             ( !has_effect( effect_stunned ) && !has_effect( effect_psi_stunned ) &&
+               !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
 int monster::sight_range( const float light_level ) const
@@ -3309,6 +3313,26 @@ void monster::process_effects()
         apply_damage( nullptr, bodypart_id( "torso" ), 100 );
         if( hp < 0 ) {
             hp = 0;
+        }
+    }
+
+    // Check to see if critter slips on bile or whatever.
+    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() &&
+        !digging() && !has_effect( effect_downed ) ) {
+        map &here = get_map();
+        if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
+            int intensity = get_effect_int( effect_slippery_terrain );
+            intensity -= 1;
+            //ROAD tiles are hard, flat surfaces, and easier to slip on.
+            if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
+                intensity++;
+            }
+            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
+            if( intensity + slipchance > dice( 1, 12 ) ) {
+                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+                add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
+                                        name() );
+            }
         }
     }
 
