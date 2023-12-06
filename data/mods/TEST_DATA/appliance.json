@@ -157,7 +157,7 @@
     "color": "light_cyan",
     "ammo_type": [ "battery" ],
     "capacity": 1000000000,
-    "count" : 1000000000,
+    "count": 1000000000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000000000 } } ],
     "melee_damage": { "bash": 20 }
