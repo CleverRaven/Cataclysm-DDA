@@ -459,10 +459,11 @@
     "id": "clothing_military_headwear",
     "type": "item_group",
     "subtype": "distribution",
-    "//": "add in field caps when they are added to the game.",
+    "//": "Standard set of hats worn by a uniformed soldier.",
     "items": [
-      { "item": "beret", "prob": 60 },
-      { "item": "hat_boonie", "prob": 38 },
+      { "item": "beret", "prob": 40 },
+      { "item": "hat_field", "prob": 35 },
+      { "item": "hat_boonie", "prob": 23 },
       { "item": "turban", "prob": 1 },
       { "item": "headscarf", "prob": 1 }
     ]

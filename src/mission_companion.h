@@ -60,6 +60,7 @@ enum mission_kind : int {
     Camp_Gather_Materials,
     Camp_Collect_Firewood,
     Camp_Menial,
+    Camp_Survey_Field,
     Camp_Survey_Expansion,
     Camp_Cut_Logs,
     Camp_Clearcut,

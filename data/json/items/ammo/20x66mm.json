@@ -2,7 +2,7 @@
   {
     "abstract": "20x66_abstract",
     "type": "AMMO",
-    "name": "20x66 abstract",
+    "name": { "str_sp": "20x66 abstract" },
     "ascii_picture": "20x66_abstract",
     "weight": "66 g",
     "volume": "415 ml",

@@ -3371,6 +3371,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
     }
+    calculate_urbanity();
+    calculate_forestosity();
     if( get_option<bool>( "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS" ) ) {
         populate_connections_out_from_neighbors( north, east, south, west );
     }
@@ -4500,7 +4502,6 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
-
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
     for( int x = 0; x < OMAPX; x++ ) {
@@ -4517,9 +4518,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -5103,6 +5104,92 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
     } while( pb != p2 );
 }
 
+void overmap::calculate_forestosity()
+{
+    float northern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_NORTH" );
+    float eastern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_EAST" );
+    float western_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_WEST" );
+    float southern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_SOUTH" );
+    const point_abs_om this_om = pos();
+    if( western_forest_increase != 0 && this_om.x() < 0 ) {
+        forest_size_adjust -= this_om.x() * western_forest_increase;
+    }
+    if( northern_forest_increase != 0 && this_om.y() < 0 ) {
+        forest_size_adjust -= this_om.y() * northern_forest_increase;
+    }
+    if( eastern_forest_increase != 0 && this_om.x() > 0 ) {
+        forest_size_adjust += this_om.x() * eastern_forest_increase;
+    }
+    if( southern_forest_increase != 0 && this_om.y() > 0 ) {
+        forest_size_adjust += this_om.y() * southern_forest_increase;
+    }
+    forestosity = forest_size_adjust * 25.0f;
+    //debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
+    // make sure forest size never totally overwhelms the map
+    forest_size_adjust = std::min( forest_size_adjust,
+                                   get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
+                                   ( settings->overmap_forest.noise_threshold_forest ) );
+}
+
+void overmap::calculate_urbanity()
+{
+    int op_city_size = get_option<int>( "CITY_SIZE" );
+    if( op_city_size <= 0 ) {
+        return;
+    }
+    int northern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_NORTH" );
+    int eastern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_EAST" );
+    int western_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_WEST" );
+    int southern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_SOUTH" );
+    if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 &&
+        southern_urban_increase == 0 ) {
+        return;
+    }
+    float urbanity_adj = 0.0f;
+
+    const point_abs_om this_om = pos();
+    if( northern_urban_increase != 0 && this_om.y() < 0 ) {
+        urbanity_adj -= this_om.y() * northern_urban_increase / 10.0f;
+        // add some falloff to the sides, keeping cities larger but breaking up the megacity a bit.
+        // Doesn't apply if we expect megacity in those directions as well.
+        if( this_om.x() < 0 && western_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+        }
+        if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+        }
+    }
+    if( eastern_urban_increase != 0 && this_om.x() > 0 ) {
+        urbanity_adj += this_om.x() * eastern_urban_increase / 10.0f;
+        if( this_om.y() < 0 && northern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+        }
+        if( this_om.y() > 0 && southern_urban_increase == 0 ) {
+            urbanity_adj /= std::max( this_om.y() / 2.0f, 1.0f );
+        }
+    }
+    if( western_urban_increase != 0 && this_om.x() < 0 ) {
+        urbanity_adj -= this_om.x() * western_urban_increase / 10.0f;
+        if( this_om.y() < 0 && northern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+        }
+        if( this_om.y() > 0 && southern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.y() / 2.0f, 1.0f );
+        }
+    }
+    if( southern_urban_increase != 0 && this_om.y() > 0 ) {
+        urbanity_adj += this_om.y() * southern_urban_increase / 10.0f;
+        if( this_om.x() < 0 && western_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+        }
+        if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+        }
+    }
+    urbanity = static_cast<int>( urbanity_adj );
+    //debugmsg( "urbanity = %i at OM %i, %i", urbanity, this_om.x(), this_om.y() );
+}
+
 /*: the root is overmap::place_cities()
 20:50 <kevingranade>: which is at overmap.cpp:1355 or so
 20:51 <kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
@@ -5115,11 +5202,27 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
+    int op_city_spacing = get_option<int>( "CITY_SPACING" );
     int op_city_size = get_option<int>( "CITY_SIZE" );
+    int max_urbanity = get_option<int>( "OVERMAP_MAXIMUM_URBANITY" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_option<int>( "CITY_SPACING" );
+    // make sure city size adjust is never high enough to drop op_city_size below 2
+    int city_size_adjust = std::min( urbanity -  static_cast<int>( forestosity / 2.0f ),
+                                     -1 * op_city_size + 2 );
+    int city_space_adjust = urbanity / 2;
+    int max_city_size = std::min( op_city_size + city_size_adjust, op_city_size * max_urbanity );
+    if( max_city_size < op_city_size ) {
+        // funny things happen if max_city_size is less than op_city_size.
+        max_city_size = op_city_size;
+    }
+    if( op_city_spacing > 0 ) {
+        city_space_adjust = std::min( city_space_adjust, op_city_spacing - 2 );
+        op_city_spacing = op_city_spacing - city_space_adjust + static_cast<int>( forestosity );
+    }
+    // make sure not to get too extreme on the spacing if you go way far.
+    op_city_spacing = std::min( op_city_spacing, 10 );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -5136,7 +5239,7 @@ void overmap::place_cities()
 
     const double omts_per_overmap = OMAPX * OMAPY;
     const double city_map_coverage_ratio = 1.0 / std::pow( 2.0, op_city_spacing );
-    const double omts_per_city = ( op_city_size * 2 + 1 ) * ( op_city_size * 2 + 1 ) * 3 / 4.0;
+    const double omts_per_city = ( op_city_size * 2 + 1 ) * ( max_city_size * 2 + 1 ) * 3 / 4.0;
 
     // how many cities on this overmap?
     int num_cities_on_this_overmap = 0;
@@ -5170,9 +5273,11 @@ void overmap::place_cities()
 
         tripoint_om_omt p;
         city tmp;
+
+
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
-            int size = rng( op_city_size - 1, op_city_size + 1 );
+            int size = rng( op_city_size - 1, max_city_size );
             if( one_in( 3 ) ) { // 33% tiny
                 size = size * 1 / 3;
             } else if( one_in( 2 ) ) { // 33% small
@@ -5184,6 +5289,7 @@ void overmap::place_cities()
             }
             // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
             size = std::max( size, 2 );
+            size = std::min( size, 55 );
             // TODO: put cities closer to the edge when they can span overmaps
             // don't draw cities across the edge of the map, they will get clipped
             point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );

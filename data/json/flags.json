@@ -732,6 +732,11 @@
     "type": "json_flag"
   },
   {
+    "id": "IRRADIATED",
+    "type": "json_flag",
+    "info": "This food item has been irradiated, and will spoil 4 times slower."
+  },
+  {
     "id": "FREEZERBURN",
     "type": "json_flag"
   },
@@ -796,11 +801,6 @@
     "id": "RAD_STERILIZED",
     "type": "json_flag",
     "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
-  },
-  {
-    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
-    "type": "json_flag",
-    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",

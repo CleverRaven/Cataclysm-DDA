@@ -628,6 +628,13 @@ class Creature : public viewer
                              bool force = false );
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
+        /** Applies effects by spraying liquid on the creature. Returns false if the liquid was blocked
+         * by waterproof gear. */
+        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                                const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
+                                bool force = false );
+        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                                const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
         /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */

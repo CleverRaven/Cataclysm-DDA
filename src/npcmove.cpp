@@ -476,23 +476,16 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 float npc::evaluate_monster( const monster &target, int dist ) const
 {
     float speed = target.speed_rating();
-    float scaled_distance = std::max( 1.0f, dist * dist / ( speed + 10.0f ) );
+    float scaled_distance = std::max( 1.0f, dist * dist / ( speed * 250.0f ) );
     float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
-    float diff = std::min( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
+    float diff = std::max( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_yellow>evaluate_monster </color><color_light_gray>%s thinks %s threat level is %1.2f before considering situation.</color>",
-                   name,
-                   target.type->nname(), diff );
+                   "<color_yellow>evaluate_monster </color><color_dark_gray>%s thinks %s threat level is <color_light_gray>%1.2f</color><color_dark_gray> before considering situation.  Speed rating: %1.2f; dist: %i; scaled_distance: %1.0f; HP: %1.0f%%</color>",
+                   name, target.type->nname(), diff, speed, dist, scaled_distance, hp_percent * 100 );
     // Note that the danger can pass below "very low" if the monster is weak and far away.
     diff *= ( hp_percent * 0.5f + 0.5f ) / scaled_distance;
-    /*add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s distance from %s: %i.  Speed rating: %1.2f.  Scaled distance: %1.2f.</color>",
-                   name, target.type->nname(), dist, speed, scaled_distance );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s sees %s hp percent remaining is %1.0f%%.</color>",
-                   name, target.type->nname(), hp_percent * 100 );*/
-    add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "%s puts final %s threat level at %1.2f<color_light_gray> after counting speed, distance, hp</color>",
+                   "<color_light_gray>%s puts final %s threat level at </color>%1.2f<color_light_gray> after counting speed, distance, hp</color>",
                    name, target.type->nname(), diff );
     return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
@@ -679,10 +672,11 @@ float npc::estimate_armour( const Character &candidate ) const
                        "<color_light_gray>%s: %s armour value for %s rated as %i.</color>", name,
                        candidate.disp_name( true ), body_part_name( part_id ), armour_step );
         if( part_id == bodypart_id( "head" ) || part_id == bodypart_id( "torso" ) ) {
-            armour_step *= 3;
-            number_of_parts += 2;
+            armour_step *= 4;
+            number_of_parts += 3;
         }
-        armour += static_cast<float>( armour_step );
+        // obtain an average value of the 4 armour types we checked.
+        armour += static_cast<float>( armour_step ) / 4.0f;
     }
     armour /= number_of_parts;
 
@@ -693,7 +687,6 @@ float npc::estimate_armour( const Character &candidate ) const
     // I don't know how to do that, I'm supposed to be a writer.
     return armour;
 }
-
 
 static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius )
 {
@@ -726,7 +719,6 @@ void npc::assess_danger()
     int hostile_count = 0; // for tallying nearby threatening enemies
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
-    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
     if( !confident_range_cache ) {
@@ -734,6 +726,13 @@ void npc::assess_danger()
     }
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
+    // Radius in which enemy threats are multiplied to avoid surrounding
+    int preferred_medium_range = std::max( max_range, 8 );
+    preferred_medium_range = std::min( preferred_medium_range, 15 );
+    // Radius in which enemy threats are hugely multiplied to encourage repositioning
+    int preferred_close_range = std::max( max_range, 1 );
+    preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+
     Character &player_character = get_player_character();
     bool sees_player = sees( player_character.pos() );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
@@ -854,14 +853,14 @@ void npc::assess_danger()
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
             if( is_enemy() || !critter.friendly ) {
                 // still warn about enemies behind impassable glass walls, but not as often.
-                add_msg_debug( debugmode::DF_NPC,
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s ignored %s because there's an obstacle in between.  Might warn about it.",
                                name, critter.type->nname() );
                 if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                     warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
                 }
             } else {
-                add_msg_debug( debugmode::DF_NPC,
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "%s ignored %s because there's an obstacle in between, and it's not worth warning about.",
                                name, critter.type->nname() );
             }
@@ -873,26 +872,24 @@ void npc::assess_danger()
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
-            if( dist < 8 && critter_threat > bravery_vs_pain ) {
+            if( dist < preferred_medium_range ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to nearby hostile count.  Total: %i</color>", name,
                                critter.type->nname(), hostile_count );
             }
-            if( dist < 4 && npc_ranged ) {
+            if( dist <= preferred_close_range ) {
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to swarming enemies count.  Total: %i</color>",
-                               name,
-                               critter.type->nname(), mem_combat.swarm_count );
+                               "<color_light_gray>%s added %s to swarm count.  Total: %i</color>",
+                               name, critter.type->nname(), mem_combat.swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
             continue;
         }
 
-
-        add_msg_debug( debugmode::DF_NPC_COMBATAI,
+        add_msg_debug( debugmode::DF_NPC,
                        "%s assessed threat of critter %s as %1.2f.",
                        name, critter.type->nname(), critter_threat );
         ai_cache.total_danger += critter_threat;
@@ -1040,7 +1037,7 @@ void npc::assess_danger()
                            name, player_diff );
             if( dist <= 3 ) {
                 player_diff = player_diff * ( 4 - dist ) / 2;
-                mem_combat.swarm_count = 0;
+                mem_combat.swarm_count /= ( 4 - dist );
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_green>Player is %i tiles from %s.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
@@ -1153,7 +1150,6 @@ void npc::act_on_danger_assessment()
             } else {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s still wants to reposition, but they just tried.",
                                name );
-                mem_combat.reposition_countdown --;
             }
             mem_combat.panic *= ( mem_combat.assess_enemy / ( mem_combat.assess_ally + 0.5f ) );
             mem_combat.panic += std::min(
@@ -1176,10 +1172,10 @@ void npc::act_on_danger_assessment()
                     }
                 }
             }
-        } else if( failed_reposition || ( npc_ranged &&
-                                          mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
+        } else if( failed_reposition ||
+                   ( mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                           "<color_light_gray>Due to ranged weapon, %s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
+                           "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
             if( failed_reposition ) {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
@@ -1269,6 +1265,19 @@ void npc::regen_ai_cache()
     mem_combat.assess_enemy = 0.0f;
     mem_combat.assess_ally = 0.0f;
     mem_combat.swarm_count = 0;
+    if( mem_combat.reposition_countdown > 0 ) {
+        mem_combat.reposition_countdown --;
+    }
+
+    if( mem_combat.repositioning && !has_effect( effect_npc_run_away ) &&
+        !has_effect( effect_npc_fire_bad ) ) {
+        // if NPC no longer has the run away effect and isn't fleeing in panic,
+        // they can stop moving away.
+        mem_combat.repositioning = false;
+        mem_combat.reposition_countdown = 1;
+        path.clear();
+    }
+
     assess_danger();
     if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
         warn_about( "relax", 30_minutes );
@@ -3708,10 +3717,15 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 bool npc::find_corpse_to_pulp()
 {
     Character &player_character = get_player_character();
-    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) ||
-                                player_character.in_vehicle ) ) ||
-        is_hallucination() ) {
-        return false;
+    if( is_player_ally() ) {
+        if( !rules.has_flag( ally_rule::allow_pulp ) ||
+            player_character.in_vehicle || is_hallucination() ) {
+            return false;
+        }
+        if( rl_dist( pos(), player_character.pos() ) >= mem_combat.engagement_distance ) {
+            // don't start to pulp corpses if you're already far from the player.
+            return false;
+        }
     }
 
     map &here = get_map();
@@ -3751,7 +3765,7 @@ bool npc::find_corpse_to_pulp()
         return nullptr;
     };
 
-    const int range = 6;
+    const int range = mem_combat.engagement_distance;
 
     const item *corpse = nullptr;
     if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {

@@ -1613,6 +1613,15 @@ units::volume outfit::free_space() const
     return volume_capacity;
 }
 
+units::mass outfit::free_weight_capacity() const
+{
+    units::mass weight_capacity = 0_gram;
+    for( const item &w : worn ) {
+        weight_capacity += w.get_remaining_weight_capacity();
+    }
+    return weight_capacity;
+}
+
 units::volume outfit::holster_volume() const
 {
     units::volume ret = 0_ml;
@@ -2608,10 +2617,6 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
             clothing_mult = std::min( clothing_mult, breathability );
         }
     }
-
-    // always some evaporation even if completely covered
-    // doesn't handle things that would be "air tight"
-    clothing_mult = std::max( clothing_mult, .1f );
     return clothing_mult;
 }
 

@@ -4153,32 +4153,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
     }
 
-    // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
-    // when changing this list
-    static const std::set<std::string> needs_plural = {
-        "AMMO",
-        "ARMOR",
-        "BATTERY",
-        "BIONIC_ITEM",
-        "BOOK",
-        "COMESTIBLE",
-        "CONTAINER",
-        "ENGINE",
-        "GENERIC",
-        "GUN",
-        "GUNMOD",
-        "MAGAZINE",
-        "PET_ARMOR",
-        "TOOL",
-        "TOOLMOD",
-        "TOOL_ARMOR",
-        "WHEEL",
-    };
-    if( needs_plural.find( jo.get_string( "type" ) ) != needs_plural.end() ) {
-        def.name = translation( translation::plural_tag() );
-    } else {
-        def.name = translation();
-    }
+    def.name = translation( translation::plural_tag() );
     if( !jo.read( "name", def.name ) ) {
         jo.throw_error( "name unspecified for item type" );
     }

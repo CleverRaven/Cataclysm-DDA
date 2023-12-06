@@ -1608,7 +1608,7 @@
   {
     "id": "cape_catholic",
     "type": "ARMOR",
-    "name": { "str": "Ferraiolo" },
+    "name": { "str": "ferraiolo" },
     "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
     "weight": "1500 g",
     "volume": "6 L",

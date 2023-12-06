@@ -553,7 +553,7 @@ bool avatar::read( item_location &book, item_location ereader )
         }
 
         if( !learners.empty() ) {
-            add_header( _( "Read until this Character gains a level:" ) );
+            add_header( _( "Read until this character gains a level:" ) );
             for( const std::pair<Character *const, std::string> &elem : learners ) {
                 menu.addentry( 2 + elem.first->getID().get_value(), true, -1,
                                get_text( learners, elem ) );
@@ -1519,6 +1519,10 @@ void avatar::update_cardio_acc()
     // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
     // giving a default of 1000 for no extra activity.
     const int bmr = get_bmr();
+    if( bmr == 0 ) {
+        set_cardio_acc( clamp( get_cardio_acc(), get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
+        return;
+    }
     const int last_24h_kcal = calorie_diary.front().spent;
 
     const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
