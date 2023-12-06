@@ -28,6 +28,46 @@
   },
   {
     "type": "enchantment",
+    "id": "enchant_clair_speed_read",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
+      {
+        "value": "READING_EXP",
+        "add": {
+          "math": [ "( ( u_val('spell_level', 'spell: clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') )))" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_clair_group_tactics",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "BONUS_DODGE", "add": -1 } ],
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_group_tactics_aoe" } ] } ] }
+  },
+  {
+    "id": "clair_group_tactics_aoe",
+    "type": "SPELL",
+    "name": "[Ψ]Prescient Tactics AoE",
+    "description": "This provides the buff to your followers.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_group_tactics_other",
+    "shape": "blast",
+    "min_aoe": 20,
+    "max_aoe": 20,
+    "//": "Range here is C conversational range",
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "type": "enchantment",
     "id": "enchant_electrokin_zap_enemies",
     "condition": "ALWAYS",
     "has": "HELD",
