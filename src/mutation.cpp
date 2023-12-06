@@ -2414,12 +2414,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
         if( has_trait( current_trait ) ) {
             remove_mutation( current_trait );
         }
-        if( !trait_selected->variants.empty() ) {
-            const mutation_variant *variant = trait_selected->pick_variant_menu();
-            set_mutation( trait_selected, variant );
-        } else {
-            set_mutation( trait_selected );
-        }
+        set_mutation( trait_selected );
         if( one_in( 3 ) ) {
             add_msg( m_neutral, end_message );
         }
