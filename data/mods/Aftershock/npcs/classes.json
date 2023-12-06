@@ -65,7 +65,7 @@
       { "trait": "hair_long", "variant": "red" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "WARM_NATURED" },
-      { "trait":"INT_UP_3" },
+      { "trait": "INT_UP_3" },
       { "trait": "DEX_UP_2" },
       { "trait": "STR_UP" }
     ],
