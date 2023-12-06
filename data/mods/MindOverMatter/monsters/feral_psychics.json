@@ -371,7 +371,7 @@
         "id": "psi_pattern_screamer_rock_thrower",
         "type": "spell",
         "spell_data": { "id": "pattern_screamer_rock_thrower_prep", "min_level": 0 },
-        "cooldown": 18,
+        "cooldown": 8,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s clutches a large rock to their chest and closes their eyes."
       }
