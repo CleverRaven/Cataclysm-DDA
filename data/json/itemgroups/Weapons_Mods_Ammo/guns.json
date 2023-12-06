@@ -768,7 +768,7 @@
       { "item": "m60_semi", "prob": 5 },
       { "item": "oa93", "prob": 3 },
       { "item": "steyr_aug", "prob": 5 },
-      { "item": "fn_fal", "prob": 40 },
+      { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
       { "item": "hk_g36", "prob": 30 },
       { "item": "m1918", "prob": 30 },
