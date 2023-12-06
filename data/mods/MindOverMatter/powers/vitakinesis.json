@@ -10,24 +10,30 @@
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_STOP_BLEEDING_EOC",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "max_damage": 1,
+    "min_duration": 1200,
+    "max_duration": 1200,
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 750,
     "energy_increment": -125,
-    "min_duration": 1200,
-    "max_duration": 1200,
     "base_casting_time": 50,
     "final_casting_time": 20,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_stop_infection": 9, "vita_cure_disease": 12, "vita_blood_purge": 15 }
+    "learn_spells": {
+      "vita_pain_split": 7,
+      "vita_stop_infection": 9,
+      "vita_remove_poison": 11,
+      "vita_cure_disease": 15,
+      "vita_blood_purge": 18
+    }
   },
   {
     "id": "vita_stop_bleeding_01",
@@ -115,8 +121,9 @@
     },
     "learn_spells": {
       "vita_health_power_ally": 5,
-      "vita_sleeping_trance": 7,
-      "vita_cure_disease": 10,
+      "vita_remove_poison": 7,
+      "vita_sleeping_trance": 9,
+      "vita_cure_disease": 12,
       "vita_healing_trance": 15,
       "vita_banish_illness": 18
     }
@@ -195,6 +202,38 @@
     "casting_time_increment": -7.5,
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
+  },
+  {
+    "id": "vita_remove_poison",
+    "type": "SPELL",
+    "name": "[Ψ]Detoxification",
+    "description": "When poisoned, you can isolate the poison and move it to your sweat glands where you will harmlessly sweat it out.  While doing so, your flesh will be toxic to any creatures that take a bite.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 500) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 3000) + 40000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -115,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -5,
+    "learn_spells": { "vita_stop_infection": 7, "vita_blood_purge": 12 }
   },
   {
     "id": "vita_sleeping_trance",
@@ -380,7 +419,13 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "base_casting_time": 360000,
-    "learn_spells": { "vita_sleeping_trance": 4, "vita_banish_illness": 6, "vita_blood_purge": 8, "vita_super_heal": 15 }
+    "learn_spells": {
+      "vita_sleeping_trance": 4,
+      "vita_banish_illness": 6,
+      "vita_blood_purge": 8,
+      "vita_super_heal": 15,
+      "vita_return_from_death": 18
+    }
   },
   {
     "id": "vita_purge_rads",
@@ -494,7 +539,7 @@
     "final_energy_cost": 8000,
     "energy_increment": -150,
     "base_casting_time": 1000,
-    "learn_spells": { "vita_limb_restore": 10 }
+    "learn_spells": { "vita_limb_restore": 10, "vita_return_from_death": 14 }
   },
   {
     "id": "vita_super_heal_healing",
@@ -547,5 +592,39 @@
     "final_energy_cost": 8000,
     "energy_increment": -150,
     "base_casting_time": 1200
+  },
+  {
+    "id": "vita_return_from_death",
+    "type": "SPELL",
+    "name": "[Ψ]Accelerated Resuscitation (C)",
+    "description": "While this power is active, if you suffer potentially fatal damage, your vitakinesis will go into overdrive to keep you alive.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RETURN_FROM_DEATH_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_return_from_death') * 90000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_return_from_death') * 270000) + 1440000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_return_from_death') > -1 ? 0 : max((9000 - (u_val('spell_level', 'spell: vita_return_from_death') * 125)), 6000)"
+      ]
+    },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 3000" ] }
   }
 ]

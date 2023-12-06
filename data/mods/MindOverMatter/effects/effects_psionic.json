@@ -1730,6 +1730,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vita_super_heal_return_from_death",
+    "desc": [ "You are healing extraordinarily quickly." ],
+    "apply_message": "",
+    "remove_message": "Your body aches as your preternatural healing slows to a stop.",
+    "rating": "good",
+    "removes_effects": [ "bleed" ],
+    "enchantments": [
+      {
+        "intermittent_activation": {
+          "effects": [
+            {
+              "frequency": "2 seconds",
+              "spell_effects": [
+                { "id": "vita_super_heal_healing" },
+                { "id": "vita_super_heal_drain" },
+                { "id": "vita_super_heal_drain" },
+                { "id": "vita_super_heal_drain" },
+                { "id": "vita_super_heal_drain" },
+                { "id": "vita_super_heal_drain" }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_return_from_death",
+    "name": [ "Accelerated Resuscitation" ],
+    "desc": [ "If you suffer potentially-fatal damage, your powers will attempt to save you." ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vita_health_common_cold_protection",
     "//": "Hidden effect, prevents pre-common cold from becoming a cold",
     "name": [ "" ],

@@ -203,6 +203,7 @@
       { "u_lose_effect": "effect_vita_health" },
       { "u_lose_effect": "effect_vitakin_purge_rads" },
       { "u_lose_effect": "effect_vita_super_heal" },
+      { "u_lose_effect": "effect_vita_return_from_death" },
       { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
@@ -248,7 +249,8 @@
           "EOC_TELEPATH_REMOVE_SENSE_MINDS",
           "EOC_TELEPORT_REMOVE_STRIDE",
           "EOC_VITAKIN_REMOVE_HEALTH_POWER",
-          "EOC_VITAKIN_REMOVE_CURE_DISEASE"
+          "EOC_VITAKIN_REMOVE_CURE_DISEASE",
+          "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
       { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
