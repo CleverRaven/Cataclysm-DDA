@@ -27,7 +27,7 @@
     "method": "json",
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 1, 23 ], "y": [ 1, 23 ] } ],
-      "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 14 } ]
+      "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 13 } ]
     }
   }
 ]

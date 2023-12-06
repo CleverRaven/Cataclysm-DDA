@@ -45,7 +45,7 @@
     "type": "talk_topic",
     "dynamic_line": "Any time, what's on your mind?",
     "responses": [
-      { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam" },
+      { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
       {
         "text": "I just wanted to chat, you know.  To relax.",

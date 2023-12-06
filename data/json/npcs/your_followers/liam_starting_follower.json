@@ -68,7 +68,7 @@
     "traits": [
       { "trait": "BADHEARING", "prob": 50 },
       { "trait": "LIGHTSTEP", "prob": 70 },
-      { "trait": "OPTIMIST" },
+      { "trait": "OPTIMISTIC" },
       { "trait": "PACKMULE", "prob": 80 },
       { "trait": "SLOWREADER", "prob": 50 },
       { "trait": "STRONGBACK", "prob": 80 },
@@ -115,7 +115,7 @@
       "u_has_var": "modded",
       "type": "flag",
       "value": "ddotd",
-      "no": "*, your old friend, stares at you with blank, confused eyes.  He is standing over a freshly mangled corpse, a smoking shotgun at his feet.  \"Holy shit dude.\"  He blinks.  \"Are you with Chris?  If you're here to kill me, just get it over with man.  I don't know what the fuck is happening but I can't take you out too.\"",
+      "no": "*, your old friend, stares at you with blank, confused eyes.  He is standing over a freshly mangled corpse, a smoking shotgun at his feet.  \"Holy shit dude.\"  He blinks.  \"Is this about Chris?  If you're here to kill me, just get it over with man.  I don't know what the fuck is happening but I can't take you out too.\"",
       "yes": "<talk_snippet_modded_liam_meeting1>"
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_liam", "value": "yes" } },

@@ -353,7 +353,7 @@
     "type": "start_location",
     "id": "sloc_liam_cabin",
     "name": "Liam's Cabin",
-    "terrain": [ "cabin_liam" ],
+    "terrain": [ "cabin_liam_driveway" ],
     "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
