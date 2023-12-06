@@ -30,7 +30,7 @@
         "THRESH_CRUSTACEAN"
       ]
     },
-    "effect": [ { "u_lose_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
+    "effect": [ { "u_lose_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco" } ]
   },
   {
     "type": "effect_on_condition",

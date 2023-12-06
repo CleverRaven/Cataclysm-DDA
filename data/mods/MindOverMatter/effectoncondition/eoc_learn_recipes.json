@@ -32,7 +32,9 @@
       { "u_learn_recipe": "practice_clair_dodge_power" },
       { "u_learn_recipe": "practice_clair_craft_bonus" },
       { "u_learn_recipe": "practice_clair_see_map" },
+      { "u_learn_recipe": "practice_clair_perfect_shot" },
       { "u_learn_recipe": "practice_clair_clear_sight" },
+      { "u_learn_recipe": "practice_clair_group_tactics" },
       { "u_learn_recipe": "practice_clair_omniscience" }
     ]
   },
