@@ -61,7 +61,7 @@
     "id": "enchant_electrokin_electric_strikes",
     "condition": "ALWAYS",
     "has": "HELD",
-    "hit_me_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 3 } ],
+    "hit_you_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 2 } ],
     "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'spell: electrokinetic_melee_attacks') * -1" ] } } ]
   },
   {
@@ -76,12 +76,12 @@
     "damage_type": "electric",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinesis_melee_thorns') / 3 ) + 3) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') / 3 ) + 3) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinesis_melee_thorns') / 1.5 ) + 10) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') / 1.5 ) + 10) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "min_range": 1,
