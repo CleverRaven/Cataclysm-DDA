@@ -3611,21 +3611,21 @@
       },
       {
         "id": "tacjacket_grey",
-        "name": { "str": "ocean-camo tactical jacket", "str_pl": "pairs of ocean-camo tactical jackets" },
+        "name": { "str": "wolf tactical jacket", "str_pl": "pairs of wolf tactical jackets" },
         "description": "This particular tactical jacket is dyed a muted, beige-like shade of wolf gray.",
         "color": "blue",
         "weight": 6
       },
       {
         "id": "tacjacket_coyote",
-        "name": { "str": "river-camo tactical jacket", "str_pl": "pairs of river-camo tactical jackets" },
+        "name": { "str": "coyote tactical jacket", "str_pl": "pairs of coyote tactical jackets" },
         "description": "This tactical jacket is predominantly an earthy shade of coyote brown.",
         "color": "green",
         "weight": 6
       },
       {
         "id": "tacjacket_green",
-        "name": { "str": "arctic-camo tactical jacket", "str_pl": "pairs of arctic-camo tactical jackets" },
+        "name": { "str": "olive-drab tactical jacket", "str_pl": "pairs of olive-drab tactical jackets" },
         "description": "This remarkably drab, traditional camouflage tactical jacket is dyed a muted shade of OD green, much like old US Army battle dress.",
         "color": "white",
         "weight": 6
