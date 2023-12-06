@@ -96,7 +96,8 @@
       "=": "t_door_glass_frosted_lab_c",
       "|": "t_brick_wall",
       "-": "t_brick_wall",
-      "+": "t_door_c"
+      "+": "t_door_c",
+      "1": "t_door_metal_interior_locked"
     },
     "furniture": {
       "?": "f_sofa",

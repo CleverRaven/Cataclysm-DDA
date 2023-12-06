@@ -753,7 +753,7 @@
     "construction_blueprint": "fbmk_2_tank",
     "blueprint_name": "build salt water tanks",
     "blueprint_requires": [ { "id": "fbmk_2_pantry_room" } ],
-    "blueprint_provides": [ { "id": "fbmk_2_tank" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_tank" }, { "id": "saltworks_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_tank" } ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
@@ -781,7 +781,7 @@
     "construction_blueprint": "fbmk_2_vat",
     "blueprint_name": "install some brewery vats",
     "blueprint_requires": [ { "id": "fbmk_2_brewery" } ],
-    "blueprint_provides": [ { "id": "fbmk_2_vat" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_vat" }, { "id": "saltworks_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_vat" } ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
@@ -837,7 +837,7 @@
     "construction_blueprint": "fbmk_2_still",
     "blueprint_name": "install a still in the brewery",
     "blueprint_requires": [ { "id": "fbmk_2_brewery" } ],
-    "blueprint_provides": [ { "id": "fbmk_2_still" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_still" }, { "id": "saltworks_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_still" } ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",

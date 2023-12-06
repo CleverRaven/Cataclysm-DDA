@@ -141,6 +141,66 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_BREATHE_SKIN_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_breathe_skin" } },
+    "effect": [
+      { "u_message": "As you seal your lips, your chest still rises and falls.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_biokin_breathe_skin", "duration": "PERMANENT" },
+      { "u_spawn_item": "biokin_breathe_skin_item", "suppress_message": true, "force_equip": true },
+      { "u_lose_effect": "biokin_sealed_system" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 36) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 72) + 540) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_BREATHE_SKIN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+    "condition": { "u_has_effect": "effect_biokin_breathe_skin" },
+    "effect": [
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_lose_effect": "effect_biokin_breathe_skin" },
+      { "u_remove_item_with": "biokin_breathe_skin_item" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_breathe_skin" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      {
+        "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+      },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 36) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 72) + 540) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_biokin_climate_control" } },
     "effect": [
@@ -410,6 +470,69 @@
           },
           {
             "math": [ "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 30) + 450) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_METABOLISM_ENHANCE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_metabolism_enhance" } },
+    "effect": [
+      { "u_message": "You supercharge your metabolism.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_biokin_metabolism_enhance", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_seven", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 250) + 2700) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 500) + 6750) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_METABOLISM_ENHANCE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_METABOLISM_ENHANCE",
+    "condition": { "u_has_effect": "effect_biokin_metabolism_enhance" },
+    "effect": [ { "u_lose_effect": "effect_biokin_metabolism_enhance" }, { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_metabolism_enhance" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_seven", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(7)" ] },
+      {
+        "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+      },
+      { "math": [ "u_val('sleep_deprivation')", "-=", "10" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 250) + 2700) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 500) + 6750) * (scaling_factor(u_val('intelligence') ) )"
+            ]
           }
         ]
       }

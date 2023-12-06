@@ -494,7 +494,7 @@
   {
     "type": "COMESTIBLE",
     "id": "druid_fertilizer",
-    "name": { "str": "seed of growth", "str_pl": "seeds of growth" },
+    "name": { "str_sp": "seed of growth" },
     "weight": "27 g",
     "color": "white",
     "flags": [ "TRADER_AVOID", "FERTILIZER" ],

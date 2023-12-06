@@ -11,6 +11,12 @@
     "components": [ [ [ "9mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_38spc",
+    "type": "requirement",
+    "//": "Components required for 308 ammo",
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_308",
     "type": "requirement",
     "//": "Components required for 308 ammo",
@@ -21,6 +27,12 @@
     "type": "requirement",
     "//": "Components required for 762x51 ammo",
     "components": [ [ [ "762_51_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_3006",
+    "type": "requirement",
+    "//": "Components required for 30-06 ammo",
+    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_32",

@@ -2202,6 +2202,7 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::volume free_space() const;
+        units::mass free_weight_capacity() const;
         /**
          * Returns the total volume of all worn holsters.
         */
@@ -2486,6 +2487,9 @@ class Character : public Creature, public visitable
             return query_yn( string_format( msg, std::forward<Args>( args ) ... ) );
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
+
+        std::pair<bodypart_id, int> best_part_to_smash() const;
+        virtual int smash_ability() const;
 
         // checks if your character is immune to an effect or field based on field_immunity_data
         bool check_immunity_data( const field_immunity_data &ft ) const override;

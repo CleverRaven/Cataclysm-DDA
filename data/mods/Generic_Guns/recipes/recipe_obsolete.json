@@ -526,6 +526,11 @@
   },
   {
     "type": "recipe",
+    "result": "reloaded_38_special_p",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_38super_fmj",
     "obsolete": true
   },
@@ -776,6 +781,11 @@
   },
   {
     "type": "recipe",
+    "result": "reloaded_3006_jsp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_3006fmj",
     "obsolete": true
   },
@@ -787,6 +797,11 @@
   {
     "type": "recipe",
     "result": "bp_3006",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_3006_jsp",
     "obsolete": true
   },
   {
