@@ -88,8 +88,6 @@
     "type": "AMMO",
     "name": { "str_sp": "aetheric charge" },
     "description": "Charged ether pulled out of the void between all things.",
-    "weight": "1 g",
-    "volume": "12 ml",
     "price": "10 USD",
     "price_postapoc": "10 USD",
     "material": [ "forged_dreamstuff" ],
@@ -100,6 +98,7 @@
     "range": 12,
     "count": 1,
     "recoil": 900,
-    "effects": [ "INCENDIARY" ]
+    "effects": [ "INCENDIARY" ],
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]
