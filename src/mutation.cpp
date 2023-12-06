@@ -2364,12 +2364,11 @@ void Character::customize_appearance( customize_appearance_choice choice )
                 char_has_trait = true;
             }
 
-            const std::string &entry_name = mutation_name( trait );
+            const std::string has_it = char_has_trait ? " *" : "";
 
             amenu.addentry(
                 i, true, MENU_AUTOASSIGN,
-                char_has_trait ? entry_name + " *" : entry_name
-            );
+                trait->variants.empty() ? mutation_name( trait ) + has_it : trait->name() + has_it );
         }
     };
 
