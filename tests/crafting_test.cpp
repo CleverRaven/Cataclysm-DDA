@@ -37,6 +37,8 @@
 #include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
+#include "vehicle.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -108,6 +110,8 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
+
+static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -374,7 +378,17 @@ static void give_tools( const std::vector<item> &tools )
     std::vector<item> boil;
     for( const item &gear : tools ) {
         if( gear.get_quality( qual_BOIL, false ) == 0 ) {
-            REQUIRE( player_character.i_add( gear ) );
+            item_location added_tool = player_character.i_add( gear );
+            REQUIRE( added_tool );
+            if( added_tool->can_link_up() ) {
+                added_tool->link = cata::make_value<item::link_data>();
+                added_tool->link->t_state = link_state::vehicle_port;
+                added_tool->link->t_abs_pos = get_map().getglobal( player_character.pos() + tripoint_north );
+                added_tool->link->last_processed = calendar::turn;
+                added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() + tripoint_north )->vehicle().get_safe_reference();
+                added_tool->set_link_traits();
+                REQUIRE( added_tool->link->t_veh_safe );
+            }
         } else {
             boil.emplace_back( gear );
         }
@@ -427,6 +441,12 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     if( grant_profs ) {
         grant_profs_to_character( player_character, r );
     }
+
+    const tripoint battery_pos = test_origin + tripoint_north;
+    std::optional<item> battery_item( "test_storage_battery" );
+    place_appliance( battery_pos, vpart_ap_test_storage_battery, battery_item );
+    optional_vpart_position battery_part = get_map().veh_at( battery_pos );
+    REQUIRE( battery_part.has_value() );
 
     give_tools( tools );
     const inventory &crafting_inv = player_character.crafting_inventory();
