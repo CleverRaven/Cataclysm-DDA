@@ -526,6 +526,11 @@
   },
   {
     "type": "recipe",
+    "result": "reloaded_38_special_p",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_38super_fmj",
     "obsolete": true
   },

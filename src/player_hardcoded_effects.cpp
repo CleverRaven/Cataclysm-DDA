@@ -95,7 +95,6 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -125,7 +124,6 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
@@ -1189,29 +1187,6 @@ static void eff_fun_sleep( Character &u, effect &it )
                     break;
                 }
             }
-        }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
-            one_in( 43200 ) && u.is_avatar() ) {
-            if( one_in( 2 ) ) {
-                u.sound_hallu();
-            } else {
-                int max_count = rng( 1, 3 );
-                int count = 0;
-                for( const tripoint &mp : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( mp == u.pos() ) {
-                        continue;
-                    }
-                    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, mp ) &&
-                        here.pl_sees( mp, 2 ) ) {
-                        g->spawn_hallucination( mp );
-                        if( ++count > max_count ) {
-                            break;
-                        }
-                    }
-                }
-            }
-            it.set_duration( 0_turns );
-            woke_up = true;
         }
     }
 

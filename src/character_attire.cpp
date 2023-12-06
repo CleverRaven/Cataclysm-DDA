@@ -1613,6 +1613,15 @@ units::volume outfit::free_space() const
     return volume_capacity;
 }
 
+units::mass outfit::free_weight_capacity() const
+{
+    units::mass weight_capacity = 0_gram;
+    for( const item &w : worn ) {
+        weight_capacity += w.get_remaining_weight_capacity();
+    }
+    return weight_capacity;
+}
+
 units::volume outfit::holster_volume() const
 {
     units::volume ret = 0_ml;
