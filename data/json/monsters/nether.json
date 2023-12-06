@@ -568,7 +568,7 @@
         "id": "star_vampire_blood_drinking",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 5, "armor_multiplier": 0.5 } ],
         "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
-        "effects" [ { "id": "star_vampire_blood_drink", "duration": 1, "chance": 100 } ],
+        "effects": [ { "id": "star_vampire_blood_drink", "duration": 1, "chance": 100 } ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10000 } ],
         "cooldown": 1,
         "move_cost": 100,
