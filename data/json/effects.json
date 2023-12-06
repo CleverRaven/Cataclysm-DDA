@@ -4492,5 +4492,24 @@
     "show_intensity": true,
     "resist_traits": [ "GASTROPOD_BALANCE" ],
     "show_in_info": true
+  },
+  {
+    "id": "star_vampire_blood_drank",
+    "type": "effect_type",
+    "name": [ "Drank blood" ],
+    "desc": [ "The star vampire has drunk blood and is now visible." ],
+    "rating": "good",
+    "removes_effects": [ "invisibility" ],
+    "show_in_info": true
+  },
+  {
+    "id": "star_vampire_blood_drink",
+    "type": "effect_type",
+    "name": [ "Blood-sucked" ],
+    "desc": [ "The monster is drinking your blood!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "show_in_info": true,
+    "vitamins": [ { "vitamin": "blood", "rate": [ [ -450, -750 ] ] } ],
   }
 ]
