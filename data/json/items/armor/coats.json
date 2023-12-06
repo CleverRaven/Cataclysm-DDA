@@ -3627,7 +3627,7 @@
         "id": "tacjacket_green",
         "name": { "str": "olive-drab tactical jacket", "str_pl": "pairs of olive-drab tactical jackets" },
         "description": "This remarkably drab, traditional camouflage tactical jacket is dyed a muted shade of OD green, much like old US Army battle dress.",
-        "color": "white",
+        "color": "green",
         "weight": 6
       },
       {
