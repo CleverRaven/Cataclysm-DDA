@@ -52,7 +52,6 @@
       "retool_cz600_223rem",
       "retool_cz600_762"
     ],
-    "type": "MIGRATION",
-    "replace": "oxygen"
+    "type": "MIGRATION"
   }
 ]
