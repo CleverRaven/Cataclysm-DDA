@@ -506,7 +506,7 @@
   {
     "id": "clair_group_tactics",
     "type": "SPELL",
-    "name": "[Ψ]Prescient Tactics (C)",
+    "name": "[Ψ]Prescient Tactician (C)",
     "description": "Gazing into the near future, you can call out warnings to your followers so they can avoid attacks before they occur.  This will greatly increase their defensive capability, though it will be harder for you to defend yourself.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
