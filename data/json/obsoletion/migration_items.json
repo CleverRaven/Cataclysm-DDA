@@ -335,5 +335,10 @@
     "id": "rm4504",
     "type": "MIGRATION",
     "replace": "pressurized_tank_modern"
+  },
+  {
+    "id": "fn_fal",
+    "type": "MIGRATION",
+    "replace": "fn_fal_semi"
   }
 ]

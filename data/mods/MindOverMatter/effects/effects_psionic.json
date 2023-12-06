@@ -616,7 +616,7 @@
     "type": "effect_type",
     "id": "effect_clair_speed_reader",
     "name": [ "Speed Reader" ],
-    "desc": [ "You are absorb knowledge from books like a sponge absorbs water." ],
+    "desc": [ "You are absorbing knowledge from books like a sponge absorbs water." ],
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
@@ -639,6 +639,34 @@
             "value": "MOTION_VISION_RANGE",
             "add": {
               "math": [ "( ( u_val('spell_level', 'spell: clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_see_auras",
+    "name": [ "Aura Sight" ],
+    "desc": [ "Swirling colors are visible around others, revealing their emotions." ],
+    "apply_message": "",
+    "remove_message": "The colors fade away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SOCIAL_LIE",
+            "add": {
+              "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
+            }
+          },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": {
+              "math": [ "min(( 5 + ( u_val('spell_level', 'spell: clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ), 20)" ]
             }
           }
         ]
@@ -783,6 +811,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_craft_bonus",
+    "name": [ "Intuitive Artistry" ],
+    "desc": [
+      "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however."
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 3 } ] } ],
+    "flags": [ "MYOPIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_perfect_shot",
+    "name": [ "One Perfect Shot" ],
+    "desc": [ "Do it.  Take the shot." ],
+    "rating": "good",
+    "max_duration": "10 seconds",
+    "enchantments": [ { "values": [ { "value": "RANGED_DAMAGE", "multiply": 1.5 }, { "value": "WEAPON_DISPERSION", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_clear_sight",
     "name": [ "Truesight" ],
     "desc": [ "Your powers allow you to see the true shape of reality." ],
@@ -809,6 +858,50 @@
       "snow_glare",
       "venom_blind"
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_group_tactics_other",
+    "name": [ "Prescient Tactics" ],
+    "desc": [ "You're being informed of the best way to fight." ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 3,
+    "int_decay_step": -1,
+    "int_decay_tick": 2,
+    "int_decay_remove": true,
+    "base_mods": { "dodge_mod": [ 4 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_group_tactics') / 8) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          },
+          {
+            "value": "BONUS_BLOCK",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_group_tactics') / 8) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_group_tactics_self",
+    "name": [ "Prescient Tactics" ],
+    "desc": [ "You're calling out tactics to your followers.  It's much harder to concentrate on your own defense." ],
+    "apply_message": "",
+    "remove_message": "As the visions fade, you stop calling out orders.",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "base_mods": { "dodge_mod": [ -6 ], "hit_mod": [ -5 ] },
+    "enchantments": [ "ench_clair_group_tactics" ]
   },
   {
     "type": "effect_type",
@@ -1044,6 +1137,15 @@
     "rating": "good",
     "flags": [ "PHOTOKIN_CHAR_IMMUNE", "NO_RADIATION", "GLARE_RESIST" ],
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_hide_ugly",
+    "name": [ "Mirror-Mask" ],
+    "desc": [ "You're just another survivor.  There's definitely nothing odd about you at all." ],
+    "rating": "good",
+    "remove_message": "The illusions around you fall away.",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
