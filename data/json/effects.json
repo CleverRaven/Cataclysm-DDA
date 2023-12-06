@@ -4496,8 +4496,8 @@
   {
     "type": "effect_type",
     "id": "prosthetic_leg_l_fake_blocker",
-    "name": [ "Prosthetic Limb" ],
-    "desc": [ "You have a prosthetic limb.  If you can see this, it is a bug." ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "blocks_effects": [
       "bite",
       "poison",
@@ -4509,15 +4509,13 @@
       "venom_dmg",
       "venom_pain",
       "venom_weaken"
-    ],
-    "rating": "good",
-    "show_in_info": false
+    ]
   },
   {
     "type": "effect_type",
     "id": "prosthetic_leg_r_fake_blocker",
-    "name": [ "Prosthetic Limb" ],
-    "desc": [ "You have a prosthetic limb.  If you can see this, it is a bug." ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "blocks_effects": [
       "bite",
       "poison",
@@ -4529,15 +4527,13 @@
       "venom_dmg",
       "venom_pain",
       "venom_weaken"
-    ],
-    "rating": "good",
-    "show_in_info": false
+    ]
   },
   {
     "type": "effect_type",
     "id": "prosthetic_arm_l_fake_blocker",
-    "name": [ "Prosthetic Limb" ],
-    "desc": [ "You have a prosthetic limb.  If you can see this, it is a bug." ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "blocks_effects": [
       "bite",
       "poison",
@@ -4550,15 +4546,13 @@
       "venom_dmg",
       "venom_pain",
       "venom_weaken"
-    ],
-    "rating": "good",
-    "show_in_info": false
+    ]
   },
   {
     "type": "effect_type",
     "id": "prosthetic_arm_r_fake_blocker",
-    "name": [ "Prosthetic Limb" ],
-    "desc": [ "You have a prosthetic limb.  If you can see this, it is a bug." ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "blocks_effects": [
       "bite",
       "poison",
@@ -4571,8 +4565,6 @@
       "venom_dmg",
       "venom_pain",
       "venom_weaken"
-    ],
-    "rating": "good",
-    "show_in_info": false
+    ]
   }
 ]
