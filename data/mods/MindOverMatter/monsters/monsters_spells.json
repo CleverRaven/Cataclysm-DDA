@@ -58,6 +58,37 @@
     "max_damage": 350
   },
   {
+    "type": "SPELL",
+    "id": "pattern_screamer_rock_thrower_prep",
+    "name": { "str": "Feral One Perfect Shot" },
+    "teachable": false,
+    "description": "Pattern screamer prepares to hurl a rock with deadly accuracy",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 40,
+    "effect": "attack",
+    "extra_effects": [ { "id": "dragon_deep_breath_self", "hit_self": true, "max_level": 1 } ],
+    "shape": "blast",
+    "min_range": 8,
+    "max_range": 8,
+    "range_increment": 0.1
+  },
+  {
+    "type": "SPELL",
+    "id": "pattern_screamer_rock_thrower_prep_self",
+    "name": { "str": "One Perfect Shot Self" },
+    "teachable": false,
+    "description": "Grants the effect for a pattern screamer to throw a rock.",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_pattern_screamer_rock_thrower",
+    "shape": "blast",
+    "min_duration": 100,
+    "max_duration": 100
+  },
+  {
     "id": "electrokinetic_shock_touch_monster",
     "type": "SPELL",
     "name": "[Ψ]Static Touch Monster",
