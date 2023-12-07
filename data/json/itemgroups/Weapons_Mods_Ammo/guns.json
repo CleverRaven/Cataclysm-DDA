@@ -65,7 +65,7 @@
       { "item": "glock_22", "prob": 35, "charges-min": 0 },
       { "item": "glock_29", "prob": 2, "charges-min": 0 },
       { "item": "glock_31", "prob": 15, "charges-min": 0 },
-      { "item": "glock_40", "variant": "glock_40", "prob": 2, "charges-min": 0 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0 },
       { "item": "m1911_10", "prob": 15, "charges-min": 0 },
       { "item": "STI_DS_10", "prob": 15, "charges-min": 0 },
@@ -118,7 +118,7 @@
       { "item": "glock_22", "prob": 35 },
       { "item": "glock_29", "prob": 2 },
       { "item": "glock_31", "prob": 15 },
-      { "item": "glock_40", "variant": "glock_40", "prob": 2 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 2 },
       { "item": "m1911", "prob": 50 },
       { "item": "m1911_10", "prob": 15 },
       { "item": "STI_DS_10", "prob": 15, "charges-min": 0 },
@@ -167,7 +167,9 @@
       { "group": "nested_90two", "prob": 30 },
       { "group": "nested_90two40", "prob": 10 },
       { "group": "nested_bond_410", "prob": 15 },
-      { "group": "nested_deagle_44", "prob": 20 },
+      { "group": "nested_modular_deagle_357", "prob": 4 },
+      { "group": "nested_modular_deagle_44", "prob": 10 },
+      { "group": "nested_modular_deagle_50", "prob": 6 },
       { "group": "nested_m1911a1_38super", "prob": 20 },
       { "group": "nested_fn57", "prob": 60 },
       { "group": "nested_ruger_redhawk", "prob": 25 },
@@ -208,7 +210,11 @@
       { "item": "m9", "variant": "90two", "prob": 25 },
       { "item": "90two40", "prob": 10 },
       { "item": "bond_410", "prob": 10 },
-      { "item": "deagle_44", "prob": 20 },
+      { "item": "modular_deagle_357", "prob": 4 },
+      { "item": "modular_deagle_44", "prob": 10 },
+      { "item": "modular_deagle_50", "prob": 4 },
+      { "group": "nested_deagle_with_kits", "prob": 2 },
+      { "group": "modular_deagle_complete", "prob": 1 },
       { "item": "m1911a1_38super", "prob": 25 },
       { "item": "fn57", "prob": 15 },
       { "item": "ruger_redhawk", "prob": 25 },
@@ -242,13 +248,17 @@
     "//": "Empty high-caliber pistols and revolvers found within hunting supply stores and related locations.",
     "items": [
       { "item": "glock_20", "variant": "glock_20", "prob": 15 },
-      { "item": "glock_40", "variant": "glock_40", "prob": 15 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 15 },
       { "item": "sw_610", "prob": 20 },
       { "item": "sw_619", "prob": 25 },
       { "item": "bfr", "prob": 10 },
       { "item": "raging_bull", "prob": 15 },
       { "item": "raging_judge", "prob": 15 },
       { "item": "sw_500", "prob": 10 },
+      { "item": "modular_deagle_357", "prob": 2 },
+      { "item": "modular_deagle_44", "prob": 5 },
+      { "item": "modular_deagle_50", "prob": 1 },
+      { "group": "nested_deagle_with_kits", "prob": 1 },
       { "item": "sw629", "prob": 15 },
       { "item": "ruger_redhawk", "prob": 15 }
     ]
@@ -282,6 +292,7 @@
       { "group": "nested_mauser_c96", "prob": 39 },
       { "group": "nested_moss_brownie", "prob": 100 },
       { "group": "nested_mr73", "prob": 5 },
+      { "group": "nested_modular_deagle_gold", "prob": 10 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
       { "group": "nested_raging_judge", "prob": 20 },
@@ -410,6 +421,8 @@
     "items": [
       { "item": "ppsh", "prob": 50 },
       { "item": "hk_mp5_10_semi", "prob": 1 },
+      { "item": "skorpion_61", "prob": 100 },
+      { "item": "skorpion_82", "prob": 100 },
       { "item": "greasegun", "prob": 150 },
       { "group": "guns_smg_collectible", "prob": 1 }
     ]
@@ -768,7 +781,7 @@
       { "item": "m60_semi", "prob": 5 },
       { "item": "oa93", "prob": 3 },
       { "item": "steyr_aug", "prob": 5 },
-      { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
+      { "item": "fn_fal", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
       { "item": "hk_g36", "prob": 30 },
       { "item": "m1918", "prob": 30 },
@@ -961,15 +974,9 @@
     "type": "item_group",
     "id": "guns_launcher_flame",
     "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
-    "items": [ { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 8000 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_launcher_flame_xedra",
-    "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
     "items": [
-      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 8000 },
-      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 9000 }
+      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 1500 },
+      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 1500 }
     ]
   },
   {
