@@ -38,7 +38,13 @@
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "underbarrel mount", 1 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag", "deaglemag_357", "deaglemag_50" ] } ],
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "deaglemag", "deaglemag_357", "deaglemag_50" ]
+      }
+    ],
     "melee_damage": { "bash": 12 }
   }
 ]
