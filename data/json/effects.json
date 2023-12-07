@@ -4505,11 +4505,25 @@
   {
     "id": "star_vampire_blood_drink",
     "type": "effect_type",
-    "name": [ "Blood-sucked" ],
+    "name": [ "Exsanguination" ],
     "desc": [ "The monster is drinking your blood!" ],
     "rating": "bad",
     "resist_traits": [ "BLEED_IMMUNE" ],
     "show_in_info": true,
-    "vitamins": [ { "vitamin": "blood", "rate": [ [ -450, -750 ] ] } ],
+    "vitamins": [
+      { "vitamin": "blood", "rate": [ [ -450, -850 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -450, -850 ] ], "tick": [ "1 s" ] }
+    ]
+  },
+  {
+    "id": "star_vampire_blood_drink_feral",
+    "type": "effect_type",
+    "name": [ "Exsanguination" ],
+    "desc": [ "The monster is drinking your blood, you vile feral!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "chance_kill": [ [ 1, 15 ] ]
   }
 ]
