@@ -4,6 +4,8 @@
     "id": "mags_milspec",
     "//": "Current military specification magazines.",
     "items": [
+      [ "rm4502", 2 ],
+      [ "rm4504", 2 ],
       [ "huge_atomic_battery_cell", 2 ],
       [ "20x66_20_mag", 10 ],
       [ "20x66_40_mag", 5 ],
@@ -211,7 +213,9 @@
       [ "glock_drum_100rd", 5 ],
       [ "glock_21mag26", 5 ],
       [ "90two40mag", 5 ],
-      [ "deaglemag", 40 ],
+      [ "deaglemag", 10 ],
+      [ "deaglemag_50", 10 ],
+      [ "deaglemag_357", 10 ],
       [ "fn57mag", 80 ],
       [ "cz75mag_26rd", 2 ],
       [ "tdi_10mm_mag", 1 ],
@@ -245,6 +249,9 @@
     "//": "Empty magazines for high-caliber pistols found within hunting supply stores and related locations.",
     "items": [
       { "item": "glock_20mag", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "deaglemag", "prob": 15, "charges": [ 0, 0 ] },
+      { "item": "deaglemag_50", "prob": 15, "charges": [ 0, 0 ] },
+      { "item": "deaglemag_357", "prob": 15, "charges": [ 0, 0 ] },
       { "item": "500_speedloader5", "prob": 15, "charges": [ 0, 0 ] },
       { "item": "38_speedloader6", "prob": 40, "charges": [ 0, 0 ] },
       { "item": "38_speedloader", "prob": 40, "charges": [ 0, 0 ] },
@@ -493,19 +500,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "nailmag", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_flamethrower",
-    "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "pressurized_tank_chem", 5 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_flamethrower_xedra",
-    "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "pressurized_tank_chem", 5 ], [ "pressurized_tank_modern", 10 ] ]
+    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",
@@ -568,6 +563,8 @@
       [ "ppshmag", 10 ],
       [ "ppshdrum", 10 ],
       [ "rpk74mag", 10 ],
+      [ "skorpion61mag", 10 ],
+      [ "skorpion82mag", 10 ],
       [ "tokarevmag", 10 ],
       [ "greasegun30mag", 5 ],
       [ "greasegun32mag", 2 ]
