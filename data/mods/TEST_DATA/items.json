@@ -4792,5 +4792,35 @@
     "volume": "250 ml",
     "to_hit": -3,
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "vac_mold",
+    "type": "TOOL",
+    "copy-from": "vac_mold",
+    "name": { "str": "vacuum molder" },
+    "description": "Copy of vacuum molder, that still can uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "makeshift_vacuum_mold",
+    "type": "TOOL",
+    "copy-from": "makeshift_vacuum_mold",
+    "name": { "str": "makeshift vacuum mold" },
+    "description": "Copy of makeshift vacuum molder, that still can uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   }
 ]
