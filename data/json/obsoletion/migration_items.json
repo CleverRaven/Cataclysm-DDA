@@ -55,6 +55,17 @@
     "replace": "ammo_box_4"
   },
   {
+    "id": "ammunition_can_carlgustav",
+    "type": "MIGRATION",
+    "replace": "ammunition_can_carlgustav_hedp"
+  },
+  {
+    "id": "glock_20",
+    "from_variant": "glock_40",
+    "type": "MIGRATION",
+    "replace": "glock_40"
+  },
+  {
     "id": "r_paint",
     "type": "MIGRATION",
     "replace": "paint_can_steel",
@@ -256,6 +267,26 @@
     "replace": "broken_mininuke_hack"
   },
   {
+    "id": "knife_combat_marine_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_marine"
+  },
+  {
+    "id": "knife_combat_army_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_army"
+  },
+  {
+    "id": "knife_combat_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  },
+  {
+    "id": "sword_bayonet_mod",
+    "type": "MIGRATION",
+    "replace": "sword_bayonet"
+  },
+  {
     "id": "20x66_bootleg_flechette",
     "type": "MIGRATION",
     "replace": "20x66_shot"
@@ -294,5 +325,20 @@
     "id": "bp_762_m43",
     "type": "MIGRATION",
     "replace": "bp_762_m87"
+  },
+  {
+    "id": "rm4502",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank_modern"
+  },
+  {
+    "id": "rm4504",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank_modern"
+  },
+  {
+    "id": "fn_fal",
+    "type": "MIGRATION",
+    "replace": "fn_fal_semi"
   }
 ]

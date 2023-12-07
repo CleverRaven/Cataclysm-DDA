@@ -246,6 +246,7 @@
     "type": "recipe",
     "id_suffix": "from_alder",
     "result": "quikclot",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",

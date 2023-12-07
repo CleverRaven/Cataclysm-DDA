@@ -53,7 +53,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -77,6 +76,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
@@ -352,12 +352,25 @@ std::string enum_to_string<butcher_type>( butcher_type data )
 
 } // namespace io
 
+static void assign_multi_activity( Character &you, const player_activity &act )
+{
+    const bool requires_actor = activity_actors::deserialize_functions.find( act.id() ) !=
+                                activity_actors::deserialize_functions.end();
+    if( requires_actor ) {
+        // the activity uses `activity_actor` and requires `player_activity::actor` to be set
+        you.assign_activity( player_activity( act ) );
+    } else {
+        // the activity uses the older type of player_activity where `player_activity::actor` is not used
+        you.assign_activity( act.id() );
+    }
+}
+
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {
     if( !you.backlog.empty() ) {
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
-            you.assign_activity( you.backlog.front().id() );
+            assign_multi_activity( you, back_act );
             you.backlog.clear();
             return true;
         }
@@ -901,7 +914,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT )    {
         int dissectable_practice = 0;
         int dissectable_num = 0;
-        for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *item : corpse_item->all_items_top( pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
                                     item->dropped_from );
@@ -1173,7 +1186,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -2292,7 +2305,7 @@ struct weldrig_hack {
         }
 
         item pseudo_magazine( pseudo.magazine_default() );
-        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+        pseudo.put_in( pseudo_magazine, pocket_type::MAGAZINE_WELL );
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
                          pseudo.ammo_capacity( ammo_battery ) ) );
         return pseudo;
@@ -2526,7 +2539,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() && !can_refit ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2656,7 +2669,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
-    tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
 }
@@ -3775,11 +3788,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
+            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
+            int cost = spell_being_cast.energy_cost( *you );
+
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                // pay the cost
-                int cost = spell_being_cast.energy_cost( *you );
                 switch( spell_being_cast.energy_source() ) {
                     case magic_energy_type::mana:
                         you->magic->mod_mana( *you, -cost );

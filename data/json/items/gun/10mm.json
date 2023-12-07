@@ -18,6 +18,8 @@
     "weight": "1420 g",
     "volume": "754 ml",
     "longest_side": "332 mm",
+    "barrel_length": "197 mm",
+    "//": "165mm + 32mm max OAL for 10mm. Revolvers just built different.",
     "price": 74000,
     "price_postapoc": 2250,
     "to_hit": -2,
@@ -58,6 +60,7 @@
     "weight": "690 g",
     "volume": "410 ml",
     "longest_side": "177 mm",
+    "barrel_length": "96 mm",
     "price": 60500,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -91,18 +94,13 @@
         "id": "glock_20",
         "name": { "str": "Glock 20" },
         "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one."
-      },
-      {
-        "id": "glock_40",
-        "name": { "str": "Glock 40 MOS" },
-        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
-        "ascii_picture": "glock_40mos"
       }
     ],
     "ascii_picture": "glock_20",
     "weight": "780 g",
     "volume": "480 ml",
     "longest_side": "205 mm",
+    "barrel_length": "117 mm",
     "price": 59200,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -116,6 +114,30 @@
     "min_cycle_recoil": 570,
     "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "glock_40",
+    "copy-from": "glock_20",
+    "looks_like": "glock_20",
+    "type": "GUN",
+    "name": { "str": "hunter Glock pistol" },
+    "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_40",
+        "name": { "str": "Glock 40" },
+        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use."
+      }
+    ],
+    "ascii_picture": "glock_40mos",
+    "weight": "915 g",
+    "volume": "410 ml",
+    "longest_side": "213 mm",
+    "barrel_length": "153 mm",
+    "price": 65500,
+    "price_postapoc": 2700,
+    "dispersion": 500
   },
   {
     "id": "hk_mp5_10_semi",
@@ -135,13 +157,13 @@
     "weight": "2667 g",
     "volume": "2411 ml",
     "longest_side": "498 mm",
+    "barrel_length": "225 mm",
     "price": 360000,
     "price_postapoc": 2300,
     "durability": 7,
     "min_cycle_recoil": 675,
     "ammo": "10mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
@@ -164,6 +186,7 @@
     "weight": "1077 g",
     "volume": "413 ml",
     "longest_side": "210 mm",
+    "barrel_length": "127 mm",
     "price": 105000,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -197,6 +220,7 @@
     "weight": "936 g",
     "volume": "459 ml",
     "longest_side": "203 mm",
+    "barrel_length": "114 mm",
     "price": 64900,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -227,6 +251,7 @@
     "weight": "964 g",
     "volume": "549 ml",
     "longest_side": "224 mm",
+    "barrel_length": "127 mm",
     "price": 50000,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -258,6 +283,7 @@
     "weight": "930 g",
     "volume": "549 ml",
     "longest_side": "211 mm",
+    "barrel_length": "133 mm",
     "price": 50000,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -301,5 +327,40 @@
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
+  },
+  {
+    "id": "STI_DS_10",
+    "copy-from": "pistol_base",
+    "looks_like": "m1911_10",
+    "type": "GUN",
+    "name": { "str": "double-stack 10mm 1911" },
+    "description": "An updated version of the M1911 pistol, chambered in 10mm Auto, that uses double-stack magazines for greater capacity.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "STI_DS_10",
+        "name": { "str": "STI Tactical 2011 DS 10mm" },
+        "description": "A next-gen model of the venerable 1911, ready to win World War Z.  Modernized and manufactured by Staccato, sporting a double-stack magwell, sleek solid-steel frame, and ergonomic grip; favored by certain dog-loving assassins.  This model is chambered in 10mm Auto.",
+        "weight": 1
+      }
+    ],
+    "weight": "1191 g",
+    "volume": "430 ml",
+    "longest_side": "231 mm",
+    "barrel_length": "127 mm",
+    "price": 269900,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "10mm",
+    "dispersion": 460,
+    "durability": 6,
+    "min_cycle_recoil": 570,
+    "blackpowder_tolerance": 48,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "2011_17_mag", "2011_22_mag" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

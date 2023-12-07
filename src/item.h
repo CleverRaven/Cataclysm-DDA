@@ -25,7 +25,6 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "material.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -49,6 +48,7 @@ class item;
 class iteminfo_query;
 class monster;
 class nc_color;
+enum class pocket_type;
 class recipe;
 class relic;
 struct part_material;
@@ -816,9 +816,9 @@ class item : public visitable
         /** Whether it is a container with only one pocket, and if it is has some restrictions */
         bool is_single_container_with_restriction() const;
         // whether the contents has a pocket with the associated type
-        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_pocket_type( pocket_type pk_type ) const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
-                           item_pocket::pocket_type pk_type ) const;
+                           pocket_type pk_type ) const;
 
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
@@ -932,9 +932,9 @@ class item : public visitable
         /**
          * Puts the given item into this one.
          */
-        ret_val<void> put_in( const item &payload, item_pocket::pocket_type pk_type,
+        ret_val<void> put_in( const item &payload, pocket_type pk_type,
                               bool unseal_pockets = false, Character *carrier = nullptr );
-        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
+        void force_insert_item( const item &it, pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -2846,11 +2846,11 @@ class item : public visitable
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
-        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_top( pocket_type pk_type ) const;
         /** returns a list of pointers to all top-level items
          *  if unloading is true it ignores items in pockets that are flagged to not unload
          */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+        std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );
 
         item const *this_or_single_content() const;
         bool contents_only_one_type() const;
@@ -2861,9 +2861,9 @@ class item : public visitable
          */
         std::list<const item *> all_items_ptr() const;
         /** returns a list of pointers to all items inside recursively */
-        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
-        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+        std::list<item *> all_items_ptr( pocket_type pk_type );
 
         /** returns a list of pointers to all visible or remembered top-level items */
         std::list<item *> all_known_contents();
@@ -2937,8 +2937,8 @@ class item : public visitable
         /** Update flags associated with temperature */
         void set_temp_flags( units::temperature new_temperature, float freeze_percentage );
 
-        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
-        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+        std::list<item *> all_items_top_recursive( pocket_type pk_type );
+        std::list<const item *> all_items_top_recursive( pocket_type pk_type ) const;
 
         /** Returns true if protection info was printed as well */
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;

@@ -6,11 +6,11 @@
 #include "calendar.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -29,7 +29,7 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
     item_location backpack_loc( guy, & **item_iter );
-    backpack_loc->put_in( spawned_item, item_pocket::pocket_type::CONTAINER );
+    backpack_loc->put_in( spawned_item, pocket_type::CONTAINER );
     REQUIRE( backpack_loc->num_item_stacks() == 1 );
     item_location item_loc( backpack_loc, &backpack_loc->only_item() );
     CAPTURE( item_name );
@@ -69,20 +69,20 @@ TEST_CASE( "Wield_time_test", "[wield]" )
         guy.set_body();
         auto item_iter = guy.worn.wear_item( guy, backpack, false, false );
         item_location backpack_loc( guy, & **item_iter );
-        backpack_loc->put_in( plastic_bag, item_pocket::pocket_type::CONTAINER );
+        backpack_loc->put_in( plastic_bag, pocket_type::CONTAINER );
         REQUIRE( backpack_loc->num_item_stacks() == 1 );
         REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
         item_location plastic_bag_loc( backpack_loc, &backpack_loc->only_item() );
-        plastic_bag_loc->put_in( cargo_pants, item_pocket::pocket_type::CONTAINER );
+        plastic_bag_loc->put_in( cargo_pants, pocket_type::CONTAINER );
         REQUIRE( plastic_bag_loc->num_item_stacks() == 1 );
 
         item_location cargo_pants_loc( plastic_bag_loc, &plastic_bag_loc->only_item() );
-        cargo_pants_loc->put_in( sheath, item_pocket::pocket_type::CONTAINER );
+        cargo_pants_loc->put_in( sheath, pocket_type::CONTAINER );
         REQUIRE( cargo_pants_loc->num_item_stacks() == 1 );
 
         item_location sheath_loc( cargo_pants_loc, &cargo_pants_loc->only_item() );
-        sheath_loc->put_in( knife, item_pocket::pocket_type::CONTAINER );
+        sheath_loc->put_in( knife, pocket_type::CONTAINER );
         REQUIRE( sheath_loc->num_item_stacks() == 1 );
 
         item_location knife_loc( sheath_loc, &sheath_loc->only_item() );

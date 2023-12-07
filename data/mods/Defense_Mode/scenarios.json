@@ -5,27 +5,30 @@
     "scenarios": [ "defense_mode_fortified" ]
   },
   {
+    "copy-from": "defense_mode_fortified",
     "type": "scenario",
     "id": "defense_mode_fortified",
     "name": "Fortified",
     "points": 0,
     "description": "You do not know who you are, nor do you know why you're here.  All you know is that you must fight and defend yourself from the horde.",
-    "allowed_locs": [
-      "sloc_bar",
-      "sloc_hospital",
-      "public_works",
-      "megastore",
-      "mansion",
-      "sloc_shelter_a",
-      "sloc_gun_store",
-      "survivor_camp",
-      "sloc_cabin",
-      "cave",
-      "sugar_house",
-      "sloc_bank",
-      "sloc_pawn_shop",
-      "sloc_restaurant"
-    ],
+    "extend": {
+      "allowed_locs": [
+        "sloc_bar",
+        "sloc_hospital",
+        "public_works",
+        "megastore",
+        "mansion",
+        "sloc_shelter_a",
+        "sloc_gun_store",
+        "survivor_camp",
+        "sloc_cabin",
+        "cave",
+        "sugar_house",
+        "sloc_bank",
+        "sloc_pawn_shop",
+        "sloc_restaurant"
+      ]
+    },
     "eoc": [ "scenario_defense_mode" ],
     "forced_traits": [ "HAS_NEMESIS" ],
     "missions": [ "MISSION_DEFENSE_MODE_SURVIVE" ],

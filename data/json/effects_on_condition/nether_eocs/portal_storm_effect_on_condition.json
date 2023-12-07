@@ -308,6 +308,7 @@
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
+        [ "EOC_PORTAL_FLATLANDER", { "const": 5 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
         [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
         [ "EOC_PORTAL_NPC", { "const": 1 } ]
@@ -531,6 +532,21 @@
       "lifespan": [ "1 minutes", "3 minutes" ],
       "spawn_message": "You cannot remember how the impossible shape came to be here.  The pain in your head suggests that that's a good thing.",
       "spawn_message_plural": "You cannot remember how the impossible shapes came to be here.  The pain in your head suggests that that's a good thing."
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_FLATLANDER",
+    "effect": {
+      "u_spawn_monster": "mon_flatlander",
+      "real_count": 1,
+      "hallucination_count": 1,
+      "outdoor_only": true,
+      "min_radius": 3,
+      "max_radius": 20,
+      "lifespan": [ "1 minutes", "3 minutes" ],
+      "spawn_message": "something glides into your field of vision out of thin air, slipping between the space between atoms.",
+      "spawn_message_plural": "several things glide into your field of vision out of thin air, slipping between the spaces between atoms."
     }
   },
   {

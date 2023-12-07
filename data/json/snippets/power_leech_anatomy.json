@@ -1,0 +1,32 @@
+[
+  {
+    "type": "snippet",
+    "category": "<power_leech_harvest>",
+    "text": [
+      "The bark of this plant/creature is tough and leathery and slightly translucent, with blue veins running through it.",
+      "When you cut this plant-creature open the smell of ozone gets stronger, but it's mixed with a sweet smell from the creature itself.",
+      "The sap of the beast is a slightly bluish color and seems to be less viscous than animal blood.",
+      "Despite the creature seemingly being a plant/creature hybrid, the muscles are surprisingly similar to animal muscles, although the color is off.",
+      "You don't find anything resembling bones in the creature.  Instead, it seems it's more similar to terrestial invertebrates.",
+      "A slight electric discharge gives you a minor shock as you pierce what you assume is an electric organ.",
+      "You find no external sensory organs in the plant/beast hybrid, but it's quite possible the main means of perception is through electric fields."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<power_leech_harvest_deeper>",
+    "text": [
+      "The blue veins of the vascular system of the creature is extensive, reaching every part of its body.",
+      "The plant creature seems to have a heart of sorts, although its structure is different from that on any animal you've heard of.",
+      "You take a closer look at the electric organs, and it seems to be built up of layers of alternating dark and light tissue, which you guess might build up a battery stack of sorts.",
+      "A closer examination of the rhizomes at the base of the creature indicates they're adapted to movement and clinging to surfaces rather than burrowing into the soil as you would expect from roots.",
+      "The power organs are surrounded by a complex tissue you suspect is responsible for projection of electric fields the creature used for attack, and, you suspect, sensory perception.",
+      "A small structure that vaguely resembles a brain is found near the center of the creature."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<power_leech_harvest>",
+    "text": [ "<power_leech_harvest>", "<power_leech_harvest_deeper>", "<power_leech_harvest>  <power_leech_harvest_deeper>" ]
+  }
+]

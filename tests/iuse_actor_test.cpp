@@ -15,7 +15,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -26,6 +25,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -98,8 +98,8 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
+        ret_val<void> result = flashlight.put_in( bat_cell, pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
 

@@ -5186,7 +5186,7 @@
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "shoulder_strap", 1 ] ],
+      [ [ "shoulder_strap_simple", 1 ] ],
       [ [ "2x4", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 10 ] ],
@@ -5766,6 +5766,7 @@
   {
     "result": "salt_lick",
     "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
@@ -6167,7 +6168,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "cotton_patchwork", 16 ] ] ],
+    "components": [ [ [ "sheet_cotton", 1 ] ], [ [ "cotton_patchwork", 8 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6175,7 +6176,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
-    "components": [ [ [ "cotton_patchwork", 12 ] ] ],
+    "components": [ [ [ "sheet_cotton", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6251,7 +6252,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
-    "components": [ [ [ "sheet_cotton_patchwork", 8 ] ], [ [ "fur", 8 ] ] ],
+    "components": [ [ [ "sheet_cotton", 1 ] ], [ [ "sheet_cotton_patchwork", 2 ] ], [ [ "fur", 8 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
@@ -6677,7 +6678,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "material_aluminium_ingot", 29 ] ], [ [ "cotton_patchwork", 10 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 29 ] ], [ [ "sheet_cotton", 1 ] ], [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "stethoscope",
@@ -7137,7 +7138,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plank_short", 2 ] ], [ [ "nuts_bolts", 12 ] ], [ [ "cotton_patchwork", 30 ] ], [ [ "splinter", 22 ] ] ]
+    "components": [
+      [ [ "plank_short", 2 ] ],
+      [ [ "nuts_bolts", 12 ] ],
+      [ [ "sheet_cotton", 3 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "splinter", 22 ] ]
+    ]
   },
   {
     "result": "chair_wood",
@@ -7154,7 +7161,8 @@
     "time": "60 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "cotton_patchwork", 110 ] ],
+      [ [ "sheet_cotton", 13 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
       [ [ "wooden_post_short", 6 ] ],
       [ [ "wood_block", 4 ] ],
       [ [ "nuts_bolts", 16 ] ],
