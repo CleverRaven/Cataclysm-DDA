@@ -130,6 +130,10 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
+static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+static const flag_id json_flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const flag_id json_flag_TRANSPARENT( "TRANSPARENT" );
+
 static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -150,12 +154,16 @@ static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES2_FALL( "LEAVES2_FALL" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_LEAVES3_FALL( "LEAVES3_FALL" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
+static const trait_id trait_NO_LEFT_ARM( "NO_LEFT_ARM" );
+static const trait_id trait_NO_RIGHT_ARM( "NO_RIGHT_ARM" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -177,6 +185,9 @@ static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
+static const trait_id trait_VINES1( "VINES1" );
+static const trait_id trait_VINES2( "VINES2" );
+static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -187,7 +198,7 @@ static const vitamin_id vitamin_vitC( "vitC" );
 namespace suffer
 {
 static void from_sunburn( Character &you, bool severe );
-static void in_sunlight( Character &you );
+static void in_sunlight( Character &you, outfit &worn );
 static void water_damage( Character &you, const trait_id &mut_id );
 static void mutation_power( Character &you, const trait_id &mut_id );
 static void while_underwater( Character &you );
@@ -847,7 +858,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     }
 }
 
-void suffer::in_sunlight( Character &you )
+void suffer::in_sunlight( Character &you, outfit &worn )
 {
     const tripoint position = you.pos();
 
@@ -857,28 +868,62 @@ void suffer::in_sunlight( Character &you )
 
     const bool leafy = you.has_trait( trait_LEAVES ) ||
                        you.has_trait( trait_LEAVES2 ) ||
-                       you.has_trait( trait_LEAVES3 );
+                       you.has_trait( trait_LEAVES2_FALL ) ||
+                       you.has_trait( trait_LEAVES3 ) ||
+                       you.has_trait( trait_LEAVES3_FALL);
     int sunlight_nutrition = 0;
     if( leafy ) {
-        const bool leafier = you.has_trait( trait_LEAVES2 );
-        const bool leafiest = you.has_trait( trait_LEAVES3 );
-        const double sleeve_factor = you.armwear_factor();
-        const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
-        const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
+        const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
+        const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
+        const bodypart_id left_arm( "arm_l" );
+        const bodypart_id right_arm( "arm_r" );
+        const bodypart_id head( "head" );
+        //TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
+        float head_leaf_surface = worn.coverage_with_flags_exclude( head, { json_flag_INTEGRATED, json_flag_SEMITANGIBLE, json_flag_TRANSPARENT } );
+        float rarm_leaf_surface = worn.coverage_with_flags_exclude( right_arm, { json_flag_INTEGRATED, json_flag_SEMITANGIBLE, json_flag_TRANSPARENT } ) * .005;
+        float larm_leaf_surface = worn.coverage_with_flags_exclude( left_arm, { json_flag_INTEGRATED, json_flag_SEMITANGIBLE, json_flag_TRANSPARENT } ) * .005;
+        float vine_leaf_surface = rarm_leaf_surface + larm_leaf_surface;
+            if( you.has_trait( trait_NO_LEFT_ARM ) ) {
+            larm_leaf_surface = .5;
+            }
+            if( you.has_trait( trait_NO_RIGHT_ARM ) ) {
+            rarm_leaf_surface = .5;
+            }
+            if( you.has_trait( trait_VINES1 ) ) {
+            vine_leaf_surface = std::min(vine_leaf_surface + 0.5, 1.0);
+            }
+            if ( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) && !you.has_trait( trait_VINES3 ) ) {
+            vine_leaf_surface = 1;
+            }
+            const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
+                                                           you.add_msg_if_player( m_good, _( "vine_leaf_surface is %s." ),
+                                   vine_leaf_surface );
         const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
         const int flux = ( player_local_temp - 65 ) / 2;
-        if( !has_hat ) {
-            sunlight_nutrition += ( 100 + flux ) * weather_factor;
+        if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
+            vine_leaf_surface = std::min(vine_leaf_surface + 0.33, 1.0);
+            larm_leaf_surface = std::min(larm_leaf_surface + 0.33, 1.0);
+            rarm_leaf_surface = std::min(rarm_leaf_surface + 0.33, 1.0);
+            head_leaf_surface = std::min(head_leaf_surface + 33, 100.0f);
         }
+        sunlight_nutrition += ( 100 - head_leaf_surface + flux ) * weather_factor;
         if( leafier || leafiest ) {
-            const int rate = ( 100 * sleeve_factor + flux ) * 2;
+            const int rate = round( 100 * ( ( larm_leaf_surface + rarm_leaf_surface+ vine_leaf_surface ) / 2 ) + flux ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
+            you.add_msg_if_player( m_good, _( "Rate is %s." ),
+                                   rate );
         }
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
         you.vitamin_mod( vitamin_vitC, 1 );
+            you.add_msg_if_player( m_good, _( "Ding! Sunlight_nutrition is %s." ),
+                                   sunlight_nutrition );
+        you.mod_hunger( -1 );
+        // photosynthesis absorbs kcal directly
+        you.mod_stored_kcal( 1 );
+        you.stomach.ate();
     }
 
     if( you.has_flag( json_flag_SUNBURN ) ) {
@@ -1872,7 +1917,7 @@ void Character::suffer()
         suffer::from_asthma( *this, current_stim );
     }
 
-    suffer::in_sunlight( *this );
+    suffer::in_sunlight( *this, worn );
     suffer::from_exertion( *this );
     suffer::from_item_dropping( *this );
     suffer::from_other_mutations( *this );

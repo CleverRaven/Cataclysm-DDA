@@ -2352,5 +2352,10 @@
     "id": "UNDERFED",
     "type": "json_flag",
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
+  },
+  {
+    "id": "TRANSPARENT",
+    "type": "json_flag",
+    "//": "This item is transparent and does not block sunlight or hide mutations."
   }
 ]
