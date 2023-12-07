@@ -2845,8 +2845,8 @@ void options_manager::add_options_debug()
                                       to_translation( "Options regarding 3D field of vision." ) ),
     [&]( const std::string & page_id ) {
         add( "FOV_3D", page_id, to_translation( "Experimental 3D field of vision" ),
-             to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level." ),
-             false
+             to_translation( "If true, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level.  It affects only visibility, activity on different z-levels is still calculated regardless." ),
+             true
            );
 
         add( "FOV_3D_Z_RANGE", page_id, to_translation( "Vertical range of 3D field of vision" ),
