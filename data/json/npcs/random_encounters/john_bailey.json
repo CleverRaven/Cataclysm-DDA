@@ -28,7 +28,7 @@
     "traits": [
       { "trait": "SKIN_LIGHT" },
       { "trait": "eye_color", "variant": "brown" },
-      { "trait": "hair_brown_short" },
+      { "trait": "hair_short", "variant": "brown" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },
       { "trait": "GOODCARDIO" },
