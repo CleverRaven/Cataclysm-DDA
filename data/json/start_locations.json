@@ -135,7 +135,6 @@
       "house_07",
       "house_08",
       "house_09",
-      "house_09b",
       "house_10",
       "house_11",
       "house_12",
@@ -557,12 +556,6 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_basement_bionic",
-    "name": "Shady Basement",
-    "terrain": [ "basement_bionic" ]
-  },
-  {
-    "type": "start_location",
     "id": "sloc_zoo_giftshop",
     "name": "Zoo (Giftshop)",
     "terrain": [ "zoo_0_1" ]
@@ -812,5 +805,12 @@
     "id": "sloc_sewer",
     "name": "Sewer",
     "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_nesw_manhole",
+    "name": "Intersection",
+    "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

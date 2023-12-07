@@ -326,11 +326,11 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "6 h",
+    "reversible": { "time": "30 m" },
     "book_learn": [ [ "scots_tailor", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "using": [ [ "fabric_leather_hide", 7 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
-    "byproducts": [ [ "leather", 2 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 7 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
   },
   {
     "result": "kilt",
@@ -866,7 +866,7 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
     ],
-    "components": [ [ [ "pants_army", 1 ], [ "pants_cargo", 1 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
+    "components": [ [ [ "technician_pants_gray", 1 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
   },
   {
     "result": "lsurvivor_pants",
@@ -1046,8 +1046,8 @@
     "difficulty": 4,
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 5 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "leather", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_small", 1 ] ],
+    "byproducts": [ [ "leather", 7 ], [ "scrap_leather", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -1551,7 +1551,7 @@
     "time": "8 h",
     "autolearn": true,
     "reversible": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -2909,5 +2909,114 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+  },
+  {
+    "id": "nested_all_prosthetic_legs",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "prosthetic legs",
+    "description": "Recipes related to constructing prosthetic legs of varying materials and designs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "right_peg_leg", "left_peg_leg", "right_leg_prosthetic_steel", "left_leg_prosthetic_steel" ],
+    "difficulty": 4
+  },
+  {
+    "result": "right_peg_leg",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "armor_wood", 4 ], [ "fabric_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "time_multiplier": 1.1, "skill_penalty": 0.1 },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "prof_carpentry_basic", "time_multiplier": 1.2 }
+    ],
+    "components": [
+      [ [ "nail", 20 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "cotton_ball", 4 ], [ "straw_pile", 2 ], [ "withered", 7 ], [ "pine_bough", 5 ] ]
+    ]
+  },
+  {
+    "result": "left_peg_leg",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "armor_wood", 4 ], [ "fabric_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "time_multiplier": 1.1, "skill_penalty": 0.1 },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "prof_carpentry_basic", "time_multiplier": 1.2 }
+    ],
+    "components": [
+      [ [ "nail", 20 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "cotton_ball", 4 ], [ "straw_pile", 2 ], [ "withered", 7 ], [ "pine_bough", 5 ] ]
+    ]
+  },
+  {
+    "//": "1.71 times increase in material and time, based on steel legguards.",
+    "result": "right_leg_prosthetic_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "325 m",
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [
+      [ "blacksmithing_standard", 48 ],
+      [ "steel_standard", 12 ],
+      [ "strap_small", 7 ],
+      [ "clasps", 7 ],
+      [ "tailoring_leather", 1 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "left_leg_prosthetic_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "325 m",
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [
+      [ "blacksmithing_standard", 48 ],
+      [ "steel_standard", 12 ],
+      [ "strap_small", 7 ],
+      [ "clasps", 7 ],
+      [ "tailoring_leather", 1 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   }
 ]

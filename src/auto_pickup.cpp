@@ -250,6 +250,10 @@ drop_locations auto_pickup::select_items(
             item_entry->is_owned_by( get_player_character() ) ) {
             continue;
         }
+        // do not auto pickup spilt liquids
+        if( item_entry->made_of( phase_id::LIQUID ) ) {
+            continue;
+        }
         rule_state pickup_state = get_autopickup_rule( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
 

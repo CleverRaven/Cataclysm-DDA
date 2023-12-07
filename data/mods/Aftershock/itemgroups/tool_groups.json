@@ -178,22 +178,23 @@
     "id": "afs_tools_scavenging",
     "//": "lightweight tools used for finding and getting into places where you dont belong.",
     "items": [
-      { "item": "electrohack", "prob": 10 },
+      { "item": "electrohack", "prob": 100 },
       {
         "collection": [
           { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
           { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
         ],
-        "prob": 2
+        "prob": 20
       },
       {
         "collection": [ { "item": "afs_jetpack", "prob": 50 }, { "item": "ammonia_liquid", "prob": 100, "count": [ 1, 2 ] } ],
-        "prob": 1
+        "prob": 10
       },
-      { "item": "afs_imager", "prob": 10 },
-      { "item": "UPS_off", "prob": 2 },
-      { "item": "emf_detector", "prob": 5 },
-      { "group": "tools_lighting_industrial", "prob": 10 }
+      { "item": "afs_imager", "prob": 100 },
+      { "item": "UPS_off", "prob": 20 },
+      { "item": "emf_detector", "prob": 50 },
+      { "group": "tools_lighting_industrial", "prob": 100 },
+      { "item": "tskbem_master_keycard", "prob": 2 }
     ]
   }
 ]

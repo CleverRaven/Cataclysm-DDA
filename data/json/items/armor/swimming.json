@@ -97,7 +97,6 @@
         "name": { "str": "maid bikini bottom" },
         "description": "It's colored black with white frilly decorations.  You are not sure that this is common attire for the beach.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
     ],
@@ -223,7 +222,6 @@
         "name": { "str": "maid bikini top" },
         "description": "It's colored black with white frilly decorations.  You are not sure that this is common attire for the beach.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
     ],
@@ -494,7 +492,6 @@
         "id": "gothic_rashguard_shirt",
         "name": { "str": "gothic rashguard shirt" },
         "description": "It has a jet-black color with dark red decorations.  Looks creepy.",
-        "weight": 1,
         "append": true
       }
     ]

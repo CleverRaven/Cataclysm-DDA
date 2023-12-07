@@ -1903,7 +1903,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (8%)\n" );
+               "Vitamins (RDA): 83 mg Calcium (8%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1920,7 +1920,8 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
+               "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
+               " and 0-51 mg Vitamin C (0-56%)\n" );
     }
 }
 
@@ -2287,7 +2288,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         // With enough charges
         int bat_charges = drill.type->charges_to_use();
         battery.ammo_set( battery.ammo_default(), bat_charges );
-        drill.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.ammo_remaining() == bat_charges );
 
         CHECK( item_info_str( drill, qualities ) ==

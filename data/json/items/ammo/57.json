@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "5.7x28mm SS190" },
     "description": "5.7x28mm ammunition with a 31gr AP FMJ bullet.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled, the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil and its armor penetration is a defining feature.",
+    "ascii_picture": "57mm",
     "weight": "6 g",
     "volume": "121 ml",
     "longest_side": "41 mm",
@@ -29,6 +30,7 @@
     "type": "AMMO",
     "name": { "str_sp": "5.7x28mm SB193" },
     "description": "A subsonic cartridge derived from the 5.7x28mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
+    "ascii_picture": "57mm_ss",
     "relative": {
       "price": 100,
       "range": -1,

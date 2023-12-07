@@ -53,7 +53,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -77,6 +76,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
@@ -352,12 +352,25 @@ std::string enum_to_string<butcher_type>( butcher_type data )
 
 } // namespace io
 
+static void assign_multi_activity( Character &you, const player_activity &act )
+{
+    const bool requires_actor = activity_actors::deserialize_functions.find( act.id() ) !=
+                                activity_actors::deserialize_functions.end();
+    if( requires_actor ) {
+        // the activity uses `activity_actor` and requires `player_activity::actor` to be set
+        you.assign_activity( player_activity( act ) );
+    } else {
+        // the activity uses the older type of player_activity where `player_activity::actor` is not used
+        you.assign_activity( act.id() );
+    }
+}
+
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {
     if( !you.backlog.empty() ) {
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
-            you.assign_activity( you.backlog.front().id() );
+            assign_multi_activity( you, back_act );
             you.backlog.clear();
             return true;
         }
@@ -877,6 +890,14 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                                    _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
+    if( corpse_item->has_flag( flag_UNDERFED ) ) {
+        monster_weight = std::round( 0.9 * monster_weight );
+        if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
+            action != butcher_type::DISSECT ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "The corpse looks a little underweight…" ) );
+        }
+    }
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
@@ -893,7 +914,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT )    {
         int dissectable_practice = 0;
         int dissectable_num = 0;
-        for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *item : corpse_item->all_items_top( pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
                                     item->dropped_from );
@@ -942,6 +963,9 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( corpse_item->has_flag( flag_GIBBED ) && ( entry.type == harvest_drop_flesh ||
                 entry.type == harvest_drop_bone ) ) {
             roll /= 2;
+        }
+        if( corpse_item->has_flag( flag_UNDERFED ) && ( entry.type == harvest_drop_flesh ) ) {
+            roll /= 1.6;
         }
 
         if( corpse_item->has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
@@ -1162,7 +1186,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -2195,12 +2219,12 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
     INIT = 0,       // Haven't found repeat value yet.
-    ONCE = 1,       // Repeat just once
+    ONCE = 1,       // Attempt repair (and refit if possible) just once
     // value 2 obsolete - previously used for reinforcement
-    FULL = 3,       // Repeat until damage==0
-    EVENT = 4,      // Repeat until something interesting happens
-    REFIT_ONCE = 5, // Try refitting once
-    REFIT_FULL = 6, // Reapeat until item fits
+    FULL = 3,       // Continue repairing until damage==0 (and until refitted if possible)
+    EVENT = 4,      // Continue repairing (and refit if possible) until something interesting happens
+    REFIT_ONCE = 5, // Try refitting once, but don't repair
+    REFIT_FULL = 6, // Continue refitting until item fits, but don't repair
     CANCEL = 7,     // Stop repeating
 };
 
@@ -2226,11 +2250,13 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     uilist rmenu;
     rmenu.text = title;
 
-    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1', _( "Repeat once" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1',
+                    can_refit ? _( "Attempt to refit or repair once" ) : _( "Attempt to repair once" ) );
     rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '2',
-                    _( "Repeat until fully repaired" ) );
+                    can_refit ? _( "Repeat until refitted and fully repaired" ) : _( "Repeat until fully repaired" ) );
     rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '3',
-                    _( "Repeat until success/failure/level up" ) );
+                    can_refit ? _( "Refit or repair until success/failure/level up" ) :
+                    _( "Repair until success/failure/level up" ) );
     rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '4',
                     _( "Attempt to refit once" ) );
     rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '5',
@@ -2279,7 +2305,7 @@ struct weldrig_hack {
         }
 
         item pseudo_magazine( pseudo.magazine_default() );
-        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+        pseudo.put_in( pseudo_magazine, pocket_type::MAGAZINE_WELL );
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
                          pseudo.ammo_capacity( ammo_battery ) ) );
         return pseudo;
@@ -2513,7 +2539,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() && !can_refit ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2643,7 +2669,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
-    tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
 }
@@ -2691,7 +2717,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     recipe_id id( act->name );
     std::string itname;
     const inventory &inven = you->crafting_inventory();
-    const std::vector<npc *> &helpers = you->get_crafting_helpers();
+    const std::vector<Character *> &helpers = you->get_crafting_helpers();
     if( act->index != 0 ) {
         // act->name is recipe_id
         itname = id->result_name();
@@ -3217,10 +3243,12 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( ter_furn_flag::TFLAG_PLANTABLE, examp ) ) {
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
-        } else {
+        } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
             here.set( examp, t_dirt, f_plant_seed );
+        } else {
+            here.furn_set( examp, f_plant_seed );
         }
         you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                     item::nname( seed_id ) );
@@ -3741,6 +3769,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
                                             spell_being_cast.xp() );
                 }
+                get_event_bus().send<event_type::spellcasting_finish>( you->getID(), false, sp,
+                        spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
+                        spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
+                        spell_being_cast.damage( *you ) );
                 return;
             }
 
@@ -3756,11 +3788,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
+            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
+            int cost = spell_being_cast.energy_cost( *you );
+
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                // pay the cost
-                int cost = spell_being_cast.energy_cost( *you );
                 switch( spell_being_cast.energy_source() ) {
                     case magic_energy_type::mana:
                         you->magic->mod_mana( *you, -cost );
@@ -3807,8 +3840,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
-            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), sp,
-                    spell_being_cast.spell_class() );
+            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,
+                    spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
+                    spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
+                    spell_being_cast.damage( *you ) );
         }
     }
 }

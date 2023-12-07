@@ -196,6 +196,7 @@
       { "monster": "mon_hunting_horror", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gozu", "weight": 50 },
       { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 2 },
+      { "monster": "mon_nuckalavee", "weight": 30, "cost_multiplier": 2 },
       { "monster": "mon_albino_penguin", "weight": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_darkman", "weight": 10, "cost_multiplier": 2 }
     ]
@@ -362,17 +363,16 @@
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
       { "monster": "mon_slug_giant", "weight": 75, "starts": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
-      { "group": "GROUP_TADPOLES_SEWER", "weight": 100 },
-      { "group": "GROUP_FROGS_SEWER", "weight": 100 }
+      { "group": "GROUP_TADPOLES_SEWER", "weight": 75 },
+      { "group": "GROUP_FROGS_SEWER", "weight": 75 },
+      { "group": "GROUP_MUTAFROGS_SEWER", "weight": 50 }
     ]
   },
   {
@@ -441,6 +441,7 @@
       { "monster": "mon_mi_go_scout" },
       { "monster": "mon_shrapnel_swarm" },
       { "monster": "mon_flaming_eye" },
+      { "monster": "mon_nuckalavee" },
       { "monster": "mon_flying_polyp" },
       { "monster": "mon_unseen_hunter" },
       { "monster": "mon_hound_tindalos" },
@@ -493,12 +494,11 @@
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
+      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
+      { "group": "GROUP_MUTAFROGS_SEWER", "weight": 100 }
     ]
   },
   {
@@ -523,8 +523,7 @@
       { "monster": "mon_mink", "weight": 5 },
       { "monster": "mon_muskrat", "weight": 10 },
       { "monster": "mon_otter", "weight": 10 },
-      { "monster": "mon_duck", "weight": 10 },
-      { "monster": "mon_cockatrice", "weight": 1 }
+      { "monster": "mon_duck", "weight": 10 }
     ]
   },
   {

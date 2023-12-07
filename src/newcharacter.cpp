@@ -95,6 +95,9 @@ static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
+// Wether or not to use Outfit (M) at character creation
+static bool outfit = true;
+
 // Responsive screen behavior for small terminal sizes
 static bool isWide = false;
 
@@ -422,6 +425,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     *this = avatar();
 
     male = ( rng( 1, 100 ) > 50 );
+    outfit = male;
     if( !MAP_SHARING::isSharing() ) {
         play_now ? pick_name() : pick_name( true );
     } else {
@@ -607,7 +611,7 @@ void avatar::add_profession_items()
         return;
     }
 
-    std::list<item> prof_items = prof->items( male, get_mutations() );
+    std::list<item> prof_items = prof->items( outfit, get_mutations() );
 
     for( item &it : prof_items ) {
         if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
@@ -789,6 +793,35 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
+void Character::set_skills_from_hobbies()
+{
+    // 2 for an average person
+    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
+    // 1.2 for an average person, always a bit higher than base amount
+    float knowledge_modifier = 1.0f + get_int() / 40.0f;
+    // Grab skills from hobbies and train
+    for( const profession *profession : hobbies ) {
+        for( const profession::StartingSkill &e : profession->skills() ) {
+            // Train our skill
+            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
+            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
+                    knowledge_modifier, true );
+        }
+    }
+}
+
+void Character::set_proficiencies_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const proficiency_id &proficiency : profession->proficiencies() ) {
+            // Do not duplicate proficiencies
+            if( !_proficiencies->has_learned( proficiency ) ) {
+                add_proficiency( proficiency );
+            }
+        }
+    }
+}
+
 void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
@@ -808,19 +841,7 @@ void Character::initialize( bool learn_recipes )
         mod_skill_level( e.first, e.second );
     }
 
-    // 2 for an average person
-    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
-    // 1.2 for an average person, always a bit higher than base amount
-    float knowledge_modifier = 1.0f + get_int() / 40.0f;
-    // Grab skills from hobbies and train
-    for( const profession *profession : hobbies ) {
-        for( const profession::StartingSkill &e : profession->skills() ) {
-            // Train our skill
-            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
-            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
-                    knowledge_modifier, true );
-        }
-    }
+    set_skills_from_hobbies();
 
     // setup staring bank money
     cash = rng( -200000, 200000 );
@@ -868,15 +889,14 @@ void Character::initialize( bool learn_recipes )
         add_proficiency( pri );
     }
 
-    // Add hobby proficiencies
-    for( const profession *profession : hobbies ) {
-        for( const proficiency_id &proficiency : profession->proficiencies() ) {
-            // Do not duplicate proficiencies
-            if( !_proficiencies->has_learned( proficiency ) ) {
-                add_proficiency( proficiency );
-            }
-        }
+    // Add profession recipes
+    for( const recipe_id &id : prof->recipes() ) {
+        const recipe &r = recipe_dictionary::get_craft( id->result() );
+        learn_recipe( &r );
     }
+
+    // Add hobby proficiencies
+    set_proficiencies_from_hobbies();
 
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
@@ -922,9 +942,6 @@ void avatar::initialize( character_type type )
         }
     }
 
-    std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
-    martial_arts_data->set_style( random_entry( all_styles, style_none ) );
-
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
@@ -935,9 +952,23 @@ void avatar::initialize( character_type type )
         if( !styles.empty() ) {
             const matype_id ma_type = choose_ma_style( type, styles, *this );
             martial_arts_data->add_martialart( ma_type );
-            martial_arts_data->set_style( ma_type );
         }
     }
+
+    // Select a random known style
+    std::vector<matype_id> selectable_styles = martial_arts_data->get_known_styles( false );
+    if( !selectable_styles.empty() ) {
+        std::vector<matype_id>::iterator it_max_priority = std::max_element( selectable_styles.begin(),
+        selectable_styles.end(), []( const matype_id & a, const matype_id & b ) {
+            return a->priority < b->priority;
+        } );
+        int max_priority = ( *it_max_priority )->priority;
+        selectable_styles.erase( std::remove_if( selectable_styles.begin(),
+        selectable_styles.end(), [max_priority]( const matype_id & style ) {
+            return style->priority != max_priority;
+        } ), selectable_styles.end() );
+    }
+    martial_arts_data->set_style( random_entry( selectable_styles, style_none ) );
 
     for( const mtype_id &elem : prof->pets() ) {
         starting_pets.push_back( elem );
@@ -977,7 +1008,7 @@ template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
         const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
 {
-    const char *const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const char *const sort_order = sorter.sort_by_points ? _( "default" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
                                           colorize( ctxt.get_desc( "SORT" ), c_green ), _( "sort" ),
                                           sort_order );
@@ -994,11 +1025,19 @@ static const char *g_switch_msg( const avatar &u )
 {
     return  u.male ?
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+            _( "Identity: <color_magenta>%2$s</color> (<color_light_cyan>male</color>) (press <color_light_green>%1$s</color> to switch)" )
+            :
             //~ Gender switch message. 1s - change key name, 2s - profession name.
-            _( "Press <color_light_green>%1$s</color> to switch "
-               "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+            _( "Identity: <color_magenta>%2$s</color> (<color_pink>female</color>) (press <color_light_green>%1$s</color> to switch)" );
+}
+
+static const char *dress_switch_msg()
+{
+    return  outfit ?
+            //~ Outfit switch message. 1s - change key name.
+            _( "Outfit: <color_light_cyan>male</color> (press <color_light_green>%1$s</color> to change)" ) :
+            //~ Outfit switch message. 1s - change key name.
+            _( "Outfit: <color_pink>female</color> (press <color_light_green>%1$s</color> to change)" );
 }
 
 void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
@@ -1949,7 +1988,8 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
 
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
-                                sorted_profs[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
+                                sorted_profs[cur_id]->gender_appropriate_name( u.male ) ) + "\n";
+    assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
@@ -2024,7 +2064,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession items
-    const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
+    const auto prof_items = sorted_profs[cur_id]->items( outfit, u.get_mutations() );
     assembled += "\n" + colorize( _( "Profession items:" ), COL_HEADER ) + "\n";
     if( prof_items.empty() ) {
         assembled += pgettext( "set_profession_item", "None" ) + std::string( "\n" );
@@ -2086,6 +2126,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
         assembled += "\n" + colorize( _( "Profession proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
             assembled += prof->name() + "\n";
+        }
+    }
+    // Recipes
+    std::vector<recipe_id> prof_recipe = sorted_profs[cur_id]->recipes();
+    if( !prof_recipe.empty() ) {
+        assembled += "\n" + colorize( _( "Profession recipes:" ), COL_HEADER ) + "\n";
+        for( const recipe_id &prof : prof_recipe ) {
+            assembled += prof->result_name() + "\n";
         }
     }
     // Profession pet
@@ -2206,6 +2254,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
+    ctxt.register_action( "CHANGE_OUTFIT" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
@@ -2363,6 +2412,9 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits();
+        } else if( action == "CHANGE_OUTFIT" ) {
+            outfit = !outfit;
+            recalc_profs = true;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             profession_sorter.male = u.male;
@@ -3480,10 +3532,14 @@ static void draw_blood( ui_adaptor &ui, const catacurses::window &w_blood,
 static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
                            const avatar &you, const bool highlight )
 {
-    const std::string random_start_location_text = string_format( n_gettext(
+    std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
+
+    if( get_scenario()->start_location_targets_count() == 1 ) {
+        random_start_location_text = get_scenario()->start_location().obj().name();
+    }
 
     werase( w_location );
     mvwprintz( w_location, point_zero, highlight ? COL_SELECT : c_light_gray,
@@ -4496,7 +4552,7 @@ void avatar::character_to_template( const std::string &name )
     save_template( name, pool_type::TRANSFER );
 }
 
-void avatar::add_default_background()
+void Character::add_default_background()
 {
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {

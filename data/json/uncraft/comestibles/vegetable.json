@@ -8,14 +8,6 @@
     "components": [ [ [ "pumpkin_cut", 4 ] ], [ [ "seed_pumpkin", 6 ] ] ]
   },
   {
-    "result": "irradiated_pumpkin",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "pumpkin_cut", 4 ] ] ]
-  },
-  {
     "result": "tomato",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -85,5 +77,19 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "seed_eggplant", 1 ], [ "eggplant_cut", 1 ] ] ]
+  },
+  {
+    "result": "cattlefodder_medium",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cattlefodder", 7 ] ] ]
+  },
+  {
+    "result": "cattlefodder_large",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cattlefodder", 36 ] ] ]
   }
 ]

@@ -9,8 +9,7 @@
       {
         "id": "mag_cutting",
         "name": { "str": "All About Swords", "str_pl": "issues of All About Swords" },
-        "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world.",
-        "weight": 1
+        "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world."
       },
       {
         "id": "mag_cutting_1",
@@ -19,29 +18,25 @@
           "str_pl": "copies of Swordfighting, for Writers, Game Designers, and Martial Artists"
         },
         "description": "Answers for questions you may have if you've never held a sword in your hands.",
-        "//": "978-9526793481",
-        "weight": 1
+        "//": "978-9526793481"
       },
       {
         "id": "mag_cutting_2",
         "name": { "str": "The Beginner's Guide to the Long Sword", "str_pl": "copies of The Beginner's Guide to the Long Sword" },
         "description": "Based on different Europeans' martial arts, this book describes the main principles of swordsmanship.",
-        "//": "978-0897501781",
-        "weight": 1
+        "//": "978-0897501781"
       },
       {
         "id": "mag_cutting_3",
         "name": { "str": "Basics Of Stage Combat", "str_pl": "copies of Basics Of Stage Combat" },
         "description": "Foundation of using single handed sword on stage and on screen, with different tricks how to make a good show of it.",
-        "//": "978-1612331720",
-        "weight": 1
+        "//": "978-1612331720"
       },
       {
         "id": "mag_cutting_4",
         "name": { "str": "Medieval Combat in Colour", "str_pl": "copies of Medieval Combat in Colour" },
         "description": "An ancient fencing manual with updated illustrations of techniques.  Sometimes it just looks silly, describing how to fight if you have sword in one hand and a spear in another.",
-        "//": "978-1784382858",
-        "weight": 1
+        "//": "978-1784382858"
       }
     ],
     "weight": "80 g",
@@ -68,43 +63,37 @@
       {
         "id": "manual_cutting",
         "name": { "str_sp": "knife fighter's notes" },
-        "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for beginners.",
-        "weight": 1
+        "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for beginners."
       },
       {
         "id": "manual_cutting_1",
         "name": { "str": "The Medieval Dagger", "str_pl": "copies of The Medieval Dagger" },
         "description": "Principles and guides to Italian dagger combat, with useful drills and advice for novices.",
-        "//": "978-1937439033",
-        "weight": 1
+        "//": "978-1937439033"
       },
       {
         "id": "manual_cutting_2",
         "name": { "str": "Knife Fighting Techniques for the Street", "str_pl": "copies of Knife Fighting Techniques for the Street" },
         "description": "A small book that contain pretty simple and easy to follow movements to use against your enemy or enemies.",
-        "//": "978-1941845523",
-        "weight": 1
+        "//": "978-1941845523"
       },
       {
         "id": "manual_cutting_3",
         "name": { "str": "Knife Offense", "str_pl": "copies of Knife Offense" },
         "description": "Complete methodology for using knives in a real fight, with tips and tricks.",
-        "//": "978-1492935391",
-        "weight": 1
+        "//": "978-1492935391"
       },
       {
         "id": "manual_cutting_4",
         "name": { "str": "Blade Combatives", "str_pl": "copies of Blade Combatives" },
         "description": "This book combines some different blade methodologies from European, Asian, and American martial arts into a unique style.",
-        "//": "978-1387035885",
-        "weight": 1
+        "//": "978-1387035885"
       },
       {
         "id": "manual_cutting_5",
         "name": { "str": "Knife Anatomy", "str_pl": "copies of Knife Anatomy" },
         "description": "Lots of knife training methods and techniques for experienced martial artists.",
-        "//": "978-1480259638",
-        "weight": 1
+        "//": "978-1480259638"
       }
     ],
     "weight": "454 g",
@@ -130,43 +119,37 @@
       {
         "id": "manual_swords",
         "name": { "str": "USMC Sword Manual Procedure", "str_pl": "copies of USMC Sword Manual Procedure" },
-        "description": "A text on stationary sword drills in US Marine Corps.  Contains lots of information about how to draw and pose with a sword, but nothing about using it.",
-        "weight": 1
+        "description": "A text on stationary sword drills in US Marine Corps.  Contains lots of information about how to draw and pose with a sword, but nothing about using it."
       },
       {
         "id": "manual_swords_1",
         "name": { "str": "Five Rings Illustrated", "str_pl": "copies of Five Rings Illustrated" },
         "description": "An old Japanese treatise about swordsmanship, translated and polished, with additional illustrations and detailed explanations.",
-        "//": "978-1838862176",
-        "weight": 1
+        "//": "978-1838862176"
       },
       {
         "id": "manual_swords_2",
         "name": { "str": "Records of the Medieval Sword", "str_pl": "copies of Records of the Medieval Sword" },
         "description": "Original research about straight two-edged knightly swords of the European middle ages.",
-        "//": "978-0851155661",
-        "weight": 1
+        "//": "978-0851155661"
       },
       {
         "id": "manual_swords_3",
         "name": { "str": "The Unfettered Mind", "str_pl": "copies of The Unfettered Mind" },
         "description": "An ancient Japanese book of advice about building the proper skills and mind for sword fighting.  Talks too much about Zen, but the sword techniques are worth noting.",
-        "//": "978-1590309865",
-        "weight": 1
+        "//": "978-1590309865"
       },
       {
         "id": "manual_swords_4",
         "name": { "str": "The Art of Longsword Fighting", "str_pl": "copies of The Art of Longsword Fighting" },
         "description": "A grounded work about the history of swordsmanship, ways to teach it, and how to enhance students' experience.",
-        "//": "978-1526768988",
-        "weight": 1
+        "//": "978-1526768988"
       },
       {
         "id": "manual_swords_5",
         "name": { "str": "Art of Sword Combat", "str_pl": "copies of Art of Sword Combat" },
         "description": "Translation of an old German treatise about using a few different cutting weapons in a real fight, with modern comments and clarification.",
-        "//": "978-1473876750",
-        "weight": 1
+        "//": "978-1473876750"
       }
     ],
     "weight": "454 g",

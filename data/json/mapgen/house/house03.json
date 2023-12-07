@@ -50,6 +50,7 @@
         "k": "t_thconc_floor",
         "~": "t_thconc_floor"
       },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 } ],
       "furniture": { "!": "f_region_flower" },
       "place_items": [ { "item": "stash_wood", "x": 12, "y": 11, "chance": 100, "repeat": [ 2, 6 ] } ],
       "place_nested": [

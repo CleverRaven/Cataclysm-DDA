@@ -38,7 +38,7 @@ class value_ptr : public std::unique_ptr<T>
                 jsout.write_null();
             }
         }
-        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+        template<typename Value = JsonValue, std::enable_if_t<std::is_same_v<std::decay_t<Value>, JsonValue>>* = nullptr>
         void deserialize( const Value &jsin ) {
             if( jsin.test_null() ) {
                 this->reset();

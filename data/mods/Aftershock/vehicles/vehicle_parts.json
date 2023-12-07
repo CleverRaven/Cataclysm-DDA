@@ -195,5 +195,14 @@
       { "item": "welder", "charges": 0, "prob": 50 }
     ],
     "variants": [ { "symbols": "T", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "veh_tools_kitchen",
+    "type": "vehicle_part",
+    "copy-from": "veh_tools_kitchen",
+    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
+    "item": "veh_tools_kitchen",
+    "looks_like": "kitchen_unit",
+    "extend": { "allowed_tools": [ "afs_atompot" ] }
   }
 ]

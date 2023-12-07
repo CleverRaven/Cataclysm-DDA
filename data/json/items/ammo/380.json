@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP FMJ" },
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
+    "ascii_picture": "380_FMJ",
     "weight": "10 g",
     "volume": "89 ml",
     "longest_side": "25 mm",
@@ -18,7 +19,29 @@
     "ammo_type": "380",
     "casing": "380_casing",
     "range": 13,
-    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 2 },
+    "//": " .355in, 95gr, Sierra FMJ FN TM 8105, 4.0gr Alliant UNIQUE",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 16,
+      "armor_penetration": 2,
+      "barrels": [
+        { "barrel_length": "28 mm", "amount": 11 },
+        { "barrel_length": "36 mm", "amount": 12 },
+        { "barrel_length": "45 mm", "amount": 13 },
+        { "barrel_length": "57 mm", "amount": 14 },
+        { "barrel_length": "68 mm", "amount": 15 },
+        { "barrel_length": "87 mm", "amount": 16 },
+        { "barrel_length": "113 mm", "amount": 17 },
+        { "barrel_length": "149 mm", "amount": 18 },
+        { "barrel_length": "198 mm", "amount": 19 },
+        { "barrel_length": "269 mm", "amount": 20 },
+        { "barrel_length": "373 mm", "amount": 21 },
+        { "barrel_length": "531 mm", "amount": 22 },
+        { "barrel_length": "707 mm", "amount": 23 },
+        { "barrel_length": "1073 mm", "amount": 24 },
+        { "barrel_length": "1256 mm", "amount": 25 }
+      ]
+    },
     "dispersion": 60,
     "recoil": 300,
     "effects": [ "COOKOFF" ]

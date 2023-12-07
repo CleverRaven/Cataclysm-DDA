@@ -1,0 +1,765 @@
+[
+  {
+    "id": "electrokinesis_practice",
+    "type": "nested_category",
+    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_METAPHYSICS",
+    "name": "contemplation: electrokinesis",
+    "description": "Recipes related to practicing electrokinesis.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "practice_electrokinetic_see_electric",
+      "practice_electrokinetic_shock_touch",
+      "practice_electrokinetic_zap_enemies",
+      "practice_electrokinetic_melee_attacks",
+      "practice_electrokinetic_personal_battery",
+      "practice_electrokinetic_paralysis",
+      "practice_electrokinetic_reduce_pain",
+      "practice_electrokinetic_lightning_bolt",
+      "practice_electrokinetic_speed_boost",
+      "practice_electrokinetic_pain_immune",
+      "practice_electrokinetic_kill_robot",
+      "practice_electrokinetic_lightning_aura",
+      "practice_electrokinetic_lightning_blast",
+      "practice_electrokinetic_revive"
+    ],
+    "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: spark sight",
+    "id": "practice_electrokinetic_see_electric",
+    "description": "Contemplate your powers and improve your ability to detect electrical creatures or robots.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_SPARK_SIGHT",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_see_electric')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_see_electric')", "<=", "(difficulty_one_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: electrokinetic_see_electric')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_SPARK_SIGHT_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_see_electric')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: shock touch",
+    "id": "practice_electrokinetic_shock_touch",
+    "description": "Contemplate your powers and improve your ability to build up a charge in your hand and unleash it.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_SHOCK_TOUCH",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_shock_touch')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_shock_touch')", "<=", "(difficulty_one_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_shock_touch')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_SHOCK_TOUCH_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_shock_touch')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: electrical discharge",
+    "id": "practice_electrokinetic_zap_enemies",
+    "description": "Contemplate your powers and improve your ability to electrocute those who attack you.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_zap_enemies')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_zap_enemies')", "<=", "(difficulty_two_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_zap_enemies')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_zap_enemies')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: voltaic strikes",
+    "id": "practice_electrokinetic_melee_attacks",
+    "description": "Contemplate your powers and improve your ability to channel electrical current through your melee attacks.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_melee_attacks')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_melee_attacks')", "<=", "(difficulty_three_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: electrokinetic_melee_attacks')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_melee_attacks')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: electron overflow",
+    "id": "practice_electrokinetic_personal_battery",
+    "description": "Contemplate your powers and improve your ability to fuel personal electronic devices with your powers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_personal_battery')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_personal_battery')", "<=", "(difficulty_three_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: electrokinetic_personal_battery')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_personal_battery')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: neural spasms",
+    "id": "practice_electrokinetic_paralysis",
+    "description": "Contemplate your powers and improve your ability to paralyze your targets.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_paralysis')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_paralysis')", "<=", "(difficulty_four_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_paralysis')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_paralysis')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: pain suppression",
+    "id": "practice_electrokinetic_reduce_pain",
+    "description": "Contemplate your powers and improve your ability to reduce the effects of pain.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_reduce_pain')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_reduce_pain')", "<=", "(difficulty_four_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_reduce_pain')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_reduce_pain')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: electrocutioner",
+    "id": "practice_electrokinetic_lightning_bolt",
+    "description": "Contemplate your powers and improve your ability to unleash blasts of lightning.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_bolt')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_lightning_bolt')", "<=", "(difficulty_five_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: electrokinetic_lightning_bolt')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_bolt')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: neuro-acceleration",
+    "id": "practice_electrokinetic_speed_boost",
+    "description": "Contemplate your powers and improve your ability to increase your or an ally's speed.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_speed_boost')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_speed_boost')", "<=", "(difficulty_six_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_speed_boost')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_speed_boost')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: analgesic block",
+    "id": "practice_electrokinetic_pain_immune",
+    "description": "Contemplate your powers and improve your ability to put off the effects of pain completely until later.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_pain_immune')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_pain_immune')", "<=", "(difficulty_six_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_pain_immune')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_pain_immune')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: short circuit",
+    "id": "practice_electrokinetic_kill_robot",
+    "description": "Contemplate your powers and improve your ability to overload robots and cyborgs.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_kill_robot')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_kill_robot')", "<=", "(difficulty_seven_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_kill_robot')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_kill_robot')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: galvanic aura",
+    "id": "practice_electrokinetic_lightning_aura",
+    "description": "Contemplate your powers and improve your ability to charge the nearby air to blast your enemies.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 7,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_aura')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_lightning_aura')", "<=", "(difficulty_eight_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: electrokinetic_lightning_aura')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_aura')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: ion blast",
+    "id": "practice_electrokinetic_lightning_blast",
+    "description": "Contemplate your powers and improve your ability to unleash enormous blasts of lightning.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_blast')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_lightning_blast')", "<=", "(difficulty_nine_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "math": [ "u_val('spell_exp', 'spell: electrokinetic_lightning_blast')", "+=", "(contemplation_factor(1))" ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_lightning_blast')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: revivification",
+    "id": "practice_electrokinetic_revive",
+    "description": "Contemplate your powers and improve your ability to make the dead move again briefly.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 9,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_ELECTROKIN_REVIVE",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: electrokinetic_revive')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: electrokinetic_revive')", "<=", "(difficulty_ten_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: electrokinetic_revive')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_ELECTROKIN_REVIVE_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_revive')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

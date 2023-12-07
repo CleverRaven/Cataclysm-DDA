@@ -186,11 +186,11 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "762_m43", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "762_jhp", "prob": 100, "charges": [ 1, 30 ] },
       { "item": "762_m87", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "762_m43", "prob": 75, "charges": [ 35, 60 ] },
+      { "item": "762_jhp", "prob": 75, "charges": [ 35, 60 ] },
       { "item": "762_m87", "prob": 75, "charges": [ 35, 60 ] },
-      { "item": "762_m43", "prob": 30, "charges": [ 70, 120 ] },
+      { "item": "762_jhp", "prob": 30, "charges": [ 70, 120 ] },
       { "item": "762_m87", "prob": 30, "charges": [ 70, 120 ] }
     ]
   },
@@ -393,7 +393,10 @@
       { "item": "556_m855a1", "prob": 30, "charges": [ 66, 120 ] },
       { "item": "556_incendiary", "prob": 100, "charges": [ 1, 30 ] },
       { "item": "556_incendiary", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "556_incendiary", "prob": 30, "charges": [ 66, 120 ] }
+      { "item": "556_incendiary", "prob": 30, "charges": [ 66, 120 ] },
+      { "item": "556_m995", "prob": 50, "charges": [ 1, 30 ] },
+      { "item": "556_m995", "prob": 35, "charges": [ 33, 60 ] },
+      { "item": "556_m995", "prob": 20, "charges": [ 66, 120 ] }
     ]
   },
   {

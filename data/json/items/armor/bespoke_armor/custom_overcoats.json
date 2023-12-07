@@ -218,7 +218,7 @@
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
-    "warmth": 40,
+    "warmth": 25,
     "material_thickness": 5,
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "valid_mods": [ "steel_padded" ],

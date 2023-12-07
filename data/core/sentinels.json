@@ -43,5 +43,15 @@
     "type": "field_type",
     "legacy_enum_id": 0,
     "intensity_levels": [ { "name": "nothing" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "null",
+    "name": { "str": "none" },
+    "description": "seeing this is a bug",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "attack"
   }
 ]

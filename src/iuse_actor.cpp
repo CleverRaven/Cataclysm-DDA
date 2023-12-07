@@ -84,6 +84,7 @@
 #include "ui.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -319,8 +320,8 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
             cont = item( target, calendar::turn );
         }
         for( int i = 0; i < count; i++ ) {
-            if( !it.put_in( cont, item_pocket::pocket_type::CONTAINER ).success() ) {
-                it.put_in( cont, item_pocket::pocket_type::MIGRATION );
+            if( !it.put_in( cont, pocket_type::CONTAINER ).success() ) {
+                it.put_in( cont, pocket_type::MIGRATION );
             }
         }
         if( sealed ) {
@@ -1043,25 +1044,24 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-std::optional<int> deploy_furn_actor::use( Character *p, item &it,
-        const tripoint &pos ) const
+
+static ret_val<tripoint> check_deploy_square( Character *p, item &it, const tripoint &pos )
 {
     if( p->cant_do_mounted() ) {
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos );
     }
     tripoint pnt = pos;
     if( pos == p->pos() ) {
         if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
-            return std::nullopt;
+            return ret_val<tripoint>::make_failure( pos );
         }
     }
 
     if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info,
-                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos,
+                                                _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
 
     map &here = get_map();
@@ -1069,20 +1069,19 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
-        p->add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
-                              veh_there.value().vehicle().disp_name(), it.tname() );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos,
+                                                _( "The space under %s is too cramped to deploy a %s in." ),
+                                                veh_there.value().vehicle().disp_name(), it.tname() );
     }
 
     // For example: dirt = 2, long grass = 3
     if( here.move_cost( pnt ) != 2 && here.move_cost( pnt ) != 3 ) {
-        p->add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname() );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos, _( "You can't deploy a %s there." ), it.tname() );
     }
 
     if( here.has_furn( pnt ) ) {
-        p->add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos, _( "The %s at that location is blocking the %s." ),
+                                                here.furnname( pnt ), it.tname() );
     }
 
     if( here.has_items( pnt ) ) {
@@ -1091,8 +1090,8 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         map &temp = get_map();
         for( item &i : temp.i_at( pnt ) ) {
             if( !i.is_owned_by( *p, true ) ) {
-                p->add_msg_if_player( m_info, _( "You can't deploy furniture on other people's belongings!" ) );
-                return std::nullopt;
+                return ret_val<tripoint>::make_failure( pos,
+                                                        _( "You can't deploy the %s on other people's belongings!" ), it.tname() );
             }
         }
 
@@ -1101,19 +1100,61 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
             if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
                 here.mop_spills( tripoint_bub_ms( pnt ) );
-                p->add_msg_if_player( m_info,
-                                      _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
+                p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
+                                      it.tname() );
                 p->moves -= 15;
             } else {
-                p->add_msg_if_player( m_info,
-                                      _( "You need a mop to clean up liquids before deploying furniture." ) );
-                return std::nullopt;
+                return ret_val<tripoint>::make_failure( pos,
+                                                        _( "You need a mop to clean up liquids before deploying the %s." ), it.tname() );
             }
         }
     }
 
-    here.furn_set( pnt, furn_type );
-    it.spill_contents( pnt );
+    return ret_val<tripoint>::make_success( pnt );
+}
+
+std::optional<int> deploy_furn_actor::use( Character *p, item &it,
+        const tripoint &pos ) const
+{
+    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    if( !suitable.success() ) {
+        p->add_msg_if_player( m_info, suitable.str() );
+        return std::nullopt;
+    }
+
+    get_map().furn_set( suitable.value(), furn_type );
+    it.spill_contents( suitable.value() );
+    p->mod_moves( -to_moves<int>( 2_seconds ) );
+    return 1;
+}
+
+std::unique_ptr<iuse_actor> deploy_appliance_actor::clone() const
+{
+    return std::make_unique<deploy_appliance_actor>( *this );
+}
+
+void deploy_appliance_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       string_format( _( "Can be <info>activated</info> to deploy as an appliance (<stat>%s</stat>)." ),
+                                      vpart_appliance_from_item( appliance_base )->name() ) );
+}
+
+void deploy_appliance_actor::load( const JsonObject &obj )
+{
+    mandatory( obj, false, "base", appliance_base );
+}
+
+std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tripoint &pos ) const
+{
+    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    if( !suitable.success() ) {
+        p->add_msg_if_player( m_info, suitable.str() );
+        return std::nullopt;
+    }
+
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
+    it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -2428,7 +2469,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                               item_pocket::pocket_type::CONTAINER, true );
+                               pocket_type::CONTAINER, true );
     return true;
 }
 
@@ -2480,7 +2521,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
     opts.push_back( prompt );
     pos = -1;
     std::list<item *> all_items = it.all_items_top(
-                                      item_pocket::pocket_type::CONTAINER );
+                                      pocket_type::CONTAINER );
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
         return string_format( _( "Draw %s" ), elem->display_name() );
@@ -2753,7 +2794,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         if( print_msg ) {
             for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
+                                      _( "You don't have enough clean %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.charges_of( mat_comp, items_needed ) :
@@ -3901,7 +3942,7 @@ std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
-    obj.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
+    obj.put_in( item( "barrel_small", calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -3962,7 +4003,7 @@ std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint 
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
-    obj.put_in( item( "stock_none", calendar::turn ), item_pocket::pocket_type::MOD );
+    obj.put_in( item( "stock_none", calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -4177,23 +4218,31 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     filter_irremovable( mods );
     filter_irremovable( mods_copy );
 
-    uilist prompt;
-    prompt.text = _( "Remove which modification?" );
+    item_location mod_loc = game_menus::inv::gunmod_to_remove( *p, it );
 
-    for( size_t i = 0; i != mods.size(); ++i ) {
-        prompt.addentry( i, true, -1, mods[ i ]->tname() );
+    if( !mod_loc ) {
+        p->add_msg_if_player( _( "Never mind." ) );
+        return std::nullopt;
     }
 
-    prompt.query();
+    // Find the index of the mod to be removed
+    // used in identifying the mod in mods and mods_copy
+    int mod_index = -1;
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        if( mods[ i ] == mod_loc.get_item() ) {
+            mod_index = i;
+            break;
+        }
+    }
 
-    if( prompt.ret >= 0 ) {
-        gun_copy.remove_item( *mods_copy[prompt.ret] );
+    if( mod_index >= 0 ) {
+        gun_copy.remove_item( *mods_copy[mod_index] );
 
-        if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
+        if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
             if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
-                p->gunmod_remove( it, *mods[prompt.ret] );
+                p->gunmod_remove( it, *mods[mod_index] );
                 return 0;
             }
         }
@@ -4461,7 +4510,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
         if( !is_cable_item || !can_extend.empty() ) {
             const bool has_extensions = !unspooled &&
-                                        !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
+                                        !it.all_items_top( pocket_type::CABLE ).empty();
             link_menu.addentry( 30, has_loose_end, -1,
                                 is_cable_item ? _( "Extend another cable" ) : _( "Extend with another cable" ) );
             link_menu.addentry( 31, has_extensions, -1, _( "Remove cable extensions" ) );
@@ -4555,7 +4604,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
         if( !can_extend.empty() ) {
             const bool has_extensions = !unspooled &&
-                                        !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
+                                        !it.all_items_top( pocket_type::CABLE ).empty();
             link_menu.addentry( 30, has_loose_end, -1, _( "Extend another cable" ) );
             link_menu.addentry( 31, has_extensions, -1, _( "Remove cable extensions" ) );
         }
@@ -5129,7 +5178,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         item cable_copy( *cable );
         cable_copy.get_contents().clear_items();
         cable_copy.link.reset();
-        if( !extended_ptr->put_in( cable_copy, item_pocket::pocket_type::CABLE ).success() ) {
+        if( !extended_ptr->put_in( cable_copy, pocket_type::CABLE ).success() ) {
             debugmsg( "Failed to put %s inside %s!", cable_copy.type_name(), extended_ptr->type_name() );
         }
     }
@@ -5146,7 +5195,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         item_location parent = extended.parent_item();
         if( parent->can_contain( *extended_ptr, false, false, false,
                                  item_location(), 10000000_ml, false ).success() ) {
-            if( !parent->put_in( *extended_ptr, item_pocket::pocket_type::CONTAINER ).success() ) {
+            if( !parent->put_in( *extended_ptr, pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),
                           parent->type_name() );
                 return std::nullopt;
@@ -5175,7 +5224,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
 
 std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) const
 {
-    std::list<item *> all_cables = it.all_items_ptr( item_pocket::pocket_type::CABLE );
+    std::list<item *> all_cables = it.all_items_ptr( pocket_type::CABLE );
     all_cables.remove_if( []( const item * cable ) {
         return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->can_link_up();
     } );
@@ -5183,7 +5232,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
     if( all_cables.empty() ) {
         // Delete any non-cables that somehow got into the pocket.
         it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
-            return pocket.is_type( item_pocket::pocket_type::CABLE );
+            return pocket.is_type( pocket_type::CABLE );
         } );
         return 0;
     }
@@ -5195,7 +5244,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
             item cable_copy( *cable );
             cable_copy.get_contents().clear_items();
             cable_copy.link.reset();
-            if( !cable_main_copy.put_in( cable_copy, item_pocket::pocket_type::CABLE ).success() ) {
+            if( !cable_main_copy.put_in( cable_copy, pocket_type::CABLE ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", cable_copy.tname(), cable_main_copy.tname() );
             }
         }
@@ -5204,7 +5253,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
                           cable_main_copy.type_name(), it.type_name() );
 
     it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
-        return pocket.is_type( item_pocket::pocket_type::CABLE );
+        return pocket.is_type( pocket_type::CABLE );
     } );
 
     if( it.link ) {
@@ -5674,6 +5723,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         } else {
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
+    }
+    // Prevents crash from trying to spend charge with item removed
+    if( !p->has_item( it ) ) {
+        return 0;
     }
     return 1;
 }

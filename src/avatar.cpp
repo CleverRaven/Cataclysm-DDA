@@ -94,6 +94,7 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
@@ -461,11 +462,11 @@ bool avatar::read( item_location &book, item_location ereader )
     const std::string skill_name = skill ? skill.obj().name() : "";
 
     // Find NPCs to join the study session:
-    std::map<npc *, std::string> learners;
+    std::map<Character *, std::string> learners;
     //reading only for fun
-    std::map<npc *, std::string> fun_learners;
-    std::map<npc *, std::string> nonlearners;
-    for( npc *elem : get_crafting_helpers() ) {
+    std::map<Character *, std::string> fun_learners;
+    std::map<Character *, std::string> nonlearners;
+    for( Character *elem : get_crafting_helpers() ) {
         const book_mastery mastery = elem->get_book_mastery( *book );
         const bool morale_req = elem->fun_to_read( *book ) || elem->has_morale_to_read();
 
@@ -506,21 +507,22 @@ bool avatar::read( item_location &book, item_location ereader )
         uilist menu;
 
         // Some helpers to reduce repetition:
-        auto length = []( const std::pair<npc *, std::string> &elem ) {
+        auto length = []( const std::pair<Character *, std::string> &elem ) {
             return utf8_width( elem.first->disp_name() ) + utf8_width( elem.second );
         };
 
-        auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
+        auto max_length = [&length]( const std::map<Character *, std::string> &m ) {
             auto max_ele = std::max_element( m.begin(),
-                                             m.end(), [&length]( const std::pair<npc *, std::string> &left,
-            const std::pair<npc *, std::string> &right ) {
+                                             m.end(), [&length]( const std::pair<Character *, std::string> &left,
+            const std::pair<Character *, std::string> &right ) {
                 return length( left ) < length( right );
             } );
             return max_ele == m.end() ? 0 : length( *max_ele );
         };
 
-        auto get_text =
-        [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem ) {
+        auto get_text = [&]( const std::map<Character *, std::string> &m,
+                             const std::pair<Character *, std::string> &elem
+        ) {
             const int lvl = elem.first->get_knowledge_level( skill );
             const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
             const std::string name_text = elem.first->disp_name() + elem.second;
@@ -551,8 +553,8 @@ bool avatar::read( item_location &book, item_location ereader )
         }
 
         if( !learners.empty() ) {
-            add_header( _( "Read until this NPC gains a level:" ) );
-            for( const std::pair<npc *const, std::string> &elem : learners ) {
+            add_header( _( "Read until this character gains a level:" ) );
+            for( const std::pair<Character *const, std::string> &elem : learners ) {
                 menu.addentry( 2 + elem.first->getID().get_value(), true, -1,
                                get_text( learners, elem ) );
             }
@@ -560,14 +562,14 @@ bool avatar::read( item_location &book, item_location ereader )
 
         if( !fun_learners.empty() ) {
             add_header( _( "Reading for fun:" ) );
-            for( const std::pair<npc *const, std::string> &elem : fun_learners ) {
+            for( const std::pair<Character *const, std::string> &elem : fun_learners ) {
                 menu.addentry( -1, false, -1, get_text( fun_learners, elem ) );
             }
         }
 
         if( !nonlearners.empty() ) {
             add_header( _( "Not participating:" ) );
-            for( const std::pair<npc *const, std::string> &elem : nonlearners ) {
+            for( const std::pair<Character *const, std::string> &elem : nonlearners ) {
                 menu.addentry( -1, false, -1, get_text( nonlearners, elem ) );
             }
         }
@@ -620,7 +622,7 @@ bool avatar::read( item_location &book, item_location ereader )
         add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name() );
     } else if( !learners.empty() ) {
         const std::string them = enumerate_as_string( learners.begin(),
-        learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
+        learners.end(), [&]( const std::pair<Character *, std::string> &elem ) {
             return elem.first->disp_name();
         } );
         add_msg( m_info, _( "%s study with you." ), them );
@@ -628,7 +630,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
     // Don't include the reader as it would be too redundant.
     std::set<std::string> readers;
-    for( const std::pair<npc *const, std::string> &elem : fun_learners ) {
+    for( const std::pair<Character *const, std::string> &elem : fun_learners ) {
         if( elem.first != reader ) {
             readers.insert( elem.first->disp_name() );
         }
@@ -805,9 +807,6 @@ void avatar::clear_identified()
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
-        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
-            print_health();
-        }
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
@@ -883,6 +882,9 @@ nc_color avatar::basic_symbol_color() const
         return c_red;
     }
     if( has_effect( effect_stunned ) ) {
+        return c_light_blue;
+    }
+    if( has_effect( effect_psi_stunned ) ) {
         return c_light_blue;
     }
     if( has_effect( effect_boomered ) ) {
@@ -1183,6 +1185,24 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
 faction *avatar::get_faction() const
 {
     return g->faction_manager_ptr->get( faction_your_followers );
+}
+
+bool avatar::is_ally( const Character &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    const npc &guy = dynamic_cast<const npc &>( p );
+    return guy.is_ally( *this );
+}
+
+bool avatar::is_obeying( const Character &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    const npc &guy = dynamic_cast<const npc &>( p );
+    return guy.is_obeying( *this );
 }
 
 bool avatar::cant_see( const tripoint &p )
@@ -1499,6 +1519,10 @@ void avatar::update_cardio_acc()
     // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
     // giving a default of 1000 for no extra activity.
     const int bmr = get_bmr();
+    if( bmr == 0 ) {
+        set_cardio_acc( clamp( get_cardio_acc(), get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
+        return;
+    }
     const int last_24h_kcal = calorie_diary.front().spent;
 
     const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;

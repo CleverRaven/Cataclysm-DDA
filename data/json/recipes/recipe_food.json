@@ -727,12 +727,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 20 ],
+        [ "seed_sunflower", 20 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 20 ]
       ]
     ]
   },
@@ -768,12 +768,12 @@
         [ "cashews", 20 ],
         [ "beech_nuts", 20 ],
         [ "soybean", 10 ],
-        [ "seed_cotton_boll", 80 ],
-        [ "seed_pumpkin", 80 ],
-        [ "seed_sunflower", 80 ],
-        [ "seed_canola", 80 ],
-        [ "seed_grapes", 80 ],
-        [ "seed_weed", 80 ]
+        [ "seed_cotton_boll", 20 ],
+        [ "seed_pumpkin", 20 ],
+        [ "seed_sunflower", 20 ],
+        [ "seed_canola", 5 ],
+        [ "seed_grapes", 20 ],
+        [ "seed_weed", 20 ]
       ]
     ]
   },
@@ -891,6 +891,34 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_chili",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_chili", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_garlic",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_garlic", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_corn_kernels",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -947,7 +975,6 @@
       [ [ "eggs_any_shape", 1, "LIST" ] ],
       [
         [ "lemon", 1 ],
-        [ "irradiated_lemon", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "pickle", 1 ],
@@ -1115,7 +1142,7 @@
       { "proficiency": "prof_frying" },
       { "proficiency": "prof_frying_bread" }
     ],
-    "components": [ [ [ "onion", 2 ], [ "irradiated_onion", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 2, "LIST" ] ] ]
+    "components": [ [ [ "onion", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1159,10 +1186,8 @@
       [ [ "sushi_rice", 1 ] ],
       [
         [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "cabbage", 1 ],
         [ "grape_leaves", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
@@ -1190,13 +1215,10 @@
       [
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "carrot", 6 ],
-        [ "irradiated_carrot", 6 ],
         [ "carrot_wild", 6 ],
         [ "celery", 3 ],
         [ "tofu", 1 ],
-        [ "irradiated_celery", 3 ],
         [ "veggy_wild", 3 ],
         [ "veggy", 3 ],
         [ "rehydrated_veggy", 3 ],
@@ -1205,10 +1227,8 @@
       ],
       [
         [ "lettuce", 2 ],
-        [ "irradiated_lettuce", 2 ],
         [ "grape_leaves", 2 ],
         [ "cabbage", 2 ],
-        [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
@@ -1278,7 +1298,7 @@
       ],
       [ [ "cooking_oil", 1 ] ],
       [ [ "sugar_standard_half", 1, "LIST" ] ],
-      [ [ "irradiated_broccoli", 2 ], [ "broccoli", 2 ], [ "veggy_wild_cooked", 2 ], [ "veggy_cooked", 2 ] ],
+      [ [ "broccoli", 2 ], [ "veggy_wild_cooked", 2 ], [ "veggy_cooked", 2 ] ],
       [ [ "soysauce", 1 ] ]
     ],
     "charges": 4
@@ -1324,10 +1344,8 @@
       [ [ "fish", 2 ] ],
       [
         [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
@@ -1354,10 +1372,8 @@
       [ [ "meat_red", 1, "LIST" ] ],
       [
         [ "lettuce", 2 ],
-        [ "irradiated_lettuce", 2 ],
         [ "grape_leaves", 2 ],
         [ "cabbage", 2 ],
-        [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
@@ -1389,12 +1405,9 @@
       [
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "carrot", 3 ],
-        [ "irradiated_carrot", 3 ],
         [ "carrot_wild", 3 ],
         [ "celery", 3 ],
-        [ "irradiated_celery", 3 ],
         [ "veggy_wild", 3 ],
         [ "veggy", 3 ],
         [ "wild_garlic", 3 ],
@@ -2210,6 +2223,36 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "lotus_rhizome_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "lotus_rhizome", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "seed_lotus_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "carrot_roasted",
     "category": "CC_FOOD",
@@ -2223,7 +2266,7 @@
     "batch_time_factors": [ 90, 1 ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ], [ "carrot_wild", 1 ] ] ]
+    "components": [ [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2239,7 +2282,7 @@
     "batch_time_factors": [ 90, 1 ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ], [ "carrot_wild", 1 ] ],
+      [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ],
       [ [ "wild_herbs", 10 ], [ "seasoning_italian", 5 ] ],
       [ [ "any_butter_or_oil", 10, "LIST" ] ]
     ]
@@ -2269,7 +2312,6 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_seeds",
-    "charges": 5,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -2278,27 +2320,8 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 12, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "//": "32g x5 total, oil is 15g while seeds are combined 140-150g",
-    "components": [ [ [ "seed_weed", 1 ], [ "seed_sunflower", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "fried_seeds",
-    "id_suffix": "pumpkin",
-    "charges": 4,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_SNACK",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "8 m",
-    "autolearn": true,
-    "batch_time_factors": [ 80, 1 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "//": "32g x4 total, oil is 15g while seeds are combined 120g",
-    "components": [ [ [ "seed_pumpkin", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "components": [ [ [ "seed_weed", 1 ], [ "seed_sunflower", 1 ], [ "seed_pumpkin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2494,9 +2517,10 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
-    "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "//": "2 minutes to boil per 250ml, then simultaneous steeping time of 4 minutes.",
+    "time": "6 m",
+    "batch_time_factors": [ 65, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2505,21 +2529,16 @@
     "type": "recipe",
     "result": "tea_green",
     "activity_level": "NO_EXERCISE",
-    "copy-from": "tea",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "//": "2 minutes to (near-)boil per 250ml, then simultaneous steeping time of 2 minutes.",
+    "time": "4 m",
+    "batch_time_factors": [ 50, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "tea_fruit",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "copy-from": "tea",
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2528,17 +2547,32 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "copy-from": "tea",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "//": "2 minutes to boil per 250ml, then simultaneous steeping time of 6 minutes.",
+    "time": "8 m",
+    "batch_time_factors": [ 75, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "result": "tea_fruit",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "copy-from": "herbal_tea_from_tea_bag",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dandelion_tea",
     "id_suffix": "from_tea_bag",
     "activity_level": "NO_EXERCISE",
-    "copy-from": "tea",
+    "copy-from": "herbal_tea_from_tea_bag",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2548,7 +2582,7 @@
     "result": "chamomile_tea",
     "id_suffix": "from_tea_bag",
     "activity_level": "NO_EXERCISE",
-    "copy-from": "tea",
+    "copy-from": "herbal_tea_from_tea_bag",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2559,11 +2593,8 @@
     "result": "herbal_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
-    "time": "10 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "wild_herbs", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -2574,11 +2605,9 @@
     "result": "pine_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 2,
     "skills_required": [ "survival", 2 ],
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -2598,10 +2627,8 @@
     "result": "dandelion_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
-    "time": "12 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "pocket_survival": { "skill_level": 1 },
       "survival_book": { "skill_level": 1 },
@@ -2622,10 +2649,8 @@
     "result": "dandelionburdock_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
-    "time": "12 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "pocket_survival": { "skill_level": 1 },
       "survival_book": { "skill_level": 1 },
@@ -2673,11 +2698,9 @@
     "result": "chamomile_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -2697,12 +2720,11 @@
     "result": "lotus_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "20 m",
+    "time": "10 m",
     "charges": 4,
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -2722,11 +2744,9 @@
     "result": "spurge_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -3037,7 +3057,7 @@
     "batch_time_factors": [ 53, 1 ],
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "dahlia_root", 10 ], [ "veggy_potatolike", 5, "LIST" ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ] ]
+    "components": [ [ [ "dahlia_root", 10 ], [ "veggy_potatolike", 5, "LIST" ], [ "plantain", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -3067,7 +3087,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "irradiated_orange", 2 ], [ "orange", 2 ] ] ]
+    "components": [ [ [ "orange", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3081,7 +3101,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "cranberries", 3 ], [ "irradiated_cranberries", 3 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "cranberries", 3 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3095,7 +3115,7 @@
     "time": "7 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ]
+    "components": [ [ [ "apple", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3108,7 +3128,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar_powdered", 10, "LIST" ] ], [ [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "lemon", 1 ] ], [ [ "sugar_powdered", 10, "LIST" ] ], [ [ "water_clean", 1 ] ] ],
     "charges": 2
   },
   {
@@ -3379,19 +3399,13 @@
       [
         [ "dry_fruit", 2 ],
         [ "juice_pulp", 4 ],
-        [ "irradiated_strawberries", 1 ],
         [ "strawberries", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "blueberries", 1 ],
-        [ "irradiated_cherries", 1 ],
         [ "cherries", 1 ],
-        [ "irradiated_cranberries", 1 ],
         [ "cranberries", 1 ],
-        [ "irradiated_raspberries", 1 ],
         [ "raspberries", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "m_stellatum_berries", 4 ],
-        [ "irradiated_blackberries", 1 ],
         [ "blackberries", 1 ]
       ]
     ]
@@ -3466,9 +3480,9 @@
     "autolearn": true,
     "components": [
       [ [ "water_clean", 2 ] ],
-      [ [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ],
-      [ [ "irradiated_broccoli", 1 ], [ "broccoli", 1 ] ],
-      [ [ "irradiated_zucchini", 1 ], [ "zucchini", 1 ], [ "zucchini_cut", 1 ] ]
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ],
+      [ [ "broccoli", 1 ] ],
+      [ [ "zucchini", 1 ], [ "zucchini_cut", 1 ] ]
     ]
   },
   {
@@ -3792,7 +3806,6 @@
         [ "sausage_cooked", 1 ],
         [ "bratwurst_sausage", 2 ],
         [ "bacon", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "onion", 1 ]
       ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ] ]
@@ -4490,6 +4503,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "pepper", 1 ]
@@ -4529,6 +4543,7 @@
         [ "seasoning_salt", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "pepper", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
@@ -4582,25 +4597,16 @@
         [ "coffee_syrup", 1 ],
         [ "con_milk", 1 ],
         [ "jam_fruit", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "strawberries", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "blueberries", 1 ],
-        [ "irradiated_cherries", 1 ],
         [ "cherries", 1 ],
-        [ "irradiated_plums", 1 ],
         [ "plums", 1 ],
-        [ "irradiated_grapes", 1 ],
         [ "grapes", 1 ],
-        [ "irradiated_cranberries", 1 ],
         [ "cranberries", 1 ],
-        [ "irradiated_raspberries", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "m_stellatum_berries", 4 ],
         [ "raspberries", 1 ],
-        [ "irradiated_blackberries", 1 ],
         [ "blackberries", 1 ],
-        [ "irradiated_pomegranate", 1 ],
         [ "pomegranate", 1 ],
         [ "dry_fruit", 1 ],
         [ "juice_pulp", 2 ]
@@ -4654,6 +4660,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "chilly-p",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_mexican", 1 ] ],
+    "batch_time_factors": [ 83, 3 ],
+    "charges": 50,
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "dry_chili", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "garlic_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4666,6 +4688,22 @@
     "charges": 50,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "garlic_clove", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "garlic_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_italian", 1 ] ],
+    "batch_time_factors": [ 83, 3 ],
+    "charges": 50,
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "dry_garlic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5005,6 +5043,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "onion", 1 ],
         [ "veggy_potatolike", 1, "LIST" ]
@@ -5094,6 +5133,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5127,6 +5167,7 @@
         [ "mushroom", 1 ],
         [ "mushroom_morel", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -5138,6 +5179,69 @@
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ]
     ],
     "charges": 2
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "omelet",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "7 m",
+    "autolearn": true,
+    "charges": 2,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "vegetable_omelet",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "charges": 2,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "veggy_any", 2, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "supreme_omelet",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "9 m",
+    "autolearn": true,
+    "charges": 2,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "veggy_any", 2, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -5550,6 +5654,7 @@
         [ "mustard_powder", 20 ],
         [ "garlic_powder", 20 ],
         [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 6 ],
         [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
@@ -5576,7 +5681,7 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [
       [ [ "salt", 10 ] ],
-      [ [ "garlic_clove", 3 ], [ "garlic_powder", 20 ] ],
+      [ [ "garlic_clove", 3 ], [ "rehydrated_garlic", 3 ], [ "garlic_powder", 20 ] ],
       [ [ "thyme", 1 ] ],
       [ [ "wild_herbs", 100 ] ]
     ],
@@ -5717,7 +5822,7 @@
         [ "barley", 1 ],
         [ "buckwheat", 1 ]
       ],
-      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
@@ -5766,7 +5871,7 @@
         [ "barley", 1 ],
         [ "buckwheat", 1 ]
       ],
-      [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
   },
@@ -5799,10 +5904,10 @@
         [ "dry_veggy", 2 ],
         [ "dry_corn", 2 ]
       ],
-      [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ]
     ]
   },
   {
@@ -5829,6 +5934,8 @@
         [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
+        [ "veggy_pickled", 2 ],
+        [ "pickle", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
         [ "pineapple_chunks", 2 ]
@@ -5839,7 +5946,6 @@
         [ "seasoning_italian", 5 ],
         [ "wild_herbs", 10 ],
         [ "tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "can_tomato", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
@@ -5882,6 +5988,8 @@
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
+        [ "veggy_pickled", 2 ],
+        [ "pickle", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
         [ "pineapple_chunks", 2 ]
@@ -6448,7 +6556,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ] ], [ [ "vodka", 4 ] ] ]
+    "components": [ [ [ "strawberries", 2 ] ], [ [ "vodka", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -6462,7 +6570,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "blueberries", 2 ], [ "irradiated_blueberries", 2 ] ], [ [ "vodka", 4 ] ] ]
+    "components": [ [ [ "blueberries", 2 ] ], [ [ "vodka", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -6494,21 +6602,18 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "meat: 4u, cheese: 1u.  Other ingredients don't need to be cooked.",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "onion", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ]
+        [ "lettuce", 1 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6539,13 +6644,13 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "meat: 4u, cheese: 1u, onion: 1u-2u.  could cook it with the meat to save power.  Other ingredients don't need to be cooked.",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "pickle", 1 ], [ "veggy_pickled", 1 ], [ "sauerkraut", 1 ] ],
-      [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ],
-      [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ],
-      [ [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ] ],
+      [ [ "onion", 1 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "lettuce", 1 ] ],
       [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ] ],
       [ [ "mustard", 1 ], [ "honey_mustard", 1 ] ],
       [ [ "horseradish", 1 ], [ "mayonnaise", 1 ] ]
@@ -6569,14 +6674,11 @@
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ]
+        [ "lettuce", 1 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6608,14 +6710,11 @@
       [
         [ "onion", 1 ],
         [ "lemon", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ]
+        [ "lettuce", 1 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6649,14 +6748,11 @@
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ]
+        [ "lettuce", 1 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6687,7 +6783,7 @@
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "spinach", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
-      [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ],
+      [ [ "lemon", 1 ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "scrambled_eggs", 1 ], [ "boiled_egg", 1 ], [ "fried_eggs", 1 ] ]
     ]
@@ -6719,7 +6815,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [
@@ -6727,19 +6823,14 @@
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -6750,9 +6841,6 @@
         [ "veggy_canned", 1 ],
         [ "salsa", 1 ],
         [ "beans_cooked", 1 ],
-        [ "irradiated_carrot", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "carrot", 1 ],
         [ "carrot_wild", 1 ],
         [ "zucchini_cut", 1 ],
@@ -6762,7 +6850,6 @@
         [ "morel_fried", 1 ],
         [ "veggy_aspic", 1 ],
         [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
@@ -6770,7 +6857,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
@@ -6802,7 +6888,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [
@@ -6810,19 +6896,14 @@
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -6833,9 +6914,6 @@
         [ "veggy_canned", 1 ],
         [ "salsa", 1 ],
         [ "beans_cooked", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
-        [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ],
         [ "carrot_wild", 1 ],
         [ "zucchini_cut", 1 ],
@@ -6845,7 +6923,6 @@
         [ "morel_fried", 1 ],
         [ "veggy_aspic", 1 ],
         [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
@@ -6853,7 +6930,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
@@ -6942,20 +7018,17 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "power usage mostly for the meat, though this arguably doesn't even need power since meat is pre cooked",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "onion", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "lettuce", 1 ],
         [ "young_leaves", 2 ],
-        [ "chicory_leaves", 2 ],
-        [ "irradiated_lettuce", 1 ]
+        [ "chicory_leaves", 2 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6986,20 +7059,17 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "power usage mostly for the meat, though this arguably doesn't even need power since meat is pre cooked",
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_cooked", 1, "LIST" ], [ "scrambled_eggs", 2 ], [ "boiled_egg", 2 ], [ "fried_eggs", 1 ], [ "omelet", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "onion", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ]
+        [ "lettuce", 1 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -7033,7 +7103,7 @@
       [ [ "meat_cooked", 1, "LIST" ] ],
       [ [ "frybread", 3 ] ],
       [ [ "can_beans", 1 ], [ "beans_cooked", 1 ] ],
-      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "cabbage", 1 ] ]
+      [ [ "lettuce", 1 ], [ "cabbage", 1 ] ]
     ]
   },
   {
@@ -7157,10 +7227,7 @@
     "book_learn": [ [ "cookbook", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "hotdogs_cooked", 1 ] ],
-      [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
-    ]
+    "components": [ [ [ "hotdogs_cooked", 1 ] ], [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7175,10 +7242,7 @@
     "book_learn": [ [ "cookbook", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "hotdogs_cooked_wheat_free", 1 ] ],
-      [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
-    ]
+    "components": [ [ [ "hotdogs_cooked_wheat_free", 1 ] ], [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7196,7 +7260,7 @@
       [ [ "hotdogs_frozen", 2 ], [ "homemade_hotdogs", 2 ], [ "bratwurst_sausage", 2 ] ],
       [ [ "chili", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "mustard", 2 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
+      [ [ "mustard", 2 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ], [ "onion", 1 ] ]
     ],
     "charges": 2
   },
@@ -7216,7 +7280,7 @@
       [ [ "hotdogs_frozen", 2 ], [ "homemade_hotdogs", 2 ], [ "bratwurst_sausage", 2 ] ],
       [ [ "chili", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "mustard", 2 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
+      [ [ "mustard", 2 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ], [ "onion", 1 ] ]
     ],
     "charges": 2
   },
@@ -7316,8 +7380,8 @@
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "bacon", 1 ] ],
-      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
-      [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
+      [ [ "lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
     ],
     "charges": 2
   },
@@ -7334,8 +7398,8 @@
     "components": [
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "bacon", 1 ] ],
-      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
-      [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ]
+      [ [ "lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ] ]
     ],
     "charges": 2
   },
@@ -7355,7 +7419,7 @@
     "//": "4u for meat 1u for sauce = 5u",
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "sauce_red", 2 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "sauce_red", 2 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
     ]
   },
@@ -7375,7 +7439,7 @@
     "//": "4u for meat 1u for sauce = 5u",
     "components": [
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "sauce_red", 2 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "sauce_red", 2 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
     ]
   },
@@ -7605,7 +7669,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "components": [
-      [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ] ],
       [ [ "salt", 2 ], [ "salt_water", 1 ], [ "saline", 2 ], [ "seasoning_salt", 2 ], [ "soysauce", 1 ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -7734,7 +7798,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "sauerkraut", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ] ]
+    "components": [ [ [ "sauerkraut", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "onion", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7882,9 +7946,7 @@
     "components": [
       [
         [ "lettuce", 2 ],
-        [ "irradiated_lettuce", 2 ],
         [ "broccoli", 2 ],
-        [ "irradiated_broccoli", 2 ],
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
@@ -7895,27 +7957,20 @@
         [ "chicory_leaves", 4 ],
         [ "sauerkraut", 2 ],
         [ "grape_leaves", 2 ],
-        [ "irradiated_cabbage", 2 ],
         [ "cabbage", 2 ]
       ],
       [
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "tomato", 1 ],
         [ "tomato_cut", 1 ],
         [ "can_tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "carrot", 2 ],
-        [ "irradiated_carrot", 2 ],
         [ "carrot_wild", 2 ],
         [ "pineapple_chunks", 1 ],
         [ "cranberries", 1 ],
-        [ "irradiated_cranberries", 1 ],
         [ "raspberries", 1 ],
-        [ "irradiated_raspberries", 1 ],
         [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ],
         [ "sugar_beet", 1 ]
       ],
       [
@@ -7928,6 +7983,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 2 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
@@ -7957,6 +8013,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -7966,6 +8023,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
@@ -8130,19 +8188,14 @@
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -8152,9 +8205,6 @@
         [ "pickle", 1 ],
         [ "veggy_canned", 1 ],
         [ "beans_cooked", 1 ],
-        [ "irradiated_carrot", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "carrot", 1 ],
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
@@ -8163,7 +8213,6 @@
         [ "morel_fried", 1 ],
         [ "veggy_aspic", 1 ],
         [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
@@ -8171,7 +8220,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
@@ -8199,19 +8247,14 @@
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -8221,9 +8264,6 @@
         [ "pickle", 1 ],
         [ "veggy_canned", 1 ],
         [ "beans_cooked", 1 ],
-        [ "irradiated_carrot", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "carrot", 1 ],
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
@@ -8232,7 +8272,6 @@
         [ "morel_fried", 1 ],
         [ "veggy_aspic", 1 ],
         [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
@@ -8240,7 +8279,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
@@ -8267,19 +8305,14 @@
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -8290,9 +8323,6 @@
         [ "veggy_canned", 1 ],
         [ "salsa", 1 ],
         [ "beans_cooked", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
-        [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ],
         [ "carrot_wild", 1 ],
         [ "zucchini", 1 ],
@@ -8302,7 +8332,6 @@
         [ "morel_fried", 1 ],
         [ "veggy_aspic", 1 ],
         [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
@@ -8310,7 +8339,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
@@ -8337,19 +8365,14 @@
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -8360,11 +8383,8 @@
         [ "veggy_canned", 1 ],
         [ "salsa", 1 ],
         [ "beans_cooked", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "carrot_wild", 1 ],
         [ "carrot", 1 ],
-        [ "irradiated_carrot", 1 ],
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
         [ "lettuce", 1 ],
@@ -8372,7 +8392,6 @@
         [ "morel_fried", 1 ],
         [ "veggy_aspic", 1 ],
         [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
@@ -8380,7 +8399,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
@@ -8402,7 +8420,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ], [ "irradiated_cucumber", 1 ] ],
+      [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ] ],
       [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
@@ -8418,7 +8436,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ], [ "irradiated_cucumber", 1 ] ],
+      [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ] ],
       [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
@@ -8644,11 +8662,9 @@
     "result": "tea_bark",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "skills_required": [ "survival", 6 ],
     "difficulty": 5,
-    "time": "12 m",
-    "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "textbook_survival", 5 ], [ "atomic_survival", 4 ], [ "survival_book", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
@@ -8690,12 +8706,10 @@
     "result": "chai_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "tea",
     "difficulty": 2,
     "charges": 2,
-    "time": "15 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "time": "10 m",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
@@ -8735,11 +8749,7 @@
     "time": "3 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ],
-      [ [ "whiskey_any", 3, "LIST" ], [ "gin", 3 ] ],
-      [ [ "sugar_standard_half", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "lemon", 1 ] ], [ [ "whiskey_any", 3, "LIST" ], [ "gin", 3 ] ], [ [ "sugar_standard_half", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -8969,11 +8979,8 @@
     "result": "bee_balm_tea",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
+    "copy-from": "herbal_tea_from_tea_bag",
     "difficulty": 2,
-    "time": "10 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "bee_balm", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -9132,7 +9139,7 @@
     "time": "20 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
+    "components": [ [ [ "corn", 1 ] ] ]
   },
   {
     "result": "flour",
@@ -9253,7 +9260,7 @@
         [ "oats", 1 ],
         [ "buckwheat", 1 ],
         [ "wheat", 1 ],
-        [ "veggy_potatolike", 5, "LIST" ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "barley", 1 ],
         [ "can_corn", 1 ],
         [ "raw_beans", 1 ],
@@ -9263,13 +9270,87 @@
         [ "corn", 1 ],
         [ "seed_canola", 1 ],
         [ "corn_kernels", 1 ],
-        [ "soybean", 1 ],
-        [ "dry_soybean", 1 ],
-        [ "raw_edamame", 1 ],
-        [ "straw_pile", 20 ],
-        [ "chaff", 50 ],
-        [ "veggy_green", 5, "LIST" ],
+        [ "soybean", 2 ],
+        [ "dry_soybean", 2 ],
+        [ "raw_edamame", 2 ],
+        [ "straw_pile", 12 ],
+        [ "chaff", 17 ],
+        [ "veggy_green", 2, "LIST" ],
         [ "press_cake", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "cattlefodder_medium",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "cattlefodder", 7 ],
+        [ "oats", 4 ],
+        [ "buckwheat", 4 ],
+        [ "wheat", 4 ],
+        [ "veggy_potatolike", 7, "LIST" ],
+        [ "barley", 4 ],
+        [ "can_corn", 7 ],
+        [ "raw_beans", 7 ],
+        [ "dry_beans", 7 ],
+        [ "dry_lentils", 7 ],
+        [ "dry_corn", 7 ],
+        [ "corn", 7 ],
+        [ "seed_canola", 4 ],
+        [ "corn_kernels", 4 ],
+        [ "soybean", 14 ],
+        [ "dry_soybean", 14 ],
+        [ "raw_edamame", 14 ],
+        [ "straw_pile", 80 ],
+        [ "chaff", 120 ],
+        [ "veggy_green", 6, "LIST" ],
+        [ "press_cake", 7 ]
+      ]
+    ]
+  },
+  {
+    "result": "cattlefodder_large",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "cattlefodder", 36 ],
+        [ "oats", 18 ],
+        [ "buckwheat", 10 ],
+        [ "wheat", 9 ],
+        [ "veggy_potatolike", 30, "LIST" ],
+        [ "barley", 9 ],
+        [ "can_corn", 18 ],
+        [ "raw_beans", 30 ],
+        [ "dry_beans", 30 ],
+        [ "dry_lentils", 26 ],
+        [ "dry_corn", 46 ],
+        [ "corn", 46 ],
+        [ "seed_canola", 26 ],
+        [ "corn_kernels", 46 ],
+        [ "soybean", 107 ],
+        [ "dry_soybean", 107 ],
+        [ "raw_edamame", 107 ],
+        [ "straw_pile", 400 ],
+        [ "chaff", 600 ],
+        [ "veggy_green", 150, "LIST" ],
+        [ "press_cake", 30 ]
       ]
     ]
   },
@@ -9324,6 +9405,7 @@
         [ "seed_thyme", 3 ],
         [ "seed_canola", 1 ],
         [ "seed_watermelon", 3 ],
+        [ "seed_wintergreen", 3 ],
         [ "seed_pumpkin", 3 ],
         [ "seed_sunflower", 3 ],
         [ "seed_dogbane", 3 ],
@@ -9679,7 +9761,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "//": "1u water + 1u tomato boils and reduces for 45 min = 2u + 6u",
-    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -9779,8 +9861,17 @@
     "//": "4u for meat (precooked), 3u for tortiilas, 4u for beans/rice, 1u for sauce",
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
-      [ [ "tortilla_corn", 3 ] ],
+      [
+        [ "meat_cooked", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "scrambled_eggs", 2 ],
+        [ "boiled_egg", 2 ],
+        [ "fried_eggs", 1 ],
+        [ "omelet", 1 ]
+      ],
+      [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
@@ -9792,23 +9883,22 @@
       ],
       [
         [ "lettuce", 2 ],
-        [ "irradiated_lettuce", 2 ],
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
-        [ "irradiated_cabbage", 2 ],
         [ "grape_leaves", 2 ],
         [ "cabbage", 2 ]
       ],
+      [ [ "tomato", 1 ], [ "can_tomato", 1 ], [ "onion", 1 ], [ "salsa", 1 ] ],
       [
-        [ "tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "can_tomato", 1 ],
-        [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
-        [ "salsa", 1 ]
-      ],
-      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "garlic_powder", 20 ], [ "chili_pepper", 2 ] ]
+        [ "pepper", 20 ],
+        [ "chilly-p", 20 ],
+        [ "garlic_clove", 6 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "garlic_powder", 20 ],
+        [ "chili_pepper", 2 ],
+        [ "rehydrated_chili", 2 ]
+      ]
     ]
   },
   {
@@ -10117,10 +10207,7 @@
     "result": "tea_sweetened",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
-    "time": "10 m",
-    "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "copy-from": "tea",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "sugar_standard_half", 1, "LIST" ] ] ]
@@ -10170,7 +10257,7 @@
       [ [ "vodka", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
-      [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
+      [ [ "salt", 1 ], [ "lemon", 1 ] ]
     ],
     "charges": 2
   },
@@ -10190,7 +10277,7 @@
       [ [ "vodka", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
-      [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
+      [ [ "salt", 1 ], [ "lemon", 1 ] ]
     ],
     "charges": 2
   },
@@ -10208,7 +10295,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ], [ "food_processor", 20 ] ] ],
     "components": [
-      [ [ "tomato", 5 ], [ "irradiated_tomato", 5 ] ],
+      [ [ "tomato", 5 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
@@ -10340,6 +10427,7 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
         [ "tomato", 1 ]
@@ -10364,7 +10452,14 @@
     "//": "90g of snail meat.  treating it like scrap of meat, that's 6u + 1u for butter and aromatics",
     "components": [
       [ [ "gastropod_purged", 6 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "garlic_powder", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "rehydrated_garlic", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ]
+      ],
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],
@@ -10386,7 +10481,7 @@
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
     ]
@@ -10408,7 +10503,7 @@
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
     ]

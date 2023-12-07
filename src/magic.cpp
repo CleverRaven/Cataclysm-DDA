@@ -56,6 +56,7 @@
 #include "ui.h"
 #include "units.h"
 
+static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -132,6 +133,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
         case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
+        case spell_flag::LIQUID: return "LIQUID";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -156,6 +158,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
+        case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -1057,7 +1060,11 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const Character &guy ) const
 {
-    if( guy.has_flag( json_flag_NO_SPELLCASTING ) ) {
+    if( guy.has_flag( json_flag_NO_SPELLCASTING ) && !has_flag( spell_flag::PSIONIC ) ) {
+        return false;
+    }
+
+    if( guy.has_flag( json_flag_NO_PSIONICS ) && has_flag( spell_flag::PSIONIC ) ) {
         return false;
     }
 
@@ -1257,7 +1264,8 @@ void spell::gain_exp( const Character &guy, int nxp )
     int oldLevel = get_level();
     experience += nxp;
     if( guy.is_avatar() && oldLevel != get_level() ) {
-        get_event_bus().send<event_type::player_levels_spell>( guy.getID(), id(), get_level() );
+        get_event_bus().send<event_type::player_levels_spell>( guy.getID(), id(), get_level(),
+                spell_class() );
     }
 }
 
@@ -1713,9 +1721,8 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
     if( caster ) {
         character_id c_id = caster->getID();
         // send casting to the event bus
-        get_event_bus().send<event_type::character_casts_spell>( c_id, this->id(),
-                this->get_difficulty( source ), this->energy_cost( *caster ),
-                this->casting_time( *caster ),
+        get_event_bus().send<event_type::character_casts_spell>( c_id, this->id(), this->spell_class(),
+                this->get_difficulty( source ), this->energy_cost( *caster ), this->casting_time( *caster ),
                 this->damage( source ) );
     }
 
@@ -1828,6 +1835,7 @@ void known_magic::serialize( JsonOut &json ) const
     }
     json.end_array();
     json.member( "invlets", invlets );
+    json.member( "favorites", favorites );
 
     json.end_object();
 }
@@ -1847,6 +1855,7 @@ void known_magic::deserialize( const JsonObject &data )
         }
     }
     data.read( "invlets", invlets );
+    data.read( "favorites", favorites );
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
@@ -1978,7 +1987,12 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
     } else {
         if( new_exp >= 0 ) {
             spell &temp_sp = get_spell( sp );
+            int old_level = temp_sp.get_level();
             temp_sp.set_exp( new_exp );
+            if( guy->is_avatar() && old_level != temp_sp.get_level() ) {
+                get_event_bus().send<event_type::player_levels_spell>( guy->getID(), sp->id, temp_sp.get_level(),
+                        sp->spell_class );
+            }
         } else {
             get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
             spellbook.erase( sp );
@@ -2157,6 +2171,19 @@ std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class
     return ret;
 }
 
+static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
+{
+    for( uilist_entry &entry : menu->entries ) {
+        if( get_player_character().magic->is_favorite( known_spells[entry.retval]->id() ) ) {
+            entry.extratxt.left = 0;
+            entry.extratxt.txt = _( "*" );
+            entry.extratxt.color = c_white;
+        } else {
+            entry.extratxt.txt = "";
+        }
+    }
+}
+
 class spellcasting_callback : public uilist_callback
 {
     private:
@@ -2168,14 +2195,14 @@ class spellcasting_callback : public uilist_callback
         void draw_spell_info( const uilist *menu );
     public:
         // invlets reserved for special functions
-        const std::set<int> reserved_invlets{ 'I', '=' };
+        const std::set<int> reserved_invlets{ 'I', '=', '*' };
         bool casting_ignore;
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
         bool key( const input_context &ctxt, const input_event &event, int entnum,
-                  uilist * /*menu*/ ) override {
+                  uilist *menu ) override {
             const std::string &action = ctxt.input_to_action( event );
             if( action == "CAST_IGNORE" ) {
                 casting_ignore = !casting_ignore;
@@ -2199,16 +2226,21 @@ class spellcasting_callback : public uilist_callback
                 return true;
             } else if( action == "SCROLL_UP_SPELL_MENU" || action == "SCROLL_DOWN_SPELL_MENU" ) {
                 scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
+            } else if( action == "SCROLL_FAVORITE" ) {
+                get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
+                reflesh_favorite( menu, known_spells );
             }
             return false;
         }
 
         void refresh( uilist *menu ) override {
+            const std::string space( menu->pad_right - 2, ' ' );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
                       LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( menu->w_width - menu->pad_right + 1, i ), menu->text_color, space );
             }
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
@@ -2521,6 +2553,20 @@ void known_magic::rem_invlet( const spell_id &sp )
     invlets.erase( sp );
 }
 
+void known_magic::toggle_favorite( const spell_id &sp )
+{
+    if( favorites.count( sp ) > 0 ) {
+        favorites.erase( sp );
+    } else {
+        favorites.emplace( sp );
+    }
+}
+
+bool known_magic::is_favorite( const spell_id &sp )
+{
+    return favorites.count( sp ) > 0;
+}
+
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 {
     auto found = invlets.find( sp );
@@ -2574,9 +2620,41 @@ int known_magic::select_spell( Character &guy )
     spell_menu.additional_actions.emplace_back( "CAST_IGNORE", translation() );
     spell_menu.additional_actions.emplace_back( "SCROLL_UP_SPELL_MENU", translation() );
     spell_menu.additional_actions.emplace_back( "SCROLL_DOWN_SPELL_MENU", translation() );
+    spell_menu.additional_actions.emplace_back( "SCROLL_FAVORITE", translation() );
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
+    spell_menu.add_category( "all", _( "All" ) );
+    spell_menu.add_category( "favorites", _( "Favorites" ) );
+
+    std::vector<std::pair<std::string, std::string>> categories;
+    for( const spell *s : known_spells ) {
+        if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
+            categories.emplace_back( s->spell_class().str(), s->spell_class().obj().name() );
+            std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
+            const std::pair<std::string, std::string> &b ) {
+                return localized_compare( a.second, b.second );
+            } );
+            const auto itr = std::unique( categories.begin(), categories.end() );
+            categories.erase( itr, categories.end() );
+        }
+    }
+    for( std::pair<std::string, std::string> &cat : categories ) {
+        spell_menu.add_category( cat.first, cat.second );
+    }
+
+    spell_menu.set_category_filter( [&guy, known_spells]( const uilist_entry & entry,
+    const std::string & key )->bool {
+        if( key == "all" )
+        {
+            return true;
+        } else if( key == "favorites" )
+        {
+            return guy.magic->is_favorite( known_spells[entry.retval]->id() );
+        }
+        return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
+    } );
+    spell_menu.set_category( "all" );
 
     std::set<int> used_invlets{ cb.reserved_invlets };
 
@@ -2584,6 +2662,7 @@ int known_magic::select_spell( Character &guy )
         spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( guy ),
                              get_invlet( known_spells[i]->id(), used_invlets ), known_spells[i]->name() );
     }
+    reflesh_favorite( &spell_menu, known_spells );
 
     spell_menu.query();
 

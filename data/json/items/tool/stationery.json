@@ -44,6 +44,7 @@
     "symbol": ";",
     "techniques": [ "PRECISE" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
     "to_hit": 1,
     "color": "light_gray",
     "melee_damage": { "bash": 2, "stab": 9 }

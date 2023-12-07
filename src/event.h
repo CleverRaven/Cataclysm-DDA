@@ -279,14 +279,14 @@ struct event_spec<event_type::character_eats_item> : event_spec_character_item {
 
 template<>
 struct event_spec<event_type::character_casts_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = { {
             { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
+            { "school", cata_variant_type::trait_id },
             { "difficulty", cata_variant_type::int_},
             { "cost", cata_variant_type::int_},
             { "cast_time", cata_variant_type::int_},
             { "damage", cata_variant_type::int_}
-
         }
     };
 };
@@ -342,9 +342,10 @@ struct event_spec<event_type::character_heals_damage> {
 
 template<>
 struct event_spec<event_type::character_kills_monster> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "killer", cata_variant_type::character_id },
             { "victim_type", cata_variant_type::mtype_id },
+            { "exp", cata_variant_type::int_},
         }
     };
 };
@@ -761,10 +762,11 @@ struct event_spec<event_type::player_gets_achievement> {
 
 template<>
 struct event_spec<event_type::player_levels_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
             { "new_level", cata_variant_type::int_ },
+            { "school", cata_variant_type::trait_id },
         }
     };
 };
@@ -786,10 +788,15 @@ struct event_spec<event_type::seals_hazardous_material_sarcophagus> : event_spec
 
 template<>
 struct event_spec<event_type::spellcasting_finish> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 8> fields = { {
             { "character", cata_variant_type::character_id },
+            { "success", cata_variant_type::bool_ },
             { "spell", cata_variant_type::spell_id },
-            { "school", cata_variant_type::trait_id }
+            { "school", cata_variant_type::trait_id },
+            { "difficulty", cata_variant_type::int_},
+            { "cost", cata_variant_type::int_},
+            { "cast_time", cata_variant_type::int_},
+            { "damage", cata_variant_type::int_}
         }
     };
 };
@@ -883,7 +890,7 @@ class event
             using Spec = event_detail::event_spec<Type>;
             // Using is_empty mostly just to verify that the type is defined at
             // all, but it so happens that it ought to be empty too.
-            static_assert( std::is_empty<Spec>::value,
+            static_assert( std::is_empty_v<Spec>,
                            "spec for this event type must be defined and empty" );
             static_assert( sizeof...( Args ) == Spec::fields.size(),
                            "wrong number of arguments for event type" );

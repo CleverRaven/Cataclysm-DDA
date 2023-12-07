@@ -80,11 +80,6 @@
     "monsters": [ { "monster": "mon_pheasant_chick" } ]
   },
   {
-    "name": "GROUP_EGG_COCKATRICE",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_cockatrice_chick" } ]
-  },
-  {
     "name": "GROUP_EGG_ROACH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_giant_cockroach_nymph" } ]
@@ -545,5 +540,25 @@
     "name": "GROUP_EGG_SHIFT_FROG",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_shift_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PATTERN_BIGFROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pattern_bigtad" } ]
+  },
+  {
+    "name": "GROUP_EGG_STRANGE_BIGFROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_strange_bigtad" } ]
+  },
+  {
+    "name": "GROUP_EGG_FOUL_BIGFROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_foul_bigtad" } ]
+  },
+  {
+    "name": "GROUP_EGG_ODD_BIGFROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_odd_bigtad" } ]
   }
 ]

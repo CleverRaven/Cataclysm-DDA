@@ -1031,7 +1031,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator clean-pch
+clean: clean-tests clean-object_creator clean-pch clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1318,6 +1318,9 @@ clean-pch:
 	rm -f pch/*pch.hpp.d
 	$(MAKE) -C tests clean-pch
 
-.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
+clean-lang:
+	$(MAKE) -C lang clean
+
+.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch clean-lang install lint
 
 -include ${OBJS:.o=.d}

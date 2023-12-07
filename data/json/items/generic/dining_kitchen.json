@@ -177,6 +177,69 @@
   },
   {
     "type": "GENERIC",
+    "id": "nice_mug",
+    "copy-from": "base_ceramic_dish",
+    "category": "container",
+    "symbol": "u",
+    "name": { "str": "complimentary mug" },
+    "description": "A ceramic mug.  It says \"Nice job, <name_g>!\"",
+    "expand_snippets": true,
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "mean_mug",
+    "type": "GENERIC",
+    "copy-from": "base_ceramic_dish",
+    "name": { "str": "insulting mug" },
+    "description": "A ceramic mug.",
+    "category": "container",
+    "symbol": "u",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "fuck_you",
+        "name": { "str": "insulting mug" },
+        "description": "It says \"<fuck_you>, <name_b>!\"",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "worst_dad",
+        "name": { "str": "bad dad mug" },
+        "description": "It says \"Worlds Worst Dad\".",
+        "append": true,
+        "weight": 1
+      }
+    ],
+    "price": "5 USD",
+    "longest_side": "12 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
     "category": "container",
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
@@ -495,7 +558,8 @@
     "longest_side": "21 cm",
     "price": 75,
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
@@ -511,7 +575,8 @@
     "longest_side": "15 cm",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
@@ -571,10 +636,11 @@
     "volume": "75 ml",
     "longest_side": "21 cm",
     "price": "4 USD",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "copy-from": "base_silverware",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
+    "weapon_category": [ "SHIVS" ],
     "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
@@ -587,7 +653,8 @@
     "volume": "10 ml",
     "longest_side": "15 cm",
     "looks_like": "knife_butter",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "copy-from": "base_plastic_silverware",
     "melee_damage": { "bash": 1, "stab": 1 }
   },
@@ -673,9 +740,10 @@
     "id": "spork",
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "looks_like": "fork",
     "copy-from": "base_silverware",
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
@@ -684,9 +752,10 @@
     "id": "foon",
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "looks_like": "spork",
     "copy-from": "base_silverware",
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
@@ -695,7 +764,7 @@
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "symbol": "X",
     "color": "light_gray",
     "price": "1 USD",
@@ -704,6 +773,7 @@
     "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
+    "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B07N47CN44"
@@ -785,6 +855,7 @@
     "longest_side": "29 cm",
     "price": "12 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 3, "stab": 2 },
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "//": "Based on https://www.amazon.com/dp/B083FJXZM5"
@@ -1182,7 +1253,7 @@
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
-    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
+    "qualities": [ [ "SIEVE", 2 ], [ "WINNOW", 1 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },

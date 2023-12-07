@@ -33,7 +33,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
-    "melee_damage": { "bash": 3, "cut": 5 }
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 3, "cut": 5 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "hoe",

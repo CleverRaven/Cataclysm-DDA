@@ -189,7 +189,7 @@
     "id": "MISSION_ARSONIST_1_AMMONIUM_NITRATE",
     "type": "mission_definition",
     "name": { "str": "Supply the arsonist" },
-    "description": "Bring the arsonist two bags of commercial fertilizer",
+    "description": "Bring the arsonist 120 units of commercial fertilizer",
     "difficulty": 1,
     "value": 500,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -198,7 +198,7 @@
     "count": 120,
     "dialogue": {
       "describe": "I could use some help getting some materials.",
-      "offer": "I could use some help getting some materials.  Molotovs are nice for burning down buildings but aren't all that for keeping yourself safe.  If you could get me two bags of commercial fertilizer I could make something a lot more potent.",
+      "offer": "I could use some help getting some materials.  Molotovs are nice for burning down buildings but aren't all that for keeping yourself safe.  If you could get me 120 units of commercial fertilizer I could make something a lot more potent.",
       "accepted": "Oh man, thanks so much friend.  You won't regret it.",
       "rejected": "Think it over.",
       "advice": "Commercial fertilizer tends to be made from ammonium nitrate, which is also usable as an explosive.  Try looking for some around the abandoned farms.",
