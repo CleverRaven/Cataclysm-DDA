@@ -85,7 +85,7 @@ std::string base_camps::faction_decode( const std::string_view full_type )
     return std::string{ full_type.substr( prefix_len, size_t( last_bar - prefix_len ) ) };
 }
 
-const time_duration work_day_hours_time = work_day_hours * 1_hours;
+static const time_duration work_day_hours_time = work_day_hours * 1_hours;
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
