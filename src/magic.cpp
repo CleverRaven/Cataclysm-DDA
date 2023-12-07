@@ -487,8 +487,8 @@ void spell_type::serialize( JsonOut &json ) const
 
     json.member( "type", "SPELL" );
     json.member( "id", id );
-    json.member( "src_mod", src_mod);
-    json.member("name", name.translated());
+    json.member( "src_mod", src_mod );
+    json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "effect", effect_name );
     json.member( "shape", io::enum_to_string( spell_area ) );
