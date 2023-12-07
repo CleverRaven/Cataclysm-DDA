@@ -66,7 +66,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking" ],
+    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking", "cabin_liam_driveway" ],
     "copy-from": "generic_dirt_road",
     "sym": "│"
   },

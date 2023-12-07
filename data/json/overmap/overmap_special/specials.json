@@ -636,6 +636,25 @@
   },
   {
     "type": "overmap_special",
+    "id": "cabin_liam",
+    "//": "Meant for starting scenario but anyone can find a similar cabin.",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_liam_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_1_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "cabin_liam_driveway_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "dirt_road_forest_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "dirt_road_forest_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, 10 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 75, 100 ],
+    "connections": [ { "point": [ 0, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 3, 0 ] } ],
+    "rotate": false,
+    "flags": [ "CLASSIC", "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Strange Cabin",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_strange_north" },
