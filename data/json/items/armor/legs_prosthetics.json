@@ -17,7 +17,7 @@
     "material_thickness": 1,
     "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ]
   },
   {
     "id": "left_leg_prosthetic",
@@ -37,7 +37,7 @@
     "material_thickness": 1,
     "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ]
   },
   {
     "id": "right_peg_leg",
@@ -97,7 +97,7 @@
     "material_thickness": 2,
     "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ]
   },
   {
     "id": "left_leg_prosthetic_steel",
@@ -117,6 +117,6 @@
     "material_thickness": 2,
     "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ]
   }
 ]

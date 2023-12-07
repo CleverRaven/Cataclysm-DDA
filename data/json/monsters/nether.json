@@ -568,13 +568,18 @@
         "type": "monster_attack",
         "attack_type": "bite",
         "id": "star_vampire_bite",
-        "cooldown": 2,
+        "cooldown": 3,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 15 } ],
         "infection_chance": 15,
-        "//": "Bite for targets whose blood the star vampire does not want or cannot drink.  Should never target the player unless they can't bleed.",
+        "//": "Bite for targets whose blood the star vampire does not want or cannot drink.  Should never target the player unless they can't bleed or have unappetizing blood.",
         "condition": {
           "or": [
             { "npc_has_flag": "BLEED_IMMUNE" },
+            { "npc_has_trait": "ACIDBLOOD" },
+            { "npc_has_trait": "THRESH_CRUSTACEAN" },
+            { "npc_has_trait": "THRESH_INSECT" },
+            { "npc_has_trait": "THRESH_CEPHALOPOD" },
+            { "npc_has_trait": "THRESH_GASTROPOD" },
             { "npc_has_species": "ZOMBIE" },
             { "npc_has_species": "MAMMAL" },
             { "npc_has_species": "AMPHIBIAN" },
@@ -620,6 +625,11 @@
             { "npc_has_flag": "GRAB" },
             {
               "and": [
+                { "not": { "npc_has_trait": "ACIDBLOOD" } },
+                { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+                { "not": { "npc_has_trait": "THRESH_INSECT" } },
+                { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+                { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
                 { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
                 { "not": { "npc_has_species": "ZOMBIE" } },
                 { "not": { "npc_has_species": "MAMMAL" } },
