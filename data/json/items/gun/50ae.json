@@ -1,0 +1,50 @@
+[
+  {
+    "id": "modular_deagle",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str_sp": "Desert Eagle pistol" },
+    "description": "An icon of popular culture more than a practical weapon, this massive pistol can shoot a variety of magnum handgun rounds depending on the conversion kit and magazine used.",
+    "weight": "1407 g",
+    "volume": "671 ml",
+    "longest_side": "29 cm",
+    "price": 160000,
+    "price_postapoc": 2750,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "modular_deagle",
+        "name": { "str": "Desert Eagle Mark XIX" },
+        "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine."
+      },
+      {
+        "id": "modular_deagle_gold",
+        "name": { "str": "golden Desert Eagle Mark XIX" },
+        "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.  For maximum style points (or tackiness, depending on taste), this one is plated in what appears to be 24-karat gold."
+      }
+    ],
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "44" ],
+    "skill": "pistol",
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 1413,
+    "default_mods": [ "retool_deagle_50" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "NO_TURRET" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag", "deaglemag_357", "deaglemag_50" ] } ],
+    "melee_damage": { "bash": 12 }
+  }
+]
