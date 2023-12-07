@@ -366,7 +366,11 @@
     "//": "An item group for a specific weapon platform’s possible conversion kits .",
     "entries": [
       {
-        "distribution": [ { "group": "boxed_357_deaglekit", "prob": 25 }, { "group": "boxed_44_deaglekit", "prob": 30 }, { "group": "boxed_50ae_deaglekit", "prob": 30 } ],
+        "distribution": [
+          { "group": "boxed_357_deaglekit", "prob": 25 },
+          { "group": "boxed_44_deaglekit", "prob": 30 },
+          { "group": "boxed_50ae_deaglekit", "prob": 30 }
+        ],
         "prob": 100
       }
     ]
