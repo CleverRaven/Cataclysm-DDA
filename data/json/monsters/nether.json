@@ -541,7 +541,7 @@
     "default_faction": "nether_hate_humans",
     "bodytype": "blob",
     "species": [ "NETHER" ],
-    "diff": 30,
+    "diff": 60,
     "volume": "875000 ml",
     "weight": "200 kg",
     "hp": 250,
