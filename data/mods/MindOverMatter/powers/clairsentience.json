@@ -34,7 +34,7 @@
         "u_effect_intensity('effect_clair_night_eyes') > -1 ? 10 : max((50 -(u_val('spell_level', 'spell: clair_night_vision') * 2)), 20)"
       ]
     },
-    "learn_spells": { "clair_danger_sense": 9, "clair_voyance": 12, "clair_see_map": 18 }
+    "learn_spells": { "clair_see_auras": 7, "clair_danger_sense": 9, "clair_voyance": 12, "clair_see_map": 18 }
   },
   {
     "id": "clair_speed_reading",
@@ -73,7 +73,13 @@
         "u_effect_intensity('effect_clair_speed_reader') > -1 ? 10 : max((500 -(u_val('spell_level', 'spell: clair_speed_reading') * 12)), 250)"
       ]
     },
-    "learn_spells": { "clair_spot_weakness": 5, "clair_ranged_enhance": 7, "clair_voyance": 9, "clair_clear_sight": 15 }
+    "learn_spells": {
+      "clair_spot_weakness": 5,
+      "clair_see_auras": 7,
+      "clair_ranged_enhance": 8,
+      "clair_voyance": 9,
+      "clair_clear_sight": 15
+    }
   },
   {
     "id": "clair_danger_sense",
@@ -147,7 +153,43 @@
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "clair_ranged_enhance": 6, "clair_voyance": 8, "clair_clear_sight": 15 }
+    "learn_spells": { "clair_ranged_enhance": 6, "clair_voyance": 10, "clair_clear_sight": 15 }
+  },
+  {
+    "id": "clair_see_auras",
+    "type": "SPELL",
+    "name": "[Ψ]Aura Sight (C)",
+    "description": "You can see people's emotions and physical state as a hazy swirl of color around their body.  This makes it much easier to get them to do what you want.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_SEE_AURAS_INITIATE",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_see_auras') * 9000) + 65000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_see_auras') * 19000) + 120000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_see_auras') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: clair_see_auras') * 125)), 1750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_see_auras') > -1 ? 10 : max((300 -(u_val('spell_level', 'spell: clair_see_auras') * 8.5)), 100)"
+      ]
+    },
+    "learn_spells": { "clair_dodge_power": 9, "clair_clear_sight": 15 }
   },
   {
     "id": "clair_sense_rads",
@@ -259,7 +301,7 @@
         "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 10 : max((200 -(u_val('spell_level', 'spell: clair_ranged_enhance') * 6)), 125)"
       ]
     },
-    "learn_spells": { "clair_spot_weakness": 5, "clair_see_map": 9, "clair_clear_sight": 12 }
+    "learn_spells": { "clair_spot_weakness": 5, "clair_see_map": 9, "clair_perfect_shot": 12, "clair_clear_sight": 16 }
   },
   {
     "id": "clair_voyance",
@@ -339,7 +381,69 @@
         "u_effect_intensity('effect_clair_dodge') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: clair_dodge_power') * 9)), 70)"
       ]
     },
-    "learn_spells": { "clair_spot_weakness": 3, "clair_ranged_enhance": 6, "clair_clear_sight": 9, "clair_voyance": 12 }
+    "learn_spells": { "clair_spot_weakness": 3, "clair_ranged_enhance": 6, "clair_clear_sight": 10, "clair_perfect_shot": 12 }
+  },
+  {
+    "id": "clair_craft_bonus",
+    "type": "SPELL",
+    "name": "[Ψ]Intuitive Artisan (C)",
+    "description": "Opening yourself up to the immediate future, you can see the best option to take when crafting or working on a task.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_CRAFT_BONUS_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_craft_bonus') * 25000) + 121500) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_craft_bonus') * 60000) + 270000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 0 : max((5500 - (u_val('spell_level', 'spell: clair_craft_bonus') * 145)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: clair_craft_bonus') * 9)), 70)"
+      ]
+    },
+    "learn_spells": { "clair_clear_sight": 8, "clair_omniscience": 12 }
+  },
+  {
+    "id": "clair_perfect_shot",
+    "type": "SPELL",
+    "name": "[Ψ]One Perfect Shot",
+    "description": "Gaze into the future and, taking your enemy's future movements into account, fire at the perfect moment.  This power will only last for a single attack.",
+    "message": "It's time to take the shot.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_clair_perfect_shot",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": 1000,
+    "max_duration": 1000,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6500,
+    "final_energy_cost": 3500,
+    "energy_increment": -160,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4.5
   },
   {
     "id": "clair_see_map",
@@ -398,6 +502,40 @@
       ]
     },
     "learn_spells": { "clair_omniscience": 7 }
+  },
+  {
+    "id": "clair_group_tactics",
+    "type": "SPELL",
+    "name": "[Ψ]Prescient Tactician (C)",
+    "description": "Gazing into the near future, you can call out warnings to your followers so they can avoid attacks before they occur.  This will greatly increase their defensive capability, though it will be harder for you to defend yourself.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_GROUP_TACTICS_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_group_tactics') * 1200) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_group_tactics') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 0 : max((6500 - (u_val('spell_level', 'spell: clair_group_tactics') * 150)), 2500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 10 : max((200 -(u_val('spell_level', 'spell: clair_group_tactics') * 7.5)), 60)"
+      ]
+    }
   },
   {
     "id": "clair_omniscience",

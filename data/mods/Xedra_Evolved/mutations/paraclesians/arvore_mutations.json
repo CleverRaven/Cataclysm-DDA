@@ -195,7 +195,14 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "prereqs": [
+      "ARVORE_SUN_NUTRIENTS_AND_MANA",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_MANA_BONUS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
+    ],
     "description": "Upon gaining this ability the Arvore gains the ability to bind their soul to the heart of the forest, rebirthing themselves when on the verge of death.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -208,6 +215,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "You have bound your soul to the forest, and death will merely be a momentary inconvenience.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ]
@@ -224,7 +232,11 @@
       "ARVORE_SUN_NUTRIENTS",
       "ARVORE_SUN_NUTRIENTS_ON",
       "ARVORE_SUN_NUTRIENTS_AND_MANA",
-      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON"
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_MANA_BONUS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
     ],
     "description": "Upon gaining this ability the Arvore gains the ability to infuse their companions with the vitality of the forest.",
     "category": [ "ARVORE" ],
@@ -489,7 +501,7 @@
     "visibility": 1,
     "types": [ "PAIN" ],
     "description": "Filled with the energy of life, pain does not affect you as strongly.",
-    "prereqs": [ "ARVORE_SKIN_1" ],
+    "prereqs": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "prereqs2": [ "ARVORE_NURTURING_THE_GREEN" ],
     "category": [ "ARVORE" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.25 } ] } ]
@@ -502,7 +514,7 @@
     "active": true,
     "description": "At will, you can transform your hands into jagged wooden claws.  They are potent weapons but make anything other than combat more difficult.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARVORE_SKIN_2" ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
     "transform": {
       "target": "ARVORE_WOOD_CLAWS_active",
@@ -521,7 +533,7 @@
     "ugliness": 2,
     "description": "Your hands are transformed into jagged wooden claws.  You can use them to attack, but performing mundane tasks will be harder.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARVORE_SKIN_2" ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
     "transform": {
       "target": "ARVORE_WOOD_CLAWS",
@@ -594,7 +606,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_STR_BONUS_1" ],
-    "prereqs2": [ "ARVORE_SKIN_1" ],
+    "prereqs2": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "changes_to": [ "ARVORE_STR_BONUS_3" ],
     "description": "Like the young tree reaching for the sun, your limbs are filled with power.  +3 Strength.",
     "category": [ "ARVORE" ],
@@ -608,7 +620,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_STR_BONUS_2" ],
-    "prereqs2": [ "ARVORE_SKIN_2" ],
+    "prereqs2": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "description": "Like forest giants that have stood for a hundred years, you are unshakeable.  +5 Strength.",
     "category": [ "ARVORE" ],
     "passive_mods": { "str_mod": 5 }
@@ -963,7 +975,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When in wild areas, you can draw on the revitalizing power of the land to heal yourself.  When in natural areas, your limbs will heal much faster.",
-    "prereqs": [ "ARVORE_SKIN_2" ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "prereqs2": [ "ARVORE_VERDANT_INFUSION" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -1096,6 +1108,7 @@
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
+    "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,

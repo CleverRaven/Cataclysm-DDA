@@ -421,5 +421,71 @@
       { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
       { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP",
+    "effect": [
+      {
+        "if": { "or": [ { "u_has_trait": "RIGHT_PROSTHETIC_LEG" }, { "u_has_trait": "RIGHT_PEG_LEG" } ] },
+        "then": { "u_add_effect": "prosthetic_leg_r_fake_blocker", "duration": "PERMANENT", "target_part": "leg_prosthetic_r" },
+        "else": {
+          "if": { "and": [ { "not": { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } }, { "not": { "u_has_trait": "RIGHT_PEG_LEG" } } ] },
+          "then": { "u_lose_effect": "prosthetic_leg_r_fake_blocker" }
+        }
+      },
+      {
+        "if": { "or": [ { "u_has_trait": "LEFT_PROSTHETIC_LEG" }, { "u_has_trait": "LEFT_PEG_LEG" } ] },
+        "then": { "u_add_effect": "prosthetic_leg_l_fake_blocker", "duration": "PERMANENT", "target_part": "leg_prosthetic_l" },
+        "else": {
+          "if": { "and": [ { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } }, { "not": { "u_has_trait": "LEFT_PEG_LEG" } } ] },
+          "then": { "u_lose_effect": "prosthetic_leg_l_fake_blocker" }
+        }
+      },
+      {
+        "if": { "u_has_trait": "RIGHT_PROSTHETIC_ARM" },
+        "then": { "u_add_effect": "prosthetic_arm_r_fake_blocker", "duration": "PERMANENT", "target_part": "arm_prosthetic_r" },
+        "else": {
+          "if": { "u_has_trait": "RIGHT_NEUROPROSTHETIC_ARM" },
+          "then": { "u_add_effect": "prosthetic_arm_r_fake_blocker", "duration": "PERMANENT", "target_part": "arm_neuroprosthetic_r" },
+          "else": {
+            "if": { "u_has_trait": "RIGHT_COSMETIC_PROSTHETIC_ARM" },
+            "then": { "u_add_effect": "prosthetic_arm_r_fake_blocker", "duration": "PERMANENT", "target_part": "arm_prosthetic_cosmetic_r" },
+            "else": {
+              "if": {
+                "and": [
+                  { "not": { "u_has_trait": "RIGHT_PROSTHETIC_ARM" } },
+                  { "not": { "u_has_trait": "RIGHT_NEUROPROSTHETIC_ARM" } },
+                  { "not": { "u_has_trait": "RIGHT_COSMETIC_PROSTHETIC_ARM" } }
+                ]
+              },
+              "then": { "u_lose_effect": "prosthetic_arm_r_fake_blocker" }
+            }
+          }
+        }
+      },
+      {
+        "if": { "u_has_trait": "LEFT_PROSTHETIC_ARM" },
+        "then": { "u_add_effect": "prosthetic_arm_l_fake_blocker", "duration": "PERMANENT", "target_part": "arm_prosthetic_l" },
+        "else": {
+          "if": { "u_has_trait": "LEFT_NEUROPROSTHETIC_ARM" },
+          "then": { "u_add_effect": "prosthetic_arm_l_fake_blocker", "duration": "PERMANENT", "target_part": "arm_neuroprosthetic_l" },
+          "else": {
+            "if": { "u_has_trait": "LEFT_COSMETIC_PROSTHETIC_ARM" },
+            "then": { "u_add_effect": "prosthetic_arm_l_fake_blocker", "duration": "PERMANENT", "target_part": "arm_prosthetic_cosmetic_l" },
+            "else": {
+              "if": {
+                "and": [
+                  { "not": { "u_has_trait": "LEFT_PROSTHETIC_ARM" } },
+                  { "not": { "u_has_trait": "LEFT_NEUROPROSTHETIC_ARM" } },
+                  { "not": { "u_has_trait": "LEFT_COSMETIC_PROSTHETIC_ARM" } }
+                ]
+              },
+              "then": { "u_lose_effect": "prosthetic_arm_l_fake_blocker" }
+            }
+          }
+        }
+      }
+    ]
   }
 ]
