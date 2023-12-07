@@ -503,7 +503,7 @@
     "id": "pyrokinetic_flame_immunity",
     "type": "SPELL",
     "name": "[Ψ]Flameshield (C)",
-    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.",
+    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
