@@ -433,7 +433,6 @@
     "vision_night": 2,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
 	"death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "SMELLS", "HEARS", "NO_BREATHE", "POISON", "HARDTOSHOOT", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 1, "cut": 4, "stab": 2 }
@@ -509,7 +508,7 @@
     "melee_skill": 6,
 	"special_attacks": [
 	  [ "FUNGUS_INJECT", 30 ]
-	  ]
+	  ],
     "dissect": "dissect_insect_sample_small",
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 2 }
   },
@@ -537,7 +536,7 @@
         "min_mul": 1,
         "max_mul": 3,
         "effects": [ { "id": "venom_weaken", "duration": 100 }, { "id": "downed", "duration": 1, "chance": 20 } ]
-      },
+      }
     ],
     "//": "sting 15-45 damage, 6 hits to max intensity, 8 to max duration; bite 10-30",
     "dodge": 3,
