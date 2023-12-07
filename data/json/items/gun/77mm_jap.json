@@ -38,6 +38,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "sights mount", 1 ],
@@ -48,7 +49,6 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "//": "Having a single underbarrel slot precludes the mounting of both the monopod and the bayonet at the same time, but it's the only way to keep players from just stripping off the two and whacking on two underbarrel launchers or something.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

@@ -327,14 +327,5 @@
     "description": "A basic and antique 4x rifle optic: essentially a non-adjustable telescopic sight built by the Nagoya Arsenal during the Second World War and issued for mounting on Type 99 sniper rifles.",
     "range_multiplier": 2,
     "mod_targets": [ "type99" ]
-  },
-  {
-    "id": "type97_scope",
-    "type": "GUNMOD",
-    "copy-from": "rifle_scope",
-    "name": { "str": "Type 97 gun scope" },
-    "description": "An old-fashioned and non-adjustable 2.5x telescopic gunsight, matched and issued to old Japanese Type 97 sniper rifles.",
-    "range_multiplier": 3,
-    "mod_targets": [ "type97" ]
   }
 ]
