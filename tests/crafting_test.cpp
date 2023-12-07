@@ -798,23 +798,23 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     ret_val<void> result = ups_loc->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     REQUIRE( result.success() );
 
-    item_location soldering_iron_portable = dummy.i_add( item( "soldering_iron_portable" ) );
+    item_location soldering_iron = dummy.i_add( item( "soldering_iron" ) );
     item battery_ups( "battery_ups" );
-    ret_val<void> ret_solder = soldering_iron_portable->put_in( battery_ups, pocket_type::MOD );
+    ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, pocket_type::MOD );
     REQUIRE( ret_solder.success() );
-    REQUIRE( soldering_iron_portable->has_flag( json_flag_USE_UPS ) );
+    REQUIRE( soldering_iron->has_flag( json_flag_USE_UPS ) );
 
     REQUIRE( ups_loc->ammo_remaining() == ammo_count );
     if( !ups_on_ground ) {
-        REQUIRE( dummy.charges_of( soldering_iron_portable->typeId() ) == ammo_count );
+        REQUIRE( dummy.charges_of( soldering_iron->typeId() ) == ammo_count );
     }
-    REQUIRE( dummy.crafting_inventory().charges_of( soldering_iron_portable->typeId() ) == ammo_count );
+    REQUIRE( dummy.crafting_inventory().charges_of( soldering_iron->typeId() ) == ammo_count );
     temp_crafting_inventory tinv;
     tinv.add_all_ref( dummy );
     if( ups_on_ground ) {
         tinv.add_item_ref( *ups_loc );
     }
-    REQUIRE( tinv.charges_of( soldering_iron_portable->typeId() ) == ammo_count );
+    REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
 }
 
 TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )

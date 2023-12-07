@@ -91,15 +91,15 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 
 TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
-    SECTION( "debug_welder" ) {
+    SECTION( "welder" ) {
         std::vector<item> tools;
-        // tools.push_back( tool_with_ammo( "debug_welder", 10000 ) );
+        // tools.push_back( tool_with_ammo( "welder", 10000 ) );
 
-        item debug_welder( "debug_welder" );
-        item debug_welder_mag( debug_welder.magazine_default() );
-        debug_welder_mag.ammo_set( debug_welder_mag.ammo_default(), 1000 );
-        debug_welder.put_in( debug_welder_mag, pocket_type::MAGAZINE_WELL );
-        tools.push_back( debug_welder );
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
@@ -109,9 +109,9 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "UPS_modded_welder" ) {
         std::vector<item> tools;
-        item debug_welder( "debug_welder", calendar::turn_zero, 0 );
-        debug_welder.put_in( item( "battery_ups" ), pocket_type::MOD );
-        tools.push_back( debug_welder );
+        item welder( "welder", calendar::turn_zero, 0 );
+        welder.put_in( item( "battery_ups" ), pocket_type::MOD );
+        tools.push_back( welder );
 
         item ups( "UPS_ON" );
         item ups_mag( ups.magazine_default() );
@@ -125,28 +125,28 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, true );
     }
-    SECTION( "debug_welder_missing_goggles" ) {
+    SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
 
-        item debug_welder( "debug_welder" );
-        item debug_welder_mag( debug_welder.magazine_default() );
-        debug_welder_mag.ammo_set( debug_welder_mag.ammo_default(), 1000 );
-        debug_welder.put_in( debug_welder_mag, pocket_type::MAGAZINE_WELL );
-        tools.push_back( debug_welder );
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
 
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 5, item( "steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, true, false );
     }
-    SECTION( "debug_welder_missing_charge" ) {
+    SECTION( "welder_missing_charge" ) {
         std::vector<item> tools;
 
-        item debug_welder( "debug_welder" );
-        item debug_welder_mag( debug_welder.magazine_default() );
-        debug_welder_mag.ammo_set( debug_welder_mag.ammo_default(), 500 );
-        debug_welder.put_in( debug_welder_mag, pocket_type::MAGAZINE_WELL );
-        tools.push_back( debug_welder );
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
@@ -154,11 +154,11 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }
-    SECTION( "UPS_modded_debug_welder_missing_charges" ) {
+    SECTION( "UPS_modded_welder_missing_charges" ) {
         std::vector<item> tools;
-        item debug_welder( "debug_welder", calendar::turn_zero, 0 );
-        debug_welder.put_in( item( "battery_ups" ), pocket_type::MOD );
-        tools.push_back( debug_welder );
+        item welder( "welder", calendar::turn_zero, 0 );
+        welder.put_in( item( "battery_ups" ), pocket_type::MOD );
+        tools.push_back( welder );
 
         item ups( "UPS_ON" );
         item ups_mag( ups.magazine_default() );
@@ -171,14 +171,14 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }
-    SECTION( "debug_welder_missing_consumables" ) {
+    SECTION( "welder_missing_consumables" ) {
         std::vector<item> tools;
 
-        item debug_welder( "debug_welder" );
-        item debug_welder_mag( debug_welder.magazine_default() );
-        debug_welder_mag.ammo_set( debug_welder_mag.ammo_default(), 500 );
-        debug_welder.put_in( debug_welder_mag, pocket_type::MAGAZINE_WELL );
-        tools.push_back( debug_welder );
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
+        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, true, false );

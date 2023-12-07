@@ -2487,7 +2487,7 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using debug old arc welder, integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
+           "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
