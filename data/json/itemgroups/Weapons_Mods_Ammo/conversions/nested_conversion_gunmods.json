@@ -254,7 +254,12 @@
     "//": "a conversion kit packed along with appropriate empty magazines and miscellaneous items.",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "item": "retool_deagle_44" }, { "item": "deaglemag", "charges": 0 }, { "item": "deaglemag", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [
+      { "item": "retool_deagle_44" },
+      { "item": "deaglemag", "charges": 0 },
+      { "item": "deaglemag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
   },
   {
     "type": "item_group",
