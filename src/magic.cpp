@@ -1067,7 +1067,7 @@ bool spell::has_flag( const spell_flag &flag ) const
     return type->spell_tags[flag];
 }
 
-bool spell::has_flag( const std::string flag ) const
+bool spell::has_flag( const std::string &flag ) const
 {
     return type->flags.count( flag ) > 0;
 }
@@ -1564,7 +1564,7 @@ void spell::set_temp_level_adjustment( int adjustment )
 }
 
 
-void spell::set_temp_adjustment( std::string target_property, float adjustment )
+void spell::set_temp_adjustment( const std::string &target_property, const float adjustment )
 {
     if( target_property == "caster_level" ) {
         temp_level_adjustment += adjustment;

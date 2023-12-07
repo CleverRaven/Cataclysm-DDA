@@ -482,7 +482,7 @@ class spell
         int get_max_level( const Creature &caster ) const;
         int get_temp_level_adjustment() const;
         void set_temp_level_adjustment( int adjustment );
-        void set_temp_adjustment( std::string target_property, float adjustment );
+        void set_temp_adjustment( const std::string &target_property, const float adjustment );
         void clear_temp_adjustments();
 
         spell_shape shape() const;
@@ -540,7 +540,7 @@ class spell
         bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
-        bool has_flag( const std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
         bool no_hands() const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
