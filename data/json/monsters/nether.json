@@ -685,6 +685,7 @@
         "type": "spell",
         "spell_data": { "id": "star_vampire_invisibility_spell", "min_level": 3 },
         "cooldown": 1,
+        "allow_no_target": true,
         "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
         "monster_message": ""
       }
