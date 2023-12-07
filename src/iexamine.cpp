@@ -1713,46 +1713,7 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     you.mod_moves( -to_moves<int>( 1_seconds ) );
 }
 
-/**
- * Loop prompt to bet $10.
- */
-void iexamine::slot_machine( Character &you, const tripoint & )
-{
-    const int price = 10;
-    auto cents = []( int x ) {
-        return x * 100;
-    };
-    bool played = false;
-    while( true ) {
-        if( you.cash < cents( price ) ) {
-            add_msg( m_info, _( "You need $%d to play." ), price );
-            break;
-        }
-        if( !query_yn( played ? _( "Play again for $%d?" ) : _( "Insert $%d?" ), price ) ) {
-            break;
-        }
-        you.cash -= cents( price );
-        played = true;
-        int won;
-        if( one_in( 5 ) ) {
-            won = price;
-            popup( _( "Three cherries… you get your money back!" ) );
-        } else if( one_in( 20 ) ) {
-            won = 50;
-            popup( _( "Three bells… you win $%d!" ), won );
-        } else if( one_in( 50 ) ) {
-            won = 200;
-            popup( _( "Three stars… you win $%d!" ), won );
-        } else if( one_in( 1000 ) ) {
-            won = 3000;
-            popup( _( "JACKPOT!  You win $%d!" ), won );
-        } else {
-            won = 0;
-            popup( _( "No win." ) );
-        }
-        you.cash += cents( won );
-    }
-}
+
 
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
@@ -6848,7 +6809,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "portable_structure", &iexamine::portable_structure },
             { "pit", &iexamine::pit },
             { "pit_covered", &iexamine::pit_covered },
-            { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },

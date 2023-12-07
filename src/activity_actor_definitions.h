@@ -462,13 +462,15 @@ class move_items_activity_actor : public activity_actor
         std::vector<int> quantities;
         bool to_vehicle;
         tripoint relative_destination;
+        bool hauling_mode;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination ) :
+                                   bool to_vehicle, tripoint relative_destination, bool hauling_mode = false ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
-            relative_destination( relative_destination ) {}
+            relative_destination( relative_destination ),
+            hauling_mode( hauling_mode ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );
@@ -1160,7 +1162,7 @@ class milk_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {}
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &/*act*/, Character &/*who*/ ) override {}
 

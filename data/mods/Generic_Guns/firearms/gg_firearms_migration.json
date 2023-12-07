@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "sapra", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "rm802", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -103,6 +103,7 @@
       "walther_p38",
       "walther_ccp",
       "makarov",
+      "STI_DS_10",
       "af2011a1_38super",
       "m1911a1_38super",
       "glock_22",
@@ -125,6 +126,7 @@
       "px4_40",
       "glock_29",
       "glock_20",
+      "glock_40",
       "glock_21",
       "m1911_10",
       "witness_10",
@@ -334,7 +336,7 @@
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
-      "fn_fal",
+      "fn_fal_semi",
       "m1a",
       "sks",
       "mosin44",

@@ -118,11 +118,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
+    "condition": { "and": [ { "u_has_trait": "EYEGLEAM" }, { "u_has_trait": "STAMINAFORBLOOD" }, { "u_has_trait": "COMMUNE_NIGHT" } ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
+    "condition": { "and": [ { "u_has_trait": "COAGULANTWEAVE" }, { "u_has_trait": "BLOODHEAL" } ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {
@@ -219,12 +221,14 @@
                   "type": "mutation",
                   "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                   "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]
-                },
+                }
+              ],
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE3" },
                 {
                   "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
                 }
-              ],
-              "false_effect": [ { "u_message": "You can advance no further without access to a mentor.  (4th wall no further content exists yet)" } ]
+              ]
             }
           }
         }

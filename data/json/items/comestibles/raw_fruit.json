@@ -315,7 +315,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juice_pulp",
-    "name": { "str": "juice pulp" },
+    "name": { "str_sp": "juice pulp" },
     "weight": "62 g",
     "color": "light_red",
     "spoils_in": "2 days 12 hours",
@@ -497,7 +497,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },

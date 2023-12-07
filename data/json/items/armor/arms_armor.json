@@ -883,7 +883,7 @@
     "abstract": "base_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "base chainmail sleeves" },
+    "name": { "str_sp": "base chainmail sleeves" },
     "weight": "2812 g",
     "volume": "750 ml",
     "longest_side": "9 cm",

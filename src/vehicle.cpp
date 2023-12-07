@@ -45,7 +45,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -65,6 +64,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -5591,6 +5591,20 @@ void vehicle::idle( bool on_map )
     if( is_alarm_on ) {
         alarm();
     }
+
+    // Notify player about status of all turrets if they're at controls
+    bool player_at_controls = !get_parts_at( player_character.pos(), "CONTROLS",
+                              part_status_flag::working ).empty();
+
+    for( vehicle_part *turret : turrets() ) {
+        item_location base = turret_query( *turret ).base();
+        // Notify player about status of a turret if they're on the same tile
+        if( player_at_controls || player_character.pos() == base.position() ) {
+            base->process( here, &player_character, base.position() );
+        } else {
+            base->process( here, nullptr, base.position() );
+        }
+    }
 }
 
 void vehicle::on_move()
@@ -5890,7 +5904,7 @@ void vehicle::place_spawn_items()
                         if( spawn_ammo ) {
                             mag.ammo_set( mag.ammo_default() );
                         }
-                        e.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                        e.put_in( mag, pocket_type::MAGAZINE_WELL );
                     } else if( spawn_ammo && e.is_magazine() ) {
                         e.ammo_set( e.ammo_default() );
                     }

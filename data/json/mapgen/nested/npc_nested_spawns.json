@@ -20,5 +20,14 @@
       "place_npcs": [ { "class": "your_follower_base_setup", "x": 10, "y": 10 }, { "class": "your_follower", "x": 1, "y": 5 } ],
       "place_nested": [ { "chunks": [ "4x4_planksandtools" ], "x": [ 3 ], "y": [ 3 ] } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "scenario_spawn_liam",
+    "method": "json",
+    "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 1, 23 ], "y": [ 1, 23 ] } ],
+      "place_npcs": [ { "class": "starting_follower_liam", "x": 17, "y": 13 } ]
+    }
   }
 ]

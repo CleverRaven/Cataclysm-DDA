@@ -1999,7 +1999,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         return false;
     }
 
-    std::list<item *> const items = preset.get_pocket_type() == item_pocket::pocket_type::LAST
+    std::list<item *> const items = preset.get_pocket_type() == pocket_type::LAST
                                     ? container->all_items_top()
                                     : container->all_items_top( preset.get_pocket_type() );
 
@@ -3521,7 +3521,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
     on_toggle();
 }
 
-drop_locations inventory_multiselector::execute()
+drop_locations inventory_multiselector::execute( bool allow_empty )
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     debug_print_timer( tp_start );
@@ -3531,7 +3531,7 @@ drop_locations inventory_multiselector::execute()
         const inventory_input input = get_input();
 
         if( input.action == "CONFIRM" ) {
-            if( to_use.empty() ) {
+            if( to_use.empty() && !allow_empty ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
@@ -3762,6 +3762,50 @@ void inventory_multiselector::on_input( const inventory_input &input )
     } else {
         inventory_selector::on_input( input );
     }
+}
+
+static const haul_selector_preset haul_preset {};
+
+inventory_haul_selector::inventory_haul_selector( Character &p ) :
+    inventory_multiselector( p, haul_preset, _( "ITEMS TO HAUL" ) ) {}
+
+void inventory_haul_selector::apply_selection( std::vector<item_location> &items )
+{
+    // Finding an entry is cheap, changing it is expensive, so find everything first then modify once
+    std::unordered_map<inventory_entry *, int> counts;
+    for( item_location &item : items ) {
+        inventory_entry *entry = find_entry_by_location( item );
+        if( counts.count( entry ) ) {
+            counts.at( entry ) += 1;
+        } else {
+            counts.emplace( entry, 1 );
+        }
+    }
+    for( std::pair<inventory_entry *, int> count : counts ) {
+        // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better
+        if( count.first->locations.size() == 1 && count.first->locations[0]->count_by_charges() ) {
+            set_chosen_count( *count.first, inventory_multiselector::max_chosen_count );
+        } else {
+            set_chosen_count( *count.first, count.second );
+        }
+    }
+}
+
+bool haul_selector_preset::is_shown( const item_location &item ) const
+{
+    if( item.where() == item_location::type::container ) {
+        return false;
+    }
+
+    return true;
+}
+
+std::string haul_selector_preset::get_denial( const item_location &item ) const
+{
+    if( item.where() == item_location::type::container ) {
+        return _( "Cannot haul contents of containers" );
+    }
+    return "";
 }
 
 drop_locations inventory_drop_selector::execute()

@@ -113,7 +113,7 @@
     "type": "profession",
     "id": "rabbi_magic2",
     "name": "Rabbi",
-    "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
+    "description": "You were davening Shacharit in shul when the Cataclysm struck.  You had always taught that God will restore life to the dead after Moshiach has come, but not like this!",
     "points": 0,
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
@@ -128,13 +128,12 @@
           "kippah",
           "tallit_gadol",
           "dress_shoes",
-          "holy_symbol",
           "holybook_talmud",
           "holybook_tanakh",
           "priest_beginner",
           "mbag"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "holy_symbol", "variant": "jewish_necklace1" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]

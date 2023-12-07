@@ -37,7 +37,7 @@
     "//p": "about 450-500 seeds per pumpkin, which is about a cup. these are fairly small pumpkins.",
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
-    "charges": 1
+    "charges": 6
   },
   {
     "result": "seed_watermelon",
@@ -52,8 +52,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "components": [ [ [ "melon", 1 ] ] ],
-    "byproducts": [ [ "melon_chunks", 3 ] ],
-    "charges": 5
+    "byproducts": [ [ "melon_chunks", 4 ] ],
+    "charges": 3
   },
   {
     "result": "seed_cucumber",
@@ -422,7 +422,7 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "sunflower", 1 ] ] ],
-    "charges": 1
+    "charges": 6
   },
   {
     "result": "seed_beans",

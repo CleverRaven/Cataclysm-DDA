@@ -1,30 +1,6 @@
 [
   {
     "type": "material",
-    "id": "cotton",
-    "name": "Cotton",
-    "density": 1.6,
-    "specific_heat_liquid": 0.02,
-    "specific_heat_solid": 0.02,
-    "latent_heat": 205,
-    "soft": true,
-    "chip_resist": 6,
-    "wind_resist": 70,
-    "repaired_with": "cotton_patchwork",
-    "breathability": "AVERAGE",
-    "salvaged_into": "cotton_patchwork",
-    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
-    "bash_dmg_verb": "ripped",
-    "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 }
-    ],
-    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1, "electric": 2 }
-  },
-  {
-    "type": "material",
     "id": "fibercloth",
     "name": "Fibercloth",
     "density": 1.6,
@@ -41,10 +17,12 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 }
+      { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
+      { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
+      { "fuel": 1.8, "smoke": 1, "burn": 0.075 }
     ],
-    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1 }
+    "burn_products": [ [ "ash", 0.013 ] ],
+    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1 },
+    "repair_difficulty": 1
   }
 ]

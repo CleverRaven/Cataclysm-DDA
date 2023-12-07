@@ -1,0 +1,231 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 333,
+    "nested_mapgen_id": "microlab_distorted_chunk",
+    "//": "This is a Physics lab tile with guaranteed matrix crystal",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "| .....  ||.",
+        "|.....   ...",
+        "  |.C...C...",
+        "   ....,.C..",
+        "   ..| ..C. ",
+        "   Cc....|  ",
+        "  .CC.. .  |",
+        "  |  ,  .C..",
+        ".  ,,    ..|",
+        "..   ..   . ",
+        ",.  .. CC   ",
+        "|           "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "microlab_matrix_chunk" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "//": "Project PHAVIAN / COLD BELOW research",
+    "weight": 750,
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |#---------------#|6  ",
+        "  |#-Y y -   5 y Y-#|r  ",
+        "|||#-  y -5-5-7y  -#|||2",
+        "  |#- my 9 Q 9 y  -#|   ",
+        "  |#- Ay 9   9syA -#|c  ",
+        "  |#-Y y 99999 y Y-#|c  ",
+        "  |#-- y   As  y --#|   ",
+        "2||||Y yyyyyyy76 Y||||||",
+        "    |    y   yh   |     ",
+        "    | AD y   y DA |     ",
+        "||  |M h y   y h M|   ||",
+        " |  |M   y   y   M|   |c",
+        " |  |M66 y   y 66M|   | ",
+        " |  |Y h y   y h Y|   | ",
+        "c|  |tttt|G55|tttt|   |c",
+        "||  ||((||   ||((||   ||",
+        "c|         YY         |F",
+        " |         YY         |F",
+        " ||||||||||  |||||||||||",
+        " cccc|c   |  |    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_card_science", "9": "t_reinforced_glass_shutter" },
+      "furniture": { "t": "f_counter", "M": "f_server", "A": "f_xedra_antenna", "D": "f_portal_stabilizer" },
+      "item": { "m": { "item": "xedra_microphone", "chance": 90 }, "s": { "item": "xedra_seismograph", "chance": 90 } },
+      "fields": { "Q": { "field": "fd_fatigue", "intensity": 2 } },
+      "place_monster": [
+        { "group": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 60, "repeat": [ 1, 5 ] },
+        { "group": "GROUP_FERAL_TELEPORTER", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 30, "repeat": [ 1, 2 ] },
+        { "group": "GROUP_NETHER_FATIGUE_FIELD", "x": [ 10, 12 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 2, 3 ] }
+      ],
+      "computers": {
+        "7": {
+          "name": "Portal Isolation Chamber",
+          "security": 0,
+          "options": [
+            { "name": "Toggle safety shutters", "action": "shutters", "security": 0 },
+            { "name": "Unlock isolation chamber", "action": "unlock", "security": 6 }
+          ],
+          "failures": [ { "action": "secubots" }, { "action": "manhacks" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "//": "Project PHAVIAN teleportation research",
+    "weight": 750,
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |O|LL RR6RR| h6----|6 ",
+        "  |O4    h h |   -.Q-|r ",
+        "|||O|        |C  4..-||2",
+        "  ||||22||||||Ȼ  ----|  ",
+        "  |d6d     CC|C   h66|c ",
+        "  |dh   hd   2      h|c ",
+        " ||6h   hd  d|||||||||  ",
+        "2|G        hd|6d - d6|||",
+        "  5   h h    |h  -  h|  ",
+        "  5  d6d6&   |       |  ",
+        "|||||||||||22||||||22|||",
+        "  |^     ^|  |LS     |c ",
+        "  |  hhh  |  |L  L  L|  ",
+        "  | httth |  |L  L SL|  ",
+        " c| httth |  |   LS L|c ",
+        "||| httt  2  2   L  L|||",
+        " c|   hh  |  |&S   SL|F ",
+        " c|ŧŧ    &|^^|LLLLLLL|F ",
+        " c||||||||||||||||||||||",
+        " cccc|c   |^^|    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": { "G": "t_card_science", "Q": "t_metal_floor" },
+      "furniture": { "C": "f_filing_cabinet", "Ȼ": "f_filing_cabinet", "L": "f_lab_bench", "S": "f_stool", "ŧ": "f_table" },
+      "item": {
+        "C": { "item": "lab_file_teleportation_item", "chance": 5 },
+        "Ȼ": { "item": "lab_file_teleportation_item", "chance": 5 },
+        "Q": { "item": "matrix_crystal_teleportation", "chance": 15 },
+        "R": { "item": "lab_file_teleportation_item", "chance": 15 },
+        "t": { "item": "lab_file_teleportation_item", "chance": 2 }
+      },
+      "items": {
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "Ȼ": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "d": { "item": "SUS_office_desk", "chance": 50 },
+        "L": [
+          { "item": "psi_lab_no_recipes", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "psi_lab", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "matrix_crystal_teleport_dust_group", "chance": 10 }
+        ],
+        "O": [
+          { "item": "psi_lab_no_recipes", "chance": 50, "repeat": [ 5, 20 ] },
+          { "item": "matrix_crystal_teleport_dust_group", "chance": 70, "repeat": [ 1, 3 ] }
+        ],
+        "R": { "item": "SUS_office_desk", "chance": 30 },
+        "t": { "item": "dist_lab_file_phavian_internal", "chance": 20 },
+        "ŧ": [ { "item": "vending_drink", "chance": 60 }, { "item": "vending_food", "chance": 60 } ],
+        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [
+        { "group": "GROUP_MICROLAB", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 70, "repeat": [ 4, 10 ] },
+        { "group": "GROUP_FERAL_TELEPORTER", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "//": "Project PHAVIAN teleportation Osiris Chamber",
+    "weight": 500,
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  |   c|  |c  c|r    ",
+        " cc  |   c|  |c  c|r  c ",
+        "     | h 6|  2    2   c ",
+        " dd  |==|||5G||||||6h   ",
+        " hd  |tt|-- ------|6    ",
+        "|||22||||-h h-M  -||||||",
+        " c|  |##|-6 6---2-|hd^= ",
+        " c|  ||||-6 6-6h -| d = ",
+        " c|    c|-h h-6h -|   [ ",
+        "  2    c|--2----2-|   = ",
+        "|||    c|-h  Y   -||||||",
+        "       ?|-6  ȼȼ ȼ-|     ",
+        "       ?|-   ȼȼ ȼ-|     ",
+        "||2||||||-       -|  |||",
+        "       r|-G5---5G-|  |r ",
+        "cc  c  r|-X  -X  -|  |r ",
+        "cc  c rr|-   -   -|  |r ",
+        "       r|-   -   -|  |r ",
+        "||||||rr|---------|  |||",
+        "     ||||||||||||||  |c ",
+        "  c      6|          |c ",
+        "  iccc   6|          2  ",
+        "  c      6|  ||22|||||  ",
+        "  c c|c   |22|    |cc   "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_card_science", "X": "t_strconc_floor" },
+      "furniture": { "ȼ": "f_counter", "M": "f_MRI" },
+      "item": { "ȼ": { "item": "matrix_crystal_teleportation", "chance": 5 } },
+      "items": {
+        "f": { "item": "mutagens", "chance": 60, "repeat": [ 1, 4 ] },
+        "ȼ": [
+          { "item": "psi_lab_no_recipes", "chance": 70, "repeat": [ 1, 3 ] },
+          { "item": "matrix_crystal_teleport_dust_group", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "lab_files_generic", "chance": 5 }
+        ]
+      },
+      "nested": { "X": { "chunks": [ [ "microlab_teleporter_osiris_chamber", 1 ] ] } },
+      "place_monster": [
+        { "group": "GROUP_MICROLAB", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 70, "repeat": [ 4, 10 ] },
+        { "group": "GROUP_FERAL_TELEPORTER", "x": [ 10, 16 ], "y": [ 5, 17 ], "chance": 50, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "microlab_teleporter_osiris_chamber",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        " T ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "microlab" ],
+      "terrain": { "T": "t_ascension_chamber_teleporter" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_TELEPORTER_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_TELEPORTER" ]
+        }
+      ]
+    }
+  }
+]

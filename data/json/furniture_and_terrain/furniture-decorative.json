@@ -297,7 +297,7 @@
   {
     "type": "furniture",
     "id": "f_styling_station",
-    "name": "Styling station",
+    "name": "styling station",
     "symbol": "}",
     "description": "A styling station, is a countertop with a mirror mounted above it and just enough room and cubbies to store a stylist's equipment on it.",
     "color": "white",

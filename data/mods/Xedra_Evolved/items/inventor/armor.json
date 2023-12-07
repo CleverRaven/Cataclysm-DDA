@@ -52,7 +52,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "helmet_inventor_on",
@@ -141,7 +141,7 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "MUNDANE" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -165,7 +165,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "BELTED", "MUNDANE" ],
+    "flags": [ "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -227,7 +227,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "SOFT", "MUNDANE" ],
+    "flags": [ "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -339,7 +339,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE" ]
+    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "aura_force_on",
@@ -382,7 +382,7 @@
     ],
     "ammo": [ "battery" ],
     "material_thickness": 0.1,
-    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC", "MUNDANE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC", "MUNDANE", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -454,7 +454,7 @@
     "material": [ "aluminum", "steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
-    "flags": [ "DURABLE_MELEE", "PADDED", "MUNDANE" ],
+    "flags": [ "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED" ],
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
     "material_thickness": 1,
     "armor": [
@@ -501,6 +501,23 @@
   },
   {
     "type": "TOOL_ARMOR",
+    "id": "inventor_fists_plus",
+    "copy-from": "inventor_fists",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "advanced heavy CQC system" },
+    "description": "Advanced version of heavy CQC system, it contain a self-recharging pneumatic tank, that slowly builds the pressure, that you can use in fight.",
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "oxygen": 3 }, "airtight": true } ],
+    "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP", "CQB_BRUTAL" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [ { "id": "EOC_CQC_ATTACK", "effect": [ { "u_attack": "CQB_BRUTAL" } ] } ]
+    }
+  },
+  {
+    "type": "TOOL_ARMOR",
     "id": "inventor_electric_fist",
     "symbol": "3",
     "color": "light_gray",
@@ -512,7 +529,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "MUNDANE" ],
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
@@ -575,7 +592,7 @@
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
-    "flags": [ "MUNDANE" ],
+    "flags": [ "MUNDANE", "INVENTOR_CRAFTED" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
@@ -641,7 +658,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "MUNDANE" ],
+    "flags": [ "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

@@ -3,6 +3,25 @@
     "id": "mon_feral_elf_pipe",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral elf throws a rock!"
+      },
+      { "id": "feral_weapon_pipe" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
     "name": { "str": "feral elf" },
     "description": "Fair folk no longer, this elf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a pipe in one delicate hand as they gracefully walk unbothered amidst the zombies.",
     "symbol": "E",
@@ -16,6 +35,25 @@
     "id": "mon_feral_dwarf_pipe",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral dwarf throws a rock!"
+      },
+      { "id": "feral_weapon_pipe" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
     "looks_like": "mon_forgedwarves",
     "name": { "str": "feral dwarf" },
     "description": "Lacking their normal eye protection, this dwarf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a pipe in one hand and the walking dead leave them alone.",
@@ -31,6 +69,23 @@
     "id": "mon_feral_elf_crowbar",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral elf throws a rock!"
+      },
+      { "id": "feral_weapon_crowbar" }
+    ],
     "name": { "str": "feral elf" },
     "description": "Fair folk no longer, this elf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a crowbar in one delicate hand as they gracefully walk unbothered amidst the zombies.",
     "symbol": "E",
@@ -44,6 +99,23 @@
     "id": "mon_feral_dwarf_crowbar",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral dwarf throws a rock!"
+      },
+      { "id": "feral_weapon_crowbar" }
+    ],
     "looks_like": "mon_forgedwarves",
     "name": { "str": "feral dwarf" },
     "description": "Lacking their normal eye protection, this dwarf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a crowbar in one hand and the walking dead leave them alone.",

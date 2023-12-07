@@ -92,7 +92,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal_fp6",
-    "name": { "str": "Fructose Flakes cereal", "str_pl": "Fructose Flakes" },
+    "name": { "str_sp": "Fructose Flakes cereal" },
     "description": "Foodplace brand Fructose Flakes cereal.  Fortified with energy enriched FoodSyrup™ that supports life most efficiently.",
     "copy-from": "cereal_fpsugar_tpl"
   },
@@ -108,7 +108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal",
-    "name": { "str": "sugary cereal" },
+    "name": { "str_sp": "sugary cereal" },
     "weight": "38 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -141,7 +141,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal3",
-    "name": { "str": "corn cereal" },
+    "name": { "str_sp": "corn cereal" },
     "weight": "39 g",
     "color": "yellow",
     "spoils_in": "90 days",

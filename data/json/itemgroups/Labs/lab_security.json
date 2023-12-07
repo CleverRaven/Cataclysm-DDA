@@ -135,9 +135,7 @@
     "//": "This group is for rare spawns of rivetech matched sets.",
     "subtype": "collection",
     "entries": [
-      {
-        "distribution": [ { "item": "rm802", "prob": 80 }, { "item": "rm451_flamethrower", "prob": 20, "charges": [ 100, 1000 ] } ]
-      },
+      { "distribution": [ { "item": "rm451_flamethrower", "prob": 20, "charges": [ 100, 1000 ] } ] },
       {
         "distribution": [
           { "item": "40x46mm_m1006", "prob": 50, "count": [ 1, 3 ] },
