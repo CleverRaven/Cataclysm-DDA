@@ -352,7 +352,7 @@ class spell_type
 
         std::set<std::string> flags; // string flags
 
-        // bitfield of -certain- string flags which are heavily checked 
+        // bitfield of -certain- string flags which are heavily checked
         enum_bitset<spell_flag> spell_tags; // NOLINT(cata-serialize)
 
         static void load_spell( const JsonObject &jo, const std::string &src );
