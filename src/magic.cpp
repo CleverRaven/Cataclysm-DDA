@@ -487,7 +487,8 @@ void spell_type::serialize( JsonOut &json ) const
 
     json.member( "type", "SPELL" );
     json.member( "id", id );
-    json.member( "name", name.translated() );
+    json.member( "src_mod", src_mod);
+    json.member("name", name.translated());
     json.member( "description", description.translated() );
     json.member( "effect", effect_name );
     json.member( "shape", io::enum_to_string( spell_area ) );
@@ -511,7 +512,7 @@ void spell_type::serialize( JsonOut &json ) const
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
     }
-    json.member( "flags", spell_tags, enum_bitset<spell_flag> {} );
+    json.member( "flags", flags, std::set<std::string> {} );
     if( field ) {
         json.member( "field_id", field->id().str() );
         json.member( "field_chance", static_cast<int>( field_chance.min.dbl_val.value() ),

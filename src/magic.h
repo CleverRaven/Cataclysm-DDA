@@ -351,7 +351,9 @@ class spell_type
         body_part_set affected_bps;
 
         std::set<std::string> flags; // string flags
-        enum_bitset<spell_flag> spell_tags; // bitfield of -certain- string flags which are heavily checked
+
+        // bitfield of -certain- string flags which are heavily checked 
+        enum_bitset<spell_flag> spell_tags; // NOLINT(cata-serialize)
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
@@ -426,16 +428,16 @@ class spell
         const damage_type_id &dmg_type() const;
 
         // Temporary adjustments caused by EoC's
-        int temp_level_adjustment = 0;
-        float temp_cast_time_multiplyer = 1;
-        float temp_spell_cost_multiplyer = 1;
-        float temp_aoe_multiplyer = 1;
-        float temp_range_multiplyer = 1;
-        float temp_duration_multiplyer = 1;
-        int temp_difficulty_adjustment = 0;
-        float temp_somatic_difficulty_multiplyer = 1;
-        float temp_sound_multiplyer = 1;
-        float temp_concentration_difficulty_multiplyer = 1;
+        int temp_level_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_cast_time_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_spell_cost_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_aoe_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_range_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_duration_multiplyer = 1; // NOLINT(cata-serialize)
+        int temp_difficulty_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_somatic_difficulty_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_sound_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_concentration_difficulty_multiplyer = 1; // NOLINT(cata-serialize)
 
 
         // alternative cast message

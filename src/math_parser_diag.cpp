@@ -224,24 +224,24 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     enum spell_scope {
-        all,
-        mod,
-        school,
-        spell
+        scope_all,
+        scope_mod,
+        scope_school,
+        scope_spell
     };
     diag_value filter( std::string{} );
     spell_scope spellsearch_scope;
     if( kwargs.count( "mod" ) != 0 ) {
         filter = *kwargs.at( "mod" );
-        spellsearch_scope = mod;
+        spellsearch_scope = scope_mod;
     } else if( kwargs.count( "school" ) != 0 ) {
         filter = *kwargs.at( "school" );
-        spellsearch_scope = school;
+        spellsearch_scope = scope_school;
     } else if( kwargs.count( "spell" ) != 0 ) {
         filter = *kwargs.at( "spell" );
-        spellsearch_scope = spell;
+        spellsearch_scope = scope_spell;
     } else {
-        spellsearch_scope = all;
+        spellsearch_scope = scope_all;
     }
 
     diag_value whitelist( std::string{} );
@@ -258,13 +258,13 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
          filter]( dialogue const & d, double val ) {
         std::string const filter_str = filter.str( d );
         switch( spellsearch_scope ) {
-            case spell:
+            case scope_spell:
                 d.actor( beta )->get_character()->magic->get_spell( spell_id( filter_str ) ).set_temp_adjustment(
                     spellcasting_property.str( d ), val );
                 break;
-            case school: {
+            case scope_school: {
                 const trait_id school_id( filter_str );
-                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
                     if( spellIt->spell_class() == school_id
                         && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
@@ -274,9 +274,9 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
                 }
                 break;
             }
-            case mod: {
+            case scope_mod: {
                 const mod_id target_mod_id( filter_str );
-                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
                     if( spellIt->get_src() == target_mod_id
                         && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
@@ -286,8 +286,8 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
                 }
                 break;
             }
-            case all:
-                for( auto spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+            case scope_all:
+                for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
                     if( ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
                       ) {
