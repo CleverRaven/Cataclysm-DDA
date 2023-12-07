@@ -37,6 +37,8 @@
 #include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
+#include "vehicle.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -108,6 +110,8 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
+
+static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -361,7 +365,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     }
 }
 
-static void give_tools( const std::vector<item> &tools )
+static void give_tools( const std::vector<item> &tools, const bool plug_in )
 {
     Character &player_character = get_player_character();
     player_character.clear_worn();
@@ -374,7 +378,18 @@ static void give_tools( const std::vector<item> &tools )
     std::vector<item> boil;
     for( const item &gear : tools ) {
         if( gear.get_quality( qual_BOIL, false ) == 0 ) {
-            REQUIRE( player_character.i_add( gear ) );
+            item_location added_tool = player_character.i_add( gear );
+            REQUIRE( added_tool );
+            if( plug_in && added_tool->can_link_up() ) {
+                added_tool->link = cata::make_value<item::link_data>();
+                added_tool->link->t_state = link_state::vehicle_port;
+                added_tool->link->t_abs_pos = get_map().getglobal( player_character.pos() + tripoint_north );
+                added_tool->link->last_processed = calendar::turn;
+                added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() +
+                                               tripoint_north )->vehicle().get_safe_reference();
+                added_tool->set_link_traits();
+                REQUIRE( added_tool->link->t_veh_safe );
+            }
         } else {
             boil.emplace_back( gear );
         }
@@ -413,7 +428,7 @@ static void grant_profs_to_character( Character &you, const recipe &r )
 }
 
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
-                        bool expect_craftable, int offset = 0, bool grant_profs = false )
+                        bool expect_craftable, int offset = 0, bool grant_profs = false, bool plug_in_tools = true )
 {
     clear_avatar();
     clear_map();
@@ -428,7 +443,11 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
         grant_profs_to_character( player_character, r );
     }
 
-    give_tools( tools );
+    const tripoint battery_pos = test_origin + tripoint_north;
+    std::optional<item> battery_item( "test_storage_battery" );
+    place_appliance( battery_pos, vpart_ap_test_storage_battery, battery_item );
+
+    give_tools( tools, plug_in_tools );
     const inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()
@@ -541,7 +560,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
 
     do {
         turns_taken += test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
-        give_tools( tools );
+        give_tools( tools, true );
 
         // Escape door to avoid infinite loop if there is no progress
         REQUIRE( turns_taken < max_turns );
@@ -840,7 +859,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( plastic_molding );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                prep_craft( recipe_carver_off, tools, true );
+                prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
@@ -854,7 +873,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                prep_craft( recipe_carver_off, tools, true );
+                prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
@@ -876,7 +895,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
-                prep_craft( recipe_carver_off, tools, true );
+                prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
@@ -899,7 +918,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( ups );
 
             THEN( "crafting fails, and no charges are used" ) {
-                prep_craft( recipe_carver_off, tools, false );
+                prep_craft( recipe_carver_off, tools, false, 0, false, false );
                 CHECK( get_remaining_charges( "UPS_off" ) == 10 );
             }
         }
@@ -1171,7 +1190,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
             REQUIRE( previous_knowledge < new_knowledge );
             previous_knowledge = new_knowledge;
         }
-        give_tools( tools );
+        give_tools( tools, true );
     } while( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level );
     CAPTURE( test_recipe.str() );
     CAPTURE( expected_turns_taken );
@@ -1335,7 +1354,7 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
         WHEN( "player has a book mitigating lack of proficiency" ) {
             std::vector<item> books;
             books.emplace_back( "manual_tailor" );
-            give_tools( books );
+            give_tools( books, true );
             get_player_character().invalidate_crafting_inventory();
             int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
