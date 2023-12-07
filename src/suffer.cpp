@@ -130,10 +130,6 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
-static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
-static const flag_id json_flag_SEMITANGIBLE( "SEMITANGIBLE" );
-static const flag_id json_flag_TRANSPARENT( "TRANSPARENT" );
-
 static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -150,6 +146,7 @@ static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
+static const trait_id trait_JAUNDICE( "JAUNDICE" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -164,8 +161,11 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NO_LEFT_ARM( "NO_LEFT_ARM" );
 static const trait_id trait_NO_RIGHT_ARM( "NO_RIGHT_ARM" );
+static const trait_id trait_NO_LEFT_LEG( "NO_LEFT_LEG" );
+static const trait_id trait_NO_RIGHT_LEG( "NO_RIGHT_LEG" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PHELLODERM( "PHELLODERM" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -870,18 +870,43 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                        you.has_trait( trait_LEAVES2 ) ||
                        you.has_trait( trait_LEAVES2_FALL ) ||
                        you.has_trait( trait_LEAVES3 ) ||
-                       you.has_trait( trait_LEAVES3_FALL);
+                       you.has_trait( trait_LEAVES3_FALL) ||
+                       you.has_trait( trait_PHELLODERM ) ||
+                       you.has_trait( trait_JAUNDICE );
     int sunlight_nutrition = 0;
     if( leafy ) {
+            // Phelloderm and bark photosynthesize.
+            if( you.has_trait( trait_PHELLODERM ) || you.has_trait( trait_JAUNDICE ) ) {
+            std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
+            float phelloderm_surface = 0.0;
+                for( auto &bp_exp : bp_exposure ) {
+                   bodypart_id bp = bp_exp.first;
+                   float exposure = bp_exp.second;
+                   if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) && you.has_trait( trait_NO_LEFT_ARM ) )
+                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) && you.has_trait( trait_NO_RIGHT_ARM ) )
+                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) && you.has_trait( trait_NO_LEFT_LEG ) )
+                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) && you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
+                   continue;
+                   }
+                   phelloderm_surface += exposure;
+                } 
+                // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
+                if( you.has_trait( trait_JAUNDICE ) ) {
+                    phelloderm_surface *= .5;
+                }
+                you.add_msg_if_player( m_good, _( "Phelloderm_surface %s." ),
+                                   phelloderm_surface );   
+            }
         const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
         const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
         const bodypart_id left_arm( "arm_l" );
         const bodypart_id right_arm( "arm_r" );
         const bodypart_id head( "head" );
-        //TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
-        float head_leaf_surface = worn.coverage_with_flags_exclude( head, { json_flag_INTEGRATED, json_flag_SEMITANGIBLE, json_flag_TRANSPARENT } );
-        float rarm_leaf_surface = worn.coverage_with_flags_exclude( right_arm, { json_flag_INTEGRATED, json_flag_SEMITANGIBLE, json_flag_TRANSPARENT } ) * .005;
-        float larm_leaf_surface = worn.coverage_with_flags_exclude( left_arm, { json_flag_INTEGRATED, json_flag_SEMITANGIBLE, json_flag_TRANSPARENT } ) * .005;
+        // TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
+        // We'll assume they poke out of your sleeves to do their thing.
+        float head_leaf_surface = worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
+        float rarm_leaf_surface = worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005;
+        float larm_leaf_surface = worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005;
         float vine_leaf_surface = rarm_leaf_surface + larm_leaf_surface;
             if( you.has_trait( trait_NO_LEFT_ARM ) ) {
             larm_leaf_surface = .5;
@@ -897,10 +922,13 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             }
             const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
-                                                           you.add_msg_if_player( m_good, _( "vine_leaf_surface is %s." ),
-                                   vine_leaf_surface );
         const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
-        const int flux = ( player_local_temp - 65 ) / 2;
+        int flux = ( player_local_temp - 65 ) / 2;
+        // Efficiency rapidly falls off when it's too hot due to photosynthesis being an enzymatic process.
+        // Some tropical plants can overcome this with specific adaptations, but that would probably be its own mutation.
+            if( player_local_temp > 104 ) {
+            flux -= ( player_local_temp - 104 ) * 3;
+            }
         if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
             vine_leaf_surface = std::min(vine_leaf_surface + 0.33, 1.0);
             larm_leaf_surface = std::min(larm_leaf_surface + 0.33, 1.0);
@@ -911,9 +939,14 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         if( leafier || leafiest ) {
             const int rate = round( 100 * ( ( larm_leaf_surface + rarm_leaf_surface+ vine_leaf_surface ) / 2 ) + flux ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
-            you.add_msg_if_player( m_good, _( "Rate is %s." ),
-                                   rate );
         }
+        you.get_size();
+        // Multiply by the proportional difference in average height, as height roughly determines armspan,
+        // and that's how far out our branches extend. 
+            if( you.get_size() == creature_size::tiny ) { sunlight_nutrition *= .015; }
+            if( you.get_size() == creature_size::small ) { sunlight_nutrition *= .7; }
+            if( you.get_size() == creature_size::large ) { sunlight_nutrition *= 1.54; }
+            if( you.get_size() == creature_size::huge ) { sunlight_nutrition *= 2.35; }
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
@@ -921,7 +954,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             you.add_msg_if_player( m_good, _( "Ding! Sunlight_nutrition is %s." ),
                                    sunlight_nutrition );
         you.mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
+        // Photosynthesis absorbs kcal directly.
         you.mod_stored_kcal( 1 );
         you.stomach.ate();
     }
@@ -1082,20 +1115,25 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) && !you.get_wielded_item()->has_flag( flag_TRANSPARENT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
                         && you.can_use_hood() )
+                   || ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) && you.has_trait( trait_NO_LEFT_ARM ) )
+                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) && you.has_trait( trait_NO_RIGHT_ARM ) )
+                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) && you.has_trait( trait_NO_LEFT_LEG ) )
+                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) && you.has_trait( trait_NO_RIGHT_LEG ) )
                    || ( bp == body_part_mouth
                         && you.worn_with_flag( flag_COLLAR )
                         && you.can_use_collar() ) ) {
             // Eyes suffer even in the presence of the checks in this branch!
-            // Umbrellas can keep the sun off all bodyparts
+            // Umbrellas can keep the sun off all bodyparts, unless you grabbed a clear one
             // Pockets can keep the sun off your hands if you don't wield a too large item
             // Hoods can keep the sun off your unencumbered head
+            // Missing limbs can't get sunburned
             // Collars can keep the sun off your unencumbered mouth
             continue;
         }
