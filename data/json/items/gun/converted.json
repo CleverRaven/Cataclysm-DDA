@@ -91,6 +91,27 @@
     "default_mods": [ "retool_ar15_762" ]
   },
   {
+    "id": "modular_deagle_50",
+    "copy-from": "modular_deagle",
+    "type": "GUN",
+    "name": { "str": "Desert Eagle Mark XIX" },
+    "default_mods": [ "retool_deagle_50" ]
+  },
+  {
+    "id": "modular_deagle_44",
+    "copy-from": "modular_deagle",
+    "type": "GUN",
+    "name": { "str": "Desert Eagle Mark XIX" },
+    "default_mods": [ "retool_deagle_44" ]
+  },
+  {
+    "id": "modular_deagle_357",
+    "copy-from": "modular_deagle",
+    "type": "GUN",
+    "name": { "str": "Desert Eagle Mark XIX" },
+    "default_mods": [ "retool_deagle_357" ]
+  },
+  {
     "id": "mdrx_223",
     "copy-from": "mdrx",
     "type": "GUN",
