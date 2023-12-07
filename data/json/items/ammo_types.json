@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "50ae",
+    "name": ".50 AE",
+    "default": "50ae_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "50beowulf",
     "name": "12.7x42mm",
     "default": "50beowulf_xtp"
