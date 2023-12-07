@@ -1183,7 +1183,7 @@
       },
       { "u_add_trait": "ELECTROKINETIC" },
       { "u_add_trait": "ELECTRO_SHIELD" },
-      { "run_eocs": "EOC_TEACH_ELECTRO_CONTEMPLATE_RECIPES" },
+      { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }

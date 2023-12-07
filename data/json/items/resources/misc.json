@@ -72,7 +72,7 @@
     "id": "incendiary",
     "type": "AMMO",
     "category": "chems",
-    "name": { "str": "incendiary", "str_pl": "incendiaries" },
+    "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
     "weight": "2 g",
     "volume": "500 ml",

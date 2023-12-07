@@ -659,6 +659,7 @@
       { "item": "waist_apron_short", "prob": 4 },
       { "item": "apron_leather", "prob": 2 },
       { "item": "hat_chef", "prob": 2 },
+      { "item": "garlic", "prob": 3 },
       { "item": "jacket_chef", "prob": 2 },
       { "item": "gloves_cut_resistant", "prob": 1 },
       { "item": "pot", "prob": 25 },

@@ -4391,7 +4391,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
         if( !ret.success() ) {
             success = false;
-            std::string error = !ret.str().empty() ?
+            std::string error = ret.str().empty() ?
                                 //~ %1$s: item we failed to put in the container, %2$s: container to put item in
                                 string_format( _( "Could not put %1$s into %2$s." ),
                                                it.tname(), holster->tname() ) :

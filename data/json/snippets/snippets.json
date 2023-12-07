@@ -6,6 +6,21 @@
   },
   {
     "type": "snippet",
+    "category": "<random_direction>",
+    "text": [ "north", "northeast", "northwest", "south", "southeast", "southwest", "east", "west" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<up_or_down>",
+    "text": [ "and above you", "and below you" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_sound>",
+    "text": [ "a huge explosion!", "bang!", "blam!", "crash!", "SMASH!" ]
+  },
+  {
+    "type": "snippet",
     "category": "scores",
     "text": [
       {

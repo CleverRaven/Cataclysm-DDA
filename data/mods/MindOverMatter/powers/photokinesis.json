@@ -204,7 +204,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7.5,
-    "learn_spells": { "photokinetic_light_arms": 8, "photokinetic_invisibility": 18 }
+    "learn_spells": { "photokinetic_rad_immunity": 8, "photokinetic_invisibility": 18 }
   },
   {
     "id": "photokinetic_light_dodge",
@@ -240,7 +240,7 @@
     "base_casting_time": 125,
     "final_casting_time": 65,
     "casting_time_increment": -9.5,
-    "learn_spells": { "photokinetic_rad_immunity": 5, "photokinetic_light_image": 12, "photokinetic_invisibility": 18 }
+    "learn_spells": { "photokinetic_hide_ugly": 12, "photokinetic_light_image": 15, "photokinetic_invisibility": 18 }
   },
   {
     "id": "photokinetic_light_beam",
@@ -323,7 +323,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -8,
-    "learn_spells": { "photokinetic_light_image": 7, "photokinetic_invisibility": 12 }
+    "learn_spells": { "photokinetic_light_image": 7, "photokinetic_hide_ugly": 10, "photokinetic_invisibility": 14 }
   },
   {
     "id": "photokinetic_rad_immunity",
@@ -398,7 +398,47 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_flash": 6, "photokinetic_light_disintegrate": 12 }
+    "learn_spells": { "photokinetic_hide_ugly": 6, "photokinetic_light_flash": 9, "photokinetic_light_disintegrate": 12 }
+  },
+  {
+    "id": "photokinetic_hide_ugly",
+    "type": "SPELL",
+    "name": "[Ψ]Mirror-Mask (C)",
+    "description": "Hide your true form behind unassuming illusions, preventing baseline humans from reacting poorly to your presence if you are mutated or a cyborg.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_HIDE_UGLY_INITIATE",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 5500) + 80000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 150)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_val('spell_level', 'spell: photokinetic_hide_ugly') * 100)), 150)"
+      ]
+    },
+    "learn_spells": { "photokinetic_light_image": 6 }
   },
   {
     "id": "photokinetic_light_image",
@@ -475,7 +515,7 @@
         "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: biokin_hammerhand') * 10)), 75)"
       ]
     },
-    "learn_spells": { "photokinetic_blinding_glare": 8 }
+    "learn_spells": { "photokinetic_rad_immunity": 6, "photokinetic_blinding_glare": 9 }
   },
   {
     "id": "photokinetic_invisibility",
@@ -496,12 +536,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 1500) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 500) + 1500) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 4000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 1500) + 4000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
@@ -617,12 +657,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 40) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 7) + 80) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 7) + 120) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "damage_type": "psi_photokinetic_damage",

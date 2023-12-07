@@ -48,6 +48,7 @@
         [ "makeshift_scythe_war", -1 ],
         [ "battleaxe_fake", -1 ],
         [ "battleaxe_inferior", -1 ],
+        [ "lucern_hammerfake", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -68,6 +69,7 @@
         [ "halberd", -1 ],
         [ "glaive", -1 ],
         [ "battleaxe", -1 ],
+        [ "lucern_hammer", -1 ],
         [ "lc_battleaxe", -1 ],
         [ "mc_battleaxe", -1 ],
         [ "hc_battleaxe", -1 ],
@@ -608,7 +610,8 @@
         [ "naginata_fake", -1 ],
         [ "naginata_inferior", -1 ],
         [ "makeshift_scythe_war", -1 ],
-        [ "hockey_stick", -1 ]
+        [ "hockey_stick", -1 ],
+        [ "lucern_hammerfake", -1 ]
       ]
     ]
   },
@@ -625,6 +628,7 @@
         [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
+        [ "lucern_hammer", -1 ],
         [ "ji", -1 ]
       ]
     ]
