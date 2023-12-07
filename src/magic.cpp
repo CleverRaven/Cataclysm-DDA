@@ -314,9 +314,18 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
 
     optional( jo, was_loaded, "affected_body_parts", affected_bps );
 
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        // Save all provided flags as strings in spell_type.flags
-        // If the flag is listed as a possible enum of type spell_flag, we also save it to spell_type.spell_tags
+    if( jo.has_array( "flags" ) ) {
+        for( auto &flag : jo.get_string_array( "flags" ) ) {
+            // Save all provided flags as strings in spell_type.flags
+            // If the flag is listed as a possible enum of type spell_flag, we also save it to spell_type.spell_tags
+            flags.insert( flag );
+            std::optional<spell_flag> f = io::string_to_enum_optional<spell_flag>( flag );
+            if( f.has_value() ) {
+                spell_tags.set( f.value() );
+            }
+        }
+    } else if( jo.has_string( "flags" ) ) {
+        const std::string flag = jo.get_string( "flags" );
         flags.insert( flag );
         std::optional<spell_flag> f = io::string_to_enum_optional<spell_flag>( flag );
         if( f.has_value() ) {
@@ -1564,7 +1573,7 @@ void spell::set_temp_level_adjustment( int adjustment )
 }
 
 
-void spell::set_temp_adjustment( const std::string &target_property, const float adjustment )
+void spell::set_temp_adjustment( const std::string &target_property, float adjustment )
 {
     if( target_property == "caster_level" ) {
         temp_level_adjustment += adjustment;

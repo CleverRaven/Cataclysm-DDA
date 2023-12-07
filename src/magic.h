@@ -482,7 +482,7 @@ class spell
         int get_max_level( const Creature &caster ) const;
         int get_temp_level_adjustment() const;
         void set_temp_level_adjustment( int adjustment );
-        void set_temp_adjustment( const std::string &target_property, const float adjustment );
+        void set_temp_adjustment( const std::string &target_property, float adjustment );
         void clear_temp_adjustments();
 
         spell_shape shape() const;
