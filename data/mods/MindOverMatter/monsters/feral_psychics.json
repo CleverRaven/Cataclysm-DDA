@@ -319,7 +319,7 @@
     "id": "mon_feral_human_clair3",
     "type": "MONSTER",
     "name": "pattern screamer",
-    "description": "This feral's eyes are closed, but they move with no hesitation, effortlessly avoiding all obstances in their path, and clutching a large rock in one hand and a long bit of debris in the other.  When you look at them, you hear a static crackling, just on the threshold of inaudibility.",
+    "description": "This feral's eyes are closed, but they move with no hesitation, effortlessly avoiding all obstacles in their path, and clutching a large rock in one hand and a long bit of debris in the other.  When you look at them, you hear a static crackling, just on the threshold of inaudibility.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
