@@ -444,7 +444,7 @@
     "name": { "str": "fungal wasp guard" },
     "description": "A wasp worker split down the middle.  While it's condition looks fatal, it doesn't seem to die, supposedly by the large mushroom growing from once it's wings were.  It's emotionless face still seems to cry with pain and anger.",
     "copy-from": "mon_wasp_small",
-    "melee_skill": 4,
+    "melee_skill": 4
   },
   {
     "id": "mon_wasp_queen_fungus",
