@@ -385,7 +385,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if (has_effect(effect_invisibility)) {
+    if( has_effect( effect_invisibility ) ) {
         return false;
     }
 
