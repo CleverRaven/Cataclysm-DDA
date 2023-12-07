@@ -72,7 +72,7 @@
       }
     ],
     "melee_damage": { "bash": 2 }
-  }
+  },
   {
     "id": "pattern_screamer_thrown_rock",
     "type": "GUN",

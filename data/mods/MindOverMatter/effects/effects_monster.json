@@ -187,5 +187,11 @@
       "healing_rate": [ 0.5 ]
     },
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_regeneration",
+    "name": [ "Feral Regeneration" ],
+    "desc": [ "Your wounds are rapidly closing." ]
   }
 ]

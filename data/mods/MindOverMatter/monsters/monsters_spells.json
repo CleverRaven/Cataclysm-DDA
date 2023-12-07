@@ -67,7 +67,6 @@
     "valid_targets": [ "hostile" ],
     "max_level": 40,
     "effect": "attack",
-    "extra_effects": [ { "id": "dragon_deep_breath_self", "hit_self": true, "max_level": 1 } ],
     "shape": "blast",
     "min_range": 8,
     "max_range": 8,
@@ -822,5 +821,18 @@
     "min_duration": 1620000,
     "base_casting_time": 50,
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vitakinetic_regeneration_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Feral Vitakinetic healing",
+    "description": "Buffs regeneration for a feral vitakinetic.  It's a bug if you have it, and anyway it wouldn't work on you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_feral_regeneration",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 600
   }
 ]
