@@ -46,7 +46,7 @@ struct container_spawn_test_data {
 struct pocket_mod_test_data {
     itype_id base_item;
     itype_id mod_item;
-    std::map<pocket_type, uint64_t> expected_pockets;
+    std::map<pocket_type, std::vector<uint64_t>> expected_pockets;
 
     void deserialize( const JsonObject &jo );
 };
