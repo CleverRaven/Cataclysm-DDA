@@ -1878,8 +1878,9 @@
       {
         "id": "psi_vitakin2_regeneration",
         "type": "spell",
-        "spell_data": { "id": "vitakinetic_regeneration_monster", "min_level": 4 },
+        "spell_data": { "id": "vitakinetic_regeneration_monster" },
         "cooldown": 20,
+        "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
       }
