@@ -46,7 +46,11 @@
         { "barrel_length": "261 mm", "amount": 41 },
         { "barrel_length": "313 mm", "amount": 42 },
         { "barrel_length": "382 mm", "amount": 43 },
-        { "barrel_length": "434 mm", "amount": 44 }
+        { "barrel_length": "452 mm", "amount": 44 },
+        { "barrel_length": "576 mm", "amount": 45 },
+        { "barrel_length": "726 mm", "amount": 46 },
+        { "barrel_length": "950 mm", "amount": 47 },
+        { "barrel_length": "1246 mm", "amount": 48 }
       ]
     },
     "dispersion": 30,
