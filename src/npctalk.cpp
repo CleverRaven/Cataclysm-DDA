@@ -2749,8 +2749,19 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, std::string_view me
                                        bool is_npc )
 {
     str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
-    function = [is_npc, new_trait]( dialogue const & d ) {
-        d.actor( is_npc )->set_mutation( trait_id( new_trait.evaluate( d ) ) );
+    str_or_var new_variant;
+
+    if( jo.has_member( "variant" ) ) {
+        new_variant = get_str_or_var( jo.get_member( "variant" ), "variant", true );
+    } else {
+        new_variant.str_val = "";
+    }
+
+    function = [is_npc, new_trait, new_variant]( dialogue const & d ) {
+        const trait_id trait = trait_id( new_trait.evaluate( d ));
+        const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
+
+        d.actor( is_npc )->set_mutation( trait, variant );
     };
 }
 
