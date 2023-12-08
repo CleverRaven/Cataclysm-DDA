@@ -227,9 +227,6 @@
     "type": "effect_on_condition",
     "id": "rashy_skin",
     "recurrence": [ "2 hours", "24 hours" ],
-    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
-    "id": "EOC_RASHY_SKIN",
-    "recurrence": [ "2 hours", "24 hours" ],
     "condition": {
       "and": [
         { "u_has_trait": "SKIN_RASHY" },
@@ -674,7 +671,8 @@
       {
       "u_add_morale": "morale_feeling_bad",
       "bonus": 10,
-      "duration": { "math": [ "rand(216000) + 86400" ] ]
+      "max_bonus": 10,
+      "duration": { "math": [ "rand(216000) + 86400" ] }
       }
     ]
   },
@@ -698,7 +696,8 @@
       {
       "u_add_morale": "morale_feeling_bad",
       "bonus": 10,
-      "duration": { "math": [ "rand(432000) + 86400" ]
+      "max_bonus": 10,
+      "duration": { "math": [ "rand(432000) + 86400" ] }
       }
     ]
   }

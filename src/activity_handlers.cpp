@@ -139,6 +139,7 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MUTANT_TREE_COMMUNION( "ACT_MUTANT_TREE_COMMUNION" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -221,8 +222,10 @@ static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -244,6 +247,7 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
+    { ACT_MUTANT_TREE_COMMUNION, mutant_tree_communion_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
@@ -1579,6 +1583,44 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         act_ref.set_to_null();
         return;
     }
+}
+
+void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Character *you )
+{
+    int communioncycles = 0;
+    // Plant "conversation" is slow, especially one on one.
+    if( calendar::once_every( 2_minutes ) ) {
+        if( one_in( 128 ) ) {
+        bool adjacent_mutant_tree = false;
+        map &here = get_map();
+            for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
+                    if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                    adjacent_mutant_tree = true;
+                    }
+            }
+            if( adjacent_mutant_tree == false ) {
+                if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
+                you->add_msg_if_player( m_bad, _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
+                you->add_morale( MORALE_FEELING_BAD, 10, 10 );
+                } else {
+                you->add_msg_if_player( _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );    
+                }
+                act->set_to_null();  
+            } else {
+            communioncycles += 1;
+            you->add_morale( MORALE_TREE_COMMUNION, 1, 20, 8_hours, 6_hours );
+                if( communioncycles >= 20 ) {
+                return;
+                }
+            }
+        }
+    }
+}
+
+void activity_handlers::mutant_tree_communion_finish( player_activity *act, Character *you )
+{
+    you->add_morale( MORALE_TREE_COMMUNION, 5, 20, 10_hours, 8_hours );
+    act->set_to_null();
 }
 
 // Repurposing the activity's index to convey the number of friends participating
@@ -3669,9 +3711,20 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                         }
                     }
             if( adjacent_mutant_tree == true ) {
-                you->add_msg_if_player( m_good, _( "Something familiar reaches out to your roots as the communion begins." ) );  
-                you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion_mutant" ).value_or(
-                        translation() ) );         
+                    uilist mutant_tree_query;
+                    mutant_tree_query.text = string_format( _( "Something familiar reaches out to your roots as the communion begins." ) );
+                    mutant_tree_query.addentry( 1, true, 'f', _( "Focus only on the mutant tree." ) );
+                    mutant_tree_query.addentry( 2, true, 's', _( "Spread your roots in communion with all nearby trees." ) );
+                    mutant_tree_query.query();
+                        switch( mutant_tree_query.ret ) {
+                        case 1:
+                        default:
+                        you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
+                        return;
+                        case 2:
+                        add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
+                        return;  
+                        }
             } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
