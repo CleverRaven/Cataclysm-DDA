@@ -627,8 +627,10 @@ bool mattack::shriek_alert( monster *z )
     }
     add_msg_if_player_sees( *z, _( "The %s begins shrieking!" ), z->name() );
     z->moves -= 150;
-    sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), false, "shout",
-                   "wail" );
+    if( one_in( 100 ) ) {
+        sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), false, "shout",
+                       "wail" );
+    }
     z->add_effect( effect_shrieking, 1_minutes );
 
     return true;
@@ -4579,8 +4581,10 @@ static void parrot_common( monster *parrot )
 bool mattack::parrot( monster *z )
 {
     if( z->has_effect( effect_shrieking ) ) {
-        sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), false, "shout",
-                       "wail" );
+        if( one_in( 100 ) ) {
+            sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), false, "shout",
+                           "wail" );
+        }
         z->moves -= 40;
         return false;
     } else if( one_in( 20 ) ) {
