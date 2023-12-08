@@ -65,7 +65,7 @@
       { "item": "glock_22", "prob": 35, "charges-min": 0 },
       { "item": "glock_29", "prob": 2, "charges-min": 0 },
       { "item": "glock_31", "prob": 15, "charges-min": 0 },
-      { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0 },
+      { "item": "glock_40", "variant": "glock_40", "prob": 2, "charges-min": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0 },
       { "item": "m1911_10", "prob": 15, "charges-min": 0 },
       { "item": "STI_DS_10", "prob": 15, "charges-min": 0 },
@@ -118,7 +118,7 @@
       { "item": "glock_22", "prob": 35 },
       { "item": "glock_29", "prob": 2 },
       { "item": "glock_31", "prob": 15 },
-      { "item": "glock_20", "variant": "glock_40", "prob": 2 },
+      { "item": "glock_40", "variant": "glock_40", "prob": 2 },
       { "item": "m1911", "prob": 50 },
       { "item": "m1911_10", "prob": 15 },
       { "item": "STI_DS_10", "prob": 15, "charges-min": 0 },
@@ -781,7 +781,7 @@
       { "item": "m60_semi", "prob": 5 },
       { "item": "oa93", "prob": 3 },
       { "item": "steyr_aug", "prob": 5 },
-      { "item": "fn_fal", "prob": 40 },
+      { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
       { "item": "hk_g36", "prob": 30 },
       { "item": "m1918", "prob": 30 },
@@ -974,9 +974,15 @@
     "type": "item_group",
     "id": "guns_launcher_flame",
     "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
+    "items": [ { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 8000 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_flame_xedra",
+    "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
     "items": [
-      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 1500 },
-      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 1500 }
+      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 8000 },
+      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 9000 }
     ]
   },
   {
