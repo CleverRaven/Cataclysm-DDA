@@ -2758,7 +2758,7 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, std::string_view me
     }
 
     function = [is_npc, new_trait, new_variant]( dialogue const & d ) {
-        const trait_id trait = trait_id( new_trait.evaluate( d ));
+        const trait_id trait = trait_id( new_trait.evaluate( d ) );
         const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
 
         d.actor( is_npc )->set_mutation( trait, variant );
