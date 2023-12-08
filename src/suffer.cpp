@@ -667,26 +667,27 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                        you.has_trait( trait_LEAVES3_FALL) ||
                        you.has_trait( trait_PLANTSKIN ) ||
                        you.has_trait( trait_JAUNDICE );
+    float phelloderm_surface = 0.0;
+    float exposure = 0.0;
     int sunlight_nutrition = 0;
     if( leafy ) {
-    float phelloderm_surface = 0.0;
             // Phelloderm and bark photosynthesize.
             if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
             std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
                 for( auto &bp_exp : bp_exposure ) {
                    bodypart_id bp = bp_exp.first;
-                   float exposure = bp_exp.second;
+                   exposure = bp_exp.second;
                    if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) && you.has_trait( trait_NO_LEFT_ARM ) )
                    || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) && you.has_trait( trait_NO_RIGHT_ARM ) )
                    || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) && you.has_trait( trait_NO_LEFT_LEG ) )
                    || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) && you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
-                   continue;
+                   exposure = 0.0;
                    }
                    phelloderm_surface += exposure;
-                } 
+                }
                 // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
                 if( you.has_trait( trait_JAUNDICE ) ) {
-                    phelloderm_surface *= .5;
+                    phelloderm_surface *= 0.5;
                 }
             }
         const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
@@ -730,7 +731,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
             head_leaf_surface = 100;
         } 
-        sunlight_nutrition += ( 100 - head_leaf_surface + phelloderm_surface + flux ) * weather_factor;
+        sunlight_nutrition += ( 100 - head_leaf_surface + flux + phelloderm_surface ) * weather_factor;
                         you.add_msg_if_player( m_good, _( "Phelloderm_surface is %s." ),
                                    phelloderm_surface );   
         if( leafier || leafiest ) {

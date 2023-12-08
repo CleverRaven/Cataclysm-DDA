@@ -1588,9 +1588,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
 void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Character *you )
 {
     int communioncycles = 0;
-    // Plant "conversation" is slow, especially one on one.
+    // The mutant tree is intelligent, but communicating via mycelium is slow
     if( calendar::once_every( 2_minutes ) ) {
-        if( one_in( 128 ) ) {
         bool adjacent_mutant_tree = false;
         map &here = get_map();
             for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
@@ -1601,26 +1600,25 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
             if( adjacent_mutant_tree == false ) {
                 if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
                 you->add_msg_if_player( m_bad, _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
-                you->add_morale( MORALE_FEELING_BAD, 10, 10 );
+                you->add_morale( MORALE_FEELING_BAD, -10, 10, 6_hours, 2_hours );
                 } else {
                 you->add_msg_if_player( _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );    
                 }
                 act->set_to_null();  
-            } else {
-            communioncycles += 1;
-            you->add_morale( MORALE_TREE_COMMUNION, 1, 20, 8_hours, 6_hours );
-                if( communioncycles >= 20 ) {
-                return;
-                }
+            }
+        if( one_in( 128 ) ) {
+        communioncycles += 1;
+        you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
+                                            translation() ) );
+        you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
+        you->mod_daily_health( ( rng( 0, 1 ) ), 5 );
+            if( communioncycles >= 20 ) {
+            you->add_msg_if_player( _( "You retract your roots, feeling a lingering sense of warmth after your communion." ) );
+            you->add_morale( MORALE_TREE_COMMUNION, 20, 20, 18_hours, 8_hours ); 
+            act->set_to_null();  
             }
         }
     }
-}
-
-void activity_handlers::mutant_tree_communion_finish( player_activity *act, Character *you )
-{
-    you->add_morale( MORALE_TREE_COMMUNION, 5, 20, 10_hours, 8_hours );
-    act->set_to_null();
 }
 
 // Repurposing the activity's index to convey the number of friends participating
@@ -3718,12 +3716,13 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                     mutant_tree_query.query();
                         switch( mutant_tree_query.ret ) {
                         case 1:
-                        default:
                         you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
                         return;
                         case 2:
                         add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
-                        return;  
+                        return;
+                        default:
+                        return;
                         }
             } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
