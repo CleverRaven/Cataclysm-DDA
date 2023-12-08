@@ -391,7 +391,7 @@
     "id": "mon_wasp_small_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal wasp" },
-    "description": "A huge wasp the size of a large cat. It's bright yellow markings have faded and ripped to show a disqusting mass of mold and rot beneath.  Her wings jut into extremely odd angles, making flight impossible.  Even still it chases anything without any sense of self-preservation.",
+    "description": "A huge wasp the size of a large cat.  It's bright yellow markings have faded and ripped to show a disqusting mass of mold and rot beneath.  Her wings jut into extremely odd angles, making flight impossible.  Even still, it chases anything without any sense of self-preservation.",
     "default_faction": "fungus",
     "bodytype": "flying insect",
     "species": [ "FUNGUS" ],
@@ -540,7 +540,7 @@
       }
     ],
     "dodge": 3,
-	"vision_day": 10,
+	"vision_day": 19,
     "vision_night": 5,
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_huge",
