@@ -307,7 +307,7 @@
     "name": [ "Hammerhand" ],
     "desc": [ "Your bare hands substitute for several common tools." ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You're no longer capable of hammering in a nail with your thumb.",
     "rating": "good",
     "max_duration": "7 days"
   },
