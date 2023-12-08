@@ -31,6 +31,57 @@
             { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
+        }
+      ]
+    },
+    "effect": {
+      "switch": { "u_val": "vitamin", "name": "vitamin_psionic_drain" },
+      "cases": [
+        { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
+        { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
+        { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] } },
+        { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.1" ] } },
+        { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.17" ] } },
+        { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.25" ] } },
+        { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.35" ] } },
+        { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+        { "case": 210, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+        { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_DRAIN_EVENTS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
         },
         { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "15" ] }
       ]
@@ -38,15 +89,14 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
       {
-        "run_eocs": [
-          "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
-          "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT",
-          "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE",
-          "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED",
-          "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS",
-          "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
-          "EOC_DRAIN_EFFECT_CHECK_FATIGUE",
-          "EOC_DRAIN_EFFECT_CHECK_WEAKNESS"
+        "weighted_list_eocs": [
+          [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", { "const": 5 } ],
+          [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", { "const": 3 } ],
+          [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", { "const": 5 } ],
+          [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", { "const": 3 } ],
+          [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", { "const": 2 } ],
+          [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", { "const": 2 } ],
+          [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", { "const": 2 } ]
         ]
       }
     ]
@@ -54,6 +104,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
+    "//": "Base is 0.5% chance from 15 attunement to 60 attunement, then scaling up 0.1% per attunement up to 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "15" ] },
@@ -83,30 +134,8 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT",
-    "condition": {
-      "and": [
-        { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "15" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "clamp( ( ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2) - 75), 0, 80) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 )" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE",
+    "//": "Base is 1.5% chance from 25 attunement to 70 attunement, then scaling up 0.1% per attunement up to 6.5% chance at 120 attunement, then scaling up 0.2% chance per attunement up to 32.5% chance at max, plus the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "25" ] },
@@ -114,7 +143,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2) - 70), 0, 50) + clamp( ( (u_val('vitamin', 'name:vitamin_psionic_drain') - 150) * 1.5 ), 0, 310) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
+                "( clamp( ( u_val('vitamin', 'name:vitamin_psionic_drain') - 70), 0, 50) + clamp( ( (u_val('vitamin', 'name:vitamin_psionic_drain') - 120) * 2 ), 0, 310) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
               ]
             },
             "y": 1000
@@ -139,6 +168,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED",
+    "//": "Base is 1% chance from 25 attunement to 60 attunement, then scaling up 0.1% per attunement up to 12% chance at 150 attunement, then scaling up 0.25% chance per attunement up to 37% chance at max, plus the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "25" ] },
@@ -146,7 +176,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2) - 60), 0, 50) + clamp( ( (u_val('vitamin', 'name:vitamin_psionic_drain') - 160) * 1.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( ( u_val('vitamin', 'name:vitamin_psionic_drain') - 60), 0, 90) + clamp( ( (u_val('vitamin', 'name:vitamin_psionic_drain') - 160) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
               ]
             },
             "y": 1000
@@ -163,6 +193,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS",
+    "//": "Base is 2% chance from 50 attunement to 100 attunement, then scaling up 0.1% per attunement up to 8% chance at 160 attunement, then scaling up 0.28% chance per attunement up to 17.2% chance at 200 attunement, then scaling up 0.18% to 26.2% chance at max, plus the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "50" ] },
