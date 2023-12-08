@@ -798,7 +798,7 @@
       [ "jar_glass_sealed", 50 ],
       [ "jar_3l_glass_sealed", 40 ],
       [ "tongs", 25 ],
-      { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "coffeemaker", "prob": 10 },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
       [ "cookbook_native", 10 ],

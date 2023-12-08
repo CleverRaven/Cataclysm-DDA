@@ -36,7 +36,7 @@
           { "item": "bbgun", "prob": 10, "charges": [ 0, 150 ] },
           { "item": "beartrap", "prob": 3 },
           { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
-          { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+          { "item": "hotplate", "prob": 10 },
           { "item": "extinguisher", "prob": 20, "charges": 100 },
           { "item": "cable", "prob": 60 },
           { "item": "sm_extinguisher", "prob": 10, "charges": 10 },

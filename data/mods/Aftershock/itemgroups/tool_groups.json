@@ -66,7 +66,8 @@
       { "group": "tools_lighting_industrial", "prob": 10 },
       { "item": "UPS_off", "prob": 10, "charges": [ 0, 1000 ] },
       { "group": "writing_utensils", "prob": 10 },
-      { "item": "soldering_iron", "prob": 30, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron", "prob": 30 },
+      { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 30 },
       { "item": "duct_tape", "prob": 30, "count": [ 1, 2 ] }
     ]
