@@ -400,6 +400,7 @@
     "weight": "10 kg",
     "hp": 10,
     "speed": 70,
+    "bleed_rate": 0,
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "yellow",
@@ -434,7 +435,7 @@
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
 	"death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "HEARS", "NO_BREATHE", "POISON", "HARDTOSHOOT", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 1, "cut": 4, "stab": 2 }
   },
   {
@@ -466,7 +467,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 70,
-    "speed": 100,
+    "speed": 95,
     "attack_cost": 170,
     "material": [ "iflesh" ],
     "symbol": "a",
@@ -491,12 +492,12 @@
     "dodge": 5,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
-    "vision_day": 17,
+    "vision_day": 10,
     "vision_night": 7,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
 	"death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "HEARS", "NO_BREATHE", "POISON", "HARDTOSHOOT", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12 }
   },
   {
@@ -521,7 +522,7 @@
     "looks_like": "mon_wasp_mega",
     "diff": 4,
     "proportional": { "hp": 4, "volume": 5, "weight": 5 },
-    "speed": 100,
+    "speed": 105,
     "attack_cost": 100,
     "melee_skill": 7,
     "melee_dice": 4,
@@ -538,13 +539,11 @@
         "effects": [ { "id": "venom_weaken", "duration": 100 }, { "id": "downed", "duration": 1, "chance": 20 } ]
       }
     ],
-    "//": "sting 15-45 damage, 6 hits to max intensity, 8 to max duration; bite 10-30",
     "dodge": 3,
 	"vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_huge",
-    "delete": { "flags": [ "HARDTOSHOOT", "FLIES" ] },
     "armor": { "bash": 6, "cut": 24, "stab": 14, "bullet": 18, "electric": 4 }
   }
 ]
