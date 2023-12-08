@@ -1435,6 +1435,7 @@
       [ "jacket_varsity", 10 ],
       { "item": "jacket_jean", "prob": 50, "damage": [ 1, 3 ] },
       { "item": "jacket_leather", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "tacjacket", "prob": 75 },
       [ "bandana", 35 ],
       [ "hat_cotton", 45 ],
       [ "hat_knit", 25 ],

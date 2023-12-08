@@ -1046,6 +1046,7 @@
       { "item": "jersey", "prob": 40 },
       { "item": "puck", "prob": 5 },
       { "item": "shuttlecock", "prob": 1 },
+      { "item": "tacjacket", "prob": 10 },
       { "item": "baseball", "prob": 5 },
       { "item": "football", "prob": 5 },
       { "item": "hairpin", "prob": 20 },
