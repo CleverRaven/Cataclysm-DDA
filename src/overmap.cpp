@@ -4530,22 +4530,50 @@ void overmap::place_forests()
 
 void overmap::place_lakes()
 {
+    int northern_nocean = get_option<int>( "OVERMAP_NOCEAN_EDGE_NORTH" );
+    int eastern_nocean = get_option<int>( "OVERMAP_NOCEAN_EDGE_EAST" );
+    int western_nocean = get_option<int>( "OVERMAP_NOCEAN_EDGE_WEST" );
+    int southern_nocean = get_option<int>( "OVERMAP_NOCEAN_EDGE_SOUTH" );
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
     const point_abs_om this_om = pos();
-    float oceanize_adjust = 0.0f;
-    if( this_om.x() > 8 ){
-        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    float ocean_start = 0.0f;
+    if( northern_nocean > 0 && this_om.y() <= northern_nocean * -1 ) {
+        ocean_start = 0.0005f;
     }
-    if( this_om.x() > 10 ){
-        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    if( eastern_nocean > 0 && this_om.x() >= eastern_nocean ) {
+        ocean_start = 0.0005f;
     }
-    if( this_om.x() > 12 ){
-        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    if( western_nocean > 0 && this_om.x() <= western_nocean * -1 ) {
+        ocean_start = 0.0005f;
     }
-    if( this_om.x() > 14 ){
-        oceanize_adjust += static_cast<float>( this_om.x() * 0.01f );
+    if( southern_nocean > 0 && this_om.y() >= southern_nocean ) {
+        ocean_start = 0.0005f;
     }
     const auto is_lake = [&]( const point_om_omt & p ) {
+        // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
+        bool inbounds = p.x() > -5 && p.y() > -5 && p.x() < OMAPX + 5 && p.y() < OMAPY + 5;
+        if( !inbounds ) {
+            return false;
+        }
+        float oceanize_adjust_N = ocean_start;
+        float oceanize_adjust_E = ocean_start;
+        float oceanize_adjust_W = ocean_start;
+        float oceanize_adjust_S = ocean_start;
+        if( northern_nocean > 0 && this_om.y() <= northern_nocean * -1 ) {
+            oceanize_adjust_N *= static_cast<float>( OMAPY - p.y() + std::abs( ( this_om.y() + northern_nocean )
+                                 * OMAPY ) );
+        }
+        if( eastern_nocean > 0 && this_om.x() >= eastern_nocean ) {
+            oceanize_adjust_E *= static_cast<float>( p.x() + ( this_om.x() - eastern_nocean ) * OMAPX );
+        }
+        if( western_nocean > 0 && this_om.x() <= western_nocean * -1 ) {
+            oceanize_adjust_W *= static_cast<float>( OMAPX - p.x() + std::abs( ( this_om.x() + western_nocean )
+                                 * OMAPX ) );
+        }
+        if( southern_nocean > 0 && this_om.y() >= southern_nocean ) {
+            oceanize_adjust_S *= static_cast<float>( p.y() + ( this_om.y() - southern_nocean ) * OMAPY );
+        }
+        float oceanize_adjust = std::max( {oceanize_adjust_N, oceanize_adjust_E, oceanize_adjust_W, oceanize_adjust_S} );
         return f.noise_at( p ) + oceanize_adjust > settings->overmap_lake.noise_threshold_lake;
     };
 
