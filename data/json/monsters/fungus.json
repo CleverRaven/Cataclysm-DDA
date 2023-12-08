@@ -387,7 +387,7 @@
     "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ],
     "armor": { "bash": 2, "cut": 6, "bullet": 5, "electric": 2 }
   },
-{
+  {
     "id": "mon_wasp_small_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal wasp" },
@@ -434,7 +434,7 @@
     "vision_night": 2,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
-	"death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "SMELLS", "HEARS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 1, "cut": 4, "stab": 2 }
   },
@@ -473,12 +473,12 @@
     "symbol": "a",
     "color": "yellow",
     "aggression": 100,
-	"bleed_rate": 0,
+    "bleed_rate": 0,
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "special_attacks": [
-	  [ "FUNGUS_INJECT", 40 ],
+      [ "FUNGUS_INJECT", 40 ],
       {
         "id": "sting",
         "move_cost": 300,
@@ -496,7 +496,7 @@
     "vision_night": 7,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
-	"death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12 }
   },
@@ -507,9 +507,7 @@
     "description": "A wasp worker which seems to move like a puppet on strings.  It ambles backwards, its stinger, grotesquely swollen and pulsating, serving as a perverse compass guiding it forward, seeking relentlessly for something—anything—to pierce.  It periodically contracts and then abruptly expands, ejecting a fine mist of spores into the surrounding air.",
     "copy-from": "mon_wasp_fungus",
     "melee_skill": 6,
-	"special_attacks": [
-	  [ "FUNGUS_INJECT", 30 ]
-	  ],
+    "special_attacks": [ [ "FUNGUS_INJECT", 30 ] ],
     "dissect": "dissect_insect_sample_small",
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 2 }
   },
@@ -517,7 +515,7 @@
     "id": "mon_wasp_mega_fungus",
     "type": "MONSTER",
     "name": { "str": "giant fungal wasp queen" },
-    "description":"The head of this colossal queen wasp appears to be attached by only a few slender threads, wobbling precariously as additional tendrils sprout from the silky white exoskeleton.  Her batch of eggs has decayed due to lack of proper care, yet they seem to twitch, as if something within is attempting to break free from the hardened shells.",
+    "description": "The head of this colossal queen wasp appears to be attached by only a few slender threads, wobbling precariously as additional tendrils sprout from the silky white exoskeleton.  Her batch of eggs has decayed due to lack of proper care, yet they seem to twitch, as if something within is attempting to break free from the hardened shells.",
     "copy-from": "mon_wasp_guard_fungus",
     "looks_like": "mon_wasp_mega",
     "diff": 4,
@@ -528,7 +526,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "special_attacks": [
-	  [ "FUNGUS_INJECT", 20 ],
+      [ "FUNGUS_INJECT", 20 ],
       {
         "id": "sting",
         "cooldown": 8,
@@ -540,7 +538,7 @@
       }
     ],
     "dodge": 3,
-	"vision_day": 19,
+    "vision_day": 19,
     "vision_night": 5,
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_huge",
