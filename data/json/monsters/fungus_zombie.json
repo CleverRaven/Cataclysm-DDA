@@ -677,18 +677,7 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 190 ], { "type": "leap", "cooldown": 20, "max_range": 5 } ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 1, "electric": 1 }
   },
   {
