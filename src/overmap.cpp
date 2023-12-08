@@ -3418,8 +3418,7 @@ void overmap::generate( const overmap *north, const overmap *east,
             place_railroads( north, east, south, west );
         }
     }
-    bool no_specials = true;
-    if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) && no_specials ) {
+    if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
     }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
