@@ -4754,7 +4754,7 @@ void overmap::place_oceans()
             // Ocean size is checked like lake size, but minimum size is much bigger.
             // you could change this, if you want little tiny oceans all over the place.
             // I'm not sure why you'd want that.  Use place_lakes, my friend.
-            if( lake_points.size() < static_cast<std::vector<point>::size_type>
+            if( ocean_points.size() < static_cast<std::vector<point>::size_type>
                 ( settings->overmap_ocean.ocean_size_min ) ) {
                 continue;
             }
