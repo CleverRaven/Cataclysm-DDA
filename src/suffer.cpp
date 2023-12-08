@@ -669,10 +669,10 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                        you.has_trait( trait_JAUNDICE );
     int sunlight_nutrition = 0;
     if( leafy ) {
+    float phelloderm_surface = 0.0;
             // Phelloderm and bark photosynthesize.
             if( you.has_trait( trait_PHELLODERM ) || you.has_trait( trait_JAUNDICE ) ) {
             std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
-            float phelloderm_surface = 0.0;
                 for( auto &bp_exp : bp_exposure ) {
                    bodypart_id bp = bp_exp.first;
                    float exposure = bp_exp.second;
@@ -688,7 +688,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                 if( you.has_trait( trait_JAUNDICE ) ) {
                     phelloderm_surface *= .5;
                 }
-                you.add_msg_if_player( m_good, _( "Phelloderm_surface %s." ),
+                you.add_msg_if_player( m_good, _( "Phelloderm_surface is %s." ),
                                    phelloderm_surface );   
             }
         const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
@@ -729,7 +729,10 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             rarm_leaf_surface = std::min(rarm_leaf_surface + 0.33, 1.0);
             head_leaf_surface = std::min(head_leaf_surface + 33, 100.0f);
         }
-        sunlight_nutrition += ( 100 - head_leaf_surface + flux ) * weather_factor;
+        if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
+            head_leaf_surface = 100;
+        } 
+        sunlight_nutrition += ( 100 - head_leaf_surface + phelloderm_surface + flux ) * weather_factor;
         if( leafier || leafiest ) {
             const int rate = round( 100 * ( ( larm_leaf_surface + rarm_leaf_surface+ vine_leaf_surface ) / 2 ) + flux ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
