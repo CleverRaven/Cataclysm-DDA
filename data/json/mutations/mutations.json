@@ -746,6 +746,15 @@
   },
   {
     "type": "mutation",
+    "id": "SEASONAL_AFFECTIVE",
+    "name": { "str": "Seasonal Affective Disorder" },
+    "points": -1,
+    "description": "You tend to have bouts of depression during the fall and especially winter.  Taking antidepressants can help.",
+    "starting_trait": true,
+    "category": [ "PLANT", "ELFA", "MEDICAL" ]
+  },
+  {
+    "type": "mutation",
     "id": "GOODHEARING",
     "name": { "str": "Good Hearing" },
     "points": 1,
@@ -7185,6 +7194,7 @@
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
+    "cancels": [ "SEASONAL_AFFECTIVE" ],
     "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
   },
   {

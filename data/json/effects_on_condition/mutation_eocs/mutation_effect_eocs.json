@@ -375,11 +375,12 @@
     },
     "effect": [
       {
-        "u_message": "Your leaves are turning as the season changes.",
+        "u_message": "Your leaves are turning and starting to drop as the season changes.",
         "type": "good"
       },
       { "u_lose_trait": "LEAVES2" },
       { "u_lose_trait": "LEAVES2_WINTER" },
+      { "u_spawn_item": "leaves", "count": 1 },
       { "u_add_trait": "LEAVES2_FALL" }
     ]
   },
@@ -400,6 +401,7 @@
       },
       { "u_lose_trait": "LEAVES2" },
       { "u_lose_trait": "LEAVES2_FALL" },
+      { "u_spawn_item": "leaves", "count": 1 },
       { "u_add_trait": "LEAVES2_WINTER" }
     ]
   },
@@ -437,11 +439,12 @@
     },
     "effect": [
       {
-        "u_message": "Your leaves have begun taking on the red-gold hues of fall.",
+        "u_message": "Your leaves have begun taking on the red-gold hues of fall.  A few have fallen already.",
         "type": "good"
       },
       { "u_lose_trait": "LEAVES3" },
       { "u_lose_trait": "LEAVES3_WINTER" },
+      { "u_spawn_item": "leaves", "count": 1 },
       { "u_add_trait": "LEAVES3_FALL" }
     ]
   },
@@ -462,6 +465,7 @@
       },
       { "u_lose_trait": "LEAVES3" },
       { "u_lose_trait": "LEAVES3_FALL" },
+      { "u_spawn_item": "leaves", "count": 1 },
       { "u_add_trait": "LEAVES3_WINTER" }
     ]
   },
@@ -639,6 +643,54 @@
       },
       { "u_lose_trait": "URSINE_FUR_SUMMER" },
       { "u_add_trait": "URSINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "seasonal_affective_fall",
+    "recurrence": [ "5 days", "20 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_AFFECTIVE" },
+        { "is_season": "fall" },
+        { "not": { "u_has_effect": "seasonal_depression" } },
+        { "not": { "u_has_effect": "took_prozac" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "It's only fall, but you already miss the summer sun.",
+        "type": "bad"
+      },
+      {
+      "u_add_morale": "morale_feeling_bad",
+      "bonus": 10,
+      "duration": { "math": [ "rand(216000) + 86400" ] ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "seasonal_affective_winter",
+    "recurrence": [ "3 days", "12 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_AFFECTIVE" },
+        { "is_season": "winter" },
+        { "not": { "u_has_effect": "seasonal_depression" } },
+        { "not": { "u_has_effect": "took_prozac" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "The long, cold nights really get you feeling down.",
+        "type": "bad"
+      },
+      {
+      "u_add_morale": "morale_feeling_bad",
+      "bonus": 10,
+      "duration": { "math": [ "rand(432000) + 86400" ]
+      }
     ]
   }
 ]
