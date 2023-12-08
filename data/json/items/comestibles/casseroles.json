@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggplant_parmigiana",
-    "name": { "str": "eggplant parmigiana" },
+    "name": { "str_sp": "eggplant parmigiana" },
     "weight": "178 g",
     "color": "brown",
     "spoils_in": "60 days",

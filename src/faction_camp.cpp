@@ -391,6 +391,9 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Menial:
             return dir_abbr + _( " Menial Labor" );
 
+        case Camp_Survey_Field:
+            return _( "Survey terrain and try to convert it to Field" );
+
         case Camp_Survey_Expansion:
             return _( "Expand Base" );
 
@@ -1380,10 +1383,41 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
     // Missions that belong exclusively to the central tile
     {
         if( directions.size() < 8 ) {
+            {
+                const mission_id miss_id = { Camp_Survey_Field, "", {}, base_dir };
+                comp_list npc_list = get_mission_workers( miss_id );
+                entry = string_format( _( "Notes:\n"
+                                          "Nearby terrain can be turned into fields if it is completely "
+                                          "cleared of terrain that isn't grass or dirt.  Doing so makes that "
+                                          "terrain eligible for usage for standard base camp expansion.  Note "
+                                          "that log cutting does this conversion automatically when the trees "
+                                          "are depleted, but not all terrain can be logged.\n\n"
+                                          "Skill used: N/A\n"
+                                          "Effects:\n"
+                                          "> If the expansion direction selected is eligible for conversion into "
+                                          "a field this mission will perform that conversion.  If it is not eligible "
+                                          "you are told as much, and would have to make it suitable for conversion "
+                                          "by removing everything that isn' grass or soil.  Mining zones are useful to "
+                                          "remove pavement, for instance.  Note that removal of buildings is dangerous, "
+                                          "laborious, and may still fail to get rid of everything if e.g. a basement or "
+                                          "an opening to underground areas (such as a manhole) remains.\n\n"
+                                          "Risk: None\n"
+                                          "Intensity: Moderate\n"
+                                          "Time: 0 Hours\n"
+                                          "Positions: %d/1\n" ), npc_list.size() );
+                mission_key.add_start( miss_id, name_display_of( miss_id ),
+                                       entry, npc_list.empty() );
+                if( !npc_list.empty() ) {
+                    entry = action_of( miss_id.id );
+                    bool avail = update_time_left( entry, npc_list );
+                    mission_key.add_return( miss_id, _( "Recover Field Surveyor" ),
+                                            entry, avail );
+                }
+            }
+
             const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
             comp_list npc_list = get_mission_workers( miss_id );
             entry = string_format( _( "Notes:\n"
-                                      "Your base has become large enough to support an expansion.  "
                                       "Expansions open up new opportunities but can be expensive and "
                                       "time-consuming.  Pick them carefully, at most 8 can be built "
                                       "at each camp.\n\n"
@@ -1392,7 +1426,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "> Choose any one of the available expansions.  Starting with "
                                       "a farm is always a solid choice since food is used to support "
                                       "companion missions and minimal investment is needed to get it going.  "
-                                      "A forge is also a great idea, allowing you to refine ressources for "
+                                      "A forge is also a great idea, allowing you to refine resources for "
                                       "subsequent expansions, craft better gear and make charcoal.\n\n"
                                       "NOTE: Actions available through expansions are located in "
                                       "separate tabs of the Camp Manager window.\n\n"
@@ -1713,6 +1747,15 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 menial_return( miss_id.id );
             } else {
                 start_menial_labor();
+            }
+            break;
+
+        case Camp_Survey_Field:
+            if( miss_id.ret ) {
+                survey_field_return( miss_id.id );
+            } else {
+                start_mission( miss_id.id, 0_hours, true,
+                               _( "departs to look for suitable fields…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE );
             }
             break;
 
@@ -4139,8 +4182,88 @@ void basecamp::combat_mission_return( const mission_id &miss_id )
     }
 }
 
+bool basecamp::survey_field_return( const mission_id &miss_id )
+{
+    const std::string abort_msg = _( "stops looking for terrain to turn into fields…" );
+    npc_ptr comp = companion_choose_return( miss_id, 0_hours );
+    if( comp == nullptr ) {
+        return false;
+    }
+
+    popup( _( "Select a tile up to %d tiles away." ), 1 );
+    const tripoint_abs_omt where( ui::omap::choose_point() );
+    if( where == overmap::invalid_tripoint ) {
+        return false;
+    }
+
+    int dist = rl_dist( where.xy(), omt_pos.xy() );
+    if( dist != 1 ) {
+        popup( _( "You must select a tile within %d range of the camp" ), 1 );
+        return false;
+    }
+    if( omt_pos.z() != where.z() ) {
+        popup( _( "Expansions must be on the same level as the camp" ) );
+        return false;
+    }
+    const point dir = talk_function::om_simple_dir( omt_pos, where );
+    if( expansions.find( dir ) != expansions.end() ) {
+        if( query_yn(
+                _( "You already have an expansion at that location.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if( overmap_buffer.ter_existing( where ) == oter_id( "field" ) ) {
+        if( query_yn(
+                _( "This location is already a field.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    tinymap target;
+    target.load( project_to<coords::sm>( where ), false );
+    int mismatch_tiles = 0;
+    tripoint mapmin = tripoint( 0, 0, where.z() );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, where.z() );
+    for( const tripoint &p : target.points_in_rectangle( mapmin, mapmax ) ) {
+        if( target.ter( p ) != t_dirt && target.ter( p ) != t_sand && target.ter( p ) != t_clay &&
+            target.ter( p ) != t_dirtmound && target.ter( p ) != t_grass && target.ter( p ) != t_grass_dead &&
+            target.ter( p ) != t_grass_golf && target.ter( p ) != t_grass_long &&
+            target.ter( p ) != t_grass_tall && target.ter( p ) != t_moss ) {
+            mismatch_tiles++;
+        }
+    }
+
+    if( mismatch_tiles > 0 ) {
+        if( query_yn(
+                _( "This location has %d tiles blocking it from being converted.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ),
+                mismatch_tiles ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    overmap_buffer.ter_set( where, oter_id( "field" ) );
+    if( query_yn(
+            _( "This location has now been converted into a field!  Do you want to finish the mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
+        finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool basecamp::survey_return( const mission_id &miss_id )
 {
+    const std::string abort_msg = _( "gives up trying to create an expansion…" );
     npc_ptr comp = companion_choose_return( miss_id, 3_hours );
     if( comp == nullptr ) {
         return false;
@@ -4163,8 +4286,13 @@ bool basecamp::survey_return( const mission_id &miss_id )
     }
     const point dir = talk_function::om_simple_dir( omt_pos, where );
     if( expansions.find( dir ) != expansions.end() ) {
-        popup( _( "You already have an expansion at that location" ) );
-        return false;
+        if( query_yn(
+                _( "You already have an expansion at that location.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const oter_id &omt_ref = overmap_buffer.ter( where );
@@ -4172,7 +4300,14 @@ bool basecamp::survey_return( const mission_id &miss_id )
                                  omt_ref.id().c_str() );
     if( pos_expansions.empty() ) {
         popup( _( "You can't build any expansions in a %s." ), omt_ref.id().c_str() );
-        return false;
+        if( query_yn(
+                _( "You can't build any expansion in a %s.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ),
+                omt_ref.id().c_str() ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const recipe_id expansion_type = base_camps::select_camp_option( pos_expansions,
@@ -4189,7 +4324,13 @@ bool basecamp::survey_return( const mission_id &miss_id )
             rotation,
             "%s failed to build the %s expansion",
             comp->disp_name() ) ) {
-        return false;
+        if( query_yn(
+                _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
     }
 
     if( !run_mapgen_update_func( update_mapgen_id( expansion_type.str() ), where, {}, nullptr, true,
@@ -4197,7 +4338,13 @@ bool basecamp::survey_return( const mission_id &miss_id )
         popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name() );
-        return false;
+        if( query_yn(
+                _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked (e.g. after clearing away the obstacle)." ) ) ) {
+            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
+            return true;
+        } else {
+            return false;
+        }
     }
     overmap_buffer.ter_set( where, oter_id( expansion_type.str() ) );
     add_expansion( expansion_type.str(), where, dir );
@@ -5286,6 +5433,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         case Camp_Gather_Materials:
         case Camp_Collect_Firewood:
         case Camp_Menial:
+        case Camp_Survey_Field:
         case Camp_Survey_Expansion:
         case Camp_Cut_Logs:
         case Camp_Clearcut:

@@ -2288,7 +2288,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         // With enough charges
         int bat_charges = drill.type->charges_to_use();
         battery.ammo_set( battery.ammo_default(), bat_charges );
-        drill.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.ammo_remaining() == bat_charges );
 
         CHECK( item_info_str( drill, qualities ) ==
@@ -2494,7 +2494,7 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, or TEST soldering iron.\n"
+           "<color_c_white>Repair</color> using integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, portable soldering iron, or TEST soldering iron.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==

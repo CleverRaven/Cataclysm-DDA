@@ -8,14 +8,6 @@
     "components": [ [ [ "pumpkin_cut", 4 ] ], [ [ "seed_pumpkin", 6 ] ] ]
   },
   {
-    "result": "irradiated_pumpkin",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "pumpkin_cut", 4 ] ] ]
-  },
-  {
     "result": "tomato",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

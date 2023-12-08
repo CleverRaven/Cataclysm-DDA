@@ -675,6 +675,22 @@ checks are you hot or cold
 { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
 ```
 
+### `u_has_proficiency`, `npc_has_proficiency`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has mastered a proficiency (to 100%).
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you have `Principles of Chemistry`
+```json
+{ "u_has_proficiency": "prof_intro_chemistry" }
+```
+
 ### `u_can_stow_weapon`, `npc_can_stow_weapon`
 - type: simple string
 - return true if alpha or beta talker wield an item, and have enough space to put it away
@@ -1175,7 +1191,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE | avatar / NONE |
 | player_fails_conduct | | { "conduct", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
 | player_gets_achievement | | { "achievement", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
-| player_levels_spell | | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "new_level", `int` }, | character / NONE |
+| player_levels_spell | triggers when player changes it's spell level, either by casting a spell, reading spell book, or using EoC. Spawning a new character with spells defined by using `spells` in chargen option will also run an event | { "character", `character_id` },<br/>{ "spell", `spell_id` },<br/>{ "new_level", `int` },{ "spell_class", `trait_id` } | character / NONE |
 | reads_book | | { "character", `character_id` } | character / NONE |
 | releases_subspace_specimens | Triggers when Release Specimens option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
 | removes_cbm | |  { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |

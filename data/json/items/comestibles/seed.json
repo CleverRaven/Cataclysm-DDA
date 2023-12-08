@@ -301,7 +301,7 @@
   {
     "type": "COMESTIBLE",
     "id": "seed_lotus_boiled",
-    "name": { "str": "boiled lotus seed" },
+    "name": { "str_sp": "boiled lotus seeds" },
     "weight": "30 g",
     "flags": [ "EATEN_HOT" ],
     "color": "white",
@@ -310,7 +310,7 @@
     "symbol": "%",
     "looks_like": "lotus_rhizome",
     "calories": 25,
-    "description": "A boiled lotus seed, with a soft taste.",
+    "description": "Boiled lotus seeds, with a soft taste.",
     "material": [ "veggy" ],
     "volume": "100 ml"
   },
@@ -453,7 +453,7 @@
     "price": 0,
     "spoils_in": "1 day",
     "price_postapoc": 0,
-    "name": { "str": "seed potato", "str_pl": "seed potatoes" },
+    "name": { "str_sp": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
     "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
     "seed_data": { "plant_name": "potatoes", "fruit": "potato", "seeds": false, "byproducts": [ "withered" ], "grow": "95 days" }

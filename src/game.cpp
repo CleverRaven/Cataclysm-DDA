@@ -237,6 +237,7 @@ static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
@@ -10185,7 +10186,7 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
-    if( u.has_effect( effect_stunned ) ) {
+    if( u.has_effect( effect_stunned ) || u.has_effect( effect_psi_stunned ) ) {
         return true;
     }
 
@@ -12110,6 +12111,7 @@ void game::start_hauling( const tripoint &pos )
 {
     std::vector<item_location> candidate_items = m.get_haulable_items( pos );
     // Find target items and quantities thereof for the new activity
+    u.trim_haul_list( candidate_items );
     std::vector<item_location> target_items = u.haul_list;
 
     if( u.is_autohauling() && !u.suppress_autohaul ) {
@@ -12147,7 +12149,8 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
+                                           true );
     u.assign_activity( actor );
 }
 

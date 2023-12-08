@@ -244,6 +244,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "cabin_liam" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "cabin_roof",
       "cabin_roof_1",

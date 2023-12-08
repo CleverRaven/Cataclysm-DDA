@@ -383,6 +383,9 @@ class basecamp
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
 
+        /// Choose which expansion slot to check for field conversion
+        bool survey_field_return( const mission_id &miss_id );
+
         /// Choose which expansion you should start, called when a survey mission is completed
         bool survey_return( const mission_id &miss_id );
         bool menial_return( const mission_id &miss_id );

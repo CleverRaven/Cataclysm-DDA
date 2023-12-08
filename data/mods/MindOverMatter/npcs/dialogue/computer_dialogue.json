@@ -1,0 +1,42 @@
+[
+  {
+    "id": "EOC_OBSIDIAN_RING_COMPUTER_CLAIRSENTIENT_DIALOGUE",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "id": [ "COMP_OBSIDIAN_RING_COMPUTER_CLAIRSENTIENT" ],
+    "type": "talk_topic",
+    "dynamic_line": "Project OBSIDIAN RING.\n\nProject NOBLE HORIZON.\n\nEnter login credentials.",
+    "responses": [
+      { "text": "Try a random username and password", "topic": "COMP_OBSIDIAN_RING_COMPUTER_CLAIRSENTIENT_RANDOM_PASS" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "COMP_OBSIDIAN_RING_COMPUTER_CLAIRSENTIENT_RANDOM_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You input the first combination of username and password that comes to mind, and of course it doesn't work.  Rather than trigger a lockout due to too many attempts, you decide to come back when you have some idea what to do.",
+    "responses": [ { "text": "Log Off", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "EOC_OBSIDIAN_RING_COMPUTER_TELEPATH_DIALOGUE",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "id": [ "COMP_OBSIDIAN_RING_COMPUTER_TELEPATH" ],
+    "type": "talk_topic",
+    "dynamic_line": "Project OBSIDIAN RING.\n\nProject GRAY DAWN.\n\nEnter login credentials.",
+    "responses": [
+      { "text": "Try a random username and password", "topic": "COMP_OBSIDIAN_RING_COMPUTER_TELEPATH_RANDOM_PASS" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "COMP_OBSIDIAN_RING_COMPUTER_TELEPATH_RANDOM_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You input the first combination of username and password that comes to mind, and of course it doesn't work.  Rather than trigger a lockout due to too many attempts, you decide to come back when you have some idea what to do.",
+    "responses": [ { "text": "Log Off", "topic": "TALK_DONE" } ]
+  }
+]

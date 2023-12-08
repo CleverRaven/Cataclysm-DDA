@@ -2230,13 +2230,13 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         !it->first->any_pockets_sealed() ) {
                         std::unordered_map<itype_id, int> item_counts;
                         if( unload_sparse_only ) {
-                            for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                            for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                                 if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                     item_counts[contained->typeId()]++;
                                 }
                             }
                         }
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 if( unload_sparse_only &&
@@ -2247,7 +2247,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 it->first->remove_item( *contained );
                             }
                         }
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                        for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 if( it->first->is_ammo_belt() ) {
@@ -2264,7 +2264,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 it->first->remove_item( *contained );
                             }
                         }
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                        for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, vpr_src );

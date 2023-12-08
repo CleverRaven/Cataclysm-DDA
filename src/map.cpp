@@ -56,7 +56,6 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -82,6 +81,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "pocket_type.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "relic.h"
@@ -1720,6 +1720,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     }
 
     current_submap->set_furn( l, new_target_furniture );
+    current_submap->set_map_damage( point_sm_ms( l ), 0 );
 
     // Set the dirty flags
     const furn_t &old_f = old_id.obj();
@@ -1786,7 +1787,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     invalidate_max_populated_zlev( p.z );
 
     memory_cache_dec_set_dirty( p, true );
-    if( pl_sees( p, player_character.sight_max ) ) {
+    if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "f_" );
     }
 
@@ -1888,6 +1889,36 @@ ter_id map::ter( const tripoint &p ) const
 ter_id map::ter( const tripoint_bub_ms &p ) const
 {
     return ter( p.raw() );
+}
+
+int map::get_map_damage( const tripoint_bub_ms &p ) const
+{
+    if( !inbounds( p ) ) {
+        return 0;
+    }
+
+    point_sm_ms l;
+    const submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Called get_map_damage for unloaded submap" );
+        return 0;
+    }
+    return current_submap->get_map_damage( l );
+}
+
+void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    point_sm_ms l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Called set_map_damage for unloaded submap" );
+        return;
+    }
+    return current_submap->set_map_damage( l, dmg );
 }
 
 uint8_t map::get_known_connections( const tripoint &p,
@@ -2168,6 +2199,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     }
 
     current_submap->set_ter( l, new_terrain );
+    current_submap->set_map_damage( point_sm_ms( l ), 0 );
 
     // Set the dirty flags
     const ter_t &old_t = old_id.obj();
@@ -2233,7 +2265,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
 
     memory_cache_dec_set_dirty( p, true );
     avatar &player_character = get_avatar();
-    if( pl_sees( p, player_character.sight_max ) ) {
+    if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "t_" );
     }
 
@@ -3973,11 +4005,22 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 }
             }
         }
-        // Linear interpolation from str_min to str_max
-        const int resistance = smin + ( params.roll * ( smax - smin ) );
-        if( params.strength >= resistance ) {
+        // Semi-persistant map damage. Increment by one for each bash over smin
+        // Gradually makes hard bashes easier
+        int damage = get_map_damage( tripoint_bub_ms( p ) );
+        add_msg_debug( debugmode::DF_MAP,
+                       "Bashing difficulty %d, threshold is %d. Strength is %d + %d, added damage %d", smax, smin,
+                       params.strength, damage, std::max( ( params.strength - smin ) * params.roll, 0.f ) );
+        if( params.strength + damage >= smax ) {
+            damage = 0;
             success = true;
+        } else if( params.strength >= smin ) {
+            // Add at least one damage per unsuccessful bash will ensure that if we exceed str_min,
+            // we will destroy it in str_max - str_min bashes. As the amount we exceed it by increases,
+            // we'll take less time to destroy it
+            damage += std::max( ( params.strength - smin ) * params.roll, 1.f );
         }
+        set_map_damage( tripoint_bub_ms( p ), damage );
     }
 
     if( smash_furn ) {
@@ -5203,7 +5246,7 @@ item &map::add_item( const tripoint &p, item new_item, int copies )
         !new_item.has_var( "spawn_location_omt" ) ) {
         new_item.set_var( "spawn_location_omt", ms_to_omt_copy( getabs( p ) ) );
     }
-    for( item *const it : new_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *const it : new_item.all_items_top( pocket_type::CONTAINER ) ) {
         if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
             !it->has_var( "spawn_location_omt" ) ) {
             it->set_var( "spawn_location_omt", ms_to_omt_copy( getabs( p ) ) );
@@ -6089,7 +6132,7 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
     memory_cache_dec_set_dirty( p.raw(), true );
     avatar &player_character = get_avatar();
-    if( pl_sees( p.raw(), player_character.sight_max ) ) {
+    if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "tr_" );
     }
 }
@@ -6132,7 +6175,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
 
     memory_cache_dec_set_dirty( p, true );
     avatar &player_character = get_avatar();
-    if( pl_sees( p, player_character.sight_max ) ) {
+    if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "tr_" );
     }
     // If there was already a trap here, remove it.
@@ -6169,7 +6212,7 @@ void map::remove_trap( const tripoint &p )
         if( g != nullptr && this == &get_map() ) {
             memory_cache_dec_set_dirty( p, true );
             avatar &player_character = get_avatar();
-            if( pl_sees( p, player_character.sight_max ) ) {
+            if( player_character.sees( p ) ) {
                 player_character.memorize_clear_decoration( getglobal( p ), "tr_" );
             }
             player_character.add_known_trap( p, tr_null.obj() );
@@ -8356,7 +8399,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
                 // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
                 sap.poison = one_in( 10 ) ? 1 : 0;
 
-                it.put_in( sap, item_pocket::pocket_type::CONTAINER );
+                it.put_in( sap, pocket_type::CONTAINER );
             }
             // Only fill up the first container.
             break;

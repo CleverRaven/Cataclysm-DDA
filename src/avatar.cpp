@@ -94,6 +94,7 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
@@ -552,7 +553,7 @@ bool avatar::read( item_location &book, item_location ereader )
         }
 
         if( !learners.empty() ) {
-            add_header( _( "Read until this Character gains a level:" ) );
+            add_header( _( "Read until this character gains a level:" ) );
             for( const std::pair<Character *const, std::string> &elem : learners ) {
                 menu.addentry( 2 + elem.first->getID().get_value(), true, -1,
                                get_text( learners, elem ) );
@@ -806,9 +807,6 @@ void avatar::clear_identified()
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
-        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
-            print_health();
-        }
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
@@ -884,6 +882,9 @@ nc_color avatar::basic_symbol_color() const
         return c_red;
     }
     if( has_effect( effect_stunned ) ) {
+        return c_light_blue;
+    }
+    if( has_effect( effect_psi_stunned ) ) {
         return c_light_blue;
     }
     if( has_effect( effect_boomered ) ) {
@@ -1518,6 +1519,10 @@ void avatar::update_cardio_acc()
     // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
     // giving a default of 1000 for no extra activity.
     const int bmr = get_bmr();
+    if( bmr == 0 ) {
+        set_cardio_acc( clamp( get_cardio_acc(), get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
+        return;
+    }
     const int last_24h_kcal = calorie_diary.front().spent;
 
     const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;

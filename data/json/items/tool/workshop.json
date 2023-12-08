@@ -169,21 +169,13 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "vac_mold",
     "type": "TOOL",
     "name": { "str": "vacuum molder" },
-    "description": "A portable vacuum-forming machine with an air pump.  It's used for creating plastic molds.",
+    "description": "A vacuum-forming machine with an air pump.  It's used for creating plastic molds.",
     "weight": "1770 g",
     "volume": "4100 ml",
     "longest_side": "35 cm",
@@ -196,14 +188,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -624,7 +608,7 @@
     "id": "kiln",
     "type": "TOOL",
     "name": { "str": "electric kiln" },
-    "description": "A portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "description": "An electric kiln, powered by your electric grid.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "12000 g",
     "volume": "7500 ml",
     "price": 50000,
@@ -636,14 +620,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -1199,7 +1175,7 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  Has a short cable that you can plug to your grid.",
     "weight": "90 g",
     "volume": "120 ml",
     "longest_side": "22 cm",
@@ -1222,6 +1198,26 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "melee_damage": { "bash": 2, "stab": 6 }
+  },
+  {
+    "id": "soldering_iron_portable",
+    "copy-from": "soldering_iron",
+    "type": "TOOL",
+    "name": { "str": "portable soldering iron" },
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  This one is a portable version, and contains a slot for a battery.",
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1291,7 +1287,7 @@
     "id": "welder",
     "type": "TOOL",
     "name": { "str": "arc welder" },
-    "description": "A battery-powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.  Accepts most batteries.",
+    "description": "A cable-powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",
     "price": 9000,
@@ -1336,34 +1332,13 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "500 ml",
-        "default_magazine": "medium_storage_battery",
-        "item_restriction": [
-          "medium_storage_battery",
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
     "id": "welder_crude",
     "type": "TOOL",
     "name": { "str": "makeshift arc welder" },
-    "description": "A crude arc welder fashioned from a few small transformers, some wire, an improvised electrode holder, and a complete disregard for personal safety.  While it's not as efficient as a factory-made welder, it will serve in a pinch.  Accepts most batteries.",
+    "description": "A crude arc welder fashioned from a few small transformers, some wire, an improvised electrode holder, and a complete disregard for personal safety.  While it's not as efficient as a factory-made welder, it will serve in a pinch.",
     "weight": "7250 g",
     "volume": "3500 ml",
     "price": 5000,
@@ -1408,34 +1383,13 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "1500 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "1250 ml",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
     "id": "welding_kit",
     "type": "TOOL",
     "name": { "str": "high-temperature welding kit" },
-    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.  Accepts most batteries.",
+    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
     "weight": "10500 g",
     "volume": "12500 ml",
     "price": 9000,
@@ -1482,27 +1436,6 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "500 ml",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ],
-        "default_magazine": "medium_storage_battery"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1767,5 +1700,21 @@
     "qualities": [ [ "THREAD_TAP", 2 ], [ "THREAD_CUT", 2 ] ],
     "symbol": "p",
     "color": "light_gray"
+  },
+  {
+    "id": "fanning_mill",
+    "type": "TOOL",
+    "name": { "str": "fanning mill" },
+    "description": "A machine for separating seed from chaff.  It mechanized the winnowing process, in which the grain was separated from the lighter chaff and straw by blowing a leather bellows.",
+    "weight": "15000 g",
+    "volume": "75 L",
+    "price": 25000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "wood" ],
+    "symbol": ";",
+    "color": "brown",
+    "qualities": [ [ "WINNOW", 2 ] ],
+    "melee_damage": { "bash": 3 }
   }
 ]

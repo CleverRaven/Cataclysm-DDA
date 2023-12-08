@@ -498,8 +498,8 @@
     "valid": false,
     "purifiable": false,
     "description": "You have a prosthetic on your right leg.",
-    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_prosthetic_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_PROSTHETIC" ]
   },
   {
@@ -510,8 +510,8 @@
     "valid": false,
     "purifiable": false,
     "description": "You have a prosthetic on your left leg.",
-    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_prosthetic_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_PROSTHETIC" ]
   },
   {
@@ -523,7 +523,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right leg.",
     "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_PEGLEG" ]
   },
   {
@@ -535,7 +535,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left leg.",
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_PEGLEG" ]
   },
   {
@@ -547,7 +547,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left arm.",
     "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_ARM_PROSTHETIC" ]
   },
   {
@@ -559,7 +559,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right arm.",
     "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_ARM_PROSTHETIC" ]
   },
   {
@@ -571,7 +571,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left arm.",
     "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_neuroprosthetic_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_ARM_NEUROPROSTHETIC" ]
   },
   {
@@ -583,7 +583,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right arm.",
     "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_neuroprosthetic_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_ARM_NEUROPROSTHETIC" ]
   },
   {
@@ -595,7 +595,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left arm.",
     "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_ARM_COSMETIC_PROSTHETIC" ]
   },
   {
@@ -607,7 +607,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right arm.",
     "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_ARM_COSMETIC_PROSTHETIC" ]
   },
   {
@@ -774,7 +774,7 @@
     "name": { "str": "Inattentive" },
     "points": -2,
     "starting_trait": true,
-    "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge intent of critters you see.",
+    "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge the intent of critters you see.",
     "purifiable": false,
     "valid": false
   },
@@ -1407,7 +1407,22 @@
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
-    "overmap_sight": 5
+    "overmap_sight": 5,
+    "triggers": [ [ { "condition": { "not": "is_day" }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "EAGLEEYED_NIGHT",
+    "//": "Indistinguishable to player, version without overmap_sight so it doesn't work at night.",
+    "name": { "str": "Scout" },
+    "points": 1,
+    "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
+    "cancels": [ "UNOBSERVANT" ],
+    "valid": false,
+    "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -8962,6 +8977,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_LIGHT",
+    "name": { "str": "Debug Light" },
+    "points": 99,
+    "valid": false,
+    "description": "You start to emit a light, so you can debug in the darkest nights.",
+    "debug": true,
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 9000 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_HS",
     "name": { "str": "Debug Hammerspace" },
     "points": 99,
@@ -9137,8 +9162,8 @@
     "name": { "str": "Rabbit Ears" },
     "points": 1,
     "visibility": 9,
-    "ugliness": -1,
-    "description": "Your ears have grown into tall, flexible and pretty rabbit ears.  They're are slender and enhance your hearing beyond the normal range.",
+    "ugliness": 1,
+    "description": "Your ears have grown into tall and flexible rabbit ears.  They're are slender and enhance your hearing beyond the normal range.",
     "types": [ "EARS" ],
     "category": [ "RABBIT" ],
     "hearing_modifier": 1.8
@@ -9149,8 +9174,8 @@
     "name": { "str": "Rabbit Tail" },
     "points": 0,
     "visibility": 1,
-    "ugliness": -1,
-    "description": "Your stubby tail has become fuzzy and more round.  It looks adorable, but doesn't seem to serve another purpose beyond that.",
+    "ugliness": 1,
+    "description": "Your stubby tail has become fuzzy and more round, but doesn't seem to serve any purpose.",
     "types": [ "TAIL" ],
     "cancels": [ "TAIL_STUB" ],
     "category": [ "RABBIT" ]

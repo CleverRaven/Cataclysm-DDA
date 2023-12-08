@@ -357,7 +357,7 @@
     "base_energy_cost": 450,
     "final_energy_cost": 200,
     "energy_increment": -15,
-    "difficulty": 4,
+    "difficulty": 3,
     "max_level": { "math": [ "dreamer_level(1)" ] },
     "flags": [ "SOMATIC", "CONCENTRATE" ],
     "spell_class": "DREAMER",

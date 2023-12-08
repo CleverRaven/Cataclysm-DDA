@@ -1228,6 +1228,33 @@
     "flags": [ "FLIES", "NO_BREATHE", "BIOLOGICALPROOF", "STUMBLES" ]
   },
   {
+    "id": "mon_flatlander",
+    "type": "MONSTER",
+    "name": { "str": "flatlander" },
+    "description": "An oblong figure floating parallel with the ground, some feet in the air like a piece of paper - Its far thinner than one as well, to the point it would be invisible if looked at with the right angle.",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 30,
+    "speed": 100,
+    "symbol": "|",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "flatlander_attack", "min_level": 1 },
+        "cooldown": 10,
+        "monster_message": "Standing close to the %s, your body is violently dragged down to the second dimension.  You're there for only an instant but the experience is enough to send you reeling."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
+    "flags": [ "FLIES", "NO_BREATHE", "BIOLOGICALPROOF", "SEES", "HEARS", "RANGED_ATTACKER" ]
+  },
+  {
     "id": "mon_memory",
     "type": "MONSTER",
     "name": { "str": "memory", "str_pl": "memories" },

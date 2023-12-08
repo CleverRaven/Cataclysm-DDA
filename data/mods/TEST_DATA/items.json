@@ -4792,5 +4792,63 @@
     "volume": "250 ml",
     "to_hit": -3,
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "welder",
+    "type": "TOOL",
+    "copy-from": "welder",
+    "name": { "str": "arc welder" },
+    "description": "Copy of arc welder that still uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "500 ml",
+        "default_magazine": "medium_storage_battery",
+        "item_restriction": [
+          "medium_storage_battery",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vac_mold",
+    "type": "TOOL",
+    "copy-from": "vac_mold",
+    "name": { "str": "vacuum molder" },
+    "description": "Copy of vacuum molder, that still can uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "makeshift_vacuum_mold",
+    "type": "TOOL",
+    "copy-from": "makeshift_vacuum_mold",
+    "name": { "str": "makeshift vacuum mold" },
+    "description": "Copy of makeshift vacuum molder, that still can uses batteries.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   }
 ]

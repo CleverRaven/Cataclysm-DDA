@@ -1,0 +1,95 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_ascension_chamber_clairsentience",
+    "name": "Osiris chamber",
+    "description": "A vat full of faintly-glowing solution, large enough to hold an adult human with room to spare.  It was obviously used for some kind of scientific experiments, and, based on the glowing lights on the base and the still-active computer terminal next to it, could be used for such again.",
+    "symbol": "0",
+    "color": "white",
+    "looks_like": "t_vat",
+    "move_cost": 0,
+    "coverage": 40,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 80,
+      "sound": "ker-rash!",
+      "sound_fail": "plunk.",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "ter_set": "t_linoleum_white",
+      "items": [
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "RAM", "count": [ 0, 5 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "matrix_crystal_clair_dust_refined", "count": [ 10, 25 ], "prob": 30 }
+      ]
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ascension_chamber_telepathy",
+    "name": "Osiris chamber",
+    "description": "A vat full of faintly-glowing solution, large enough to hold an adult human with room to spare.  It was obviously used for some kind of scientific experiments, and, based on the glowing lights on the base and the still-active computer terminal next to it, could be used for such again.",
+    "symbol": "0",
+    "color": "white",
+    "looks_like": "t_vat",
+    "move_cost": 0,
+    "coverage": 40,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 80,
+      "sound": "ker-rash!",
+      "sound_fail": "plunk.",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "ter_set": "t_linoleum_white",
+      "items": [
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "RAM", "count": [ 0, 5 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "matrix_crystal_telepath_dust_refined", "count": [ 10, 25 ], "prob": 30 }
+      ]
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ascension_chamber_teleporter",
+    "name": "Osiris chamber",
+    "description": "A vat full of faintly-glowing solution, large enough to hold an adult human with room to spare.  It was obviously used for some kind of scientific experiments, and, based on the glowing lights on the base and the still-active computer terminal next to it, could be used for such again.",
+    "symbol": "0",
+    "color": "white",
+    "looks_like": "t_vat",
+    "move_cost": 0,
+    "coverage": 40,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 80,
+      "sound": "ker-rash!",
+      "sound_fail": "plunk.",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "ter_set": "t_linoleum_white",
+      "items": [
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "RAM", "count": [ 0, 5 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "matrix_crystal_teleport_dust_refined", "count": [ 10, 25 ], "prob": 30 }
+      ]
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
+  }
+]

@@ -146,7 +146,7 @@
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
       ]
     },
-    "effect": [ { "npc_add_effect": "stunned", "duration": "1 s" } ]
+    "effect": [ { "npc_add_effect": "psi_stunned", "duration": "1 s" } ]
   },
   {
     "type": "effect_on_condition",
@@ -168,7 +168,7 @@
     "condition": {
       "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken", ">", "0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
     },
-    "effect": [ { "npc_add_effect": "stunned", "duration": "5 s" } ]
+    "effect": [ { "npc_add_effect": "psi_stunned", "duration": "5 s" } ]
   },
   {
     "id": "psi_telepathic_damage",

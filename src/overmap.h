@@ -200,6 +200,9 @@ class overmap
         const point_abs_om &pos() const {
             return loc;
         }
+        int get_urbanity() const {
+            return urbanity;
+        }
 
         void save() const;
 
@@ -444,6 +447,18 @@ class overmap
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
+
+        // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
+        // NOLINTNEXTLINE(cata-serialize)
+        int urbanity = 0;
+        // forest_size_adjust is basically the same as forestosity, but forestosity is
+        // scaled to be comparable to urbanity and other biome stats.
+        // NOLINTNEXTLINE(cata-serialize)
+        float forest_size_adjust = 0.0f;
+        // NOLINTNEXTLINE(cata-serialize)
+        float forestosity = 0.0f;
+        void calculate_urbanity();
+        void calculate_forestosity();
 
         void place_cities();
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
