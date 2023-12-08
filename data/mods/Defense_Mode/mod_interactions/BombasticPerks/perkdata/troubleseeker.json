@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_troubleseek_on",
+    "//": "Activation effect",
+    "effect": [ { "math": [ "diffulty_modifier", "+=", "0.25" ] }, { "u_message": "You start seeking trouble." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_troubleseek_off",
+    "//": "Deactivation effect",
+    "effect": [ { "math": [ "diffulty_modifier", "-=", "0.25" ] }, { "u_message": "You stop seeking trouble for now." } ]
+  }
+]

@@ -120,6 +120,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_liam",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_Liam_Introdialogue" } },
+      { "mapgen_update": "scenario_spawn_liam", "om_terrain": "cabin_liam" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "scenario_surrounded_zombie",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [

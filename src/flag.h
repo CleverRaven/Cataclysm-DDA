@@ -173,6 +173,7 @@ extern const flag_id flag_INSPIRATIONAL;
 extern const flag_id flag_INSTALL_DIFFICULT;
 extern const flag_id flag_IN_CBM;
 extern const flag_id flag_INTEGRATED;
+extern const flag_id flag_IRRADIATED;
 extern const flag_id flag_IRREMOVABLE;
 extern const flag_id flag_IR_EFFECT;
 extern const flag_id flag_IS_ARMOR;

@@ -22,7 +22,7 @@
     "type": "jmath_function",
     "id": "spell_exp",
     "num_args": 1,
-    "//": "accept a spell level, return the amount of XP spell required at this level. Not used anywhere because of #66728 (comment)",
+    "//": "accept a spell level, return the amount of XP spell required at this level.",
     "return": "2.71828182^(0.146661*(_0+62.5))-6200"
   },
   {
@@ -31,6 +31,14 @@
     "num_args": 1,
     "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
     "return": "spell_exp(_0 + 1) - spell_exp(_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "spell_train_factor",
+    "num_args": 1,
+    "//": "accept the spell _cost, return how much spellcasts required to level the spell",
+    "//2": "formula assumes 1000 (plus 500 for eaters) as half of player's default mana pool, and 40 is flat modifier to prevent cheap spells cost ungodly lot of time and micromanagement to level them",
+    "return": "(( u_has_trait('EATER')*500)+1000)/(_0 > 0 ? _0 + 40 : 0)"
   },
   {
     "type": "jmath_function",

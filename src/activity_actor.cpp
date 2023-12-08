@@ -296,12 +296,13 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
-        if( !load_RAS_weapon() ) {
-            aborted = true;
-            act.moves_left = 0;
-            return;
-        }
+    // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
+    // therefore the order of evaluation matters here
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
+        first_turn ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -877,7 +878,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
 
         p.consume_tools( writing_tools, pages );
         book_binder->put_in( item( itype_paper, calendar::turn, pages ),
-                             item_pocket::pocket_type::MAGAZINE );
+                             pocket_type::MAGAZINE );
     } else {
         debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
     }
@@ -2107,7 +2108,11 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                        dest );
+                if( hauling_mode ) {
+                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
+                }
             }
             // If we picked up a whole stack, remove the leftover item
             if( leftovers.charges <= 0 ) {
@@ -2119,8 +2124,17 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
-        if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
-            who.stop_hauling();
+        if( hauling_mode ) {
+            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos() );
+            bool overflow = who.trim_haul_list( haulable_items );
+            if( who.is_hauling() && haulable_items.empty() ) {
+                who.stop_hauling();
+            }
+
+            if( overflow ) {
+                add_msg( m_warning,
+                         _( "You lose track of some hauled items as they didn't fit on the current tile." ) );
+            }
         }
     }
 }
@@ -2133,6 +2147,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
     jsout.member( "relative_destination", relative_destination );
+    jsout.member( "hauling_mode", hauling_mode );
 
     jsout.end_object();
 }
@@ -2147,6 +2162,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValu
     data.read( "quantities", actor.quantities );
     data.read( "to_vehicle", actor.to_vehicle );
     data.read( "relative_destination", actor.relative_destination );
+    data.read( "hauling_mode", actor.hauling_mode );
 
     return actor.clone();
 }
@@ -2727,7 +2743,7 @@ void ebooksave_activity_actor::completed_scanning_current_book( player_activity 
     item_location scanned_book = books.back();
     books.pop_back();
     if( scanned_book ) {
-        ereader->put_in( *scanned_book, item_pocket::pocket_type::EBOOK );
+        ereader->put_in( *scanned_book, pocket_type::EBOOK );
         if( who.is_avatar() ) {
             if( !who.has_identified( scanned_book->typeId() ) ) {
                 who.identify( *scanned_book );
@@ -3202,10 +3218,10 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         contents_change_handler handler;
         bool changed = false;
 
-        for( item_pocket::pocket_type ptype : {
-                 item_pocket::pocket_type::CONTAINER,
-                 item_pocket::pocket_type::MAGAZINE_WELL,
-                 item_pocket::pocket_type::MAGAZINE
+        for( pocket_type ptype : {
+                 pocket_type::CONTAINER,
+                 pocket_type::MAGAZINE_WELL,
+                 pocket_type::MAGAZINE
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
@@ -4306,7 +4322,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
             return ret;
         }
 
-        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
+        return holster->put_in( it, pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
     }
 
     ret = holster->can_contain_partial_directly( it );
@@ -4375,7 +4391,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
         if( !ret.success() ) {
             success = false;
-            std::string error = !ret.str().empty() ?
+            std::string error = ret.str().empty() ?
                                 //~ %1$s: item we failed to put in the container, %2$s: container to put item in
                                 string_format( _( "Could not put %1$s into %2$s." ),
                                                it.tname(), holster->tname() ) :
@@ -4616,8 +4632,26 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = total_moves;
 }
 
+void milk_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        act.set_to_null();
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        // We might end up here if the creature dies while being milked
+        who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
+        act.set_to_null();
+    }
+}
+
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
+    act.set_to_null();
     if( monster_coords.empty() ) {
         debugmsg( "milking activity with no position of monster stored" );
         return;
@@ -4653,8 +4687,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     if( !string_values.empty() && string_values[0] == "temp_tie" ) {
         source_mon->remove_effect( effect_tied );
     }
-
-    act.set_to_null();
 }
 
 void milk_activity_actor::serialize( JsonOut &jsout ) const
@@ -6512,7 +6544,7 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+        gun.put_in( who.i_rem( &mod ), pocket_type::MOD );
         gun.on_contents_changed();
 
     } else if( rng( 0, 100 ) <= risk ) {
@@ -6956,13 +6988,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     !it->first->any_pockets_sealed() ) {
                     std::unordered_map<itype_id, int> item_counts;
                     if( unload_sparse_only ) {
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 item_counts[contained->typeId()]++;
                             }
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( unload_sparse_only &&
@@ -6976,7 +7008,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( it->first->is_ammo_belt() ) {
@@ -7006,7 +7038,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );

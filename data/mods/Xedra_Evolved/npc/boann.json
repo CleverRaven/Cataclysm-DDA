@@ -16,7 +16,7 @@
     "name": "fae noblewoman",
     "job_description": "I'm in charge of the faeries of my court.",
     "common": false,
-    "traits": [ [ "hair_blond_long", 100 ], [ "SKIN_DARK", 100 ] ],
+    "traits": [ { "trait": "hair_long", "variant": "blond" }, { "trait": "SKIN_DARK" } ],
     "bonus_dex": { "rng": [ 4, 10 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
     "skills": [

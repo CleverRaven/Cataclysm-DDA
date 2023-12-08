@@ -358,5 +358,33 @@
     "max_damage": 1,
     "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
     "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_MORALE_DRAIN",
+    "condition": { "u_has_effect": "effect_telepathic_morale" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "u_add_morale": "morale_telepathy",
+        "bonus": 10,
+        "max_bonus": 25,
+        "duration": "4 hours",
+        "decay_start": "2 hours"
+      },
+      {
+        "queue_eocs": "EOC_TELEKIN_MORALE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telepathic_morale') * 150) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telepathic_morale') * 150) + 7200) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   }
 ]

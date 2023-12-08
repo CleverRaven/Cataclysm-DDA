@@ -8,7 +8,7 @@
     "description": "A light battery cell, that was modified and replaced with much more effective cells inside.",
     "count": 125,
     "capacity": 125,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_ULTRA_LIGHT" ],
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_ULTRA_LIGHT", "INVENTOR_CRAFTED" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 125 } } ]
   },
   {
@@ -20,7 +20,7 @@
     "description": "A light battery cell, that was modified and replaced with much more effective cells inside.",
     "count": 375,
     "capacity": 375,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_LIGHT" ],
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_LIGHT", "INVENTOR_CRAFTED" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 375 } } ]
   },
   {
@@ -32,7 +32,7 @@
     "description": "A medium battery cell, that was modified and replaced with much more effective cells inside.",
     "count": 1500,
     "capacity": 1500,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_MEDIUM" ],
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_MEDIUM", "INVENTOR_CRAFTED" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ]
   },
   {
@@ -44,7 +44,7 @@
     "description": "A heavy battery cell, that was modified and replaced with much more effective cells inside.",
     "count": 3125,
     "capacity": 3125,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY" ],
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY", "INVENTOR_CRAFTED" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 3125 } } ]
   },
   {
@@ -56,6 +56,7 @@
     "weight": "2000 g",
     "volume": "2500 ml",
     "material": [ "steel", "plastic" ],
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -83,7 +84,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
@@ -111,6 +112,7 @@
     "type": "TOOL",
     "name": { "str_sp": "IA software" },
     "description": "A USB with simple intelligent agent to provide support in parsing the big layers of information.",
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "qualities": [ [ "AI_TOOL", 1 ] ]
   }
 ]

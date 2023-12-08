@@ -350,6 +350,7 @@
       [ "skirt_long", 60 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
       [ "jacket_jean", 30 ],
       [ "jacket_leather", 30 ],
       [ "leather_police_jacket", 10 ],

@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CHANGE_APPEARANCE",
+    "effect": [ "barber_hair", "barber_beard", { "u_activate": "change_appearance" } ]
+  }
+]

@@ -90,8 +90,8 @@
     "main_part": "arm_stub_l",
     "connected_to": "torso",
     "opposite_part": "arm_stub_r",
-    "hit_size": 0,
-    "hit_difficulty": 1000000,
+    "hit_size": 1,
+    "hit_difficulty": 0.3,
     "limb_type": "arm",
     "limb_scores": [ [ "manip", 0 ], [ "lift", 0 ], [ "balance", 0 ], [ "block", 0 ], [ "swim", 0 ], [ "crawl", 0 ] ],
     "side": "left",
@@ -105,7 +105,44 @@
     "bionic_slots": 0,
     "bmi_encumbrance_threshold": 0,
     "bmi_encumbrance_scalar": 0,
-    "sub_parts": [ "arm_shoulder_l" ]
+    "sub_parts": [ "arm_shoulder_l" ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 3,
+        "duration": 3,
+        "max_duration": 15
+      }
+    ]
   },
   {
     "id": "arm_stub_r",
@@ -122,8 +159,8 @@
     "main_part": "arm_stub_r",
     "connected_to": "torso",
     "opposite_part": "arm_stub_l",
-    "hit_size": 0,
-    "hit_difficulty": 1000000,
+    "hit_size": 1,
+    "hit_difficulty": 0.3,
     "limb_type": "arm",
     "limb_scores": [ [ "manip", 0 ], [ "lift", 0 ], [ "balance", 0 ], [ "block", 0 ], [ "swim", 0 ], [ "crawl", 0 ] ],
     "side": "right",
@@ -137,7 +174,44 @@
     "bionic_slots": 0,
     "bmi_encumbrance_threshold": 0,
     "bmi_encumbrance_scalar": 0,
-    "sub_parts": [ "arm_shoulder_r" ]
+    "sub_parts": [ "arm_shoulder_r" ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 3,
+        "duration": 3,
+        "max_duration": 15
+      }
+    ]
   },
   {
     "id": "leg_stub_r",
@@ -155,7 +229,7 @@
     "limb_types": [ [ "leg", 0.1 ], [ "foot", 0 ] ],
     "limb_scores": [ [ "move_speed", 0.1 ], [ "crawl", 0.5 ], [ "footing", 0.5 ] ],
     "hit_size": 1,
-    "hit_difficulty": 10000,
+    "hit_difficulty": 0.3,
     "side": "right",
     "stylish_bonus": 0,
     "hot_morale_mod": 0,
@@ -176,6 +250,43 @@
       { "weight": "2200 g", "encumbrance": 0 },
       { "weight": "5600 g", "encumbrance": 0 },
       { "weight": "10000 g", "encumbrance": 0 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 3,
+        "duration": 3,
+        "max_duration": 15
+      }
     ]
   },
   {
@@ -194,7 +305,7 @@
     "limb_types": [ [ "leg", 0.1 ], [ "foot", 0 ] ],
     "limb_scores": [ [ "move_speed", 0.1 ], [ "crawl", 0.5 ], [ "footing", 0.5 ] ],
     "hit_size": 1,
-    "hit_difficulty": 10000,
+    "hit_difficulty": 0.3,
     "side": "left",
     "stylish_bonus": 0,
     "hot_morale_mod": 0,
@@ -215,6 +326,43 @@
       { "weight": "2200 g", "encumbrance": 0 },
       { "weight": "5600 g", "encumbrance": 0 },
       { "weight": "10000 g", "encumbrance": 0 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 3,
+        "duration": 3,
+        "max_duration": 15
+      }
     ]
   },
   {
@@ -469,6 +617,72 @@
         "duration_dmg_scaling": 0.5
       }
     ]
+  },
+  {
+    "id": "foot_prosthetic_l",
+    "type": "body_part",
+    "name": "left prosthetic foot",
+    "name_multiple": "feet",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left prosthetic foot" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "prosthetic feet" },
+    "heading": "l. pros foot",
+    "heading_multiple": "feet",
+    "encumbrance_text": "Running is slowed.",
+    "encumbrance_threshold": 5,
+    "main_part": "leg_prosthetic_l",
+    "opposite_part": "foot_prosthetic_r",
+    "hit_size": 2,
+    "hit_difficulty": 0.8,
+    "limb_type": "foot",
+    "limb_scores": [ [ "manip", 0 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
+    "side": "left",
+    "stylish_bonus": 0.5,
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "base_hp": 84,
+    "drench_capacity": 0,
+    "smash_message": "You kick down the %s, smashing it.",
+    "bionic_slots": 0,
+    "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
+    "stat_hp_mods": { "str_mod": 0, "dex_mod": 0, "int_mod": 0, "per_mod": 0 },
+    "flags": [ "LIMB_LOWER", "HEAL_OVERRIDE" ],
+    "bmi_encumbrance_threshold": 0,
+    "bmi_encumbrance_scalar": 0
+  },
+  {
+    "id": "foot_prosthetic_r",
+    "type": "body_part",
+    "name": "right prosthetic foot",
+    "name_multiple": "feet",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right prosthetic foot" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "prosthetic feet" },
+    "heading": "r. pros foot",
+    "heading_multiple": "feet",
+    "encumbrance_text": "Running is slowed.",
+    "encumbrance_threshold": 5,
+    "main_part": "leg_prosthetic_r",
+    "opposite_part": "foot_prosthetic_l",
+    "hit_size": 2,
+    "hit_difficulty": 0.8,
+    "limb_type": "foot",
+    "limb_scores": [ [ "manip", 0 ], [ "footing", 0.5 ], [ "swim", 0.1 ] ],
+    "side": "right",
+    "stylish_bonus": 0.5,
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "base_hp": 84,
+    "drench_capacity": 0,
+    "smash_message": "You kick down the %s, smashing it.",
+    "bionic_slots": 0,
+    "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
+    "stat_hp_mods": { "str_mod": 0, "dex_mod": 0, "int_mod": 0, "per_mod": 0 },
+    "flags": [ "LIMB_LOWER", "HEAL_OVERRIDE" ],
+    "bmi_encumbrance_threshold": 0,
+    "bmi_encumbrance_scalar": 0
   },
   {
     "id": "arm_prosthetic_r",

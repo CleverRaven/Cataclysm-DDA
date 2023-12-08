@@ -60,12 +60,13 @@
     "color": "brown",
     "ammo": [ "3006" ],
     "skill": "rifle",
-    "dispersion": 150,
+    "dispersion": 200,
     "durability": 8,
     "min_cycle_recoil": 3420,
     "reload": 150,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 4 ],
@@ -75,7 +76,7 @@
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "garandclip" ] } ],
@@ -106,10 +107,11 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "sights", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
@@ -147,6 +149,7 @@
     "min_cycle_recoil": 3420,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "barrel_volume": "1000 ml",
+    "default_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -154,7 +157,7 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],

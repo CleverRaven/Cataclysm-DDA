@@ -7,8 +7,8 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -198,7 +198,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_with_magazine",
         REQUIRE( ammo_default_id.str() == ammo9mm_id.str() );
         const ammotype &amtype = ammo9mm_id->ammo->type;
         REQUIRE( cz75mag_20rd.ammo_capacity( amtype ) == 20 );
-        cz75.put_in( cz75mag_20rd, item_pocket::pocket_type::MAGAZINE_WELL );
+        cz75.put_in( cz75mag_20rd, pocket_type::MAGAZINE_WELL );
         REQUIRE( cz75.magazine_current()->typeId().str() == cz75mag_20rd.typeId().str() );
         REQUIRE( cz75.ammo_capacity( amtype ) == 20 );
         WHEN( "set 9mm ammo in the gun with magazine w/o quantity" ) {

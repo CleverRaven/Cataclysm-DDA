@@ -1,0 +1,177 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ALLOW_MAGIC_SEQUENCE",
+    "recurrence": [ "1 d", "3 d" ],
+    "condition": {
+      "and": [
+        {
+          "and": [
+            { "or": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
+            { "or": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] }
+          ]
+        },
+        { "math": [ "magic_potential", ">", "0" ] }
+      ]
+    },
+    "effect": [ { "math": [ "allow_sequence", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_ALLOW_GIVING_CLASS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_trait": "EATER" } },
+            { "not": { "u_has_trait": "DREAMER" } },
+            { "math": [ "allow_sequence", "==", "1" ] },
+            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
+            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+          ]
+        },
+        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "eater_dreamer_sequence", "++" ] } ]
+      },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_trait": "INVENTOR" } },
+            { "not": { "u_has_trait": "DREAMSMITH" } },
+            { "math": [ "allow_sequence", "==", "1" ] },
+            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
+            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+          ]
+        },
+        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", "++" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGIC_BAD_DREAMS",
+    "recurrence": [ "30 m", "2 h" ],
+    "deactivate_condition": {
+      "and": [ { "math": [ "eater_dreamer_sequence", "<", "-1" ] }, { "math": [ "inventor_dreamsmith_sequence", "<", "-1" ] } ]
+    },
+    "condition": {
+      "and": [
+        { "u_has_effect": "sleep" },
+        {
+          "or": [ { "math": [ "eater_dreamer_sequence", ">", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] } ]
+        }
+      ]
+    },
+    "effect": [ { "u_message": "XE_BAD_DREAMS", "type": "bad", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGIC_SEQUENCE_EATER_DREAMER_COUNTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "math": [ "eater_dreamer_sequence", ">", "0" ] },
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
+        "then": [
+          { "math": [ "eater_dreamer_sequence", "++" ] },
+          {
+            "switch": { "math": [ "eater_dreamer_sequence" ] },
+            "cases": [
+              {
+                "case": 2,
+                "effect": { "u_message": "In your dream, you standed at the edge of two world, and it felt bad.", "type": "mixed", "popup": true }
+              },
+              {
+                "case": 3,
+                "effect": {
+                  "u_message": "One world was infinitely small, concentrated into one dot, and infinitely heavy, with strong, neverending wind, and scorching heat.",
+                  "type": "mixed",
+                  "popup": true
+                }
+              },
+              {
+                "case": 4,
+                "effect": {
+                  "u_message": "Another world was limitless, with no boundaries, and full of all odds.  You watched at it, and you didn't know what you saw.",
+                  "type": "mixed",
+                  "popup": true
+                }
+              },
+              {
+                "case": 5,
+                "effect": [
+                  { "u_message": "In your dream, there is only you to decide.", "type": "mixed", "popup": true },
+                  {
+                    "u_message": "You don't remember much from this dream, but what you remember is there was something… or someone, and you answered a questions for this.",
+                    "type": "mixed",
+                    "popup": true
+                  },
+                  { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+                  { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+                  { "run_eocs": [ "EOC_XE_RUN_RIDDLE_EATER_DREAMER" ] },
+                  { "math": [ "eater_dreamer_sequence", "=", "-99999" ] },
+                  { "math": [ "magic_potential", "=", "0" ] }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [ { "math": [ "eater_dreamer_sequence", "=", "-99999" ] }, { "math": [ "magic_potential", "=", "0" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGIC_SEQUENCE_INVENTOR_DREAMSMITH_COUNTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] },
+    "effect": [
+      { "math": [ "inventor_dreamsmith_sequence", "++" ] },
+      {
+        "if": { "and": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
+        "then": [
+          {
+            "switch": { "math": [ "inventor_dreamsmith_sequence" ] },
+            "cases": [
+              {
+                "case": 2,
+                "effect": { "u_message": "It happens again.  Otherworldy nightmares, they haunt you.", "type": "mixed", "popup": true }
+              },
+              {
+                "case": 3,
+                "effect": { "u_message": "Another time, another two world.", "type": "mixed", "popup": true }
+              },
+              {
+                "case": 4,
+                "effect": { "u_message": "You don't remember much from this two, they felt very similar.", "type": "mixed", "popup": true }
+              },
+              {
+                "case": 5,
+                "effect": { "u_message": "One was tiring and hard-working.", "type": "mixed", "popup": true }
+              },
+              {
+                "case": 6,
+                "effect": { "u_message": "Another was information, information, and nothing but information.", "type": "mixed", "popup": true }
+              },
+              {
+                "case": 7,
+                "effect": [
+                  { "u_message": "It is time to choose again.", "type": "mixed", "popup": true },
+                  { "u_message": "It is that person again.", "type": "mixed", "popup": true },
+                  { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+                  { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
+                  { "run_eocs": [ "EOC_XE_RUN_RIDDLE_INVENTOR_DREAMSMITH" ] },
+                  { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [ { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }, { "math": [ "magic_potential", "=", "-1" ] } ]
+      }
+    ]
+  }
+]
