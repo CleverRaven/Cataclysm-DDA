@@ -1129,6 +1129,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_camouflage",
+    "name": [ "Chameleoflage" ],
+    "desc": [ "You bending nearby light to make yourself more difficult to spot." ],
+    "apply_message": "",
+    "remove_message": "You stop bending light around your location.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_light_barrier",
     "name": [ "Lucent Barrier" ],
     "desc": [ "You are protected from extremes of light and radiation." ],
@@ -1289,11 +1299,10 @@
     "name": [ "Flame Immunity" ],
     "desc": [ "You are completely immune to fire." ],
     "apply_message": "",
+    "remove_message": "You are once again vulnerable to fire.",
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 95,
-    "dur_add_perc": 10,
-    "int_dur_factor": "19 s",
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE" ]
   },
@@ -1614,10 +1623,10 @@
       [ "The inner voices of your allies begin to fade.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "10 minutes",
     "max_intensity": 59,
     "dur_add_perc": 10,
-    "int_dur_factor": "31 s",
+    "int_dur_factor": "10 s",
     "enchantments": [
       {
         "values": [
