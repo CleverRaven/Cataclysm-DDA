@@ -134,6 +134,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "subway_four_way",    &mapgen_subway },
 
             { "lake_shore", &mapgen_lake_shore },
+            { "ocean_shore", &mapgen_ocean_shore },
             { "ravine_edge", &mapgen_ravine_edge },
         }
     };
@@ -1537,6 +1538,9 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // To accomplish this extension, we simply count up the adjacent terrains that are in the
     // defined extendable terrain setting, choose the most common one, and then run its mapgen.
+	
+	// NOTE: Presently this treats ocean and lake shore as identical.  Some, but not all, of the
+	// ocean checks should eventually be refactored into mapgen_ocean_shore.
     bool did_extend_adjacent_terrain = false;
     if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
@@ -1595,25 +1599,25 @@ void mapgen_lake_shore( mapgendata &dat )
     auto is_lake = [&]( const oter_id & id ) {
         // We want to consider river_center as a lake as well, so that the confluence of a
         // river and a lake is a continuous water body.
-        return id.obj().is_lake() || id == river_center;
+        return id.obj().is_lake() || id.obj().is_ocean() || id == river_center;
     };
 
     const auto is_shore = [&]( const oter_id & id ) {
-        return id.obj().is_lake_shore();
+        return id.obj().is_lake_shore() || id.obj().is_ocean_shore();
     };
 
     const auto is_river_bank = [&]( const oter_id & id ) {
         return id != river_center && id.obj().is_river();
     };
 
-    const bool n_lake  = is_lake( dat.north() );
-    const bool e_lake  = is_lake( dat.east() );
-    const bool s_lake  = is_lake( dat.south() );
-    const bool w_lake  = is_lake( dat.west() );
-    const bool nw_lake = is_lake( dat.nwest() );
-    const bool ne_lake = is_lake( dat.neast() );
-    const bool se_lake = is_lake( dat.seast() );
-    const bool sw_lake = is_lake( dat.swest() );
+    const bool n_lake  = is_lake( dat.north() ) || is_ocean( dat.north() );
+    const bool e_lake  = is_lake( dat.east() ) || is_ocean( dat.east() );
+    const bool s_lake  = is_lake( dat.south() ) || is_ocean( dat.south() );
+    const bool w_lake  = is_lake( dat.west() ) || is_ocean( dat.west() );
+    const bool nw_lake = is_lake( dat.nwest() ) || is_ocean( dat.nwest() );
+    const bool ne_lake = is_lake( dat.neast() ) || is_ocean( dat.neast() );
+    const bool se_lake = is_lake( dat.seast() ) || is_ocean( dat.seast() );
+    const bool sw_lake = is_lake( dat.swest() ) || is_ocean( dat.swest() );
 
     // If we don't have any adjacent lakes, then we don't need to worry about a shoreline,
     // and are done at this point.
@@ -1937,6 +1941,14 @@ void mapgen_lake_shore( mapgendata &dat )
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
     m->translate( t_null, t_water_sh );
+}
+
+void mapgen_ocean_shore( mapgendata &dat )
+{
+    //eventually we may want to do this differently, but this works for now:
+    //note that currently oceans don't have their own shore data so we'll need
+    //to add that before getting grittier.
+    mapgen_lake_shore( dat );
 }
 
 void mapgen_ravine_edge( mapgendata &dat )

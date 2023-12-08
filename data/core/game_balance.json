@@ -288,31 +288,10 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_NOCEAN_EDGE_NORTH",
-    "info": "After how many OM tiles should a freshwater ocean form in the North? 0=no ocean.",
-    "stype": "int",
-    "value": 500
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_NOCEAN_EDGE_EAST",
-    "info": "After how many OMs should a freshwater ocean form in the East? 0=no ocean.",
-    "stype": "int",
-    "value": 10
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_NOCEAN_EDGE_WEST",
-    "info": "After how many OM tiles should a freshwater ocean form in the West? 0=no ocean.",
-    "stype": "int",
-    "value": 1000
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_NOCEAN_EDGE_SOUTH",
-    "info": "After how many OM tiles should a freshwater ocean form in the South? 0=no ocean.",
-    "stype": "int",
-    "value": 75
+    "name": "OVERMAP_PLACE_OCEANS",
+    "info": "Allows to place procgen oceans during overmap generation.",
+    "stype": "bool",
+    "value": true
   },
   {
     "type": "EXTERNAL_OPTION",

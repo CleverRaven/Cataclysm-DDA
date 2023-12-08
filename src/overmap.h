@@ -430,6 +430,7 @@ class overmap
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
         void place_lakes();
+        void place_oceans();
         void place_rivers( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west );
         void place_swamps();
@@ -552,7 +553,7 @@ class overmap
 };
 
 bool is_river( const oter_id &ter );
-bool is_river_or_lake( const oter_id &ter );
+bool is_water_body( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain
