@@ -2,19 +2,19 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ocean_surface" ],
-    "object": { "fill_ter": "t_swater_dp" }
+    "om_terrain": [ "lake_surface" ],
+    "object": { "fill_ter": "t_water_dp" }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ocean_water_cube" ],
+    "om_terrain": [ "lake_water_cube" ],
     "object": { "fill_ter": "t_water_cube" }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ocean_bed" ],
+    "om_terrain": [ "lake_bed" ],
     "object": { "fill_ter": "t_lake_bed" }
   }
 ]
