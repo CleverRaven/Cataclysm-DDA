@@ -1524,6 +1524,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -1543,6 +1544,7 @@
         [ "welding_kit", 42 ],
         [ "welder_crude", 63 ],
         [ "soldering_iron", 63 ],
+        [ "soldering_iron_portable", 63 ],
         [ "integrated_welder", 63 ]
       ]
     ],
@@ -1568,6 +1570,7 @@
         [ "welding_kit", 74 ],
         [ "welder_crude", 112 ],
         [ "soldering_iron", 112 ],
+        [ "soldering_iron_portable", 112 ],
         [ "integrated_welder", 112 ]
       ]
     ],
@@ -1743,6 +1746,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2063,6 +2067,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2095,6 +2100,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2128,6 +2134,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2157,6 +2164,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2191,6 +2199,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],

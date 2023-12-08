@@ -1,0 +1,181 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Introdialogue",
+    "dynamic_line": "Years ago, you and your old group of friends made a pact.  It seemed like a joke at the time: if the world ended, you'd all meet up at Liam's cabin, if you could, and work together to help each other out.  Now, the unthinkable has happened, and somehow you've made it out in one piece.  It's been years since you saw those friends, though you've kept a little bit in touch on social media, and you can only hope that the others perhaps took the idea seriously.  Even if they did, it would be a hard trip.  The roads were blocked off by military forces trying to prevent the riots from spreading, and you had to make the last part of the journey on foot.\n\nAs the morning light breaks into day, you've reached Liam's cabin, a ramshackle building in the woods outside <city>.  You can see Liam's car in front, looking a bit more run down since you last saw him a few years ago.  You feel a swell of relief: at least Liam seems to have made it!  As you approach the door, you hear a shout of terror from inside, and then the unmistakable sound of a gunshot.  Were you a moment too late?",
+    "responses": [ { "text": "I'd better get in there and check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "npc",
+    "id": "starting_follower_liam",
+    "//": "Special NPC you can only meet through the 'start with a friend' scenario. Will need his own class and items before completing this.",
+    "name_unique": "Liam",
+    "class": "NC_STARTINGNPC_LIAM",
+    "gender": "male",
+    "attitude": 0,
+    "mission": 7,
+    "faction": "no_faction",
+    "age": 27,
+    "height": 182,
+    "str": 9,
+    "dex": 8,
+    "int": 7,
+    "per": 9,
+    "personality": { "aggression": 0, "bravery": 0, "collector": 0, "altruism": 8 },
+    "chat": "TALK_Liam_Meeting1",
+    "talk_friend": "TALK_FRIEND_Liam",
+    "talk_friend_guard": "TALK_FRIEND_GUARD_Liam"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_STARTINGNPC_LIAM",
+    "name": { "str": "expert in entry level jobs" },
+    "job_description": "It's you and me in this together, buddy.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "skills": [
+      { "skill": "archery", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 0, 1 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 2 ] } }
+    ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_carpentry_basic",
+      "prof_driver",
+      "prof_food_prep",
+      "prof_frying",
+      "prof_gun_cleaning",
+      "prof_wound_care"
+    ],
+    "worn_override": "Liam_worn",
+    "carry_override": "Liam_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "BADHEARING", "prob": 50 },
+      { "trait": "LIGHTSTEP", "prob": 70 },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "PACKMULE", "prob": 80 },
+      { "trait": "SLOWREADER", "prob": 50 },
+      { "trait": "STRONGBACK", "prob": 80 },
+      { "trait": "TOUGH", "prob": 80 },
+      { "group": "Hair_Black" },
+      { "group": "Skin_Medium" },
+      { "group": "Eye_light" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "Liam_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "socks" },
+      { "item": "boxer_shorts" },
+      { "item": "longshirt" },
+      { "item": "hoodie" },
+      { "item": "jeans" },
+      { "item": "backpack" },
+      { "item": "boots" },
+      { "item": "gloves_light" },
+      { "item": "jacket_light" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "Liam_carry",
+    "subtype": "collection",
+    "entries": [
+      { "group": "candy_chocolate" },
+      { "group": "foodintincan" },
+      { "item": "multitool" },
+      { "item": "lighter", "charges": 100 },
+      { "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "item": "bandages", "count": 3 },
+      { "item": "water_clean", "container-item": "canteen" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Meeting1",
+    "dynamic_line": {
+      "u_has_var": "modded",
+      "type": "flag",
+      "value": "ddotd",
+      "no": "*, your old friend, stares at you with blank, confused eyes.  He is standing over a freshly mangled corpse, a smoking shotgun at his feet.  \"Holy shit dude.\"  He blinks.  \"Is this about Chris?  If you're here to kill me, just get it over with man.  I don't know what the fuck is happening but I can't take you out too.\"",
+      "yes": "<talk_snippet_modded_liam_meeting1>"
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_liam", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Get ahold of yourself, man.  What's happening?  Chris?",
+        "topic": "TALK_Liam_Meeting2",
+        "condition": { "not": { "u_has_var": "modded", "type": "flag", "value": "ddotd" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Meeting2",
+    "dynamic_line": "*gestures at the body.  \"Chris.  You know Chris, you've known Chris for years.  We all agreed to meet up here if shit got bad, remember?  We got here around the same time, set up a little camp.  Something seemed really off since we arrived though, Chris kept going on and on about how the food wasn't good enough.\"  He shifts his gaze back to you, eyes red.  \"We got plenty of food!  I tried to calm him down but just now the fucker came running in with an axe, tried to take my head off!  I… I…\" Liam gestures again to the corpse.  \"Then you came in.  Do you got anything to do with this?\"",
+    "responses": [
+      {
+        "text": "I heard gunshots, so I came in to see what's up.  I was just on my way here to see if you'd made it.",
+        "topic": "TALK_Liam_Meeting3"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Meeting3",
+    "dynamic_line": "Well, shit.  I'm guessing my story sounds like a lot of bullshit then.\"  Liam sags into the sofa behind him, wiping his eyes with his sleeve.  \"What the hell are we gonna do?  Holy shit.",
+    "responses": [
+      {
+        "text": "I believe you.  People have been acting crazy for weeks, it must have got Chris too.  Come on.  We're in this together.",
+        "topic": "TALK_Liam_Meeting4a"
+      },
+      {
+        "text": "Pull yourself together.  You did what you had to.  The shit has hit the fan, no time for moping around.",
+        "topic": "TALK_Liam_Meeting4b"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Meeting4a",
+    "dynamic_line": "Thanks.  It's good to hear that.  Look, I'm sure I should be questioning you and making sure you're not gonna attack me with an axe or something, but I just can't anymore.  Come on, let's get Chris out of here and then figure out what to do next.",
+    "responses": [ { "text": "Sure thing.  Let's go.", "effect": "follow", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Meeting4b",
+    "dynamic_line": "All right, yeah.  Fair call.  I'm just a bit shell shocked, but it's good to see you.  Let's get Chris out of here and figure out what to do next",
+    "responses": [ { "text": "Sure thing.  Let's go.", "effect": "follow", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_FIND_LIAM",
+    "type": "mission_definition",
+    "name": { "str": "Check to see if Liam is OK" },
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_var": "talked_liam", "value": "yes" },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_liam", "om_special": "cabin_liam", "reveal_radius": 1, "random": false, "search_range": 10 }
+    },
+    "difficulty": 0,
+    "value": 0,
+    "origins": [ "ORIGIN_GAME_START" ]
+  }
+]
