@@ -248,7 +248,7 @@
     "//": "Empty high-caliber pistols and revolvers found within hunting supply stores and related locations.",
     "items": [
       { "item": "glock_20", "variant": "glock_20", "prob": 15 },
-      { "item": "glock_20", "variant": "glock_40", "prob": 15 },
+      { "item": "glock_40", "variant": "glock_40", "prob": 15 },
       { "item": "sw_610", "prob": 20 },
       { "item": "sw_619", "prob": 25 },
       { "item": "bfr", "prob": 10 },
