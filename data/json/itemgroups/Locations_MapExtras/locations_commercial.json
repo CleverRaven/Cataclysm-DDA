@@ -387,6 +387,7 @@
       [ "pants", 75 ],
       [ "pants_army", 30 ],
       [ "jacket_army", 30 ],
+      [ "tacjacket", 25 ],
       [ "winter_pants_army", 10 ],
       [ "winter_jacket_army", 10 ],
       [ "winter_gloves_army", 10 ],
@@ -821,8 +822,8 @@
       [ "restaurantmap", 5 ],
       [ "touristmap", 5 ],
       [ "fried_seeds", 5 ],
-      [ "seasoning_salt", 20 ],
-      [ "pepper", 20 ],
+      { "prob": 20, "group": "seasoning_salt_bag_plastic_100" },
+      { "prob": 20, "group": "pepper_bag_plastic_100" },
       [ "cinnamon", 10 ],
       [ "cup_plastic", 10 ],
       [ "ceramic_cup", 80 ],
@@ -1667,8 +1668,8 @@
       [ "scissors", 10 ],
       { "item": "gasoline_lantern", "prob": 7, "charges": [ 0, 500 ] },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
-      { "item": "hotplate", "prob": 20, "charges": [ 0, 500 ] },
-      { "item": "coffeemaker", "prob": 25, "charges": [ 0, 500 ] },
+      { "item": "hotplate", "prob": 20 },
+      { "item": "coffeemaker", "prob": 25 },
       [ "textbook_firstaid", 2 ],
       [ "cigar_cutter", 5 ],
       [ "cigar_punch", 5 ],
@@ -1788,7 +1789,8 @@
       [ "amplifier", 7 ],
       [ "transponder", 5 ],
       [ "receiver", 5 ],
-      { "item": "soldering_iron", "prob": 65, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron", "prob": 65 },
+      { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
       [ "solder_wire", 50 ],
       [ "superglue", 55 ],
       [ "screwdriver", 60 ],
@@ -2045,10 +2047,7 @@
     "id": "hotel_coffee_bar",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "coffeemaker", "prob": 60, "charges": [ 0, 200 ] },
-      { "group": "coffee_display", "prob": 60, "count": [ 1, 3 ] }
-    ]
+    "entries": [ { "item": "coffeemaker", "prob": 60 }, { "group": "coffee_display", "prob": 60, "count": [ 1, 3 ] } ]
   },
   {
     "type": "item_group",

@@ -1857,7 +1857,13 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "integrated_welder", 97 ] ],
+      [
+        [ "welder", 64 ],
+        [ "welder_crude", 97 ],
+        [ "soldering_iron", 97 ],
+        [ "soldering_iron_portable", 97 ],
+        [ "integrated_welder", 97 ]
+      ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
@@ -1880,7 +1886,13 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "integrated_welder", 72 ] ],
+      [
+        [ "welder", 48 ],
+        [ "welder_crude", 72 ],
+        [ "soldering_iron", 72 ],
+        [ "soldering_iron_portable", 72 ],
+        [ "integrated_welder", 72 ]
+      ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
@@ -1903,7 +1915,13 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "integrated_welder", 109 ] ],
+      [
+        [ "welder", 72 ],
+        [ "welder_crude", 109 ],
+        [ "soldering_iron", 109 ],
+        [ "soldering_iron_portable", 109 ],
+        [ "integrated_welder", 109 ]
+      ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]

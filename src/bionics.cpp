@@ -672,7 +672,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( ups_drain > 0_kJ ) {
             ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
         }
-        const int cbm_ammo = free_power /  bio.info().power_activate;
+        const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
 
         if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             if( real_weapon.is_null() ) {

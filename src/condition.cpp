@@ -2294,7 +2294,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         } else if( checked_value == "vitamin" ) {
             std::string vitamin_name = jo.get_string( "name" );
             return [is_npc, vitamin_name]( dialogue const & d ) {
-                Character *you = d.actor( is_npc )->get_character();
+                Character const *you = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
                 if( you ) {
                     return you->vitamin_get( vitamin_id( vitamin_name ) );
                 } else {
