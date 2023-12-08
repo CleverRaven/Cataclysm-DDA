@@ -633,7 +633,7 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
-    load_overmap_ocean_settings( jo, new_region.overmap_lake, strict, false );
+    load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 

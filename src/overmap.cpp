@@ -686,7 +686,7 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::lake: return "LAKE";
         case oter_flags::lake_shore: return "LAKE_SHORE";
         case oter_flags::ocean: return "OCEAN";
-        case oter_flags::ocean: return "OCEAN_SHORE";
+        case oter_flags::ocean_shore: return "OCEAN_SHORE";
         case oter_flags::ravine: return "RAVINE";
         case oter_flags::ravine_edge: return "RAVINE_EDGE";
         case oter_flags::generic_loot: return "GENERIC_LOOT";
@@ -4686,8 +4686,8 @@ void overmap::place_oceans()
     const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
     const point_abs_om this_om = pos();
 
-
-    const float calculate_ocean_gradient = [&]( const point_om_omt & p ) {
+    // This is my first lambda, be nice to me.
+    const auto calculate_ocean_gradient = [&]( const point_om_omt & p ) {
         float ocean_adjust_N = 0.0f;
         float ocean_adjust_E = 0.0f;
         float ocean_adjust_W = 0.0f;

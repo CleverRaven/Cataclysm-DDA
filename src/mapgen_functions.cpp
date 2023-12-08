@@ -1538,9 +1538,9 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // To accomplish this extension, we simply count up the adjacent terrains that are in the
     // defined extendable terrain setting, choose the most common one, and then run its mapgen.
-	
-	// NOTE: Presently this treats ocean and lake shore as identical.  Some, but not all, of the
-	// ocean checks should eventually be refactored into mapgen_ocean_shore.
+
+    // NOTE: Presently this treats ocean and lake shore as identical.  Some, but not all, of the
+    // ocean checks should eventually be refactored into mapgen_ocean_shore.
     bool did_extend_adjacent_terrain = false;
     if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
@@ -1599,7 +1599,12 @@ void mapgen_lake_shore( mapgendata &dat )
     auto is_lake = [&]( const oter_id & id ) {
         // We want to consider river_center as a lake as well, so that the confluence of a
         // river and a lake is a continuous water body.
-        return id.obj().is_lake() || id.obj().is_ocean() || id == river_center;
+        return id.obj().is_lake() || id == river_center;
+    };
+    auto is_ocean = [&]( const oter_id & id ) {
+        // This could just as easily be in is_lake() but this helps to future-proof
+        // in case we want to adjust behaviour for salt water transitions.
+        return id.obj().is_ocean();
     };
 
     const auto is_shore = [&]( const oter_id & id ) {
