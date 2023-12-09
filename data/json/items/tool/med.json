@@ -70,9 +70,10 @@
     "name": { "str": "makeshift bandage" },
     "copy-from": "bandages",
     "description": "A reasonably clean piece of cloth wrapped for use as a simple bandage.  Better than nothing.",
-    "weight": "38 g",
-    "volume": "47 ml",
-    "price_postapoc": 10,
+    "//": "10 x 60 cm, three out of a sheet",
+    "weight": "12600 mg",
+    "volume": "16 ml",
+    "price_postapoc": 3,
     "flags": [ "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 }
   },
