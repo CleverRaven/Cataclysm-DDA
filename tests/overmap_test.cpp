@@ -59,10 +59,10 @@ static const oter_type_str_id oter_type_unvitrified_farm_1( "unvitrified_farm_1"
 static const oter_type_str_id oter_type_unvitrified_farm_2( "unvitrified_farm_2" );
 static const oter_type_str_id oter_type_unvitrified_farm_neg_1( "unvitrified_farm_neg_1" );
 static const oter_type_str_id oter_type_unvitrified_orchard( "unvitrified_orchard" );
-static const oter_type_str_id oter_type_ocean_shore.( "ocean_shore" );
-static const oter_type_str_id oter_type_ocean_bed.( "ocean_bed" );
-static const oter_type_str_id oter_type_ocean_surface.( "ocean_surface" );
-static const oter_type_str_id oter_type_ocean_water_cube.( "ocean_water_cube" );
+static const oter_type_str_id oter_type_ocean_shore( "ocean_shore" );
+static const oter_type_str_id oter_type_ocean_bed( "ocean_bed" );
+static const oter_type_str_id oter_type_ocean_surface( "ocean_surface" );
+static const oter_type_str_id oter_type_ocean_water_cube( "ocean_water_cube" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
