@@ -188,7 +188,7 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-class om_settings_forest;
+struct om_settings_forest;
 using om_settings_forest_id = string_id<om_settings_forest>;
 
 class overmap_connection;

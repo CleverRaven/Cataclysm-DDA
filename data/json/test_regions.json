@@ -1,5 +1,15 @@
 [
   {
+    "type": "om_settings_forest",
+    "id": "desert",
+    "noise_threshold_forest": 0.6,
+    "noise_threshold_forest_thick": 0.7,
+    "noise_threshold_swamp_adjacent_water": 0.4,
+    "noise_threshold_swamp_isolated": 0.7,
+    "river_floodplain_buffer_distance_min": 1,
+    "river_floodplain_buffer_distance_max": 6
+  },
+  {
     "type": "region_settings",
     "id": "desert_test",
     "default_oter": [
@@ -25,6 +35,7 @@
       "empty_rock",
       "empty_rock"
     ],
+    "overmap_forest_settings": "desert",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
@@ -49,14 +60,6 @@
       "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
-    },
-    "overmap_forest_settings": {
-      "noise_threshold_forest": 0.6,
-      "noise_threshold_forest_thick": 0.7,
-      "noise_threshold_swamp_adjacent_water": 0.4,
-      "noise_threshold_swamp_isolated": 0.7,
-      "river_floodplain_buffer_distance_min": 1,
-      "river_floodplain_buffer_distance_max": 6
     },
     "forest_mapgen_settings": {
       "forest": {

@@ -1,7 +1,7 @@
 [
   {
     "type": "om_settings_forest",
-    "id": "midland",
+    "id": "default",
     "noise_threshold_forest": 0.2,
     "noise_threshold_forest_thick": 0.25,
     "noise_threshold_swamp_adjacent_water": 0.3,
@@ -37,6 +37,7 @@
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "//": "Weights are set high in order to allow mods to add rare terrains.  Dividing current weights by 1000 breaks in repo mods and should not be approved.",
+    "overmap_forest_settings": "default",
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000 },

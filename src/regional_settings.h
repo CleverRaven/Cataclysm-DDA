@@ -188,24 +188,24 @@ struct overmap_feature_flag_settings {
     overmap_feature_flag_settings() = default;
 };
 
+om_settings_forest_id const bogus_forest_id;
+
 struct om_settings_forest {
     om_settings_forest() = default;
-        
+
     double noise_threshold_forest = 0.25;
     double noise_threshold_forest_thick = 0.3;
     double noise_threshold_swamp_adjacent_water = 0.3;
     double noise_threshold_swamp_isolated = 0.6;
     int river_floodplain_buffer_distance_min = 3;
     int river_floodplain_buffer_distance_max = 15;
-    
+
     om_settings_forest_id id;
     std::vector<std::pair<om_settings_forest_id, mod_id>> src;
     bool was_loaded = false;
     static void load_om_settings_forest( const JsonObject &jo, const std::string &src );
     void load( const JsonObject &jo, std:: string_view );
     const std::vector<om_settings_forest> &get_all();
-    void serialize( JsonOut &json ) const;
-    void deserialize( const JsonObject &jsobj ) const;
     bool is_valid() const;
     static void reset_om_settings_forest();
 };
@@ -277,7 +277,7 @@ struct regional_settings {
     forest_trail_settings forest_trail;
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
-    om_settings_forest overmap_forest;
+    om_settings_forest_id overmap_forest;
     overmap_lake_settings overmap_lake;
     overmap_ravine_settings overmap_ravine;
     region_terrain_and_furniture_settings region_terrain_and_furniture;

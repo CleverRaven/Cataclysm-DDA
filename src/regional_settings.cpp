@@ -49,7 +49,8 @@ bool string_id<om_settings_forest>::is_valid() const
 {
     return om_forest_factory.is_valid( *this );
 }
-void om_settings_forest::load_om_settings_forest(const JsonObject &jo, const std::string &src) {
+void om_settings_forest::load_om_settings_forest( const JsonObject &jo, const std::string &src )
+{
     om_forest_factory.load( jo, src );
 }
 void om_settings_forest::load( const JsonObject &jo, const std::string_view )
@@ -57,46 +58,25 @@ void om_settings_forest::load( const JsonObject &jo, const std::string_view )
     // if these settings aren't loaded, we just revert to the defaults.
     optional( jo, was_loaded, "noise_threshold_forest", noise_threshold_forest );
     optional( jo, was_loaded, "noise_threshold_forest_thick", noise_threshold_forest_thick );
-    optional( jo, was_loaded, "noise_threshold_swamp_adjacent_water", noise_threshold_swamp_adjacent_water );
+    optional( jo, was_loaded, "noise_threshold_swamp_adjacent_water",
+              noise_threshold_swamp_adjacent_water );
     optional( jo, was_loaded, "noise_threshold_swamp_isolated", noise_threshold_swamp_isolated );
-    optional( jo, was_loaded, "river_floodplain_buffer_distance_min", river_floodplain_buffer_distance_min );
-    optional( jo, was_loaded, "river_floodplain_buffer_distance_max", river_floodplain_buffer_distance_max );
+    optional( jo, was_loaded, "river_floodplain_buffer_distance_min",
+              river_floodplain_buffer_distance_min );
+    optional( jo, was_loaded, "river_floodplain_buffer_distance_max",
+              river_floodplain_buffer_distance_max );
 }
 const std::vector<om_settings_forest> &om_settings_forest::get_all()
 {
     return om_forest_factory.get_all();
 }
-void om_settings_forest::reset_om_settings_forest() {
+void om_settings_forest::reset_om_settings_forest()
+{
     om_forest_factory.reset();
 }
 bool om_settings_forest::is_valid() const
 {
     return om_forest_factory.is_valid( this->id );
-}
-void om_settings_forest::serialize( JsonOut &json ) const
-{
-    json.start_object();
-
-    json.member( "type", "om_settings_forest" );
-    json.member( "id", id );
-    
-    json.member( "noise_threshold_forest", noise_threshold_forest );
-    json.member( "noise_threshold_forest_thick", noise_threshold_forest_thick );
-    json.member( "noise_threshold_swamp_adjacent_water", noise_threshold_swamp_adjacent_water );
-    json.member( "noise_threshold_swamp_isolated", noise_threshold_swamp_isolated );
-    json.member( "river_floodplain_buffer_distance_min", river_floodplain_buffer_distance_min );
-    json.member( "river_floodplain_buffer_distance_max", river_floodplain_buffer_distance_max );
-        
-    json.end_object();
-}
-void om_settings_forest::deserialize( const JsonObject &jsobj ) const
-{
-    jsobj.read( "noise_threshold_forest", noise_threshold_forest );
-    jsobj.read( "noise_threshold_forest_thick", noise_threshold_forest_thick );
-    jsobj.read( "noise_threshold_swamp_adjacent_water", noise_threshold_swamp_adjacent_water );
-    jsobj.read( "noise_threshold_swamp_isolated", noise_threshold_swamp_isolated );
-    jsobj.read( "river_floodplain_buffer_distance_min", river_floodplain_buffer_distance_min );
-    jsobj.read( "river_floodplain_buffer_distance_max", river_floodplain_buffer_distance_max );
 }
 
 static void load_forest_biome_component(
@@ -643,6 +623,8 @@ void load_region_settings( const JsonObject &jo )
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
+
+    optional( jo, false, "overmap_forest_settings", new_region.overmap_forest, bogus_forest_id );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
