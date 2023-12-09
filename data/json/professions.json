@@ -108,7 +108,14 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_soldering_iron",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "soldering_iron" } ]
+    "entries": [
+      {
+        "item": "light_plus_battery_cell",
+        "ammo-item": "battery",
+        "charges": 150,
+        "container-item": "soldering_iron_portable"
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -839,11 +846,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
-        "entries": [
-          { "item": "pants", "variant": "pants_stone" },
-          { "group": "charged_smart_phone" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "chemistry_set" }
-        ]
+        "entries": [ { "item": "pants", "variant": "pants_stone" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -863,8 +866,7 @@
         "entries": [
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_smart_phone" },
-          { "item": "wrench", "container-item": "tool_belt" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" }
+          { "item": "wrench", "container-item": "tool_belt" }
         ]
       },
       "male": [ "boxer_shorts" ],

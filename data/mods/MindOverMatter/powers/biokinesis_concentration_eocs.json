@@ -391,7 +391,7 @@
     "id": "EOC_BIOKIN_REMOVE_HAMMERHAND",
     "condition": { "u_has_effect": "effect_biokin_hammerhand" },
     "effect": [
-      { "u_remove_item_with": "effect_biokin_hammerhand" },
+      { "u_remove_item_with": "biokin_hammerhand_item" },
       { "u_lose_effect": "effect_biokin_hammerhand" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
     ]

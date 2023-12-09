@@ -58,6 +58,36 @@
     "max_damage": 350
   },
   {
+    "type": "SPELL",
+    "id": "pattern_screamer_rock_thrower_prep",
+    "name": { "str": "Feral One Perfect Shot" },
+    "teachable": false,
+    "description": "Pattern screamer prepares to hurl a rock with deadly accuracy",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 40,
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": 8,
+    "max_range": 8,
+    "range_increment": 0.1
+  },
+  {
+    "type": "SPELL",
+    "id": "pattern_screamer_rock_thrower_prep_self",
+    "name": { "str": "One Perfect Shot Self" },
+    "teachable": false,
+    "description": "Grants the effect for a pattern screamer to throw a rock.",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_pattern_screamer_rock_thrower",
+    "shape": "blast",
+    "min_duration": 100,
+    "max_duration": 100
+  },
+  {
     "id": "electrokinetic_shock_touch_monster",
     "type": "SPELL",
     "name": "[Ψ]Static Touch Monster",
@@ -791,5 +821,18 @@
     "min_duration": 1620000,
     "base_casting_time": 50,
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vitakinetic_regeneration_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Feral Vitakinetic healing",
+    "description": "Buffs regeneration for a feral vitakinetic.  It's a bug if you have it, and anyway it wouldn't work on you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_feral_regeneration",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 600
   }
 ]

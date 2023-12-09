@@ -484,10 +484,10 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 600) + 4500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 300) + 4500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 600) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 900) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
@@ -502,9 +502,9 @@
   {
     "id": "pyrokinetic_flame_immunity",
     "type": "SPELL",
-    "name": "[Ψ]Flameshield",
-    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.",
-    "message": "The nearby air loses any heat.",
+    "name": "[Ψ]Flameshield (C)",
+    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
@@ -512,27 +512,30 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_pyrokinetic_flame_immunity",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_FLAME_IMMUNITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 600) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 2400) + 13000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 600) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 4700) + 48000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 7750,
-    "final_energy_cost": 3500,
-    "energy_increment": -255,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -6.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 0 : max((7750 - (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 255)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 6.5)), 75)"
+      ]
+    },
     "learn_spells": { "pyrokinetic_thermogenesis": 6, "pyrokinetic_aoe_blast": 12 }
   },
   {

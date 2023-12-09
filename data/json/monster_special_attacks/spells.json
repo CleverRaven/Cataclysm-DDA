@@ -1007,6 +1007,20 @@
   },
   {
     "type": "SPELL",
+    "id": "star_vampire_invisibility_spell",
+    "name": { "str": "star vampire invisibility" },
+    "description": "Makes the star vampire invisible",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "invisibility",
+    "shape": "blast",
+    "message": "",
+    "min_duration": 99999999999,
+    "max_duration": 99999999999,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ]
+  },
+  {
+    "type": "SPELL",
     "id": "sloth_attack",
     "name": { "str": "Sloth Attack" },
     "description": "Slows you.",

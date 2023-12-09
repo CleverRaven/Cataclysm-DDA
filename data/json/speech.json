@@ -2821,5 +2821,11 @@
     "speaker": [ "mon_civilian_parent" ],
     "sound": "someone calling for their child.",
     "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_star_vampire" ],
+    "sound": "a high-pitched tittering.",
+    "volume": 20
   }
 ]

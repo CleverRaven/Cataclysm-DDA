@@ -848,10 +848,10 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         // - 20 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate_induction", 500 );
-            REQUIRE( hotplate.ammo_remaining() == 500 );
-            tools.push_back( hotplate );
-            item soldering = tool_with_ammo( "soldering_iron", 20 );
+            item popcan_stove = tool_with_ammo( "popcan_stove", 60 );
+            REQUIRE( popcan_stove.ammo_remaining() == 60 );
+            tools.push_back( popcan_stove );
+            item soldering = tool_with_ammo( "soldering_iron_portable", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
             tools.push_back( soldering );
             item plastic_molding = tool_with_ammo( "vac_mold", 4 );
@@ -862,21 +862,21 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
+                CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 10 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate_induction", 250 ) );
-            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "popcan_stove", 30 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron_portable", 5 ) );
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 actually_test_craft( recipe_carver_off, INT_MAX );
-                CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+                CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
             }
         }
 
@@ -884,9 +884,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item hotplate( "hotplate" );
             hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), pocket_type::MOD );
-            tools.push_back( soldering_iron );
+            item soldering_iron_portable( "soldering_iron_portable" );
+            soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( soldering_iron_portable );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
@@ -898,7 +898,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 CHECK( get_remaining_charges( "UPS_off" ) == 290 );
             }
         }
@@ -907,9 +907,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item hotplate( "hotplate" );
             hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), pocket_type::MOD );
-            tools.push_back( soldering_iron );
+            item soldering_iron_portable( "soldering_iron_portable" );
+            soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( soldering_iron_portable );
 
             item ups( "UPS_off" );
             item ups_mag( ups.magazine_default() );
@@ -929,7 +929,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
@@ -941,7 +941,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
@@ -953,7 +953,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
@@ -968,7 +968,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water with broken tool" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
@@ -2137,11 +2137,12 @@ TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
 // inherit_rot_from_components for a description of what "inheritied properly" means
 // using a default hotplate the macaroni uses 35x7 = 245 charges of hotplate, meat uses 35x20 = 700 charges of hotplate and 80x30 = 2400 charges of dehydrator
 // looks like tool_with_ammo cannot spawn a hotplate/dehydrator with more than 500 charges, so until the default battery is changed I'm giving player 10 of each
+// replaced hotplate with popcan_stove since hotplate got it's battery slot removed
 TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.insert( tools.end(), 10, tool_with_ammo( "hotplate", 500 ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "popcan_stove", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
     tools.emplace_back( "pot_canning" );
     tools.emplace_back( "knife_butcher" );
