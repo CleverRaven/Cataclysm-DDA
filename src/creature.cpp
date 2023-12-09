@@ -1747,7 +1747,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
                          type.get_remove_message() );
             }
         }
-        get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );
+        get_event_bus().send<event_type::character_loses_effect>( ch->getID(), bp.id(), eff_id );
     }
 
     // bp_null means remove all of a given effect id

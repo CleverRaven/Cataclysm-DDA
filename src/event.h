@@ -371,8 +371,9 @@ struct event_spec<event_type::character_learns_spell> {
 
 template<>
 struct event_spec<event_type::character_loses_effect> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "character", cata_variant_type::character_id },
+            { "bodypart", cata_variant_type::body_part},
             { "effect", cata_variant_type::efftype_id },
         }
     };
