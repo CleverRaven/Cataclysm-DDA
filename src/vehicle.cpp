@@ -45,7 +45,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -65,6 +64,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -4389,15 +4389,24 @@ double vehicle::coeff_water_drag() const
     if( !coeff_water_dirty ) {
         return coefficient_water_resistance;
     }
-    std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
-    if( structure_indices.empty() ) {
-        // huh?
+    int structural_part_count = 0;
+    for( int structural_part_idx : all_parts_at_location( part_location_structure ) ) {
+        const vehicle_part &vp = part( structural_part_idx );
+        const vpart_info &vpi = vp.info();
+        if( !vp.has_flag( vp_flag::carried_flag ) &&
+            !vpi.has_flag( "PROTRUSION" ) ) {
+            ++structural_part_count;
+        }
+    }
+    if( structural_part_count == 0 ) {
+        // Invalid vehicle.  Return some default values.  Sinks.
         coeff_water_dirty = false;
         hull_height = 0.3;
         draft_m = 1.0;
-        return 1250.0;
+        coefficient_water_resistance = 1250.0;
+        return coefficient_water_resistance;
     }
-    double hull_coverage = static_cast<double>( floating.size() ) / structure_indices.size();
+    double hull_coverage = static_cast<double>( floating.size() ) / structural_part_count;
 
     int tile_width = mount_max.y - mount_min.y + 1;
     double width_m = tile_to_width( tile_width );
@@ -4410,7 +4419,7 @@ double vehicle::coeff_water_drag() const
     // actual area in m = # of structure tiles * length in tiles * width in meters /
     //                    ( length in tiles * width in tiles )
     // actual area in m = # of structure tiles * width in meters / width in tiles
-    double actual_area_m = width_m * structure_indices.size() / tile_width;
+    double actual_area_m = width_m * structural_part_count / tile_width;
 
     // effective hull area is actual hull area * hull coverage
     double hull_area_m   = actual_area_m * std::max( 0.1, hull_coverage );
@@ -5582,6 +5591,20 @@ void vehicle::idle( bool on_map )
     if( is_alarm_on ) {
         alarm();
     }
+
+    // Notify player about status of all turrets if they're at controls
+    bool player_at_controls = !get_parts_at( player_character.pos(), "CONTROLS",
+                              part_status_flag::working ).empty();
+
+    for( vehicle_part *turret : turrets() ) {
+        item_location base = turret_query( *turret ).base();
+        // Notify player about status of a turret if they're on the same tile
+        if( player_at_controls || player_character.pos() == base.position() ) {
+            base->process( here, &player_character, base.position() );
+        } else {
+            base->process( here, nullptr, base.position() );
+        }
+    }
 }
 
 void vehicle::on_move()
@@ -5881,7 +5904,7 @@ void vehicle::place_spawn_items()
                         if( spawn_ammo ) {
                             mag.ammo_set( mag.ammo_default() );
                         }
-                        e.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                        e.put_in( mag, pocket_type::MAGAZINE_WELL );
                     } else if( spawn_ammo && e.is_magazine() ) {
                         e.ammo_set( e.ammo_default() );
                     }
@@ -6119,7 +6142,9 @@ void vehicle::refresh( const bool remove_fakes )
                                          static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
 
-        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
+        //If it doesn't leak or it's health is less than 50% then The hull has been breached and the air is leaking out
+        if( vpi.has_flag( VPFLAG_FLOATS ) && ( vpi.has_flag( VPFLAG_NO_LEAK ) ||
+                                               !( vp.part().health_percent() < vp.part().floating_leak_threshold() ) ) ) {
             floating.push_back( p );
         }
 
@@ -8064,6 +8089,15 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
     tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     tmp.set_degradation( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
+}
+
+item vehicle::removed_part( const vehicle_part &vp ) const
+{
+    item ret = part_to_item( vp );
+    if( vp.info().removed_item ) {
+        ret.convert( *vp.info().removed_item );
+    }
+    return ret;
 }
 
 bool vehicle::refresh_zones()

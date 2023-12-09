@@ -177,8 +177,11 @@ static void swap_pos( Creature &caster, const tripoint &target )
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
     critter->setpos( caster.pos() );
     caster.setpos( target );
+
     //update map in case a monster swapped positions with the player
-    g->update_map( get_player_character() );
+    Character &you = get_player_character();
+    get_map().vertical_shift( you.posz() );
+    g->update_map( you );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -492,12 +495,16 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     Character *const guy = creatures.creature_at<Character>( target );
     efftype_id spell_effect( sp.effect_data() );
     bool bodypart_effected = false;
-
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
-                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
-                bodypart_effected = true;
+                if( sp.has_flag( spell_flag::LIQUID ) ) {
+                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
+                    bodypart_effected = true;
+                } else {
+                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                    bodypart_effected = true;
+                }
             }
         }
     }
@@ -960,13 +967,18 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint &
                                     const int push_distance, const std::vector<tripoint> &push_vec )
 {
     int dist_left = std::abs( push_distance );
+    tripoint old_pushed_point = guy.pos();
     for( const tripoint &pushed_point : push_vec ) {
         if( get_map().impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
-            push_dest = pushed_point;
+            push_dest = old_pushed_point;
+            break;
+        } else if( get_creature_tracker().creature_at( pushed_point ) ) {
+            push_dest = old_pushed_point;
             break;
         } else {
             dist_left--;
+            old_pushed_point = pushed_point;
         }
     }
     guy.setpos( push_dest );
@@ -1032,13 +1044,18 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                     pushed_vec = push_vec;
                 } else if( mon ) {
                     int dist_left = std::abs( push_distance );
+                    tripoint old_pushed_push_point = push_point;
                     for( const tripoint &pushed_push_point : push_vec ) {
                         if( get_map().impassable( pushed_push_point ) ) {
                             mon->apply_damage( &caster, bodypart_id(), dist_left * 10 );
-                            push_dest = pushed_push_point;
+                            push_dest = old_pushed_push_point;
+                            break;
+                        } else if( creatures.creature_at( pushed_push_point ) ) {
+                            push_dest = old_pushed_push_point;
                             break;
                         } else {
                             dist_left--;
+                            old_pushed_push_point = pushed_push_point;
                         }
                     }
                     mon->setpos( push_dest );

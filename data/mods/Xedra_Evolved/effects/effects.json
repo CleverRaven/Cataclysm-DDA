@@ -259,7 +259,7 @@
     "type": "effect_type",
     "id": "cheval_overdose",
     "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
-    "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
+    "name": [ "Energized", "Enflamed", "Arrhythmic", "Tachycardiac" ],
     "apply_message": [
       [ "These magickal trucker pills have kicked in and you feel great!", "good" ],
       [
@@ -495,7 +495,7 @@
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
     "desc": [
-      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster"
+      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster."
     ],
     "apply_message": "A huge warm wave moves from your stomach through your body.",
     "remove_message": "The warm feeling fades away.",
@@ -755,7 +755,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "mixed",
-    "max_intensity": 999,
+    "max_intensity": 100000,
     "show_intensity": false,
     "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
@@ -787,12 +787,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_smoke_immunity",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_remove_stun",
     "name": [ "" ],
     "desc": [ "" ],
     "//": "Empty name and description to hide effect",
     "rating": "good",
     "removes_effects": [ "stunned", "dazed", "downed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to heat and fire." ],
+    "rating": "good",
+    "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
   },
   {
     "type": "effect_type",
@@ -835,6 +854,35 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_burning_damage",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "//": "Name and description empty to hide effect",
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 2 ],
+      "hurt_tick": [ 1 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 3 ],
+      "pain_tick": [ 1 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_berserk_stance",
+    "name": [ "Wildfire Soul" ],
+    "desc": [ "You are filled with transcendent flame." ],
+    "apply_message": "All of your weakness boils away in the heat of the flames!",
+    "remove_message": "As the heat leaves you, pain rushes in to take its place.",
+    "rating": "good",
+    "base_mods": { "str_mod": [ 3 ], "dex_mod": [ 3 ], "speed_mod": [ 20 ] },
+    "flags": [ "PAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_increase_speed",
     "name": [ "Inner Spark" ],
     "desc": [ "Your speed is magically increased." ],
@@ -859,7 +907,7 @@
   {
     "type": "effect_type",
     "id": "effect_salamander_emit_heat",
-    "name": [ "Burning Furnance" ],
+    "name": [ "Burning Furnace" ],
     "desc": [ "You are throwing off a large amount of heat." ],
     "apply_message": "The air around you heats up.",
     "remove_message": "The air around you cools down.",
@@ -871,6 +919,36 @@
     "id": "effect_salamander_prevented_death",
     "name": [ "Arisen" ],
     "desc": [ "Like the phoenix, you have been reborn." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_smoke_form",
+    "name": [ "Smoke Form" ],
+    "desc": [ "You have transformed yourself into a cloud of smoke." ],
+    "apply_message": "Your body falls apart into billowing smoke!",
+    "remove_message": "You reconstruct yourself from the smoke.",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ],
+    "enchantments": [
+      { "emitter": "emit_smoke_blast" },
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": -1.0 }, { "value": "RANGED_DAMAGE", "multiply": -1.0 } ] }
+    ],
+    "flags": [
+      "INVISIBLE",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "DEAF",
+      "FEATHER_FALL",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "STAB_IMMUNE",
+      "CUT_IMMUNE",
+      "BULLET_IMMUNE",
+      "BASH_IMMUNE",
+      "ACID_IMMUNE",
+      "BIO_IMMUNE"
+    ],
+    "//": "Deliberately vulnerable to electricity damage."
   },
   {
     "type": "effect_type",
@@ -947,82 +1025,12 @@
     "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
   },
   {
-    "type": "mutation",
-    "id": "karma_arms",
-    "name": { "str": "Karma" },
-    "points": 1,
-    "visibility": 10,
-    "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [
-          { "gain": "karma_arm_up_r" },
-          { "gain": "karma_arm_up_l" },
-          { "gain": "karma_arm_lw_r" },
-          { "gain": "karma_arm_lw_l" }
-        ]
-      }
-    ]
-  },
-  {
     "type": "effect_type",
-    "id": "spell_karma_arms_eff",
+    "id": "effect_paraclesian_learned_gossamer",
     "name": [ "" ],
     "desc": [ "" ],
-    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow</color>.",
-    "remove_message": "The cyan arms grow dim, and finally disappear.",
-    "rating": "good",
-    "enchantments": [ { "mutations": [ "karma_arms" ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "stalker_eyes",
-    "name": { "str": "Stalker's Vision" },
-    "points": 1,
-    "visibility": 1,
-    "description": "Your own eyes transform into the orbits of an unknown creature.  You see much better, both in the light and in the dark.",
-    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "stalker_eyes_eff",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "apply_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
-    "remove_message": "A great new world under your eyes disappears.",
-    "blocks_effects": [ "glare" ],
-    "rating": "good",
-    "enchantments": [ { "mutations": [ "stalker_eyes" ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "devil_tail",
-    "name": { "str": "Devil's Tail" },
-    "points": 1,
-    "visibility": 6,
-    "description": "Not actually devil's, this long tail with triangle point in the end can stretch for a lot, and could easily kill someone nearby.",
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "devil_tail_eff",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "apply_message": "You feel like your spine stretched enormously.",
-    "remove_message": "Your devil tail disappear in the air.",
-    "rating": "good",
-    "enchantments": [ { "mutations": [ "devil_tail" ] } ]
+    "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
+    "rating": "mixed"
   },
   {
     "type": "effect_type",

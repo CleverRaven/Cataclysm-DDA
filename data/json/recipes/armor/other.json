@@ -662,7 +662,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wax", 1 ], [ "candle", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [ [ [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

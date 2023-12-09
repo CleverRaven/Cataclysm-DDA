@@ -1802,6 +1802,8 @@
             "urban_11_2",
             "urban_12_1",
             "urban_12_2",
+            "urban_20_1",
+            "urban_20_2",
             "urban_15_1",
             "urban_15_2",
             "urban_16_1",
@@ -1909,6 +1911,10 @@
             "urban_5_4",
             "urban_5_5",
             "urban_5_6",
+            "urban_20_2ndfloor_1",
+            "urban_20_2ndfloor_2",
+            "urban_20_roof_1",
+            "urban_20_roof_2",
             "urban_6_3",
             "urban_6_4",
             "urban_6_5",
@@ -2321,14 +2327,6 @@
         { "id": [ "roadstop", "roadstop_roof" ], "fg": 101, "bg": 1, "rotates": true },
         { "id": [ "roadstop_a", "roadstop_a_roof" ], "fg": 101, "bg": 1, "rotates": true },
         { "id": [ "roadstop_b", "roadstop_b_roof" ], "fg": 135, "bg": 1, "rotates": true },
-        { "id": "railroad_bridge", "fg": 103, "bg": 1, "rotates": true },
-        { "id": "railroad_level_crossing", "fg": 146, "bg": 1, "rotates": true },
-        {
-          "id": [ "railroad_station_0_1", "railroad_station_0_2", "railroad_station_0_3", "railroad_station_0_4" ],
-          "fg": 124,
-          "bg": 1,
-          "rotates": true
-        },
         {
           "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3" ],
           "fg": 41,
@@ -2687,6 +2685,17 @@
             "necropolis_d_81"
           ],
           "fg": 161,
+          "bg": 1,
+          "rotates": true
+        },
+        { "id": "railroad_bridge", "fg": 103, "bg": 1, "rotates": true },
+        { "id": "railroad_bridge_overpass", "fg": 157, "bg": 1, "rotates": true },
+        { "id": "railroad_bridgehead_ground", "fg": 156, "bg": 1, "rotates": true },
+        { "id": "railroad_bridgehead_ramp", "fg": 167, "bg": 1, "rotates": true },
+        { "id": "railroad_level_crossing", "fg": 146, "bg": 1, "rotates": true },
+        {
+          "id": [ "railroad_station_0_1", "railroad_station_0_2", "railroad_station_0_3", "railroad_station_0_4" ],
+          "fg": 124,
           "bg": 1,
           "rotates": true
         },

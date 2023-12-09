@@ -1741,7 +1741,6 @@
         { "group": "GROUP_STOCKED_POND", "x": [ 51, 61 ], "y": [ 7, 19 ], "repeat": [ 4, 5 ] },
         { "monster": "mon_squirrel", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 3, 4 ] },
         { "monster": "mon_squirrel", "x": [ 24, 47 ], "y": [ 50, 70 ], "repeat": [ 2, 3 ] },
-        { "monster": "mon_rabbit", "x": [ 50, 70 ], "y": [ 50, 70 ], "repeat": [ 2, 3 ] },
         { "monster": "mon_pigeon", "x": [ 25, 47 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] },
         { "monster": "mon_pigeon", "x": [ 2, 23 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] }
       ],

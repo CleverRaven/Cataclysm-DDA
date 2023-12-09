@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "10mm Auto FMJ" },
     "description": "Jacketed 10mm Auto ammunition with a 180gr bullet.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
+    "ascii_picture": "10mm_fmj",
     "weight": "17 g",
     "volume": "117 ml",
     "longest_side": "32 mm",
@@ -18,10 +19,60 @@
     "ammo_type": "10mm",
     "casing": "10mm_casing",
     "range": 14,
-    "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
+    "//": ".400in 165gr Speer TMJ 4410, 10.4gr Hodgdon HS-6",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 28,
+      "armor_penetration": 4,
+      "barrels": [
+        { "barrel_length": "25 mm", "amount": 18 },
+        { "barrel_length": "29 mm", "amount": 19 },
+        { "barrel_length": "33 mm", "amount": 20 },
+        { "barrel_length": "37 mm", "amount": 21 },
+        { "barrel_length": "43 mm", "amount": 22 },
+        { "barrel_length": "49 mm", "amount": 23 },
+        { "barrel_length": "56 mm", "amount": 24 },
+        { "barrel_length": "67 mm", "amount": 25 },
+        { "barrel_length": "77 mm", "amount": 26 },
+        { "barrel_length": "89 mm", "amount": 27 },
+        { "barrel_length": "103 mm", "amount": 28 },
+        { "barrel_length": "126 mm", "amount": 29 },
+        { "barrel_length": "148 mm", "amount": 30 },
+        { "barrel_length": "175 mm", "amount": 31 },
+        { "barrel_length": "209 mm", "amount": 32 },
+        { "barrel_length": "269 mm", "amount": 33 },
+        { "barrel_length": "329 mm", "amount": 34 },
+        { "barrel_length": "416 mm", "amount": 35 },
+        { "barrel_length": "541 mm", "amount": 36 },
+        { "barrel_length": "716 mm", "amount": 37 },
+        { "barrel_length": "992 mm", "amount": 38 },
+        { "barrel_length": "1252 mm", "amount": 39 }
+      ]
+    },
     "dispersion": 50,
     "recoil": 750,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "10mm_jhp",
+    "copy-from": "10mm_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": "10mm Auto JHP" },
+    "description": "Jacketed 10mm Auto ammunition with a 180gr hollow point bullet, intended for use in self-defense, or perhaps hunting.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
+    "price": 600,
+    "price_postapoc": 900,
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
+  },
+  {
+    "id": "10mmP",
+    "copy-from": "10mm_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": "10mm Auto +P" },
+    "description": "'Full House' 10mm Auto ammunition with a 140gr solid copper penetrator projectile, hunting of or self-defense from dangerous game.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
+    "price": 800,
+    "price_postapoc": 1100,
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": 2 } },
+    "proportional": { "recoil": 1.1 }
   },
   {
     "id": "bp_10mm_fmj",
@@ -58,5 +109,51 @@
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_10mm_fmj",
     "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "bp_10mm_jhp",
+    "copy-from": "10mm_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": "10mm Auto JHP, black powder" },
+    "description": "Jacketed 10mm Auto ammunition with a 180gr hollow point bullet, intended for use in self-defense, or perhaps hunting.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_10mm_jhp",
+    "copy-from": "10mm_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": "10mm Auto JHP, reloaded" },
+    "description": "Jacketed 10mm Auto ammunition with a 180gr hollow point bullet, intended for use in self-defense, or perhaps hunting.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_10mm_jhp",
+    "copy-from": "10mm_jhp",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": "10mm Auto JHP, matchhead powder" },
+    "description": "Jacketed 10mm Auto ammunition with a 180gr hollow point bullet, intended for use in self-defense, or perhaps hunting.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_10mm_jhp",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "reloaded_10mmP",
+    "copy-from": "10mmP",
+    "type": "AMMO",
+    "name": { "str_sp": "10mm Auto +P, reloaded" },
+    "description": "'Full House' 10mm Auto ammunition with a 140gr solid copper penetrator projectile, hunting of or self-defense from dangerous game.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

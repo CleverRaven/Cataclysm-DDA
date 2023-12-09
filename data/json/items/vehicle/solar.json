@@ -1,15 +1,21 @@
 [
   {
+    "//": "Assumed to be ~0.5x0.5m to fit in a vehicle tile",
     "type": "GENERIC",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
-    "weight": "14000 g",
+    "//1": [
+      "66x40x2in = 68L solar panels weigh 40lbs, for density of ~210g/L",
+      "If this is 0.5mx0.5mx5cm, it has a volume of 12.5L, and a weight of 2.63kg",
+      "Numbers from https://modernize.com/homeowner-resources/solar/average-solar-panel-dimensions-and-sizes"
+    ],
+    "weight": "2630 g",
     "to_hit": -4,
     "color": "yellow",
     "symbol": "]",
     "material": [ "glass" ],
-    "volume": "3 L",
+    "volume": "12500 ml",
     "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",
     "price": 90000,
@@ -17,23 +23,79 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "//": "Four solar panels stuck together to fit in 1x1m",
+    "type": "GENERIC",
+    "id": "ground_solar_panel",
+    "name": { "str": "solar panel array" },
+    "description": "A collection of four solar panels, ready to get to work converting solar radiation into electric power.  Install them to use them in a static power grid.",
+    "copy-from": "solar_panel",
+    "proportional": { "weight": 4, "volume": 4, "price": 4, "price_postapoc": 4 }
+  },
+  {
     "type": "GENERIC",
     "copy-from": "solar_panel",
     "id": "folding_solar_panel",
-    "name": { "str": "collapsible solar array" },
-    "description": "An electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a common, inexpensive type made with polycrystalline silicon cells.",
-    "weight": "14500 g",
-    "price": 120000,
-    "price_postapoc": 1500
+    "name": { "str": "folding solar panel" },
+    "description": "This \"little\" solar panel folds up to carry around, in case you need to charge anything on the go.  Its small size means in might take quite some time to charge, however.",
+    "//": [
+      "Based on https://www.bluettipower.com/products/bluetti-pv120-120w-solar-panel",
+      "53cmx47cmx~3cm = 7.5L (assuming it's folded). Weighs in at 5.7kg",
+      "'up to' 23.4% efficiency, max power = 120W (~20V ~6A)",
+      "surface area is 53cmx165cm = 0.8754m^2. 'solar_panel' above is 0.25m^2",
+      "From relative surface area, we get 175W. So 120W seems an alright figure"
+    ],
+    "weight": "5700 g",
+    "volume": "7473 ml",
+    "longest_side": "53 cm",
+    "use_action": { "type": "deploy_appliance", "base": "folding_solar_panel_deployed" },
+    "price": 28000,
+    "price_postapoc": 500
+  },
+  {
+    "type": "MAGAZINE",
+    "copy-from": "folding_solar_panel",
+    "id": "folding_solar_panel_deployed",
+    "name": { "str": "deployed folding solar panel" },
+    "//": [
+      "Deployed version of the above. Shouldn't spawn in game.",
+      "Has a little hacky battery pocket so it can charge phones and the like"
+    ],
+    "ammo_type": [ "battery" ],
+    "capacity": 1,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ]
   },
   {
     "type": "GENERIC",
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_v2",
-    "name": { "str": "advanced collapsible solar array" },
-    "description": "An electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a high-performance type made with monocrystalline silicon cells.",
-    "price": 220000,
-    "price_postapoc": 3500
+    "name": { "str": "solar suitcase" },
+    "description": "A large, ready-to-deploy set of solar panels, designed for portable off-the-grid use.",
+    "//": [
+      "Based on https://www.renogy.com/200-watt-12-volt-monocrystalline-foldable-solar-suitcase",
+      "26.4x32.5x2.8 inches is 39.4L, 38.6lbs = 17.5kg",
+      "Surface area 0.554m^2, listed 200W. Half of solar_panel_v2 for half surface area"
+    ],
+    "weight": "17500 g",
+    "volume": "39400 ml",
+    "longest_side": "83 cm",
+    "use_action": { "type": "deploy_appliance", "base": "folding_solar_panel_v2_deployed" },
+    "price": 32000,
+    "price_postapoc": 2000
+  },
+  {
+    "type": "MAGAZINE",
+    "copy-from": "folding_solar_panel_v2",
+    "id": "folding_solar_panel_v2_deployed",
+    "name": { "str": "deployed solar suitcase" },
+    "//": [
+      "Deployed version of the above. Shouldn't spawn in game.",
+      "Has a little hacky battery pocket so it can charge phones and the like"
+    ],
+    "ammo_type": [ "battery" ],
+    "capacity": 1,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ]
   },
   {
     "type": "GENERIC",
@@ -49,6 +111,7 @@
     "copy-from": "solar_panel"
   },
   {
+    "//": "Assumed to be ~0.5mx0.5m to fit in a vehicle tile",
     "type": "GENERIC",
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
@@ -56,6 +119,15 @@
     "price": 190000,
     "price_postapoc": 3000,
     "copy-from": "solar_panel"
+  },
+  {
+    "//": "Four advanced solar panels stuck together for 1mx1m area",
+    "type": "GENERIC",
+    "id": "ground_solar_panel_v2",
+    "name": { "str": "advanced solar panel array" },
+    "description": "A collection of four smaller solar panels, read to convert solar radiation into electric power.  These panels are high-performance, made with monocrystalline silicon cells.",
+    "copy-from": "solar_panel_v2",
+    "proportional": { "price": 4, "price_postapoc": 4, "weight": 4, "volume": 4 }
   },
   {
     "type": "GENERIC",

@@ -116,7 +116,7 @@
     "price_postapoc": 0,
     "description": "A large sword made of glowing, radiant fire.  It explodes with radiance when striking enemies.",
     "material": [ "concentrated_mana" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "weapon_category": [ "LONG_SWORDS", "GREAT_SWORDS" ],
     "techniques": [ "RSTRIKE", "WBLOCK_2", "BRUTAL", "RAPID" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
     "weight": "1067 g",
@@ -189,7 +189,7 @@
     "longest_side": "180 cm",
     "material": "concentrated_mana",
     "techniques": [ "RSTRIKE", "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
+    "weapon_category": [ "GREAT_SWORDS" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 15 } ] } ]
     },

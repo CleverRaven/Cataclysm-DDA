@@ -48,6 +48,7 @@
 #include "value_ptr.h"
 #include "viewer.h"
 
+static const efftype_id effect_critter_underfed( "critter_underfed" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -201,6 +202,9 @@ item_location mdeath::splatter( monster &z )
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
+        if( z.has_effect( effect_critter_underfed ) ) {
+            corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
+        }
         return here.add_item_ret_loc( z.pos(), corpse );
     }
     return {};
@@ -288,6 +292,9 @@ item_location make_mon_corpse( monster &z, int damageLvl )
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
+    }
+    if( z.has_effect( effect_critter_underfed ) ) {
+        corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
     return get_map().add_item_ret_loc( z.pos(), corpse );
 }

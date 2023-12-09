@@ -31,10 +31,11 @@
       { "value": "DEXTERITY", "add": 1 },
       { "value": "STRENGTH", "add": 1 },
       { "value": "SPEED", "add": 3 },
-      { "value": "HUNGER", "multiply": 1.5 },
-      { "value": "THIRST", "multiply": 1.5 },
-      { "value": "METABOLISM", "multiply": 1.5 },
-      { "value": "SOCIAL_PERSUADE", "add": -10 }
+      { "value": "HUNGER", "multiply": 1.1 },
+      { "value": "THIRST", "multiply": 1.1 },
+      { "value": "METABOLISM", "multiply": 1.1 },
+      { "value": "SOCIAL_PERSUADE", "add": -10 },
+      { "value": "SOCIAL_INTIMIDATE", "add": 2 }
     ]
   },
   {

@@ -30,7 +30,7 @@
     "type": "activity_type",
     "id": "ACT_EBOOKSAVE",
     "activity_level": "NO_EXERCISE",
-    "verb": "taking pictures of the book",
+    "verb": "taking pictures of books",
     "rooted": true,
     "based_on": "speed",
     "auto_needs": true

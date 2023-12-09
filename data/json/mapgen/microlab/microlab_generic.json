@@ -2,15 +2,37 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_generic", "microlab_ratkin" ],
+    "om_terrain": [ "microlab_generic" ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
         { "chunks": [ "microlab_generic_tile" ], "x": 0, "y": 0 },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_MICROLAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 10, 20 ]
+        }
       ]
     }
   },

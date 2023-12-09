@@ -222,6 +222,8 @@ void field_type::load( const JsonObject &jo, const std::string_view )
                   fallback_intensity_level.local_light_override );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
+        optional( jao, was_loaded, "concentration", intensity_level.concentration,
+                  1 );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
         if( jao.has_array( "effects" ) ) {
@@ -282,7 +284,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "percent_spread", percent_spread, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
-    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
+    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0_turns );
     optional( jo, was_loaded, "is_splattering", is_splattering, false );
     optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
     optional( jo, was_loaded, "has_fire", has_fire, false );

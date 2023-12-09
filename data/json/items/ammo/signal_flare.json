@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str": "signal flare" },
     "description": "A heavy plastic cartridge made for use in flare guns.  It appears to be a modified 12 gauge shotgun shell.",
+    "ascii_picture": "signal_flare",
     "weight": "32 g",
     "volume": "377 ml",
     "price": 500,

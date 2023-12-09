@@ -163,6 +163,7 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Camp_Gather_Materials: return "Camp_Gather_Materials";
         case mission_kind::Camp_Collect_Firewood: return "Camp_Collect_Firewood";
         case mission_kind::Camp_Menial: return "Camp_Menial";
+        case mission_kind::Camp_Survey_Field: return "Camp_Survey_Field";
         case mission_kind::Camp_Survey_Expansion: return "Camp_Survey_Expansion";
         case mission_kind::Camp_Cut_Logs: return "Camp_Cut_Logs";
         case mission_kind::Camp_Clearcut: return "Camp_Clearcut";
@@ -274,6 +275,10 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         {
             "Camp_Menial",
             to_translation( "Performing menial labor…\n" )
+        },
+        {
+            "Camp_Survey_Field",
+            to_translation( "Surveying for suitable fields…\n" )
         },
         {
             "Camp_Survey_Expansion",
@@ -447,6 +452,9 @@ void mission_id::deserialize( const JsonValue &val )
             dir = base_camps::base_dir;
         } else if( str == "_faction_camp_menial" ) {
             id = Camp_Menial;
+            dir = base_camps::base_dir;
+        } else if( str == "_faction_camp_field" ) {
+            id = Camp_Survey_Field;
             dir = base_camps::base_dir;
         } else if( str == "_faction_camp_expansion" ) {
             id = Camp_Survey_Expansion;
@@ -1215,6 +1223,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         case Camp_Gather_Materials:
         case Camp_Collect_Firewood:
         case Camp_Menial:
+        case Camp_Survey_Field:
         case Camp_Survey_Expansion:
         case Camp_Cut_Logs:
         case Camp_Clearcut:

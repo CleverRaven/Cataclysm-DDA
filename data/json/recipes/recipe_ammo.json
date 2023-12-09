@@ -794,8 +794,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ] ]
+      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
+      [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ]
     ],
     "components": [
       [ [ "pipe", 2 ] ],
@@ -817,7 +817,7 @@
     "//": "At least basic knowledge on chemical handling safety is required.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "gunpowder", 300 ], [ "chem_black_powder", 300 ] ],
@@ -837,7 +837,7 @@
     "//": "At least basic knowledge on chemical handling safety is required.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "chem_thermite", 50 ] ],

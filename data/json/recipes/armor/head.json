@@ -369,6 +369,7 @@
   {
     "result": "maid_hat",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
@@ -1517,7 +1518,16 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 10 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 4 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
@@ -1528,7 +1538,16 @@
     "copy-from": "mask_fsurvivor",
     "time": "2 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welding_kit", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [
+      [
+        [ "welder", 42 ],
+        [ "welding_kit", 42 ],
+        [ "welder_crude", 63 ],
+        [ "soldering_iron", 63 ],
+        [ "soldering_iron_portable", 63 ],
+        [ "integrated_welder", 63 ]
+      ]
+    ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 3 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
@@ -1545,7 +1564,16 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ] ],
-    "tools": [ [ [ "welder", 74 ], [ "welding_kit", 74 ], [ "welder_crude", 112 ], [ "soldering_iron", 112 ], [ "toolset", 112 ] ] ],
+    "tools": [
+      [
+        [ "welder", 74 ],
+        [ "welding_kit", 74 ],
+        [ "welder_crude", 112 ],
+        [ "soldering_iron", 112 ],
+        [ "soldering_iron_portable", 112 ],
+        [ "integrated_welder", 112 ]
+      ]
+    ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 8 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
@@ -1712,7 +1740,16 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1785,7 +1822,16 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "tshirt", 1 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 1 ], [ "tshirt_text", 1 ] ] ],
+    "components": [
+      [
+        [ "tshirt", 1 ],
+        [ "flag_shirt", 1 ],
+        [ "linuxtshirt", 1 ],
+        [ "tshirt_tour", 1 ],
+        [ "technician_shirt_gray", 1 ],
+        [ "tshirt_text", 1 ]
+      ]
+    ],
     "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
@@ -2015,7 +2061,16 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2039,7 +2094,16 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 8 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 2 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2064,7 +2128,16 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
@@ -2085,7 +2158,16 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2111,7 +2193,16 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
@@ -2548,7 +2639,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "9 h 10 m",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
@@ -2579,7 +2670,7 @@
     "difficulty": 6,
     "time": "9 h 10 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
@@ -2652,10 +2743,31 @@
     "difficulty": 5,
     "time": "7 h 12 m",
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xl_helmet_kettle",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "8 h 20 m",
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -2677,6 +2789,7 @@
   {
     "result": "hood_gut",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",

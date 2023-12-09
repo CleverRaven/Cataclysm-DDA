@@ -3,7 +3,12 @@
     "type": "item_group",
     "id": "milspec_arsenal_9mm_sub_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_9mm_sub_gun&ammo" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_9mm_sub_gun&ammo" },
+      {
+        "distribution": [ { "item": "ammo_can_30_9mm_fmj_1000", "count": [ 1, 4 ] }, { "item": "ammo_can_30_9mm_jhp_1000", "count": [ 1, 4 ] } ]
+      }
+    ]
   },
   {
     "type": "item_group",

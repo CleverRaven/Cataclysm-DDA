@@ -1032,10 +1032,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else if( action == "SORT_ARMOR" ) {
             mid_pane.offset = 0;
-            // Copy to a vector because stable_sort requires random-access
-            // iterators
-            std::vector<item> worn_copy( worn.begin(), worn.end() );
-            std::stable_sort( worn_copy.begin(), worn_copy.end(),
+            worn.sort(
             []( const item & l, const item & r ) {
                 if( l.has_flag( flag_INTEGRATED ) == r.has_flag( flag_INTEGRATED ) ) {
                     return l.get_layer() < r.get_layer();
@@ -1043,8 +1040,7 @@ void outfit::sort_armor( Character &guy )
                     return l.has_flag( flag_INTEGRATED );
                 }
             }
-                            );
-            std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
+            );
             guy.calc_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             mid_pane.offset = 0;

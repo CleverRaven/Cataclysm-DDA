@@ -242,6 +242,7 @@ Field group | Description | Example
 `sound_type`, `sound_description`, `sound_ambient`, `sound_id`, `sound_variant` | Respond for the sound that play when you use the spell. `sound_type` is one of `background`, `weather`, `music`, `movement`, `speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, `order`; `sound_description` respond for the message in log, as "You hear %s" ("an explosion" by default); `sound_ambient` whether or not this is treated as an ambient sound | "sound_type": "combat", <bp>"sound_description": "a whoosh", <bp>"sound_ambient": true, <bp>"sound_id": "misc", <bp>"sound_variant": "shockwave", 
 `targeted_monster_ids` | You can target only `monster_id` | "targeted_monster_ids": [ "mon_hologram" ],
 `targeted_monster_species` | You can target only picked species (for list see data/json/species.json) | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
+`ignored_monster_species` | The opposite of targeted_monster_species: you can target everything except picked species (for list see data/json/species.json) | "ignored_monster_species": [ "ZOMBIE", "NETHER" ],
 
 ### Spell Flags
 
@@ -265,6 +266,7 @@ Flag                       | Description
 `HOSTILE_50`               | Summoned monster spawns friendly 50% of the time.
 `IGNITE_FLAMMABLE`         | If the spell area has anything flammable, a fire will be produced
 `IGNORE_WALLS`             | Spell's aoe goes through walls.
+`LIQUID`                   | Effects applied by spell will be resisted by waterproof armor if the spell targets a character's body part. Does not currently affect damage.
 `LOUD`                     | Spell makes extra noise at target.
 `MUST_HAVE_CLASS_TO_LEARN` | The spell is autolearned when you have `spell_class`, and removed when you lost it.
 `MUTATE_TRAIT`             | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.
@@ -279,6 +281,7 @@ Flag                       | Description
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 `PERMANENT_ALL_LEVELS`     | Items spawned with this spell do not disappear even if the spell is not max level.
 `POLYMORPH_GROUP`          | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
+`PSIONIC`                  | Spells with this flag are not blocked by the NO_SPELLCASTING character flag, instead being blocked by NO_PSIONICS.
 `RANDOM_AOE`               | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_CRITTER`           | Same as `RANDOM_TARGET` but ignores ground.
 `RANDOM_DAMAGE`            | Picks random number between (min + increment) * level and max instead of normal behavior.
@@ -776,6 +779,7 @@ Character status value  | Description
 `ARMOR_STAB`            | 
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
 `ATTACK_SPEED`          | Affects attack speed of item even if it's not the one you're wielding.
+`AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BIONIC_POWER`          |
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
@@ -824,6 +828,7 @@ Character status value  | Description
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
+`SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SKILL_RUST_RESIST`     | Chance / 100 to resist skill rust.

@@ -85,7 +85,8 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "1750 ml",
     "price": 16000,
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -104,7 +105,8 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "1750 ml",
     "price": 16000,
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -121,7 +123,8 @@
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "2250 ml",
     "price": "25 USD",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -158,7 +161,7 @@
     "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
     "techniques": [ "WBLOCK_1", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
     "price": 22900,
     "melee_damage": { "bash": 10 }
@@ -349,7 +352,6 @@
     "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
     "weight": "700 g",
     "volume": "2 L",
     "longest_side": "100 cm",
@@ -445,7 +447,8 @@
     "longest_side": "90 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price": 20000,
-    "melee_damage": { "bash": 22, "cut": 8 }
+    "melee_damage": { "bash": 22, "cut": 8 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -458,7 +461,7 @@
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "longest_side": "80 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
@@ -594,7 +597,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "longest_side": "80 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
@@ -692,7 +695,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "600 ml",
     "longest_side": "60 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
@@ -1091,6 +1094,7 @@
   {
     "type": "GENERIC",
     "id": "lc_mace",
+    "looks_like": "mace",
     "name": { "str": "mild carbon steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with low carbon steel, which technically still works fine but tends to blunt more easily, and the grip is kind of bad.",
     "weight": "1400 g",
@@ -1113,6 +1117,7 @@
   {
     "type": "GENERIC",
     "id": "mc_mace",
+    "looks_like": "mace",
     "name": { "str": "medium steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with medium carbon steel which is passable, but hardly the pinnacle of weapon making.",
     "weight": "1500 g",
@@ -1135,6 +1140,7 @@
   {
     "type": "GENERIC",
     "id": "hc_mace",
+    "looks_like": "mace",
     "name": { "str": "high steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with high carbon steel and is a solid, dependable weapon.",
     "weight": "1500 g",
@@ -1157,6 +1163,7 @@
   {
     "type": "GENERIC",
     "id": "ch_mace",
+    "looks_like": "mace",
     "name": { "str": "case hardened steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with case hardened steel and can pulverize bones.",
     "weight": "1500 g",
@@ -1179,6 +1186,7 @@
   {
     "type": "GENERIC",
     "id": "qt_mace",
+    "looks_like": "mace",
     "name": { "str": "tempered steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with tempered steel and will crack skulls like watermelons.",
     "weight": "1500 g",
@@ -1417,7 +1425,8 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "price": 16000,
     "price_postapoc": 1750,
-    "melee_damage": { "bash": 22, "stab": 4 }
+    "melee_damage": { "bash": 22, "stab": 4 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -1470,7 +1479,7 @@
     "material": [ "aluminum", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
     "longest_side": "60 cm",
@@ -1587,7 +1596,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "910 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
@@ -1608,7 +1617,7 @@
     "material": [ "lead", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "1135 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
@@ -1629,7 +1638,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "850 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",

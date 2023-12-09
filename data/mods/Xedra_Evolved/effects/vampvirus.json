@@ -102,6 +102,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_VAMPIRE3",
+    "effect": { "u_message": "You can advance no further without access to a mentor.  (4th wall no further content exists yet)" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SUCCESFUL_ROLL_REMAINDER",
     "effect": { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
   },
@@ -113,11 +118,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
+    "condition": { "and": [ { "u_has_trait": "EYEGLEAM" }, { "u_has_trait": "STAMINAFORBLOOD" }, { "u_has_trait": "COMMUNE_NIGHT" } ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
+    "condition": { "and": [ { "u_has_trait": "COAGULANTWEAVE" }, { "u_has_trait": "BLOODHEAL" } ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {
@@ -213,16 +220,13 @@
                   "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE", "BLOODBANK" ],
                   "type": "mutation",
                   "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
-                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
-                },
-                {
-                  "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
+                  "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]
                 }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE3" },
                 {
-                  "u_message": "You don't seem to feel as hungry as you were before and you definitely recover from exertion faster than before."
+                  "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
                 }
               ]
             }

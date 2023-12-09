@@ -769,18 +769,19 @@ int main( int argc, const char *argv[] )
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
 
-#if defined(LOCALIZE)
-    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
-        select_language();
-        set_language_from_options();
-    }
-#endif
-    replay_buffered_debugmsg_prompts();
-
     if( !assure_essential_dirs_exist() ) {
         exit_handler( -999 );
         return 0;
     }
+
+#if defined(LOCALIZE)
+    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
+        const std::string lang = select_language();
+        get_options().get_option( "USE_LANG" ).setValue( lang );
+        set_language_from_options();
+    }
+#endif
+    replay_buffered_debugmsg_prompts();
 
     main_menu::queued_world_to_load = std::move( cli.world );
 

@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -113,6 +114,9 @@ struct islot_tool {
     std::vector<int> rand_charges;
 };
 
+constexpr float base_metabolic_rate =
+    2500.0f;  // kcal / day, standard average for human male, but game does not differentiate genders here.
+
 struct islot_comestible {
     public:
         friend Item_factory;
@@ -178,7 +182,7 @@ struct islot_comestible {
         int monotony_penalty = 2;
 
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
-        static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+        static constexpr float kcal_per_nutr = base_metabolic_rate / ( 12 * 24 );
 
         bool has_calories() const {
             return default_nutrition.calories > 0;
@@ -661,8 +665,10 @@ struct itype_variant_data {
     std::optional<nc_color> alt_color = std::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
+    // Expand the description when generated and save it on the item
+    bool expand_snippets = false;
 
-    int weight = 0;
+    int weight = 1;
 
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
@@ -880,7 +886,7 @@ struct islot_gunmod : common_ranged_data {
     int consume_divisor = 1;
 
     /** Enlarge or reduce shot spread */
-    float shot_spread_multiplier_modifier = 1.0f;
+    float shot_spread_multiplier_modifier = 0.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
@@ -889,13 +895,27 @@ struct islot_gunmod : common_ranged_data {
     std::map<gunmod_location, int> add_mod;
 
     /** Not compatible on weapons that have this mod slot */
-    std::set<gunmod_location> blacklist_mod;
+    std::set<gunmod_location> blacklist_slot;
 
+    /** Not compatible on weapons that have these mods */
+    std::set<itype_id> blacklist_mod;
     // hard coded barrel length from this mod
     units::length barrel_length = 0_mm;
 
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
+
+    //Manipulate overheat thresholds with fixed values and percentages
+    double overheat_threshold_modifier = 0;
+    float overheat_threshold_multiplier = 1.0f;
+
+    //Manipulate cooling capacity with fixed values and percentages
+    double cooling_value_modifier = 0;
+    float cooling_value_multiplier = 1.0f;
+
+    //Manipulation of generated heat by fixed values and percentages
+    double heat_per_shot_modifier = 0;
+    float heat_per_shot_multiplier = 1.0f;
 };
 
 struct islot_magazine {
@@ -1065,7 +1085,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
     islot_seed() = default;
 };
 
@@ -1379,7 +1402,7 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::map<damage_type_id, float> melee;
+        std::unordered_map<damage_type_id, float> melee;
 
         bool default_container_sealed = true;
 
@@ -1389,12 +1412,15 @@ struct itype {
         // used for generic_factory for copy-from
         bool was_loaded = false;
 
+        // Expand snippets in the description and save the description on the object
+        bool expand_snippets = false;
+
     private:
         // load-only, for applying proportional melee values at load time
-        std::map<damage_type_id, float> melee_proportional;
+        std::unordered_map<damage_type_id, float> melee_proportional;
 
         // load-only, for applying relative melee values at load time
-        std::map<damage_type_id, float> melee_relative;
+        std::unordered_map<damage_type_id, float> melee_relative;
 
         /** Can item be combined with other identical items? */
         bool stackable_ = false;

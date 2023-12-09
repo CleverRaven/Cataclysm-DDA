@@ -509,7 +509,7 @@ std::vector<std::pair<std::string, std::string>> ignorable_options::get_descript
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
-    options.emplace_back( _( "Loot: Custom: " ),
+    options.emplace_back( _( "Filter: " ),
                           !mark.empty() ? mark : _( "No filter" ) );
 
     return options;

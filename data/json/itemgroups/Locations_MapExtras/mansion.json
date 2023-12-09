@@ -336,7 +336,13 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_junk_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_decor" },
+      {
+        "distribution": [ { "item": "armor_junk_plate", "prob": 100 }, { "item": "chainmail_junk_hauberk", "prob": 100 } ]
+      },
+      { "item": "helmet_plate", "prob": 100 }
+    ]
   },
   {
     "id": "soa_weapons_decor",
@@ -731,6 +737,8 @@
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "folded_skateboard_generic", 10 ],
+      [ "javelin_bag", 1 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
       [ "shortbow", 5 ],
@@ -738,6 +746,8 @@
       [ "takedown_recurbow", 1 ],
       [ "quiver_takedown_bow", 1 ],
       [ "reflexbow", 2 ],
+      { "group": "archery_loaded_quivers", "prob": 1 },
+      [ "nylon_quiver", 2 ],
       [ "quiver", 3 ],
       [ "fencing_jacket", 10 ],
       [ "fencing_mask", 10 ],
@@ -788,7 +798,7 @@
       [ "jar_glass_sealed", 50 ],
       [ "jar_3l_glass_sealed", 40 ],
       [ "tongs", 25 ],
-      { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "coffeemaker", "prob": 10 },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
       [ "cookbook_native", 10 ],
@@ -926,7 +936,7 @@
       [ "fanny", 20 ],
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
-      [ "contacts", 10 ],
+      { "item": "contacts", "prob": 10, "count": 6 },
       [ "fedora", 10 ],
       [ "firecracker", 5 ],
       [ "fc_hairpin", 5 ],
@@ -1283,7 +1293,7 @@
     "items": [
       [ "mirror", 50 ],
       { "group": "softdrugs", "prob": 50 },
-      [ "contacts", 40 ],
+      { "item": "contacts", "prob": 40, "count": 6 },
       [ "hairpin", 40 ],
       [ "fc_hairpin", 30 ],
       { "group": "jewelry_front", "prob": 30 },
@@ -1371,6 +1381,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 60 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],
@@ -1421,8 +1432,10 @@
       [ "tank_top", 50 ],
       [ "hoodie", 90 ],
       [ "jacket_light", 20 ],
+      [ "jacket_varsity", 10 ],
       { "item": "jacket_jean", "prob": 50, "damage": [ 1, 3 ] },
       { "item": "jacket_leather", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "tacjacket", "prob": 75 },
       [ "bandana", 35 ],
       [ "hat_cotton", 45 ],
       [ "hat_knit", 25 ],

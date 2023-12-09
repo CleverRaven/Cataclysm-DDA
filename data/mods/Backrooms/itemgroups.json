@@ -34,6 +34,19 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "vending_drink_items",
+    "copy-from": "vending_drink_items",
+    "extend": {
+      "items": [
+        { "item": "gasoline", "container-item": "bottle_glass", "prob": 25 },
+        { "item": "diesel", "container-item": "bottle_glass", "prob": 25 },
+        { "item": "lamp_oil", "container-item": "bottle_glass", "prob": 15 },
+        { "item": "motor_oil", "container-item": "bottle_plastic", "prob": 5 }
+      ]
+    }
+  },
+  {
     "id": "backrooms_crate",
     "type": "item_group",
     "//": "These crates are packed full of all kinds of supplies, but mostly hardware, tools, electronics, chems, and rarely, weapons. Books, food, meds, and clothes are usually found elsewhere.",
@@ -354,11 +367,14 @@
       { "group": "plumbing_bulk", "prob": 50 },
       { "group": "wood_workshop", "prob": 50 },
       { "group": "supplies_hardware", "prob": 100 },
-      { "group": "supplies_reagents_lab", "prob": 15 },
-      { "group": "supplies_fuel", "prob": 15 },
+      { "group": "supplies_reagents_lab", "prob": 20 },
+      { "group": "supplies_fuel", "prob": 20 },
       { "group": "supplies_mechanics", "prob": 50 },
       { "group": "supplies_plumbing", "prob": 50 },
       { "group": "supplies_metal", "prob": 50 },
+      { "group": "supplies_farming", "prob": 10 },
+      { "group": "farm_supply_soil_and_sand", "prob": 15 },
+      { "group": "farm_supply_rocks", "prob": 5 },
       { "group": "metal_workshop", "prob": 50 },
       { "group": "steel_mill_mill", "prob": 50 },
       { "group": "recycle_paper", "prob": 20 },

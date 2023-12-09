@@ -31,8 +31,8 @@
   {
     "id": "baldric",
     "type": "ARMOR",
-    "name": { "str": "baldric" },
-    "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured by a shoulder belt.  Activate to sheath/draw a sword.",
+    "name": { "str": "longsword scabbard" },
+    "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured to the sturdy leather belt.  Activate to sheath/draw a sword.",
     "weight": "1625 g",
     "volume": "2 L",
     "price": 7500,
@@ -50,12 +50,63 @@
         "max_item_length": "130 cm",
         "moves": 30,
         "holster": true,
-        "flag_restriction": [ "SHEATH_SWORD" ]
+        "flag_restriction": [ "SHEATH_SWORD" ],
+        "volume_encumber_modifier": 0.25
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped directly to side of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped directly to side of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped directly to side of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 110,
+        "description": "Clipped directly to back of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 110,
+        "description": "Clipped directly to back of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 4 }
   },
   {

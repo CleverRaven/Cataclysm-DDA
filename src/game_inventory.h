@@ -111,12 +111,16 @@ item_location container_for( Character &you, const item &liquid, int radius = 0,
 item_location disassemble( Character &you );
 /** Gunmod installation menu. */
 item_location gun_to_modify( Character &you, const item &gunmod );
+/** Gunmod removal menu. */
+item_location gunmod_to_remove( Character &you, item &gun );
 /** Book reading menu. */
 item_location read( Character &you );
 /** E-Book reading menu. */
 item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
+/** Select books to save to E-Book reader menu. */
+drop_locations ebooksave( Character &who, item_location &ereader );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, Character &victim );
 /** Item activation menu. */
@@ -145,11 +149,14 @@ item_location salvage( Character &you, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( Character &you, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
+item_location install_bionic( Character &installer, Character &patron, Character &patient,
+                              bool surgeon = false );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( Character &you );
 /** Change sprite menu. */
 item_location change_sprite( Character &you );
+/** Unload item menu **/
+std::pair<item_location, bool> unload( Character &you );
 /*@}*/
 
 } // namespace inv

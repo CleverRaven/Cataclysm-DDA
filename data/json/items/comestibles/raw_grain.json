@@ -43,7 +43,7 @@
   {
     "type": "COMESTIBLE",
     "id": "empty_corn_cob",
-    "name": { "str_sp": "empty corn cob" },
+    "name": { "str": "empty corn cob" },
     "weight": "480 g",
     "color": "yellow",
     "spoils_in": "5 days",

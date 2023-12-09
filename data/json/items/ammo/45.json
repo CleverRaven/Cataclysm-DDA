@@ -1,17 +1,10 @@
 [
   {
     "id": "45_acp",
-    "copy-from": "45_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".45 ACP FMJ" },
     "description": ".45 ACP ammunition with a 230gr FMJ bullet.  Due to a reputation for effectiveness, the .45 ACP round has been common for over a century.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
-  },
-  {
-    "id": "45_jhp",
-    "type": "AMMO",
-    "name": { "str_sp": ".45 ACP JHP" },
-    "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since lost some of its popularity to more modern handgun ammo.",
+    "ascii_picture": "45_jhp",
     "weight": "21 g",
     "volume": "112 ml",
     "longest_side": "32 mm",
@@ -26,10 +19,42 @@
     "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 2 },
+    "//": ".451in, 230gr, Speer TMJ 4480, 5.5gr Alliant UNIQUE",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 27,
+      "armor_penetration": 8,
+      "barrels": [
+        { "barrel_length": "27 mm", "amount": 14 },
+        { "barrel_length": "33 mm", "amount": 15 },
+        { "barrel_length": "40 mm", "amount": 16 },
+        { "barrel_length": "46 mm", "amount": 17 },
+        { "barrel_length": "57 mm", "amount": 18 },
+        { "barrel_length": "70 mm", "amount": 19 },
+        { "barrel_length": "86 mm", "amount": 20 },
+        { "barrel_length": "102 mm", "amount": 21 },
+        { "barrel_length": "128 mm", "amount": 22 },
+        { "barrel_length": "163 mm", "amount": 23 },
+        { "barrel_length": "197 mm", "amount": 24 },
+        { "barrel_length": "259 mm", "amount": 25 },
+        { "barrel_length": "347 mm", "amount": 26 },
+        { "barrel_length": "476 mm", "amount": 27 },
+        { "barrel_length": "616 mm", "amount": 28 },
+        { "barrel_length": "897 mm", "amount": 29 },
+        { "barrel_length": "1254 mm", "amount": 30 }
+      ]
+    },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "45_jhp",
+    "copy-from": "45_acp",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 ACP JHP" },
+    "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since lost some of its popularity to more modern handgun ammo.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
   },
   {
     "id": "45_super",

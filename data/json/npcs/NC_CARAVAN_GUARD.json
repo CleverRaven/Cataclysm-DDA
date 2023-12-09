@@ -1,0 +1,77 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_pants",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 20 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_shoes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sneakers", "prob": 20 },
+      { "item": "boots", "prob": 20 },
+      { "item": "boots_steel", "prob": 40 },
+      { "item": "sneakers_steel", "prob": 28 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tshirt", "prob": 20 },
+      { "item": "hoodie", "prob": 20 },
+      { "item": "jacket_light", "prob": 20 },
+      { "item": "jacket_windbreaker", "prob": 10 },
+      { "item": "jacket_leather", "prob": 80 },
+      { "item": "trenchcoat", "prob": 20 },
+      { "item": "jacket_jean", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_vest",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 80 }, { "item": "tacvest", "prob": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_masks",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 10 },
+      { "item": "mask_dust", "prob": 30 },
+      { "item": "bandana", "prob": 10 },
+      { "item": "mask_filter", "prob": 30, "charges-min": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_storage",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "backpack", "prob": 40 },
+      { "item": "backpack_leather", "prob": 40 },
+      { "item": "rucksack", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_GUARD_eyes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "glasses_safety", "prob": 20 },
+      { "item": "goggles_ski", "prob": 20 },
+      { "item": "sunglasses", "prob": 20 }
+    ]
+  }
+]

@@ -1072,10 +1072,10 @@ void complete_construction( Character *you )
     };
 
     award_xp( *you );
-    // Friendly NPCs gain exp from assisting or watching...
-    // TODO: NPCs watching other NPCs do stuff and learning from it
+    // Other friendly Characters gain exp from assisting or watching...
+    // TODO: Characters watching other Characters do stuff and learning from it
     if( you->is_avatar() ) {
-        for( npc *&elem : get_avatar().get_crafting_helpers() ) {
+        for( Character *elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
@@ -1148,7 +1148,7 @@ void complete_construction( Character *you )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp, *you );
-    // npcs will automatically resume backlog, players wont.
+    // Players will not automatically resume backlog, other Characters will.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         you->backlog.clear();
@@ -2057,7 +2057,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( npc *&elem : get_avatar().get_crafting_helpers() ) {
+    for( Character *elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }

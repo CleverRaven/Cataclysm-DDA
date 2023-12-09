@@ -64,7 +64,7 @@
             }
           }
         ],
-        "condition": { "npc_service": true }
+        "condition": { "npc_service": 200000 }
       },
       {
         "text": "[$12000, 7d] 100 logs",
@@ -82,7 +82,7 @@
             }
           }
         ],
-        "condition": { "npc_service": true }
+        "condition": { "npc_service": 1200000 }
       },
       { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
       { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }

@@ -1,0 +1,80 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_HIDE_UGLY_REMOVE_GODCO_VARS",
+    "condition": {
+      "u_has_any_trait": [
+        "THRESH_LIZARD",
+        "THRESH_GASTROPOD",
+        "THRESH_BIRD",
+        "THRESH_FISH",
+        "THRESH_BEAST",
+        "THRESH_FELINE",
+        "THRESH_LUPINE",
+        "THRESH_URSINE",
+        "THRESH_CATTLE",
+        "THRESH_INSECT",
+        "THRESH_PLANT",
+        "THRESH_SLIME",
+        "THRESH_TROGLOBITE",
+        "THRESH_CEPHALOPOD",
+        "THRESH_SPIDER",
+        "THRESH_RAT",
+        "THRESH_ELPHA",
+        "THRESH_CHIMERA",
+        "THRESH_RAPTOR",
+        "THRESH_BATRACHIAN",
+        "THRESH_MOUSE",
+        "THRESH_MARLOSS",
+        "THRESH_MYCUS",
+        "THRESH_CRUSTACEAN"
+      ]
+    },
+    "effect": [ { "u_lose_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_HIDE_UGLY_GRANT_GODCO_VARS",
+    "condition": {
+      "u_has_any_trait": [
+        "THRESH_LIZARD",
+        "THRESH_GASTROPOD",
+        "THRESH_BIRD",
+        "THRESH_FISH",
+        "THRESH_BEAST",
+        "THRESH_FELINE",
+        "THRESH_LUPINE",
+        "THRESH_URSINE",
+        "THRESH_CATTLE",
+        "THRESH_INSECT",
+        "THRESH_PLANT",
+        "THRESH_SLIME",
+        "THRESH_TROGLOBITE",
+        "THRESH_CEPHALOPOD",
+        "THRESH_SPIDER",
+        "THRESH_RAT",
+        "THRESH_ELPHA",
+        "THRESH_CHIMERA",
+        "THRESH_RAPTOR",
+        "THRESH_BATRACHIAN",
+        "THRESH_MOUSE",
+        "THRESH_MARLOSS",
+        "THRESH_MYCUS",
+        "THRESH_CRUSTACEAN"
+      ]
+    },
+    "effect": [ { "u_add_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CREATE_LIGHT_SWITCH",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: photokinetic_create_light')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_01" }, "targeted": true } ] },
+        { "case": 8, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_02" }, "targeted": true } ] },
+        { "case": 16, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_03" }, "targeted": true } ] }
+      ]
+    }
+  }
+]

@@ -99,6 +99,7 @@
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 //***********************************
@@ -891,7 +892,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const tripoint_abs_omt omp = origin + point( col, row );
 
             const bool see = overmap_buffer.seen( omp );
-            const bool los = see && you.overmap_los( omp, sight_points );
+            const bool los = see && ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
+                                      you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
             // the full string from the ter_id including _north etc.
             std::string id;
             int rotation = 0;
@@ -937,7 +939,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         // NOLINTNEXTLINE(cata-translate-string-literal)
-                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {

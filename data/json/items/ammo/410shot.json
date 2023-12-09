@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 000 shot" },
     "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.",
+    "ascii_picture": "410shot_000",
     "weight": "27 g",
     "volume": "170 ml",
     "longest_side": "70 mm",

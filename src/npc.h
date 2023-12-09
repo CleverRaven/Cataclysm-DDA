@@ -256,6 +256,8 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
+
+
 enum class combat_engagement : int {
     NONE = 0,
     CLOSE,
@@ -571,6 +573,7 @@ struct npc_short_term_cache {
     npc_attack_rating current_attack_evaluation;
     std::shared_ptr<npc_attack> current_attack;
 
+
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
@@ -584,6 +587,22 @@ struct npc_short_term_cache {
     // friendly creature.
     // returns nullopt if not applicable
     std::optional<int> closest_enemy_to_friendly_distance() const;
+};
+
+// npc_combat_memory should store short-term trackers that don't really need to be saved if
+// the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
+struct npc_combat_memory_cache {
+    float assess_ally = 0.0f;
+    float assess_enemy = 0.0f;
+    int panic = 0;
+    int swarm_count = 0; //so you can tell if you're getting away over multiple turns
+    int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
+    int reposition_countdown = 0; // set when repos fails so that we don't keep trying.
+    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
+    float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
+    bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int formation_distance = -1; // dist to nearest ally with a gun, or to player
+    int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
 
 struct npc_need_goal_cache {
@@ -749,6 +768,7 @@ enum talk_topic_enum {
     TALK_DEMAND_LEAVE,
 
     TALK_SIZE_UP,
+    TALK_ASSESS_PERSON,
     TALK_LOOK_AT,
     TALK_OPINION,
 
@@ -791,6 +811,8 @@ class npc : public Character
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void clear_personality_traits();
+        void generate_personality_traits();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
@@ -875,7 +897,7 @@ class npc : public Character
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
-        bool is_obeying( const Character &p ) const;
+        bool is_obeying( const Character &p ) const override;
 
         // true if the NPC isn't actually real
         bool is_hallucination() const override {
@@ -896,7 +918,7 @@ class npc : public Character
         // Leading, following, or waiting for the player
         bool is_walking_with() const;
         // In the same faction
-        bool is_ally( const Character &p ) const;
+        bool is_ally( const Character &p ) const override;
         // Is an ally of the player
         bool is_player_ally() const;
         // Isn't moving
@@ -1000,8 +1022,9 @@ class npc : public Character
         void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
+        void prevent_death() override;
         // How well we smash terrain (not corpses!)
-        int smash_ability() const;
+        int smash_ability() const override;
 
         /*
          *  CBM management functions
@@ -1064,7 +1087,7 @@ class npc : public Character
         void handle_sound( sounds::sound_t priority, const std::string &description,
                            int heard_volume, const tripoint &spos );
 
-        void witness_thievery( item *it );
+        void witness_thievery( item *it ) override;
 
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -1082,10 +1105,13 @@ class npc : public Character
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
-        /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-        float evaluate_enemy( const Creature &target ) const;
+        /** rates how dangerous a target is */
+        float evaluate_monster( const monster &target, int dist ) const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy );
+        float evaluate_self( bool my_gun );
 
         void assess_danger();
+        void act_on_danger_assessment();
         bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
@@ -1094,6 +1120,7 @@ class npc : public Character
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
         void evaluate_best_weapon( const Creature *target );
+        float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 
@@ -1350,6 +1377,8 @@ class npc : public Character
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
+        npc_combat_memory_cache mem_combat;
+
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
@@ -1378,6 +1407,10 @@ class npc : public Character
 
         void set_known_to_u( bool known );
 
+        // Comparator between two NPCs as to who is a better person to respond
+        // to a theft being witnessed
+        static bool theft_witness_compare( const npc *lhs, const npc *rhs );
+
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const mission_id &miss_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
@@ -1405,6 +1438,8 @@ class npc : public Character
         int cbm_weapon_index = -1;
 
         bool dead = false;  // If true, we need to be cleaned up
+        // Temporary variable for preventing from death (used by EoC event)
+        bool prevent_death_reminder = false; // NOLINT(cata-serialize)
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;

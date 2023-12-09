@@ -25,6 +25,7 @@ Use the `Home` key to return to the top.
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   - [`data/json/` JSONs](#datajson-jsons)
     - [Ascii_arts](#ascii_arts)
+    - [Snippets](#snippets)
     - [Addiction types](#addiction-types)
     - [Body Graphs](#body-graphs)
       - [Graph Parts](#graph-parts)
@@ -153,7 +154,6 @@ Use the `Home` key to return to the top.
     - [Drop Actions](#drop-actions)
     - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
-    - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
     - [Harvest](#harvest)
       - [`id`](#id)
@@ -666,6 +666,230 @@ This section describes each json file and their contents. Each json has their ow
   }
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
+
+### Snippets 
+
+Snippets are the way for the game to store multiple instances of text, and use it on demand for different purposes: in item descriptions, NPC dialogues or in Effect on conditions
+
+------
+
+**Snippets may be made in two ways:**
+
+First is when snippet contain multiple fields, mainly `text` and `id` - in this case the game would be able to save it, and call only specific one - for example, if used in item description or in lab report file
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads",  // Category is the id of a snippet
+  "text": [
+    {
+      "id": "bread1",                                 // Id of this exact text, in this case "flatbread"
+      "name": "flatbread because i love flatbread",   // Name of a snippet, not actually used anywhere except to describe the snippet
+      "text": "flatbread",                            // Text, that would be used if this snippet category is called
+      "effect_on_examine": [ "effect_on_condition" ]  // Examining of this snippet will call effect_on_condition
+    },
+    { "id": "bread2", "text": "yeast bread" },
+    { "id": "bread3", "text": "cornbread" },
+    { "id": "bread4", "text": "fruit bread" }
+  ]
+}
+```
+
+Second is when snippet contain plain text with no ids - it is used, when the snippet can be generated on the fly, and the game don't need to memorize which one it should be - like in dialogue, for example (we don't need the game to remember what <swear> character used when talked to you)
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads", 
+  "text": [
+    "flatbread",
+    "yeast bread",
+    "cornbread",
+    "fruit bread"
+  ]
+}
+```
+
+------
+
+**There is also a multiple ways to use said snippet:**
+
+Items can utilize it using `snippet_category`, in this case the whole description of an item would be replaced with randomly picked snipped out of category:
+
+```json
+"snippet_category": "test_breads",
+```
+
+Alternatively, the `snippet_category` may itself contain a range of descriptions, avoiding making a new category:
+
+```c++
+"snippet_category": [
+  { "id": "bread1", "text": "flatbread" },
+  { "id": "bread2", "text": "yeast bread" },
+  { "id": "bread3", "text": "cornbread" },
+  { "id": "bread4", "text": "fruit bread" }
+]
+```
+note, that using `id` is mandatory in every way, if you don't want to make the game change the description of an item every time they do anything in the game
+
+------
+
+Both dialogues and snippets may reference the snippets right inside themselves - to differentiate the snippets, that are used in this way, their id contain `<>` in the name, like `<test_breads>`
+
+```json
+"dynamic_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you."
+```
+
+```json
+{
+  "type": "snippet",
+  "category": "<music_description>",
+  "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
+},
+```
+
+------
+
+Item descriptions also capable to use snippet system, but to use them, `expand_snippets` should be `true`, otherwise snippet won't be used
+
+```json
+{
+  "id": "nice_mug",
+  "type": "GENERIC",
+  "name": { "str": "complimentary mug" },
+  "description": "A ceramic mug.  It says \"Nice job, <name_g>!\"",
+  "expand_snippets": true,
+...
+}
+```
+
+Same works with variants 
+
+
+```json
+{
+  "id": "mean_mug",
+  "type": "GENERIC",
+  "name": { "str": "insulting mug" },
+  "description": "A ceramic mug.",
+  "variant_type": "generic",
+  "variants": [
+    {
+      "id": "fuck_you",
+      "name": { "str": "insulting mug" },
+      "description": "It says \"<fuck_you>, <name_b>!\"",
+      "append": true,
+      "expand_snippets": true,
+      "weight": 1
+    },
+    {
+      "id": "worst_dad",
+      "name": { "str": "bad dad mug" },
+      "description": "It says \"Worlds Worst Dad\"",
+      "append": true,
+      "weight": 1
+    }
+  ],
+  "material": [ "ceramic" ],
+  "weight": "375 g",
+  "volume": "375 ml"
+}
+```
+
+Using `expand_snippets` required only where snippets are used - if item do not uses snippet, but variant does, then only variant require to have `"expand_snippets":true`
+Using `expand_snippets` on item itself will work as all variants have `"expand_snippets":true`, but variants without any snippet would be effectively removed
+
+```json
+{
+  "id": "mean_mug",
+  "type": "GENERIC",
+  "name": { "str": "insulting mug" },
+  "description": "A ceramic mug.",
+  "expand_snippets": true,
+  "variant_type": "generic",
+  "variants": [
+    {
+      "id": "fuck_you",
+      "name": { "str": "insulting mug" },
+      "description": "It says \"<fuck_you>, <name_b>!\"",
+      "append": true,
+      "weight": 1
+    },
+    {
+      "id": "worst_dad",
+      "name": { "str": "bad mug" },
+      "description": "This mug never appears, because it doesnn't have any snippets",
+      "append": true,
+      "weight": 1
+    }
+  ],
+  "material": [ "ceramic" ],
+  "weight": "375 g",
+  "volume": "375 ml"
+}
+```
+
+------
+
+Item groups can specify the description of the item that is spawned:
+
+```json
+{
+  "type": "item_group",
+  "id": "test_itemgroup",
+  "//": "it spawns `child's drawing` item with `mutant_kid_boss_5` description"
+  "entries": [
+    { "item": "note_mutant_alpha_boss", "snippets": "mutant_kid_boss_5" },
+  ]
+}
+```
+
+Without specifying, the random snippet would be used
+
+------
+
+Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+
+------
+
+Items, that uses effect on condition action to reveal a snippet, may utilize `conditional_names` syntax to change the name of an item, depending on it's description
+
+`log_psych` is the category of snippet, `dream_1` is the id of a snippet, and `name` is the name of new item
+
+```json
+{
+  "type": "GENERIC",
+  "id": "psych_file",
+  "name": { "str": "lab report (psychology)", "str_pl": "lab reports (psychology)" },
+  "conditional_names": [
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_1", "name": { "str_sp": "Session S-3397-5" } },
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_2", "name": { "str_sp": "Session T-1215-4" } },
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_3", "name": { "str_sp": "Scrawled note" } }
+  ],
+  "description": "A folder full of what appear to be transcripts of confidential psychotherapy sessions.  Most of it is rather trivial, but certain passages catch your eye…",
+  "copy-from": "file",
+  "use_action": {
+    "type": "effect_on_conditions",
+    "description": "Activate to read the file",
+    "effect_on_conditions": [
+      {
+        "id": "EOC_LAB_FILE_PSY",
+        "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
+      }
+    ]
+  }
+}
+```
+
+Once the item would be activated, the description would be replaced with one of `log_psych` texts, and the `lab report (psychology)` name would be replaced with one of `conditional_names`
+
+------
+
+Snippets also support the color codes
+
+```json
+"<color_yellow_red>Biohazard</color>",
+```
 
 ### Addiction types
 
@@ -1377,7 +1601,7 @@ for example the property below makes a container burst open when filled over 75%
 
 ```json
   {
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   }
 ```
 
@@ -1882,6 +2106,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 
 ```C++
 "result": "javelin",         // ID of resulting item
+"activity_level": "LIGHT_EXERCISE", // (Mandatory) Options are NO_EXERCISE, LIGHT_EXERCISE, MODERATE_EXERCISE, BRISK_EXERCISE, ACTIVE_EXERCISE, EXTRA_EXERCISE. How energy intensive of an activity this craft is. E.g. making an anvil is much more exercise than cooking a fish.
 "byproducts": [ [ "" ] ],    // Optional (default: empty). Additional items generated by crafting this recipe.
 "byproduct_group": [         // Optional (default: empty). Same as above, but using item group definitions.
   { "item": "item_id_1", "count": [ 1, 4 ] },
@@ -1919,7 +2144,6 @@ Crafting recipes are defined as a JSON object with the following fields:
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
-"activity_level": "LIGHT_EXERCISE", // Options are NO_EXERCISE, LIGHT_EXERCISE, MODERATE_EXERCISE, BRISK_EXERCISE, ACTIVE_EXERCISE, EXTRA_EXERCISE. How energy intensive of an activity this craft is. E.g. making an anvil is much more exercise than cooking a fish.
 "proficiencies" : [ // The proficiencies related to this recipe
     {
       "proficiency": "prof_knapping", // The id of a proficiency
@@ -2863,6 +3087,7 @@ Vehicle components when installed on a vehicle.
                               // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
+"remove_as": "solar_panel",   // Overrides "item", item returned when removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
 "breaks_into" : [             // When the vehicle part is destroyed, items from this item group
                               // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
@@ -3177,6 +3402,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
+"snippet_category": "snippet_category",        // Can be used instead of description, if author want to have multiple ways to describe an item. See #Snippets
 "ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
@@ -3213,14 +3439,15 @@ Weakpoints only match if they share the same id, so it's important to define the
 "variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
 "variants": [              // Cosmetic variants this item can have
   {
-    "id": "varianta",                           // id used in spawning to spawn this variant specifically
+    "id": "variant_a",                           // id used in spawning to spawn this variant specifically
     "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
     "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
     "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
     "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
-    "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
-    "append": true                              // If this description should just be appended to the base item description instead of completely overwriting it.
+    "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 1. If it is 0, this variant will not be selected
+    "append": true,                             // If this description should just be appended to the base item description instead of completely overwriting it.
+    "expand_snippets": true                     // Allows to use snippet tags, see #Snippets
   }
 ],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
@@ -3668,6 +3895,11 @@ The `conditional_names` field allows defining alternate names for items that wil
       "name": "Mannwurst"
     },
     {
+      "type": "COMPONENT_ID_SUBSTRING",
+      "condition": "mutant",
+      "name": { "str_sp": "sinister %s" }
+    },
+    {
       "type": "COMPONENT_ID",
       "condition": "mutant",
       "name": { "str_sp": "sinister %s" }
@@ -3689,7 +3921,8 @@ The `conditional_names` field allows defining alternate names for items that wil
 
 You can list as many conditional names for a given item as you want. Each conditional name must consist of 3 elements:
 1. The condition type:
-    - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
+    - `COMPONENT_ID_SUBSTRING` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
+    - `COMPONENT_ID` Similar to `COMPONENT_ID_SUBSTRING`, but search the exact component match
     - `FLAG` which checks if an item has the specified flag (exact match).
     - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
     - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`.
@@ -3761,7 +3994,7 @@ CBMs can be defined like this:
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
-"vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
+"vitamins": [ [ "calcium", "60 mg" ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  Some vitamins ("calcium", "iron", "vitC") can be specified with the weight of the vitamins in that food.  Vitamins specified by weight can be in grams ("g"), milligrams ("mg") or micrograms ("μg", "ug", "mcg").  If a vitamin is not specified by weight, it is specified in "units", with meaning according to the vitamin definition.  Nutrition vitamins ("calcium", "iron", "vitC") are an integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitC, mutant_toxin, bad_food, blood, and redcells.
 "material": [                     // All materials (IDs) this food is made of
   { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
   { "type": "wheat", "portion": 5 }
@@ -3895,6 +4128,9 @@ Guns can be defined like this:
 "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ], // Type of faults, that can be applied to this gun; usually are inherited from single abstract like rifle_base, but exceptions exist
 "handling": 10             // handling of the weapon; better handling means less recoil
 "energy_drain": "2 kJ",    // Additionally to the normal ammo (if any), a gun can require some electric energy. Drains from battery in gun. Use flags "USE_UPS" and "USES_BIONIC_POWER" to drain other sources. This also works on mods. Attaching a mod with energy_drain will add/increase drain on the weapon.
+"heat_per_shot": 10,       // Each shot from this weapon adds this amount of heat
+"cooling_value": 3,        // Amount of heat value, that is reduced every turn
+"overheat_threshold": 100, // Heat value, at which fault may occur, see #Item faults; values below zero mean item won't be able to fault
 "ammo_to_fire" 1,          // Amount of ammo used
 "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
@@ -3946,7 +4182,7 @@ Gun mods can be defined like this:
 "energy_drain_multiplier": 1.2, // if weapon uses `energy_drain`, multiplies it on this amount
 "field_of_view": 270,           // #53180 has an image of it, but it represent how big FoV of the scope - when characters start to aim, it doesn't use the scope whatsoever, aiming into "general direction", and then transfer to using scope to pinpoint the target. The bigger FoV is, the sooner character would be able to use the scope (target acquisition with higher power scopes is very very difficult); put simple: the bigger FoV, the faster player can aim, to some degree; measured in MOA (minutes of angle)
 "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ], // minimal skill level required to install this gunmod
-"shot_spread_multiplier_modifier": -0.8, // for shotguns, changes the spread of the pellets
+"shot_spread_multiplier_modifier": -0.8, // For shotguns, changes the spread of the pellets. Given a default multiplier of 1.0(100%), a multiplier modifier of -0.8 results in 0.2(20%) shot spread. Multipliers from all mods are summed up, but in vanilla game, only choke should be able to manipulate with shot spread - **shotgun barrel length doesn't affect pellet spread**
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
@@ -3958,6 +4194,14 @@ Gun mods can be defined like this:
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
 "barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
+"overheat_threshold_modifier": 100,   // Add a flat amount to gun's "overheat_threshold"; if the threshold is 100, and the modifier is 10, the result is 110; if the modifier is -25, the result is 75
+"overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" by this number; if the threshold is 100, and the multiplier is 1.5, the result is 150; if the multiplier is 0.8, the result is 80
+"cooling_value_modifier": 2,          // Add a flat amount to gun's "cooling_value"; works the same as overheat_threshold_modifier
+"cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" by this number; works the same as overheat_threshold_multiplier
+"heat_per_shot_modifier":  -2,        //  Add a flat amount to gun's "heat_per_shot"; works the same as overheat_threshold_modifier
+"heat_per_shot_multiplier": 2.0,      // Multiply the gun's "heat_per_shot" by this number; works the same as overheat_threshold_multiplier
+"blacklist_slot": [ "rail", "underbarrel" ],      // prevents installation of the gunmod if the specified slot(s) are present on the gun.
+"blacklist_mod": [ "m203", "m320" ],      // prevents installation of the gunmod if the specified mods(s) are present on the gun.
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
@@ -4034,9 +4278,12 @@ Every item type can have optional seed data, if the item has seed data, it's con
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
     "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
-    "grow" : 91 // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+    "grow" : 91, // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
+    "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
+					 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
+					 // Using any other tag will not turn the terrain into dirt.
 }
 ```
 
@@ -4289,6 +4536,14 @@ The contents of use_action fields can either be a string indicating a built-in f
     ]
 },
 "use_action" : {
+    "type" : "deploy_furn",
+    "furn_type" : "f_foo", // What furniture this item will be transmuted into
+},
+"use_action" : {
+    "type" : "deploy_appliance",
+    "base" : "item_id", // Base item of the appliance this item will turn into
+},
+"use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
@@ -4515,44 +4770,6 @@ Once the duration of the timer has passed the `"countdown_action"` is executed. 
 ```
 
 Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
-
-### Random Descriptions
-
-Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
-```
-"snippet_category": "newspaper",
-```
-The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
-```C++
-{
-    "type" : "snippet",
-    "category" : "newspaper",
-    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
-    "text": "your flavor text"
-}
-```
-or several snippets at once:
-```C++
-{
-    "type" : "snippet",
-    "category" : "newspaper",
-    "text": [
-        "your flavor text",
-        "more flavor",
-        // entries can also be of this form to have a id to reference that specific snippet.
-        { "id" : "snippet-id", "text" : "another flavor text" }
-    ],
-    "text": [ "your flavor text", "another flavor text", "more flavor" ]
-}
-```
-Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
-
-One can also put the snippets directly in the item definition:
-```
-"snippet_category": [ "text 1", "text 2", "text 3" ],
-```
-This will automatically create a snippet category specific to that item and populate that category with the given snippets.
-The format also support snippet ids like above.
 
 # `json/` JSONs
 
@@ -5788,7 +6005,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
 
-Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`
+Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`; Using a migration means you can remove the item safely from the game, and it won't cause any harm
 
 ```C++
 
@@ -5829,6 +6046,8 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
     "to": null
   }
 ```
+
+For mutations, see MUTATIONS.md#trait-migrations
 
 Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
 
@@ -5931,6 +6150,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "light_emitted": 2.5, // light level emitted by this intensity
         "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
+        "concentration": 1, // How concentrated this intensity of gas is. Generally the thin/hazy cloud intensity will be 1, the standard gas will be 2, and thick gas will be 4. The amount of time a gas mask filter will last will be divided by this value.
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
         "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
         [
@@ -5965,7 +6185,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
     "phase": "gas", // Phase of the field. Gases can spread after spawning and can be spawned out of emitters through impassable terrain with the PERMEABLE flag
     "apply_slime_factor": 10, // Intensity of slime to apply to creatures standing in this field (Why not use an effect? No idea.)
-    "gas_absorption_factor": 15, // Amount of gasmask charges the field uses up per tick
+    "gas_absorption_factor": "80m", // Length a full 100 charge gas mask filter will last in this gas. Will be divided by the concentration of the gas, and should be 80m for concentration 1 toxic gas or similar. The worst gas should still be kept out for 20 minutes in a concentration 4 thick gas.
     "is_splattering": true, // If splatters of this field should bloody vehicle parts
     "dirty_transparency_cache": true, // Should the transparency cache be recalculated when the field is modified (used for nontransparent, spreading fields)
     "has_fire": false, // Is this field a kind of fire (for immunity, monster avoidance and similar checks)

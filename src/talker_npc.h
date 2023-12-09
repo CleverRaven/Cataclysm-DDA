@@ -80,6 +80,7 @@ class talker_npc : public talker_cloner<talker_npc, talker_character>
 
         // other descriptors
         std::string get_job_description() const override;
+        std::string view_personality_traits() const override;
         std::string evaluation_by( const talker &alpha ) const override;
         bool has_activity() const override;
         bool is_myclass( const npc_class_id &class_to_check ) const override;
@@ -94,6 +95,7 @@ class talker_npc : public talker_cloner<talker_npc, talker_character>
         bool enslave_mind() override;
         void set_first_topic( const std::string &chat_topic ) override;
         bool is_safe() const override;
+        void die() override;
 
         // opinions
         void set_npc_trust( int trust ) override;
