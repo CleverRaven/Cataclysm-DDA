@@ -1769,7 +1769,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             do_interrupt = false;
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
-        get_event_bus().send<event_type::loses_mutation>(getID(), replace_mdata.id);
+        get_event_bus().send<event_type::loses_mutation>( getID(), replace_mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
     }
