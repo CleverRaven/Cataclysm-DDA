@@ -344,7 +344,7 @@
     "weight": "70 g",
     "volume": "27 ml",
     "looks_like": "bandages",
-    "symbol": "@"
+    "symbol": "@",
     "color": "magenta",
     "use_action": {
       "type": "heal",
