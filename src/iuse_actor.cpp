@@ -4474,9 +4474,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                                    ( it.link->length - respool_threshold ) * respool_time_per_square;
     const bool past_respool_threshold = it.link_length() > respool_threshold;
     const bool unspooled = it.link_length() == -1;
-    const bool has_loose_end = !unspooled && is_cable_item ? !it.link ||
-                               it.link->has_state( link_state::no_link ) :
-                               !it.link || it.link->has_no_links();
+    const bool has_loose_end = !it.link || ( !unspooled && is_cable_item ?
+                               it.link->has_state( link_state::no_link ) : it.link->has_no_links() );
 
     uilist link_menu;
     if( !is_cable_item || !it.link || it.link->has_no_links() ) {
