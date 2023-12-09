@@ -307,7 +307,6 @@
   {
     "type": "terrain",
     "id": "t_saltwater_cube",
-    "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "submersed salt water",
     "description": "You are submerged below the surface of the water, your feet can't touch the ground.  With a watertight container, you could gather salt water from here.",
     "symbol": "~",
