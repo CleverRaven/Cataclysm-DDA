@@ -34,6 +34,28 @@ void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &
     }
 }
 
+namespace
+{
+generic_factory<om_settings_forest> om_forest_factory( "om_settings_forest" );
+} // namespace
+
+template<>
+const om_settings_forest &string_id<om_settings_forest>::obj() const
+{
+    return om_settings_forest.obj( *this );
+}
+
+void om_settings_forest::load( const JsonObject &jo, const std::string_view )
+{
+    // if these settings aren't loaded, we just revert to the defaults.
+    optional( jo, was_loaded, "noise_threshold_forest", noise_threshold_forest );
+    optional( jo, was_loaded, "noise_threshold_forest_thick", noise_threshold_forest_thick );
+    optional( jo, was_loaded, "noise_threshold_swamp_adjacent_water", noise_threshold_swamp_adjacent_water );
+    optional( jo, was_loaded, "noise_threshold_swamp_isolated", noise_threshold_swamp_isolated );
+    optional( jo, was_loaded, "river_floodplain_buffer_distance_min", river_floodplain_buffer_distance_min );
+    optional( jo, was_loaded, "river_floodplain_buffer_distance_max", river_floodplain_buffer_distance_max );
+}
+
 static void load_forest_biome_component(
     const JsonObject &jo, forest_biome_component &forest_biome_component, const bool overlay )
 {
@@ -298,31 +320,6 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 overmap_feature_flag_settings.whitelist.emplace( line );
             }
         }
-    }
-}
-
-static void load_overmap_forest_settings(
-    const JsonObject &jo, overmap_forest_settings &overmap_forest_settings, const bool strict,
-    const bool overlay )
-{
-    if( !jo.has_object( "overmap_forest_settings" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"overmap_forest_settings\": { … } required for default" );
-        }
-    } else {
-        JsonObject overmap_forest_settings_jo = jo.get_object( "overmap_forest_settings" );
-        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_forest",
-                                       overmap_forest_settings.noise_threshold_forest, !overlay );
-        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_forest_thick",
-                                       overmap_forest_settings.noise_threshold_forest_thick, !overlay );
-        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_swamp_adjacent_water",
-                                       overmap_forest_settings.noise_threshold_swamp_adjacent_water, !overlay );
-        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_swamp_isolated",
-                                       overmap_forest_settings.noise_threshold_swamp_isolated, !overlay );
-        read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_min",
-                                    overmap_forest_settings.river_floodplain_buffer_distance_min, !overlay );
-        read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_max",
-                                    overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
     }
 }
 
@@ -602,8 +599,6 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
-    load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
-
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
@@ -794,8 +789,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_building_types( "parks", region.city_spec.parks );
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
-
-    load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
