@@ -700,20 +700,20 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         // TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
         // We'll assume they poke out of your sleeves to do their thing.
         float head_leaf_surface = 100 - worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
-        float rarm_leaf_surface = worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005;
-        float larm_leaf_surface = worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005;
-        float vine_leaf_surface = rarm_leaf_surface + larm_leaf_surface;
+        float rarm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005 );
+        float larm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005 );
+        float vine_leaf_surface = 1 - ( rarm_leaf_surface + larm_leaf_surface );
             if( you.has_trait( trait_NO_LEFT_ARM ) ) {
-            larm_leaf_surface = .5;
+            larm_leaf_surface = .0;
             }
             if( you.has_trait( trait_NO_RIGHT_ARM ) ) {
-            rarm_leaf_surface = .5;
+            rarm_leaf_surface = .0;
             }
             if( you.has_trait( trait_VINES1 ) ) {
             vine_leaf_surface = std::min(vine_leaf_surface + 0.5, 1.0);
             }
             if ( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) && !you.has_trait( trait_VINES3 ) ) {
-            vine_leaf_surface = 1;
+            vine_leaf_surface = 0;
             }
             const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
@@ -724,13 +724,17 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             if( player_local_temp > 104 ) {
             flux -= ( player_local_temp - 104 ) * 3;
             }
-        if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
-            vine_leaf_surface = std::min(vine_leaf_surface + 0.33, 1.0);
-            larm_leaf_surface = std::min(larm_leaf_surface + 0.33, 1.0);
-            rarm_leaf_surface = std::min(rarm_leaf_surface + 0.33, 1.0);
-        }
         if( you.has_trait( trait_LEAVES ) ) {
-            head_leaf_surface *= .25;
+            head_leaf_surface *= .5;
+        }
+        if( you.has_trait( trait_LEAVES2 ) ) {
+            head_leaf_surface *= .75;
+        }
+        if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
+            vine_leaf_surface = std::max(vine_leaf_surface - 0.25, 0.0);
+            larm_leaf_surface = std::max(larm_leaf_surface - 0.25, 0.0);
+            rarm_leaf_surface = std::max(rarm_leaf_surface - 0.25, 0.0);
+            head_leaf_surface *= .75;
         }
         if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
             head_leaf_surface = 0;
@@ -740,7 +744,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                                    phelloderm_surface );   
         if( leafier || leafiest ) {
             const int rate = round( 10 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? .08 : .03 ) * weather_factor;
+            sunlight_nutrition += rate * ( leafiest ? 1 : .75 ) * weather_factor;
         }
         you.get_size();
         // Multiply by the proportional difference in average height, as height roughly determines armspan,
@@ -755,7 +759,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             }
     }
 
-    if( x_in_y( sunlight_nutrition, 13200 ) ) {
+    if( x_in_y( sunlight_nutrition, 12000 ) ) {
         you.vitamin_mod( vitamin_vitC, 1 );
             you.add_msg_if_player( m_good, _( "Ding! Sunlight_nutrition is %s." ),
                                    sunlight_nutrition );
