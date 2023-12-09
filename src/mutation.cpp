@@ -2258,7 +2258,7 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
                 // Thresholds can cancel unpurifiable traits
                 for( const trait_id &canceled : thrdata.cancels ) {
-                    get_event_bus().send<event_type::loses_mutation>(getID(), canceled);
+                    get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
                     unset_mutation( canceled );
                 }
                 set_mutation( mutation_thresh );
