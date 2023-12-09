@@ -78,13 +78,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "godco_enter",
-    "name": "dirt road",
-    "sym": "│",
-    "copy-from": "generic_rural_road"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "roadstop", "roadstop_roof" ],
     "name": "roadstop",
     "sym": "^",
