@@ -33,7 +33,9 @@ NETHER ATTUNEMENT
 
 Long-term power use will attune you to the energies of the Nether. This has no immediate effect, but it does make your power use more unpredicatable the higher your Nether-attunement is. Higher Nether attunement can cause headache or nosebleed, sudden fatigue, a loss of concentration, muscle weakness, or even worse things...but it can also cause a surge of power that increases your overall power level briefly.  Nether-attunement slowly fades with time, and there are faster ways to reduce it.
 
-One future goal is to make power level directly scale with Nether Attunement, so high levels increase the damage, range, duration, etc. of all your powers and having no Nether Attunement reduces them to below the normal baseline. 
+Power level scales with Nether Attunement.  If you have no Nether attunement, your powers are 75% as effective as they are at Nether Attunement (1). This scale increases all the way up to 3x as effective at Nether Attunement (12)!  However, the higher your Nether Attunement, the greater the chance of unexpected side effects when using your powers.  Headaches, nosebleeds, a sudden cold wind, unnatural tiredness or weakness, your powers going out of control, or even worse things.  There is thus a balance between raising Nether Attunement to empower yourself vs. keeping it low to avoid dangerous side effects.
+
+Nether attunement gain is not linear.  If you have no levels in your @ sheet, it accumulates very slowly.  Once you have the first level of Nether Attunement, however, it accumulates much faster. 
 
 POWER TYPES
 
