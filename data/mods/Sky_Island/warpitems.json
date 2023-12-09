@@ -336,6 +336,25 @@
     "ammo_type": "components"
   },
   {
+    "type": "TOOL",
+    "category": "drugs",
+    "id": "warpbandage",
+    "name": { "str_sp": "Warped Antiseptic Bandages" },
+    "description": "A roll of antiseptic-soaked bandages that never seems to run out. Faint birdsong emanates from shimmering purple cloth.",
+    "weight": "70 g",
+    "volume": "27 ml",
+    "looks_like": "bandages",
+    "symbol": "@"
+    "color": "magenta",
+    "use_action": {
+      "type": "heal",
+      "bandages_power": 4,
+      "disinfectant_power": 4,
+      "bleed": 15,
+      "move_cost": 6000
+    }
+  },
+  {
     "id": "warptoken",
     "type": "AMMO",
     "category": "other",
