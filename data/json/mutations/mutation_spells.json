@@ -179,7 +179,7 @@
     "name": { "str": "Blinding Spray Primer" },
     "description": "Blinds a random nearby enemy for a short duration and uses some kcal",
     "effect": "effect_on_condition",
-    "effect_str": "ink_grand_spray_eoc",
+    "effect_str": "EOC_ink_grand_spray",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "min_damage": 0,
