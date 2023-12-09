@@ -399,7 +399,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ] ]
+    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -416,7 +416,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ], [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 5 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 1 ] ], [ [ "bearing", 4 ] ] ]
+    "components": [ [ [ "cable", 28 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 1 ] ], [ [ "bearing", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -433,7 +433,13 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 1 ], [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 15 ] ], [ [ "cable", 15 ] ], [ [ "pipe", 1 ] ], [ [ "bearing", 10 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+    "components": [
+      [ [ "e_scrap", 15 ] ],
+      [ [ "cable", 519 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "bearing", 10 ] ],
+      [ [ "sheet_metal_small", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
