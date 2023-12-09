@@ -1030,45 +1030,6 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.set_duration( 1_turns * dice( 3, 100 ) );
     }
 
-    // TODO: Move this to update_needs when NPCs can mutate
-    if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
-            u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
-        here.is_outside( u.pos() ) ) {
-        if( u.has_trait( trait_CHLOROMORPH ) ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
-                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
-                    u.set_fatigue( 25 );
-                }
-                if( u.get_hunger() >= -30 ) {
-                    u.mod_hunger( -5 );
-                    // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_kcal( 43 );
-                }
-            }
-            if( u.get_thirst() >= -40 ) {
-                u.mod_thirst( -5 );
-            }
-            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
-            u.vitamin_mod( vitamin_iron, 2 );
-            u.vitamin_mod( vitamin_calcium, 2 );
-        }
-        if( u.has_trait( trait_M_SKIN3 ) ) {
-            // Spores happen!
-            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
-                if( u.get_fatigue() >= 0 ) {
-                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
-                }
-                if( calendar::once_every( 1_hours ) ) {
-                    u.spores(); // spawn some P O O F Y   B O I S
-                }
-            }
-        }
-        if( u.has_trait( trait_WATERSLEEP ) ) {
-            u.mod_fatigue( -3 ); // Fish sleep less in water
-        }
-    }
-
     // Check mutation category strengths to see if we're mutated enough to get a dream
     // If we've crossed a threshold, always show dreams for that category
     // Otherwise, check for the category that we have the most vitamins in our blood for

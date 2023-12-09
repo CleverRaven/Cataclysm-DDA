@@ -464,6 +464,7 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
+    "resist_effects": [ "rooted" ],
     "show_in_info": true,
     "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ],
     "limb_score_mods": [
@@ -608,6 +609,7 @@
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
     "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "resist_effects": [ "rooted" ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -4411,5 +4413,13 @@
     "resist_effects": [ "took_flumed" ],
     "show_in_info": true,
     "base_mods": { "per_mod": [ -1 ], "int_mod": [ -2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "rooted",
+    "name": [ "Rooted" ],
+    "desc": [ "You are rooted solidly in place." ],
+    "rating": "neutral",
+    "show_in_info": true
   }
 ]

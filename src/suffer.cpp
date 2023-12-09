@@ -687,8 +687,9 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                 }
                 // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
                 if( you.has_trait( trait_JAUNDICE ) ) {
-                    phelloderm_surface *= 0.5;
+                    phelloderm_surface *= .5;
                 }
+                phelloderm_surface = 12.0 - phelloderm_surface;
             }
         const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
         const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
@@ -747,7 +748,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             if( you.get_size() == creature_size::huge ) { sunlight_nutrition *= 2.35; }
     }
 
-    if( x_in_y( sunlight_nutrition, 18000 ) ) {
+    if( x_in_y( sunlight_nutrition, 13200 ) ) {
         you.vitamin_mod( vitamin_vitC, 1 );
             you.add_msg_if_player( m_good, _( "Ding! Sunlight_nutrition is %s." ),
                                    sunlight_nutrition );
