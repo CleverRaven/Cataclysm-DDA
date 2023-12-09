@@ -1114,8 +1114,7 @@ class vehicle
          * Useful for, e.g. power cables that have a vehicle part on both sides.
          * @param vp_local Vehicle part that is connected to the remote part.
          */
-        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part(
-                    const vehicle_part &vp_local ) const;
+        std::optional<vpart_reference> get_remote_part( const vehicle_part &vp_local ) const;
         /**
          * Remove the part on a targeted remote vehicle that a part is targeting.
          */

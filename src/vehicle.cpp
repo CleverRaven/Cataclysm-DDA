@@ -6835,17 +6835,16 @@ bool vehicle::no_towing_slack() const
 
 }
 
-std::optional<std::pair<vehicle *, vehicle_part *>> vehicle::get_remote_part(
-            const vehicle_part &vp_local ) const
+std::optional<vpart_reference> vehicle::get_remote_part( const vehicle_part &vp_local ) const
 {
     vehicle *veh = find_vehicle( tripoint_abs_ms( vp_local.target.second ) );
     // If the target vehicle is still there, ask it to remove its part
     if( veh != nullptr ) {
         const tripoint local_abs = get_map().getabs( global_part_pos3( vp_local ) );
         for( const int remote_partnum : veh->loose_parts ) {
-            vehicle_part &vp_remote = veh->parts[remote_partnum];
-            if( vp_remote.info().has_flag( VPFLAG_POWER_TRANSFER ) && vp_remote.target.first == local_abs ) {
-                return std::make_pair( veh, &vp_remote );
+            if( veh->parts[remote_partnum].target.first == local_abs &&
+                veh->parts[remote_partnum].info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
+                return vpart_reference( *veh, remote_partnum );
             }
         }
     }
@@ -6856,7 +6855,7 @@ void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
 {
     const auto part = get_remote_part( vp_local );
     if( part ) {
-        part->first->remove_part( *part->second );
+        part->vehicle().remove_part( part->part() );
         // Rebuild vehicle cache to avoid creating an illusion of the remote car.
         get_map().rebuild_vehicle_level_caches();
     }
@@ -6893,8 +6892,8 @@ void vehicle::shed_loose_parts( const trinary shed_cables, const tripoint_bub_ms
                 // cable still has some slack to it, so update the remote part's target and continue.
                 const auto remote = get_remote_part( vp_loose );
                 if( remote ) {
-                    remote->second->target.first = vp_loose_dst;
-                    remote->second->target.second = here.getabs( dst ? *dst : pos_bub() );
+                    remote->part().target.first = vp_loose_dst;
+                    remote->part().target.second = here.getabs( dst ? *dst : pos_bub() );
                 }
                 continue;
             }
@@ -8075,10 +8074,10 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
 
         // Tow cables have these variables assigned in invalidate_towing, which calls part_to_item.
         if( !tmp.has_flag( flag_TOW_CABLE ) ) {
-            const auto remote = get_remote_part( vp );
+            const std::optional<vpart_reference> remote = get_remote_part( vp );
             if( remote ) {
-                tmp.link->t_veh_safe = remote->first->get_safe_reference();
-                tmp.link->t_mount = remote->second->mount;
+                tmp.link->t_veh_safe = remote->vehicle().get_safe_reference();
+                tmp.link->t_mount = remote->part().mount;
             } else {
                 // The linked vehicle can't be found, so this part shouldn't exist.
                 tmp.set_flag( flag_NO_DROP );
