@@ -219,7 +219,7 @@
     "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
-    "default": "45colt_jhp"
+    "default": "45colt_cowboy"
   },
   {
     "type": "ammunition_type",
