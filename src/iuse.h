@@ -170,7 +170,6 @@ std::optional<int> pack_item( Character *, item *, const tripoint & );
 std::optional<int> pick_lock( Character *p, item *it, const tripoint &pos );
 std::optional<int> pickaxe( Character *, item *, const tripoint & );
 std::optional<int> play_game( Character *, item *, const tripoint & );
-std::optional<int> plug_in( Character *, item *, const tripoint & );
 std::optional<int> portable_game( Character *, item *, const tripoint & );
 std::optional<int> portal( Character *, item *, const tripoint & );
 std::optional<int> radglove( Character *, item *, const tripoint & );
