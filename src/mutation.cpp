@@ -2331,7 +2331,7 @@ void Character::give_all_mutations( const mutation_category_trait &category,
 void Character::unset_all_mutations()
 {
     for( const trait_id &mut : get_mutations() ) {
-        get_event_bus().send<event_type::loses_mutation>(getID(), mut);
+        get_event_bus().send<event_type::loses_mutation>( getID(), mut );
         unset_mutation( mut );
     }
 }
