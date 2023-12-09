@@ -346,7 +346,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_unvitrified_farm_1.id(),
         oter_type_unvitrified_farm_2.id(),
         oter_type_unvitrified_farm_neg_1.id(),
-        oter_type_ocean_shore.id(), // ocean tiles require you to travel to find them, and should get their own test.
+        oter_type_ocean_shore.id(), // ocean tiles require you to travel to find them.
         oter_type_ocean_bed.id(),
         oter_type_ocean_surface.id(),
         oter_type_ocean_water_cube.id()
