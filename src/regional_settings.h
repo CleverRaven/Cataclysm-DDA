@@ -189,6 +189,8 @@ struct overmap_feature_flag_settings {
 };
 
 struct om_settings_forest {
+    om_settings_forest() = default;
+        
     double noise_threshold_forest = 0.25;
     double noise_threshold_forest_thick = 0.3;
     double noise_threshold_swamp_adjacent_water = 0.3;
@@ -196,13 +198,16 @@ struct om_settings_forest {
     int river_floodplain_buffer_distance_min = 3;
     int river_floodplain_buffer_distance_max = 15;
     
+    om_settings_forest_id id;
+    std::vector<std::pair<om_settings_forest_id, mod_id>> src;
     bool was_loaded = false;
-    static void om_settings_forest( const JsonObject &jo, const std::string &src );
+    static void load_om_settings_forest( const JsonObject &jo, const std::string &src );
     void load( const JsonObject &jo, std:: string_view );
-    static const std::vector<om_settings_forest> &get_all();
+    const std::vector<om_settings_forest> &get_all();
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jsobj ) const;
     bool is_valid() const;
-
-    om_settings_forest() = default;
+    static void reset_om_settings_forest();
 };
 
 struct shore_extendable_overmap_terrain_alias {
