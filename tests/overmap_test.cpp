@@ -13,6 +13,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+#include "options_helpers.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
@@ -346,6 +347,10 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_unvitrified_farm_1.id(),
         oter_type_unvitrified_farm_2.id(),
         oter_type_unvitrified_farm_neg_1.id(),
+        oter_type_ocean_shore.id(), // ocean tiles require you to travel to find them, and should get their own test.
+        oter_type_ocean_bed.id(),
+        oter_type_ocean_surface.id(),
+        oter_type_ocean_water_cube.id()
     };
 
     std::unordered_set<oter_type_id> done;
