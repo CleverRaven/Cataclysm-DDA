@@ -10,8 +10,16 @@
     "river_floodplain_buffer_distance_max": 15
   },
   {
-    "type": "region_settings",
+    "type": "om_settings_ravine",
     "id": "default",
+    "num_ravines": 0,
+    "ravine_width": 3,
+    "ravine_range": 45,
+    "ravine_depth": -3
+  },
+  {
+    "type": "region_settings",
+    "id": "midland",
     "default_oter": [
       "open_air",
       "open_air",
@@ -38,6 +46,7 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "//": "Weights are set high in order to allow mods to add rare terrains.  Dividing current weights by 1000 breaks in repo mods and should not be approved.",
     "overmap_forest_settings": "default",
+    "overmap_ravine_settings": "default",
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000 },
@@ -366,7 +375,6 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
-    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "forest_mapgen_settings": {
       "forest": {
         "terrains": [ "forest", "special_forest" ],

@@ -1853,7 +1853,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
     // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
     // in the other levels they are converted into open air to generate the cliffside.
-    if( dat.zlevel() == dat.region.overmap_ravine.ravine_depth ) {
+    if( dat.zlevel() == dat.region.overmap_ravine->ravine_depth ) {
         m->translate( t_null, dat.groundcover() );
     } else {
         m->translate( t_null, t_open_air );

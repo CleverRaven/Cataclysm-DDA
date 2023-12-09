@@ -204,6 +204,26 @@ struct om_settings_forest {
     static void reset_om_settings_forest();
 };
 
+om_settings_ravine_id const bogus_ravine_id;
+
+struct om_settings_ravine {
+    om_settings_ravine() = default;
+
+    int num_ravines = 0;
+    int ravine_range = 45;
+    int ravine_width = 1;
+    int ravine_depth = -3;
+
+    om_settings_ravine_id id;
+    std::vector<std::pair<om_settings_ravine_id, mod_id>> src;
+    bool was_loaded = false;
+    static void load_om_settings_ravine( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std:: string_view );
+    const std::vector<om_settings_ravine> &get_all();
+    bool is_valid() const;
+    static void reset_om_settings_ravine();
+};
+
 struct shore_extendable_overmap_terrain_alias {
     std::string overmap_terrain;
     ot_match_type match_type = ot_match_type::exact;
@@ -222,15 +242,6 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
-struct overmap_ravine_settings {
-    int num_ravines = 0;
-    int ravine_range = 45;
-    int ravine_width = 1;
-    int ravine_depth = -3;
-
-    void finalize();
-    overmap_ravine_settings() = default;
-};
 
 struct map_extras {
     unsigned int chance;
@@ -272,8 +283,8 @@ struct regional_settings {
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     om_settings_forest_id overmap_forest;
+    om_settings_ravine_id overmap_ravine;
     overmap_lake_settings overmap_lake;
-    overmap_ravine_settings overmap_ravine;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;

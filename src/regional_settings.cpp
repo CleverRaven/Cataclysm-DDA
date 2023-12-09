@@ -276,6 +276,48 @@ static void load_forest_trail_settings( const JsonObject &jo,
     }
 }
 
+
+namespace
+{
+generic_factory<om_settings_ravine> om_ravine_factory( "om_settings_ravine" );
+} // namespace
+
+template<>
+const om_settings_ravine &string_id<om_settings_ravine>::obj() const
+{
+    return om_ravine_factory.obj( *this );
+}
+template<>
+bool string_id<om_settings_ravine>::is_valid() const
+{
+    return om_ravine_factory.is_valid( *this );
+}
+void om_settings_ravine::load_om_settings_ravine( const JsonObject &jo, const std::string &src )
+{
+    om_ravine_factory.load( jo, src );
+}
+void om_settings_ravine::load( const JsonObject &jo, const std::string_view )
+{
+    // if these settings aren't loaded, we just revert to the defaults.
+    optional( jo, was_loaded, "num_ravines", num_ravines );
+    optional( jo, was_loaded, "ravine_width", ravine_width );
+    optional( jo, was_loaded, "ravine_range",
+              ravine_range );
+    optional( jo, was_loaded, "ravine_depth", ravine_depth );
+}
+const std::vector<om_settings_ravine> &om_settings_ravine::get_all()
+{
+    return om_ravine_factory.get_all();
+}
+void om_settings_ravine::reset_om_settings_ravine()
+{
+    om_ravine_factory.reset();
+}
+bool om_settings_ravine::is_valid() const
+{
+    return om_ravine_factory.is_valid( this->id );
+}
+
 static void load_overmap_feature_flag_settings( const JsonObject &jo,
         overmap_feature_flag_settings &overmap_feature_flag_settings,
         const bool strict, const bool overlay )
@@ -318,27 +360,6 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 overmap_feature_flag_settings.whitelist.emplace( line );
             }
         }
-    }
-}
-
-static void load_overmap_ravine_settings(
-    const JsonObject &jo, overmap_ravine_settings &overmap_ravine_settings, const bool strict,
-    const bool overlay )
-{
-    if( !jo.has_object( "overmap_ravine_settings" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"overmap_ravine_settings\": { … } required for default" );
-        }
-    } else {
-        JsonObject overmap_ravine_settings_jo = jo.get_object( "overmap_ravine_settings" );
-        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "num_ravines",
-                                    overmap_ravine_settings.num_ravines, !overlay );
-        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_range",
-                                    overmap_ravine_settings.ravine_range, !overlay );
-        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_width",
-                                    overmap_ravine_settings.ravine_width, !overlay );
-        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_depth",
-                                    overmap_ravine_settings.ravine_depth, !overlay );
     }
 }
 
@@ -601,7 +622,7 @@ void load_region_settings( const JsonObject &jo )
 
     optional( jo, false, "overmap_forest_settings", new_region.overmap_forest, bogus_forest_id );
 
-    load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
+    optional( jo, false, "overmap_ravine_settings", new_region.overmap_ravine, bogus_ravine_id );
 
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
@@ -791,8 +812,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
-
-    load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
