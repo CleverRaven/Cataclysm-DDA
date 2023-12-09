@@ -284,7 +284,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // The goal of this test is to generate a lot of overmaps, and count up how
     // many times we see each terrain, so that we can check that everything
     // generates at least sometimes.
-
+    
+    override_option override_forestosity( "OVERMAP_FOREST_LIMIT", "0.2" );
+    override_option override_urbanity( "OVERMAP_MAXIMUM_URBANITY", "1" );
     struct omt_stats {
         explicit omt_stats( const tripoint_abs_omt &p ) : first_observed( p ) {}
 

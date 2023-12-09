@@ -431,7 +431,7 @@
     "name": "OVERMAP_MAXIMUM_URBANITY",
     "info": "How urban do we allow our megacities to go?  Mostly functions as a multiple of map settings city size.",
     "stype": "int",
-    "value": 5
+    "value": 8
   },
   {
     "type": "EXTERNAL_OPTION",
