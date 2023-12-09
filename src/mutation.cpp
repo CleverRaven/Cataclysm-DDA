@@ -197,7 +197,7 @@ void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
     if( not_found_in_mutations ) {
         set_mutation( trait, trait->variant( var_ ) );
     } else {
-        get_event_bus().send<event_type::loses_mutation>(getID(), trait);
+        get_event_bus().send<event_type::loses_mutation>( getID(), trait );
         unset_mutation( trait );
     }
 }
