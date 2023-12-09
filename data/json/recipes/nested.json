@@ -2313,7 +2313,14 @@
     "name": "bandages",
     "description": "Recipes related to crafting variations of bandages.",
     "skill_used": "firstaid",
-    "nested_category_data": [ "bandages", "bandages_makeshift", "bandages_makeshift_bleached", "bandages_makeshift_boiled", "adhesive_bandages" ],
+    "nested_category_data": [
+      "bandages",
+      "bandages_makeshift",
+      "bandages_makeshift_with_tool",
+      "bandages_makeshift_bleached",
+      "bandages_makeshift_boiled",
+      "adhesive_bandages"
+    ],
     "difficulty": 1
   },
   {
