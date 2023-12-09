@@ -740,8 +740,6 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             head_leaf_surface = 0;
         } 
         sunlight_nutrition += ( head_leaf_surface + phelloderm_surface + flux ) * weather_factor;
-                        you.add_msg_if_player( m_good, _( "Phelloderm_surface is %s." ),
-                                   phelloderm_surface );   
         if( leafier || leafiest ) {
             const int rate = round( 10 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 1 : .75 ) * weather_factor;
@@ -761,8 +759,6 @@ void suffer::in_sunlight( Character &you, outfit &worn )
 
     if( x_in_y( sunlight_nutrition, 12000 ) ) {
         you.vitamin_mod( vitamin_vitC, 1 );
-            you.add_msg_if_player( m_good, _( "Ding! Sunlight_nutrition is %s." ),
-                                   sunlight_nutrition );
         you.mod_hunger( -1 );
         // Photosynthesis absorbs kcal directly.
         you.mod_stored_kcal( 1 );

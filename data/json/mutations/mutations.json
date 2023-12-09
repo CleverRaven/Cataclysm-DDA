@@ -3651,7 +3651,7 @@
     "visibility": 8,
     "ugliness": 3,
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
-    "types": [ "HAIR", "hair_style" ],
+    "types": [ "HAIR" ],
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
@@ -3668,7 +3668,7 @@
     "description": "In place of hair, you have long, grassy leaves which have gone dormant for the winter, turning dry and yellow like straw.  They help keep you warm, but that's about it.",
     "types": [ "HAIR" ],
     "leads_to": [ "LEAVES2" ],
-    "bodytemp_modifiers": [ 25, 75 ]
+    "bodytemp_modifiers": [ 25, 125 ]
   },
   {
     "type": "mutation",
@@ -3685,6 +3685,7 @@
     "cancels": [ "LEAVES_WINTER" ],
     "changes_to": [ "LEAVES3" ],
     "category": [ "PLANT" ],
+    "flags": [ "GLARE_RESIST" ],
     "prevented_by": [ "LEAVES2_WINTER", "LEAVES2_FALL" ],
     "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
     "encumbrance_covered": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ]
@@ -3700,6 +3701,7 @@
     "types": [ "HAIR" ],
     "threshreq": [ "THRESH_PLANT" ],
     "leads_to": [ "LEAVES3" ],
+    "flags": [ "GLARE_RESIST" ],
     "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
     "encumbrance_covered": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ]
   },
@@ -3729,6 +3731,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "LEAVES2_FALL", "LEAVES2_WINTER" ],
     "prevented_by": [ "LEAVES3_FALL", "LEAVES3_WINTER" ],
+    "flags": [ "GLARE_RESIST" ],
     "category": [ "PLANT" ],
     "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
     "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
@@ -3743,6 +3746,7 @@
     "description": "Your head and upper limbs are covered in beautiful autumn leaves.  If they're uncovered you'll still be able to photosynthesize, but not as well as in the warmer months.  Reduces wet effects.",
     "types": [ "HAIR" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "flags": [ "GLARE_RESIST" ],
     "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
     "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
   },

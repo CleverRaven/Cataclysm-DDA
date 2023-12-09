@@ -28,6 +28,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
+      "TRANSPARENT",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_teleportitis" } ] }
@@ -51,6 +52,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
+      "TRANSPARENT",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_slow_aura" } ] }
