@@ -7791,7 +7791,7 @@
     "points": 10,
     "visibility": 7,
     "ugliness": 1,
-    "description": "An animal no longer, your roots sink deeper than ever before.  When you sleep, your body goes very still, becoming even better at taking nourishment from sun and soil.",
+    "description": "You've truly become a walking plant, though you mostly feel like sleeping in the sunshine.  When you do, your roots and bark will take in more nutrients than ever.",
     "purifiable": false,
     "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS3" ],

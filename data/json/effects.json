@@ -464,7 +464,6 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
-    "resist_effects": [ "rooted" ],
     "show_in_info": true,
     "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ],
     "limb_score_mods": [
@@ -609,7 +608,6 @@
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
     "resist_traits": [ "GASTROPOD_BALANCE" ],
-    "resist_effects": [ "rooted" ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -4406,6 +4404,21 @@
     ]
   },
   {
+    "id": "slippery_terrain",
+    "type": "effect_type",
+    "max_duration": "1 s",
+    "name": [ "Slick Surface", "Slippery Terrain", "Dangerously Slippery" ],
+    "desc": [
+      "There's a slippery surface here, running may be a bad idea.",
+      "It's quite slippery, it may not be safe to stand here.",
+      "This area is extremely slippery."
+    ],
+    "rating": "bad",
+    "show_intensity": true,
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "show_in_info": true
+  },
+  {
     "type": "effect_type",
     "id": "hay_fever",
     "name": [ "Hay Fever" ],
@@ -4413,10 +4426,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "show_in_info": true,
-    "base_mods": { "per_mod": [ -1 ], "int_mod": [ -2 ] }
-    "show_intensity": true,
-    "resist_traits": [ "GASTROPOD_BALANCE" ],
-    "show_in_info": true
+    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ] }
   },
   {
     "id": "star_vampire_blood_drank",
@@ -4509,13 +4519,5 @@
       "venom_pain",
       "venom_weaken"
     ]
-  },
-  {
-    "type": "effect_type",
-    "id": "rooted",
-    "name": [ "Rooted" ],
-    "desc": [ "You are rooted solidly in place." ],
-    "rating": "neutral",
-    "show_in_info": true
   }
 ]

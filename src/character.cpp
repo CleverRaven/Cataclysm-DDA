@@ -5902,9 +5902,7 @@ bool Character::is_rad_immune() const
 bool Character::is_knockdown_immune() const
 {
     // hard code for old tentacle mutation
-    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
-
-    bool knockdown_immune = has_effect( effect_ROOTED );
+    bool knockdown_immune = ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
 
     // if we have 1.0 or greater knockdown resist
     knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;
@@ -8542,7 +8540,6 @@ void Character::rooted()
         if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
             mod_thirst( -1 );
         }
-        add_effect( effect_rooted, 1_second );
     }
 }
 
@@ -8950,8 +8947,6 @@ void Character::fall_asleep()
         // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
         // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
-    } else if( has_active_mutation( trait_CHLOROMORPH ) ) {
-        fall_asleep( 1_days );
     } else {
         fall_asleep( 10_hours );    // default max sleep time.
     }
@@ -10959,7 +10954,6 @@ int Character::sleep_spot( const tripoint &p ) const
 
     int sleepy = static_cast<int>( comfort_info.level );
     bool watersleep = has_trait( trait_WATERSLEEP );
-    bool activechloro = has_active_mutation( trait_CHLOROMORPH );
 
     if( has_addiction( addiction_sleeping_pill ) ) {
         sleepy -= 4;
@@ -10971,7 +10965,7 @@ int Character::sleep_spot( const tripoint &p ) const
         sleepy += 10; //comfy water!
     }
 
-    if( activechloro ) {
+    if( has_trait( trait_CHLOROMORPH) && get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, pos() ) ) {
         sleepy += 25; // It's time for a nice nap.
     }
 

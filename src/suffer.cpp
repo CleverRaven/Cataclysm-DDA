@@ -133,6 +133,7 @@ static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
@@ -698,7 +699,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         const bodypart_id head( "head" );
         // TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
         // We'll assume they poke out of your sleeves to do their thing.
-        float head_leaf_surface = worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
+        float head_leaf_surface = 100 - worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
         float rarm_leaf_surface = worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005;
         float larm_leaf_surface = worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005;
         float vine_leaf_surface = rarm_leaf_surface + larm_leaf_surface;
@@ -727,17 +728,19 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             vine_leaf_surface = std::min(vine_leaf_surface + 0.33, 1.0);
             larm_leaf_surface = std::min(larm_leaf_surface + 0.33, 1.0);
             rarm_leaf_surface = std::min(rarm_leaf_surface + 0.33, 1.0);
-            head_leaf_surface = std::min(head_leaf_surface + 33, 100.0f);
+        }
+        if( you.has_trait( trait_LEAVES ) ) {
+            head_leaf_surface *= .25;
         }
         if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
-            head_leaf_surface = 100;
+            head_leaf_surface = 0;
         } 
-        sunlight_nutrition += ( 100 - head_leaf_surface + flux + phelloderm_surface ) * weather_factor;
+        sunlight_nutrition += ( head_leaf_surface + phelloderm_surface + flux ) * weather_factor;
                         you.add_msg_if_player( m_good, _( "Phelloderm_surface is %s." ),
                                    phelloderm_surface );   
         if( leafier || leafiest ) {
-            const int rate = round( 100 * ( ( larm_leaf_surface + rarm_leaf_surface+ vine_leaf_surface ) / 2 ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
+            const int rate = round( 10 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ) * 2;
+            sunlight_nutrition += rate * ( leafiest ? .08 : .03 ) * weather_factor;
         }
         you.get_size();
         // Multiply by the proportional difference in average height, as height roughly determines armspan,
@@ -746,6 +749,10 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             if( you.get_size() == creature_size::small ) { sunlight_nutrition *= .7; }
             if( you.get_size() == creature_size::large ) { sunlight_nutrition *= 1.54; }
             if( you.get_size() == creature_size::huge ) { sunlight_nutrition *= 2.35; }
+        // Chloromorph makes photosynthesis more efficient while the animal parts are in sleep mode.
+            if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
+            sunlight_nutrition *= 1.1;
+            }
     }
 
     if( x_in_y( sunlight_nutrition, 13200 ) ) {
