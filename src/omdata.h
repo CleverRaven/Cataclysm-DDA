@@ -419,7 +419,6 @@ struct oter_t {
         bool is_water() const {
             return type->has_flag( oter_flags::water );
         }
-        
         bool is_lake() const {
             return type->has_flag( oter_flags::lake );
         }
