@@ -87,6 +87,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pattern_screamer_rock_thrower",
+    "name": [ "One Perfect Rock" ],
+    "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokin_revive_debuff",
     "name": [
       "Revivified",
@@ -181,5 +187,11 @@
       "healing_rate": [ 0.5 ]
     },
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_regeneration",
+    "name": [ "Feral Regeneration" ],
+    "desc": [ "Your wounds are rapidly closing." ]
   }
 ]

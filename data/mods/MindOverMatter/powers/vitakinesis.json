@@ -514,9 +514,9 @@
   {
     "id": "vita_super_heal",
     "type": "SPELL",
-    "name": "[Ψ]Anabolic Rejuvenation",
-    "description": "You draw on your body's reserves to speed your healing a hundredfold.",
-    "message": "You feel a sudden sensation of fatigue and your wounds itch.",
+    "name": "[Ψ]Anabolic Rejuvenation (C)",
+    "description": "You draw on your body's reserves to speed your healing a hundredfold.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
@@ -524,9 +524,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_vita_super_heal",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SUPER_HEAL_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 3000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -535,10 +534,12 @@
       "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 6000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 10000,
-    "final_energy_cost": 8000,
-    "energy_increment": -150,
-    "base_casting_time": 1000,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_super_heal') > -1 ? 0 : max((10000 - (u_val('spell_level', 'spell: vita_super_heal') * 150)), 8000)"
+      ]
+    },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 1000" ] },
     "learn_spells": { "vita_limb_restore": 10, "vita_return_from_death": 14 }
   },
   {

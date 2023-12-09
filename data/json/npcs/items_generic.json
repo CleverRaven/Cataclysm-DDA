@@ -1002,7 +1002,7 @@
       [ "socks_ankle", 10 ],
       [ "socks_wool", 10 ],
       [ "solder_wire", 5 ],
-      { "item": "soldering_iron", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron_portable", "prob": 5, "charges": [ 0, 50 ] },
       [ "soup_chicken", 3 ],
       [ "soup_dumplings", 3 ],
       [ "soup_meat", 3 ],

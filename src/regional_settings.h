@@ -167,12 +167,6 @@ struct forest_trail_settings {
     int random_point_size_scalar = 100;
     int trailhead_chance = 1;
     int trailhead_road_distance = 6;
-    int trail_center_variance = 3;
-    int trail_width_offset_min = 1;
-    int trail_width_offset_max = 3;
-    bool clear_trail_terrain = false;
-    std::map<std::string, int> unfinalized_trail_terrain;
-    weighted_int_list<ter_id> trail_terrain;
     building_bin trailheads;
 
     void finalize();

@@ -6,6 +6,7 @@
 
 #include "cata_utility.h"
 #include "character.h"
+#include "itype.h"
 #include "json.h"
 #include "stomach.h"
 #include "units.h"
@@ -373,7 +374,7 @@ void stomach_contents::mod_calories( int kcal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * base_metabolic_rate / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_water( const units::volume &h2o )

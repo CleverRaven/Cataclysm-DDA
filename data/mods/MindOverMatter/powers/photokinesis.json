@@ -292,10 +292,10 @@
   {
     "id": "photokinetic_camouflage",
     "type": "SPELL",
-    "name": "[Ψ]Chameleoflage",
+    "name": "[Ψ]Chameleoflage (C)",
     "//~": "Combination of chameleon and camouflage",
-    "description": "By blending the light reflecting from you with the light reflecting from nearby surfaces, you can make yourself much harder to spot from a distance.",
-    "message": "You twist nearby light to help conceal you from distant observers.",
+    "description": "By blending the light reflecting from you with the light reflecting from nearby surfaces, you can make yourself much harder to spot from a distance.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
@@ -304,7 +304,7 @@
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_PHOTO_CAMOUFLAGE_SWITCHER",
+    "effect_str": "EOC_PHOTOKIN_CAMOUFLAGE_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -313,16 +313,20 @@
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 10000) + 12000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 10000) + 120000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1500,
-    "energy_increment": -125,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -8,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_val('spell_level', 'spell: photokinetic_camouflage') * 75)), 1500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: photokinetic_camouflage') * 8)), 75)"
+      ]
+    },
     "learn_spells": { "photokinetic_light_image": 7, "photokinetic_hide_ugly": 10, "photokinetic_invisibility": 14 }
   },
   {
