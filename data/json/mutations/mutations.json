@@ -3899,20 +3899,6 @@
   },
   {
     "type": "mutation",
-    "id": "INK_GLANDS_active",
-    "name": { "str": "Ink Glands" },
-    "points": 1,
-    "visibility": 1,
-    "ugliness": 1,
-    "description": "Several ink glands have developed inside your gill structure. When active they will spray defensive ink and blind an attacker in an emergency.",
-    "prereqs": [ "GILLS_CEPH" ],
-    "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "category": [ "CEPHALOPOD" ],
-    "active": true,
-    "transform": { "target": "INK_GLANDS", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
     "id": "SLIME_SPRAY",
     "name": { "str": "Slime Spray" },
     "points": 1,
