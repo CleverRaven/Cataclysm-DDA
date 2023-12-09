@@ -8,10 +8,10 @@
       "place_nested": [
         {
           "chunks": [
-            "24x24_forest_trail_end_basic",
-            "24x24_forest_trail_end_spread",
-            "24x24_forest_trail_end_split",
-            "24x24_forest_trail_intersection"
+            [ "24x24_forest_trail_end_basic", 3 ],
+            [ "24x24_forest_trail_end_spread", 3 ],
+            [ "24x24_forest_trail_end_split", 3 ],
+            [ "24x24_forest_trail_intersection", 1 ]
           ],
           "x": 0,
           "y": 0
@@ -128,10 +128,16 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_straight",
+    "//": "Only includes field temporarily while horse farm spawned trail can spawn over field",
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
-        { "chunks": [ "24x24_forest_trail_straight_forest" ], "x": 0, "y": 0, "predecessors": [ "forest", "forest_thick" ] },
+        {
+          "chunks": [ "24x24_forest_trail_straight_forest" ],
+          "x": 0,
+          "y": 0,
+          "predecessors": [ "forest", "forest_thick", "field" ]
+        },
         { "chunks": [ "24x24_forest_trail_straight_swamp" ], "x": 0, "y": 0, "predecessors": [ "forest_water" ] }
       ]
     }
@@ -145,12 +151,12 @@
       "place_nested": [
         {
           "chunks": [
-            [ "24x24_forest_trail_straight_basic", 10 ],
-            [ "24x24_forest_trail_straight_meander", 20 ],
-            [ "24x24_forest_trail_straight_meander_1", 20 ],
-            [ "24x24_forest_trail_straight_fallen_tree", 5 ],
-            [ "24x24_forest_trail_straight_sett", 3 ],
-            [ "24x24_forest_trail_straight_steep", 5 ],
+            [ "24x24_forest_trail_straight_basic", 30 ],
+            [ "24x24_forest_trail_straight_meander", 80 ],
+            [ "24x24_forest_trail_straight_meander_1", 80 ],
+            [ "24x24_forest_trail_straight_fallen_tree", 4 ],
+            [ "24x24_forest_trail_straight_sett", 8 ],
+            [ "24x24_forest_trail_straight_steep", 10 ],
             [ "24x24_forest_trail_straight_mud", 3 ],
             [ "24x24_forest_trail_straight_mud_split", 3 ]
           ],
@@ -169,10 +175,10 @@
       "place_nested": [
         {
           "chunks": [
-            [ "24x24_forest_trail_straight_basic", 10 ],
-            [ "24x24_forest_trail_straight_meander", 20 ],
-            [ "24x24_forest_trail_straight_meander_1", 20 ],
-            [ "24x24_forest_trail_straight_fallen_tree", 5 ],
+            [ "24x24_forest_trail_straight_basic", 20 ],
+            [ "24x24_forest_trail_straight_meander", 80 ],
+            [ "24x24_forest_trail_straight_meander_1", 80 ],
+            [ "24x24_forest_trail_straight_fallen_tree", 1 ],
             [ "24x24_forest_trail_straight_mud", 10 ],
             [ "24x24_forest_trail_straight_mud_split", 10 ]
           ],
@@ -617,7 +623,11 @@
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
         {
-          "chunks": [ "24x24_forest_trail_tee_basic", "24x24_forest_trail_tee_split", "24x24_forest_trail_intersection" ],
+          "chunks": [
+            [ "24x24_forest_trail_tee_basic", 2 ],
+            [ "24x24_forest_trail_tee_split", 3 ],
+            [ "24x24_forest_trail_intersection", 1 ]
+          ],
           "x": 0,
           "y": 0
         }
