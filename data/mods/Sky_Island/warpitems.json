@@ -339,7 +339,7 @@
     "type": "TOOL",
     "category": "drugs",
     "id": "warpbandage",
-    "name": { "str_sp": "Warped Antiseptic Bandages" },
+    "name": { "str_sp": "warped antiseptic bandages" },
     "description": "A roll of antiseptic-soaked bandages that never seems to run out. Faint birdsong emanates from shimmering purple cloth.",
     "weight": "70 g",
     "volume": "27 ml",
