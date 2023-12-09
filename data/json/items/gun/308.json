@@ -1,6 +1,6 @@
 [
   {
-    "id": "fn_fal",
+    "id": "fn_fal_semi",
     "copy-from": "rifle_semi_vintage",
     "looks_like": "modular_ar15",
     "type": "GUN",

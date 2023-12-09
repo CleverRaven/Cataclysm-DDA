@@ -111,13 +111,7 @@
     "id": "forest_trail",
     "name": "forest trail",
     "color": "green",
-    "mapgen_straight": [ { "method": "builtin", "name": "forest_trail_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "forest_trail_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "forest_trail_straight" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "forest_trail_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "forest_trail_four_way" } ],
-    "travel_cost_type": "trail",
-    "flags": [ "LINEAR" ],
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ],
     "land_use_code": "forest"
   },
   {
@@ -480,6 +474,7 @@
     "extras": "road",
     "name": "road",
     "sym": "│",
+    "travel_cost_type": "road",
     "color": "light_gray"
   },
   {

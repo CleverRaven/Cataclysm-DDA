@@ -2164,6 +2164,24 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, trait_id( var )->desc() );
+        } else if( tag.find( "<spell_name:" ) == 0 ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // resolve nest
+            parse_tags( var, u, me, d, item_type );
+            // attempt to cast as an item
+            phrase.replace( fa, l, spell_id( var )->name.translated() );
+        } else if( tag.find( "<spell_description:" ) == 0 ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // resolve nest
+            parse_tags( var, u, me, d, item_type );
+            // attempt to cast as an item
+            phrase.replace( fa, l, spell_id( var )->description.translated() );
         } else if( tag.find( "<city>" ) == 0 ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
@@ -2731,8 +2749,19 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, std::string_view me
                                        bool is_npc )
 {
     str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
-    function = [is_npc, new_trait]( dialogue const & d ) {
-        d.actor( is_npc )->set_mutation( trait_id( new_trait.evaluate( d ) ) );
+    str_or_var new_variant;
+
+    if( jo.has_member( "variant" ) ) {
+        new_variant = get_str_or_var( jo.get_member( "variant" ), "variant", true );
+    } else {
+        new_variant.str_val = "";
+    }
+
+    function = [is_npc, new_trait, new_variant]( dialogue const & d ) {
+        const trait_id trait = trait_id( new_trait.evaluate( d ) );
+        const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
+
+        d.actor( is_npc )->set_mutation( trait, variant );
     };
 }
 

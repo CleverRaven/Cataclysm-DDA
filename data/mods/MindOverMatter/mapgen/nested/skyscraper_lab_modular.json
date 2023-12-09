@@ -33,7 +33,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -70,7 +70,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -106,7 +106,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -146,7 +146,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -181,15 +181,15 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 2, 6 ], "chance": 50 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 6 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is clairsentient location scout testing.",
+    "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower left. This is clairsentient location scout testing.",
     "weight": 850,
-    "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
+    "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -216,7 +216,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 2, 6 ], "chance": 50 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 6 ] } ]
     }
   },
   {
@@ -250,7 +250,7 @@
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "t": [ { "item": "dist_matrix_crystal_skyscraper_lab_group", "chance": 85 } ]
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 7 ], "y": [ 1, 7 ], "repeat": [ 2, 6 ], "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 6 ] } ]
     }
   },
   {
@@ -284,7 +284,129 @@
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "t": [ { "item": "dist_matrix_crystal_skyscraper_lab_group", "chance": 85 } ]
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 7 ], "y": [ 1, 7 ], "repeat": [ 2, 6 ], "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "//": "room for testing blocking telepathy or clairsentience, doors in the lower left",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 450,
+    "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..P....C",
+        "cdP...cx",
+        "WWW....C",
+        "W.1...cȼ",
+        "WWW...cx",
+        "x......C",
+        "c.....cx",
+        "&..lSȻCC"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "W": "t_wall_metal" },
+      "furniture": { "ȼ": "f_counter", "P": "f_curtain" },
+      "item": {
+        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ],
+        "ȼ": [ { "item": "psionic_telepathic_dampener", "chance": 70 }, { "item": "schematics_telepathic_dampener", "chance": 25 } ],
+        "C": [
+          { "item": "1l_lead", "chance": 20 },
+          { "item": "5l_steel", "chance": 25 },
+          { "item": "1l_gold", "chance": 5 },
+          { "item": "1l_tin", "chance": 25 },
+          { "item": "5l_copper", "chance": 25 },
+          { "item": "1l_silver", "chance": 15 },
+          { "item": "5l_iron", "chance": 25 },
+          { "item": "5l_brass", "chance": 25 },
+          { "item": "5l_aluminum", "chance": 25 },
+          { "item": "1l_platinum", "chance": 5 }
+        ]
+      },
+      "items": {
+        "d": { "item": "psi_testing_materials", "chance": 80, "repeat": [ 2, 4 ] },
+        "C": [
+          { "item": "psi_lab", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 }
+        ],
+        "Ȼ": { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "t": [ { "item": "dist_matrix_crystal_skyscraper_lab_group", "chance": 85 } ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 6 ] },
+        {
+          "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH",
+          "x": [ 2, 6 ],
+          "y": [ 2, 6 ],
+          "chance": 10,
+          "repeat": [ 1, 2 ]
+        }
+      ]
+    }
+  },
+  {
+    "//": "room for testing blocking telepathy or clairsentience, doors in the lower right",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 450,
+    "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "C....P..",
+        "xc...Pdc",
+        "C....WWW",
+        "ȼc...1.W",
+        "xc...WWW",
+        "C......x",
+        "cx.....c",
+        "CCȻSl..&"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "W": "t_wall_metal" },
+      "furniture": { "ȼ": "f_counter", "P": "f_curtain" },
+      "item": {
+        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ],
+        "ȼ": [ { "item": "psionic_telepathic_dampener", "chance": 70 }, { "item": "schematics_telepathic_dampener", "chance": 25 } ],
+        "C": [
+          { "item": "1l_lead", "chance": 20 },
+          { "item": "5l_steel", "chance": 25 },
+          { "item": "1l_gold", "chance": 5 },
+          { "item": "1l_tin", "chance": 25 },
+          { "item": "5l_copper", "chance": 25 },
+          { "item": "1l_silver", "chance": 15 },
+          { "item": "5l_iron", "chance": 25 },
+          { "item": "5l_brass", "chance": 25 },
+          { "item": "5l_aluminum", "chance": 25 },
+          { "item": "1l_platinum", "chance": 5 }
+        ]
+      },
+      "items": {
+        "d": { "item": "psi_testing_materials", "chance": 80, "repeat": [ 2, 4 ] },
+        "C": [
+          { "item": "psi_lab", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 }
+        ],
+        "Ȼ": { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "t": [ { "item": "dist_matrix_crystal_skyscraper_lab_group", "chance": 85 } ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 6 ] },
+        {
+          "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH",
+          "x": [ 2, 6 ],
+          "y": [ 2, 6 ],
+          "chance": 10,
+          "repeat": [ 1, 2 ]
+        }
+      ]
     }
   },
   {
@@ -318,7 +440,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 70, "repeat": [ 3, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 70, "repeat": [ 3, 7 ] } ]
     }
   },
   {
@@ -352,7 +474,7 @@
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 70, "repeat": [ 3, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 70, "repeat": [ 3, 7 ] } ]
     }
   },
   {
@@ -378,6 +500,9 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "P": "f_curtain", "đ": "f_desk", "Đ": "f_desk" },
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "item": {
+        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ]
+      },
       "place_item": [
         { "item": "pen", "x": 7, "y": 5, "chance": 100 },
         { "item": "paper", "x": 7, "y": 5, "repeat": [ 2, 10 ], "chance": 90 },
@@ -390,8 +515,8 @@
         "Đ": { "item": "psi_testing_materials", "chance": 100, "repeat": [ 2, 4 ] }
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 8 ], "y": [ 1, 7 ], "repeat": [ 2, 6 ], "chance": 60 },
-        { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": 6, "y": [ 4, 8 ], "repeat": [ 1, 2 ], "chance": 80 }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 8 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 6 ] },
+        { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": 6, "y": [ 4, 8 ], "chance": 80, "repeat": [ 1, 2 ] }
       ]
     }
   },
@@ -418,6 +543,9 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "P": "f_curtain", "đ": "f_desk", "Đ": "f_desk" },
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "item": {
+        "d": [ { "item": "matrix_crystal_clairsentience", "chance": 5 }, { "item": "matrix_crystal_telepathy", "chance": 5 } ]
+      },
       "place_item": [
         { "item": "pen", "x": 1, "y": 5, "chance": 100 },
         { "item": "paper", "x": 1, "y": 5, "repeat": [ 2, 10 ], "chance": 90 },
@@ -430,8 +558,8 @@
         "Đ": { "item": "psi_testing_materials", "chance": 100, "repeat": [ 2, 4 ] }
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 2, 6 ], "chance": 60 },
-        { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": 1, "y": [ 4, 8 ], "repeat": [ 1, 2 ], "chance": 80 }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 2, 6 ] },
+        { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": 1, "y": [ 4, 8 ], "chance": 80, "repeat": [ 1, 2 ] }
       ]
     }
   },
@@ -457,16 +585,19 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "place_items": [ { "item": "matrix_crystal_telepath_dust_group", "x": 7, "y": 4, "chance": 40, "repeat": [ 1, 3 ] } ],
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 30 },
         "F": { "item": "office", "chance": 95 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
+        "U": [
+          { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 20 },
+          { "item": "matrix_crystal_telepath_dust_group", "chance": 50, "repeat": [ 2, 4 ] }
+        ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 2, 6 ], "y": [ 2, 6 ], "repeat": [ 2, 5 ], "chance": 60 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
         { "group": "GROUP_FERAL_TELEPATH", "x": 5, "y": 5, "chance": 80 }
       ]
     }
@@ -498,11 +629,15 @@
         "d": { "item": "SUS_office_desk", "chance": 30 },
         "F": { "item": "office", "chance": 95 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
+        "U": [
+          { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 20 },
+          { "item": "matrix_crystal_telepath_dust_group", "chance": 50, "repeat": [ 2, 4 ] }
+        ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 2, 6 ], "y": [ 2, 6 ], "repeat": [ 2, 5 ], "chance": 60 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
         { "group": "GROUP_FERAL_TELEPATH", "x": 5, "y": 5, "chance": 80 }
       ]
     }
@@ -542,7 +677,7 @@
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "E": [ { "item": "matrix_crystal_drained_group", "chance": 85 } ]
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 7 ], "y": [ 1, 7 ], "repeat": [ 2, 4 ], "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -580,7 +715,7 @@
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "E": [ { "item": "matrix_crystal_drained_group", "chance": 85 } ]
       },
-      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 7 ], "y": [ 1, 7 ], "repeat": [ 2, 4 ], "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -646,8 +781,8 @@
         "CCSll...&",
         "x........",
         "c.::=::..",
+        "..:X..:..",
         "..:...:..",
-        "..:.X.:..",
         "..:...:..",
         "..:::::..",
         "c.......c",
@@ -668,19 +803,10 @@
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] } ]
       },
-      "place_computers": [
-        {
-          "x": 5,
-          "y": 5,
-          "name": "Project OBSIDIAN RING access",
-          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_DIALOGUE" ],
-          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER" ]
-        }
-      ],
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 1 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 7, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 7 ], "y": [ 7, 7 ], "chance": 60, "repeat": [ 1, 2 ] }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 1 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 7, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 7, 7 ], "chance": 60, "repeat": [ 1, 4 ] }
       ]
     }
   },
@@ -697,8 +823,8 @@
         "&...llSCC",
         "........x",
         "..::=::.c",
+        "..:X..:..",
         "..:...:..",
-        "..:.X.:..",
         "..:...:..",
         "..:::::..",
         "c.......c",
@@ -719,19 +845,10 @@
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "E": [ { "item": "matrix_crystal_drained_group", "chance": 85 } ]
       },
-      "place_computers": [
-        {
-          "x": 3,
-          "y": 5,
-          "name": "Project OBSIDIAN RING access",
-          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_DIALOGUE" ],
-          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER" ]
-        }
-      ],
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 1 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 7, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 7 ], "y": [ 7, 7 ], "chance": 60, "repeat": [ 1, 2 ] }
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 1 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 7, 7 ], "y": [ 1, 7 ], "chance": 60, "repeat": [ 1, 4 ] },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 7 ], "y": [ 7, 7 ], "chance": 60, "repeat": [ 1, 4 ] }
       ]
     }
   },
@@ -740,9 +857,24 @@
     "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
     "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_terrain": [ { "ter": "t_ascension_chamber_clairsentience", "x": 0, "y": 0 } ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "...",
+        ".T.",
+        "..."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "T": "t_ascension_chamber_clairsentience" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_CLAIRSENTIENT_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_CLAIRSENTIENT" ]
+        }
+      ]
     }
   },
   {
@@ -750,9 +882,24 @@
     "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
     "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_terrain": [ { "ter": "t_ascension_chamber_telepathy", "x": 0, "y": 0 } ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "...",
+        ".T.",
+        "..."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "terrain": { "T": "t_ascension_chamber_telepathy" },
+      "place_computers": [
+        {
+          "x": 2,
+          "y": 2,
+          "name": "Project OBSIDIAN RING access",
+          "eocs": [ "EOC_OBSIDIAN_RING_COMPUTER_TELEPATH_DIALOGUE" ],
+          "chat_topics": [ "COMP_OBSIDIAN_RING_COMPUTER_TELEPATH" ]
+        }
+      ]
     }
   },
   {
@@ -785,7 +932,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -820,7 +967,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -855,7 +1002,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -890,7 +1037,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -925,7 +1072,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -960,7 +1107,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -995,7 +1142,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1029,7 +1176,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1064,7 +1211,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1099,7 +1246,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1134,7 +1281,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1169,7 +1316,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1204,7 +1351,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1239,7 +1386,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 3 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1274,7 +1421,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1308,7 +1455,7 @@
         ]
       },
       "place_monster": [
-        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ], "chance": 35 },
+        { "monster": "mon_zombie_scientist_phavian", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 35, "repeat": [ 0, 2 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 2 }
       ]
     }
@@ -1432,7 +1579,7 @@
         ]
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 50 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
       ]
     }
@@ -1445,7 +1592,7 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "????",
+        "y???",
         "....",
         ".mtm",
         "...."
@@ -1460,7 +1607,7 @@
         ]
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 50 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
       ]
     }
@@ -1488,7 +1635,7 @@
         ]
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 50 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
       ]
     }
@@ -1516,7 +1663,7 @@
         ]
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 50 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
       ]
     }
@@ -1543,7 +1690,7 @@
         ]
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 50 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
       ]
     }
@@ -1570,7 +1717,7 @@
         ]
       },
       "place_monster": [
-        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 50 },
+        { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 5 }
       ]
     }

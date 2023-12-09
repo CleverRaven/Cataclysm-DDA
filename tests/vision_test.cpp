@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "options_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -1139,4 +1140,15 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
 
     t.test_all();
     clear_vehicles();
+}
+
+TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
+{
+    // oob crash from game::place_player_overmap() or game::start_game(), simplified
+    clear_avatar();
+    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
+                    false );
+    get_avatar().sees( tripoint_zero ); // CRASH?
+
+    clear_avatar();
 }

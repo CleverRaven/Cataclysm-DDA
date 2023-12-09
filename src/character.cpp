@@ -1285,30 +1285,40 @@ int Character::overmap_sight_range( float light_level ) const
 {
     int sight = sight_range( light_level );
     if( sight < SEEX ) {
-        return 0;
+        sight = 0;
     }
     if( sight <= SEEX * 4 ) {
-        return sight / ( SEEX / 2 );
+        sight /= ( SEEX / 2 );
     }
 
-    sight = 6;
-    // The higher your perception, the farther you can see.
-    sight += static_cast<int>( get_per() / 2 );
-    // The higher up you are, the farther you can see.
-    sight += std::max( 0, posz() ) * 2;
+    if( sight > 0 ) {
+        sight = 6;
+    }
     // Mutations like Scout and Topographagnosia affect how far you can see.
     sight += mutation_value( "overmap_sight" );
 
     float multiplier = mutation_value( "overmap_multiplier" );
-    // Binoculars double your sight range.
-    // When adding checks here, also call game::update_overmap_seen at the place they first become true
-    const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
-                           has_flag( json_flag_ENHANCED_VISION ) ||
-                           ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
-                           get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
+    // If sight is change due to overmap_sight, process the rest of the modifiers, otherwise skip them
+    if( sight > 0 ) {
+        // The higher your perception, the farther you can see.
+        sight += static_cast<int>( get_per() / 2 );
+        // The higher up you are, the farther you can see.
+        sight += std::max( 0, posz() ) * 2;
 
-    if( has_optic ) {
-        multiplier += 1;
+        // Binoculars double your sight range.
+        // When adding checks here, also call game::update_overmap_seen at the place they first become true
+        const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
+                               has_flag( json_flag_ENHANCED_VISION ) ||
+                               ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
+                               get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
+
+        if( has_optic ) {
+            multiplier += 1;
+        }
+    }
+
+    if( sight == 0 ) {
+        return 0;
     }
 
     sight = std::round( sight * multiplier );
@@ -3586,6 +3596,48 @@ void Character::apply_skill_boost()
             recalc_hp();
         }
     }
+}
+
+std::pair<bodypart_id, int> Character::best_part_to_smash() const
+{
+    const bodypart_id bp_null( "bp_null" );
+    std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+    int tmp_bash_armor = 0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        tmp_bash_armor += worn.damage_resist( damage_bash, bp );
+        for( const trait_id &mut : get_mutations() ) {
+            const resistances &res = mut->damage_resistance( bp );
+            tmp_bash_armor += std::floor( res.type_resist( damage_bash ) );
+        }
+        if( tmp_bash_armor > best_part_to_smash.second ) {
+            best_part_to_smash = {bp, tmp_bash_armor};
+        }
+    }
+
+    return best_part_to_smash;
+}
+
+int Character::smash_ability() const
+{
+    int ret = get_arm_str();
+    ///\EFFECT_STR increases smashing capability
+    if( is_mounted() ) {
+        auto *mon = mounted_creature.get();
+        ret += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
+    } else if( get_wielded_item() ) {
+        ret += get_wielded_item()->damage_melee( damage_bash );
+        ret = calculate_by_enchantment( ret, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
+    }
+
+    if( !has_weapon() ) {
+        std::pair<bodypart_id, int> best_part = best_part_to_smash();
+        const int min_ret = ret * best_part.first->smash_efficiency;
+        const int max_ret = ret * ( 1.0f + best_part.first->smash_efficiency );
+        ret = std::min( best_part.second + min_ret, max_ret );
+    }
+    ret = calculate_by_enchantment( ret, enchant_vals::mod::MELEE_DAMAGE, true );
+
+    return ret;
 }
 
 void Character::do_skill_rust()
@@ -8516,6 +8568,14 @@ units::volume Character::free_space() const
     volume_capacity += weapon.check_for_free_space();
     volume_capacity += worn.free_space();
     return volume_capacity;
+}
+
+units::mass Character::free_weight_capacity() const
+{
+    units::mass weight_capacity = 0_gram;
+    weight_capacity += weapon.get_remaining_weight_capacity();
+    weight_capacity += worn.free_weight_capacity();
+    return weight_capacity;
 }
 
 units::volume Character::holster_volume() const

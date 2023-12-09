@@ -98,6 +98,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_teleportation_item",
+    "name": { "str": "report (teleportation)", "str_pl": "copies of report (teleportation)" },
+    "category": "books",
+    "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_teleportation",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_vitakinesis_item",
     "name": { "str": "report (vitakinesis)", "str_pl": "copies of report (vitakinesis)" },
     "category": "books",

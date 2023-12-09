@@ -342,6 +342,7 @@ void submap::mirror( bool horizontally )
 
 void submap::revert_submap( submap &sr )
 {
+    reverted = true;
     if( sr.is_uniform() ) {
         m.reset();
         set_all_ter( sr.get_ter( point_zero ), true );

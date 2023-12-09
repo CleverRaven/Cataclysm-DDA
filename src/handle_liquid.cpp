@@ -206,6 +206,17 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         //~ %1$s: liquid name, %2$s: monster name
         menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from the %2$s?" ),
                                    liquid_name, source_mon->get_name() );
+    } else if( source != nullptr ) {
+        if( source->is_bucket_nonempty() ) {
+            menu.text = string_format( pgettext( "liquid",
+                                                 //~ %1$s: liquid name, %2$s: container name
+                                                 "The %1$s would spill.\nWhat to do with the %2$s inside it?" ),
+                                       source->display_name(), liquid_name );
+        } else {
+            //~ %1$s: liquid name, %2$s: container name
+            menu.text = string_format( pgettext( "liquid", "What to do with the %1$s in the %2$s?" ),
+                                       liquid_name, source->display_name() );
+        }
     } else {
         //~ %s: liquid name
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );

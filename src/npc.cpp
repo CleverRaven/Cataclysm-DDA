@@ -2680,15 +2680,12 @@ void npc::npc_dismount()
 
 int npc::smash_ability() const
 {
-    if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
-        ///\EFFECT_STR_NPC increases smash ability
-        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( STATIC(
-                      damage_type_id( "bash" ) ) ) : 0;
-        return str_cur + dmg;
+    if( is_hallucination() || ( is_player_ally() && !rules.has_flag( ally_rule::allow_bash ) ) ) {
+        // Not allowed to bash
+        return 0;
     }
 
-    // Not allowed to bash
-    return 0;
+    return Character::smash_ability();
 }
 
 float npc::danger_assessment() const

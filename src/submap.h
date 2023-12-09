@@ -123,6 +123,17 @@ class submap
             ensure_nonuniform();
             std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
         }
+        int get_map_damage( const point_sm_ms &p ) const {
+            auto it = ephemeral_data.find( p );
+            if( it != ephemeral_data.end() ) {
+                return it->second.damage;
+            }
+            return 0;
+        }
+
+        void set_map_damage( const point_sm_ms &p, int dmg ) {
+            ephemeral_data[p] = { dmg };
+        }
 
         ter_id get_ter( const point &p ) const {
             if( is_uniform() ) {
@@ -284,6 +295,7 @@ class submap
 
         int field_count = 0;
         time_point last_touched = calendar::turn_zero;
+        bool reverted = false; // NOLINT(cata-serialize)
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).
@@ -294,7 +306,12 @@ class submap
         std::map<tripoint_sm_ms, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
+        struct tile_data {
+            int damage;
+        };
+
     private:
+        std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;

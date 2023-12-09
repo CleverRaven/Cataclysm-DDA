@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "strawberries_cooked",
-    "name": { "str": "cooked strawberry", "str_pl": "cooked strawberries" },
+    "name": { "str_sp": "cooked strawberry" },
     "copy-from": "strawberries",
     "color": "red",
     "spoils_in": "3 days 18 hours",
@@ -22,7 +22,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_leather",
-    "name": { "str": "fruit leather" },
+    "name": { "str_sp": "fruit leather" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blueberries_cooked",
-    "name": { "str": "cooked blueberry", "str_pl": "cooked blueberries" },
+    "name": { "str_sp": "cooked blueberry" },
     "copy-from": "blueberries",
     "color": "blue",
     "spoils_in": "3 days 18 hours",
@@ -118,7 +118,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_pineapple",
-    "name": { "str": "canned pineapple" },
+    "name": { "str_sp": "canned pineapple" },
     "weight": "246 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -159,7 +159,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_cooked",
-    "name": { "str": "cooked fruit" },
+    "name": { "str_sp": "cooked fruit" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
@@ -218,7 +218,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jam_fruit",
-    "name": { "str": "fruit jam" },
+    "name": { "str_sp": "fruit jam" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
@@ -396,7 +396,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_sugar",
-    "name": { "str": "fruit slice" },
+    "name": { "str_sp": "fruit slice" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },
@@ -549,7 +549,7 @@
     "type": "COMESTIBLE",
     "id": "jerusalem_artichoke_fruitmash",
     "looks_like": "veggy_salad",
-    "name": { "str": "Jerusalem artichoke fruit dessert" },
+    "name": { "str_sp": "Jerusalem artichoke fruit dessert" },
     "weight": "80 g",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -569,7 +569,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brandied_fruit",
-    "name": { "str": "brandied fruit" },
+    "name": { "str_sp": "brandied fruit" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },

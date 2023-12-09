@@ -201,32 +201,17 @@
     "type": "SPELL",
     "name": "[Ψ]Spacial Vortex",
     "description": "Affect the fabric of space, changing relative distance around a point so that everything moving within finds themselves moving towards it.",
-    "message": "The air around your enemies shimmers as their movements inevitably draw them toward a central point.",
+    "message": "The air around your enemies shimmers as their forward motion carries them rapidly towards each other.",
     "teachable": false,
-    "valid_targets": [ "ground", "hostile" ],
+    "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "area_pull",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SPACIAL_VORTEX",
     "shape": "blast",
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_collapse') * -0.15) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_collapse') * -0.15) - 3) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "min_range": {
-      "math": [
-        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
-      ]
-    },
-    "max_range": 80,
-    "min_aoe": 3,
-    "max_aoe": 10,
-    "aoe_increment": 0.25,
     "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 1500,
@@ -236,6 +221,284 @@
     "casting_time_increment": -2,
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_displacement": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
+  },
+  {
+    "id": "teleport_collapse_01",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 01",
+    "description": "Version 1 of the spacial vortex, with 2 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "teleport_collapse_pull", "hit_self": false }, { "id": "teleport_collapse_pull", "hit_self": false } ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_02",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 02",
+    "description": "Version 2 of the spacial vortex, with 3 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_03",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 03",
+    "description": "Version 3 of the spacial vortex, with 4 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_04",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 04",
+    "description": "Version 4 of the spacial vortex, with 5 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_05",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 05",
+    "description": "Version 5 of the spacial vortex, with 6 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_06",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 06",
+    "description": "Version 6 of the spacial vortex, with 7 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_07",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 07",
+    "description": "Version 7 of the spacial vortex, with 8 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_pull",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex Real",
+    "description": "The actual spacial vortex that pulls in monsters.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ), 15)"
+      ]
+    }
   },
   {
     "id": "teleport_farstep",

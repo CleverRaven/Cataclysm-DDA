@@ -1646,7 +1646,7 @@
   {
     "type": "AMMO",
     "id": "paper",
-    "name": { "str": "paper" },
+    "name": { "str_sp": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
@@ -2137,14 +2137,7 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 4,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"

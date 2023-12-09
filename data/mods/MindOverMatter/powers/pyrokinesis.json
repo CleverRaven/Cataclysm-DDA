@@ -40,6 +40,7 @@
     "final_casting_time": 35,
     "casting_time_increment": -4,
     "sound_type": "combat",
+    "sound_id": "fire_spell",
     "sound_description": "a crackle!",
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": {
@@ -279,6 +280,7 @@
     "final_casting_time": 35,
     "casting_time_increment": -6,
     "sound_type": "combat",
+    "sound_id": "fire_spell",
     "sound_description": "a crackle!",
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
@@ -314,7 +316,8 @@
       "math": [
         "u_effect_intensity('effect_pyrokinetic_torch_weld') > -1 ? 10 : max((650 -(u_val('spell_level', 'spell: pyrokinetic_lance') * 12)), 320)"
       ]
-    }
+    },
+    "learn_spells": { "pyrokinetic_incineration": 15 }
   },
   {
     "id": "pyrokinetic_thermogenesis",
@@ -349,7 +352,7 @@
     "base_casting_time": 1500,
     "final_casting_time": 1200,
     "casting_time_increment": -10,
-    "learn_spells": { "pyrokinetic_aura": 4, "pyrokinetic_lance": 6, "pyrokinetic_blast": 8 }
+    "learn_spells": { "pyrokinetic_aura": 4, "pyrokinetic_lance": 6, "pyrokinetic_blast": 8, "pyrokinetic_incineration": 18 }
   },
   {
     "id": "pyrokin_summon_thermogenesis_1",
@@ -481,10 +484,10 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 600) + 4500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 300) + 4500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 600) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aura') * 900) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
@@ -493,14 +496,15 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -6.5,
+    "sound_id": "fire_spell",
     "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_flame_immunity": 15 }
   },
   {
     "id": "pyrokinetic_flame_immunity",
     "type": "SPELL",
-    "name": "[Ψ]Flameshield",
-    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.",
-    "message": "The nearby air loses any heat.",
+    "name": "[Ψ]Flameshield (C)",
+    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
@@ -508,27 +512,30 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_pyrokinetic_flame_immunity",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_FLAME_IMMUNITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 600) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 2400) + 13000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 600) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 4700) + 48000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 7750,
-    "final_energy_cost": 3500,
-    "energy_increment": -255,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -6.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 0 : max((7750 - (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 255)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 6.5)), 75)"
+      ]
+    },
     "learn_spells": { "pyrokinetic_thermogenesis": 6, "pyrokinetic_aoe_blast": 12 }
   },
   {
@@ -578,9 +585,10 @@
     "final_casting_time": 35,
     "casting_time_increment": -9,
     "sound_type": "combat",
-    "sound_description": "a crackle!",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!",
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "pyrokinetic_aoe_blast": 7 }
+    "learn_spells": { "pyrokinetic_aoe_blast": 7, "pyrokinetic_incineration": 14 }
   },
   {
     "id": "pyrokinetic_aoe_blast",
@@ -628,7 +636,8 @@
     "final_casting_time": 55,
     "casting_time_increment": -8,
     "sound_type": "combat",
-    "sound_description": "a crackle!"
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!"
   },
   {
     "id": "pyrokinetic_aoe_blast_immunity",
@@ -646,5 +655,54 @@
     "min_duration": 2000,
     "max_duration": 4000,
     "duration_increment": 150
+  },
+  {
+    "id": "pyrokinetic_incineration",
+    "type": "SPELL",
+    "name": "[Ψ]Crucible",
+    "description": "Concentrate the entirety of your power into a single white-hot point, searing your target with the heat of a volcano.",
+    "message": "You focus all of your power onto a single point!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_incineration') * 10) + 150) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_incineration') * 25) + 400) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (u_val('spell_level', 'spell: pyrokinetic_incineration') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ), 20)"
+      ]
+    },
+    "max_range": 20,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 12000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!",
+    "ignored_monster_species": [ "PSI_NULL" ]
   }
 ]
