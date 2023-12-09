@@ -124,6 +124,9 @@ class uistatedata
 
         advanced_inv_save_state transfer_save;
 
+        bool unload_auto_contain = true;
+        std::optional<bool> hide_entries_override = std::nullopt;
+
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.

@@ -46,6 +46,7 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -57,6 +58,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -232,6 +234,17 @@
       "bandit_cabin",
       "cabin_prepper"
     ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_liam" ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",

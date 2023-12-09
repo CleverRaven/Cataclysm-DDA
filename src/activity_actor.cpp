@@ -296,12 +296,13 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
-        if( !load_RAS_weapon() ) {
-            aborted = true;
-            act.moves_left = 0;
-            return;
-        }
+    // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
+    // therefore the order of evaluation matters here
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
+        first_turn ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -639,6 +640,11 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
         return true;
     }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
+    // Also note, gunmod_unload is called twice, once in
+    // gunmod_remove_activity_actor::gunmod_remove
+    // and once in
+    // Character::gunmod_remove
+    // Remove one of them before making gunmod_unload take time
     item_location loc = item_location( who, &gunmod );
     return !( gunmod.ammo_remaining() && !who.unload( loc, true ) );
 }
@@ -654,24 +660,6 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
 
     who.i_add_or_drop( mod );
     gun.remove_item( mod );
-
-    // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
-    if( !modtype->gunmod->add_mod.empty() ) {
-        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
-        for( const auto &slot : mod_locations ) {
-            int free_slots = gun.get_free_mod_locations( slot.first );
-
-            for( item *the_mod : gun.gunmods() ) {
-                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
-                    gunmod_remove( who, gun, *the_mod );
-                    free_slots++;
-                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
-                           mod_locations.end() ) {
-                    gunmod_remove( who, gun, *the_mod );
-                }
-            }
-        }
-    }
 
     //~ %1$s - gunmod, %2$s - gun.
     who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
@@ -890,7 +878,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
 
         p.consume_tools( writing_tools, pages );
         book_binder->put_in( item( itype_paper, calendar::turn, pages ),
-                             item_pocket::pocket_type::MAGAZINE );
+                             pocket_type::MAGAZINE );
     } else {
         debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
     }
@@ -1679,19 +1667,20 @@ bool read_activity_actor::player_read( avatar &you )
     std::vector<std::string> cant_learn;
 
     std::vector<Character *> learners;
-    for( npc *npc_learner : you.get_crafting_helpers() ) {
-        const book_mastery mastery = npc_learner->get_book_mastery( *book );
-        const bool morale_req = npc_learner->fun_to_read( *book ) || npc_learner->has_morale_to_read();
+    for( Character *learner : you.get_crafting_helpers() ) {
+        const book_mastery mastery = learner->get_book_mastery( *book );
+        const bool morale_req = learner->fun_to_read( *book ) || learner->has_morale_to_read();
 
-        if( npc_learner->is_deaf() && npc_learner != reader ) {
+        if( learner->is_deaf() && learner != reader ) {
             continue;
         }
 
         if( // fun readers
-            ( mastery == book_mastery::MASTERED && npc_learner->fun_to_read( *book ) ) ||
+            ( mastery == book_mastery::MASTERED && learner->fun_to_read( *book ) )
             // reading for experience
-            ( mastery == book_mastery::LEARNING && morale_req ) ) {
-            learners.push_back( npc_learner->as_character() );
+            || ( mastery == book_mastery::LEARNING && morale_req )
+        ) {
+            learners.push_back( learner );
         }
     }
 
@@ -1699,7 +1688,7 @@ bool read_activity_actor::player_read( avatar &you )
     // can understand the book
     learners.push_back( you.as_character() );
 
-    // NPCs can move while learning from a book
+    // Characters can move while learning from a book
     // Check ID of all learners to avoid
     // getting stuck in an infinite loop
     bool learner_left = true;
@@ -1722,8 +1711,8 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const time_duration npc_read_time = you.time_to_read( *book, *reader, learner );
-                penalty = static_cast<double>( moves_total ) / to_moves<int>( npc_read_time );
+                const time_duration read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / to_moves<int>( read_time );
             }
         } else {
             continue;   // reading for fun
@@ -2119,7 +2108,11 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                        dest );
+                if( hauling_mode ) {
+                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
+                }
             }
             // If we picked up a whole stack, remove the leftover item
             if( leftovers.charges <= 0 ) {
@@ -2131,8 +2124,17 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
-        if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
-            who.stop_hauling();
+        if( hauling_mode ) {
+            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos() );
+            bool overflow = who.trim_haul_list( haulable_items );
+            if( who.is_hauling() && haulable_items.empty() ) {
+                who.stop_hauling();
+            }
+
+            if( overflow ) {
+                add_msg( m_warning,
+                         _( "You lose track of some hauled items as they didn't fit on the current tile." ) );
+            }
         }
     }
 }
@@ -2145,6 +2147,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
     jsout.member( "relative_destination", relative_destination );
+    jsout.member( "hauling_mode", hauling_mode );
 
     jsout.end_object();
 }
@@ -2159,6 +2162,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValu
     data.read( "quantities", actor.quantities );
     data.read( "to_vehicle", actor.to_vehicle );
     data.read( "relative_destination", actor.relative_destination );
+    data.read( "hauling_mode", actor.hauling_mode );
 
     return actor.clone();
 }
@@ -2189,7 +2193,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     }
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
+    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup,
+                            stash_successful, info );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
@@ -2222,6 +2227,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "starting_pos", starting_pos );
     jsout.member( "stash_successful", stash_successful );
     jsout.member( "autopickup", autopickup );
+    jsout.member( "info", info );
 
     jsout.end_object();
 }
@@ -2237,6 +2243,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "starting_pos", actor.starting_pos );
     data.read( "stash_successful", actor.stash_successful );
     data.read( "autopickup", actor.autopickup );
+    data.read( "info", actor.info );
 
     return actor.clone();
 }
@@ -2654,21 +2661,60 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue 
     return actor.clone();
 }
 
+int ebooksave_activity_actor::total_pages(
+    const std::vector<item_location> &books )
+{
+    int pages = 0;
+    for( const item_location &book : books ) {
+        pages += pages_in_book( book->typeId() );
+    }
+    return pages;
+}
+
+time_duration ebooksave_activity_actor::required_time(
+    const std::vector<item_location> &books )
+{
+    return total_pages( books ) * time_per_page;
+}
+
+int ebooksave_activity_actor::required_charges(
+    const std::vector<item_location> &books,
+    const item_location &ereader )
+{
+    const int charges = total_pages( books ) / pages_per_charge;
+    return charges * ereader->ammo_required();
+}
+
+void ebooksave_activity_actor::start_scanning_next_book( player_activity &act )
+{
+    while( !books.empty() && !books.back() ) {
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "Skipping unavailable book at %s",
+                       books.back().describe() );
+        books.pop_back();
+    }
+    if( books.empty() ) {
+        act.moves_left = 0;
+        return;
+    }
+    const item_location &current_book = books.back();
+    const int pages_in_current_book = pages_in_book( current_book->typeId() );
+    turns_left_on_current_book = to_turns<int>( pages_in_current_book * time_per_page );
+    act.moves_left = to_moves<int>( required_time( books ) );
+}
+
 void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
-    const int pages = pages_in_book( book->typeId() );
-    const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
-    add_msg_debug( debugmode::DF_ACT_EBOOK, "ebooksave pages = %d", pages );
+    const time_duration scanning_time = required_time( books );
     add_msg_debug( debugmode::DF_ACT_EBOOK, "scanning_time time = %s",
                    to_string_writable( scanning_time ) );
     act.moves_total = to_moves<int>( scanning_time );
-    act.moves_left = act.moves_total;
+    start_scanning_next_book( act );
 }
 
-void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // only consume charges every 25 pages
-    if( calendar::once_every( 25 * time_per_page ) ) {
+    if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
             add_msg_if_player_sees(
                 who,
@@ -2681,19 +2727,59 @@ void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who
 
         ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
     }
+
+    turns_left_on_current_book--;
+    if( turns_left_on_current_book > 0 ) {
+        return; // not fully scanned yet
+    }
+
+    // We have now spent enough time to fully scan current book
+    completed_scanning_current_book( act, who );
+}
+
+void ebooksave_activity_actor::completed_scanning_current_book( player_activity &act,
+        Character &who )
+{
+    item_location scanned_book = books.back();
+    books.pop_back();
+    if( scanned_book ) {
+        ereader->put_in( *scanned_book, pocket_type::EBOOK );
+        if( who.is_avatar() ) {
+            if( !who.has_identified( scanned_book->typeId() ) ) {
+                who.identify( *scanned_book );
+            }
+        }
+        handled_books++;
+    } else {
+        add_msg_debug( debugmode::DF_ACT_EBOOK,
+                       "Spent time to scan book at %s, but it is no longer available?",
+                       scanned_book.describe() );
+    }
+    start_scanning_next_book( act );
 }
 
 void ebooksave_activity_actor::finish( player_activity &act, Character &who )
 {
-    item book_copy = *book;
-    ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
+    while( !books.empty() ) {
+        // We can end up here with books left if the player has speed>100
+        completed_scanning_current_book( act, who );
+    }
     if( who.is_avatar() ) {
-        if( !who.has_identified( book->typeId() ) ) {
-            who.identify( *book );
-        }
-        add_msg( m_info, _( "You scan the book into your device." ) );
+        add_msg( m_info, _( "You scan %d %s into your device." ), handled_books,
+                 n_gettext( "book", "books", handled_books ) );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
+        add_msg_if_player_sees( who, _( "%s scans %d %s into their device." ),
+                                who.disp_name( false, true ), handled_books, n_gettext( "book", "books", handled_books ) );
+    }
+    act.set_to_null();
+}
+
+void ebooksave_activity_actor::canceled( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You stop scanning the remaining books." ) );
+    } else { // who.is_npc()
+        add_msg_if_player_sees( who, _( "%s stops scanning books." ),
                                 who.disp_name( false, true ) );
     }
     act.set_to_null();
@@ -2702,8 +2788,10 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
 void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "book", book );
+    jsout.member( "books", books );
     jsout.member( "ereader", ereader );
+    jsout.member( "handled_books", handled_books );
+    jsout.member( "turns_left_on_current_book", turns_left_on_current_book );
     jsout.end_object();
 }
 
@@ -2712,8 +2800,16 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
     ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
 
     JsonObject data = jsin.get_object();
-    data.read( "book", actor.book );
+    data.read( "books", actor.books );
+    if( data.has_member( "book" ) ) {
+        // legacy compatibility: in 0.G, this activity only handled one book each
+        item_location book;
+        data.read( "book", book );
+        actor.books.push_back( book );
+    }
     data.read( "ereader", actor.ereader );
+    data.read( "handled_books", actor.handled_books );
+    data.read( "turns_left_on_current_book", actor.turns_left_on_current_book );
     return actor.clone();
 }
 
@@ -3122,10 +3218,10 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         contents_change_handler handler;
         bool changed = false;
 
-        for( item_pocket::pocket_type ptype : {
-                 item_pocket::pocket_type::CONTAINER,
-                 item_pocket::pocket_type::MAGAZINE_WELL,
-                 item_pocket::pocket_type::MAGAZINE
+        for( pocket_type ptype : {
+                 pocket_type::CONTAINER,
+                 pocket_type::MAGAZINE_WELL,
+                 pocket_type::MAGAZINE
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
@@ -3710,11 +3806,18 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
     popup( res, PF_GET_KEY );
 }
 
+static bool is_bulk_unload( const item_location &lhs, const item_location &rhs )
+{
+    if( lhs.where() == item_location::type::container &&
+        rhs.where() == item_location::type::container && lhs.parent_item() == rhs.parent_item() ) {
+        return true;
+    }
+    return false;
+}
+
 // Return a list of items to be dropped by the given item-dropping activity in the current turn.
-static std::list<item> obtain_activity_items(
-    std::vector<drop_or_stash_item_info> &items,
-    contents_change_handler &handler,
-    Character &who )
+static std::list<item> obtain_activity_items( std::vector<drop_or_stash_item_info> &items,
+        contents_change_handler &handler, Character &who, bool &bulk_unload )
 {
     std::list<item> res;
 
@@ -3728,9 +3831,22 @@ static std::list<item> obtain_activity_items(
             continue;
         }
 
-        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        int consumed_moves;
+        if( !bulk_unload ) {
+            // Cost to take an item from a container or map
+            consumed_moves = loc.obtain_cost( who, it->count() );
+        } else {
+            // Pure cost to handling item excluding overhead.
+            consumed_moves = std::max( who.item_handling_cost( *loc, true, 0, it->count(), true ), 1 );
+        }
         if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
             break;
+        }
+
+        // Check if next is bulk unload before moving item.
+        auto it_next = std::next( it );
+        if( it_next != items.end() && it_next->loc() ) {
+            bulk_unload = is_bulk_unload( loc, it_next->loc() );
         }
 
         who.mod_moves( -consumed_moves );
@@ -3789,7 +3905,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint_bub_ms pos = placement + who.pos_bub();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( items, handler, who ),
+                              obtain_activity_items( items, handler, who, current_bulk_unload ),
                               pos, force_ground );
     // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which creates
@@ -3811,6 +3927,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.member( "force_ground", force_ground );
+    jsout.member( "current_bulk_unload", current_bulk_unload );
     jsout.end_object();
 }
 
@@ -3823,6 +3940,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsi
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
+    jsobj.read( "current_bulk_unload", actor.current_bulk_unload );
 
     return actor.clone();
 }
@@ -3953,7 +4071,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( items, handler, who ),
+        stash_on_pet( obtain_activity_items( items, handler, who, current_bulk_unload ),
                       *pet, who );
         if( items.empty() ) {
             who.cancel_activity();
@@ -3975,6 +4093,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
+    jsout.member( "current_bulk_unload", current_bulk_unload );
     jsout.end_object();
 }
 
@@ -3986,6 +4105,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonValue &js
     jsobj.read( "items", actor.items );
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
+    jsobj.read( "current_bulk_unload", actor.current_bulk_unload );
 
     return actor.clone();
 }
@@ -4183,7 +4303,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 }
 
 static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
-                                 int *charges_added )
+                                 int *charges_added, Character *carrier )
 {
     item &it = *holstered_item.first;
     ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
@@ -4202,7 +4322,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
             return ret;
         }
 
-        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true );
+        return holster->put_in( it, pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
     }
 
     ret = holster->can_contain_partial_directly( it );
@@ -4215,7 +4335,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
-                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true );
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, carrier );
     if( *charges_added <= 0 ) {
         return ret_val<void>::make_failure( _( "item can't be stored there" ) );
     }
@@ -4227,6 +4347,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 {
     bool success = false;
     bool bulk_load = false;
+    Character *carrier = holster.carrier();
     drop_location &holstered_item = items.front();
     if( holstered_item.first ) {
         success = true;
@@ -4239,7 +4360,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
 
         if( !it.count_by_charges() ) {
-            ret = try_insert( holster, holstered_item, nullptr );
+            ret = try_insert( holster, holstered_item, nullptr, carrier );
 
             if( ret.success() ) {
                 //~ %1$s: item to put in the container, %2$s: container to put item in
@@ -4251,7 +4372,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             }
         } else {
             int charges_added = 0;
-            ret = try_insert( holster, holstered_item, &charges_added );
+            ret = try_insert( holster, holstered_item, &charges_added, carrier );
 
             if( ret.success() ) {
                 item copy( it );
@@ -4270,7 +4391,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
         if( !ret.success() ) {
             success = false;
-            std::string error = !ret.str().empty() ?
+            std::string error = ret.str().empty() ?
                                 //~ %1$s: item we failed to put in the container, %2$s: container to put item in
                                 string_format( _( "Could not put %1$s into %2$s." ),
                                                it.tname(), holster->tname() ) :
@@ -4284,11 +4405,19 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         success = true;
     }
 
+    drop_locations items_remain;
+    if( who.is_avatar() && reopen_menu && !success ) {
+        items_remain.insert( items_remain.end(), items.begin(), items.end() );
+    }
+
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
         handler.handle_by( who );
         act.set_to_null();
+        if( !items_remain.empty() ) {
+            g->insert_item( items_remain );
+        }
         return;
     }
 
@@ -4311,6 +4440,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "handler", handler );
     jsout.member( "all_pockets_rigid", all_pockets_rigid );
+    jsout.member( "reopen_menu", reopen_menu );
 
     jsout.end_object();
 }
@@ -4325,6 +4455,7 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     data.read( "items", actor.items );
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
+    data.read( "reopen_menu", actor.reopen_menu );
 
     return actor.clone();
 }
@@ -4455,10 +4586,9 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 2:
         default:
             // In player inventory and player is wielding something.
-            if( loc.held_by( who ) ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
-                         reloadable_name );
-            }
+            loc.carrier()->add_msg_if_player( m_neutral,
+                                              _( "The %s no longer fits in your inventory so you drop it instead." ),
+                                              reloadable_name );
             get_map().add_item_or_charges( loc.position(), reloadable );
             loc.remove_item();
             break;
@@ -4502,8 +4632,26 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = total_moves;
 }
 
+void milk_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        act.set_to_null();
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        // We might end up here if the creature dies while being milked
+        who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
+        act.set_to_null();
+    }
+}
+
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
+    act.set_to_null();
     if( monster_coords.empty() ) {
         debugmsg( "milking activity with no position of monster stored" );
         return;
@@ -4539,8 +4687,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     if( !string_values.empty() && string_values[0] == "temp_tie" ) {
         source_mon->remove_effect( effect_tied );
     }
-
-    act.set_to_null();
 }
 
 void milk_activity_actor::serialize( JsonOut &jsout ) const
@@ -6398,7 +6544,7 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+        gun.put_in( who.i_rem( &mod ), pocket_type::MOD );
         gun.on_contents_changed();
 
     } else if( rng( 0, 100 ) <= risk ) {
@@ -6842,13 +6988,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     !it->first->any_pockets_sealed() ) {
                     std::unordered_map<itype_id, int> item_counts;
                     if( unload_sparse_only ) {
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 item_counts[contained->typeId()]++;
                             }
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( unload_sparse_only &&
@@ -6862,7 +7008,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( it->first->is_ammo_belt() ) {
@@ -6892,7 +7038,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );

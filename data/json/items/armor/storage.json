@@ -1352,24 +1352,17 @@
   {
     "id": "legrig",
     "type": "ARMOR",
-    "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
-    "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
-    "weight": "205 g",
-    "volume": "1050 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "name": { "str": "drop leg pouch", "str_pl": "drop leg pouches" },
+    "description": "A pouch that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
+    "weight": "102 g",
+    "volume": "525 ml",
+    "price": 1500,
+    "price_postapoc": 125,
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
+    "sided": true,
     "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2250 ml",
-        "max_contains_weight": "4500 g",
-        "max_item_length": "30 cm",
-        "magazine_well": "500 ml",
-        "moves": 80
-      },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2250 ml",
@@ -1602,8 +1595,7 @@
       {
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
-        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
-        "weight": 1
+        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
       }
     ]
   },
@@ -2161,7 +2153,7 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
     "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]

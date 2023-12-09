@@ -25,6 +25,7 @@
     "bleed_rate": 75,
     "vision_day": 25,
     "vision_night": 5,
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "human_fur",
     "dissect": "dissect_beast_sample_small",
     "special_attacks": [
@@ -34,17 +35,21 @@
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       },
-      { "id": "scratch", "max_mul": 1.5 }
+      { "id": "scratch", "max_mul": 1.5 },
+      [ "EAT_CARRION", 120 ],
+      [ "EAT_FOOD", 120 ],
+      [ "BROWSE", 120 ]
     ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
     "fear_triggers": [ "HURT", "FIRE" ],
+    "stomach_size": 1300,
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 36, "into_group": "GROUP_MUTANT_EVOLVED" },
     "regenerates": 1,
     "regen_morale": true,
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "WARM", "BASHES", "EATS" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
@@ -71,6 +76,7 @@
     "bleed_rate": 50,
     "vision_night": 15,
     "dissect": "dissect_ursine_sample_large",
+    "stomach_size": 1800,
     "special_attacks": [
       { "id": "scratch", "move_cost": 110, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
       { "id": "smash", "move_cost": 110, "cooldown": 8, "min_mul": 0.8, "throw_strength": 50 },
@@ -79,7 +85,10 @@
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
       },
-      { "id": "impale", "move_cost": 110, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 }
+      { "id": "impale", "move_cost": 110, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 },
+      [ "EAT_CARRION", 120 ],
+      [ "EAT_FOOD", 120 ],
+      [ "BROWSE", 120 ]
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 3,
@@ -88,7 +97,7 @@
       "flags": [ "SMELLS", "KEENNOSE", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ]
     },
-    "delete": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "HIT_AND_RUN", "HAS_MIND" ] },
     "armor": { "stab": 8, "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   },
   {
@@ -112,19 +121,33 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 3,
-    "special_attacks": [ { "id": "mutant_antler" }, { "id": "mutant_hoof" } ],
+    "special_attacks": [ { "id": "mutant_antler" }, { "id": "mutant_hoof" }, [ "GRAZE", 120 ], [ "BROWSE", 120 ] ],
     "dodge": 6,
     "bleed_rate": 70,
     "vision_day": 25,
     "vision_night": 8,
+    "stomach_size": 1500,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_human",
     "dissect": "dissect_cattle_sample_large",
     "death_drops": "mon_mutant_experimental_death_drops",
     "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "WARM", "SWARMS", "GROUP_MORALE", "BASHES", "GROUP_BASH", "HIT_AND_RUN", "PATH_AVOID_DANGER_1" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "HAS_MIND",
+      "SWARMS",
+      "GROUP_MORALE",
+      "BASHES",
+      "GROUP_BASH",
+      "HIT_AND_RUN",
+      "PATH_AVOID_DANGER_1",
+      "EATS"
+    ],
     "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 2 }
   },
   {
@@ -156,11 +179,15 @@
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 2
-      }
+      },
+      [ "EAT_CARRION", 120 ]
     ],
     "dodge": 7,
     "bleed_rate": 50,
     "vision_night": 20,
+    "stomach_size": 1000,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_human",
     "dissect": "dissect_spider_sample_large",
     "emit_fields": [ { "emit_id": "emit_web_small", "delay": "5 s" } ],
@@ -184,6 +211,7 @@
     "attack_cost": 115,
     "aggression": 35,
     "morale": 40,
+    "stomach_size": 1300,
     "special_attacks": [
       { "id": "scratch", "move_cost": 115, "cooldown": 4, "min_mul": 1.5, "max_mul": 2.5 },
       { "type": "leap", "move_cost": 0, "cooldown": 5, "min_range": 2, "max_range": 8 },
@@ -195,13 +223,15 @@
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 10
-      }
+      },
+      [ "EAT_FOOD", 120 ]
     ],
     "dodge": 9,
     "vision_night": 15,
     "harvest": "mutant_human",
     "dissect": "dissect_chimera_sample_large",
     "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] },
+    "delete": { "flags": [ "HAS_MIND" ] },
     "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 1 }
   },
   {
@@ -231,10 +261,11 @@
     ],
     "tracking_distance": 4,
     "regenerates": 1,
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_alpha_sample_large",
     "zombify_into": "mon_zombie_scientist",
     "extend": { "flags": [ "CAN_OPEN_DOORS", "KEEP_DISTANCE" ], "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_DIED" ] },
-    "delete": { "flags": [ "HIT_AND_RUN", "BASHES", "GROUP_BASH" ] },
+    "delete": { "flags": [ "HIT_AND_RUN", "BASHES", "GROUP_BASH", "EATS" ] },
     "armor": { "electric": 2, "bash": 3, "cut": 3, "stab": 1, "bullet": 0 }
   },
   {
@@ -280,9 +311,13 @@
       { "id": "ranged_pull", "range": 4, "cooldown": 10 },
       { "id": "tentacle", "move_cost": 60, "range": 4, "no_adjacent": true },
       { "id": "grab_drag", "cooldown": 15, "grab_data": { "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
-      { "id": "drag_followup", "grab_data": { "drag_deviation": 1, "drag_movecost_mod": 0.2 } }
+      { "id": "drag_followup", "grab_data": { "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
+      [ "EAT_FOOD", 120 ]
     ],
     "dodge": 1,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
+    "stomach_size": 1100,
     "harvest": "mutant_human",
     "dissect": "dissect_gastropod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",

@@ -8,6 +8,7 @@
     "weight": "3000 g",
     "volume": "2220 ml",
     "longest_side": "35 cm",
+    "barrel_length": "200 mm",
     "//1": "20cm barrel length, 15cm remaining stock.",
     "price": 23000,
     "price_postapoc": 3000,
@@ -91,6 +92,7 @@
     "weight": "300 g",
     "volume": "150 ml",
     "longest_side": "15 cm",
+    "barrel_length": "80 mm",
     "price": 23000,
     "price_postapoc": 3000,
     "relative": { "dispersion": 180 },
@@ -99,7 +101,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
     "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS", "KNIVES" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS", "SHIVS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ],
     "melee_damage": { "stab": 16 }
   }

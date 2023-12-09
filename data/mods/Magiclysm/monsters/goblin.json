@@ -37,7 +37,7 @@
         { "item": "cudgel", "prob": 95 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
@@ -69,6 +69,7 @@
           "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
           "fake_dex": 8,
           "fake_per": 8,
+          "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
           "require_targeting_player": false,
           "description": "The goblin slings a rock at you!",
           "ranges": [ [ 2, 10, "DEFAULT" ] ],

@@ -104,9 +104,14 @@
         "distribution": [
           {
             "distribution": [
-              { "item": "rifle_flintlock", "charges": [ 0, 1 ], "contents-item": "shoulder_strap", "prob": 50 },
+              { "item": "rifle_flintlock", "charges": [ 0, 1 ], "contents-item": "shoulder_strap_simple", "prob": 50 },
               { "item": "pistol_flintlock", "charges": [ 0, 1 ], "prob": 20 },
-              { "item": "longrifle_flintlock", "charges": [ 0, 1 ], "contents-item": "shoulder_strap", "prob": 30 }
+              {
+                "item": "longrifle_flintlock",
+                "charges": [ 0, 1 ],
+                "contents-item": "shoulder_strap_simple",
+                "prob": 30
+              }
             ],
             "prob": 50
           },

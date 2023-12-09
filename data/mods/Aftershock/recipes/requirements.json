@@ -26,7 +26,7 @@
       [
         [ "welder", 10 ],
         [ "welder_crude", 15 ],
-        [ "toolset", 15 ],
+        [ "integrated_welder", 15 ],
         [ "oxy_torch", 2 ],
         [ "afs_plasma_torch_gun", 2 ],
         [ "afs_plasma_torch", 1 ]

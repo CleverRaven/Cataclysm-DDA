@@ -65,5 +65,19 @@
     "has": "WIELD",
     "condition": "ALWAYS",
     "values": [ { "value": "ITEM_DAMAGE_CUT", "add": { "math": [ "u_val('mana_max')/100" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "SALAMANDER_SUMMON_WHIP",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_HEAT",
+        "add": {
+          "math": [ "(5 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ]
+        }
+      }
+    ]
   }
 ]

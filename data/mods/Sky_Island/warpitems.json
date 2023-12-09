@@ -289,7 +289,7 @@
     "material": [ "alien_resin" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "creature_size_capacity", "HUGE" ] ],
+    "properties": { "creature_size_capacity": "HUGE" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
     "looks_like": "pet_carrier"

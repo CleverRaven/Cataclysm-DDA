@@ -347,8 +347,8 @@
   {
     "id": "cheap_ammo_pouch",
     "type": "ARMOR",
-    "name": "cheap ammo bandolier",
-    "description": "A small bandolier with four pouches that perfectly fit standard STANAG 30-round magazines.  You could also use them to store several smaller ammo clips or other items.",
+    "name": "military 5.56 bandolier",
+    "description": "A simple bag on a strap, partitioned into pouches for four STANAG 30-round magazines or twelve 10-round 5.56x45mm stripper clips.  When full, this bandolier is more encumbering than proper kit and slower to reload from, but it at least offers a quick and cheap means of resupplying ammunition.",
     "weight": "60 g",
     "volume": "40 ml",
     "price": 600,
@@ -358,39 +358,43 @@
     "symbol": "[",
     "looks_like": "leather_pouch",
     "color": "brown",
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "cheap_ammo_pouch_belt223",
@@ -410,10 +414,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2100 ml",
+        "max_contains_volume": "870 ml",
         "max_contains_weight": "7000 g",
-        "max_item_length": "80 mm",
-        "volume_encumber_modifier": 0.3
+        "max_item_length": "80 mm"
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
@@ -437,8 +440,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "4000 ml",
-        "max_contains_weight": "10000 g",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
         "max_item_length": "90 mm",
         "volume_encumber_modifier": 0.3
       }

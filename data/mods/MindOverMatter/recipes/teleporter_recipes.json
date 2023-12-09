@@ -26,7 +26,8 @@
     "color": "light_gray",
     "required_str": -1,
     "move_cost_mod": 0,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT" ],
-    "examine_action": "translocator"
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
   }
 ]

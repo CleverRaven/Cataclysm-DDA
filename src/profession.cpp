@@ -256,11 +256,16 @@ void profession::load( const JsonObject &jo, const std::string_view )
     // TODO: use string_id<bionic_type> or so
     optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
+    optional( jo, was_loaded, "recipes", _starting_recipes );
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+
+    optional( jo, was_loaded, "starting_styles", _starting_martialarts );
+    optional( jo, was_loaded, "starting_styles_choices", _starting_martialarts_choices );
+    optional( jo, was_loaded, "starting_styles_choices_amount", ma_choice_amount, 1 );
 
     // Flag which denotes if a profession is a hobby
     optional( jo, was_loaded, "subtype", _subtype, "" );
@@ -547,6 +552,21 @@ std::vector<bionic_id> profession::CBMs() const
 std::vector<proficiency_id> profession::proficiencies() const
 {
     return _starting_proficiencies;
+}
+
+std::vector<recipe_id> profession::recipes() const
+{
+    return _starting_recipes;
+}
+
+std::vector<matype_id> profession::ma_known() const
+{
+    return _starting_martialarts;
+}
+
+std::vector<matype_id> profession::ma_choices() const
+{
+    return _starting_martialarts_choices;
 }
 
 std::vector<trait_and_var> profession::get_locked_traits() const

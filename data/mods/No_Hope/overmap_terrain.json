@@ -1,6 +1,12 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [ "basement_bionic" ],
+    "copy-from": "generic_city_house_basement",
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lmoe_under_full",
     "name": "LMOE shelter",
     "sym": "+",

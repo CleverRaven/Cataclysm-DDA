@@ -261,7 +261,7 @@
     "tools": [
       [ [ "press_dowel", -1 ] ],
       [ [ "pipe", -1 ], [ "cu_pipe", -1 ], [ "material_sand", -1 ], [ "material_soil", -1 ], [ "clay_lump", -1 ] ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
     ],
     "components": [ [ [ "chem_black_powder", 17 ] ] ]
   },

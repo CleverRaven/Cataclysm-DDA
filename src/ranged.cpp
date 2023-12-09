@@ -42,7 +42,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
@@ -57,6 +56,7 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -179,7 +179,8 @@ class target_ui
             Turrets,
             TurretManual,
             Reach,
-            Spell
+            Spell,
+            SelectOnly
         };
 
         // Avatar
@@ -417,6 +418,17 @@ class target_ui
         void on_target_accepted( bool harmful ) const;
 };
 
+target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
+{
+    target_ui ui = target_ui();
+    ui.you = &you;
+    ui.mode = target_ui::TargetMode::SelectOnly;
+    ui.range = range;
+
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
+    return ui.run();
+}
+
 target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
@@ -581,10 +593,9 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
-    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
+    const aim_mods_cache aim_cache = gen_aim_mods_cache( gun );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
+        const double adj = aim_per_move( gun, penalty, attributes, { std::ref( aim_cache ) } );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -762,8 +773,19 @@ bool Character::handle_gun_damage( item &it )
 
 bool Character::handle_gun_overheat( item &it )
 {
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    double heat_modifier = 0;
+    float heat_multiplier = 1.0f;
+    for( const item *mod : it.gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+        heat_modifier += mod->type->gunmod->heat_per_shot_modifier;
+        heat_multiplier *= mod->type->gunmod->heat_per_shot_multiplier;
+    }
     double heat = it.get_var( "gun_heat", 0.0 );
-    double threshold = it.type->gun->overheat_threshold;
+    double threshold = std::max( ( it.type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
     const islot_gun &gun_type = *it.type->gun;
 
     if( threshold < 0.0 ) {
@@ -808,7 +830,8 @@ bool Character::handle_gun_overheat( item &it )
             return false;
         }
     }
-    it.set_var( "gun_heat", heat + gun_type.heat_per_shot );
+    it.set_var( "gun_heat", heat + std::max( ( gun_type.heat_per_shot * heat_multiplier ) +
+                heat_modifier, 0.0 ) );
     return true;
 }
 
@@ -959,11 +982,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
             if( monster *const m = hit_entry.first->as_monster() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_monster>(
-                    getID(), gun_id, m->type->id );
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
+                                m->type->id );
+                get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_character>(
-                    getID(), gun_id, c->getID(), c->get_name() );
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
+                                c->getID(), c->get_name() );
+                get_event_bus().send_with_talker( this, c, e );
             }
             if( multishot ) {
                 // TODO: Pull projectile name from the ammo entry.
@@ -1682,7 +1707,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
             ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
-    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+    const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
 
     const int throw_moves = throw_cost( you, weapon );
 
@@ -2109,11 +2134,11 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
             weap.force_insert_item( casing.set_flag( flag_CASING ),
-                                    item_pocket::pocket_type::MAGAZINE );
+                                    pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
-                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
+                brass_catcher->put_in( casing, pocket_type::CONTAINER );
             } else if( ovp_cargo ) {
                 ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
             } else {
@@ -2130,7 +2155,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
-               brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
+               brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
             if( ovp_cargo ) {
                 ovp_cargo->items().insert( linkage );
             } else {
@@ -2384,7 +2409,7 @@ double Character::gun_value( const item &weap, int ammo ) const
             { 10.0f, 4.0f },
             { 25.0f, 3.0f },
             { 100.0f, 1.0f },
-            { 500.0f, 5.0f },
+            { 500.0f, 0.5f },
         }
     };
 
@@ -2654,8 +2679,10 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
-            on_target_accepted( harmful );
+            if( mode != TargetMode::SelectOnly ) {
+                bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
+                on_target_accepted( harmful );
+            }
             break;
         }
         case ExitCode::Timeout: {
@@ -3080,6 +3107,12 @@ void target_ui::set_last_target()
 
 bool target_ui::confirm_non_enemy_target()
 {
+    // Check if you are casting a spell at yourself.
+    if( mode == TargetMode::Spell && ( src == dst || spell_aoe.count( src ) == 1 ) ) {
+        if( !query_yn( _( "Really attack yourself?" ) ) ) {
+            return false;
+        }
+    }
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
         return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );

@@ -543,7 +543,7 @@
     "families": [ "prof_wp_demihuman" ],
     "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, { "id": "grab_drag" }, { "id": "drag_followup" } ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
   },
   {
     "id": "mon_melian_mantis_mount",

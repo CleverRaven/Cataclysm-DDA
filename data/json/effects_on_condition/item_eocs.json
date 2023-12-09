@@ -16,5 +16,62 @@
     "id": "get_m4_carbine",
     "global": true,
     "effect": { "u_spawn_item": "modular_m4_carbine" }
+  },
+  {
+    "id": "EOC_vitrified_doll_talk",
+    "type": "effect_on_condition",
+    "condition": { "not": { "u_has_item": "imperfect_doll_complete" } },
+    "effect": { "open_dialogue": { "topic": "vitrified_doll_talk_main" } }
+  },
+  {
+    "id": "EOC_repair_imperfect_doll",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_remove_item_with": "imperfect_doll_features" },
+      { "u_remove_item_with": "imperfect_doll_arms" },
+      { "u_remove_item_with": "imperfect_doll_legs" },
+      { "u_spawn_item": "imperfect_doll_complete", "suppress_message": true },
+      { "u_transform_radius": 5, "ter_furn_transform": "imperfect_doll_to_couch" }
+    ]
+  },
+  {
+    "id": "EOC_vitrified_bookcase_talk",
+    "type": "effect_on_condition",
+    "condition": { "not": { "u_has_item": "imperfect_doll_features" } },
+    "effect": { "open_dialogue": { "topic": "vitrified_bookcase_talk_main" } },
+    "false_effect": { "u_message": "This bookshelf is complete, now.", "type": "good", "popup": false }
+  },
+  {
+    "id": "EOC_swap_glass_book_for_eyes",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_remove_item_with": "glass_book" },
+      { "u_spawn_item": "imperfect_doll_features", "suppress_message": true },
+      { "u_transform_radius": 5, "ter_furn_transform": "glass_book_on_shelf" }
+    ]
+  },
+  {
+    "id": "EOC_vitrified_pool_talk",
+    "type": "effect_on_condition",
+    "condition": { "not": { "u_has_item": "imperfect_doll_legs" } },
+    "effect": { "open_dialogue": { "topic": "vitrified_pool_talk_main" } },
+    "false_effect": { "u_message": "The sailboat drifts in slow circles through the sand.", "type": "good", "popup": false }
+  },
+  {
+    "id": "EOC_swap_glass_boat_for_legs",
+    "type": "effect_on_condition",
+    "effect": [ { "u_remove_item_with": "glass_boat" }, { "u_spawn_item": "imperfect_doll_legs", "suppress_message": true } ]
+  },
+  {
+    "id": "EOC_vitrified_soil_talk",
+    "type": "effect_on_condition",
+    "condition": { "not": { "u_has_item": "imperfect_doll_arms" } },
+    "effect": { "open_dialogue": { "topic": "vitrified_soil_talk_main" } },
+    "false_effect": { "u_message": "A tiny glass sprout has begun to grow here.", "type": "good", "popup": false }
+  },
+  {
+    "id": "EOC_swap_glass_apple_for_arms",
+    "type": "effect_on_condition",
+    "effect": [ { "u_remove_item_with": "glass_apple" }, { "u_spawn_item": "imperfect_doll_arms", "suppress_message": true } ]
   }
 ]

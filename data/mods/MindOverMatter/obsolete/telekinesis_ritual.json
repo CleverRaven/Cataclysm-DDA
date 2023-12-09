@@ -28,5 +28,35 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
     "result_eocs": [ "EOC_OBSOLETE" ]
+  },
+  {
+    "id": "telekinetic_strength_remove_previous",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Strength Remove Previous",
+    "description": "The check to make sure you can't stack multiple Enhance Strengths.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
+    "effect": [ { "u_remove_item_with": "telekin_ritual_summon_strength_item" } ]
+  },
+  {
+    "id": "telekin_ritual_summon_strength_item",
+    "type": "GENERIC",
+    "name": { "str": "Enhanced Strength" },
+    "description": "You are focusing your concentration on moving very heavy objects.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "0",
+    "color": "yellow",
+    "flags": [ "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID" ],
+    "relic_data": { "passive_effects": [ { "id": "telekin_ritual_summon_strength_enchant" } ] }
   }
 ]

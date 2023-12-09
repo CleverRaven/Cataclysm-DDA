@@ -98,7 +98,7 @@
       }
     ],
     "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
-    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "JAPANESE_SWORDS", "EXEMPLAR_WEAPON_DIAMOND_MIND" ]
+    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "MEDIUM_SWORDS", "LONG_SWORDS", "EXEMPLAR_WEAPON_DIAMOND_MIND" ]
   },
   {
     "type": "martial_art",
@@ -203,7 +203,7 @@
       }
     ],
     "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS", "HYLIAN_IMPROV_WEAPONS", "HYLIAN_MASTER_SWORD" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "GREAT_SWORDS", "HYLIAN_IMPROV_WEAPONS", "HYLIAN_MASTER_SWORD" ]
   },
   {
     "type": "martial_art",
@@ -379,7 +379,7 @@
       }
     ],
     "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
-    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS", "CONSTRUCTED_SWORDS", "EXEMPLAR_WEAPON_SETTING_SUN" ]
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS", "MEDIUM_SWORDS", "EXEMPLAR_WEAPON_SETTING_SUN" ]
   },
   {
     "type": "martial_art",

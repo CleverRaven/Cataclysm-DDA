@@ -61,7 +61,7 @@
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
     "name": { "str": "middle-strength debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2  grabbing zombie.",
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2 grabbing zombie.",
     "grab_strength": 50
   },
   {
@@ -69,7 +69,7 @@
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
     "name": { "str": "strong debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3  grabbing zombie.",
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3 grabbing zombie.",
     "grab_strength": 100
   },
   {
@@ -118,7 +118,7 @@
     "copy-from": "mon_debug_grabber",
     "weight": "100 kg",
     "name": { "str": "debug dragger" },
-    "description": "This monster exists to drag you behind it briefly",
+    "description": "This monster exists to drag you behind it briefly.",
     "special_attacks": [
       {
         "id": "grab_drag",

@@ -16,12 +16,12 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -136,6 +136,10 @@ std::string vehicle_part::name( bool with_prefix ) const
             break;
         }
     }
+    if( health_percent() < floating_leak_threshold() && info().has_flag( VPFLAG_FLOATS ) &&
+        !info().has_flag( VPFLAG_NO_LEAK ) ) {
+        res += _( " (leaking)" );
+    }
     if( is_leaking() ) {
         res += _( " (draining)" );
     }
@@ -183,6 +187,11 @@ bool vehicle_part::is_repairable() const
 double vehicle_part::health_percent() const
 {
     return 1.0 - damage_percent();
+}
+
+double vehicle_part::floating_leak_threshold() const
+{
+    return 0.5;
 }
 
 double vehicle_part::damage_percent() const
@@ -296,7 +305,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
             const int limit = ammo_capacity( ammo_itype->ammo->type );
             // assuming "ammo" isn't really going into a magazine as this is a vehicle part
             const int amount = qty > 0 ? std::min( qty, limit ) : limit;
-            base.put_in( item( ammo, calendar::turn, amount ), item_pocket::pocket_type::CONTAINER );
+            base.put_in( item( ammo, calendar::turn, amount ), pocket_type::CONTAINER );
             return amount;
         }
     }
@@ -309,7 +318,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
         if( mag_type ) {
             item mag( mag_type );
             mag.ammo_set( ammo, qty );
-            base.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            base.put_in( mag, pocket_type::MAGAZINE_WELL );
             return base.ammo_remaining();
         }
     }

@@ -646,6 +646,11 @@ bool map::is_transparent( const tripoint &p ) const
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
+bool map::is_transparent_wo_fields( const tripoint &p ) const
+{
+    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+}
+
 float map::light_transparency( const tripoint &p ) const
 {
     return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
@@ -777,11 +782,6 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
 }
 
-bool tinymap::pl_sees( const tripoint &, int ) const
-{
-    return false;
-}
-
 bool map::pl_sees( const tripoint &t, const int max_range ) const
 {
     if( !inbounds( t ) ) {
@@ -790,13 +790,14 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
 
     const level_cache &map_cache = get_cache_ref( t.z );
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range &&
+    if( max_range >= 0 && square_dist( getglobal( t ), player_character.get_location() ) > max_range &&
         map_cache.camera_cache[t.x][t.y] == 0 ) {
         return false;    // Out of range!
     }
 
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
+    // avatar might not be on *this* map
+    const float light_at_player = get_map().ambient_light_at( player_character.pos() );
     return !a.obstructed &&
            ( a.apparent_light >= player_character.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
@@ -1052,6 +1053,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
             directions_to_cast );
+        seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1117,6 +1119,41 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
+    }
+}
+
+void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
+                                     const array_of_grids_of<const bool> &floor_caches, const std::optional<tripoint> &override_p ) const
+{
+    Character &player_character = get_player_character();
+    // If override is not given, use player character for calculations
+    const tripoint origin = override_p.value_or( player_character.pos() );
+    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
+    // For each tile
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    // Iterate down z-levels starting from 1 level below origin
+                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
+                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
+                        const int cache_z = sz + OVERMAP_DEPTH;
+                        // Until invisible tile reached
+                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
+                            break;
+                        }
+                        // Or floor reached
+                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
+                            // In which case check if it should be obscured by a ledge
+                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character, p ) > 100 ) {
+                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

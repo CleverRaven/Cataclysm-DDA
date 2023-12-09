@@ -182,7 +182,7 @@
     "name": { "str": "pike pole" },
     "description": "A durable tool consisting of a sturdy fiberglass shaft tipped with a small steel hook.",
     "price": 10000,
-    "material": [ "plastic", "steel" ],
+    "material": [ "fiberglass", "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "3100 g",
@@ -192,6 +192,15 @@
     "to_hit": -1,
     "qualities": [ [ "COOK", 1 ] ],
     "melee_damage": { "bash": 20, "cut": 6 }
+  },
+  {
+    "id": "EOD_hotstick",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "yellow",
+    "copy-from": "pike_pole",
+    "name": { "str": "EOD hot stick" },
+    "description": "A durable tool consisting of a sturdy fiberglass shaft tipped with a set of 3 hooks, one large opposed by two small.  Hot sticks are used to maintain some standoff distance when manual manipulation of explosives is necessary, and robot assistance is unavailable."
   },
   {
     "id": "ny_hook",

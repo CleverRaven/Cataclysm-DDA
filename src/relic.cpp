@@ -710,7 +710,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     passive_mult_procgen_values.pick();
                 if( mult != nullptr ) {
                     enchant_cache ench;
-                    float value = rng( mult->min_value, mult->max_value );
+                    float value = rng_float( mult->min_value, mult->max_value );
                     ench.add_value_mult( mult->type, value );
                     int negative_ench_attribute = power_level( ench );
                     if( negative_ench_attribute < 0 ) {

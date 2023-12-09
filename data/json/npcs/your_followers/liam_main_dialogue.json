@@ -1,0 +1,263 @@
+[
+  {
+    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *pshhhttt* This big turtle, I read you loud and clear, red burrito.",
+      "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
+    },
+    "responses": [
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND_Liam_Abilities",
+        "effect": "reveal_stats"
+      },
+      { "text": "There's something I want you to do.", "topic": "TALK_Liam_ORDERS" },
+      {
+        "text": "I just wanted to talk for a bit.",
+        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
+        "topic": "TALK_Liam_SOCIAL"
+      },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "Big turtle?  Red burrito?  Seriously?", "condition": "is_by_radio", "topic": "TALK_Liam_Callsigns" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_GUARD_Liam",
+    "type": "talk_topic",
+    "dynamic_line": "*shrugs.  \"Not my favorite job, but sure.  I'll keep an eye out.\"",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Liam", "effect": "stop_guard" },
+      { "text": "See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_Liam_Abilities",
+    "type": "talk_topic",
+    "dynamic_line": "As you know, I am experienced in practically every low-wage job on the Eastern seaboard, and I'm probably a regional leading expert on video games.  My dad made me learn archery and I kinda kept it up.  What else is there?"
+  },
+  {
+    "id": [ "TALK_Liam_SOCIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": "Any time, what's on your mind?",
+    "responses": [
+      { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
+      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
+      {
+        "text": "I just wanted to chat, you know.  To relax.",
+        "topic": "TALK_FRIEND_Liam_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_Liam_CHAT",
+    "dynamic_line": "Sure.  Can I tell you about this idea I had for a comic I'm never gonna make?",
+    "//": "TK: custom chat topics here that actually include small talk that expands Liam's character, while still giving the socialize bonus.",
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_Liam_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Sounds weird calling it \"orders\", I'm your friend, not your minion.  No worries though, what up?",
+      "Sure, what do you want?"
+    ],
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE_Liam" }
+      },
+      {
+        "text": "Can you host a training seminar?",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE_Liam" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
+        "topic": "TALK_FRIEND_Liam",
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "I want you to use this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_Liam",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "Hold on to this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_Liam",
+        "effect": "npc_gets_item"
+      },
+      {
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD_Liam",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "and": [ { "not": "npc_is_riding" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
+      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE_Liam",
+    "type": "talk_topic",
+    "dynamic_line": "I mean, I'm not sure what I can teach you about, but okay.",
+    "responses": [
+      {
+        "text": "Don't sell yourself short, Liam.  I just wanted to know about…",
+        "topic": "TALK_TRAIN",
+        "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE_Liam",
+    "type": "talk_topic",
+    "dynamic_line": "A… seminar?  About what, how not to burn yourself on the frier at FoodPlace?",
+    "responses": [
+      {
+        "text": "Y'know, you have more useful skills than you think.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Liam1",
+    "dynamic_line": "Well, sure.  I dunno what more there is to tell, we've known each other for ages.",
+    "responses": [
+      { "text": "We hadn't caught up in a while before <the_cataclysm>.  What've you been doing?", "topic": "BGSS_Liam2" },
+      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
+      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Liam2",
+    "dynamic_line": "*shrugs.  \"Same as I was when we used to hang out more, mostly.  I quit my job at FoodPlace a while back, got tired of the stupid outfits.  Worked doing labor in construction for a bit, but I didn't like my boss so I ditched it.  Got a job doing deliveries for Amazon, which was absolutely shitty, but I managed to jump from that to a bit of a better delivery job for a smaller company.  It was actually going pretty good before everything happened.\"",
+    "responses": [
+      { "text": "How did you make it through the cataclysm?", "topic": "BGSS_Liam3" },
+      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
+      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Liam3",
+    "dynamic_line": "I wanna say it was a hell of a story, but really, I was on the way back to Boston from a delivery and a thing about the riots on the radio.  I was close to the cabin so I just thought, 'this is starting to sound really fuckin bad.'  I called in sick and took a few days out there.  By the time I had to think about going back to work, we were into that wild time when half the people were trying to keep things running and the other half were trying to burn everything down.  I shut the blinds and stayed in, until Chris showed up acting like a freak.",
+    "responses": [
+      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
+      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Liam_Expertise",
+    "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd come out here and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan to come out here.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.\"",
+    "responses": [
+      { "text": "What happened to your father?  You never talked about him much.", "topic": "BGSS_Liam_Father" },
+      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Liam_Father",
+    "dynamic_line": "*snorts.  \"I was pretty low-contact with him the last couple years.  He got me that job in construction and when I left it, he tried to hit me, found out I'm not so much of a pushover as when I was fifteen.  Asshole.  I was still texting my mom a bit, apparently when things went to shit, he tried to join the riots.  I hope he got gunned down.\"",
+    "responses": [
+      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

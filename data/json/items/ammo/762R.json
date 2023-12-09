@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62x54mmR" },
     "description": "7.62x54mmR ammunition with a 150gr FMJ bullet.  The 7.62x54mmR round is one of the oldest still in common use, primarily due to the popularity of the Mosin-Nagant rifle.  It is a powerful cartridge capable of killing most targets with one shot.",
+    "ascii_picture": "762_54R",
     "weight": "18 g",
     "volume": "185 ml",
     "longest_side": "77 mm",

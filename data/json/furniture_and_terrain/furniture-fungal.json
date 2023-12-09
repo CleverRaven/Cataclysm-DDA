@@ -21,7 +21,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "GRAZER_INEDIBLE" ],
     "examine_action": "fungus",
     "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
   },

@@ -1,5 +1,13 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "binaryPath": "${workspaceRoot}/${buildTarget}",
+            "binaryArgs": [],
+            "stopAtEntry": true
+        }
+  ],
     "makefile.configurations": [
         {
             "name" : "Linux - X64 - Tiles/Sound - Release",

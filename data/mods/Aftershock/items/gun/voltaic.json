@@ -24,5 +24,32 @@
     ],
     "ammo_effects": [ "ELECTRO_ANOMALY" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "afs_voltaic_pistol",
+    "type": "GUN",
+    "copy-from": "laser_rifle",
+    "name": { "str": "W3100 Volt" },
+    "description": "Wraitheon Armories' premier electrolaser personal defense weapon.  The W3100 Volt adjustable power settings make it adaptable to most conflict situations, lethal or otherwise, and make it a favorite among well-off security forces and law enforcement corps.",
+    "price": "12 kUSD",
+    "price_postapoc": "12 kUSD",
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 0,
+    "energy_drain": "15 kJ",
+    "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
+    "ranged_damage": [ { "damage_type": "electric", "amount": 7 } ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_voltaic_cartridge" ]
+      }
+    ],
+    "ammo_effects": [ "BEANBAG" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

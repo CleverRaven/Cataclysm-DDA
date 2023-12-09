@@ -51,7 +51,7 @@
           "str": "The Miracle of Mindfulness: An Introduction to the Practice of Meditation",
           "str_pl": "copies of The Miracle of Mindfulness: An Introduction to the Practice of Meditation"
         },
-        "description": "A translation of a letter written by Thich Nhat Hanh to collegues in Viet Nam, this book focues on mindfulness and breathwork.",
+        "description": "A translation of a letter written by Thich Nhat Hanh to colleagues in Viet Nam, this book focuses on mindfulness and breathwork.",
         "weight": 1
       }
     ]
@@ -117,8 +117,8 @@
     "id": "phavian_report_psionic_drain",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Report: Drain Channeling Protocol PGS38", "str_pl": "copies of Report: Drain Channeling Protocol PGS38" },
-    "description": "A formal report on a process to reduce the fatiguing effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
+    "name": { "str": "Report: Channeling Protocol PGS38", "str_pl": "copies of Report: Channeling Protocol PGS38" },
+    "description": "A formal report on a process to reduce the unpredictable effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
     "copy-from": "recipe_lab_elec",
     "skill": "metaphysics",
     "required_level": 6,

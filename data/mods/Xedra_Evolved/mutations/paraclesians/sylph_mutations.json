@@ -138,10 +138,9 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to temporarily breathe without oxygen.  This will prevent damage from a lack of oxygen for a short window.",
+    "description": "Upon gaining this ability the Sylph gains the ability to breathe without oxygen.  This will prevent damage from a lack of oxygen.",
     "category": [ "SYLPH" ],
-    "spells_learned": [ [ "breathe_wo_air", 1 ] ],
-    "//": "Needs an activated ability that affects the hidden oxygen stat."
+    "integrated_armor": [ "integrated_sylph_breath" ]
   },
   {
     "type": "mutation",

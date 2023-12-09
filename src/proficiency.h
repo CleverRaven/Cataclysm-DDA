@@ -222,6 +222,7 @@ class book_proficiency_bonuses
         float time_factor( const proficiency_id &id ) const;
 };
 
-void show_proficiencies_window( const Character &u );
+void show_proficiencies_window( const Character &u,
+                                std::optional<proficiency_id> default_selection = std::nullopt );
 
 #endif // CATA_SRC_PROFICIENCY_H

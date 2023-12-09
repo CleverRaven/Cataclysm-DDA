@@ -480,7 +480,7 @@
     "visibility": 2,
     "ugliness": 1,
     "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "LIGHTFUR" ],
     "category": [ "MASTODON", "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "URSINE" ]
   },

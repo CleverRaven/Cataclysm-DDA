@@ -527,7 +527,7 @@ void veh_app_interact::merge()
             return false;
         }
         vehicle &target_veh = target_vp->vehicle();
-        if( !target_veh.has_tag( flag_APPLIANCE ) || !target_veh.is_powergrid() ) {
+        if( !target_veh.is_powergrid() ) {
             return false;
         }
         return true;

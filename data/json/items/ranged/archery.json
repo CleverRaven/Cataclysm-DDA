@@ -609,7 +609,7 @@
     "description": "A modern fiberglass bow that can be used effectively by those of somewhat above-average strength.",
     "price": 38000,
     "//": "60in Fiberglass recurved bow at 26in draw, 80lb draw, 54J, 0.403 slugs with 30g arrow.",
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "fiberglass" ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
@@ -665,7 +665,7 @@
     "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage.",
     "price": 38000,
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "fiberglass" ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
@@ -732,7 +732,7 @@
     "description": "A modern fiberglass bow that has been taken down for storage.  For use by those of somewhat above-average strength.  Use it to assemble it into shape.",
     "price": 38000,
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "fiberglass" ],
     "weight": "540 g",
     "volume": "2500 ml",
     "longest_side": "60 cm",
