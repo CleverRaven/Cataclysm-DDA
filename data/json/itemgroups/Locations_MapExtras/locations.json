@@ -1475,11 +1475,7 @@
   {
     "type": "item_group",
     "id": "bridge",
-    "items": [
-      { "group": "road", "prob": 198 },
-      [ "survivor_scope", 1 ],
-      [ "binoculars", 1 ]
-    ]
+    "items": [ { "group": "road", "prob": 198 }, [ "survivor_scope", 1 ], [ "binoculars", 1 ] ]
   },
   {
     "type": "item_group",
