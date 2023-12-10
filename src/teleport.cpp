@@ -28,7 +28,7 @@ static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const flag_id json_flag_GRAB( "GRAB" );
-static const flag_id json_flag_TELEPORT_LOCK( "TELPORT_LOCK" );
+static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
