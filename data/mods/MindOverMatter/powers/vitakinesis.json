@@ -3,8 +3,8 @@
     "id": "vita_stop_bleeding",
     "type": "SPELL",
     "name": "[Ψ]Staunch Wound",
-    "description": "You concentrate on your injuries, and they close and the blood flow stops [(a)ctivate to bandage].",
-    "message": "You summon up the energy to close your wounds!  [(a)ctivate to bandage]",
+    "description": "You concentrate on your injuries, and they close and the blood flow stops.",
+    "message": "You summon up the energy to close your wounds!",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
@@ -49,8 +49,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 1200,
-    "max_duration": 1200
+    "min_duration": 200,
+    "max_duration": 200
   },
   {
     "id": "vita_stop_bleeding_02",
@@ -66,8 +66,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 1200,
-    "max_duration": 1200
+    "min_duration": 200,
+    "max_duration": 200
   },
   {
     "id": "vita_stop_bleeding_03",
@@ -83,8 +83,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 1200,
-    "max_duration": 1200
+    "min_duration": 200,
+    "max_duration": 200
   },
   {
     "id": "vita_health_power",
@@ -338,7 +338,7 @@
     "type": "SPELL",
     "name": "[Ψ]Allay Infection",
     "description": "Before you could stop your bleeding with but a thought.  Now, you can treat infected wounds with your powers as well.",
-    "message": "You concentrate on the injuries, and the itching eases [(a)ctivate to disinfect].",
+    "message": "You concentrate on the injuries, and the itching eases.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
@@ -373,8 +373,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 1200,
-    "max_duration": 1200
+    "min_duration": 200,
+    "max_duration": 200
   },
   {
     "id": "vita_stop_infection_02",
@@ -390,8 +390,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 1200,
-    "max_duration": 1200
+    "min_duration": 200,
+    "max_duration": 200
   },
   {
     "id": "vita_stop_infection_03",
@@ -407,8 +407,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 1200,
-    "max_duration": 1200
+    "min_duration": 200,
+    "max_duration": 200
   },
   {
     "id": "vita_healing_trance",

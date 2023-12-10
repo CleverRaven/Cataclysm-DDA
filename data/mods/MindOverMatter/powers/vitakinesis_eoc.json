@@ -80,11 +80,53 @@
     "effect": {
       "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_bleeding')" ] },
       "cases": [
-        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_01" } } ] },
-        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_02" } } ] },
-        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_03" } } ] }
+        {
+          "case": 0,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_01" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01" } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_02" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02" } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_03" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03" } ]
+        }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_bandage_01" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_bandages_02" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_bandages_03" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -219,11 +261,53 @@
     "effect": {
       "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')" ] },
       "cases": [
-        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } } ] },
-        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } } ] },
-        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } } ] }
+        {
+          "case": 0,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_01" } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_02" } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_03" } ]
+        }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_disinfectant_01" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_01_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_disinfectant_02" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_02_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_disinfectant_03" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_03_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
