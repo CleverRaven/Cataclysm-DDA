@@ -184,7 +184,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you expend more energy than anticipated.", "type": "bad" },
+      { "u_message": "As you unleash your powers, they take more out of you than you expected.", "type": "bad" },
       { "math": [ "u_val('stamina')", "-=", "rng(3000,9000)" ] }
     ]
   },
