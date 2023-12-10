@@ -719,7 +719,7 @@ struct event_spec<event_type::loses_addiction> {
 };
 template<>
 struct event_spec<event_type::loses_mutation> {
-    static constexpr std::array<std::pair<const char*, cata_variant_type>, 2> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
             { "character", cata_variant_type::character_id },
             { "trait", cata_variant_type::trait_id },
         }
