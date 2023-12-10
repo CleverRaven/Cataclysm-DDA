@@ -1657,7 +1657,7 @@
     "color": "light_gray",
     "gunmod_data": {
       "location": "bayonet lug",
-      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
