@@ -1166,7 +1166,7 @@
     ],
     "components": [
       [ [ "pipe_cleaner", 1 ] ],
-      [ [ "soldering_iron", 1 ] ],
+      [ [ "soldering_iron_portable", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
       [ [ "wrench", 1 ] ],
       [ [ "chisel", 1 ] ],
@@ -1244,6 +1244,7 @@
         [ "welder_crude", 300 ],
         [ "integrated_welder", 300 ],
         [ "soldering_iron", 300 ],
+        [ "soldering_iron_portable", 300 ],
         [ "oxy_torch", 40 ]
       ]
     ],
@@ -1419,6 +1420,7 @@
         [ "welder_crude", 150 ],
         [ "integrated_welder", 150 ],
         [ "soldering_iron", 150 ],
+        [ "soldering_iron_portable", 150 ],
         [ "oxy_torch", 20 ]
       ]
     ],
@@ -1457,6 +1459,7 @@
         [ "welder_crude", 75 ],
         [ "integrated_welder", 75 ],
         [ "soldering_iron", 75 ],
+        [ "soldering_iron_portable", 75 ],
         [ "oxy_torch", 10 ]
       ]
     ],
@@ -1621,6 +1624,7 @@
         [ "welder_crude", 225 ],
         [ "integrated_welder", 225 ],
         [ "soldering_iron", 225 ],
+        [ "soldering_iron_portable", 225 ],
         [ "oxy_torch", 30 ]
       ]
     ],
@@ -1790,7 +1794,8 @@
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
         [ "integrated_welder", 150 ],
-        [ "soldering_iron", 150 ]
+        [ "soldering_iron", 150 ],
+        [ "soldering_iron_portable", 150 ]
       ]
     ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]

@@ -2813,6 +2813,39 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     }
 }
 
+static void compare_pockets( item &it, pocket_mod_test_data &pocket_mod_data, bool mod_inserted )
+{
+    std::vector<item_pocket *> new_pockets( it.get_contents().get_pockets( [](
+    item_pocket const & ) {
+        return true;
+    } ) );
+
+    for( std::pair<const pocket_type, std::vector<uint64_t>> &expected :
+         pocket_mod_data.expected_pockets ) {
+        const pocket_type type = expected.first;
+        uint64_t count = expected.second[mod_inserted ? 1 : 0];
+        std::vector<item_pocket *> pockets( it.get_contents().get_pockets( [type](
+        item_pocket const & pock ) {
+            return pock.is_type( type );
+        } ) );
+        CAPTURE( type );
+        CHECK( count == pockets.size() );
+    }
+
+    bool same_pocket_data = new_pockets.size() == it.type->pockets.size();
+    if( same_pocket_data ) {
+        for( const item_pocket *pocket : new_pockets ) {
+            if( std::find( it.type->pockets.begin(), it.type->pockets.end(),
+                           *pocket->get_pocket_data() ) == it.type->pockets.end() ) {
+                same_pocket_data = false;
+                break;
+            }
+        }
+    }
+
+    CHECK( same_pocket_data ^ mod_inserted );
+}
+
 TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
 {
     for( std::pair<const std::string, pocket_mod_test_data> &pocket_mod_data :
@@ -2823,33 +2856,16 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
 
             base_it.put_in( mod_it, pocket_type::MOD );
 
-            std::vector<item_pocket *> new_pockets( base_it.get_contents().get_pockets( [](
-            item_pocket const & ) {
-                return true;
-            } ) );
-
-            for( std::pair<const pocket_type, uint64_t> &expected :
-                 pocket_mod_data.second.expected_pockets ) {
-                std::vector<item_pocket *> pockets( base_it.get_contents().get_pockets( [expected](
-                item_pocket const & pock ) {
-                    return pock.is_type( expected.first );
-                } ) );
-                CAPTURE( expected.first );
-                CHECK( expected.second == pockets.size() );
+            SECTION( "after inserting the mod" ) {
+                compare_pockets( base_it, pocket_mod_data.second, true );
             }
 
-            bool same_pocket_data = new_pockets.size() == base_it.type->pockets.size();
-            if( same_pocket_data ) {
-                for( const item_pocket *pocket : new_pockets ) {
-                    if( std::find( base_it.type->pockets.begin(), base_it.type->pockets.end(),
-                                   *pocket->get_pocket_data() ) == base_it.type->pockets.end() ) {
-                        same_pocket_data = false;
-                        break;
-                    }
-                }
+            SECTION( "after removing the mod" ) {
+                base_it.remove_items_with( [mod_it]( const item & it ) {
+                    return mod_it.type == it.type;
+                } );
+                compare_pockets( base_it, pocket_mod_data.second, false );
             }
-
-            CHECK_FALSE( same_pocket_data );
         }
     }
 }

@@ -340,5 +340,10 @@
     "id": "fn_fal",
     "type": "MIGRATION",
     "replace": "fn_fal_semi"
+  },
+  {
+    "id": "greasegun32mag",
+    "type": "MIGRATION",
+    "replace": "greasegun30mag"
   }
 ]

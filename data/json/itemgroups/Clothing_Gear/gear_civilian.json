@@ -304,7 +304,7 @@
       [ "recipe_chimera", 1 ],
       [ "recipe_mil_augs", 1 ],
       [ "recipe_labchem", 1 ],
-      { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       [ "solder_wire", 70 ],
       [ "textbook_weapwest", 2 ],
       [ "textbook_weparabic", 5 ],
