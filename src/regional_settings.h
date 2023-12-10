@@ -251,6 +251,7 @@ struct om_settings_lake {
     void load( const JsonObject &jo, std:: string_view );
     const std::vector<om_settings_lake> &get_all();
     bool is_valid() const;
+    void deserialize(const JsonObject &jo);
     static void reset_om_settings_lake();
 };
 

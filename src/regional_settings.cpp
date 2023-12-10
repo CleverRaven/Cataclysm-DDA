@@ -390,18 +390,13 @@ void om_settings_lake::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "lake_size_min", lake_size_min );
     optional( jo, was_loaded, "lake_depth", lake_depth );
     mandatory( jo, was_loaded, "shore_extendable_overmap_terrain", shore_extendable_overmap_terrain );
-    if( !jo.has_array( "shore_extendable_overmap_terrain_aliases" ) ) {
-                jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
-        } else {
-        for( JsonObject alias_entry : jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
-            shore_extendable_overmap_terrain_alias alias;
-            alias_entry.read( "om_terrain", alias.overmap_terrain );
-            alias_entry.read( "alias", alias.alias );
-            alias.match_type = alias_entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                               ot_match_type::contains );
-            shore_extendable_overmap_terrain_aliases.emplace_back( alias );
-        }
-    }
+    mandatory( jo, was_loaded, "shore_extendable_overmap_terrain_aliases",
+              shore_extendable_overmap_terrain_aliases );
+}
+void shore_extendable_overmap_terrain_alias::deserialize(const JsonObject &jo) {
+    jo.read( "om_terrain", overmap_terrain );        
+    jo.read( "alias", alias );
+    match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type", ot_match_type::contains );
 }
 const std::vector<om_settings_lake> &om_settings_lake::get_all()
 {
