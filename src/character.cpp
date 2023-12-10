@@ -1907,17 +1907,31 @@ bool Character::is_dead_state() const
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    Creature::set_part_hp_cur( id, set );
-    if( get_part_hp_cur( id ) <= 0 ) {
-        cached_dead_state.reset();
+    if( get_part_hp_cur( id ) > 0 ) {
+        Creature::set_part_hp_cur( id, set );
+        if( get_part_hp_cur( id ) <= 0 ) {
+            cached_dead_state.reset();
+        }
+    } else {
+        Creature::set_part_hp_cur( id, set );
+        if( get_part_hp_cur( id ) > 0 ) {
+            cached_dead_state.reset();
+        }
     }
 }
 
 void Character::mod_part_hp_cur( const bodypart_id &id, int set )
 {
-    Creature::mod_part_hp_cur( id, set );
-    if( get_part_hp_cur( id ) <= 0 ) {
-        cached_dead_state.reset();
+    if( get_part_hp_cur( id ) > 0 ) {
+        Creature::mod_part_hp_cur( id, set );
+        if( get_part_hp_cur( id ) <= 0 ) {
+            cached_dead_state.reset();
+        }
+    } else {
+        Creature::mod_part_hp_cur( id, set );
+        if( get_part_hp_cur( id ) > 0 ) {
+            cached_dead_state.reset();
+        }
     }
 }
 
