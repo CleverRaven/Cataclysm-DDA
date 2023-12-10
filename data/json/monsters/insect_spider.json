@@ -381,6 +381,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
+    "fungalize_into": "mon_bee_small_fungus",
     "upgrades": { "half_life": 30, "into": "mon_bee" }
   },
   {
@@ -419,6 +420,7 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_bee_mega" },
     "zombify_into": "mon_meat_cocoon_small",
+    "fungalize_into": "mon_bee_fungus",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 4, "cut": 6, "bullet": 5 }
   },
@@ -436,6 +438,7 @@
     "dissect": "dissect_insect_sample_small",
     "special_attacks": [ { "id": "impale" } ],
     "zombify_into": "mon_meat_cocoon_large",
+    "fungalize_into": "mon_bee_mega_fungus",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
   },
