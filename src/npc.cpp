@@ -1714,7 +1714,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
             continue;
         }
         u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.coverage_with_flags_exclude( bp, { flag_TRANSPARENT } ) / 100 );
+        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
     }
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
