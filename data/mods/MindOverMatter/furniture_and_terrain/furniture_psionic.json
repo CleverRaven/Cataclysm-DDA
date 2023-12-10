@@ -1,22 +1,5 @@
 [
   {
-    "type": "construction",
-    "id": "teleporter_attuned_ground",
-    "group": "teleporter_attune",
-    "category": "OTHER",
-    "required_skills": [ [ "metaphysics", 4 ] ],
-    "time": "120 m",
-    "components": [  ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_teleporter_attuned_ground",
-    "activity_level": "NO_EXERCISE"
-  },
-  {
-    "type": "construction_group",
-    "id": "teleporter_attune",
-    "name": "[Ψ]Attune to area"
-  },
-  {
     "type": "furniture",
     "id": "f_teleporter_attuned_ground",
     "name": "[Ψ]Attuned ground",
