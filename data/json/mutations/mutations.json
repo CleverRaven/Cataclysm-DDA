@@ -3889,7 +3889,7 @@
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
-    "description": "Several ink glands have developed inside your gill structure. When active they will spray defensive ink and blind an attacker in an emergency.",
+    "description": "Several ink glands have developed in your gill structure.  When active, they will spray defensive ink and blind an attacker in an emergency.",
     "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "ink_gland_spray_primer", "once_in": 2, "hit_self": true } ] } ],
     "prereqs": [ "GILLS_CEPH" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
