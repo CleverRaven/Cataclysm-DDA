@@ -614,7 +614,7 @@
     "type": "SPELL",
     "name": "[Ψ]Attune to Area",
     "description": "Attune to a location for later teleporting.",
-    "message": "You spend enough time memorizing the area that you could definitely return to it later.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
