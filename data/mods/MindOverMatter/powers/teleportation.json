@@ -28,7 +28,13 @@
     "base_casting_time": 50,
     "final_casting_time": 0,
     "casting_time_increment": -4,
-    "learn_spells": { "teleport_phase": 5, "teleport_transpose": 8, "teleport_farstep": 12, "teleport_gateway": 18 }
+    "learn_spells": {
+      "teleport_phase": 5,
+      "teleport_transpose": 8,
+      "teleport_farstep": 12,
+      "teleport_gateway": 18,
+      "teleport_attune_ground": 18
+    }
   },
   {
     "id": "teleport_slow",
@@ -97,7 +103,7 @@
     "base_casting_time": 65,
     "final_casting_time": 15,
     "casting_time_increment": -3,
-    "learn_spells": { "teleport_transpose": 4, "teleport_stride": 9, "teleport_gateway": 14 }
+    "learn_spells": { "teleport_transpose": 4, "teleport_stride": 9, "teleport_gateway": 15, "teleport_attune_ground": 15 }
   },
   {
     "id": "teleport_stride",
@@ -220,7 +226,13 @@
     "final_casting_time": 45,
     "casting_time_increment": -2,
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_displacement": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
+    "learn_spells": {
+      "teleport_displacement": 4,
+      "teleport_banish": 9,
+      "teleport_gateway": 12,
+      "teleport_attune_ground": 12,
+      "teleport_summon": 15
+    }
   },
   {
     "id": "teleport_collapse_01",
@@ -532,7 +544,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_gateway": 9, "teleport_banish": 12 }
+    "learn_spells": { "teleport_attune_ground": 9, "teleport_gateway": 9, "teleport_banish": 12 }
   },
   {
     "id": "teleport_banish",
@@ -576,7 +588,7 @@
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",
-    "description": "Teleport to an attuned location [use the Construct menu to attune].",
+    "description": "Transport yourself through the Nether to an attuned location.  You must attune yourself to the place you wish to travel to.",
     "message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -595,7 +607,28 @@
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "teleport_banish": 6 }
+    "learn_spells": { "teleport_attune_ground": 1, "teleport_banish": 6 }
+  },
+  {
+    "id": "teleport_area_attune",
+    "type": "SPELL",
+    "name": "[Ψ]Attune to Area",
+    "description": "Attune to a location for later teleporting.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_teleport_location_attune",
+    "shape": "blast",
+    "min_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "2880000 - max(( u_val('spell_level', 'spell: teleport_gateway') * 108000), 180000)" ] }
   },
   {
     "id": "teleport_summon",
