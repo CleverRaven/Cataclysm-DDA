@@ -435,7 +435,7 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    ifeq ($(LIBBACKTRACE), 1)
+    ifeq ($(BACKTRACE), 1)
       DEBUGSYMS = -g1
     else
       DEBUGSYMS =

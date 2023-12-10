@@ -38,18 +38,7 @@
 #include "creature_tracker.h"
 
 static const item_group_id Item_spawn_data_field( "field" );
-static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
 
-static const oter_str_id oter_forest_thick( "forest_thick" );
-static const oter_str_id oter_forest_trail_end_east( "forest_trail_end_east" );
-static const oter_str_id oter_forest_trail_end_west( "forest_trail_end_west" );
-static const oter_str_id oter_forest_trail_es( "forest_trail_es" );
-static const oter_str_id oter_forest_trail_esw( "forest_trail_esw" );
-static const oter_str_id oter_forest_trail_ew( "forest_trail_ew" );
-static const oter_str_id oter_forest_trail_new( "forest_trail_new" );
-static const oter_str_id oter_forest_trail_nsw( "forest_trail_nsw" );
-static const oter_str_id oter_forest_trail_sw( "forest_trail_sw" );
-static const oter_str_id oter_forest_trail_wn( "forest_trail_wn" );
 static const oter_str_id oter_hellmouth( "hellmouth" );
 static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
@@ -107,12 +96,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "null",             &mapgen_null },
             { "field",            &mapgen_field },
             { "forest",           &mapgen_forest },
-            { "forest_trail_straight",    &mapgen_forest_trail_straight },
-            { "forest_trail_curved",      &mapgen_forest_trail_curved },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
-            { "forest_trail_end",         &mapgen_forest_trail_straight },
-            { "forest_trail_tee",         &mapgen_forest_trail_tee },
-            { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "field",            &mapgen_field },
             { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
@@ -1365,163 +1348,6 @@ void mapgen_forest( mapgendata &dat )
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
                         point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     }
-}
-
-void mapgen_forest_trail_straight( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
-    mapgen_forest( forest_mapgen_dat );
-
-    const auto center_offset = [&dat]() {
-        return rng( -dat.region.forest_trail.trail_center_variance,
-                    dat.region.forest_trail.trail_center_variance );
-    };
-
-    const auto width_offset = [&dat]() {
-        return rng( dat.region.forest_trail.trail_width_offset_min,
-                    dat.region.forest_trail.trail_width_offset_max );
-    };
-
-    point center( SEEX + center_offset(), SEEY + center_offset() );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i > center.x - width_offset() && i < center.x + width_offset() ) {
-                m->furn_set( point( i, j ), f_null );
-                m->ter_set( point( i, j ), *dat.region.forest_trail.trail_terrain.pick() );
-            }
-        }
-    }
-
-    if( dat.terrain_type() == oter_forest_trail_ew
-        || dat.terrain_type() == oter_forest_trail_end_east
-        || dat.terrain_type() == oter_forest_trail_end_west ) {
-        m->rotate( 1 );
-    }
-
-    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
-                    center + point( 2, 2 ), true, dat.when() );
-}
-
-void mapgen_forest_trail_curved( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
-    mapgen_forest( forest_mapgen_dat );
-
-    const auto center_offset = [&dat]() {
-        return rng( -dat.region.forest_trail.trail_center_variance,
-                    dat.region.forest_trail.trail_center_variance );
-    };
-
-    const auto width_offset = [&dat]() {
-        return rng( dat.region.forest_trail.trail_width_offset_min,
-                    dat.region.forest_trail.trail_width_offset_max );
-    };
-
-    point center( SEEX + center_offset(), SEEY + center_offset() );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i > center.x - width_offset() && i < center.x + width_offset() &&
-                  j < center.y + width_offset() ) ||
-                ( j > center.y - width_offset() && j < center.y + width_offset() &&
-                  i > center.x - width_offset() ) ) {
-                m->furn_set( point( i, j ), f_null );
-                m->ter_set( point( i, j ), *dat.region.forest_trail.trail_terrain.pick() );
-            }
-        }
-    }
-
-    if( dat.terrain_type() == oter_forest_trail_es ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == oter_forest_trail_sw ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == oter_forest_trail_wn ) {
-        m->rotate( 3 );
-    }
-
-    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
-                    center + point( 2, 2 ), true, dat.when() );
-}
-
-void mapgen_forest_trail_tee( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
-    mapgen_forest( forest_mapgen_dat );
-
-    const auto center_offset = [&dat]() {
-        return rng( -dat.region.forest_trail.trail_center_variance,
-                    dat.region.forest_trail.trail_center_variance );
-    };
-
-    const auto width_offset = [&dat]() {
-        return rng( dat.region.forest_trail.trail_width_offset_min,
-                    dat.region.forest_trail.trail_width_offset_max );
-    };
-
-    point center( SEEX + center_offset(), SEEY + center_offset() );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i > center.x - width_offset() && i < center.x + width_offset() ) ||
-                ( j > center.y - width_offset() &&
-                  j < center.y + width_offset() && i > center.x - width_offset() ) ) {
-                m->furn_set( point( i, j ), f_null );
-                m->ter_set( point( i, j ), *dat.region.forest_trail.trail_terrain.pick() );
-            }
-        }
-    }
-
-    if( dat.terrain_type() == oter_forest_trail_esw ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == oter_forest_trail_nsw ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == oter_forest_trail_new ) {
-        m->rotate( 3 );
-    }
-
-    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
-                    center + point( 2, 2 ), true, dat.when() );
-}
-
-void mapgen_forest_trail_four_way( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
-    mapgen_forest( forest_mapgen_dat );
-
-    const auto center_offset = [&dat]() {
-        return rng( -dat.region.forest_trail.trail_center_variance,
-                    dat.region.forest_trail.trail_center_variance );
-    };
-
-    const auto width_offset = [&dat]() {
-        return rng( dat.region.forest_trail.trail_width_offset_min,
-                    dat.region.forest_trail.trail_width_offset_max );
-    };
-
-    point center( SEEX + center_offset(), SEEY + center_offset() );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i > center.x - width_offset() && i < center.x + width_offset() ) ||
-                ( j > center.y - width_offset() &&
-                  j < center.y + width_offset() ) ) {
-                m->furn_set( point( i, j ), f_null );
-                m->ter_set( point( i, j ), *dat.region.forest_trail.trail_terrain.pick() );
-            }
-        }
-    }
-
-    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
-                    center + point( 2, 2 ), true, dat.when() );
 }
 
 void mapgen_lake_shore( mapgendata &dat )

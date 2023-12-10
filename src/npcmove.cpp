@@ -4374,7 +4374,8 @@ bool npc::consume_food_from_camp()
     if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
-        int desired_kcals = std::min( 2500, std::max( 0, kcal_threshold + 100 - current_kcals ) );
+        int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
+                                      kcal_threshold + 100 - current_kcals ) );
         int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
 
         if( kcals_to_eat > 0 ) {

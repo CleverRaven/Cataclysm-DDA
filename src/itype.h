@@ -114,6 +114,9 @@ struct islot_tool {
     std::vector<int> rand_charges;
 };
 
+constexpr float base_metabolic_rate =
+    2500.0f;  // kcal / day, standard average for human male, but game does not differentiate genders here.
+
 struct islot_comestible {
     public:
         friend Item_factory;
@@ -179,7 +182,7 @@ struct islot_comestible {
         int monotony_penalty = 2;
 
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
-        static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+        static constexpr float kcal_per_nutr = base_metabolic_rate / ( 12 * 24 );
 
         bool has_calories() const {
             return default_nutrition.calories > 0;

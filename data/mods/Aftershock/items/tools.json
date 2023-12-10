@@ -583,6 +583,23 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "syringe",
+    "type": "TOOL",
+    "name": { "str": "jet injector" },
+    "description": "A compact jet injector from a first aid kit.  A light based assistive injection system allows use without any medical training.",
+    "weight": "4240 mg",
+    "volume": "10ml",
+    "longest_side": "10 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
+    "price": "2 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "stab": 1 }
+  },
+  {
     "id": "diamond_press",
     "type": "GENERIC",
     "category": "tools",
