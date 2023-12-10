@@ -363,51 +363,47 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
     }
 }
 
-static void load_overmap_lake_settings( const JsonObject &jo,
-                                        overmap_lake_settings &overmap_lake_settings,
-                                        const bool strict, const bool overlay )
+
+namespace
 {
-    if( !jo.has_object( "overmap_lake_settings" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"overmap_lake_settings\": { … } required for default" );
-        }
-    } else {
-        JsonObject overmap_lake_settings_jo = jo.get_object( "overmap_lake_settings" );
-        read_and_set_or_throw<double>( overmap_lake_settings_jo, "noise_threshold_lake",
-                                       overmap_lake_settings.noise_threshold_lake, !overlay );
-        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
-                                    overmap_lake_settings.lake_size_min, !overlay );
-        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_depth",
-                                    overmap_lake_settings.lake_depth, !overlay );
+generic_factory<om_settings_lake> om_lake_factory( "om_settings_lake" );
+} // namespace
 
-        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
-            if( !overlay ) {
-                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain required" );
-            }
-        } else {
-            const std::vector<std::string> from_json =
-                overmap_lake_settings_jo.get_string_array( "shore_extendable_overmap_terrain" );
-            overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.insert(
-                overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.end(), from_json.begin(),
-                from_json.end() );
-        }
-
-        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain_aliases" ) ) {
-            if( !overlay ) {
-                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
-            }
-        } else {
-            for( JsonObject alias_entry :
-                 overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
-                shore_extendable_overmap_terrain_alias alias;
-                alias_entry.read( "om_terrain", alias.overmap_terrain );
-                alias_entry.read( "alias", alias.alias );
-                alias.match_type = alias_entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                   ot_match_type::contains );
-                overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
-            }
-        }
-    }
+template<>
+const om_settings_lake &string_id<om_settings_lake>::obj() const
+{
+    return om_lake_factory.obj( *this );
+}
+template<>
+bool string_id<om_settings_lake>::is_valid() const
+{
+    return om_lake_factory.is_valid( *this );
+}
+void om_settings_lake::load_om_settings_lake( const JsonObject &jo, const std::string &src )
+{
+    om_lake_factory.load( jo, src );
+}
+void om_settings_lake::load( const JsonObject &jo, const std::string_view )
+{
+    // if these settings aren't loaded, we just revert to the defaults.
+    optional( jo, was_loaded, "noise_threshold_lake", noise_threshold_lake );
+    optional( jo, was_loaded, "lake_size_min", lake_size_min );
+    optional( jo, was_loaded, "lake_depth", lake_depth );
+    optional( jo, was_loaded, "shore_extendable_overmap_terrain", shore_extendable_overmap_terrain );
+    optional( jo, was_loaded, "shore_extendable_overmap_terrain_aliases",
+              shore_extendable_overmap_terrain_aliases );
+}
+const std::vector<om_settings_lake> &om_settings_lake::get_all()
+{
+    return om_lake_factory.get_all();
+}
+void om_settings_lake::reset_om_settings_lake()
+{
+    om_lake_factory.reset();
+}
+bool om_settings_lake::is_valid() const
+{
+    return om_lake_factory.is_valid( this->id );
 }
 
 static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
@@ -618,11 +614,11 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
-    load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
-
     optional( jo, false, "overmap_forest_settings", new_region.overmap_forest, bogus_forest_id );
 
     optional( jo, false, "overmap_ravine_settings", new_region.overmap_ravine, bogus_ravine_id );
+
+    optional( jo, false, "overmap_lake_settings", new_region.overmap_lake, bogus_lake_id );
 
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
@@ -811,8 +807,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
-    load_overmap_lake_settings( jo, region.overmap_lake, false, true );
-
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
 
@@ -996,7 +990,7 @@ void forest_trail_settings::finalize()
 {
     trailheads.finalize();
 }
-
+/*
 void overmap_lake_settings::finalize()
 {
     for( const std::string &oid : unfinalized_shore_extendable_overmap_terrain ) {
@@ -1017,7 +1011,7 @@ void overmap_lake_settings::finalize()
             continue;
         }
     }
-}
+}*/
 
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
@@ -1108,7 +1102,6 @@ void regional_settings::finalize()
         city_spec.finalize();
         forest_composition.finalize();
         forest_trail.finalize();
-        overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
         for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {

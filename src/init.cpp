@@ -417,6 +417,7 @@ void DynamicDataLoader::initialize()
     add( "mapgen", &load_mapgen );
     add( "om_settings_forest", &om_settings_forest::load_om_settings_forest );
     add( "om_settings_ravine", &om_settings_ravine::load_om_settings_ravine );
+    add( "om_settings_lake", &om_settings_lake::load_om_settings_lake );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
@@ -609,6 +610,7 @@ void DynamicDataLoader::unload_data()
     npc_template::reset();
     om_settings_forest::reset_om_settings_forest();
     om_settings_ravine::reset_om_settings_ravine();
+    om_settings_lake::reset_om_settings_lake();
     option_slider::reset();
     overmap_connections::reset();
     overmap_land_use_codes::reset();

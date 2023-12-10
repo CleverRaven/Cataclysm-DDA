@@ -4531,7 +4531,7 @@ void overmap::place_lakes()
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
 
     const auto is_lake = [&]( const point_om_omt & p ) {
-        return f.noise_at( p ) > settings->overmap_lake.noise_threshold_lake;
+        return f.noise_at( p ) > settings->overmap_lake->noise_threshold_lake;
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -4563,7 +4563,7 @@ void overmap::place_lakes()
             // exclude the tiny lakes that don't provide interesting map features and exist mostly as a
             // noise artifact.
             if( lake_points.size() < static_cast<std::vector<point>::size_type>
-                ( settings->overmap_lake.lake_size_min ) ) {
+                ( settings->overmap_lake->lake_size_min ) ) {
                 continue;
             }
 
@@ -4610,10 +4610,10 @@ void overmap::place_lakes()
 
                 // If this is not a shore, we'll make our subsurface lake cubes and beds.
                 if( !shore ) {
-                    for( int z = -1; z > settings->overmap_lake.lake_depth; z-- ) {
+                    for( int z = -1; z > settings->overmap_lake->lake_depth; z-- ) {
                         ter_set( tripoint_om_omt( p, z ), lake_water_cube );
                     }
-                    ter_set( tripoint_om_omt( p, settings->overmap_lake.lake_depth ), lake_bed );
+                    ter_set( tripoint_om_omt( p, settings->overmap_lake->lake_depth ), lake_bed );
                 }
             }
 
