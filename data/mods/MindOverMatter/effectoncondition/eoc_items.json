@@ -143,14 +143,45 @@
     "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP",
     "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
     "effect": [
-      { "u_message": "The transporter remote emits a small beep.", "type": "neutral" },
-      { "u_make_sound": "", "volume": 2, "type": "music" },
+      { "u_make_sound": "The transporter remote emits a small beep", "volume": 2, "type": "music" },
       { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP",
-    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } }
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": {
+      "run_eoc_selector": [ "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES", "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO" ],
+      "names": [ "Confirm the Coordinates", "Turn the remove off" ],
+      "keys": [ "1", "2" ],
+      "descriptions": [ "Activate the remote and transport yourself to your destination.", "Turn the remote off for now." ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": [
+      { "u_cast_spell": { "id": "teleport_gateway", "hit_self": true } },
+      { "u_consume_item": "psionic_transporter_remote_on" },
+      { "u_spawn_item": "psionic_transporter_remote_broken", "count": 1, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": [
+      {
+        "u_message": "Instead of confirming the destination, you press the button and turn the transporter remote off.",
+        "type": "neutral"
+      },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "psionic_transporter_remote_on" } ],
+        "true_eocs": [ { "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO_2", "effect": { "u_activate": "transform" } } ]
+      }
+    ]
   }
 ]

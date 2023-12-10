@@ -3,10 +3,16 @@
     "id": "psionic_transporter_remote",
     "type": "TOOL",
     "name": { "str": "transporter remote" },
-    "description": "A cellphone, an older cousin of the smartphone that is still popular in certain circles due to its reliability, sturdiness, and ability to run on common batteries.  Using the phone will turn it on and provide light, assuming it is sufficiently charged.  It also tells the time and has an alarm feature.",
-    "weight": "200 g",
-    "volume": "150 ml",
-    "material": [ { "type": "plastic", "portion": 75 }, { "type": "metal", "portion": 20 }, { "type": "nether_crystal", "portion": 5 } ],
+    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array is stick out of the side like an antenna.  There is a small screen on the front, currently off.",
+    "weight": "500 g",
+    "volume": "350 ml",
+    "longest_side": "15 cm",
+    "material": [
+      { "type": "plastic", "portion": 75 },
+      { "type": "steel", "portion": 5 },
+      { "type": "alien_liquid", "portion": 5 },
+      { "type": "nether_crystal", "portion": 5 }
+    ],
     "price": 9000,
     "price_postapoc": 100,
     "symbol": ";",
@@ -34,11 +40,12 @@
   {
     "id": "psionic_transporter_remote_on",
     "type": "TOOL",
-    "name": { "str": "active transporter remote" },
-    "description": "A cellphone, an older cousin of the smartphone that is still popular in certain circles due to its reliability, sturdiness, and ability to run on common batteries.  Using the phone will turn it on and provide light, assuming it is sufficiently charged.  It also tells the time and has an alarm feature.",
-    "weight": "200 g",
-    "volume": "150 ml",
-    "material": [ { "type": "plastic", "portion": 75 }, { "type": "metal", "portion": 20 }, { "type": "nether_crystal", "portion": 5 } ],
+    "name": { "str": "transporter remote (searching)" },
+    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array is stick out of the side like an antenna.  There is a small screen on the front, currently running what looks like a series of mathematical calculations.",
+    "weight": "500 g",
+    "volume": "350 ml",
+    "longest_side": "15 cm",
+    "material": [ { "type": "plastic", "portion": 85 }, { "type": "steel", "portion": 10 }, { "type": "nether_crystal", "portion": 5 } ],
     "price": 9000,
     "price_postapoc": 100,
     "symbol": ";",
@@ -71,7 +78,7 @@
       }
     ],
     "copy-from": "psionic_transporter_remote",
-    "power_draw": "2500 mW",
+    "power_draw": "25000 mW",
     "revert_to": "psionic_transporter_remote"
   }
 ]

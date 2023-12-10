@@ -15,6 +15,7 @@
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },
+      { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_integrated_circuits" }
@@ -54,6 +55,7 @@
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },
+      { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_integrated_circuits" }
@@ -64,6 +66,7 @@
       [ [ "psionic_serum_base", 1 ] ],
       [ [ "matrix_crystal_teleport_dust_refined", 1 ] ],
       [ [ "matrix_crystal_clair_dust_refined", 1 ] ],
+      [ [ "matrix_channeling_tool", 1 ] ],
       [ [ "plastic_chunk", 1 ] ],
       [ [ "e_scrap", 1 ] ],
       [ [ "RAM", 2 ] ],
