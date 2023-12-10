@@ -387,7 +387,7 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
                 added_tool->link->last_processed = calendar::turn;
                 added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() +
                                                tripoint_north )->vehicle().get_safe_reference();
-                added_tool->set_link_traits();
+                added_tool->update_link_traits();
                 REQUIRE( added_tool->link->t_veh_safe );
             }
         } else {

@@ -1480,7 +1480,7 @@ class item : public visitable
          * @brief efficiency is set to the product of all efficiencies multiplied together.
          * @param assign_t_state If true, set the t_state based on the parts at the connection point. Defaults to false.
          */
-        void set_link_traits( bool assign_t_state = false );
+        void update_link_traits( bool assign_t_state = false );
 
         /**
          * @return The link's current length.

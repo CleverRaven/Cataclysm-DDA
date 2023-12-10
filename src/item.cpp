@@ -13257,7 +13257,7 @@ bool item::can_link_up() const
     return !!link || type->can_use( "link_up" );
 }
 
-void item::set_link_traits( const bool assign_t_state )
+void item::update_link_traits( const bool assign_t_state )
 {
     if( !can_link_up() ) {
         return;
@@ -13647,7 +13647,7 @@ bool item::reset_link( Character *p, int vpart_index,
     if( !cables().empty() ) {
         // If there are extensions, keep link active to maintain max_length.
         link = cata::make_value<item::link_data>();
-        set_link_traits();
+        update_link_traits();
     }
     return has_flag( flag_NO_DROP );
 }

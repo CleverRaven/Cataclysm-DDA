@@ -430,7 +430,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     cord.link = cata::make_value<item::link_data>();
     cord.link->t_state = link_state::vehicle_port;
     cord.link->t_abs_pos = here.getglobal( src_pos );
-    cord.set_link_traits();
+    cord.update_link_traits();
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );
     const optional_vpart_position source_vp = here.veh_at( src_pos );

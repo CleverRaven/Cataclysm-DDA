@@ -4417,7 +4417,7 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
     const bool no_extensions = it.cables().empty();
     item dummy( it );
     dummy.link = cata::make_value<item::link_data>();
-    dummy.set_link_traits();
+    dummy.update_link_traits();
 
     std::string length_all_info = string_format( _( "<bold>Cable length</bold>: %d" ),
                                   dummy.max_link_length() );
@@ -4692,7 +4692,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             it.link->s_state = link_state::bio_cable;
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
         }
-        it.set_link_traits();
+        it.update_link_traits();
         it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
@@ -4731,7 +4731,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
         it.link->s_state = link_state::ups;
         loc->set_var( "cable", "plugged_in" );
-        it.set_link_traits();
+        it.update_link_traits();
         it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
@@ -4770,7 +4770,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
         it.link->s_state = link_state::solarpack;
         loc->set_var( "cable", "plugged_in" );
-        it.set_link_traits();
+        it.update_link_traits();
         it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
@@ -4847,7 +4847,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         it.link->t_state = to_ports ? link_state::vehicle_port : link_state::vehicle_battery;
         it.link->t_abs_pos = here.getglobal( s_vp->vehicle().global_pos3() );
         it.link->t_mount = s_vp->mount();
-        it.set_link_traits();
+        it.update_link_traits();
         it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
@@ -5007,7 +5007,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         it.link->t_abs_pos = here.getglobal( s_vp->vehicle().global_pos3() );
         it.link->t_mount = s_vp->mount();
         it.link->max_length = cable_length != -1 ? cable_length : it.type->maximum_charges();
-        it.set_link_traits();
+        it.update_link_traits();
         it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
@@ -5187,7 +5187,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
     if( extension->link ) {
         extended_ptr->link = extension->link;
     }
-    extended_ptr->set_link_traits();
+    extended_ptr->update_link_traits();
 
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
@@ -5258,7 +5258,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
     if( it.link ) {
         // If the item was linked, keep the extension cables linked.
         cable_main_copy.link = it.link;
-        cable_main_copy.set_link_traits();
+        cable_main_copy.update_link_traits();
         cable_main_copy.process( get_map(), p, p->pos() );
         it.reset_link( p );
     }

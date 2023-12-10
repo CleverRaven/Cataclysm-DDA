@@ -8085,7 +8085,7 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
             tmp.link->t_abs_pos = tripoint_abs_ms( vp.target.second );
         }
 
-        tmp.set_link_traits( true );
+        tmp.update_link_traits( true );
         tmp.link->last_processed = calendar::turn;
     }
 
