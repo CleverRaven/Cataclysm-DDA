@@ -2438,7 +2438,7 @@
     "points": 1,
     "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
     "types": [ "EYES" ],
-    "prereqs": [ "LIGHTFUR" ],
+    "prereqs": [ "LIGHTFUR", "LUPINE_FUR", "LUPINE_FUR_SUMMER" ],
     "category": [ "LUPINE" ],
     "mixed_effect": true,
     "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
@@ -3026,10 +3026,10 @@
     "ugliness": 2,
     "bodytemp_sleep": 75,
     "description": "Light fur has grown to cover your entire body, providing marginal protection against attacks and slight protection from cold.",
-    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ],
+    "category": [ "MOUSE", "BEAST", "RAT", "LUPINE", "URSINE", "FELINE", "RABBIT", "CATTLE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "HIRSUTE" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR" ],
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR", "LUPINE_FUR_SUMMER" ],
     "integrated_armor": [ "integrated_lightfur" ]
   },
   {
@@ -3042,7 +3042,7 @@
     "bodytemp_sleep": 200,
     "description": "Thick black fur has grown to cover your entire body, providing minor protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
-    "changes_to": [ "URSINE_FUR" ],
+    "changes_to": [ "URSINE_FUR", "URSINE_FUR_SUMMER" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "CATTLE", "RAT", "URSINE" ],
     "integrated_armor": [ "integrated_fur" ]
@@ -3211,7 +3211,7 @@
     ],
     "category": [ "CHIMERA" ],
     "threshreq": [ "THRESH_CHIMERA" ],
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "prereqs": [ "PATCHSKIN2" ],
     "integrated_armor": [ "integrated_patchskin3" ]
   },
@@ -3653,7 +3653,7 @@
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "types": [ "HAIR" ],
     "prereqs": [ "PLANTSKIN", "BARK" ],
-    "changes_to": [ "LEAVES2" ],
+    "changes_to": [ "LEAVES2", "LEAVES2_FALL", "LEAVES2_WINTER", "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
     "category": [ "PLANT", "ELFA" ],
     "prevented_by": [ "LEAVES_WINTER" ],
     "wet_protection": [ { "part": "head", "ignored": 1 } ]
@@ -3667,7 +3667,7 @@
     "ugliness": 2,
     "description": "In place of hair, you have long, grassy leaves which have gone dormant for the winter, turning dry and yellow like straw.  They help keep you warm, but that's about it.",
     "types": [ "HAIR" ],
-    "leads_to": [ "LEAVES2" ],
+    "leads_to": [ "LEAVES2", "LEAVES2_FALL", "LEAVES2_WINTER", "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
     "bodytemp_modifiers": [ 25, 125 ]
   },
   {
@@ -3683,7 +3683,7 @@
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "LEAVES_WINTER" ],
-    "changes_to": [ "LEAVES3" ],
+    "changes_to": [ "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
     "category": [ "PLANT" ],
     "flags": [ "GLARE_RESIST" ],
     "prevented_by": [ "LEAVES2_WINTER", "LEAVES2_FALL" ],
@@ -5732,11 +5732,11 @@
   {
     "type": "mutation",
     "id": "CANINE_EARS",
-    "name": { "str": "Canine Ears" },
+    "name": { "str": "Animal Ears" },
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
-    "description": "Your ears have extended into long, pointed ones, like those of a canine.  They enhance your hearing, allowing you to hear at greater distances.",
+    "description": "You have large ears with broad pinnae, like a dog or a cow.  They enhance your hearing, allowing you to hear at greater distances.",
     "types": [ "EARS" ],
     "category": [ "BEAST", "CATTLE", "CHIMERA", "LUPINE" ],
     "changes_to": [ "LUPINE_EARS" ],
@@ -5751,6 +5751,7 @@
     "ugliness": 1,
     "description": "Your hearing has evolved further and is now on par with that of wolves.  You can hear things significantly farther away.",
     "types": [ "EARS" ],
+    "prereqs": [ "CANINE_EARS" ],
     "category": [ "LUPINE" ],
     "hearing_modifier": 1.75
   },

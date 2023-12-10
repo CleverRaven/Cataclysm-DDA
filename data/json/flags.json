@@ -2361,7 +2361,6 @@
   {
     "id": "TRANSPARENT",
     "type": "json_flag",
-    "info": "This is transparent and <info>won't block light</info> from hitting the wearer.",
-    "//": "This item is transparent and does not block sunlight or hide mutations."
+    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
   }
 ]
