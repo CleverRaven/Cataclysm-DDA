@@ -63,7 +63,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     tripoint_abs_ms abs_ms( here.getabs( target ) );
     //The teleportee is dimensionally anchored so nothing happens
     if( !force && p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) || 
+                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                          p->has_effect_with_flag( json_flag_TELEPORT_LOCK ) ) ) {
         if( display_message ) {
             p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
