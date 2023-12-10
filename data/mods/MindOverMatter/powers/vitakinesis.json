@@ -322,7 +322,7 @@
     "type": "SPELL",
     "name": "[Ψ]Allay Infection",
     "description": "Before you could stop your bleeding with but a thought.  Now, you can treat infected wounds with your powers as well.",
-    "message": "You concentrate on the injuries, and the itching eases [(a)ctivate to disinfect].",
+    "message": "You concentrate on the injuries, and the itching eases.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
