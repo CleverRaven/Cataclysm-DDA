@@ -960,12 +960,12 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::loses_mutation: {
-            character_id ch = e.get<character_id>("character");
-            if (ch == avatar_id) {
-                trait_id trait = e.get<trait_id>("trait");
-                add(pgettext("memorial_male", "Lost the mutation '%s'."),
-                    pgettext("memorial_female", "Lost the mutation '%s'."),
-                    get_avatar().mutation_name(trait));
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                trait_id trait = e.get<trait_id>( "trait" );
+                add( pgettext( "memorial_male", "Lost the mutation '%s'." ),
+                     pgettext( "memorial_female", "Lost the mutation '%s'." ),
+                     get_avatar().mutation_name( trait ) );
             }
             break;
         }
