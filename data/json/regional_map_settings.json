@@ -378,6 +378,15 @@
       },
       "boosted_other_percent": 50.0
     },
+    "overmap_ocean_settings": {
+      "noise_threshold_ocean": 0.25,
+      "ocean_size_min": 100,
+      "ocean_depth": -9,
+      "ocean_start_north": 500,
+      "ocean_start_east": 10,
+      "ocean_start_west": 1000,
+      "ocean_start_south": 0
+    },
     "forest_mapgen_settings": {
       "forest": {
         "terrains": [ "forest", "special_forest" ],

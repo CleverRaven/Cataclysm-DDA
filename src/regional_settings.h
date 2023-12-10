@@ -255,6 +255,16 @@ struct om_settings_lake {
     static void reset_om_settings_lake();
 };
 
+struct overmap_ocean_settings {
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 0;
+    int ocean_start_east = 10;
+    int ocean_start_west = 0;
+    int ocean_start_south = 0;
+    overmap_ocean_settings() = default;
+};
 
 struct map_extras {
     unsigned int chance;
@@ -298,6 +308,7 @@ struct regional_settings {
     om_settings_forest_id overmap_forest;
     om_settings_ravine_id overmap_ravine;
     om_settings_lake_id overmap_lake;
+    overmap_ocean_settings overmap_ocean;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
