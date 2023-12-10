@@ -2,14 +2,14 @@
   {
     "id": "410shot_slug",
     "type": "AMMO",
-    "name": { "str": ".410 slug" },
+    "name": { "str_sp": ".410 slug" },
     "description": "A .410 shotshell loaded with a 110gr slug.  Decent for hunting medium game or possibly self-defense.",
     "ascii_picture": "410shot_000",
     "weight": "27 g",
     "volume": "170 ml",
     "longest_side": "70 mm",
-    "price": 175,
-    "price_postapoc": 800,
+    "price": 350,
+    "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "plastic", "powder", "lead" ],
     "symbol": "=",
@@ -75,9 +75,9 @@
     "id": "bp_410shot_slug",
     "copy-from": "reloaded_410shot_slug",
     "type": "AMMO",
-    "name": { "str": ".410 slug, black powder", "str_pl": ".410 slug, black powder" },
+    "name": { "str_sp": ".410 slug, black powder" },
     "description": "A .410 shotshell loaded with a slug, for hunting medium game or possibly self-defense, and black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "price_postapoc": 0.6,  "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -92,6 +92,7 @@
     "shot_damage": { "damage_type": "bullet", "amount": 14 },
     "projectile_count": 5,
     "shot_spread": 300,
+    "proportional": { "price": 1.333, "price_postapoc": 1.333 },
     "relative": { "damage": { "damage_type": "bullet", "amount": 1, "armor_penetration": -4 } },
     "recoil": 1350,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -110,9 +111,9 @@
     "id": "bp_410shot_000",
     "copy-from": "reloaded_410shot_000",
     "type": "AMMO",
-    "name": { "str": ".410 000 shot, black powder", "str_pl": ".410 000 shot, black powder" },
+    "name": { "str_sp": ".410 000 shot, black powder" },
     "description": "A .410 shotshell loaded with five 000 pellets, and black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "price_postapoc": 0.6,  "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -122,12 +123,11 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 birdshot" },
     "description": "A .410 shotshell loaded with 3/8th of an ounce of #4 brass-plated steel birdshot.  Designed for hunting birds and other small game, its applications in combat are very limited.",
-    "price": 200,
-    "price_postapoc": 400,
     "//": "3/8 oz shot, 1400 FPS.",
     "shot_damage": { "damage_type": "bullet", "amount": 0.2 },
     "projectile_count": 132,
     "shot_spread": 300,
+    "proportional": { "price": 0.5, "price_postapoc": 0.5 },
     "material": [ "brass", "plastic", "powder", "steel" ],
     "relative": { "damage": { "damage_type": "bullet", "amount": -1, "armor_penetration": -4 } },
     "effects": [ "COOKOFF", "SHOT", "NOGIB" ]
@@ -148,7 +148,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 birdshot, black powder" },
     "description": "A .410 shotshell loaded with 3/8th of an ounce of birdshot, and black powder instead of smokeless powder, for hunting birds and other small game.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo. Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "price_postapoc": 0.6,  "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -158,7 +158,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 scrap shot" },
     "description": "A .410 shotshell filled with whatever scrap metal was lying around.  More damaging than birdshot, but fairly inaccurate.",
-    "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "410shot_spread": 1.2 },
+    "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -168,7 +168,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 scrap shot, black powder" },
     "description": "A .410 shotshell filled with black gunpowder and whatever scrap metal was lying around.  The logical conclusion of ammunition bootlegging.  It'll kill zombies just fine, but your gun will suffer for it.",
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 } },
+    "proportional": { "price": 0.6, "price_postapoc": 0.6,  "damage": { "damage_type": "bullet", "amount": 0.8 } },
     "extend": { "effects": [  "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   }
 ]

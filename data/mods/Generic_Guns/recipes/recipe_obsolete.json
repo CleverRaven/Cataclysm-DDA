@@ -1688,5 +1688,40 @@
     "type": "recipe",
     "result": "matchhead_10mm_jhp",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_22lr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_22lr",
+    "obsolete": true
   }
 ]

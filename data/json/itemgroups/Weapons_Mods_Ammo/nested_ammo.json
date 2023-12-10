@@ -536,12 +536,18 @@
   {
     "id": "on_hand_410shot",
     "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
+    "//": "a collection of ammo that would be found with a loaded gun.  29Slug:36Buck:184Bird.",
     "subtype": "distribution",
     "entries": [
-      { "item": "410shot_000", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "410shot_000", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "410shot_000", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "410shot_000", "prob": 720, "charges": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 540, "charges": [ 22, 40 ] },
+      { "item": "410shot_000", "prob": 216, "charges": [ 44, 80 ] },
+      { "item": "410shot_bird", "prob": 3680, "charges": [ 1, 20 ] },
+      { "item": "410shot_bird", "prob": 2760, "charges": [ 22, 40 ] },
+      { "item": "410shot_bird", "prob": 1104, "charges": [ 44, 80 ] },
+      { "item": "410shot_slug", "prob": 580, "charges": [ 1, 20 ] },
+      { "item": "410shot_slug", "prob": 435, "charges": [ 22, 40 ] },
+      { "item": "410shot_slug", "prob": 174, "charges": [ 44, 80 ] }
     ]
   },
   {

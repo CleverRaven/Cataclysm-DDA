@@ -219,7 +219,7 @@
     "id": "40x46mm_hornets_nest_410",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": { "str_sp": "40x46mm .410 000 hornet's nest" },
+    "name": { "str_sp": "40x46mm .410 hornet's nest" },
     "proportional": { "dispersion": 1.4 },
     "description": "A set of four .410 000 shotshells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
     "weight": "245 g",
@@ -237,7 +237,7 @@
     "id": "40x46mm_hornets_nest_410_slug",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": { "str_sp": "40x46mm .410 slug hornet's nest" },
+    "name": { "str_sp": "40x46mm .410 slug's nest" },
     "proportional": { "dispersion": 1.4 },
     "description": "A set of four .410 slug shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
     "weight": "245 g",
@@ -255,7 +255,7 @@
     "id": "40x46mm_hornets_nest_410_bird",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": { "str_sp": "40x46mm .410 birdshot hornet's nest" },
+    "name": { "str_sp": "40x46mm .410 bird's nest" },
     "proportional": { "dispersion": 1.4 },
     "description": "A set of four .410 birdshot shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
     "weight": "245 g",
@@ -268,5 +268,15 @@
     "projectile_count": 528,
     "shot_spread": 300,
     "casing": "40x46mm_hornets_nest_410_casing"
+  },
+  {
+    "id": "40x46mm_hornets_nest_410_scrap",
+    "copy-from": "40x46mm_hornets_nest_410",
+    "type": "AMMO",
+    "name": { "str_sp": "40x46mm .410 scrap nest" },
+    "description": "A set of four .410 'scrap-shot' shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
+    "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
