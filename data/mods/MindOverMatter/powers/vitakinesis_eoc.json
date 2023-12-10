@@ -253,9 +253,18 @@
     "effect": {
       "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')" ] },
       "cases": [
-        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } } ] },
-        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } } ] },
-        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } } ] }
+        {
+          "case": 0,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_01" } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_02" } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_03" } ]
+        }
       ]
     }
   },
