@@ -94,7 +94,7 @@
     "id": "EOC_DRAIN_RESIST_POTION_COMEDOWN_PENALTY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience_comedown" }, { "u_has_trait": "TELEPATHICDAMPENER_SHIELD" } ] },
+    "condition": { "u_has_effect": "effect_noetic_resilience_comedown" },
     "effect": [
       { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "-4" ] },
       { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "-4" ] },

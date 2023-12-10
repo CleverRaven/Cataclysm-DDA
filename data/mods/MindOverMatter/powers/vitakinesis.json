@@ -103,10 +103,14 @@
     "effect_str": "EOC_VITAKIN_HEALTH_POWER_INITIATE",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
@@ -150,10 +154,14 @@
     "max_dot": 1,
     "min_range": 1,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 400) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 1500,
@@ -185,12 +193,12 @@
     "min_range": 1,
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -221,10 +229,14 @@
     "effect_str": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 500) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_remove_poison') * 500) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 3000) + 40000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_remove_poison') * 3000) + 40000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 3500,
@@ -274,10 +286,14 @@
     "effect_str": "EOC_VITAKIN_CURE_DISEASE_INITIATE",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 4500) + 125000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_cure_disease') * 4500) + 125000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 12000) + 275000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_cure_disease') * 12000) + 275000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
@@ -411,10 +427,14 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_healing_trance') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_healing_trance') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_healing_trance') * -2) - 12) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_healing_trance') * -2) - 12) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
@@ -528,10 +548,14 @@
     "effect_str": "EOC_VITAKIN_SUPER_HEAL_INITIATE",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 3000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_super_heal') * 3000) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 6000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_super_heal') * 6000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
@@ -548,8 +572,8 @@
     "name": "Anabolic Rejuvenation Heal",
     "description": "The healing part of Anabolic Rejuvenation.",
     "valid_targets": [ "self" ],
-    "min_damage": -1,
-    "max_damage": -1,
+    "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
+    "max_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
     "effect": "attack",
     "shape": "blast",
     "flags": [ "PSIONIC", "SILENT" ]
@@ -583,10 +607,14 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_limb_restore') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_limb_restore') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_limb_restore') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_limb_restore') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
@@ -612,12 +640,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: vita_return_from_death') * 90000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: vita_return_from_death') * 90000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: vita_return_from_death') * 270000) + 1440000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: vita_return_from_death') * 270000) + 1440000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",

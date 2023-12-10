@@ -18,8 +18,12 @@
       {
         "queue_eocs": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_2",
         "time_in_future": [
-          { "math": [ "max( ( 15 - u_val('spell_level', 'spell: vita_remove_poison') ), 1)" ] },
-          { "math": [ "max( ( 120 - (u_val('spell_level', 'spell: vita_remove_poison') * 2) ), 1)" ] }
+          {
+            "math": [ "max( ( 15 - (u_val('spell_level', 'spell: vita_remove_poison') * u_nether_attunement_power_scaling) ), 1)" ]
+          },
+          {
+            "math": [ "max( ( 120 - ((u_val('spell_level', 'spell: vita_remove_poison') * u_nether_attunement_power_scaling ) * 2) ), 1)" ]
+          }
         ]
       }
     ],
@@ -51,10 +55,14 @@
         "queue_eocs": "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH_REMOVE",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 5) + 150) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_remove_poison') * 5) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_remove_poison') * 30) + 400) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_remove_poison') * 30) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -417,7 +425,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 10 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 10
+    },
     "effect": [
       { "u_message": "You feel much better.", "type": "good" },
       { "u_lose_effect": "pre_common_cold" },
@@ -453,7 +464,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 12
+    },
     "effect": [
       { "u_message": "You breathe easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
@@ -483,7 +497,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 14 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 14
+    },
     "effect": [
       { "u_message": "You body feels more normal.", "type": "good" },
       { "u_lose_trait": "CHEMIMBALANCE" },
@@ -512,7 +529,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 16 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 16
+    },
     "effect": [
       { "u_message": "You mind feels more normal.", "type": "good" },
       { "u_lose_trait": "SCHIZOPHRENIC" },
@@ -541,7 +561,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 12
+    },
     "effect": [
       { "u_message": "You muscles stop trembling.", "type": "good" },
       { "u_lose_trait": "JITTERY" },
@@ -570,7 +593,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 15 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 15
+    },
     "effect": [
       { "u_message": "You mood calms.", "type": "good" },
       { "u_lose_trait": "MOODSWINGS" },
@@ -599,7 +625,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 15 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 15
+    },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "WEAKENING" },
@@ -628,7 +657,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 13 },
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_val('spell_level', 'spell: vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 13
+    },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "NARCOLEPTIC" },
