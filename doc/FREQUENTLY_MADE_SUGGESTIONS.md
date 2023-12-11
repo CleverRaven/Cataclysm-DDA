@@ -327,7 +327,7 @@ For a better outline on what we DO want to do, see https://github.com/CleverRave
 
 From a game balance perspective zombies are very abundant and should only be used under limited lore-friendly circumstances in consumables, trivial early items or with lasting risks and drawbacks.
 
-#### Conversations with monsters and other things: Partially impelmented
+#### Conversations with monsters and other things: Partially implemented
 
 This is partially implemented already with monsters, items, furniture, as the player character can have conversations with them via NPC-style dialogue. However, support for dialogue functions is limited; you can't trade with monsters, and a significant quantity of edge cases for oddball functions remain unsupported for non-NPC talkers. Conversations with vehicles are entirely unsupported, meaning you can't talk with your car or some super-intelligent AI inside it.
 
