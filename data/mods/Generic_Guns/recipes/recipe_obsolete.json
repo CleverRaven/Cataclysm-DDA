@@ -1723,5 +1723,45 @@
     "type": "recipe",
     "result": "40x46mm_hornets_nest_22lr",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_000",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_000",
+    "obsolete": true
   }
 ]
