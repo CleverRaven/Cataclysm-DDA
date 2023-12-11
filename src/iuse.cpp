@@ -2188,9 +2188,8 @@ class exosuit_interact
             if( not_empty ) {
                 item *mod_it = pkt->all_items_top().front();
                 std::string mod_name = mod_it->tname();
-                uilist amenu;
                 //~ Prompt the player to handle the module inside the modular exoskeleton
-                amenu.text = _( "What to do with the existing module?" );
+                uilist amenu( _( "What to do with the existing module?" ) );
                 amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload everything from this %s" ),
                                 get_pocket_name( pkt ) );
                 amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Replace the %s" ), mod_name );
@@ -4049,8 +4048,7 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint &
             } );
         } );
 
-        uilist as_m;
-        as_m.text = _( "What do you want to play?" );
+        uilist as_m( _( "What do you want to play?" ) );
         as_m.entries.emplace_back( 1, true, '1', _( "robotfindskitten" ) );
         as_m.entries.emplace_back( 2, true, '2', _( "S N A K E" ) );
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
@@ -5361,8 +5359,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & 
     }
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
-            uilist pick_robot;
-            pick_robot.text = _( "Choose an endpoint to hack." );
+            uilist pick_robot( _( "Choose an endpoint to hack." ) );
             // Build a list of all unfriendly robots in range.
             // TODO: change into vector<Creature*>
             std::vector< shared_ptr_fast< monster> > mons;
@@ -5525,9 +5522,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
         if( !it->active ) {
             it->erase_var( "EIPC_MUSIC_ON" );
         }
-        uilist amenu;
-
-        amenu.text = _( "Choose menu option:" );
+        uilist amenu( _( "Choose menu option:" ) );
 
         const int photos = it->get_var( "EIPC_PHOTOS", 0 );
         if( photos > 0 ) {
@@ -5623,12 +5618,11 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
         if( ei_recipe == choice ) {
             p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 
-            uilist rmenu;
+            uilist rmenu( _( "List recipes:" ) );
             for( const recipe_id &rid : it->get_saved_recipes() ) {
                 rmenu.addentry( 0, true, 0, rid->result_name( /* decorated = */ true ) );
             }
 
-            rmenu.text = _( "List recipes:" );
             rmenu.query();
 
             return 1;
@@ -5641,9 +5635,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
 
         if( ei_monsters == choice ) {
 
-            uilist pmenu;
-
-            pmenu.text = _( "Your collection of monsters:" );
+            uilist pmenu( _( "Your collection of monsters:" ) );
 
             std::vector<mtype_id> monster_photos;
 
@@ -6466,8 +6458,7 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
         return false;
     }
 
-    uilist pmenu;
-    pmenu.text = _( "Photos saved on camera:" );
+    uilist pmenu( _( "Photos saved on camera:" ) );
 
     std::vector<std::string> descriptions;
     std::vector<item::extended_photo_def> extended_photos;
@@ -6531,8 +6522,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint & )
                                  !it->get_var( "CAMERA_EXTENDED_PHOTOS" ).empty();
     bool found_monster_photos = !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty();
 
-    uilist amenu;
-    amenu.text = _( "What to do with camera?" );
+    uilist amenu( _( "What to do with camera?" ) );
     amenu.addentry( c_shot, true, 't', _( "Take a photo" ) );
     if( !found_extended_photos && !found_monster_photos ) {
         amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
@@ -6708,9 +6698,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint & )
             p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
             return 0;
         }
-        uilist pmenu;
-
-        pmenu.text = _( "Your collection of monsters:" );
+        uilist pmenu( _( "Your collection of monsters:" ) );
 
         std::vector<mtype_id> monster_photos;
         std::vector<std::string> descriptions;
@@ -7461,8 +7449,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
         return std::nullopt;
     }
 
-    uilist menu;
-    menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
+    uilist menu( _( "Welcome to the RobotChef3000.  Choose option:" ) );
 
     item *dish_it = it->get_item_with(
     []( const item & it ) {
@@ -7562,8 +7549,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
     }
 
     if( mc_start == choice ) {
-        uilist dmenu;
-        dmenu.text = _( "Choose desired meal:" );
+        uilist dmenu( _( "Choose desired meal:" ) );
 
         std::vector<const recipe *> dishes;
 
@@ -8947,8 +8933,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
     std::vector<const item *> to_storage = book_difference( *it, *storage_card );
     std::vector<const item *> to_device = book_difference( *storage_card, *it );
 
-    uilist smenu;
-    smenu.text = _( "What to do with your storage devices:" );
+    uilist smenu( _( "What to do with your storage devices:" ) );
 
     smenu.addentry( 1, !to_device.empty(), 't', _( "Copy to device from the card" ) );
     smenu.addentry( 2, !to_storage.empty(), 'f', _( "Copy from device to the card" ) );
@@ -9133,8 +9118,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
         return false;
     };
 
-    uilist menu;
-    menu.text = _( "Choose recipe to copy" );
+    uilist menu( _( "Choose recipe to copy" ) );
     menu.hilight_disabled = true;
     menu.desc_enabled = true;
     for( const recipe *r : recipes ) {
@@ -9184,8 +9168,7 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
         return std::nullopt;
     }
 
-    uilist rmenu;
-    rmenu.text = _( "Manage recipes" );
+    uilist rmenu( _( "Manage recipes" ) );
 
     for( const recipe_id &new_recipe : recipes ) {
         std::string recipe_name = new_recipe->result_name();

@@ -1285,9 +1285,7 @@ void editmap::edit_fld()
             const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
-                shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
-
-                uilist femenu;
+                uilist femenu( _( "Choose field intensity" ) );
                 femenu.w_width_setup = width;
                 femenu.w_height_setup = infoHeight;
                 femenu.w_y_setup = [this]( int ) -> int {
@@ -1295,7 +1293,7 @@ void editmap::edit_fld()
                 };
                 femenu.w_x_setup = offsetX;
 
-                femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
+                femenu.help_text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
@@ -1424,8 +1422,6 @@ void editmap::edit_itm()
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
 
-    shared_ptr_fast<ui_adaptor> ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
-
     do {
         info_txt_curr.clear();
         info_title_curr.clear();
@@ -1465,8 +1461,6 @@ void editmap::edit_itm()
                 { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
             };
             imenu.allow_additional = true;
-
-            shared_ptr_fast<ui_adaptor> imenu_ui = imenu.create_or_get_ui_adaptor();
 
             do {
                 imenu.query();
@@ -1744,8 +1738,7 @@ int editmap::select_shape( shapetype shape, int mode )
         if( action == "RESIZE" ) {
             if( !moveall ) {
                 const int offset = 16;
-                uilist smenu;
-                smenu.text = _( "Selection type" );
+                uilist smenu( _( "Selection type" ) );
                 smenu.w_x_setup = ( offsetX + offset ) / 2;
                 smenu.addentry( editmap_rect, true, 'r', pgettext( "shape", "Rectangle" ) );
                 smenu.addentry( editmap_rect_filled, true, 'f', pgettext( "shape", "Filled Rectangle" ) );
@@ -1850,7 +1843,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
 
     uilist gpmenu;
     gpmenu.w_width_setup = width;
@@ -1882,7 +1874,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
     map &here = get_map();
 
-    int lastsel = gmenu.selected;
+    size_t lastsel = gmenu.selected;
     bool showpreview = true;
     do {
         if( gmenu.selected != lastsel ) {
@@ -1980,10 +1972,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             } else if( gpmenu.ret_act == "RIGHT" ) {
                 gmenu.scrollby( 1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
@@ -1995,7 +1985,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
     hilights["mapgentgt"].points.clear();
     cleartmpmap( tmpmap );
 }
@@ -2195,7 +2184,6 @@ void editmap::edit_mapgen()
 
         if( gmenu.ret >= 0 ) {
             blink = false;
-            shared_ptr_fast<ui_adaptor> gmenu_ui = gmenu.create_or_get_ui_adaptor();
             mapgen_preview( tc, gmenu );
             blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {

@@ -750,9 +750,9 @@ class atm_menu
             }
 
             amenu.selected = uistate.iexamine_atm_selected;
-            amenu.text = string_format( _( "Welcome to the C.C.B.o.t.T. ATM.  What would you like to do?\n"
-                                           "Your current balance is: %s" ),
-                                        format_money( you.cash ) );
+            amenu.set_title( _( "Welcome to the C.C.B.o.t.T. ATM.  What would you like to do?" ) );
+            amenu.help_text = string_format( _( "Your current balance is: %s" ),
+                                             format_money( you.cash ) );
 
             if( you.cash >= 1000 ) {
                 add_choice( purchase_card, _( "Purchase cash card?" ) );
@@ -1873,9 +1873,8 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         if( pry_has < pry_req ) {
             action = act::pick;
         } else {
-            uilist amenu;
-            amenu.text = string_format( _( "What to do with the %s?" ),
-                                        target_name );
+            uilist amenu( string_format( _( "What to do with the %s?" ),
+                                         target_name ) );
             amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
             amenu.addentry( 1, true, 'p', _( "Pry open" ) );
             amenu.query();
@@ -2538,9 +2537,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
  */
 int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 {
-    uilist smenu;
-
-    smenu.text = _( "Use which seed?" );
+    uilist smenu( _( "Use which seed?" ) );
     int count = 0;
     for( const auto &entry : seed_entries ) {
         const std::string &seed_name = std::get<1>( entry );
@@ -3461,8 +3458,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
                                         you.enough_power_for( bio_lighter );
 
-    uilist selection_menu;
-    selection_menu.text = _( "Select an action" );
+    uilist selection_menu( _( "Select an action" ) );
     if( here.has_items( examp ) ) {
         // Note: This is displayed regardless of whether "examine with pickup" was used
         selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
@@ -3628,8 +3624,7 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
         add_msg( _( "This keg contains %s (%d), %0.f%% full." ),
                  brew.tname(), brew.charges, brew.volume() * 100.0 / vat_volume );
         enum options { ADD_BREW, REMOVE_BREW, START_FERMENT };
-        uilist selectmenu;
-        selectmenu.text = _( "Select an action" );
+        uilist selectmenu( _( "Select an action" ) );
         selectmenu.addentry( ADD_BREW, ( you.charges_of( brew_type ) > 0 ), MENU_AUTOASSIGN,
                              _( "Add more %s to the vat" ), brew_nname );
         selectmenu.addentry( REMOVE_BREW, brew.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
@@ -4195,9 +4190,9 @@ void iexamine::keg( Character &you, const tripoint &examp )
         };
         uilist selectmenu;
         //~ $1 - furniture name, $2 - liquid name, $3 - liquid charges, $4 - liquid volume, $5 - liquid capacity
-        selectmenu.text = string_format( _( "%1$s with %2$s (%3$d)    %4$s / %5$s" ),
-                                         uppercase_first_letter( keg_name ), drink_tname, drink.charges,
-                                         vol_to_string( drink.volume(), true, true ), vol_to_string( keg_cap, true, true ) );
+        selectmenu.set_title( string_format( _( "%1$s with %2$s (%3$d)    %4$s / %5$s" ),
+                                             uppercase_first_letter( keg_name ), drink_tname, drink.charges,
+                                             vol_to_string( drink.volume(), true, true ), vol_to_string( keg_cap, true, true ) ) );
         selectmenu.addentry( DISPENSE, drink.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
                              _( "Dispense or dump %s" ), drink_tname );
         selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( phase_id::LIQUID ),
@@ -4447,7 +4442,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         HARVEST_SAP,
         REMOVE_CONTAINER,
     };
-    uilist selectmenu;
+    uilist selectmenu( _( "Select an action" ) );
     selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _( "Remove tap" ) );
     selectmenu.addentry( ADD_CONTAINER, !container, MENU_AUTOASSIGN,
                          _( "Add a container to receive the %s" ), maple_sap_name );
@@ -4455,7 +4450,6 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
                          maple_sap_name, charges );
     selectmenu.addentry( REMOVE_CONTAINER, container, MENU_AUTOASSIGN, _( "Remove container" ) );
 
-    selectmenu.text = _( "Select an action" );
     selectmenu.query();
 
     switch( selectmenu.ret ) {
@@ -4927,8 +4921,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
     const ter_id ter = here.ter( examp );
 
     // Peek through the curtains, or tear them down.
-    uilist window_menu;
-    window_menu.text = _( "Do what with the curtains?" );
+    uilist window_menu( _( "Do what with the curtains?" ) );
     window_menu.addentry( 0, ( !ter.obj().close &&
                                closed_window_with_curtains ), 'p', _( "Peek through the closed curtains." ) );
     window_menu.addentry( 1, true, 't', _( "Tear down the curtains." ) );
@@ -5279,9 +5272,8 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    uilist amenu;
+    uilist amenu( str_to_illiterate_str( _( "Welcome to AutoGas!" ) ) );
     amenu.selected = 1;
-    amenu.text = str_to_illiterate_str( _( "Welcome to AutoGas!" ) );
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "What would you like to do?" ) ) );
 
     amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( string_format( _( "Buy %s." ),
@@ -5310,7 +5302,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     if( choose_pump == choice ) {
         uilist amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump;
-        amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelTypeStr ) );
+        amenu.set_title( str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelTypeStr ) ) );
 
         std::vector<tripoint> pumps;
         for( int i = 0; i < pumpCount; i++ ) {
@@ -5465,8 +5457,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     tripoint just_below = examp;
     just_below.z--;
 
-    uilist cmenu;
-    cmenu.text = _( "There is a ledge here.  What do you want to do?" );
+    uilist cmenu( _( "There is a ledge here.  What do you want to do?" ) );
 
     // NOTE this menu is merged with the climb down menu, manage keys carefully.
     cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
@@ -5767,8 +5758,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 return;
             }
 
-            uilist cmenu;
-            cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+            uilist cmenu( _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." ) );
             cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
             cmenu.addentry( 2, true, 'u', _( "Choose installed bionic to uninstall." ) );
             cmenu.query();
@@ -5809,7 +5799,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
     }
 
     const bool unsafe_usage = &Operator == &null_player || ( &Operator == &you && &patient == &you );
-    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    std::string autodoc_header;
     if( unsafe_usage ) {
         const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
                                           c_red ) + colorize( "\\", c_yellow );
@@ -5836,8 +5826,8 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             _( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d" ),
             arm_splints.size(), leg_splints.size() );
 
-    uilist amenu;
-    amenu.text = autodoc_header;
+    uilist amenu( _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" ) );
+    amenu.help_text = autodoc_header;
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
@@ -6696,8 +6686,7 @@ static void mill_load_food( Character &you, const tripoint &examp,
         return false;
     } );
 
-    uilist smenu;
-    smenu.text = _( "Load mill with what kind of product?" );
+    uilist smenu( _( "Load mill with what kind of product?" ) );
     // count and ask for item to be placed ...
     std::list<std::string> names;
     std::vector<const item *> entries;
@@ -6853,8 +6842,7 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
 
-    uilist smenu;
-    smenu.text = _( "What to do with the mill?" );
+    uilist smenu( _( "What to do with the mill?" ) );
     smenu.desc_enabled = true;
 
     smenu.addentry( 0, true, 'i', _( "Inspect mill" ) );
@@ -7034,8 +7022,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 
-    uilist smenu;
-    smenu.text = _( "What to do with the smoking rack:" );
+    uilist smenu( _( "What to do with the smoking rack:" ) );
     smenu.desc_enabled = true;
 
     smenu.addentry( 0, true, 'i', _( "Inspect smoking rack" ) );
@@ -7250,8 +7237,6 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
         }
     }
 
-    uilist amenu;
-
     enum option : int {
         start_craft = 0,
         repeat_craft,
@@ -7261,7 +7246,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
         undeploy
     };
 
-    amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ), name );
+    uilist amenu( string_format( pgettext( "furniture", "What to do at the %s?" ), name ) );
     amenu.addentry( start_craft,      true,            '1', _( "Craft items" ) );
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );

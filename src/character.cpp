@@ -6634,8 +6634,7 @@ std::string Character::activity_level_str() const
 void Character::mend_item( item_location &&obj, bool interactive )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
-        uilist menu;
-        menu.text = _( "Toggle which fault?" );
+        uilist menu( _( "Toggle which fault?" ) );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
@@ -6707,8 +6706,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
 
     int sel = 0;
     if( interactive ) {
-        uilist menu;
-        menu.text = _( "Mend which fault?" );
+        uilist menu( _( "Mend which fault?" ) );
         menu.desc_enabled = true;
         menu.desc_lines_hint = 0; // Let uilist handle description height
 
@@ -13379,14 +13377,12 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
-    uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.\n"
-                                   "\n"
-                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+    uilist kmenu( _( "Select a style." ) );
+    kmenu.help_text = string_format( _( "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                    "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
-                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+                                     you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                     ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";

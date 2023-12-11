@@ -779,8 +779,6 @@ static void haul()
 {
     Character &player_character = get_player_character();
 
-    uilist menu;
-
     bool hauling = player_character.is_hauling();
     bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
@@ -788,9 +786,9 @@ static void haul()
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
-
+    uilist menu( _( "Select items on current tile to haul with you as you move." ));
     std::string help_header =
-        _( "Select items on current tile to haul with you as you move.\nIf autohaul is enabled, you will automatically add encountered items to the haul.\nYou can set a filter to limit which items are automatically added." );
+        _( "If autohaul is enabled, you will automatically add encountered items to the haul.\nYou can set a filter to limit which items are automatically added." );
 
     std::string status_header;
     if( hauling && autohaul ) {
@@ -825,7 +823,7 @@ static void haul()
     status_header += haul_filter.empty() ? _( "\nAutohaul filter not set." ) : string_format(
                          _( "\nAutohaul filter: %s" ), haul_filter );
 
-    menu.text = help_header + "\n\n" + status_header;
+    menu.help_text = help_header + "\n\n" + status_header;
 
     input_context ctxt = get_default_mode_input_context();
     std::vector<input_event> haul_keys = ctxt.keys_bound_to( "haul" );
@@ -1081,12 +1079,11 @@ static void smash()
 
 static int try_set_alarm()
 {
-    uilist as_m;
     const bool already_set = get_player_character().has_effect( effect_alarm_clock );
 
-    as_m.text = already_set ?
-                _( "You already have an alarm set.  What do you want to do?" ) :
-                _( "You have an alarm clock.  What do you want to do?" );
+    uilist as_m( already_set ?
+                 _( "You already have an alarm set.  What do you want to do?" ) :
+                 _( "You have an alarm clock.  What do you want to do?" ) );
 
     as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
@@ -1102,7 +1099,6 @@ static int try_set_alarm()
 static void wait()
 {
     std::map<int, time_duration> durations;
-    uilist as_m;
     Character &player_character = get_player_character();
     bool setting_alarm = false;
     map &here = get_map();
@@ -1134,6 +1130,7 @@ static void wait()
 
     const bool has_watch = player_character.has_watch() || setting_alarm;
 
+    uilist as_m;
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
                                ( int retval, int hotkey, const std::string &caption = "",
     const time_duration &duration = time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
@@ -1207,9 +1204,9 @@ static void wait()
     }
 
     // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-    as_m.text = has_watch ? string_format( _( "It's %s now.  " ),
-                                           to_string_time_of_day( calendar::turn ) ) : "";
-    as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
+    as_m.help_text = has_watch ? string_format( _( "It's %s now.  " ),
+                                                to_string_time_of_day( calendar::turn ) ) : "";
+    as_m.set_title( setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" ) );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const auto dur_iter = durations.find( as_m.ret );
@@ -1267,8 +1264,7 @@ static void sleep()
         return;
     }
 
-    uilist as_m;
-    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
+    uilist as_m( _( "<color_white>Are you sure you want to sleep?</color>" ) );
     // (Y)es/(S)ave before sleeping/(N)o
     as_m.entries.emplace_back( 0, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
@@ -1326,13 +1322,13 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         as_m.selected = 2;
-        data << as_m.text << std::endl;
+        data << as_m.help_text << std::endl;
         data << _( "You may want to extinguish or turn off:" ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
             data << "<color_red>" << a << "</color>" << std::endl;
         }
-        as_m.text = data.str();
+        as_m.help_text = data.str();
     }
 
     /* Calculate key and window variables, generate window,
@@ -1356,11 +1352,13 @@ static void sleep()
                              player_character.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate.  The alarm would only attract attention.  "
-                       "Set an alarm anyway?" ) :
-                    _( "You have an alarm clock.  Set an alarm?" );
-        as_m.text += deaf_text;
+        if( can_hibernate ) {
+            as_m.set_title( _( "Set an alarm anyway?" ) );
+            as_m.help_text = _( "You're engorged to hibernate.  The alarm would only attract attention.  " );
+        } else {
+            as_m.set_title( _( "You have an alarm clock.  Set an alarm?" ) );
+        }
+        as_m.help_text += deaf_text;
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -1456,8 +1454,7 @@ static void loot()
         return;
     }
 
-    uilist menu;
-    menu.text = _( "Pick action:" );
+    uilist menu( _( "Pick action:" ) );
     menu.desc_enabled = true;
 
     if( flags & SortLoot ) {
@@ -1716,9 +1713,7 @@ static void open_movement_mode_menu()
     avatar &player_character = get_avatar();
     const std::vector<move_mode_id> &modes = move_modes_by_speed();
     const int cycle = 1027;
-    uilist as_m;
-
-    as_m.text = _( "Change to which movement mode?" );
+    uilist as_m( _( "Change to which movement mode?" ) );
 
     for( size_t i = 0; i < modes.size(); ++i ) {
         const move_mode_id &curr = modes[i];
@@ -1870,9 +1865,7 @@ bool bionic::activate_spell( Character &caster ) const
 
 void game::open_consume_item_menu()
 {
-    uilist as_m;
-
-    as_m.text = _( "What do you want to consume?" );
+    uilist as_m( _( "What do you want to consume?" ) );
 
     as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
     as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
@@ -1933,11 +1926,10 @@ static void handle_debug_mode()
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_action( "debug_mode" );
 
-    uilist dbmenu;
+    uilist dbmenu( _( "Debug Mode Filters" ) );
     dbmenu.allow_anykey = true;
-    dbmenu.title = _( "Debug Mode Filters" );
-    dbmenu.text = string_format( _( "Press [%1$s] to quickly toggle debug mode." ),
-                                 ctxt.get_desc( "debug_mode" ) );
+    dbmenu.help_text = string_format( _( "Press [%1$s] to quickly toggle debug mode." ),
+                                      ctxt.get_desc( "debug_mode" ) );
 
     dbmenu.entries.reserve( 1 + debugmode::DF_LAST );
 

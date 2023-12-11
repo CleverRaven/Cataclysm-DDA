@@ -3045,8 +3045,7 @@ bool bionic::is_this_fuel_powered( const material_id &this_fuel ) const
 void bionic::toggle_safe_fuel_mod()
 {
     if( !info().fuel_opts.empty() || info().is_remote_fueled ) {
-        uilist tmenu;
-        tmenu.text = _( "Stop power generation at" );
+        uilist tmenu( _( "Stop power generation at" ) );
         tmenu.addentry( 1, true, '1', _( "100 %%" ) );
         tmenu.addentry( 2, true, '2', _( "90 %%" ) );
         tmenu.addentry( 3, true, '3', _( "70 %%" ) );

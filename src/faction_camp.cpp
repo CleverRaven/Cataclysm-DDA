@@ -2436,8 +2436,7 @@ void basecamp::job_assignment_ui()
         } else if( action == "CONFIRM" ) {
             if( cur_npc ) {
                 while( true ) {
-                    uilist smenu;
-                    smenu.text = _( "Assign job priority (0 to disable)" );
+                    uilist smenu( _( "Assign job priority (0 to disable)" ) );
                     int count = 0;
                     std::vector<activity_id> job_vec = cur_npc->job.get_prioritised_vector();
                     smenu.addentry( count, true, 'C', _( "Clear all priorities" ) );

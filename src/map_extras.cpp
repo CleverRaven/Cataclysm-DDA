@@ -2285,7 +2285,7 @@ void check_consistency()
 
 void debug_spawn_test()
 {
-    uilist mx_menu;
+    uilist mx_menu( _( "Test which map extra list?" ) );
     std::vector<std::string> mx_names;
     for( std::pair<const std::string, map_extras> &region_extra :
          region_settings_map["default"].region_extras ) {
@@ -2293,7 +2293,6 @@ void debug_spawn_test()
         mx_names.push_back( region_extra.first );
     }
 
-    mx_menu.text = _( "Test which map extra list?" );
     while( true ) {
         mx_menu.query();
         const int index = mx_menu.ret;
@@ -2322,8 +2321,7 @@ void debug_spawn_test()
         for( std::pair<const map_extra_id, int> &e : results ) {
             sorted_results.emplace( e.second, e.first );
         }
-        uilist results_menu;
-        results_menu.text = _( "Result of 32400 selections:" );
+        uilist results_menu( _( "Result of 32400 selections:" ) );
         for( std::pair<const int, map_extra_id> &r : sorted_results ) {
             results_menu.entries.emplace_back(
                 static_cast<int>( results_menu.entries.size() ), true, -2,

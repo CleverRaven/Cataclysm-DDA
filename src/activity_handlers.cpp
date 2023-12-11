@@ -2331,8 +2331,7 @@ static constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
 static repeat_type repeat_menu( const std::string &title, repeat_type last_selection,
                                 const bool can_refit )
 {
-    uilist rmenu;
-    rmenu.text = title;
+    uilist rmenu( title );
 
     rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1',
                     can_refit ? _( "Attempt to refit or repair once" ) : _( "Attempt to repair once" ) );

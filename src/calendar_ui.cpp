@@ -46,10 +46,10 @@ time_point calendar_ui::select_time_point( time_point initial_value, std::string
     int iSel = smenu.ret;
     do {
         smenu.reset();
-        smenu.title = title;
-        smenu.text += string_format( _( "Old date: %1$s\nNew date: %2$s" ),
-                                     colorize( to_string( initial_value ), c_light_red ),
-                                     colorize( to_string( return_value ), c_light_cyan ) );
+        smenu.set_title( std::string{title} );
+        smenu.help_text += string_format( _( "Old date: %1$s\nNew date: %2$s" ),
+                                          colorize( to_string( initial_value ), c_light_red ),
+                                          colorize( to_string( return_value ), c_light_cyan ) );
         smenu.desc_enabled = true;
         smenu.allow_additional = true;
         smenu.input_category = "CALENDAR_UI";

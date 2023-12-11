@@ -488,9 +488,8 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
     if( npc_count == 1 ) {
         return 0;
     } else {
-        uilist nmenu;
         std::vector<tripoint> locations;
-        nmenu.text = prompt;
+        uilist nmenu( prompt );
         for( const npc *elem : npc_list ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
             locations.emplace_back( elem->pos_bub().raw() );
@@ -519,9 +518,8 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
     if( npc_count == 1 ) {
         return 0;
     } else {
-        uilist nmenu;
         std::vector<tripoint> locations;
-        nmenu.text = prompt;
+        uilist nmenu( prompt );
         for( const Creature *elem : talker_list ) {
             if( elem->is_npc() ) {
                 nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->as_npc()->name_and_activity() );
@@ -553,8 +551,7 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
     const int npc_count = npc_list.size();
     int last_index = 0;
     do {
-        uilist nmenu;
-        nmenu.text = prompt;
+        uilist nmenu( prompt );
         for( int i = 0; i < npc_count; i++ ) {
             std::string entry;
             if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
@@ -592,8 +589,7 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
 static std::string training_select_menu( const Character &c, const std::string &prompt )
 {
     int i = 0;
-    uilist nmenu;
-    nmenu.text = prompt;
+    uilist nmenu( prompt );
     std::vector<std::string> trainlist;
     for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
         bool enabled = s.first->is_teachable() && s.second.level() > 0;
@@ -665,7 +661,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
                              _( "Other followers might have different temporary orders." );
         }
         nmenu.reset();
-        nmenu.text = _( "Issue what temporary order?" );
+        nmenu.set_title( _( "Issue what temporary order?" ) );
         nmenu.desc_enabled = true;
         parse_tags( output_string, player_character, *guy );
         nmenu.footer_text = output_string;
@@ -725,8 +721,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static int npc_activities_menu()
 {
-    uilist nmenu;
-    nmenu.text = _( "What should be worked on?" );
+    uilist nmenu( _( "What should be worked on?" ) );
 
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOVE_LOOT, true, 'l', _( "Organizing loot into zones" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_BUTCHERY, true, 'b', _( "Butchering corpses" ) );
@@ -872,8 +867,7 @@ void game::chat()
         }
     }
 
-    uilist nmenu;
-    nmenu.text = std::string( _( "What do you want to do?" ) );
+    uilist nmenu( _( "What do you want to do?" ) );
 
     if( !available.empty() ) {
         const Creature *guy = available.front();
@@ -5176,17 +5170,18 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
 
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
           hide_failing, allow_cancel]( dialogue & d ) {
-        uilist eoc_list;
+        uilist eoc_list( title.translated() );
 
         std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
         talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
         talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
 
+        std::string t{title};
+        parse_tags( t, alpha, beta, d );
 
-        eoc_list.text = title.translated();
+        eoc_list.text = title;
         eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
-        parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
 

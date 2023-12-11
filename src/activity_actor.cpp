@@ -3303,8 +3303,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         return;
     }
 
-    uilist sleep_query;
-    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    uilist sleep_query( _( "You have trouble sleeping, keep trying?" ) );
     sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
     sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
     sleep_query.addentry( 3, true, 'C',
@@ -3872,8 +3871,8 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     }
     uilist workout_query;
     workout_query.desc_enabled = true;
-    workout_query.text =
-        _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
+    workout_query.set_title(
+                            _( "Physical effort determines workout efficiency, but also rate of exhaustion." ) );
     workout_query.title = _( "Choose training intensity:" );
     workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
                                  _( "Light exercise comparable in intensity to walking, but more focused and methodical." ) );
@@ -3991,7 +3990,7 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
     }
     int length;
     uilist workout_query;
-    workout_query.text = _( "You have finished your training cycle, keep training?" );
+    workout_query.set_title( _( "You have finished your training cycle, keep training?" ) );
     workout_query.addentry( 1, true, 'S', _( "Stop training." ) );
     workout_query.addentry( 2, true, 'c', _( "Continue training." ) );
     workout_query.addentry( 3, true, 'C', _( "Continue training and don't ask again." ) );
@@ -4848,8 +4847,8 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     // Build prompt
     uilist reload_query;
     const bool wield_check = who.can_wield( reloadable ).success();
-    reload_query.text = string_format( _( "The %s no longer fits in your inventory" ),
-                                       reloadable_name );
+    reload_query.set_title(string_format( _( "The %s no longer fits in your inventory" ),
+                                          reloadable_name ) );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
                                _( "Dispose of %s and wield %s" ), who.get_wielded_item()->display_name(),

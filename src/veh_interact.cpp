@@ -1958,8 +1958,7 @@ bool veh_interact::do_unload()
 static void do_change_shape_menu( vehicle_part &vp )
 {
     const vpart_info &vpi = vp.info();
-    uilist smenu;
-    smenu.text = _( "Choose cosmetic variant:" );
+    uilist smenu( _( "Choose cosmetic variant:" ) );
     int ret_code = 0;
     int default_selection = 0;
     std::vector<std::string> variants;
@@ -2008,8 +2007,7 @@ void veh_interact::do_assign_crew()
     };
 
     auto act = [&]( vehicle_part & pt ) {
-        uilist menu;
-        menu.text = _( "Select crew member" );
+        uilist menu( _( "Select crew member" ) );
 
         if( pt.crew() ) {
             menu.addentry( 0, true, 'c', _( "Clear assignment" ) );
@@ -3017,8 +3015,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     }
     itype_id fuel;
     if( fuels.size() > 1 ) {
-        uilist smenu;
-        smenu.text = _( "Remove what?" );
+        uilist smenu( _( "Remove what?" ) );
         for( auto &fuel : fuels ) {
             if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
                 continue;

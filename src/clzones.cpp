@@ -607,9 +607,8 @@ std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
         return localized_compare( lhs.second.name(), rhs.second.name() );
     } );
 
-    uilist as_m;
+    uilist as_m( _( "Select zone type:" ) );
     as_m.desc_enabled = true;
-    as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {

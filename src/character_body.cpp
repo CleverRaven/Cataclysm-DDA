@@ -1147,9 +1147,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    uilist bmenu;
+    uilist bmenu( menu_header );
     bmenu.desc_enabled = true;
-    bmenu.text = menu_header;
     bmenu.textwidth = 60;
 
     bmenu.hilight_disabled = true;
@@ -1350,7 +1349,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
     if( !is_valid_choice ) { // no body part can be chosen for this item/effect
         bmenu.init();
         bmenu.desc_enabled = false;
-        bmenu.text = _( "No limb would benefit from it." );
+        bmenu.set_title( _( "No limb would benefit from it." ) );
         bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
     } else {
         bmenu.set_selected( default_selection_idx );

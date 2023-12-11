@@ -991,13 +991,11 @@ void color_manager::show_gui()
             auto vFiles = get_files_from_path( ".json", PATH_INFO::color_templates(), false, true );
 
             if( !vFiles.empty() ) {
-                uilist ui_templates;
+                uilist ui_templates( _( "Color templates:" ) );
                 ui_templates.w_y_setup = [&]( int ) -> int {
                     return iHeaderHeight + 1 + calc_offset_y();
                 };
                 ui_templates.w_height_setup = 18;
-
-                ui_templates.text = _( "Color templates:" );
 
                 for( const cata_path &file : vFiles ) {
                     ui_templates.addentry( file.get_relative_path().filename().generic_u8string() );
@@ -1026,13 +1024,11 @@ void color_manager::show_gui()
             auto vFiles = get_files_from_path( ".json", PATH_INFO::color_themes(), false, true );
 
             if( !vFiles.empty() ) {
-                uilist ui_templates;
+                uilist ui_templates( _( "Color themes:" ) );
                 ui_templates.w_y_setup = [&]( int ) -> int {
                     return iHeaderHeight + 1 + calc_offset_y();
                 };
                 ui_templates.w_height_setup = 18;
-
-                ui_templates.text = _( "Color themes:" );
 
                 for( const cata_path &filename : vFiles ) {
                     ui_templates.addentry( filename.get_relative_path().filename().generic_u8string() );
@@ -1063,7 +1059,7 @@ void color_manager::show_gui()
 
             }
 
-            ui_colors.text = string_format( _( "Custom %s color:" ), sColorType );
+            ui_colors.set_title( string_format( _( "Custom %s color:" ), sColorType ) );
 
             int i = 0;
             for( auto &iter : name_color_map ) {

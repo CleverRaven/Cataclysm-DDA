@@ -5608,9 +5608,7 @@ bool game::npc_menu( npc &who )
 
     const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
-    uilist amenu;
-
-    amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
+    uilist amenu( string_format( _( "What to do with %s?" ), who.disp_name() ) );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
                     !u.is_mounted(), 's', _( "Swap positions" ) );
@@ -7088,8 +7086,7 @@ void game::zones_manager()
             } else if( action == "CONFIRM" ) {
                 zone_data &zone = zones[active_index].get();
 
-                uilist as_m;
-                as_m.text = _( "What do you want to change:" );
+                uilist as_m( _( "What do you want to change:" ) );
                 as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
                 as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
@@ -9274,12 +9271,11 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         return cut_time( bt );
     };
 
-    uilist smenu;
+    uilist smenu( _( "Choose type of butchery:" ) );
     smenu.desc_enabled = true;
     smenu.desc_lines_hint += dissect_wp_hint_lines;
-    smenu.text = _( "Choose type of butchery:" );
-    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ),
-                        is_enabled( butcher_type::QUICK ),
+
+    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
                         'B', _( "Quick butchery" )
                         + progress_str( butcher_type::QUICK ),
                         time_or_disabledreason( butcher_type::QUICK ),
@@ -9533,8 +9529,7 @@ void game::butcher()
     // Always ask before cutting up/disassembly, but not before butchery
     size_t ret = 0;
     if( !corpses.empty() || !disassembles.empty() || !salvageables.empty() ) {
-        uilist kmenu;
-        kmenu.text = _( "Choose corpse to butcher / item to disassemble" );
+        uilist kmenu( _( "Choose corpse to butcher / item to disassemble" ) );
 
         size_t i = 0;
         // Add corpses, disassembleables, and salvagables to the UI
@@ -13371,8 +13366,7 @@ bool game::climb_down_menu_pick( const tripoint &examp, int retval )
 
 void game::climb_down( const tripoint &examp )
 {
-    uilist cmenu;
-    cmenu.text = _( "How would you prefer to climb down?" );
+    uilist cmenu( _( "How would you prefer to climb down?" ) );
 
     climb_down_menu_gen( examp, cmenu );
 

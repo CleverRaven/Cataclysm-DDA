@@ -466,8 +466,7 @@ void vehicle::turrets_set_targeting()
 
     int sel = 0;
     while( true ) {
-        uilist menu;
-        menu.text = _( "Set turret targeting" );
+        uilist menu( _( "Set turret targeting" ) );
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
@@ -522,8 +521,7 @@ void vehicle::turrets_set_mode()
 
     int sel = 0;
     while( true ) {
-        uilist menu;
-        menu.text = _( "Set turret firing modes" );
+        uilist menu( _( "Set turret firing modes" ) );
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;

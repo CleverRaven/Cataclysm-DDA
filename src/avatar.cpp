@@ -1485,9 +1485,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
         return used->use_relic( *this, pt );
     }
 
-    uilist umenu;
-
-    umenu.text = string_format( _( "What to do with your %s?" ), used->tname() );
+    uilist umenu( string_format( _( "What to do with your %s?" ), used->tname() ) );
     umenu.hilight_disabled = true;
 
     for( const auto &e : use_methods ) {

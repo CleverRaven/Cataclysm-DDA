@@ -196,30 +196,30 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     const std::string liquid_name = liquid.display_name( liquid.charges );
     if( source_pos != nullptr ) {
         //~ %1$s: liquid name, %2$s: terrain name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
-                                   here.name( *source_pos ) );
+        menu.set_title( string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
+                                       here.name( *source_pos ) ) );
     } else if( source_veh != nullptr ) {
         //~ %1$s: liquid name, %2$s: vehicle name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
-                                   source_veh->disp_name() );
+        menu.set_title( string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
+                                       source_veh->disp_name() ) );
     } else if( source_mon != nullptr ) {
         //~ %1$s: liquid name, %2$s: monster name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from the %2$s?" ),
-                                   liquid_name, source_mon->get_name() );
+        menu.set_title( string_format( pgettext( "liquid", "What to do with the %1$s from the %2$s?" ),
+                                       liquid_name, source_mon->get_name() ) );
     } else if( source != nullptr ) {
         if( source->is_bucket_nonempty() ) {
-            menu.text = string_format( pgettext( "liquid",
-                                                 //~ %1$s: liquid name, %2$s: container name
-                                                 "The %1$s would spill.\nWhat to do with the %2$s inside it?" ),
-                                       source->display_name(), liquid_name );
+            menu.set_title( string_format( pgettext( "liquid",
+                                                     //~ %1$s: liquid name, %2$s: container name
+                                                     "The %1$s would spill.\nWhat to do with the %2$s inside it?" ),
+                                           source->display_name(), liquid_name ) );
         } else {
             //~ %1$s: liquid name, %2$s: container name
-            menu.text = string_format( pgettext( "liquid", "What to do with the %1$s in the %2$s?" ),
-                                       liquid_name, source->display_name() );
+            menu.set_title( string_format( pgettext( "liquid", "What to do with the %1$s in the %2$s?" ),
+                                           liquid_name, source->display_name() ) );
         }
     } else {
         //~ %s: liquid name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
+        menu.set_title( string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name ) );
     }
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume_as_is( liquid ) && !source_mon && ( source_veh || source_pos ) ) {

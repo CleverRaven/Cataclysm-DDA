@@ -1354,9 +1354,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
                                    const mutation_category_id &cat, const bool &use_vitamins )
 {
     // Setup menu
-    uilist mmenu;
-    mmenu.text =
-        _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
+    uilist mmenu ( _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." ) );
     auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
         const size_t iterations = traits.size();
         for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
@@ -2399,22 +2397,22 @@ void Character::customize_appearance( customize_appearance_choice choice )
     std::string end_message;
     switch( choice ) {
         case customize_appearance_choice::EYES:
-            amenu.text = _( "Choose a new eye color" );
+            amenu.set_title( _( "Choose a new eye color" ) );
             traits = get_mutations_in_type( STATIC( "eye_color" ) );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
         case customize_appearance_choice::HAIR:
-            amenu.text = _( "Choose a new hairstyle" );
+            amenu.set_title( _( "Choose a new hairstyle" ) );
             traits = get_mutations_in_type( STATIC( "hair_style" ) );
             end_message = _( "A change in hairstyle will freshen up the mood." );
             break;
         case customize_appearance_choice::HAIR_F:
-            amenu.text = _( "Choose a new facial hairstyle" );
+            amenu.set_title( _( "Choose a new facial hairstyle" ) );
             traits = get_mutations_in_type( STATIC( "facial_hair" ) );
             end_message = _( "Surviving the end with style." );
             break;
         case customize_appearance_choice::SKIN:
-            amenu.text = _( "Choose a new skin color" );
+            amenu.set_title( _( "Choose a new skin color" ) );
             traits = get_mutations_in_type( STATIC( "skin_tone" ) );
             end_message = _( "Life in the Cataclysm seems to have changed you." );
             break;

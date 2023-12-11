@@ -216,8 +216,7 @@ void computer_session::use()
     while( true ) {
         size_t options_size = comp.options.size();
 
-        uilist computer_menu;
-        computer_menu.text = string_format( _( "%s - Root Menu" ), comp.name );
+        uilist computer_menu( string_format( _( "%s - Root Menu" ), comp.name ) );
         computer_menu.selected = sel;
         computer_menu.fselected = sel;
 
