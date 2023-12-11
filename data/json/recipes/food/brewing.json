@@ -193,9 +193,8 @@
       [ [ "yeast", 1 ] ]
     ],
     "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_vodka it is 7 charges per 250ml.",
-    "//2": "Plus evaporation process. I don't have exact numbers on evaporation loss, so let's make it 33%.",
-    "//3": "Hence 2x7=14 charges",
-    "charges": 14
+    "//2": "Hence 3x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -213,9 +212,8 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ],
     "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_rum it is 7 charges per 250ml.",
-    "//2": "Plus evaporation process. I don't have exact numbers on evaporation loss, so let's make it 33%.",
-    "//3": "Hence 2x7=14 charges",
-    "charges": 14
+    "//2": "Hence 3x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -233,11 +231,9 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "//": "30u for corn and 30u to heat water & activate the yeast",
     "components": [ [ [ "water_clean", 15 ] ], [ [ "cornmeal", 12 ], [ "corn", 2 ] ], [ [ "sugar", 100 ] ], [ [ "yeast", 2 ] ] ],
-    "components": [ [ [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ],
-    "//1": "Using (15+3)x250ml of water, this should give us ~4500ml of product. For brew_moonshine it is 7 charges per 250ml.",
-    "//2": "Plus evaporation process. I don't have exact numbers on evaporation loss, so let's make it 33%.",
-    "//3": "Hence 3000ml/250ml*7=14 charges",
-    "charges": 84
+    "//1": "Using 15x250ml of water, this should give us ~3750ml of product. For brew_moonshine it is 7 charges per 250ml.",
+    "//2": "Hence 3750/250ml*7=105 charges",
+    "charges": 105
   },
   {
     "type": "recipe",
@@ -261,9 +257,8 @@
       [ [ "juice", 2 ], [ "apple_cider", 4 ], [ "sweet_fruit", 1, "LIST" ] ]
     ],
     "//1": "Using 10x250ml of water, this should give us ~2500ml of product. For brew_hb_seltzer it is 1 charge per 250ml.",
-    "//2": "Plus evaporation process. I don't have exact numbers on evaporation loss, so let's make it 33%.",
-    "//3": "Hence (2500/3*2)/250*1=6.(6) charges. Let's make it 7.",
-    "charges": 7
+    "//2": "Hence 2500/250*1=10 charges.",
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -283,9 +278,8 @@
     "//": "24u for pumpkin and 30u to heat water & activate the yeast",
     "components": [ [ [ "water_clean", 15 ] ], [ [ "pumpkin_cut", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ],
     "//1": "Using 15x250ml of water, this should give us ~3750ml of product. For brew_moonshine it is 7 charges per 250ml.",
-    "//2": "Plus evaporation process. I don't have exact numbers on evaporation loss, so let's make it 33%.",
-    "//3": "Hence (3750/3*2)ml/250ml*7=70 charges",
-    "charges": 70
+    "//2": "Hence 3750ml/250ml*7=105 charges",
+    "charges": 105
   },
   {
     "type": "recipe",
@@ -322,9 +316,8 @@
     "//": "assuming grains are roasted, that's 52u flour by weight, 2u for hops, plus 20u to heat water and activate yeast",
     "components": [ [ [ "water_clean", 10 ] ], [ [ "malted_grain", 2 ] ], [ [ "hops", 1 ] ], [ [ "yeast", 1 ] ] ],
     "//1": "Using 10x250ml of water, this should give us ~2500ml of product. For brew_hb_beer it is 1 charge per 250ml.",
-    "//2": "Plus evaporation process. I don't have exact numbers on evaporation loss, so let's make it 33%.",
-    "//3": "Hence (2500/3*2)ml/250ml*1=6.(6) charges. Let's make it 7.",
-    "charges": 7
+    "//2": "Hence 2500ml/250ml*1=10 charges.",
+    "charges": 10
   },
   {
     "type": "recipe",
