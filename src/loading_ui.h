@@ -13,7 +13,6 @@ class loading_ui
 {
     private:
         std::unique_ptr<uilist> menu;
-        std::unique_ptr<ui_adaptor> ui;
         std::unique_ptr<background_pane> ui_background;
 
         void init();

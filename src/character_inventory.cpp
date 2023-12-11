@@ -692,8 +692,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
 
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
-    uilist menu;
-    menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
+    uilist menu( prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt );
     std::vector<dispose_option> opts;
 
     const bool bucket = obj->will_spill() && !obj->is_container_empty();
@@ -740,7 +739,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 
     worn.holster_opts( opts, obj, *this );
 
-    int w = utf8_width( menu.text, true ) + 4;
+    int w = utf8_width( menu.help_text, true ) + 4;
     for( const dispose_option &e : opts ) {
         w = std::max( w, utf8_width( e.prompt, true ) + 4 );
     }
@@ -748,9 +747,9 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         e.prompt += std::string( w - utf8_width( e.prompt, true ), ' ' );
     }
 
-    menu.text.insert( 0, 2, ' ' ); // add space for UI hotkeys
-    menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
-    menu.text += _( " | Moves  " );
+    menu.help_text.insert( 0, 2, ' ' ); // add space for UI hotkeys
+    menu.help_text += std::string( w + 2 - utf8_width( menu.help_text, true ), ' ' );
+    menu.help_text += _( " | Moves  " );
 
     for( const dispose_option &e : opts ) {
         menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |",
@@ -763,4 +762,3 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     }
     return false;
 }
-

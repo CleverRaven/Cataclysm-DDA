@@ -3296,8 +3296,7 @@ void target_ui::apply_aim_turning_penalty() const
 
 bool target_ui::action_switch_mode()
 {
-    uilist menu;
-    menu.settext( _( "Select preferences" ) );
+    uilist menu( _( "Select preferences" ) );
     const std::pair<int, int> aim_modes_range = std::make_pair( 0, 100 );
     const std::pair<int, int> firing_modes_range = std::make_pair( 100, 200 );
 

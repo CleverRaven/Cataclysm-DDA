@@ -31,9 +31,8 @@ std::string select_language()
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
-    uilist sm;
+    uilist sm( _( "Select your language" ) );
     sm.allow_cancel = false;
-    sm.text = _( "Select your language" );
     for( size_t i = 0; i < languages.size(); i++ ) {
         sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second.translated() );
     }

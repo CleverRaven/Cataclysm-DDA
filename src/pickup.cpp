@@ -76,9 +76,7 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
 {
     Character &u = get_player_character();
 
-    uilist amenu;
-
-    amenu.text = explain;
+    uilist amenu( explain );
 
     item empty_it( it );
     empty_it.get_contents().clear_items();

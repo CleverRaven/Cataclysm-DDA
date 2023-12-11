@@ -14,6 +14,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
+#include <imgui/imgui.h>
 #include "input.h"
 #include "memory_fast.h"
 #include "output.h"
@@ -181,33 +182,37 @@ uilist::pos_scalar &uilist::pos_scalar::operator=( const std::function<int( int 
     return *this;
 }
 
-uilist::uilist()
+#define FLAGS (ImGuiWindowFlags_AlwaysAutoResize)
+
+uilist::uilist() : cataimgui::window("?", FLAGS)
 {
     init();
 }
 
-uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts )
+uilist::uilist( const std::string &msg ) : cataimgui::window(msg, FLAGS)
 {
     init();
-    text = msg;
+}
+
+uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts ) : cataimgui::window(msg, FLAGS)
+{
+    init();
     entries = opts;
     query();
 }
 
-uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
+uilist::uilist( const std::string &msg, const std::vector<std::string> &opts ) : cataimgui::window(msg, FLAGS)
 {
     init();
-    text = msg;
     for( const std::string &opt : opts ) {
         entries.emplace_back( opt );
     }
     query();
 }
 
-uilist::uilist( const std::string &msg, std::initializer_list<const char *const> opts )
+uilist::uilist( const std::string &msg, std::initializer_list<const char *const> opts ) : cataimgui::window(msg, FLAGS)
 {
     init();
-    text = msg;
     for( const char *const opt : opts ) {
         entries.emplace_back( opt );
     }
@@ -216,10 +221,6 @@ uilist::uilist( const std::string &msg, std::initializer_list<const char *const>
 
 uilist::~uilist()
 {
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-    if( current_ui ) {
-        current_ui->reset();
-    }
 }
 
 void uilist::color_error( const bool report )
@@ -254,12 +255,12 @@ void uilist::init()
     w_width = 0;
     w_height = 0;
     ret = UILIST_WAIT_INPUT;
-    text.clear();          // header text, after (maybe) folding, populates:
+    help_text.clear();     // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     ret_evt = input_event(); // last input event
-    window = catacurses::window();         // our window
+    //window = catacurses::window();         // our window
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
@@ -380,7 +381,7 @@ void uilist::filterlist()
 {
     // TODO: && is_all_lc( filter )
     fentries.clear();
-    fselected = -1;
+    fselected = ULONG_MAX;
     int f = 0;
     for( size_t i = 0; i < entries.size(); i++ ) {
         bool visible = true;
@@ -397,9 +398,9 @@ void uilist::filterlist()
             }
         }
         if( visible ) {
-            fentries.push_back( static_cast<int>( i ) );
+            fentries.push_back( i );
             if( hilight_disabled || entries[i].enabled ) {
-                if( static_cast<int>( i ) == selected || ( static_cast<int>( i ) > selected && fselected == -1 ) ) {
+                if( i == selected || ( i > selected && fselected == ULONG_MAX ) ) {
                     // Either this is selected, or we are past the previously selected entry,
                     // which has been filtered out, so choose another nearby entry instead.
                     fselected = f;
@@ -408,15 +409,15 @@ void uilist::filterlist()
             f++;
         }
     }
-    if( fselected == -1 ) {
+    if( fselected == ULONG_MAX ) {
         fselected = 0;
         vshift = 0;
         if( fentries.empty() ) {
-            selected = -1;
+            selected = ULONG_MAX;
         } else {
             selected = fentries [ 0 ];
         }
-    } else if( fselected < static_cast<int>( fentries.size() ) ) {
+    } else if( fselected < fentries.size() ) {
         selected = fentries[fselected];
     } else {
         fselected = selected = -1;
@@ -502,7 +503,7 @@ void uilist::calc_data()
     bool w_auto = !w_width_setup.fun;
 
     // Space for a line between text and entries. Only needed if there is actually text.
-    const int text_separator_line = text.empty() ? 0 : 1;
+    const int text_separator_line = help_text.empty() ? 0 : 1;
     if( w_auto ) {
         w_width = 4;
         if( !title.empty() ) {
@@ -594,8 +595,8 @@ void uilist::calc_data()
 
     }
 
-    if( !text.empty() ) {
-        int twidth = utf8_width( remove_color_tags( text ) );
+    if( !help_text.empty() ) {
+        int twidth = utf8_width( remove_color_tags( help_text ) );
         bool formattxt = true;
         int realtextwidth = 0;
         if( textwidth == -1 ) {
@@ -607,7 +608,7 @@ void uilist::calc_data()
                     if( realtextwidth + 4 > TERMX ) {
                         realtextwidth = TERMX - 4;
                     }
-                    textformatted = foldstring( text, realtextwidth );
+                    textformatted = foldstring( help_text, realtextwidth );
                     formattxt = false;
                     realtextwidth = 10;
                     for( auto &l : textformatted ) {
@@ -628,7 +629,7 @@ void uilist::calc_data()
             }
         }
         if( formattxt ) {
-            textformatted = foldstring( text, realtextwidth );
+            textformatted = foldstring( help_text, realtextwidth );
         }
     }
 
@@ -694,10 +695,10 @@ void uilist::setup()
 {
     calc_data();
 
-    window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
-    if( !window ) {
-        cata_fatal( "Failed to create uilist window" );
-    }
+    // window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+    // if( !window ) {
+    //     cata_fatal( "Failed to create uilist window" );
+    // }
 
     if( !started ) {
         filterlist();
@@ -718,26 +719,26 @@ void uilist::reposition( ui_adaptor &ui )
 
 void uilist::apply_scrollbar()
 {
-    int sbside = pad_left <= 0 ? 0 : w_width - 1;
-    int estart = textformatted.size();
-    if( estart > 0 ) {
-        estart += 2;
-    } else {
-        estart = 1;
-    }
-    estart += category_lines > 0 ? category_lines + 1 : 0;
+    // int sbside = pad_left <= 0 ? 0 : w_width - 1;
+    // int estart = textformatted.size();
+    // if( estart > 0 ) {
+    //     estart += 2;
+    // } else {
+    //     estart = 1;
+    // }
+    // estart += category_lines > 0 ? category_lines + 1 : 0;
 
-    uilist_scrollbar->offset_x( sbside )
-    .offset_y( estart )
-    .content_size( fentries.size() )
-    .viewport_pos( vshift )
-    .viewport_size( vmax )
-    .border_color( border_color )
-    .arrow_color( border_color )
-    .slot_color( c_light_gray )
-    .bar_color( c_cyan_cyan )
-    .scroll_to_last( false )
-    .apply( window );
+    // uilist_scrollbar->offset_x( sbside )
+    // .offset_y( estart )
+    // .content_size( fentries.size() )
+    // .viewport_pos( vshift )
+    // .viewport_size( vmax )
+    // .border_color( border_color )
+    // .arrow_color( border_color )
+    // .slot_color( c_light_gray )
+    // .bar_color( c_cyan_cyan )
+    // .scroll_to_last( false )
+    // .apply( window );
 }
 
 /**
@@ -749,6 +750,8 @@ void uilist::show( ui_adaptor &ui )
         setup();
     }
 
+    ui.record_term_cursor();
+#if 0
     werase( window );
     draw_border( window, border_color );
     if( !title.empty() ) {
@@ -877,10 +880,80 @@ void uilist::show( ui_adaptor &ui )
         }
     }
     apply_scrollbar();
+#endif
 
     wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
+    }
+}
+
+// this is uh, pretty bad; it is bad enough that they are globals,
+// worse that we are using them here.
+extern int WindowWidth;        //Width of the actual window, not the curses window
+extern int WindowHeight;       //Height of the actual window, not the curses window
+extern int fontwidth;
+extern int fontheight;
+cataimgui::bounds uilist::get_bounds()
+{
+    if( !started ) {
+        setup();
+    }
+
+    return { static_cast<float>(w_x * fontwidth),
+             static_cast<float>(w_y * fontheight),
+             static_cast<float>(clamp( w_width * fontwidth, 0, WindowWidth ) ),
+             clamp( w_height * ImGui::GetTextLineHeightWithSpacing(), 0.0f, static_cast<float>(WindowHeight) )
+    };
+}
+
+void uilist::draw_controls()
+{
+    if( !help_text.empty() ) {
+        ImGui::TextWrapped("%s", help_text.c_str());
+        ImGui::Separator();
+    }
+
+    // It would be natural to make the entries into buttons, or
+    // combos, or other pre–built ui elements. For now I am mostly
+    // going to copy the style of the original textual ui elements.
+    for( size_t i = 0; i < fentries.size(); i++ ) {
+        auto entry = entries[fentries[i]];
+        ImGui::PushID( &entry );
+        auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
+        ImGui::Selectable( "", i == fselected, flags );
+        ImGui::SameLine( 0, 0 );
+        if( i == fselected ) {
+            ImGui::SetItemDefaultFocus();
+        }
+        float text_width = ImGui::GetContentRegionAvail().x;
+        if( entry.hotkey.has_value() ) {
+            ImGui::Text( "%c", '[' );
+            ImGui::SameLine( 0, 0 );
+            auto color = i == fselected ? hilight_color : hotkey_color;
+            draw_colored_text( entry.hotkey.value().short_description(),
+                               color,
+                               cataimgui::text_align::Left,
+                               text_width);
+            ImGui::SameLine( 0, 0 );
+            ImGui::Text( "%c", ']' );
+            ImGui::SameLine();
+        }
+        nc_color color = ( i == fselected ?
+                           hilight_color :
+                           ( entry.enabled || entry.force_color ?
+                             entry.text_color :
+                             disabled_color ) );
+        draw_colored_text( entry.txt,
+                           color,
+                           cataimgui::text_align::Left,
+                           text_width );
+        ImGui::PopID();
+    }
+
+    if( desc_enabled ) {
+        ImGui::Separator();
+        ImGui::TextWrapped("%s", footer_text.empty() ? entries[selected].desc.c_str() : footer_text.c_str());
     }
 }
 
@@ -919,11 +992,11 @@ bool uilist::scrollby( const int scrollby )
 
     bool looparound = scrollby == -1 || scrollby == 1;
     bool backwards = scrollby < 0;
-    int recmax = static_cast<int>( fentries.size() );
+    size_t recmax = fentries.size();
 
     fselected += scrollby;
     if( !looparound ) {
-        if( backwards && fselected < 0 ) {
+        if( backwards && fselected >= recmax ) {
             fselected = 0;
         } else if( fselected >= recmax ) {
             fselected = fentries.size() - 1;
@@ -931,7 +1004,7 @@ bool uilist::scrollby( const int scrollby )
     }
 
     if( backwards ) {
-        if( fselected < 0 ) {
+        if( fselected >= recmax ) {
             fselected = fentries.size() - 1;
         }
         for( size_t i = 0; i < fentries.size(); ++i ) {
@@ -939,7 +1012,7 @@ bool uilist::scrollby( const int scrollby )
                 break;
             }
             --fselected;
-            if( fselected < 0 ) {
+            if( fselected >= recmax ) {
                 fselected = fentries.size() - 1;
             }
         }
@@ -964,22 +1037,6 @@ bool uilist::scrollby( const int scrollby )
         }
     }
     return true;
-}
-
-shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
-{
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-    if( !current_ui ) {
-        ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_redraw( [this]( ui_adaptor & ui ) {
-            show( ui );
-        } );
-        current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
-            reposition( ui );
-        } );
-        current_ui->mark_resize();
-    }
-    return current_ui;
 }
 
 uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
@@ -1107,8 +1164,6 @@ void uilist::query( bool loop, int timeout )
 
     input_context ctxt = create_main_input_context();
 
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
-
     ui_manager::redraw();
 
 #if defined(__ANDROID__)
@@ -1121,6 +1176,10 @@ void uilist::query( bool loop, int timeout )
 #endif
 
     do {
+        ui_manager::redraw();
+#if !(defined(TILES) || defined(WIN32))
+        ui_adaptor::redraw_all_invalidated( true );
+#endif
         ret_act = ctxt.handle_input( timeout );
         const input_event event = ctxt.get_raw_input();
         ret_evt = event;
@@ -1203,7 +1262,7 @@ int uilist::find_entry_by_coordinate( const point &p ) const
  */
 void uilist::reset()
 {
-    window = catacurses::window();
+    //window = catacurses::window();
     init();
 }
 
@@ -1256,14 +1315,9 @@ void uilist::addentry_col( const int retval, const bool enabled,
     entries.emplace_back( retval, enabled, key, txt, desc, column );
 }
 
-void uilist::settext( const std::string &str )
+void uilist::set_selected( size_t index )
 {
-    text = str;
-}
-
-void uilist::set_selected( int index )
-{
-    selected = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    selected = std::clamp( index, 0ul, entries.size() - 1 );
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
@@ -1348,7 +1402,7 @@ int uimenu::query()
 
 struct pointmenu_cb::impl_t {
     const std::vector< tripoint > &points;
-    int last; // to suppress redrawing
+    size_t last; // to suppress redrawing
     tripoint last_view; // to reposition the view after selecting
     shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
@@ -1383,7 +1437,7 @@ void pointmenu_cb::impl_t::select( uilist *const menu )
     }
     last = menu->selected;
     avatar &player_character = get_avatar();
-    if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
+    if( menu->selected < 0 || menu->selected >= points.size() ) {
         player_character.view_offset = tripoint_zero;
     } else {
         const tripoint &center = points[menu->selected];

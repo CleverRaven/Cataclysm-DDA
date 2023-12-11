@@ -1274,12 +1274,11 @@ static void change_spells( Character &character )
 static void spawn_artifact()
 {
     map &here = get_map();
-    uilist relic_menu;
+    uilist relic_menu( _( "Choose artifact data:" ) );
     std::vector<relic_procgen_id> relic_list;
     for( const relic_procgen_data &elem : relic_procgen_data::get_all() ) {
         relic_list.emplace_back( elem.id );
     }
-    relic_menu.text = _( "Choose artifact data:" );
     std::sort( relic_list.begin(), relic_list.end(), localized_compare );
     int menu_ind = 0;
     for( auto &elem : relic_list ) {
@@ -1502,8 +1501,8 @@ static void character_edit_needs_menu( Character &you )
     data << _( "  Water volume: " ) << vol_to_string( you.guts.get_water() ) << std::endl;
     data << string_format( _( "  kcal: %d" ), you.guts.get_calories() ) << std::endl;
 
-    uilist smenu;
-    smenu.text = data.str();
+    uilist smenu( _( "Edit needs" ) );
+    smenu.help_text = data.str();
     smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), you.get_hunger() );
     smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kcal" ), you.get_stored_kcal() );
     smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kcal" ), you.stomach.get_calories() );
@@ -1730,10 +1729,9 @@ static void character_edit_personality_menu( npc *np )
 
 static void character_edit_desc_menu( Character &you )
 {
-    uilist smenu;
     std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                  "-" );
-    smenu.text = _( "Select a value and press enter to change it." );
+    uilist smenu( _( "Select a value and press enter to change it." ) );
     if( you.is_avatar() ) {
         smenu.addentry( 0, true, 's', "%s: %s", _( "Current save file name" ), get_avatar().get_save_id() );
     }
@@ -1792,8 +1790,7 @@ static void character_edit_desc_menu( Character &you )
         }
         break;
         case 4: {
-            uilist btype;
-            btype.text = _( "Select blood type" );
+            uilist btype( _( "Select blood type" ) );
             btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
             btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
             btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
@@ -1802,8 +1799,7 @@ static void character_edit_desc_menu( Character &you )
             if( btype.ret < 0 ) {
                 break;
             }
-            uilist bfac;
-            bfac.text = _( "Select Rh factor" );
+            uilist bfac( _( "Select Rh factor" ) );
             bfac.addentry( 0, true, '-', _( "negative" ) );
             bfac.addentry( 1, true, '+', _( "positive" ) );
             bfac.query();
@@ -1870,9 +1866,11 @@ static void character_edit_menu()
     uilist nmenu;
 
     if( np != nullptr ) {
+        std::stringstream title;
+        title << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
+              np->myclass->get_name() << " " << _( "class ID:" ) << np->myclass.obj().id;
+        nmenu.set_title( title.str() );
         std::stringstream data;
-        data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
-             np->myclass->get_name() << " " << _( "class ID:" ) << np->myclass.obj().id << std::endl;
         if( !np->get_unique_id().empty() ) {
             data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
         }
@@ -1904,9 +1902,9 @@ static void character_edit_menu()
         data << std::endl;
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
-        nmenu.text = data.str();
+        nmenu.set_title( data.str() );
     } else {
-        nmenu.text = _( "Player" );
+        nmenu.set_title( _( "Player" ) );
     }
 
     enum {
@@ -2068,14 +2066,13 @@ static void character_edit_menu()
                     wishmutate( &you );
                     break;
                 case 1: {
-                    uilist ssmenu;
                     std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
                     mutation_categories_list.reserve( mutations_category.size() );
                     for( const std::pair<const mutation_category_id, std::vector<trait_id> > &mut_cat :
                          mutations_category ) {
                         mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
                     }
-                    ssmenu.text = _( "Choose mutation category:" );
+                    uilist ssmenu( _( "Choose mutation category:" ) );
                     std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
                     int menu_ind = 0;
                     for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
@@ -2134,8 +2131,7 @@ static void character_edit_menu()
             you.disp_info( true );
             break;
         case D_MISSION_ADD: {
-            uilist types;
-            types.text = _( "Choose mission type" );
+            uilist types( _( "Choose mission type" ) );
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
             for( size_t i = 0; i < all_missions.size(); i++ ) {
@@ -2165,8 +2161,7 @@ static void character_edit_menu()
         }
         break;
         case D_CLASS: {
-            uilist classes;
-            classes.text = _( "Choose new class" );
+            uilist classes( _( "Choose new class" ) );
             std::vector<npc_class_id> ids;
             size_t i = 0;
             for( const npc_class &cl : npc_class::get_all() ) {
@@ -2183,8 +2178,7 @@ static void character_edit_menu()
         }
         break;
         case D_ATTITUDE: {
-            uilist attitudes_ui;
-            attitudes_ui.text = _( "Choose new attitude" );
+            uilist attitudes_ui( _( "Choose new attitude" ) );
             std::vector<npc_attitude> attitudes;
             for( int i = NPCATT_NULL; i < NPCATT_END; i++ ) {
                 npc_attitude att_id = static_cast<npc_attitude>( i );
@@ -2324,17 +2318,15 @@ static void faction_edit_larder_menu( faction *fac )
 
 static void faction_edit_menu()
 {
-
     faction *const fac = select_faction();
 
     if( fac == nullptr ) {
         return;
     }
 
-    uilist nmenu;
+    uilist nmenu( fac->name );
 
     std::stringstream data;
-    data << fac->name << std::endl;
     data << fac->describe() << std::endl;
     data << string_format( _( "Id: %s" ), fac->id.c_str() ) << std::endl;
     data << string_format( _( "Wealth: %d" ), fac->wealth ) << " | "
@@ -2348,7 +2340,7 @@ static void faction_edit_menu()
     data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
          << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
 
-    nmenu.text = data.str();
+    nmenu.help_text = data.str();
 
     enum {
         D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE
@@ -2449,8 +2441,7 @@ void mission_debug::edit_npc( npc &who )
     dialogue_chatbin &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
-    uilist mmenu;
-    mmenu.text = _( "Select mission to edit" );
+    uilist mmenu( _( "Select mission to edit" ) );
 
     add_header( mmenu, _( "Currently assigned missions:" ) );
     for( mission *m : bin.missions_assigned ) {
@@ -2476,8 +2467,7 @@ void mission_debug::edit_player()
 {
     std::vector<mission *> all_missions;
 
-    uilist mmenu;
-    mmenu.text = _( "Select mission to edit" );
+    uilist mmenu( _( "Select mission to edit" ) );
 
     avatar &player_character = get_avatar();
     add_header( mmenu, _( "Active missions:" ) );
@@ -2545,8 +2535,7 @@ void mission_debug::remove_mission( mission &m )
 
 void mission_debug::edit_mission( mission &m )
 {
-    uilist mmenu;
-    mmenu.text = describe( m );
+    uilist mmenu( describe( m ) );
 
     enum {
         M_FAIL, M_SUCCEED, M_REMOVE
@@ -2694,8 +2683,7 @@ static void debug_menu_spawn_vehicle()
             }
         }
         std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
-        uilist veh_menu;
-        veh_menu.text = _( "Choose vehicle to spawn" );
+        uilist veh_menu( _( "Choose vehicle to spawn" ) );
         int menu_ind = 0;
         for( auto &elem : veh_strings ) {
             //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
@@ -2708,8 +2696,7 @@ static void debug_menu_spawn_vehicle()
             // Didn't cancel
             const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
             tripoint dest = player_character.pos();
-            uilist veh_cond_menu;
-            veh_cond_menu.text = _( "Vehicle condition" );
+            uilist veh_cond_menu( _( "Vehicle condition" ) );
             veh_cond_menu.addentry( 3, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
             veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
             veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
@@ -3052,10 +3039,9 @@ void debug()
             break;
 
         case debug_menu_index::CHANGE_WEATHER: {
-            uilist weather_menu;
             weather_manager &weather = get_weather();
             weather_generator wgen = weather.get_cur_weather_gen();
-            weather_menu.text = _( "Select new weather pattern:" );
+            uilist weather_menu( _( "Select new weather pattern:" ) );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < wgen.sorted_weather.size(); i++ ) {
@@ -3083,9 +3069,8 @@ void debug()
         break;
 
         case debug_menu_index::WIND_DIRECTION: {
-            uilist wind_direction_menu;
             weather_manager &weather = get_weather();
-            wind_direction_menu.text = _( "Select new wind direction:" );
+            uilist wind_direction_menu( _( "Select new wind direction:" ) );
             wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                           _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
@@ -3105,9 +3090,8 @@ void debug()
         break;
 
         case debug_menu_index::WIND_SPEED: {
-            uilist wind_speed_menu;
             weather_manager &weather = get_weather();
-            wind_speed_menu.text = _( "Select new wind speed:" );
+            uilist wind_speed_menu( _( "Select new wind speed:" ) );
             wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;

@@ -4449,9 +4449,8 @@ bool mattack::riotbot( monster *z )
         enum {ur_arrest, ur_resist, ur_trick};
 
         // Arrest!
-        uilist amenu;
+        uilist amenu( _( "The robot orders you to present your hands and be cuffed." ) );
         amenu.allow_cancel = false;
-        amenu.text = _( "The robot orders you to present your hands and be cuffed." );
 
         amenu.addentry( ur_arrest, true, 'a', _( "Allow yourself to be arrested." ) );
         amenu.addentry( ur_resist, true, 'r', _( "Resist arrest!" ) );

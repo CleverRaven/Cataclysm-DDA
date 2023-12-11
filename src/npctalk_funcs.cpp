@@ -349,8 +349,7 @@ void talk_function::do_disassembly( npc &p )
 void talk_function::goto_location( npc &p )
 {
     int i = 0;
-    uilist selection_menu;
-    selection_menu.text = _( "Select a destination" );
+    uilist selection_menu( _( "Select a destination" ) );
     std::vector<basecamp *> camps;
     tripoint_abs_omt destination;
     Character &player_character = get_player_character();
@@ -742,7 +741,7 @@ static void generic_barber( const std::string &mut_type )
     } else if( mut_type == "facial_hair" ) {
         menu_text = _( "Choose a new facial hair style" );
     }
-    hair_menu.text = menu_text;
+    hair_menu.set_title( menu_text );
     int index = 0;
     hair_menu.addentry( index, true, 'q', _( "Actually…  I've changed my mind." ) );
     std::vector<trait_and_var> hair_muts = mutations_var_in_type( mut_type );
@@ -1230,8 +1229,7 @@ npc *pick_follower()
 
     pointmenu_cb callback( locations );
 
-    uilist menu;
-    menu.text = _( "Select a follower" );
+    uilist menu( _( "Select a follower" ) );
     menu.callback = &callback;
     menu.w_y_setup = 2;
 
