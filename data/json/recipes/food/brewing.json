@@ -193,8 +193,7 @@
       [ [ "yeast", 1 ] ]
     ],
     "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_vodka it is 7 charges per 250ml.",
-    "//2": "No evaporation process.",
-    "//3": "Hence 3x7=21 charges",
+    "//2": "Hence 3x7=21 charges",
     "charges": 21
   },
   {
@@ -213,8 +212,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ],
     "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_rum it is 7 charges per 250ml.",
-    "//2": "No evaporation process (evaporation occurs in a different recipe for distillation).",
-    "//3": "Hence 3x7=21 charges",
+    "//2": "Hence 3x7=21 charges",
     "charges": 21
   },
   {
