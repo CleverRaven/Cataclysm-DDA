@@ -1113,6 +1113,7 @@ vehicle *game::place_vehicle_nearby(
         if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
+            search_types.emplace_back( "ocean" );
         } else {
             search_types.emplace_back( "road" );
             search_types.emplace_back( "field" );
@@ -12604,8 +12605,8 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
         // Only spawn random NPCs on z-level 0
         spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldn't spawn on lakes or rivers.
-        if( !is_river_or_lake( oter ) ) {
+        // shouldn't spawn on bodies of water.
+        if( !is_water_body( oter ) ) {
             spawn_allowed = true;
         }
         counter += 1;
