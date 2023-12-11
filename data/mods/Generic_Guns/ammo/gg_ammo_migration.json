@@ -577,7 +577,7 @@
     "replace": "bp_shot_buck"
   },
   {
-    "id": [ "bp_shot_bird", "bp_reloaded_410shot_bird" ],
+    "id": [ "bp_shot_bird", "bp_410shot_bird" ],
     "type": "MIGRATION",
     "replace": "bp_shot_fowl"
   },
