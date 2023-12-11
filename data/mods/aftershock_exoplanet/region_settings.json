@@ -79,23 +79,6 @@
         "f_region_water_plant": { "f_shrub_moss": 15 }
       }
     },
-    "field_coverage": {
-      "percent_coverage": 0.02,
-      "default_ter": "t_lichen",
-      "other": {
-        "t_region_tree": 1,
-        "t_region_shrub": 3,
-        "f_region_weed": 49,
-        "f_region_flower": 37,
-        "f_boulder_small": 5,
-        "f_boulder_medium": 4,
-        "f_boulder_large": 1
-      },
-      "boost_chance": 0.03,
-      "boosted_percent_coverage": 2.5,
-      "boosted_other": { "t_lichen": 0.2, "t_lichendirt": 0.1 },
-      "boosted_other_percent": 50.0
-    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 10.0,
       "lake_size_min": 20,
