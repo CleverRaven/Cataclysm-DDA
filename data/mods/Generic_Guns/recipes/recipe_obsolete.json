@@ -1763,5 +1763,25 @@
     "type": "recipe",
     "result": "bp_410shot_000",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_bird_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_slug_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_000_with_dowel",
+    "obsolete": true
   }
 ]

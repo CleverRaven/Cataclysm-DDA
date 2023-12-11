@@ -143,7 +143,7 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "bp_reloaded_410shot_bird",
+    "id": "bp_410shot_bird",
     "copy-from": "reloaded_410shot_bird",
     "type": "AMMO",
     "name": { "str_sp": ".410 birdshot, black powder" },
