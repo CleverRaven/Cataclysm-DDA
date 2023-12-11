@@ -33,7 +33,7 @@
       "teleport_transpose": 8,
       "teleport_farstep": 12,
       "teleport_gateway": 18,
-      "teleport_attune_ground": 18
+      "teleport_area_attune": 18
     }
   },
   {
@@ -111,7 +111,7 @@
     "base_casting_time": 65,
     "final_casting_time": 15,
     "casting_time_increment": -3,
-    "learn_spells": { "teleport_transpose": 4, "teleport_stride": 9, "teleport_gateway": 15, "teleport_attune_ground": 15 }
+    "learn_spells": { "teleport_transpose": 4, "teleport_stride": 9, "teleport_gateway": 15, "teleport_area_attune": 15 }
   },
   {
     "id": "teleport_stride",
@@ -242,7 +242,7 @@
       "teleport_displacement": 4,
       "teleport_banish": 9,
       "teleport_gateway": 12,
-      "teleport_attune_ground": 12,
+      "teleport_area_attune": 12,
       "teleport_summon": 15
     }
   },
@@ -556,7 +556,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_attune_ground": 9, "teleport_gateway": 9, "teleport_banish": 12 }
+    "learn_spells": { "teleport_area_attune": 9, "teleport_gateway": 9, "teleport_banish": 12 }
   },
   {
     "id": "teleport_banish",
@@ -623,7 +623,7 @@
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "teleport_attune_ground": 1, "teleport_banish": 6 }
+    "learn_spells": { "teleport_area_attune": 1, "teleport_banish": 6 }
   },
   {
     "id": "teleport_area_attune",
