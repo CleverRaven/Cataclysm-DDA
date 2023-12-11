@@ -1,5 +1,22 @@
 [
   {
+    "id": "psionic_transporter_beacon",
+    "type": "TOOL",
+    "name": { "str": "transporter beacon" },
+    "description": "A pyramidal object with a matrix crystal on top, surrounded by several chunks of the otherworldly boulders you've found dotting the landscape.  You could place it somewhere and after you've configured it, use a transporter remote to teleport yourself to its location.",
+    "weight": "2500 g",
+    "volume": "2000 ml",
+    "longest_side": "40 cm",
+    "material": [
+      { "type": "plastic", "portion": 60 },
+      { "type": "steel", "portion": 5 },
+      { "type": "alien_liquid", "portion": 5 },
+      { "type": "nether_crystal", "portion": 15 }
+    ],
+    "symbol": "Δ",
+    "color": "blue"
+  },
+  {
     "id": "psionic_transporter_remote",
     "type": "TOOL",
     "name": { "str": "transporter remote" },
@@ -40,8 +57,8 @@
   {
     "id": "psionic_transporter_remote_on",
     "type": "TOOL",
-    "name": { "str": "transporter remote (searching)" },
-    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array is stick out of the side like an antenna.  There is a small screen on the front, currently running what looks like a series of mathematical calculations.",
+    "name": { "str_sp": "transporter remote (searching)" },
+    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array is sticking out of the side like an antenna.  There is a small screen on the front, currently running what looks like a series of mathematical calculations.",
     "weight": "500 g",
     "volume": "350 ml",
     "longest_side": "15 cm",
@@ -80,5 +97,15 @@
     "copy-from": "psionic_transporter_remote",
     "power_draw": "25000 mW",
     "revert_to": "psionic_transporter_remote"
+  },
+  {
+    "id": "psionic_transporter_remote_broken",
+    "type": "TOOL",
+    "name": { "str_sp": "transporter remote (burned out)" },
+    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array was sticking out of the side like an antenna, but it's now cracked and probably useless.  There is a small screen on the front, obviously burned out.  Parts of the plastic casing are warped as though the plastic had briefly flowed like a liquid.",
+    "copy-from": "psionic_transporter_remote",
+    "use_action": [  ],
+    "pocket_data": [  ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
