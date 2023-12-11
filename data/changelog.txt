@@ -80,6 +80,13 @@ The player can gauge an NPC's personality during dialogue with them
 The Han Solo Special: NPCs identify when fleeing is failing. Also adds flee modes and panic.
 Boomer bile is slippery, causes pinkeye, and is blocked by waterproof eyewear
 The map changes as you travel east-west and north-south, revealing either rural areas or oceans and megacities
+Furniture/terrain have semi-persistent damage from being bashed
+Make AIM Move All actually move as much as it can
+Rework Character::overmap_sight_range to allow night overmap sight through mutation
+re-add pre-seeded hordes, make them unconditional, and show up even with wandering hordes disabled
+No more batteries in microwave (and more)
+Allow for a "variant" field when using the add_trait effect
+There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free to add content for it.
 
 
 ## Content:
@@ -146,6 +153,15 @@ Winnowing, new method of obtaining raw grain
 Adds compensators, adds conflict for suppressors/barrel porting
 Changes some items' material to fiberglass
 New portal storm monster based off a dream I had
+Adds .38 +P loads and .38 ballistics data
+ adds a fresh batch of 10 new electronic video snippets to laptops and smartphones.
+Add liquid recipes for faction camps
+Adds AK bayonets
+Friends to the End scenario for DDA and DDotD, adding a unique guaranteed follower and a stub of a storyline.
+Adding ~a hunting jacket~ tactical jackets
+Add the star vampire, an invisible blood-drinking monster
+Metamagic perks from Bombastic Perks
+More trail variety
 
 
 ## Interface:
@@ -194,6 +210,7 @@ Update gun mod removal UI to use inventory menu instead of a prompt; prevent rem
 Show the mass of vitamins in food items
 Melee weapons tell you your skill is too low to see melee values instead of just hiding them
 Shows the starting location for a scenario when there is only one possible option.
+Show language selection window in options menu
 
 
 ## Mods:
@@ -273,6 +290,21 @@ Add Bombastic Perk compatibility to Defense Mode.
 [Backrooms] Autodoc special and long-term progression tweaks
 [MoM] Add Project PHAVIAN skyscraper lab
 [MoM] Add telepathic dampener```
+[Xedra Evolved] Revamp spell learning system
+[MoM] Terminology adjustments
+[Magiclysm] Reduce goblin camp spawns per overmap
+[MoM] Add teep/clear blocking testing room to skyscraper lab + lab fixes
+[MoM] Vitakinesis disease interaction revamp
+[MoM] More powers
+[MoM] Add Project PHAVIAN Teleporter research areas
+Fix deathray volume expanding as charge increases
+[MoM] Even Even More Powers
+[MoM] Further concentration updates
+[MoM] Clairsentient and Vitakinetic Feral buffs
+Aftershock: Add three new combat drugs
+[MoM] Change Gateway attunement to a teleporter power, remove Construction recipe
+[MoM] Nether Attunement additional updates
+[MoM] Vitakinesis automatically brings up the bleeding/infection menu
 
 
 ## Balance:
@@ -322,6 +354,7 @@ Fragile Clothing will degrade if its dealt damage larger than 15% its armor valu
 Professions can start with specific recipes
 Food irradiation slows food decay to a quarter, instead of making it last forever
 Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
+Made rabbit mutants less cute.
 
 
 ## Bugfixes:
@@ -419,6 +452,32 @@ No more infinite aphids
 Stop milking dead cows
 Allow pocket_mods to add magazine or magazine well pockets to items without them
 Check BMR value to prevent dividing by 0
+[MoM] Fix Spacial Vortex and Wave of Force
+Slight grammer fix with Inattentive trait
+Overmap autotravel on light industry road
+Fix cbm_ammo calculation bug
+Changes the angle grinder recipe to also accept metal grinding discs
+Allow resuming backlog activity_actor
+Angle grinders can be made with a cutoff disc
+Fix practice requirements for the lucerne hammer.
+[MoM] fix Electron Overflow
+[MoM] fix Voltaic Strikes
+[MoM] properly teach Electrokinetic contemplation recieps on Portal Storm awakening
+[Xedra Evolved] Fix salamander Incandescent Artisan's Alacrity trait
+Fixes FN Fal Variant error
+Plug in tools with cables during crafting tests
+[Xedra Evolved] Fix Arvore mutation regressions
+Make hair styles conform to using variants for colors
+Replace psuedo-feet for prosthetic legs with proper prosthetic versions, and add infrastructure to block some effects prosthetics shouldn't get.
+Fix in-game customization when using hair trimmer, hand mirror, etc
+fix weapon steadiness bar not working
+[MoM] Fix Hammerhand not removing the hammer hand
+Feral soldiers now always drop their knife again
+Removes 32 round Grease Gun mags
+No sword bayonets on pistols
+[MoM] Add electrokinetic matrix crystal disassembly
+Make motors drop a realistic amount of wire
+[MoM] Fix zombie null aura not disappearing on death
 
 
 ## Performance:
@@ -470,6 +529,8 @@ Faction editing on Debug menu
 Change NPC faction from debug menu
 Remove action portion out of assess_danger into a dedicated method
 Add u_has_proficiency to EoC conditions
+JSON-ify hallucinations
+Parameterize new geography changes to overmaps
 
 
 ## Build:
