@@ -854,12 +854,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item soldering = tool_with_ammo( "soldering_iron_portable", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
             tools.push_back( soldering );
-            item plastic_molding = tool_with_ammo( "vac_mold", 4 );
-            REQUIRE( plastic_molding.ammo_remaining() == 4 );
-            tools.push_back( plastic_molding );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                prep_craft( recipe_carver_off, tools, true, 0, false, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
@@ -870,10 +867,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         WHEN( "multiple tools have enough combined charges" ) {
             tools.insert( tools.end(), 2, tool_with_ammo( "popcan_stove", 30 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron_portable", 5 ) );
-            tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                prep_craft( recipe_carver_off, tools, true, 0, false, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
@@ -887,19 +883,23 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item soldering_iron_portable( "soldering_iron_portable" );
             soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( soldering_iron_portable );
+            item plastic_molding = item( "vac_mold" );
+            plastic_molding.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( plastic_molding );
+
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
             UPS.put_in( UPS_mag, pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
-            tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
-                CHECK( get_remaining_charges( "UPS_off" ) == 290 );
+                // vacuum molding takes 4 charges
+                CHECK( get_remaining_charges( "UPS_off" ) == 286 );
             }
         }
 
@@ -910,6 +910,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item soldering_iron_portable( "soldering_iron_portable" );
             soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( soldering_iron_portable );
+            item plastic_molding = item( "vac_mold" );
+            plastic_molding.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( plastic_molding );
 
             item ups( "UPS_off" );
             item ups_mag( ups.magazine_default() );

@@ -211,6 +211,17 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
+struct overmap_ocean_settings {
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 0;
+    int ocean_start_east = 10;
+    int ocean_start_west = 0;
+    int ocean_start_south = 0;
+    overmap_ocean_settings() = default;
+};
+
 struct overmap_ravine_settings {
     int num_ravines = 0;
     int ravine_range = 45;
@@ -262,6 +273,7 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    overmap_ocean_settings overmap_ocean;
     overmap_ravine_settings overmap_ravine;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
