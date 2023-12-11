@@ -157,11 +157,7 @@
     "time": "2 m",
     "charges": 1,
     "reversible": true,
-    "components": [
-      [ [ "410shot_scrap", 4 ] ],
-      [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ]
-    ]
+    "components": [ [ [ "410shot_scrap", 4 ] ], [ [ "40x46mm_hornets_nest_410_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
   },
   {
     "result": "40x46mm_slug_m118",
