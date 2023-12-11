@@ -188,6 +188,7 @@
     "type": "furniture",
     "id": "f_bullettrailer_inner_door",
     "name": "trailer bathroom door",
+    "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
     "move_cost_mod": -1,
     "symbol": "|",
     "color": "light_gray",
