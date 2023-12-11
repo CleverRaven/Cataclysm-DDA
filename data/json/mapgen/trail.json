@@ -1,0 +1,802 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_end",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_end_basic", 3 ],
+            [ "24x24_forest_trail_end_spread", 3 ],
+            [ "24x24_forest_trail_end_split", 3 ],
+            [ "24x24_forest_trail_intersection", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_end_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        444444444       ",
+        "        433333334       ",
+        "        432222234       ",
+        "        432111234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_end_spread",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "4321234     4     432134",
+        "32101234   434   4321013",
+        "432101234 43234 43210123",
+        " 43210123432123432101234",
+        " 43210123321012332101234",
+        "  432101232101232101234 ",
+        "   4321012210122101234  ",
+        "    43210121012101234   ",
+        "     432101101101234    ",
+        "     432101101101234    ",
+        "      4321010101234     ",
+        "       43210001234      ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_end_split",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "  4444444       4444444 ",
+        " 4333333344   4433333334",
+        "432222222334 43322222223",
+        "321111111223432211111112",
+        "210000000112321100000001",
+        "321111111001210011111112",
+        "432222222110101122222223",
+        " 43333333210101233333334",
+        "  444444432101234444444 ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_straight",
+    "//": "Only includes field temporarily while horse farm spawned trail can spawn over field",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_forest_trail_straight_forest" ],
+          "x": 0,
+          "y": 0,
+          "predecessors": [ "forest", "forest_thick", "field" ]
+        },
+        { "chunks": [ "24x24_forest_trail_straight_swamp" ], "x": 0, "y": 0, "predecessors": [ "forest_water" ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_forest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_straight_basic", 30 ],
+            [ "24x24_forest_trail_straight_meander", 80 ],
+            [ "24x24_forest_trail_straight_meander_1", 80 ],
+            [ "24x24_forest_trail_straight_fallen_tree", 4 ],
+            [ "24x24_forest_trail_straight_sett", 8 ],
+            [ "24x24_forest_trail_straight_steep", 10 ],
+            [ "24x24_forest_trail_straight_mud", 3 ],
+            [ "24x24_forest_trail_straight_mud_split", 3 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_swamp",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_straight_basic", 20 ],
+            [ "24x24_forest_trail_straight_meander", 80 ],
+            [ "24x24_forest_trail_straight_meander_1", 80 ],
+            [ "24x24_forest_trail_straight_fallen_tree", 1 ],
+            [ "24x24_forest_trail_straight_mud", 10 ],
+            [ "24x24_forest_trail_straight_mud_split", 10 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_meander",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "       432101234        ",
+        "       432101234        ",
+        "       432101234        ",
+        "       432101234        ",
+        "      432101234         ",
+        "      432101234         ",
+        "      432101234         ",
+        "      432101234         ",
+        "      432101234         ",
+        "     432101234          ",
+        "     432101234          ",
+        "     432101234          ",
+        "     432101234          ",
+        "     432101234          ",
+        "     432101234          ",
+        "     432101234          ",
+        "     432101234          ",
+        "      432101234         ",
+        "      432101234         ",
+        "       432101234        ",
+        "       432101234        ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_meander_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "         432101234      ",
+        "         432101234      ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "          432101234     ",
+        "         432101234      ",
+        "         432101234      ",
+        "         432101234      ",
+        "         432101234      ",
+        "         432101234      ",
+        "         432101234      ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_fallen_tree",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        4321012344      ",
+        "        43210123334     ",
+        "        432101222234    ",
+        "        4332011111234   ",
+        "        44330000001234  ",
+        "         44ntt11101234  ",
+        "              tt101234  ",
+        "             432101234  ",
+        "             432101234  ",
+        "            432101234   ",
+        "           432101234    ",
+        "          432101234     ",
+        "         432101234      ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_sett",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "         432101234      ",
+        "        S432101234      ",
+        "      ****432101234     ",
+        "     *m***432101234     ",
+        "    **ad*S*432101234    ",
+        "   ********432101234    ",
+        "  ********S432101234    ",
+        "  *********432101234    ",
+        "  *****ad**S432101234   ",
+        "  **A****m**432101234   ",
+        "  **********432101234   ",
+        "  ***adm****432101234   ",
+        "   ******S*432101234    ",
+        "   *****d**432101234    ",
+        "   *****am*432101234    ",
+        "     ****S*432101234    ",
+        "      *****432101234    ",
+        "           432101234    ",
+        "          432101234     ",
+        "         432101234      ",
+        "         432101234      ",
+        "        432101234       "
+      ],
+      "parameters": {
+        "den_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              [ "trail_small_den_empty_palette", 20 ],
+              [ "trail_small_den_groundhog_palette", 500 ],
+              [ "trail_small_den_hare_palette", 5 ],
+              [ "trail_large_den_empty_palette", 10 ],
+              [ "trail_large_den_fox_gray_palette", 2 ],
+              [ "trail_large_den_fox_red_palette", 2 ],
+              [ "trail_large_den_bear_palette", 200 ]
+            ]
+          }
+        }
+      },
+      "palettes": [ "trail_palette", { "param": "den_palette" } ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_steep",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       4332101234       ",
+        "      4322101234        ",
+        "     4321101234         ",
+        "    43210012344         ",
+        "   43210112333344       ",
+        "    43210112222334      ",
+        "     43210011112234     ",
+        "         __000011234    ",
+        "           ____001234   ",
+        "               __01234  ",
+        "       44332221101234   ",
+        "     443322111001234    ",
+        "    4332211000__        ",
+        "   43221100___          ",
+        "  4321100__             ",
+        " 43210011122222234      ",
+        "     __000111111234     ",
+        "       __00000001234    ",
+        "         ______001234   ",
+        "               __01234  ",
+        "           433211101234 ",
+        "          432210001234  ",
+        "         432110111234   ",
+        "        432100122234    "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_mud",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        422101234       ",
+        "        21100123        ",
+        "       21001012         ",
+        "      210111012         ",
+        "     210122~~~~~~~      ",
+        "     21012~~~~~~~~~     ",
+        "    21012~~~~~~~~~~     ",
+        "    21012~~~~~~~~~~     ",
+        "     2101~~~~~~~~~      ",
+        "     21012~~~~~~~       ",
+        "     210122~~~~~        ",
+        "      210121012         ",
+        "      210121012         ",
+        "       21021012         ",
+        "        2101012         ",
+        "        2101012         ",
+        "        42100123        ",
+        "        421001234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_mud_split",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "         432101234      ",
+        "         432101234      ",
+        "          432101234     ",
+        "          432101234     ",
+        "           432101234    ",
+        "            432101234   ",
+        "            432101234   ",
+        "         ~~~~432101234  ",
+        "        ~~~~~~410101234 ",
+        "        ~~~~~~101101234 ",
+        "         ~~~  0432101234",
+        "    ~~       0~~32101234",
+        "   ~~~~     0~~~32101234",
+        "   ~~~~~   0~~~~~3210123",
+        "   ~~~~~   0~~~~~3210123",
+        "     ~~~   0 ~~432101234",
+        "           0 44322101234",
+        "           043321101234 ",
+        "           03221001234  ",
+        "          10111011234   ",
+        "         41010012234    ",
+        "        43210112334     "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_curved",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_curved_basic", 1 ],
+            [ "24x24_forest_trail_curved_shrubs", 1 ],
+            [ "24x24_forest_trail_curved_diag", 2 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_curved_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         444444444444444",
+        "        4433333333333333",
+        "        4332222222222222",
+        "        4322111111111111",
+        "        4321100000000000",
+        "        4321001111111111",
+        "        4321011222222222",
+        "        4321012233333333",
+        "        4321012334444444",
+        "        4321012344      ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_curved_shrubs",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "            44          ",
+        "         4443344        ",
+        "        433322334       ",
+        "       43222112234      ",
+        "      4321110011234     ",
+        "     4321000110012344   ",
+        "    43210111221101233444",
+        "   432101222332210122333",
+        "   432101233SS3321011222",
+        "   43210123SSSSS32100111",
+        "  43210123SSSSSSS3211000",
+        "  43210123SSSSSSSS322111",
+        "   43210123SSSSSSSS33222",
+        "   43210123SSSSSSSS  333",
+        "    43210123SSSSSS      ",
+        "     43210123SSSS       ",
+        "      43210123SS        ",
+        "       43210123         ",
+        "       43210123         ",
+        "        43210123        ",
+        "        43210123        ",
+        "        43210123        "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_curved_diag",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       4",
+        "                      43",
+        "                     432",
+        "                    4321",
+        "                   43210",
+        "                  432101",
+        "                 4321012",
+        "                43210123",
+        "               432101234",
+        "              432101234 ",
+        "             432101234  ",
+        "            432101234   ",
+        "           432101234    ",
+        "          432101234     ",
+        "         432101234      ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_tee",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_tee_basic", 2 ],
+            [ "24x24_forest_trail_tee_split", 3 ],
+            [ "24x24_forest_trail_intersection", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_tee_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "444444444444444444444444",
+        "333333333333333333333333",
+        "2222222222I222I222222222",
+        "111111111111111111111111",
+        "000000000000000000000000",
+        "111111111111011111111111",
+        "2222222222B101B222222222",
+        "333333333321012333333333",
+        "444444444321012344444444",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_tee_split",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       444444           ",
+        "     44333333444        ",
+        "   443322222233344      ",
+        "444332211111122233444444",
+        "333221100000011122333333",
+        "222110011111100011222222",
+        "111001122222211100111111",
+        "000111223333322211000000",
+        "111000112344433322111111",
+        "222111001234444433222222",
+        "3332221101234   44333333",
+        "44433322101234    444444",
+        "   444332101234         ",
+        "      432101234         ",
+        "       432101234        ",
+        "       432101234        ",
+        "       432101234        ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_four_way",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_forest_trail_four_way_basic", "24x24_forest_trail_four_way_high_low", "24x24_forest_trail_intersection" ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_four_way_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "444444444321012344444444",
+        "333333333321012333333333",
+        "2222222222B101I222222222",
+        "111111111111011111111111",
+        "000000000000000000000000",
+        "111111111111011111111111",
+        "2222222222B101I222222222",
+        "333333333321012333333333",
+        "444444444321012344444444",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_four_way_high_low",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "         432101234      ",
+        "         432101234      ",
+        "         432101234      ",
+        "         432101234      ",
+        "          432101234     ",
+        " 4444444444321012344444 ",
+        "433333333333210123333334",
+        "322222222222210122222223",
+        "211111111111100011111112",
+        "100000000000000000000001",
+        "011111111111111111111110",
+        "100112222222222222222101",
+        "211001123333333333332101",
+        "322110012334444444321012",
+        "433221101223444433221012",
+        " 44332210112333322110123",
+        "   443321001222211001234",
+        "     443211011110011234 ",
+        "       432210000112234  ",
+        "        4321001122334   ",
+        "        432101223344    ",
+        "        4321012344      "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_intersection",
+    "//": "For placing the intersection as part of a special",
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "place_nested": [ { "chunks": [ "24x24_forest_trail_intersection" ], "x": 0, "y": 0 } ]
+    }
+  }
+]

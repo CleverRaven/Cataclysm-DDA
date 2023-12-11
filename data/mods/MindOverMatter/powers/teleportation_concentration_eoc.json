@@ -12,10 +12,14 @@
         "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -41,10 +45,14 @@
         "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }

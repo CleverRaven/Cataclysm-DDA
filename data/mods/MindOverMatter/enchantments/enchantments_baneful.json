@@ -11,7 +11,7 @@
     "id": "enchant_electrokin_overload",
     "condition": "ALWAYS",
     "has": "HELD",
-    "emitter": "emit_shock_burst_rat"
+    "emitter": "emit_shock_burst_electrokin_overload"
   },
   {
     "type": "enchantment",

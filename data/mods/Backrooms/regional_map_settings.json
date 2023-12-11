@@ -55,6 +55,15 @@
       "shore_extendable_overmap_terrain": [ "forest" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
+    "overmap_ocean_settings": {
+      "noise_threshold_ocean": 10.0,
+      "ocean_size_min": 100,
+      "ocean_depth": -9,
+      "ocean_start_north": 0,
+      "ocean_start_east": 0,
+      "ocean_start_west": 0,
+      "ocean_start_south": 0
+    },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 1.0,
@@ -131,11 +140,6 @@
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
       "trailhead_road_distance": 6,
-      "trail_center_variance": 3,
-      "trail_width_offset_min": 1,
-      "trail_width_offset_max": 3,
-      "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
