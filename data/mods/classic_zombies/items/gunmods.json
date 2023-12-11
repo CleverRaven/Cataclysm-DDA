@@ -1,0 +1,17 @@
+[
+  {
+    "id": [ "retool_ar15_300blk", "retool_ar15_50beowulf", "retool_ar15_450", "retool_ar15_762" ],
+    "type": "MIGRATION",
+    "replace": "retool_ar15_223rem"
+  },
+  {
+    "id": [ "retool_ar15_300blk_medium", "retool_ar15_50beowulf_medium", "retool_ar15_450_medium" ],
+    "type": "MIGRATION",
+    "replace": "retool_ar15_223rem_medium"
+  },
+  {
+    "id": [ "retool_ar15_300blk_short", "retool_ar15_50beowulf_short", "retool_ar15_450_short" ],
+    "type": "MIGRATION",
+    "replace": "retool_ar15_223rem_short"
+  }
+]

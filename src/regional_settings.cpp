@@ -369,6 +369,33 @@ static void load_overmap_lake_settings( const JsonObject &jo,
     }
 }
 
+static void load_overmap_ocean_settings( const JsonObject &jo,
+        overmap_ocean_settings &overmap_ocean_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_ocean_settings" ) && get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+        if( strict ) {
+            jo.throw_error( "OVERMAP_PLACE_OCEANS set to true, but \"overmap_ocean_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_ocean_settings_jo = jo.get_object( "overmap_ocean_settings" );
+        read_and_set_or_throw<double>( overmap_ocean_settings_jo, "noise_threshold_ocean",
+                                       overmap_ocean_settings.noise_threshold_ocean, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_size_min",
+                                    overmap_ocean_settings.ocean_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_depth",
+                                    overmap_ocean_settings.ocean_depth, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_north",
+                                    overmap_ocean_settings.ocean_start_north, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_east",
+                                    overmap_ocean_settings.ocean_start_east, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_west",
+                                    overmap_ocean_settings.ocean_start_west, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_south",
+                                    overmap_ocean_settings.ocean_start_south, !overlay );
+    }
+}
+
 static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
         region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
         const bool strict, const bool overlay )
@@ -580,6 +607,8 @@ void load_region_settings( const JsonObject &jo )
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
+
+    load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 

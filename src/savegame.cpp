@@ -51,6 +51,10 @@ static const oter_str_id oter_lake_bed( "lake_bed" );
 static const oter_str_id oter_lake_shore( "lake_shore" );
 static const oter_str_id oter_lake_surface( "lake_surface" );
 static const oter_str_id oter_lake_water_cube( "lake_water_cube" );
+static const oter_str_id oter_ocean_bed( "ocean_bed" );
+static const oter_str_id oter_ocean_shore( "ocean_shore" );
+static const oter_str_id oter_ocean_surface( "ocean_surface" );
+static const oter_str_id oter_ocean_water_cube( "ocean_water_cube" );
 static const oter_str_id oter_omt_obsolete( "omt_obsolete" );
 
 static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
@@ -731,6 +735,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
     JsonArray jal = jo.get_array( "layers" );
 
     std::vector<tripoint_om_omt> lake_points;
+    std::vector<tripoint_om_omt> ocean_points;
     std::vector<tripoint_om_omt> forest_points;
 
     if( type == "overmap" ) {
@@ -763,6 +768,9 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
                     if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
                         lake_points.emplace_back( i, j, z );
+                    }
+                    if( tmp_otid == oter_ocean_shore || tmp_otid == oter_ocean_surface ) {
+                        ocean_points.emplace_back( i, j, z );
                     }
                     if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
                         forest_points.emplace_back( i, j, z );
@@ -804,7 +812,36 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_lake_surface;
         }
     }
+    std::unordered_set<tripoint_om_omt> ocean_set;
+    for( auto &p : ocean_points ) {
+        ocean_set.emplace( p );
+    }
+    for( auto &p : ocean_points ) {
+        if( !inbounds( p ) ) {
+            continue;
+        }
 
+        bool shore = false;
+        for( int ni = -1; ni <= 1 && !shore; ni++ ) {
+            for( int nj = -1; nj <= 1 && !shore; nj++ ) {
+                const tripoint_om_omt n = p + point( ni, nj );
+                if( inbounds( n, 1 ) && ocean_set.find( n ) == ocean_set.end() ) {
+                    shore = true;
+                }
+            }
+        }
+
+        ter_set( tripoint_om_omt( p ), shore ? oter_ocean_shore : oter_ocean_surface );
+
+        // If this is not a shore, we'll make our subsurface ocean cubes and beds.
+        if( !shore ) {
+            for( int z = -1; z > settings->overmap_ocean.ocean_depth; z-- ) {
+                ter_set( tripoint_om_omt( p.xy(), z ), oter_ocean_water_cube );
+            }
+            ter_set( tripoint_om_omt( p.xy(), settings->overmap_ocean.ocean_depth ), oter_ocean_bed );
+            layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_ocean_surface;
+        }
+    }
     std::unordered_set<tripoint_om_omt> forest_set;
     for( auto &p : forest_points ) {
         forest_set.emplace( p );

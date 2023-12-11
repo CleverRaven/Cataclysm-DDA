@@ -4191,19 +4191,54 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
 void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
-    fake_spell fake;
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    mandatory( jo, false, member, fake );
-    bool targeted = false;
-    if( jo.has_bool( "targeted" ) ) {
-        targeted = jo.get_bool( "targeted" );
-    }
+    bool targeted = jo.get_bool( "targeted", false );
+
     std::optional<var_info> loc_var;
     if( jo.has_object( "loc" ) ) {
         loc_var = read_var_info( jo.get_object( "loc" ) );
     }
-    function = [is_npc, fake, targeted, loc_var, true_eocs, false_eocs]( dialogue const & d ) {
+    JsonObject spell_jo = jo.get_object( member );
+    str_or_var id = get_str_or_var( spell_jo.get_member( "id" ), "id" );
+    bool hit_self = spell_jo.get_bool( "hit_self", false );
+
+    int trigger_once_in = spell_jo.get_int( "once_in", 1 );
+    str_or_var trigger_message;
+    if( spell_jo.has_member( "message" ) ) {
+        trigger_message = get_str_or_var( spell_jo.get_member( "message" ), "message", true );
+    } else {
+        trigger_message.str_val = "";
+    }
+    str_or_var npc_trigger_message;
+    if( spell_jo.has_member( "npc_message" ) ) {
+        npc_trigger_message = get_str_or_var( spell_jo.get_member( "npc_message" ), "npc_message", true );
+    } else {
+        npc_trigger_message.str_val = "";
+    }
+
+    dbl_or_var dov_max_level = get_dbl_or_var( spell_jo, "max_level", false, -1 );
+    dbl_or_var level = get_dbl_or_var( spell_jo, "min_level", false );
+    if( spell_jo.has_string( "level" ) ) {
+        debugmsg( "level member for fake_spell was renamed to min_level.  id: %s",
+                  id.str_val.value_or( "" ) );
+    }
+
+    function = [is_npc, id, hit_self, dov_max_level, trigger_once_in, level, trigger_message,
+                        npc_trigger_message, targeted, loc_var, true_eocs,
+            false_eocs]( dialogue & d ) {
+        std::optional<int> max_level;
+        int max_level_int = dov_max_level.evaluate( d );
+        if( max_level_int == -1 ) {
+            max_level = std::nullopt;
+        } else {
+            max_level = max_level_int;
+        }
+        fake_spell fake( spell_id( id.evaluate( d ) ), hit_self, max_level );
+        fake.trigger_once_in = trigger_once_in;
+        fake.level = level.evaluate( d );
+        fake.trigger_message = to_translation( trigger_message.evaluate( d ) );
+        fake.npc_trigger_message = to_translation( npc_trigger_message.evaluate( d ) );
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell.  %s", d.get_callstack() );

@@ -267,7 +267,7 @@
         ],
         "prob": 200
       },
-      { "item": "modular_ar15", "prob": 5, "charges": [ 0, 30 ] },
+      { "group": "modular_ar15", "prob": 5, "charges": [ 0, 30 ] },
       { "item": "mossberg_500", "prob": 5, "charges": [ 0, 6 ] },
       { "item": "remington_870", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
