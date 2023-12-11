@@ -71,12 +71,6 @@ finally there's the opportunity cost issue.  for the effort of multithreading ke
 
 that's the worst thing about multithreading IMO, as soon as you have multiple threads, you have to start worrying about thread safety throughout your code
 
-#### We should be able to turn off z-levels: No.
-
-Z-levels became a mandatory feature in 0.E experimental in order to support ground vehicles moving up and down ramps.  Having z-levels be optional was a large maintenance burden on the developers, and turning off z-levels breaks vehicle ramps.
-
-There has been an extensive optimization effort in the fall of 2020 to bring back performance, and it's been mostly successful.  Current experimentals should run faster with z-levels on than 0.E runs with z-levels off.
-
 #### Bringing charges back: No.
 
 We are in the process of removing charges, that's a fact that won't be changed.  We should have made this decision much earlier or never started implementing them in the first place, but it is what it is.
@@ -139,16 +133,6 @@ Savescumming is not a normal part of the game, and there is no intention of ever
 #### Dying and coming back as an NPC from your faction: Yes, with caveats
 
 I’m 100% fine having a game mode available where this happens.  However, at least in the current state of development, it’s way too easy to accumulate NPC followers and end up becoming effectively immortal.  Thus trivializes a lot of aspects of the game and encouraging even more reckless behavior so things would need to be done to make it more difficult to acquire NPC followers, or at least NPC followers that you could switch to when you died.
-
-#### Psychic powers: mod only
-
-Not happening, it simply doesn’t fit the theme of the game.
-However, we’d be happy to have support for it in the code so that a mod can have psychic powers.
-
-#### Magic powers: mod only
-
-Not happening, it simply doesn’t fit the theme of the game.
-However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
