@@ -1,9 +1,9 @@
 [
   {
-    "id": "303_bthp",
+    "id": "303_fmjbt",
     "type": "AMMO",
-    "name": { "str_sp": ".303 British BTHP" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a 174gr boat-tailed hollo-point bullet, the projectile’s boat tail shaped design gives it greater stability with less aerial drag over long ranges, making it favorable for competition shooting.",
+    "name": { "str_sp": ".303 British FMJ" },
+    "description": "Jacketed .303 British ammunition loaded with a 174gr spitzer bullet, of the MK VII pattern.  The British empire's standard combat cartridge from 1888 until the 1950's.",
     "weight": "25 g",
     "volume": "287 ml",
     "price": 160,
@@ -19,8 +19,8 @@
     "range": 42,
     "damage": {
       "damage_type": "bullet",
-      "amount": 51,
-      "armor_penetration": 6,
+      "amount": 52,
+      "armor_penetration": 8,
       "barrels": [
         { "barrel_length": "27 mm", "amount": 16 },
         { "barrel_length": "30 mm", "amount": 17 },
@@ -61,28 +61,29 @@
   },
   {
     "id": "303_sp",
-    "copy-from": "303_bthp",
+    "copy-from": "303_fmjbt",
     "type": "AMMO",
-    "name": { "str_sp": ".303 British SP" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 180gr soft-point bullet, the projectile features an open-tipped design manufactured from lead.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.",
+    "name": { "str_sp": ".303 British JSP" },
+    "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet.  The British empire's standard combat cartridge from 1888 until the 1950's, repurposed for hunting medium game.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": -6 } }
   },
   {
-    "id": "303_fmjbt",
-    "copy-from": "303_bthp",
+    "id": "303_bthp",
+    "copy-from": "303_fmjbt",
     "type": "AMMO",
-    "name": { "str_sp": ".303 British FMJ" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 174gr full metal jacketed bullet, the projectile possesses a solid metal jacket that grants it the capability to punch through thicker material.  This comes at the cost of virtually non-existent expansion, leading to less overall damage.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
+    "name": { "str_sp": ".303 British BTHP" },
+    "description": "Jacketed .303 British ammunition loaded with a 174gr hollow point boat tail bullet.  The British empire's standard combat cartridge from 1888 until the 1950's, optimized for accuracy and precision.  The projectile’s boat tail and open tip construction offer greater manufacturing precision, and a marginal amount of increased expansion over regular full metal jacket bullets.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -8 } }
   },
   {
     "id": "bp_303",
     "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British BTHP, black powder" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a 174gr boat-tailed hollo-point bullet, the projectile’s boat tail shaped design gives it greater stability with less aerial drag over long ranges, making it favorable for competition shooting.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
+    "description": "Jacketed .303 British ammunition loaded with a 174gr hollow point boat tail bullet.  The British empire's standard combat cartridge from 1888 until the 1950's, optimized for accuracy and precision.  The projectile’s open tip construction offers greater manufacturing precision and a marginal amount of increased expansion over regular full metal jacket loadings.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
     "proportional": {
       "price": 0.3,
+      "price_postapoc": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -92,12 +93,13 @@
   },
   {
     "id": "bp_303sp",
-    "copy-from": "303_sp",
+    "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP, black powder" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 180gr soft-point bullet, the projectile features an open-tipped design manufactured from lead.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
+    "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
     "proportional": {
       "price": 0.3,
+      "price_postapoc": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -110,9 +112,10 @@
     "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJ, black powder" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 174gr full metal jacketed bullet, the projectile possesses a solid metal jacket that grants it the capability to punch through thicker material.  This comes at the cost of virtually non-existent expansion, leading to less overall damage.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
+    "description": "Jacketed .303 British ammunition loaded with a 174gr spitzer bullet, similar to the MK VII pattern.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
     "proportional": {
       "price": 0.3,
+      "price_postapoc": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -126,7 +129,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".303 British BTHP, reloaded" },
     "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a 174gr boat-tailed hollo-point bullet, the projectile’s boat tail shaped design gives it greater stability with less aerial drag over long ranges, making it favorable for competition shooting.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -135,8 +138,8 @@
     "copy-from": "303_sp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP, reloaded" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 180gr soft-point bullet, the projectile features an open-tipped design manufactured from lead.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -145,8 +148,8 @@
     "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJ, reloaded" },
-    "description": "The British empire's standard combat cartridge throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 174gr full metal jacketed bullet, the projectile possesses a solid metal jacket that grants it the capability to punch through thicker material.  This comes at the cost of virtually non-existent expansion, leading to less overall damage.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "description": "Jacketed .303 British ammunition loaded with a 174gr spitzer bullet, similar to the MK VII pattern.  The British empire's standard combat cartridge from 1888 until the 1950's..  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
