@@ -148,7 +148,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 birdshot, black powder" },
     "description": "A .410 shotshell loaded with 3/8th of an ounce of birdshot, and black powder instead of smokeless powder, for hunting birds and other small game.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo. Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
-    "proportional": { "price": 0.6, "price_postapoc": 0.6,  "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
