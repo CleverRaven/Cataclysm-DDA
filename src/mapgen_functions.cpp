@@ -1775,7 +1775,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     // This is the same as lake shore but saltier.
     // Read documetation above
     bool did_extend_adjacent_terrain = false;
-    if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
+    if( !dat.region.overmap_lake->shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
         for( oter_id &adjacent : dat.t_nesw ) {
             // Define the terrain we'll look for a match on.
@@ -1784,16 +1784,16 @@ void mapgen_ocean_shore( mapgendata &dat )
             // Check if this terrain has an alias to something we actually will extend, and if so, use it.
             // for now, these are the same as lake. They may need to be changed eventually.
             for( const shore_extendable_overmap_terrain_alias &alias :
-                 dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+                 dat.region.overmap_lake->shore_extendable_overmap_terrain_aliases ) {
                 if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
                     match = alias.alias;
                     break;
                 }
             }
 
-            if( std::find( dat.region.overmap_lake.shore_extendable_overmap_terrain.begin(),
-                           dat.region.overmap_lake.shore_extendable_overmap_terrain.end(),
-                           match ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
+            if( std::find( dat.region.overmap_lake->shore_extendable_overmap_terrain.begin(),
+                           dat.region.overmap_lake->shore_extendable_overmap_terrain.end(),
+                           match ) != dat.region.overmap_lake->shore_extendable_overmap_terrain.end() ) {
                 adjacent_type_count[match] += 1;
             }
         }
