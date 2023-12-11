@@ -2139,6 +2139,7 @@ Give character or NPC some mutation/trait
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_trait" / "npc_add_trait" | **mandatory** | string or [variable object](##variable-object) | id of trait that should be given |
+| "variant" | optional | string or [variable object](##variable-object) | id of the trait's variant |
 
 ##### Valid talkers:
 
@@ -2157,6 +2158,10 @@ Adds trait, stored in `trait_id` context value, to the character:
 { "u_add_trait": { "context_val": "trait_id" } }
 ```
 
+Adds `hair_mohawk` trait with the `purple` variant to the character:
+```json
+{ "u_add_trait": "hair_mohawk", "variant": "purple" }
+```
 
 #### `u_lose_effect`, `npc_effect`
 Remove effect from character or NPC, if it has one

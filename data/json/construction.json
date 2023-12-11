@@ -1626,6 +1626,7 @@
       [ [ "straw_pile", 60 ], [ "withered", 60 ] ],
       [ [ "cordage", 8, "LIST" ] ]
     ],
+    "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
@@ -6615,6 +6616,7 @@
     "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "f_hanging_meathook"
   },
@@ -7902,6 +7904,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
+    "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH_FINE", "level": 1 } ] ],
     "components": [
       [ [ "heavy_punching_bag_sack", 1 ] ],
@@ -7998,6 +8001,7 @@
     "category": "TOOL",
     "time": "30 s",
     "required_skills": [ [ "fabrication", 0 ] ],
+    "pre_note": "Built in a tree.",
     "components": [ [ [ "rope_30", 1 ] ] ],
     "pre_flags": [ "SUPPORTS_ROOF", "TREE" ],
     "post_terrain": "f_hoist_rope"
@@ -8009,6 +8013,7 @@
     "category": "TOOL",
     "time": "5 m",
     "required_skills": [ [ "fabrication", 1 ] ],
+    "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "nail", 6 ] ], [ [ "2x4", 2 ] ] ],
     "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
@@ -8021,6 +8026,7 @@
     "category": "TOOL",
     "time": "10 m",
     "required_skills": [ [ "fabrication", 0 ] ],
+    "pre_note": "Built in a tree.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
     "pre_flags": [ "SUPPORTS_ROOF", "TREE" ],
@@ -8035,6 +8041,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ], [ [ "nail", 6 ] ], [ [ "2x4", 2 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "f_hoist_pulley"
   },
@@ -8045,6 +8052,7 @@
     "category": "TOOL",
     "time": "10 m",
     "required_skills": [ [ "fabrication", 0 ] ],
+    "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
     "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
