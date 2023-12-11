@@ -1907,9 +1907,9 @@ bool Character::is_dead_state() const
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    bool is_broken_before = ( get_part_hp_cur( id ) <= 0 );
+    bool is_broken_before = get_part_hp_cur( id ) <= 0;
     Creature::set_part_hp_cur( id, set );
-    bool is_broken_after = ( get_part_hp_cur( id ) <= 0 );
+    bool is_broken_after = get_part_hp_cur( id ) <= 0;
     // detect unbroken->broken (possible death) as well as broken->unbroken (possible revival)
     if( is_broken_before != is_broken_after ) {
         cached_dead_state.reset();
@@ -1918,9 +1918,9 @@ void Character::set_part_hp_cur( const bodypart_id &id, int set )
 
 void Character::mod_part_hp_cur( const bodypart_id &id, int set )
 {
-    bool is_broken_before = ( get_part_hp_cur( id ) <= 0 );
+    bool is_broken_before = get_part_hp_cur( id ) <= 0;
     Creature::mod_part_hp_cur( id, set );
-    bool is_broken_after = ( get_part_hp_cur( id ) <= 0 );
+    bool is_broken_after = get_part_hp_cur( id ) <= 0;
     // detect unbroken->broken (possible death) as well as broken->unbroken (possible revival)
     if( is_broken_before != is_broken_after ) {
         cached_dead_state.reset();
