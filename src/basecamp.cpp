@@ -85,13 +85,15 @@ std::string base_camps::faction_decode( const std::string_view full_type )
     return std::string{ full_type.substr( prefix_len, size_t( last_bar - prefix_len ) ) };
 }
 
+static const time_duration work_day_hours_time = work_day_hours * 1_hours;
+
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
-    if( work_time < 11_hours ) {
+    if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }
-    int work_days = work_time / 10_hours;
-    time_duration excess_time = work_time - work_days * 10_hours;
+    int work_days = work_time / work_day_hours_time;
+    time_duration excess_time = work_time - work_days * work_day_hours_time;
     return excess_time + 24_hours * work_days;
 }
 

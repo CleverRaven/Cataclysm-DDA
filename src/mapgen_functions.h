@@ -39,10 +39,6 @@ ter_id clay_or_sand();
 void mapgen_null( mapgendata &dat );
 void mapgen_field( mapgendata &dat );
 void mapgen_forest( mapgendata &dat );
-void mapgen_forest_trail_straight( mapgendata &dat );
-void mapgen_forest_trail_curved( mapgendata &dat );
-void mapgen_forest_trail_tee( mapgendata &dat );
-void mapgen_forest_trail_four_way( mapgendata &dat );
 void mapgen_river_center( mapgendata &dat );
 //void mapgen_bridge( mapgendata &dat );
 void mapgen_river_curved_not( mapgendata &dat );
@@ -57,6 +53,7 @@ void mapgen_rift( mapgendata &dat );
 void mapgen_hellmouth( mapgendata &dat );
 void mapgen_subway( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
+void mapgen_ocean_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );
 
 // Temporary wrappers

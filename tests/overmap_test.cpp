@@ -13,6 +13,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+// #include "options_helpers.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
@@ -40,6 +41,10 @@ static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city
 static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
 static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
 static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
+static const oter_type_str_id oter_type_ocean_bed( "ocean_bed" );
+static const oter_type_str_id oter_type_ocean_shore( "ocean_shore" );
+static const oter_type_str_id oter_type_ocean_surface( "ocean_surface" );
+static const oter_type_str_id oter_type_ocean_water_cube( "ocean_water_cube" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
@@ -284,7 +289,8 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // The goal of this test is to generate a lot of overmaps, and count up how
     // many times we see each terrain, so that we can check that everything
     // generates at least sometimes.
-
+    // override_option override_forestosity( "OVERMAP_FOREST_LIMIT", "0.2" );
+    // override_option override_urbanity( "OVERMAP_MAXIMUM_URBANITY", "1" );
     struct omt_stats {
         explicit omt_stats( const tripoint_abs_omt &p ) : first_observed( p ) {}
 
@@ -344,6 +350,10 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_unvitrified_farm_1.id(),
         oter_type_unvitrified_farm_2.id(),
         oter_type_unvitrified_farm_neg_1.id(),
+        oter_type_ocean_shore.id(), // ocean tiles require you to travel to find them.
+        oter_type_ocean_bed.id(),
+        oter_type_ocean_surface.id(),
+        oter_type_ocean_water_cube.id()
     };
 
     std::unordered_set<oter_type_id> done;

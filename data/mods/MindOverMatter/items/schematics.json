@@ -143,7 +143,7 @@
     "id": "schematics_noetic_resilience",
     "type": "BOOK",
     "name": { "str_sp": "noetic resilience treatment schematics" },
-    "description": "A technical document outlining a treatment for \"noetic enervation\".  After the outline of the treatment is a note, dated two weeks before the end of the world, that while it showed great promise in initial trials the side effects require further study before it can be recommended for widespread usage.",
+    "description": "A technical document outlining a treatment for \"noetic overuse\".  After the outline of the treatment is a note, dated two weeks before the end of the world, that while it showed great promise in initial trials the side effects require further study before it can be recommended for widespread usage.",
     "copy-from": "schematics_generic",
     "skill": "chemistry",
     "required_level": 6,

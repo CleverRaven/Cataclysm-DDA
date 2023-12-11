@@ -113,7 +113,7 @@
       [ "waterproof_gunmod", 4 ],
       [ "u_shotgun", 4 ],
       [ "flask_hip", 10 ],
-      { "item": "chemistry_set", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "chemistry_set", "prob": 2 },
       [ "knife_trench", 7 ],
       [ "switchblade", 4 ],
       [ "gold_watch", 5 ],
