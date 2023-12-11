@@ -117,6 +117,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "subway_four_way",    &mapgen_subway },
 
             { "lake_shore", &mapgen_lake_shore },
+            { "ocean_shore", &mapgen_ocean_shore },
             { "ravine_edge", &mapgen_ravine_edge },
         }
     };
@@ -1363,6 +1364,9 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // To accomplish this extension, we simply count up the adjacent terrains that are in the
     // defined extendable terrain setting, choose the most common one, and then run its mapgen.
+
+    // NOTE: Presently this treats ocean and lake shore as identical.  Some, but not all, of the
+    // ocean checks should eventually be refactored into mapgen_ocean_shore.
     bool did_extend_adjacent_terrain = false;
     if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
@@ -1763,6 +1767,357 @@ void mapgen_lake_shore( mapgendata &dat )
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
     m->translate( t_null, t_water_sh );
+}
+
+void mapgen_ocean_shore( mapgendata &dat )
+{
+    map *const m = &dat.m;
+    // This is the same as lake shore but saltier.
+    // Read documetation above
+    bool did_extend_adjacent_terrain = false;
+    if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
+        std::map<oter_id, int> adjacent_type_count;
+        for( oter_id &adjacent : dat.t_nesw ) {
+            // Define the terrain we'll look for a match on.
+            oter_id match = adjacent;
+
+            // Check if this terrain has an alias to something we actually will extend, and if so, use it.
+            // for now, these are the same as lake. They may need to be changed eventually.
+            for( const shore_extendable_overmap_terrain_alias &alias :
+                 dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+                if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
+                    match = alias.alias;
+                    break;
+                }
+            }
+
+            if( std::find( dat.region.overmap_lake.shore_extendable_overmap_terrain.begin(),
+                           dat.region.overmap_lake.shore_extendable_overmap_terrain.end(),
+                           match ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
+                adjacent_type_count[match] += 1;
+            }
+        }
+
+        if( !adjacent_type_count.empty() ) {
+            const auto most_common_adjacent = std::max_element( std::begin( adjacent_type_count ),
+                                              std::end( adjacent_type_count ), []( const std::pair<oter_id, int> &p1,
+            const std::pair<oter_id, int> &p2 ) {
+                return p1.second < p2.second;
+            } );
+
+            mapgendata forest_mapgen_dat( dat, most_common_adjacent->first );
+            mapgen_forest( forest_mapgen_dat );
+            did_extend_adjacent_terrain = run_mapgen_func( most_common_adjacent->first.id().str(),
+                                          forest_mapgen_dat );
+
+            // One fun side effect of running another mapgen here is that it may have placed items in locations
+            // that we're later going to turn into water. Let's just remove all items.
+            if( did_extend_adjacent_terrain ) {
+                for( int x = 0; x < SEEX * 2; x++ ) {
+                    for( int y = 0; y < SEEY * 2; y++ ) {
+                        m->i_clear( point( x, y ) );
+                    }
+                }
+            }
+        }
+    }
+
+    // If we didn't extend an adjacent terrain, then just fill this entire location with the default
+    // groundcover for the region.
+    if( !did_extend_adjacent_terrain ) {
+        dat.fill_groundcover();
+    }
+
+    const oter_id river_center = oter_river_center.id();
+
+    auto is_ocean = [&]( const oter_id & id ) {
+        // We want to consider river_center as well.
+        return id.obj().is_ocean() || id == river_center;
+    };
+
+    const auto is_shore = [&]( const oter_id & id ) {
+        return id.obj().is_ocean_shore();
+    };
+
+    const auto is_river_bank = [&]( const oter_id & id ) {
+        return id != river_center && id.obj().is_river();
+    };
+
+    const bool  n_ocean  = is_ocean( dat.north() );
+    const bool  e_ocean  = is_ocean( dat.east() );
+    const bool  s_ocean  = is_ocean( dat.south() );
+    const bool  w_ocean  = is_ocean( dat.west() );
+    const bool nw_ocean = is_ocean( dat.nwest() );
+    const bool ne_ocean = is_ocean( dat.neast() );
+    const bool se_ocean = is_ocean( dat.seast() );
+    const bool sw_ocean = is_ocean( dat.swest() );
+
+    // If we don't have any adjacent ocean, then we don't need to worry about a shoreline,
+    // and are done at this point.
+    const bool no_adjacent_water = !n_ocean && !e_ocean && !s_ocean && !w_ocean && !nw_ocean &&
+                                   !ne_ocean &&
+                                   !se_ocean && !sw_ocean;
+    if( no_adjacent_water ) {
+        return;
+    }
+
+    // See detail above in lake version
+
+    const bool n_shore = is_shore( dat.north() );
+    const bool e_shore = is_shore( dat.east() );
+    const bool s_shore = is_shore( dat.south() );
+    const bool w_shore = is_shore( dat.west() );
+
+    const bool n_river_bank = is_river_bank( dat.north() );
+    const bool e_river_bank = is_river_bank( dat.east() );
+    const bool s_river_bank = is_river_bank( dat.south() );
+    const bool w_river_bank = is_river_bank( dat.west() );
+
+    // This is length we end up pushing things about by as a baseline.
+    const int sector_length = SEEX * 2 / 3;
+
+    // Define the corners of the map. These won't change.
+    static constexpr point nw_corner{};
+    static constexpr point ne_corner( SEEX * 2 - 1, 0 );
+    static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
+    static constexpr point sw_corner( 0, SEEY * 2 - 1 );
+
+    // Define the four points that make up our polygon that we'll later pull line segments from for
+    // the actual shoreline.
+    point nw = nw_corner;
+    point ne = ne_corner;
+    point se = se_corner;
+    point sw = sw_corner;
+
+    std::vector<std::vector<point>> line_segments;
+
+    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
+    if( n_ocean ) {
+        nw.y += sector_length;
+        ne.y += sector_length;
+    }
+
+    if( s_ocean ) {
+        sw.y -= sector_length;
+        se.y -= sector_length;
+    }
+
+    if( w_ocean ) {
+        nw.x += sector_length;
+        sw.x += sector_length;
+    }
+
+    if( e_ocean ) {
+        ne.x -= sector_length;
+        se.x -= sector_length;
+    }
+
+    if( n_river_bank ) {
+        if( w_ocean && nw_ocean ) {
+            nw.x += sector_length;
+        }
+
+        if( e_ocean && ne_ocean ) {
+            ne.x -= sector_length;
+        }
+    }
+
+    if( e_river_bank ) {
+        if( s_ocean && se_ocean ) {
+            se.y -= sector_length;
+        }
+
+        if( n_ocean && ne_ocean ) {
+            ne.y += sector_length;
+        }
+    }
+
+    if( s_river_bank ) {
+        if( w_ocean && sw_ocean ) {
+            sw.x += sector_length;
+        }
+
+        if( e_ocean && se_ocean ) {
+            se.x -= sector_length;
+        }
+    }
+
+    if( w_river_bank ) {
+        if( s_ocean && sw_ocean ) {
+            sw.y -= sector_length;
+        }
+
+        if( n_ocean && nw_ocean ) {
+            nw.y += sector_length;
+        }
+    }
+
+    if( nw_ocean ) {
+        if( n_ocean && w_ocean ) {
+            nw.x += sector_length / 2;
+            nw.y += sector_length / 2;
+        } else if( n_shore && w_shore ) {
+            point n = nw_corner;
+            point w = nw_corner;
+
+            n.x += sector_length;
+            w.y += sector_length;
+
+            line_segments.push_back( { n, w } );
+        }
+    }
+
+    if( ne_ocean ) {
+        if( n_ocean && e_ocean ) {
+            ne.x -= sector_length / 2;
+            ne.y += sector_length / 2;
+        } else if( n_shore && e_shore ) {
+            point n = ne_corner;
+            point e = ne_corner;
+
+            n.x -= sector_length;
+            e.y += sector_length;
+
+            line_segments.push_back( { n, e } );
+        }
+    }
+
+    if( sw_ocean ) {
+        if( s_ocean && w_ocean ) {
+            sw.x += sector_length / 2;
+            sw.y -= sector_length / 2;
+        } else if( s_shore && w_shore ) {
+            point s = sw_corner;
+            point w = sw_corner;
+
+            s.x += sector_length;
+            w.y -= sector_length;
+
+            line_segments.push_back( { s, w } );
+        }
+    }
+
+    if( se_ocean ) {
+        if( s_ocean && e_ocean ) {
+            se.x -= sector_length / 2;
+            se.y -= sector_length / 2;
+        } else if( s_shore && e_shore ) {
+            point s = se_corner;
+            point e = se_corner;
+
+            s.x -= sector_length;
+            e.y -= sector_length;
+
+            line_segments.push_back( { s, e } );
+        }
+    }
+
+    // Ok, all of the fiddling with the polygon corners is done.
+    // At this point we've got four points that make up four line segments that started out
+    // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
+    // Let's look at them and see which ones differ from their original state and should
+    // form our shoreline.
+    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+        line_segments.push_back( { nw, ne } );
+    }
+
+    if( ne.x != ne_corner.x || se.x != se_corner.x ) {
+        line_segments.push_back( { ne, se } );
+    }
+
+    if( se.y != se_corner.y || sw.y != sw_corner.y ) {
+        line_segments.push_back( { se, sw } );
+    }
+
+    if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
+        line_segments.push_back( { sw, nw } );
+    }
+
+    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
+
+    // This will draw our shallow water coastline from the "from" point to the "to" point.
+    // It buffers the points a bit for a thicker line. It also clears any furniture that might
+    // be in the location as a result of our extending adjacent mapgen.
+    const auto draw_shallow_water = [&]( const point & from, const point & to ) {
+        std::vector<point> points = line_to( from, to );
+        for( point &p : points ) {
+            for( const point &bp : closest_points_first( p, 1 ) ) {
+                if( !map_boundaries.contains( bp ) ) {
+                    continue;
+                }
+                // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
+                // has put down a t_water_sh, and we need to be able to flood-fill over that.
+                m->ter_set( bp, t_null );
+                m->furn_set( bp, f_null );
+            }
+        }
+    };
+
+    // Given two points, return a point that is midway between the two points and then
+    // jittered by a random amount in proportion to the length of the line segment.
+    const auto jittered_midpoint = [&]( const point & from, const point & to ) {
+        const int jitter = rl_dist( from, to ) / 4;
+        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
+                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        return midpoint;
+    };
+
+    // For each of our valid shoreline line segments, generate a slightly more interesting
+    // set of line segments by splitting the line into four segments with jittered
+    // midpoints, and then draw shallow water for four each of those.
+    for( auto &ls : line_segments ) {
+        const point mp1 = jittered_midpoint( ls[0], ls[1] );
+        const point mp2 = jittered_midpoint( ls[0], mp1 );
+        const point mp3 = jittered_midpoint( mp1, ls[1] );
+
+        draw_shallow_water( ls[0], mp2 );
+        draw_shallow_water( mp2, mp1 );
+        draw_shallow_water( mp1, mp3 );
+        draw_shallow_water( mp3, ls[1] );
+    }
+
+    // Now that we've done our ground mapgen and laid down a contiguous shoreline of shallow water,
+    // we'll floodfill the sections adjacent to the ocean with deep water. As before, we also clear
+    // out any furniture that we placed by the extended mapgen.
+    std::unordered_set<point> visited;
+
+    const auto should_fill = [&]( const point & p ) {
+        if( !map_boundaries.contains( p ) ) {
+            return false;
+        }
+        return m->ter( p ) != t_null;
+    };
+
+    const auto fill_deep_water = [&]( const point & starting_point ) {
+        std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
+                                          should_fill );
+        for( point &wp : water_points ) {
+            m->ter_set( wp, t_swater_dp );
+            m->furn_set( wp, f_null );
+        }
+    };
+
+    // We'll flood fill from the four corners, using the corner if any of the locations
+    // adjacent to it were a ocean.
+    if( n_ocean || nw_ocean || w_ocean ) {
+        fill_deep_water( nw_corner );
+    }
+
+    if( s_ocean || sw_ocean || w_ocean ) {
+        fill_deep_water( sw_corner );
+    }
+
+    if( n_ocean || ne_ocean || e_ocean ) {
+        fill_deep_water( ne_corner );
+    }
+
+    if( s_ocean || se_ocean || e_ocean ) {
+        fill_deep_water( se_corner );
+    }
+
+    // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
+    // pick up shallow water from our extended terrain. Now turn those nulls into t_swater_sh.
+    m->translate( t_null, t_swater_sh );
 }
 
 void mapgen_ravine_edge( mapgendata &dat )

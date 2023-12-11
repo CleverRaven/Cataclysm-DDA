@@ -12,10 +12,14 @@
         "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -43,10 +47,14 @@
         "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -66,10 +74,14 @@
         "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       },
@@ -98,10 +110,14 @@
         "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -121,10 +137,14 @@
         "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -153,10 +173,14 @@
         "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -178,12 +202,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -223,12 +247,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

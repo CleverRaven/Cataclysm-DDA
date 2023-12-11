@@ -35,7 +35,9 @@
       {
         "value": "READING_EXP",
         "add": {
-          "math": [ "( ( u_val('spell_level', 'spell: clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') )))" ]
+          "math": [
+            "( ( u_val('spell_level', 'spell: clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') ))) * u_nether_attunement_power_scaling"
+          ]
         }
       }
     ]
@@ -85,12 +87,12 @@
     "damage_type": "electric",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinesis_zap_enemies') / 4 ) + 1) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinesis_zap_enemies') / 4 ) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinesis_zap_enemies') / 2 ) + 5) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinesis_zap_enemies') / 2 ) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
@@ -116,12 +118,12 @@
     "damage_type": "electric",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') / 3 ) + 3) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') / 3 ) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') / 1.5 ) + 10) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') / 1.5 ) + 10) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
@@ -208,20 +210,34 @@
       {
         "value": "CLIMATE_CONTROL_CHILL",
         "add": {
-          "math": [ "(60 + ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 4) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+          "math": [
+            "(60 + ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 4) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
         }
       },
       {
         "value": "CLIMATE_CONTROL_HEAT",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       },
       {
         "value": "ARMOR_HEAT",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       },
       {
         "value": "ARMOR_COLD",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       }
     ]
   },
@@ -254,13 +270,13 @@
     "effect_str": "blind",
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_aoe": 40,
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "min_duration": 500,
@@ -286,8 +302,8 @@
     "shape": "blast",
     "effect": "attack",
     "damage_type": "heat",
-    "min_damage": 5,
-    "max_damage": 15,
+    "min_damage": { "math": [ "5 * u_nether_attunement_power_scaling" ] },
+    "max_damage": { "math": [ "15 * u_nether_attunement_power_scaling" ] },
     "min_range": 1,
     "max_range": 1
   },
@@ -301,8 +317,8 @@
     "shape": "blast",
     "effect": "attack",
     "damage_type": "heat",
-    "min_damage": 5,
-    "max_damage": 30,
+    "min_damage": { "math": [ "5 * u_nether_attunement_power_scaling" ] },
+    "max_damage": { "math": [ "20 * u_nether_attunement_power_scaling" ] },
     "min_range": 1,
     "max_range": 1
   },
