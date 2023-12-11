@@ -203,6 +203,7 @@
     "base_mods": { "cough_chance": [ 2 ], "perspiration_chance": [ 1 ] }
   },
   {
+    "type": "effect_type",
     "id": "effect_feral_regeneration",
     "name": [ "Feral Regeneration" ],
     "desc": [ "Your wounds are rapidly closing." ]
