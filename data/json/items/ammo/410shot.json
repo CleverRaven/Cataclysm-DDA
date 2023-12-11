@@ -77,7 +77,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".410 slug, black powder" },
     "description": "A .410 shotshell loaded with a slug, for hunting medium game or possibly self-defense, and black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
-    "proportional": { "price": 0.6, "price_postapoc": 0.6,  "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
