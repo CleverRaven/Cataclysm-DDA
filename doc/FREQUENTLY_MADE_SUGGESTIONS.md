@@ -137,12 +137,12 @@ I’m 100% fine having a game mode available where this happens.  However, at le
 #### Psychic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, Mind Over Matter is distributed with the game, and adds psychic powers.
+However, Mind Over Matter is distributed with the game, and adds psychic powers. See [MAGIC.md](MAGIC.md) for more info.
 
 #### Magic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game.
+However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](MAGIC.md) for more info.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
