@@ -134,6 +134,16 @@ Savescumming is not a normal part of the game, and there is no intention of ever
 
 I’m 100% fine having a game mode available where this happens.  However, at least in the current state of development, it’s way too easy to accumulate NPC followers and end up becoming effectively immortal.  Thus trivializes a lot of aspects of the game and encouraging even more reckless behavior so things would need to be done to make it more difficult to acquire NPC followers, or at least NPC followers that you could switch to when you died.
 
+#### Psychic powers: mod only
+
+Not happening, it simply doesn’t fit the theme of the game.
+However, Mind Over Matter is distributed with the game, and adds psychic powers.
+
+#### Magic powers: mod only
+
+Not happening, it simply doesn’t fit the theme of the game.
+However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game.
+
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
 
