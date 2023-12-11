@@ -874,7 +874,7 @@
     "material": [ "fruit", "hflesh" ],
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 4 ], [ "mutant_toxin", 6 ] ],
     "volume": "60 ml",
-    "flags": [ "INEDIBLE" ]
+    "flags": [ "INEDIBLE", "TRADER_AVOID" ]
   },
   {
     "type": "COMESTIBLE",
@@ -891,19 +891,7 @@
     "material": [ "fruit", "hflesh" ],
     "volume": "34 ml",
     "fun": -10,
-    "flags": [ "BAD_TASTE", "SMOKABLE" ],
-    "smoking_result": "mutfruit_dry",
+    "flags": [ "BAD_TASTE", "SMOKABLE", "TRADER_AVOID" ],
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 4 ], [ "mutant_toxin", 6 ] ]
-  },
-  {
-    "id": "mutfruit_dry",
-    "copy-from": "mutfruit_peeled",
-    "type": "COMESTIBLE",
-    "name": { "str": "dried mutant fruit" },
-    "description": "A miserable little ball of fibrous plant matter and mummified flesh interwoven with ratty hair and human teeth.  Unbelievably disgusting.",
-    "color": "brown",
-    "quench": -2,
-    "fun": -20,
-    "flags": [ "SMOKED" ]
   }
 ]

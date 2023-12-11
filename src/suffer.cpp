@@ -689,8 +689,9 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                 // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
                 if( you.has_trait( trait_JAUNDICE ) ) {
                     phelloderm_surface *= .5;
-                }
-                phelloderm_surface = 12.0 - phelloderm_surface;
+                };
+                // Multiply phelloderm_surface here so we can average it with head_exposure later.
+                phelloderm_surface *= 8.33;
             }
         const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
         const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
@@ -702,7 +703,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         float head_leaf_surface = 100 - worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
         float rarm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005 );
         float larm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } ) * .005 );
-        float vine_leaf_surface = 1 - ( rarm_leaf_surface + larm_leaf_surface );
+        float vine_leaf_surface = ( rarm_leaf_surface + larm_leaf_surface );
             if( you.has_trait( trait_NO_LEFT_ARM ) ) {
             larm_leaf_surface = .0;
             }
@@ -727,8 +728,11 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         if( you.has_trait( trait_LEAVES ) ) {
             head_leaf_surface *= .5;
         }
-        if( you.has_trait( trait_LEAVES2 ) ) {
-            head_leaf_surface *= .75;
+        if( you.has_trait( trait_LEAVES3 ) ) {
+            head_leaf_surface *= 1.5;
+        }
+        if( you.has_trait( trait_LEAVES3 ) ) {
+            head_leaf_surface *= 1.75;
         }
         if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
             vine_leaf_surface = std::max(vine_leaf_surface - 0.25, 0.0);
@@ -738,11 +742,12 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         }
         if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
             head_leaf_surface = 0;
-        } 
-        sunlight_nutrition += ( head_leaf_surface + phelloderm_surface + flux ) * weather_factor;
+        }
+        sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface + phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = round( 10 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 1 : .75 ) * weather_factor;
+            const int rate = round( 12 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ) * 2;
+            add_msg( m_neutral, "Vine leaf surface is %1s rarm leaf surface is %2s", vine_leaf_surface, rarm_leaf_surface );
+            sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
         }
         you.get_size();
         // Multiply by the proportional difference in average height, as height roughly determines armspan,

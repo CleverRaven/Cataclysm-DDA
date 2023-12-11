@@ -243,7 +243,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "SEASONAL_ALLERGIES" },
-        { "or": [ { "is_season": "spring" }, { "is_season": "fall" } ] },
+        { "or": [ { "is_season": "spring" }, { "is_season": "autumn" } ] },
         { "not": { "u_has_effect": "took_flumed" } },
         { "not": { "u_has_effect": "hay_fever" } }
       ]
@@ -307,7 +307,7 @@
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
       "and": [
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "fall" } ] },
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
         { "u_has_trait": "LEAVES_WINTER" }
       ]
     },
@@ -337,7 +337,7 @@
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
       "and": [
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "fall" } ] },
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
         { "u_has_trait": "FLOWERS_WINTER" }
       ]
     },
@@ -376,7 +376,7 @@
     "condition": {
       "and": [
         { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_WINTER" } ] },
-        { "is_season": "fall" }
+        { "is_season": "autumn" }
       ]
     },
     "effect": [
@@ -440,7 +440,7 @@
     "condition": {
       "and": [
         { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_WINTER" } ] },
-        { "is_season": "fall" }
+        { "is_season": "autumn" }
       ]
     },
     "effect": [
@@ -527,7 +527,7 @@
       "and": [
         { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
         { "u_has_trait": "THRESH_PLANT" },
-        { "is_season": "fall" }
+        { "is_season": "autumn" }
       ]
     },
     "effect": [
@@ -550,7 +550,7 @@
       "and": [
         { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
         { "not": { "u_has_trait": "THRESH_PLANT" } },
-        { "is_season": "fall" }
+        { "is_season": "autumn" }
       ]
     },
     "effect": [
@@ -658,7 +658,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "SEASONAL_AFFECTIVE" },
-        { "is_season": "fall" },
+        { "is_season": "autumn" },
         { "not": { "u_has_effect": "seasonal_depression" } },
         { "not": { "u_has_effect": "took_prozac" } }
       ]
