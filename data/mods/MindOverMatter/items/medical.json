@@ -47,7 +47,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "noetic resilience treatment" },
-    "description": "A clear liquid, designed to alleviate some of the deleterious effects of excessive psionic channeling.",
+    "description": "A clear liquid, designed to alleviate some of the unpredictable effects of excessive psionic channeling.",
     "weight": "20 g",
     "volume": "10ml",
     "charges": 1,

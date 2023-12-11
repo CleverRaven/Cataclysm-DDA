@@ -8,20 +8,21 @@
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "difficulty": 4,
-    "time": "15 m",
+    "time": "20 m",
     "autolearn": true,
     "skill_used": "metaphysics",
     "flags": [ "BLIND_EASY" ],
     "result_eocs": [
       {
         "id": "EOC_CENTERING_MEDITATION",
-        "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "1" ] },
-        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "1" ] } ],
+        "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "10" ] },
+        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "10" ] } ],
         "false_effect": [
           {
             "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
             "type": "good"
-          }
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] }
         ]
       }
     ]

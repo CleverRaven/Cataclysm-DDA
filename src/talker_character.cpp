@@ -250,9 +250,9 @@ void talker_character::mutate_category( const mutation_category_id &mut_cat,
     me_chr->mutate_category( mut_cat, use_vitamins );
 }
 
-void talker_character::set_mutation( const trait_id &new_trait )
+void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )
 {
-    me_chr->set_mutation( new_trait );
+    me_chr->set_mutation( new_trait, variant );
 }
 
 void talker_character::unset_mutation( const trait_id &old_trait )
@@ -345,7 +345,7 @@ int talker_character_const::get_spell_level( const trait_id &spell_school ) cons
 {
     int spell_level = -1;
     for( const spell &sp : me_chr_const->spells_known_of_class( spell_school ) ) {
-        spell_level = std::max( sp.get_level(), spell_level );
+        spell_level = std::max( sp.get_effective_level(), spell_level );
     }
     return spell_level;
 }
@@ -355,14 +355,14 @@ int talker_character_const::get_spell_level( const spell_id &spell_name ) const
     if( !me_chr_const->magic->knows_spell( spell_name ) ) {
         return -1;
     }
-    return me_chr_const->magic->get_spell( spell_name ).get_level();
+    return me_chr_const->magic->get_spell( spell_name ).get_effective_level();
 }
 
 int talker_character_const::get_highest_spell_level() const
 {
     int spell_level = -1;
     for( const spell *sp : me_chr_const->magic->get_spells() ) {
-        spell_level = std::max( sp->get_level(), spell_level );
+        spell_level = std::max( sp->get_effective_level(), spell_level );
     }
     return spell_level;
 }

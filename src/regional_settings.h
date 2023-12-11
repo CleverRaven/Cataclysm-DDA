@@ -167,12 +167,6 @@ struct forest_trail_settings {
     int random_point_size_scalar = 100;
     int trailhead_chance = 1;
     int trailhead_road_distance = 6;
-    int trail_center_variance = 3;
-    int trail_width_offset_min = 1;
-    int trail_width_offset_max = 3;
-    bool clear_trail_terrain = false;
-    std::map<std::string, int> unfinalized_trail_terrain;
-    weighted_int_list<ter_id> trail_terrain;
     building_bin trailheads;
 
     void finalize();
@@ -215,6 +209,17 @@ struct overmap_lake_settings {
 
     void finalize();
     overmap_lake_settings() = default;
+};
+
+struct overmap_ocean_settings {
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 0;
+    int ocean_start_east = 10;
+    int ocean_start_west = 0;
+    int ocean_start_south = 0;
+    overmap_ocean_settings() = default;
 };
 
 struct overmap_ravine_settings {
@@ -268,6 +273,7 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    overmap_ocean_settings overmap_ocean;
     overmap_ravine_settings overmap_ravine;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 

@@ -93,12 +93,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        // tools.push_back( tool_with_ammo( "welder", 10000 ) );
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
@@ -129,9 +125,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         std::vector<item> tools;
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "hammer" );
@@ -143,9 +136,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         std::vector<item> tools;
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
@@ -175,9 +165,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         std::vector<item> tools;
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );

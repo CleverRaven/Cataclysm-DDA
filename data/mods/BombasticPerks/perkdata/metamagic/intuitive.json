@@ -1,0 +1,43 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_intuitive",
+    "condition": { "u_has_var": "intuitive_deactivated", "context": "perk_metamagic", "value": "yes" },
+    "effect": [
+      { "u_message": "You activate your intuitive metamagic" },
+      { "u_add_var": "intuitive_deactivated", "context": "perk_metamagic", "value": "no" }
+    ],
+    "false_effect": [
+      { "u_message": "You deactivate your intuitive metamagic" },
+      { "u_add_var": "intuitive_deactivated", "context": "perk_metamagic", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_intuitive",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_metamagic_intuitive" },
+        { "not": { "u_has_var": "intuitive_deactivated", "context": "perk_metamagic", "value": "yes" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('concentration', 'flag_blacklist': 'CONSUMES_RUNES', 'flag_whitelist': 'CONCENTRATE' )",
+          "=",
+          "-1"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES', 'flag_whitelist': 'CONCENTRATE' )",
+          "=",
+          "0.2"
+        ]
+      }
+    ]
+  }
+]

@@ -498,8 +498,8 @@
     "valid": false,
     "purifiable": false,
     "description": "You have a prosthetic on your right leg.",
-    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_prosthetic_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_PROSTHETIC" ]
   },
   {
@@ -510,8 +510,8 @@
     "valid": false,
     "purifiable": false,
     "description": "You have a prosthetic on your left leg.",
-    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_prosthetic_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_PROSTHETIC" ]
   },
   {
@@ -523,7 +523,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right leg.",
     "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_PEGLEG" ]
   },
   {
@@ -535,7 +535,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left leg.",
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_PEGLEG" ]
   },
   {
@@ -547,7 +547,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left arm.",
     "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_ARM_PROSTHETIC" ]
   },
   {
@@ -559,7 +559,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right arm.",
     "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_ARM_PROSTHETIC" ]
   },
   {
@@ -571,7 +571,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left arm.",
     "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_neuroprosthetic_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_ARM_NEUROPROSTHETIC" ]
   },
   {
@@ -583,7 +583,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right arm.",
     "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_neuroprosthetic_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_ARM_NEUROPROSTHETIC" ]
   },
   {
@@ -595,7 +595,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left arm.",
     "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_LEFT_ARM_COSMETIC_PROSTHETIC" ]
   },
   {
@@ -607,7 +607,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right arm.",
     "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR", "EOC_PROSTHETIC_EFFECT_BLOCK_SETUP" ],
     "enchantments": [ "ENCH_RIGHT_ARM_COSMETIC_PROSTHETIC" ]
   },
   {

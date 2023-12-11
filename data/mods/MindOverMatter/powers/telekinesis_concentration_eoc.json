@@ -12,10 +12,14 @@
         "queue_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 10) + 90) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_momentum') * 10) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 20) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_momentum') * 20) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -39,10 +43,14 @@
         "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 10) + 90) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_momentum') * 10) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 20) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_momentum') * 20) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -62,10 +70,14 @@
         "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 15) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_strength') * 15) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 30) + 120 )* (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_strength') * 30) + 120 )* (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -89,10 +101,14 @@
         "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 30) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_strength') * 30) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_strength') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -112,10 +128,14 @@
         "queue_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 15) + 90) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_shield') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 25) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_shield') * 25) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -143,10 +163,14 @@
         "queue_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 15) + 90) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_shield') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 25) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_shield') * 25) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -167,12 +191,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 180) + 600) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 180) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 360) + 1200) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 360) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -251,12 +275,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 180) + 600) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 180) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 360) + 1200) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 360) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -270,17 +294,21 @@
     "condition": { "not": { "u_has_effect": "effect_telekinetic_levitation" } },
     "effect": [
       { "u_message": "You begin floating a hand's breadth above the ground.", "type": "good" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_telekinetic_levitation", "duration": "PERMANENT" },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_seven", "hit_self": true } },
       {
         "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 0.75) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_levitation') * 0.75) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_levitation') * 2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
@@ -291,7 +319,10 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_REMOVE_LEVITATION",
     "condition": { "u_has_effect": "effect_telekinetic_levitation" },
-    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_telekinetic_levitation" } ]
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
+      { "u_lose_effect": "effect_telekinetic_levitation" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -304,10 +335,14 @@
         "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
         "time_in_future": [
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 0.75) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_levitation') * 0.75) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           },
           {
-            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_levitation') * 2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
           }
         ]
       }
