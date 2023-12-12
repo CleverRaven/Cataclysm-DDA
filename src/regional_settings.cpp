@@ -393,6 +393,8 @@ static void load_overmap_ocean_settings( const JsonObject &jo,
                                     overmap_ocean_settings.ocean_start_west, !overlay );
         read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_south",
                                     overmap_ocean_settings.ocean_start_south, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "sandy_beach_width",
+                                    overmap_ocean_settings.sandy_beach_width, !overlay );
     }
 }
 

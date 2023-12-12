@@ -219,6 +219,7 @@ struct overmap_ocean_settings {
     int ocean_start_east = 10;
     int ocean_start_west = 0;
     int ocean_start_south = 0;
+    int sandy_beach_width = 2;
     overmap_ocean_settings() = default;
 };
 
