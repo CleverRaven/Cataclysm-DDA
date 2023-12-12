@@ -133,7 +133,7 @@
     "id": "small_chess",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "compact chess set", "str_pl": "compact chess sets" },
+    "name": { "str": "compact chess set" },
     "description": "A smaller and compact counterpart of the standard chess set, perfect for casual play and travel.  It contains all the pieces needed to play a game of chess.",
     "weight": "275 g",
     "volume": "1200 ml",
