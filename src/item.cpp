@@ -1289,7 +1289,7 @@ void item::update_modified_pockets()
     }
 
     // Prevent cleanup of added modular pockets
-    for( const item * it : contents.get_added_pockets() ) {
+    for( const item *it : contents.get_added_pockets() ) {
         for( const pocket_data &pocket : it->type->pockets ) {
             container_pockets.push_back( &pocket );
         }
