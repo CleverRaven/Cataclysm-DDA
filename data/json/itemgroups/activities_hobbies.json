@@ -181,7 +181,7 @@
       { "item": "bchess_bishop", "prob": 1 },
       { "item": "wchess_rook", "prob": 1 },
       { "item": "bchess_rook", "prob": 1 },
-      { "item": "wchess_queen", "prob": 1 }
+      { "item": "wchess_queen", "prob": 1 },
       { "item": "bchess_queen", "prob": 1 },
       { "item": "wchess_king", "prob": 1 },
       { "item": "bchess_king", "prob": 1 }
