@@ -112,6 +112,34 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
+    "id": "checkboard",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "checkboard" },
+    "description": "A pair of checkered wooden boards that together form a checkboard.  Useful as timber or for crafting a chess or checkers board.",
+    "weight": "300 g",
+    "volume": "2400 ml",
+    "longest_side": "30cm",
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "white",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "small_checkboard",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "compact checkboard" },
+    "description": "A pair of smaller checkered wooden boards that together form a compact checkboard.  Useful as timber or for crafting a smaller chess or checkers board.",
+    "weight": "100 g",
+    "volume": "1200 ml",
+    "longest_side": "15cm",
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "white",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "chess",
     "type": "GENERIC",
     "category": "other",
