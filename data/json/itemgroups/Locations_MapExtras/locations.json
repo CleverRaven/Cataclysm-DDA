@@ -2607,7 +2607,7 @@
       [ "bottle_folding", 6 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
-      { "group": "cool_chess", "prob": 1 }
+      { "group": "cool_chess", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 }
     ]
   },
