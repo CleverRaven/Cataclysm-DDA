@@ -177,7 +177,7 @@
       { "item": "bchess_pawn", "prob": 1 },
       { "item": "wchess_knight", "prob": 1 },
       { "item": "bchess_knight", "prob": 1 },
-      { "item": "wchess_bishop", "prob": 1 }
+      { "item": "wchess_bishop", "prob": 1 },
       { "item": "bchess_bishop", "prob": 1 },
       { "item": "wchess_rook", "prob": 1 },
       { "item": "bchess_rook", "prob": 1 },
