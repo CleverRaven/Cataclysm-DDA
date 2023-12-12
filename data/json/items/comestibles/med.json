@@ -928,13 +928,13 @@
     "color": "light_red",
     "container": "bottle_plastic_pill_supplement",
     "stim": -6,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 4,
     "addiction_type": "sleeping pill",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take an antihistamine pill.",
-      "effects": [ { "id": "took_flumed", "duration": "10 h" } ]
+      "effects": [ { "id": "took_antihistamine", "duration": "10 h" } ]
     }
   },
   {
