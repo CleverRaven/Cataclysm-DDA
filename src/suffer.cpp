@@ -703,6 +703,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         }
         // Multiply phelloderm_surface here so we can average it with head_exposure later.
         phelloderm_surface *= 8.33;
+        const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
         const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
         const bodypart_id left_arm( "arm_l" );
         const bodypart_id right_arm( "arm_r" );
