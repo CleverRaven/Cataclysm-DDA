@@ -581,9 +581,10 @@ bool is_river( const oter_id &ter )
     return ter->is_river();
 }
 
-bool is_river_or_lake( const oter_id &ter )
+bool is_water_body( const oter_id &ter )
 {
-    return ter->is_river() || ter->is_lake() || ter->is_lake_shore();
+    return ter->is_river() || ter->is_lake() || ter->is_lake_shore() || ter->is_ocean() ||
+           ter->is_ocean_shore();
 }
 
 bool is_ot_match( const std::string &name, const oter_id &oter,
@@ -684,6 +685,8 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::requires_predecessor: return "REQUIRES_PREDECESSOR";
         case oter_flags::lake: return "LAKE";
         case oter_flags::lake_shore: return "LAKE_SHORE";
+        case oter_flags::ocean: return "OCEAN";
+        case oter_flags::ocean_shore: return "OCEAN_SHORE";
         case oter_flags::ravine: return "RAVINE";
         case oter_flags::ravine_edge: return "RAVINE_EDGE";
         case oter_flags::generic_loot: return "GENERIC_LOOT";
@@ -3371,6 +3374,8 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
     }
+    calculate_urbanity();
+    calculate_forestosity();
     if( get_option<bool>( "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS" ) ) {
         populate_connections_out_from_neighbors( north, east, south, west );
     }
@@ -3379,6 +3384,9 @@ void overmap::generate( const overmap *north, const overmap *east,
     }
     if( get_option<bool>( "OVERMAP_PLACE_LAKES" ) ) {
         place_lakes();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+        place_oceans();
     }
     if( get_option<bool>( "OVERMAP_PLACE_FORESTS" ) ) {
         place_forests();
@@ -4476,13 +4484,12 @@ void overmap::place_forest_trailheads()
 
     const auto try_place_trailhead_special = [&]( const tripoint_om_omt & trail_end,
     const om_direction::type & dir ) {
-        const tripoint_om_omt potential_trailhead = trail_end + om_direction::displace( dir, 1 );
         overmap_special_id trailhead = settings->forest_trail.trailheads.pick();
         if( one_in( settings->forest_trail.trailhead_chance ) &&
-            trailhead_close_to_road( potential_trailhead ) &&
-            can_place_special( *trailhead, potential_trailhead, dir, false ) ) {
-            const city &nearest_city = get_nearest_city( potential_trailhead );
-            place_special( *trailhead, potential_trailhead, dir, nearest_city, false, false );
+            trailhead_close_to_road( trail_end ) &&
+            can_place_special( *trailhead, trail_end, dir, false ) ) {
+            const city &nearest_city = get_nearest_city( trail_end );
+            place_special( *trailhead, trail_end, dir, nearest_city, false, false );
         }
     };
 
@@ -4491,7 +4498,7 @@ void overmap::place_forest_trailheads()
             const tripoint_om_omt p( i, j, 0 );
             oter_id oter = ter( p );
             if( is_ot_match( "forest_trail_end", oter, ot_match_type::prefix ) ) {
-                try_place_trailhead_special( p, oter->get_dir() );
+                try_place_trailhead_special( p, static_cast<om_direction::type>( oter->get_rotation() ) );
             }
         }
     }
@@ -4500,7 +4507,6 @@ void overmap::place_forest_trailheads()
 void overmap::place_forests()
 {
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
-
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
     for( int x = 0; x < OMAPX; x++ ) {
@@ -4517,20 +4523,26 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
     }
 }
 
+
 void overmap::place_lakes()
 {
     const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
 
     const auto is_lake = [&]( const point_om_omt & p ) {
+        // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
+        bool inbounds = p.x() > -5 && p.y() > -5 && p.x() < OMAPX + 5 && p.y() < OMAPY + 5;
+        if( !inbounds ) {
+            return false;
+        }
         return f.noise_at( p ) > settings->overmap_lake.noise_threshold_lake;
     };
 
@@ -4643,6 +4655,174 @@ void overmap::place_lakes()
 
             // Get the north and south most points in our lake.
             auto north_south_most = std::minmax_element( lake_points.begin(), lake_points.end(),
+            []( const point_om_omt & lhs, const point_om_omt & rhs ) {
+                return lhs.y() < rhs.y();
+            } );
+
+            point_om_omt northmost = *north_south_most.first;
+            point_om_omt southmost = *north_south_most.second;
+
+            // It's possible that our northmost/southmost points in the lake are not on this overmap, because our
+            // lake may extend across multiple overmaps.
+            if( inbounds( northmost ) ) {
+                connect_lake_to_closest_river( northmost );
+            }
+
+            if( inbounds( southmost ) ) {
+                connect_lake_to_closest_river( southmost );
+            }
+        }
+    }
+}
+
+void overmap::place_oceans()
+{
+    int northern_ocean = settings->overmap_ocean.ocean_start_north;
+    int eastern_ocean = settings->overmap_ocean.ocean_start_east;
+    int western_ocean = settings->overmap_ocean.ocean_start_west;
+    int southern_ocean = settings->overmap_ocean.ocean_start_south;
+
+    const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
+    const point_abs_om this_om = pos();
+
+    // This is my first lambda, be nice to me.
+    const auto calculate_ocean_gradient = [&]( const point_om_omt & p ) {
+        float ocean_adjust_N = 0.0f;
+        float ocean_adjust_E = 0.0f;
+        float ocean_adjust_W = 0.0f;
+        float ocean_adjust_S = 0.0f;
+        if( northern_ocean > 0 && this_om.y() <= northern_ocean * -1 ) {
+            ocean_adjust_N = 0.0005f * static_cast<float>( OMAPY - p.y()
+                             + std::abs( ( this_om.y() + northern_ocean ) * OMAPY ) );
+        }
+        if( eastern_ocean > 0 && this_om.x() >= eastern_ocean ) {
+            ocean_adjust_E = 0.0005f * static_cast<float>( p.x() + ( this_om.x() - eastern_ocean )
+                             * OMAPX );
+        }
+        if( western_ocean > 0 && this_om.x() <= western_ocean * -1 ) {
+            ocean_adjust_W = 0.0005f * static_cast<float>( OMAPX - p.x()
+                             + std::abs( ( this_om.x() + western_ocean ) * OMAPX ) );
+        }
+        if( southern_ocean > 0 && this_om.y() >= southern_ocean ) {
+            ocean_adjust_S = 0.0005f * static_cast<float>( p.y() + ( this_om.y() - southern_ocean ) * OMAPY );
+        }
+        return std::max( {ocean_adjust_N, ocean_adjust_E, ocean_adjust_W, ocean_adjust_S} );
+    };
+
+    const auto is_ocean = [&]( const point_om_omt & p ) {
+        // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
+        if( northern_ocean == 0 && eastern_ocean  == 0 && western_ocean  == 0 && southern_ocean == 0 ) {
+            // you know you could just turn oceans off in global_settings.json right?
+            return false;
+        }
+        bool inbounds = p.x() > -5 && p.y() > -5 && p.x() < OMAPX + 5 && p.y() < OMAPY + 5;
+        if( !inbounds ) {
+            return false;
+        }
+        float ocean_adjust = calculate_ocean_gradient( p );
+        if( ocean_adjust == 0.0f ) {
+            // It's too soon!  Too soon for an ocean!!  ABORT!!!
+            return false;
+        }
+        return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean;
+    };
+
+    const oter_id ocean_surface( "ocean_surface" );
+    const oter_id ocean_shore( "ocean_shore" );
+    const oter_id ocean_water_cube( "ocean_water_cube" );
+    const oter_id ocean_bed( "ocean_bed" );
+
+    // This code is repeated from is_lake(), see comments there for explanation.
+    std::unordered_set<point_om_omt> visited;
+
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            point_om_omt seed_point( i, j );
+            if( visited.find( seed_point ) != visited.end() ) {
+                continue;
+            }
+
+            if( !is_ocean( seed_point ) ) {
+                continue;
+            }
+
+            std::vector<point_om_omt> ocean_points =
+                ff::point_flood_fill_4_connected( seed_point, visited, is_ocean );
+
+            // Ocean size is checked like lake size, but minimum size is much bigger.
+            // you could change this, if you want little tiny oceans all over the place.
+            // I'm not sure why you'd want that.  Use place_lakes, my friend.
+            if( ocean_points.size() < static_cast<std::vector<point>::size_type>
+                ( settings->overmap_ocean.ocean_size_min ) ) {
+                continue;
+            }
+
+            std::unordered_set<point_om_omt> ocean_set;
+            for( auto &p : ocean_points ) {
+                ocean_set.emplace( p );
+            }
+
+            for( int x = 0; x < OMAPX; x++ ) {
+                for( int y = 0; y < OMAPY; y++ ) {
+                    const tripoint_om_omt p( x, y, 0 );
+                    if( ter( p )->is_river() ) {
+                        ocean_set.emplace( p.xy() );
+                    }
+                }
+            }
+
+            for( auto &p : ocean_points ) {
+                if( !inbounds( p ) ) {
+                    continue;
+                }
+
+                bool shore = false;
+                for( int ni = -1; ni <= 1 && !shore; ni++ ) {
+                    for( int nj = -1; nj <= 1 && !shore; nj++ ) {
+                        const point_om_omt n = p + point( ni, nj );
+                        if( ocean_set.find( n ) == ocean_set.end() ) {
+                            shore = true;
+                        }
+                    }
+                }
+
+                ter_set( tripoint_om_omt( p, 0 ), shore ? ocean_shore : ocean_surface );
+
+                if( !shore ) {
+                    for( int z = -1; z > settings->overmap_ocean.ocean_depth; z-- ) {
+                        ter_set( tripoint_om_omt( p, z ), ocean_water_cube );
+                    }
+                    ter_set( tripoint_om_omt( p, settings->overmap_ocean.ocean_depth ), ocean_bed );
+                }
+            }
+
+            // We're going to attempt to connect some points to the nearest river.
+            // This isn't a lake but the code is the same, we can reuse it.  Water is water.
+            const auto connect_lake_to_closest_river =
+            [&]( const point_om_omt & lake_connection_point ) {
+                int closest_distance = -1;
+                point_om_omt closest_point;
+                for( int x = 0; x < OMAPX; x++ ) {
+                    for( int y = 0; y < OMAPY; y++ ) {
+                        const tripoint_om_omt p( x, y, 0 );
+                        if( !ter( p )->is_river() ) {
+                            continue;
+                        }
+                        const int distance = square_dist( lake_connection_point, p.xy() );
+                        if( distance < closest_distance || closest_distance < 0 ) {
+                            closest_point = p.xy();
+                            closest_distance = distance;
+                        }
+                    }
+                }
+
+                if( closest_distance > 0 ) {
+                    place_river( closest_point, lake_connection_point );
+                }
+            };
+
+            // Get the north and south most points in our ocean.
+            auto north_south_most = std::minmax_element( ocean_points.begin(), ocean_points.end(),
             []( const point_om_omt & lhs, const point_om_omt & rhs ) {
                 return lhs.y() < rhs.y();
             } );
@@ -5103,6 +5283,92 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
     } while( pb != p2 );
 }
 
+void overmap::calculate_forestosity()
+{
+    float northern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_NORTH" );
+    float eastern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_EAST" );
+    float western_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_WEST" );
+    float southern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_SOUTH" );
+    const point_abs_om this_om = pos();
+    if( western_forest_increase != 0 && this_om.x() < 0 ) {
+        forest_size_adjust -= this_om.x() * western_forest_increase;
+    }
+    if( northern_forest_increase != 0 && this_om.y() < 0 ) {
+        forest_size_adjust -= this_om.y() * northern_forest_increase;
+    }
+    if( eastern_forest_increase != 0 && this_om.x() > 0 ) {
+        forest_size_adjust += this_om.x() * eastern_forest_increase;
+    }
+    if( southern_forest_increase != 0 && this_om.y() > 0 ) {
+        forest_size_adjust += this_om.y() * southern_forest_increase;
+    }
+    forestosity = forest_size_adjust * 25.0f;
+    //debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
+    // make sure forest size never totally overwhelms the map
+    forest_size_adjust = std::min( forest_size_adjust,
+                                   get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
+                                   ( settings->overmap_forest.noise_threshold_forest ) );
+}
+
+void overmap::calculate_urbanity()
+{
+    int op_city_size = get_option<int>( "CITY_SIZE" );
+    if( op_city_size <= 0 ) {
+        return;
+    }
+    int northern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_NORTH" );
+    int eastern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_EAST" );
+    int western_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_WEST" );
+    int southern_urban_increase = get_option<int>( "OVERMAP_URBAN_INCREASE_SOUTH" );
+    if( northern_urban_increase == 0 && eastern_urban_increase == 0 && western_urban_increase == 0 &&
+        southern_urban_increase == 0 ) {
+        return;
+    }
+    float urbanity_adj = 0.0f;
+
+    const point_abs_om this_om = pos();
+    if( northern_urban_increase != 0 && this_om.y() < 0 ) {
+        urbanity_adj -= this_om.y() * northern_urban_increase / 10.0f;
+        // add some falloff to the sides, keeping cities larger but breaking up the megacity a bit.
+        // Doesn't apply if we expect megacity in those directions as well.
+        if( this_om.x() < 0 && western_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+        }
+        if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+        }
+    }
+    if( eastern_urban_increase != 0 && this_om.x() > 0 ) {
+        urbanity_adj += this_om.x() * eastern_urban_increase / 10.0f;
+        if( this_om.y() < 0 && northern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+        }
+        if( this_om.y() > 0 && southern_urban_increase == 0 ) {
+            urbanity_adj /= std::max( this_om.y() / 2.0f, 1.0f );
+        }
+    }
+    if( western_urban_increase != 0 && this_om.x() < 0 ) {
+        urbanity_adj -= this_om.x() * western_urban_increase / 10.0f;
+        if( this_om.y() < 0 && northern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+        }
+        if( this_om.y() > 0 && southern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.y() / 2.0f, 1.0f );
+        }
+    }
+    if( southern_urban_increase != 0 && this_om.y() > 0 ) {
+        urbanity_adj += this_om.y() * southern_urban_increase / 10.0f;
+        if( this_om.x() < 0 && western_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+        }
+        if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
+            urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+        }
+    }
+    urbanity = static_cast<int>( urbanity_adj );
+    //debugmsg( "urbanity = %i at OM %i, %i", urbanity, this_om.x(), this_om.y() );
+}
+
 /*: the root is overmap::place_cities()
 20:50 <kevingranade>: which is at overmap.cpp:1355 or so
 20:51 <kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
@@ -5115,11 +5381,27 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
+    int op_city_spacing = get_option<int>( "CITY_SPACING" );
     int op_city_size = get_option<int>( "CITY_SIZE" );
+    int max_urbanity = get_option<int>( "OVERMAP_MAXIMUM_URBANITY" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_option<int>( "CITY_SPACING" );
+    // make sure city size adjust is never high enough to drop op_city_size below 2
+    int city_size_adjust = std::min( urbanity -  static_cast<int>( forestosity / 2.0f ),
+                                     -1 * op_city_size + 2 );
+    int city_space_adjust = urbanity / 2;
+    int max_city_size = std::min( op_city_size + city_size_adjust, op_city_size * max_urbanity );
+    if( max_city_size < op_city_size ) {
+        // funny things happen if max_city_size is less than op_city_size.
+        max_city_size = op_city_size;
+    }
+    if( op_city_spacing > 0 ) {
+        city_space_adjust = std::min( city_space_adjust, op_city_spacing - 2 );
+        op_city_spacing = op_city_spacing - city_space_adjust + static_cast<int>( forestosity );
+    }
+    // make sure not to get too extreme on the spacing if you go way far.
+    op_city_spacing = std::min( op_city_spacing, 10 );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -5136,7 +5418,7 @@ void overmap::place_cities()
 
     const double omts_per_overmap = OMAPX * OMAPY;
     const double city_map_coverage_ratio = 1.0 / std::pow( 2.0, op_city_spacing );
-    const double omts_per_city = ( op_city_size * 2 + 1 ) * ( op_city_size * 2 + 1 ) * 3 / 4.0;
+    const double omts_per_city = ( op_city_size * 2 + 1 ) * ( max_city_size * 2 + 1 ) * 3 / 4.0;
 
     // how many cities on this overmap?
     int num_cities_on_this_overmap = 0;
@@ -5160,7 +5442,7 @@ void overmap::place_cities()
 
     // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
-    const int MAX_PLACEMENT_ATTEMPTS = OMAPX * OMAPY;
+    const int MAX_PLACEMENT_ATTEMPTS = 50;//OMAPX * OMAPY;
     int placement_attempts = 0;
 
     // place a seed for num_cities_on_this_overmap cities, and maybe one more
@@ -5170,9 +5452,10 @@ void overmap::place_cities()
 
         tripoint_om_omt p;
         city tmp;
+        tmp.pos_om = pos();
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
-            int size = rng( op_city_size - 1, op_city_size + 1 );
+            int size = rng( op_city_size - 1, max_city_size );
             if( one_in( 3 ) ) { // 33% tiny
                 size = size * 1 / 3;
             } else if( one_in( 2 ) ) { // 33% small
@@ -5184,6 +5467,7 @@ void overmap::place_cities()
             }
             // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
             size = std::max( size, 2 );
+            size = std::min( size, 55 );
             // TODO: put cities closer to the edge when they can span overmaps
             // don't draw cities across the edge of the map, they will get clipped
             point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
@@ -5974,9 +6258,9 @@ void overmap::good_river( const tripoint_om_omt &p )
         return;
     }
     if( ( p.x() == 0 ) || ( p.x() == OMAPX - 1 ) ) {
-        if( !is_river_or_lake( ter( p + point_north ) ) ) {
+        if( !is_water_body( ter( p + point_north ) ) ) {
             ter_set( p, oter_river_north.id() );
-        } else if( !is_river_or_lake( ter( p + point_south ) ) ) {
+        } else if( !is_water_body( ter( p + point_south ) ) ) {
             ter_set( p, oter_river_south.id() );
         } else {
             ter_set( p, oter_river_center.id() );
@@ -5984,28 +6268,28 @@ void overmap::good_river( const tripoint_om_omt &p )
         return;
     }
     if( ( p.y() == 0 ) || ( p.y() == OMAPY - 1 ) ) {
-        if( !is_river_or_lake( ter( p + point_west ) ) ) {
+        if( !is_water_body( ter( p + point_west ) ) ) {
             ter_set( p, oter_river_west.id() );
-        } else if( !is_river_or_lake( ter( p + point_east ) ) ) {
+        } else if( !is_water_body( ter( p + point_east ) ) ) {
             ter_set( p, oter_river_east.id() );
         } else {
             ter_set( p, oter_river_center.id() );
         }
         return;
     }
-    if( is_river_or_lake( ter( p + point_west ) ) ) {
-        if( is_river_or_lake( ter( p + point_north ) ) ) {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
+    if( is_water_body( ter( p + point_west ) ) ) {
+        if( is_water_body( ter( p + point_north ) ) ) {
+            if( is_water_body( ter( p + point_south ) ) ) {
+                if( is_water_body( ter( p + point_east ) ) ) {
                     // River on N, S, E, W;
                     // but we might need to take a "bite" out of the corner
-                    if( !is_river_or_lake( ter( p + point_north_west ) ) ) {
+                    if( !is_water_body( ter( p + point_north_west ) ) ) {
                         ter_set( p, oter_river_c_not_nw.id() );
-                    } else if( !is_river_or_lake( ter( p + point_north_east ) ) ) {
+                    } else if( !is_water_body( ter( p + point_north_east ) ) ) {
                         ter_set( p, oter_river_c_not_ne.id() );
-                    } else if( !is_river_or_lake( ter( p + point_south_west ) ) ) {
+                    } else if( !is_water_body( ter( p + point_south_west ) ) ) {
                         ter_set( p, oter_river_c_not_sw.id() );
-                    } else if( !is_river_or_lake( ter( p + point_south_east ) ) ) {
+                    } else if( !is_water_body( ter( p + point_south_east ) ) ) {
                         ter_set( p, oter_river_c_not_se.id() );
                     } else {
                         ter_set( p, oter_river_center.id() );
@@ -6014,43 +6298,43 @@ void overmap::good_river( const tripoint_om_omt &p )
                     ter_set( p, oter_river_east.id() );
                 }
             } else {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
+                if( is_water_body( ter( p + point_east ) ) ) {
                     ter_set( p, oter_river_south.id() );
                 } else {
                     ter_set( p, oter_river_se.id() );
                 }
             }
         } else {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
+            if( is_water_body( ter( p + point_south ) ) ) {
+                if( is_water_body( ter( p + point_east ) ) ) {
                     ter_set( p, oter_river_north.id() );
                 } else {
                     ter_set( p, oter_river_ne.id() );
                 }
             } else {
-                if( is_river_or_lake( ter( p + point_east ) ) ) { // Means it's swampy
+                if( is_water_body( ter( p + point_east ) ) ) { // Means it's swampy
                     ter_set( p, oter_forest_water.id() );
                 }
             }
         }
     } else {
-        if( is_river_or_lake( ter( p + point_north ) ) ) {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
+        if( is_water_body( ter( p + point_north ) ) ) {
+            if( is_water_body( ter( p + point_south ) ) ) {
+                if( is_water_body( ter( p + point_east ) ) ) {
                     ter_set( p, oter_river_west.id() );
                 } else { // Should never happen
                     ter_set( p, oter_forest_water.id() );
                 }
             } else {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
+                if( is_water_body( ter( p + point_east ) ) ) {
                     ter_set( p, oter_river_sw.id() );
                 } else { // Should never happen
                     ter_set( p, oter_forest_water.id() );
                 }
             }
         } else {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
+            if( is_water_body( ter( p + point_south ) ) ) {
+                if( is_water_body( ter( p + point_east ) ) ) {
                     ter_set( p, oter_river_nw.id() );
                 } else { // Should never happen
                     ter_set( p, oter_forest_water.id() );
@@ -6422,10 +6706,18 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // they're mandatory they just end up causing us to spiral out into adjacent overmaps
     // which probably don't have lakes either.
     bool overmap_has_lake = false;
+    bool overmap_has_ocean = false;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT && !overmap_has_lake; z++ ) {
         for( int x = 0; x < OMAPX && !overmap_has_lake; x++ ) {
             for( int y = 0; y < OMAPY && !overmap_has_lake; y++ ) {
                 overmap_has_lake = ter_unsafe( { x, y, z } )->is_lake();
+            }
+        }
+    }
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT && !overmap_has_ocean; z++ ) {
+        for( int x = 0; x < OMAPX && !overmap_has_ocean; x++ ) {
+            for( int y = 0; y < OMAPY && !overmap_has_ocean; y++ ) {
+                overmap_has_ocean = ter_unsafe( { x, y, z } )->is_ocean();
             }
         }
     }
@@ -6435,6 +6727,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // lake terrain, then remove this special from the candidates for this
         // overmap.
         if( iter->special_details->has_flag( "LAKE" ) && !overmap_has_lake ) {
+            iter = enabled_specials.erase( iter );
+            continue;
+        }
+        if( iter->special_details->has_flag( "OCEAN" ) && !overmap_has_ocean ) {
             iter = enabled_specials.erase( iter );
             continue;
         }
@@ -6555,6 +6851,102 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
 void overmap::place_mongroups()
 {
+    // Cities can be full of zombies
+    int city_spawn_threshold = get_option<int>( "SPAWN_CITY_HORDE_THRESHOLD" );
+    if( city_spawn_threshold > -1 ) {
+        int city_spawn_chance = get_option<int>( "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE" );
+        float city_spawn_scalar = get_option<float>( "SPAWN_CITY_HORDE_SCALAR" );
+        float city_spawn_spread = get_option<float>( "SPAWN_CITY_HORDE_SPREAD" );
+        float spawn_density = get_option<float>( "SPAWN_DENSITY" );
+
+        for( city &elem : cities ) {
+            if( elem.size > city_spawn_threshold || !one_in( city_spawn_chance ) ) {
+
+                // with the default numbers (80 scalar, 1 density), a size 16 city
+                // will produce 1280 zombies.
+                int desired_zombies = elem.size * city_spawn_scalar * spawn_density;
+
+                float city_effective_radius = elem.size * city_spawn_spread;
+
+                int city_distance_increment = std::ceil( city_effective_radius / 4 );
+
+                tripoint_abs_omt city_center = project_combine( elem.pos_om, tripoint_om_omt( elem.pos, 0 ) );
+
+                std::vector<tripoint_abs_sm> submap_list;
+
+                // gather all of the points in range to test for viable placement of hordes.
+                for( tripoint_om_omt const &temp_omt : points_in_radius( tripoint_om_omt( elem.pos, 0 ),
+                        static_cast<int>( city_effective_radius ), 0 ) ) {
+
+                    // running too close to the edge of the overmap can get us cascading mapgen
+                    if( inbounds( temp_omt, 2 ) ) {
+
+                        tripoint_abs_omt target_omt = project_combine( elem.pos_om, temp_omt );
+
+                        // right now we're only placing city horde spawns on roads, for simplicity.
+                        // this can be replaced with an OMT flag for later for better flexibility.
+                        if( overmap_buffer.ter( target_omt )->get_type_id() == oter_type_road ) {
+                            tripoint_abs_sm this_sm = project_to<coords::sm>( target_omt );
+
+                            // for some reason old style spawns are submap-aligned.
+                            // get all four quadrants for better distribution.
+                            std::vector<tripoint_abs_sm> local_sm_list;
+                            local_sm_list.push_back( this_sm );
+                            local_sm_list.push_back( this_sm + point_east );
+                            local_sm_list.push_back( this_sm + point_south );
+                            local_sm_list.push_back( this_sm + point_south_east );
+
+                            // shuffle, then prune submaps based on distance from city center
+                            // this should let us concentrate hordes closer to the center.
+                            // the shuffling is so they aren't all aligned consistently.
+                            int new_size = 4 - ( trig_dist( target_omt, city_center ) / city_distance_increment );
+                            if( new_size > 0 ) {
+                                std::shuffle( local_sm_list.begin(), local_sm_list.end(), rng_get_engine() );
+                                local_sm_list.resize( new_size );
+
+                                submap_list.insert( submap_list.end(), local_sm_list.begin(), local_sm_list.end() );
+                            }
+
+                        }
+                    }
+                }
+
+                if( submap_list.empty() ) {
+                    // somehow the city has no roads. this shouldn't happen.
+                    add_msg_debug( debugmode::DF_OVERMAP,
+                                   "tried to add zombie hordes to city %s centered at omt %s, but there were no roads!",
+                                   elem.name, city_center.to_string_writable() );
+                    continue;
+                }
+
+                add_msg_debug( debugmode::DF_OVERMAP, "adding %i zombies in hordes to city %s centered at omt %s.",
+                               desired_zombies, elem.name, city_center.to_string_writable() );
+
+                // if there aren't enough roads, we'll just reuse them, re-shuffled.
+                while( desired_zombies > 0 ) {
+                    std::shuffle( submap_list.begin(), submap_list.end(), rng_get_engine() );
+                    for( tripoint_abs_sm const &s : submap_list ) {
+                        if( desired_zombies <= 0 ) {
+                            break;
+                        }
+                        mongroup m( GROUP_ZOMBIE, s, desired_zombies > 10 ? 10 : desired_zombies );
+
+                        // with wander_spawns (aka wandering hordes) off, these become 'normal'
+                        // zombie spawns and behave like ants, triffids, fungals, etc.
+                        // they won't try very hard to get placed in the world, so there will
+                        // probably be fewer zombies than expected.
+                        m.horde = true;
+                        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
+                            m.wander( *this );
+                        }
+                        add_mon_group( m );
+                        desired_zombies -= 10;
+                    }
+                }
+            }
+        }
+    }
+
     if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
@@ -6587,7 +6979,7 @@ void overmap::place_mongroups()
             int river_count = 0;
             for( int sx = x - 3; sx <= x + 3; sx++ ) {
                 for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_river_or_lake( ter( { sx, sy, 0 } ) ) ) {
+                    if( is_water_body( ter( { sx, sy, 0 } ) ) ) {
                         river_count++;
                     }
                 }

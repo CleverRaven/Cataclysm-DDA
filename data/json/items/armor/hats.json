@@ -270,6 +270,32 @@
     ]
   },
   {
+    "id": "hat_field",
+    "type": "ARMOR",
+    "name": { "str": "patrol cap" },
+    "description": "A simple round cap in a camouflage pattern.  Often used by the military when helmets aren't needed.  Its brim helps keep the sun out of your eyes.",
+    "weight": "92 g",
+    "volume": "500 ml",
+    "price": 1500,
+    "price_postapoc": 80,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cowboy_hat",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
+  },
+  {
     "id": "hat_boonie",
     "type": "ARMOR",
     "name": { "str": "boonie hat" },
@@ -1037,7 +1063,7 @@
   {
     "id": "zucchetto",
     "type": "ARMOR",
-    "name": { "str": "Zucchetto" },
+    "name": { "str": "zucchetto" },
     "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
     "weight": "100 g",
     "volume": "300 ml",

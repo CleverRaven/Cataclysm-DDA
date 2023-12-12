@@ -2,26 +2,27 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "name": "centering meditation",
+    "name": "grounding meditation",
     "id": "psi_centering_meditation_drain_reduce",
-    "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the unnatural drain of psionic channeling into mundane tiredness, though it may take some time to meditate all of your drain away.",
+    "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the additional nether energy you have accumulated out into your surroundings, though doing so will be extremely tiring.",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "difficulty": 4,
-    "time": "15 m",
+    "time": "20 m",
     "autolearn": true,
     "skill_used": "metaphysics",
     "flags": [ "BLIND_EASY" ],
     "result_eocs": [
       {
         "id": "EOC_CENTERING_MEDITATION",
-        "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "1" ] },
-        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "1" ] } ],
+        "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "10" ] },
+        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "10" ] } ],
         "false_effect": [
           {
             "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
             "type": "good"
-          }
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] }
         ]
       }
     ]
@@ -29,9 +30,9 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "name": "drain channeling protocol PGS38",
+    "name": "channeling protocol PGS38",
     "id": "psi_matrix_channeling_drain_reduce",
-    "description": "That report indicated there was a way to channel all of the unnatural fatigue from long-term psionic use into a focusing object.  All you need is a drained matrix crystal and time.",
+    "description": "That report indicated there was a way to channel the additional nether energy from long-term psionic use into a focusing object.  All you need is a drained matrix crystal and time.",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
@@ -49,7 +50,7 @@
         "id": "EOC_MATRIX_DRAIN_MEDITATION",
         "effect": [
           {
-            "u_message": "You channel all of the unnatural fatigue into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, all of the fatigue your powers caused you vanishes."
+            "u_message": "You channel all of your powers into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, the strange feelings caused by using your powers vanish."
           },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] },
           { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 }

@@ -74,6 +74,12 @@ Fixes NPCs being too afraid, makes swarm danger assessment more robust
 Add option to switch between outfit (when available) at chargen
 Animals have stomachs, digest food, and benefit from eating
 Enable NPCs to reload magazines in their inventory
+Liquids crafted at camps will try to be placed inside zoned terrain/furniture that can hold them(LIQUIDCONT)
+Hauling overhaul: you can choose which specific items to haul, whether to automatically haul new items, or haul items by filter
+The player can gauge an NPC's personality during dialogue with them
+The Han Solo Special: NPCs identify when fleeing is failing. Also adds flee modes and panic.
+Boomer bile is slippery, causes pinkeye, and is blocked by waterproof eyewear
+The map changes as you travel east-west and north-south, revealing either rural areas or oceans and megacities
 
 
 ## Content:
@@ -132,6 +138,14 @@ Add residential rolling trash cans.
 Adds Long awaited Exodii Sidearms
 Allow diving into water to remove Mycus spores.
 New Scenario: Last Stand
+Boston-Chan costume set
+Omelets and other egg based foods
+New Epilogues for NPCs
+Adds more fungalized humanoid/animal zombie variants.
+Winnowing, new method of obtaining raw grain
+Adds compensators, adds conflict for suppressors/barrel porting
+Changes some items' material to fiberglass
+New portal storm monster based off a dream I had
 
 
 ## Interface:
@@ -179,6 +193,7 @@ Add spell class selecter to spell casting menu
 Update gun mod removal UI to use inventory menu instead of a prompt; prevent removal of gun mods with other mods installed on it
 Show the mass of vitamins in food items
 Melee weapons tell you your skill is too low to see melee values instead of just hiding them
+Shows the starting location for a scenario when there is only one possible option.
 
 
 ## Mods:
@@ -246,6 +261,18 @@ Allow escape pods to carry loot planetside.
 [MoM] Add mi-go psions
 [Innawoods] Added meadow mutable
 [MoM] Drain overhaul  + Power Maintenance overhaul
+Aftershock: Add Landing Pads
+[DinoMod] Animal Food Matters
+[MoM] Separate NO_SPELLCASTING from new NO_PSIONICS
+[MoM] Tinfoil hats protect against telepathy (sometimes) 
+[MoM] Add Electrokinesis path
+Add more customizable options to Defense Mode.
+[MoM] Separate psi_stunned from stunned
+[MoM] Gain more Nether attunement in Nether areas
+Add Bombastic Perk compatibility to Defense Mode.
+[Backrooms] Autodoc special and long-term progression tweaks
+[MoM] Add Project PHAVIAN skyscraper lab
+[MoM] Add telepathic dampener```
 
 
 ## Balance:
@@ -292,6 +319,9 @@ Threatening to kill NPCs(recruitment) is more likely to make them hostile
 Backup generator is much more powerful
 Bulk unloading and dropping items saves time cost
 Fragile Clothing will degrade if its dealt damage larger than 15% its armor value.
+Professions can start with specific recipes
+Food irradiation slows food decay to a quarter, instead of making it last forever
+Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
 
 
 ## Bugfixes:
@@ -382,6 +412,13 @@ Allow sandwiches to be made using toast
 Reduce NPC faction camp task slowdown & fix save data bloat bug
 Fixed some items to cause multiple addictions
 Allow NPCs to teleport without the player
+Prevent infinite loop when spawning monsters
+Fixed laser weapons mounted on vehicles not cooling down
+Maps will once again show city names if they show roads.
+No more infinite aphids
+Stop milking dead cows
+Allow pocket_mods to add magazine or magazine well pockets to items without them
+Check BMR value to prevent dividing by 0
 
 
 ## Performance:
@@ -396,6 +433,7 @@ Stop clearing weight carried cache unnecessarily
 Precalculate visitable zones to optimize inter-monster aggression checks
 Reduced wait times in high traffic areas by ~15-20%
 Reduce time of selecting large amount of items in inventory menu
+Fix armor resistances hotspot exposed by NPC AI improvements
 
 
 ## Infrastructure:
@@ -426,6 +464,12 @@ Allow specifying vitamins by weight (mass) in items
 Add more comment-commands which apply labels to issues and PRs
 Migrate arithmetics function with arguments to math
 Provide more options to name monsters placed via mapgen
+recipes now require activity_level, fake(previously substituted for MODERATE) is depreciated
+JSON-ize slot machines
+Faction editing on Debug menu
+Change NPC faction from debug menu
+Remove action portion out of assess_danger into a dedicated method
+Add u_has_proficiency to EoC conditions
 
 
 ## Build:

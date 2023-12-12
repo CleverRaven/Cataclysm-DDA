@@ -20,8 +20,8 @@
       [ "can_corn", 35 ],
       [ "cooked_pumpkin", 20 ],
       [ "can_spam", 30 ],
-      [ "salt", 10 ],
-      [ "seasoning_salt", 5 ],
+      { "prob": 10, "group": "salt_bag_plastic_100" },
+      { "prob": 5, "group": "seasoning_salt_bag_plastic_100" },
       [ "vinegar", 10 ],
       { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },
@@ -56,6 +56,7 @@
     "id": "stash_drugs",
     "items": [
       { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
       { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },

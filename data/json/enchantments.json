@@ -49,13 +49,13 @@
     "type": "enchantment",
     "id": "ENCH_RIGHT_PROSTHETIC",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_stub_r" }, { "gain": "leg_prosthetic_r" } ]
+    "modified_bodyparts": [ { "lose": "leg_stub_r" }, { "gain": "leg_prosthetic_r" }, { "gain": "foot_prosthetic_r" } ]
   },
   {
     "type": "enchantment",
     "id": "ENCH_LEFT_PROSTHETIC",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_stub_l" }, { "gain": "leg_prosthetic_l" } ]
+    "modified_bodyparts": [ { "lose": "leg_stub_l" }, { "gain": "leg_prosthetic_l" }, { "gain": "foot_prosthetic_l" } ]
   },
   {
     "type": "enchantment",

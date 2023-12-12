@@ -1304,7 +1304,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "modular_ar15", "charges-min": 0, "charges-max": 30 },
+      { "group": "modular_ar15", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1494,7 +1494,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "fn_fal", "charges-min": 0, "charges-max": 20 },
+      { "item": "fn_fal_semi", "charges-min": 0, "charges-max": 20 },
       { "item": "falmag" },
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
@@ -2483,7 +2483,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "mdrx", "charges-min": 0, "charges-max": 30 },
+      { "group": "mdrx", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -2533,7 +2533,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "axmc", "charges-min": 0, "charges-max": 10 },
+      { "group": "axmc", "charges-min": 0, "charges-max": 10 },
       { "item": "ai_338mag_10" },
       { "item": "ai_338mag_10", "prob": 50 },
       { "group": "on_hand_338lapua" }
@@ -2553,7 +2553,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "cz600", "charges-min": 0, "charges-max": 10 },
+      { "group": "cz600", "charges-min": 0, "charges-max": 10 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }

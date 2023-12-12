@@ -1,0 +1,37 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
+    "condition": { "not": { "u_has_effect": "effect_electrokinetic_pain_immune" } },
+    "effect": [
+      { "math": [ "u_electrokin_pain_value", "=", "u_pain()" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "u_add_effect": "effect_electrokinetic_pain_immune", "duration": "1 hours" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_PAIN_IMMUNE_OFF",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: electrokinetic_pain_immune') * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: electrokinetic_pain_immune') * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You are already under the effects of Analgesic Block!", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PAIN_IMMUNE_OFF",
+    "condition": { "u_has_effect": "effect_electrokinetic_pain_immune" },
+    "effect": [
+      { "u_lose_effect": "effect_electrokinetic_pain_immune" },
+      { "math": [ "u_pain()", "+=", "(u_electrokin_pain_value * 1.1)" ] }
+    ]
+  }
+]

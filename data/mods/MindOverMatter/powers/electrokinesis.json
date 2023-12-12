@@ -2,9 +2,9 @@
   {
     "id": "electrokinetic_see_electric",
     "type": "SPELL",
-    "name": "[Ψ]Spark Sight",
-    "description": "Open your senses to the flow of electricity, revealing nearby electrical creatures or robots.",
-    "message": "You open your senses to the flow of current.",
+    "name": "[Ψ]Spark Sight (C)",
+    "description": "Open your senses to the flow of electricity, revealing nearby electrical creatures or robots.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
@@ -12,28 +12,36 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokin_see_electricity",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_SEE_ELECTRICITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 2000,
-    "final_energy_cost": 750,
-    "energy_increment": -75,
-    "base_casting_time": 150,
-    "final_casting_time": 80,
-    "casting_time_increment": -6,
-    "learn_spells": { "electrokinetic_personal_battery": 7, "electrokinetic_speed_boost": 14, "electrokinetic_revive": 21 }
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max((2000 - (u_val('spell_level', 'spell: electrokinetic_see_electric') * 75)), 750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: electrokinetic_see_electric') * 6)), 80)"
+      ]
+    },
+    "learn_spells": {
+      "electrokinetic_personal_battery": 7,
+      "electrokinetic_reduce_pain": 12,
+      "electrokinetic_speed_boost": 14,
+      "electrokinetic_revive": 21
+    }
   },
   {
     "id": "electrokinetic_shock_touch",
@@ -54,11 +62,13 @@
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: electrokinetic_shock_touch') * 1) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_shock_touch') * 1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_shock_touch') * 1.5) + 7) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_shock_touch') * 1.5) + 7) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
@@ -103,12 +113,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_zap_enemies') * 8000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_zap_enemies') * 8000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_zap_enemies') * 24000) + 145000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_zap_enemies') * 24000) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -118,7 +128,12 @@
     "base_casting_time": 125,
     "final_casting_time": 45,
     "casting_time_increment": -5,
-    "learn_spells": { "electrokinetic_personal_battery": 8, "electrokinetic_paralysis": 11, "electrokinetic_lightning_aura": 18 }
+    "learn_spells": {
+      "electrokinetic_personal_battery": 8,
+      "electrokinetic_reduce_pain": 10,
+      "electrokinetic_paralysis": 13,
+      "electrokinetic_lightning_aura": 18
+    }
   },
   {
     "id": "electrokinetic_melee_attacks",
@@ -139,12 +154,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') * 6500) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') * 6500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') * 21000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_melee_attacks') * 21000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -159,8 +174,8 @@
   {
     "id": "electrokinetic_personal_battery",
     "type": "SPELL",
-    "name": "[Ψ]Electron Overflow (toggle)",
-    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Electron Overflow (C)",
+    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -174,12 +189,12 @@
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+        "min( (( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
       ]
     },
     "max_duration": {
       "math": [
-        "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+        "min( (( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
       ]
     },
     "energy_source": "STAMINA",
@@ -211,17 +226,17 @@
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
       "math": [
-        "( ( ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) + 3) ) * 10000) * (scaling_factor(u_val('intelligence') ) )"
+        "( ( ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) + 3) ) * 10000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) + 3) ) * 10000) * (scaling_factor(u_val('intelligence') ) )"
+        "( ( ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.25 ) + 3) ) * 10000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.6) + 1) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_paralysis') * 0.6) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
@@ -233,7 +248,56 @@
     "final_casting_time": 75,
     "casting_time_increment": -5,
     "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "electrokinetic_speed_boost": 9, "electrokinetic_revive": 16 }
+    "learn_spells": {
+      "electrokinetic_reduce_pain": 7,
+      "electrokinetic_speed_boost": 9,
+      "electrokinetic_pain_immune": 12,
+      "electrokinetic_revive": 16
+    }
+  },
+  {
+    "id": "electrokinetic_reduce_pain",
+    "type": "SPELL",
+    "name": "[Ψ]Pain Suppression (C)",
+    "description": "With your control over electricity, reduce the strength of the pain signals in your own body.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_REDUCE_PAIN_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 12000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 28000) + 150000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_reduce_pain') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 105)), 1250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_reduce_pain') > -1 ? 10 : max((125 -(u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 4)), 75)"
+      ]
+    },
+    "learn_spells": {
+      "electrokinetic_personal_battery": 7,
+      "electrokinetic_pain_immune": 10,
+      "electrokinetic_speed_boost": 14,
+      "electrokinetic_revive": 21
+    }
   },
   {
     "id": "electrokinetic_lightning_bolt",
@@ -254,17 +318,17 @@
     "damage_type": "electric",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 2) + 20) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 2) + 20) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 4) + 45) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 4) + 45) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 0.7) + 3) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_lightning_bolt') * 0.7) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
@@ -285,10 +349,45 @@
     "learn_spells": { "electrokinetic_kill_robot": 7, "electrokinetic_lightning_aura": 12, "electrokinetic_lightning_blast": 14 }
   },
   {
+    "id": "electrokinetic_pain_immune",
+    "type": "SPELL",
+    "name": "[Ψ]Analgesic Block",
+    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-Acceleration.",
+    "message": "The pain just…disappears.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_pain_immune') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_pain_immune') * 1300) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1750,
+    "energy_increment": -155,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -4.5
+  },
+  {
     "id": "electrokinetic_speed_boost",
     "type": "SPELL",
     "name": "[Ψ]Neuro-acceleration",
-    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.",
+    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.\n\nNeuro-acceleration is <color_red>incompatible</color> with Analgesic Block.",
     "//": "This does not increase intelligence for balance reasons.",
     "message": "You enhance your target's neurons.",
     "teachable": false,
@@ -304,12 +403,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_speed_boost') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_speed_boost') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_speed_boost') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_speed_boost') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
@@ -346,7 +445,7 @@
     "max_damage": 150,
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_kill_robot') * 0.7) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_kill_robot') * 0.7) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 40,
@@ -380,7 +479,7 @@
     "damage_type": "electric",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_kill_robot') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_kill_robot') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
@@ -408,12 +507,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 1500) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 1500) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 2500) + 25000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_aura') * 2500) + 25000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -447,23 +546,23 @@
     "damage_type": "electric",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 2) + 25) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 2) + 25) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 4.5) + 90) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 4.5) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.7) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.7) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ), 15)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
       ]
     },
     "field_id": "fd_electricity",
@@ -497,23 +596,23 @@
     "damage_type": "electric",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 1.5) + 25) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 1.5) + 25) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.06) + 0) * (scaling_factor(u_val('intelligence') ) ), 1)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_lightning_blast') * 0.06) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
       ]
     },
     "field_id": "fd_electricity",
@@ -545,7 +644,7 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 50,
@@ -575,7 +674,7 @@
     "max_damage": 1500,
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "min_duration": 360000,
@@ -600,7 +699,7 @@
     "max_damage": -80,
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "targeted_monster_species": [ "ZOMBIE" ]
@@ -623,7 +722,7 @@
     "max_duration": 360000,
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_val('spell_level', 'spell: electrokinetic_revive') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "targeted_monster_species": [ "ZOMBIE" ]

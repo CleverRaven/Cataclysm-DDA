@@ -339,8 +339,20 @@
     "id": "knife_combat_army",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "Army bayonet" },
+    "name": { "str": "Bayonet" },
     "description": "The current issue Army bayonet, before the Cataclysm anyways.  It is thick, heavy, and surprisingly sharp.  This bayonet also functions as a wire cutter, and a mediocre saw for cutting through aircraft fuselage.  That the handle and tang can be completely disassembled from the blade is surely a fact of great comfort to the soldier, survivalist, and you.",
+    "variants": [
+      {
+        "id": "m9bayonet",
+        "name": { "str_sp": "Army bayonet" },
+        "description": "The current issue Army bayonet, before the Cataclysm anyways.  It is thick, heavy, and surprisingly sharp.  This bayonet also functions as a wire cutter, and a mediocre saw for cutting through aircraft fuselage.  That the handle and tang can be completely disassembled from the blade is surely a fact of great comfort to the soldier, survivalist, and you."
+      },
+      {
+        "id": "akbayonet",
+        "name": { "str_sp": "AK bayonet" },
+        "description": "A 6H4 bayonet for Kalashnikov pattern rifles, usually imported military surplus from eastern bloc countries.  The blade is made of stainless steel and the handle of a lightweight and durable plastic.  It features a middling metal saw on the spine of the blade, and can function as a wire cutter as well.  Though it is quite sturdy, it can't hold an edge very well."
+      }
+    ],
     "//": "An M9 Bayonet.",
     "weight": "450 g",
     "volume": "209 ml",
@@ -1645,7 +1657,7 @@
     "color": "light_gray",
     "gunmod_data": {
       "location": "bayonet lug",
-      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",

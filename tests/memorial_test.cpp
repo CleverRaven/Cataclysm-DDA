@@ -90,6 +90,7 @@ TEST_CASE( "memorials", "[memorial]" )
     itype_id it( "marloss_seed" );
     trait_id mut( "CARNIVORE" );
     trait_id mut2( "SAPROPHAGE" );
+    trait_id mut3( "NONE" );
     bionic_id cbm( "bio_alarm" );
 
     check_memorial<event_type::activates_artifact>(
@@ -133,7 +134,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Killed a Kevlar hulk.", ch, mon, 0 );
 
     check_memorial<event_type::character_loses_effect>(
-        m, b, "Put out the fire.", ch, eff );
+        m, b, "Put out the fire.", ch, bodypart_id( "arm_r" ), eff );
 
     check_memorial<event_type::character_triggers_trap>(
         m, b, "Fell in a pit.", ch, tr_pit );
@@ -255,7 +256,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Learned the spell Pain.", ch, spell_pain_damage );
 
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5, mut3 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

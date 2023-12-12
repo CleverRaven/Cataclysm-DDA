@@ -2838,11 +2838,11 @@
     "volume": "14 L",
     "price": 117500,
     "price_postapoc": 2000,
-    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra" ],
+    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra", "vinyl" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
-    "//": "2mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
+    "//": "2mm Nomex across the entire suit with a waterproof silicone outer to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
     "armor": [
       {
         "material": [
@@ -2858,7 +2858,8 @@
             "covered_by_mat": 30,
             "thickness": 2,
             "//": "Molded knuckle plates, spacious enough inside the gloves to flex your knuckles fine while providing extra knuckle protection because busting your knuckles sucks."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l" ],
@@ -2868,7 +2869,8 @@
       {
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_palm_r", "hand_wrist_r", "hand_palm_l", "hand_wrist_l" ],
@@ -2890,7 +2892,8 @@
             "covered_by_mat": 100,
             "thickness": 1,
             "//": "Fingers need to be the most flexible and tactile part of the hand. Lycra/nylon blend (as the lycra material is defined) will give both those qualities while sacrificing the least protection."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_r", "hand_fingers_l" ],
@@ -2913,7 +2916,8 @@
             "covered_by_mat": 90,
             "thickness": 1,
             "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
@@ -2929,7 +2933,8 @@
             "thickness": 1,
             "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
           },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
@@ -2941,7 +2946,8 @@
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
@@ -2961,7 +2967,10 @@
         "encumbrance": [ 0, 0 ]
       },
       {
-        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 7, 7 ]
@@ -3003,7 +3012,8 @@
             "covered_by_mat": 90,
             "thickness": 1,
             "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
@@ -3019,7 +3029,8 @@
             "thickness": 1,
             "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
           },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
@@ -3031,7 +3042,8 @@
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
@@ -3051,7 +3063,10 @@
         "encumbrance": [ 0, 0 ]
       },
       {
-        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": [ 7, 7 ]

@@ -21,6 +21,8 @@ class time_duration;
 class vehicle;
 struct tripoint;
 
+struct mutation_variant;
+
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
@@ -236,7 +238,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
-        void set_mutation( const trait_id &new_trait ) override;
+        void set_mutation( const trait_id &new_trait, const mutation_variant * = nullptr ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void activate_mutation( const trait_id &trait ) override;
         void deactivate_mutation( const trait_id &trait ) override;

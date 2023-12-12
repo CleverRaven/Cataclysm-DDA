@@ -95,6 +95,9 @@
       {
         "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
+      },
+      {
+        "math": [ "u_spell_exp('spell_karma_arms')", "+=", "spell_exp_diff(u_spell_level('spell_karma_arms'))/spell_train_factor(200)" ]
       }
     ],
     "false_effect": [
@@ -126,6 +129,9 @@
       {
         "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
+      },
+      {
+        "math": [ "u_spell_exp('spell_devil_tail')", "+=", "spell_exp_diff(u_spell_level('spell_devil_tail'))/spell_train_factor(100)" ]
       }
     ],
     "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
@@ -160,6 +166,13 @@
       {
         "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
+      },
+      {
+        "math": [
+          "u_spell_exp('spell_stalker_eyes')",
+          "+=",
+          "spell_exp_diff(u_spell_level('spell_stalker_eyes'))/spell_train_factor(200)"
+        ]
       }
     ],
     "false_effect": [

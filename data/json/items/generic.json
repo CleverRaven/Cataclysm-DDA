@@ -846,11 +846,12 @@
         "holster": true,
         "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
         "max_contains_weight": "500 g",
-        "max_contains_volume": "500 ml",
-        "item_restriction": [ "candle", "candle_lit" ]
+        "max_contains_volume": "550 ml",
+        "item_restriction": [ "candle", "candle_lit" ],
+        "transparent": true
       }
     ],
-    "//2": "Based on the medium variation from https://www.amazon.com/Holders-Candlestick-Decorative-Centerpieces-Fitting/dp/B09TNCS7HL/ref=sr_1_27?crid=2NAMJT9OZJDQT&keywords=gold%2Bcandlesticks&qid=1683196194&sprefix=gold%2Bcandlest%2Caps%2C619&sr=8-27&th=1"
+    "//2": "Based on the medium variation from https://www.amazon.com/dp/B09TNCS7HL"
   },
   {
     "type": "GENERIC",
@@ -1645,7 +1646,7 @@
   {
     "type": "AMMO",
     "id": "paper",
-    "name": { "str": "paper" },
+    "name": { "str_sp": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
@@ -2136,14 +2137,7 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 4,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"

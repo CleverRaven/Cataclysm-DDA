@@ -57,6 +57,7 @@ decl_diag_eval effect_intensity_eval;
 decl_diag_eval encumbrance_eval;
 decl_diag_eval field_strength_eval;
 decl_diag_eval has_trait_eval;
+decl_diag_eval knows_proficiency_eval;
 decl_diag_eval hp_eval;
 decl_diag_ass hp_ass;
 decl_diag_eval hp_max_eval;
@@ -73,6 +74,7 @@ decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
 decl_diag_eval skill_exp_eval;
 decl_diag_ass skill_exp_ass;
+decl_diag_ass spellcasting_adjustment_ass;
 decl_diag_eval spell_count_eval;
 decl_diag_eval spell_exp_eval;
 decl_diag_ass spell_exp_ass;
@@ -141,6 +143,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
+    { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "hp", { "un", 1, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
     { "item_count", { "un", 1, item_count_eval } },
@@ -167,6 +170,7 @@ inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
+    { "spellcasting_adjustment", { "u", 1, spellcasting_adjustment_ass } },
     { "skill", { "un", 1, skill_ass } },
     { "skill_exp", { "un", 1, skill_exp_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},

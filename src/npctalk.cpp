@@ -550,7 +550,7 @@ static std::string training_select_menu( const Character &c, const std::string &
     std::vector<std::string> trainlist;
     for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
         bool enabled = s.first->is_teachable() && s.second.level() > 0;
-        std::string entry = string_format( "%s: %s (%d)", _( "Skill" ), s.first.str(), s.second.level() );
+        std::string entry = string_format( "%s: %s (%d)", _( "Skill" ), s.first->name(), s.second.level() );
         nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
         trainlist.emplace_back( s.first.c_str() );
         i++;
@@ -2198,6 +2198,24 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, trait_id( var )->desc() );
+        } else if( tag.find( "<spell_name:" ) == 0 ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // resolve nest
+            parse_tags( var, u, me, d, item_type );
+            // attempt to cast as an item
+            phrase.replace( fa, l, spell_id( var )->name.translated() );
+        } else if( tag.find( "<spell_description:" ) == 0 ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // resolve nest
+            parse_tags( var, u, me, d, item_type );
+            // attempt to cast as an item
+            phrase.replace( fa, l, spell_id( var )->description.translated() );
         } else if( tag.find( "<city>" ) == 0 ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
@@ -2765,8 +2783,19 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, std::string_view me
                                        bool is_npc )
 {
     str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
-    function = [is_npc, new_trait]( dialogue const & d ) {
-        d.actor( is_npc )->set_mutation( trait_id( new_trait.evaluate( d ) ) );
+    str_or_var new_variant;
+
+    if( jo.has_member( "variant" ) ) {
+        new_variant = get_str_or_var( jo.get_member( "variant" ), "variant", true );
+    } else {
+        new_variant.str_val = "";
+    }
+
+    function = [is_npc, new_trait, new_variant]( dialogue const & d ) {
+        const trait_id trait = trait_id( new_trait.evaluate( d ) );
+        const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
+
+        d.actor( is_npc )->set_mutation( trait, variant );
     };
 }
 
@@ -4196,19 +4225,54 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
 void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
-    fake_spell fake;
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    mandatory( jo, false, member, fake );
-    bool targeted = false;
-    if( jo.has_bool( "targeted" ) ) {
-        targeted = jo.get_bool( "targeted" );
-    }
+    bool targeted = jo.get_bool( "targeted", false );
+
     std::optional<var_info> loc_var;
     if( jo.has_object( "loc" ) ) {
         loc_var = read_var_info( jo.get_object( "loc" ) );
     }
-    function = [is_npc, fake, targeted, loc_var, true_eocs, false_eocs]( dialogue const & d ) {
+    JsonObject spell_jo = jo.get_object( member );
+    str_or_var id = get_str_or_var( spell_jo.get_member( "id" ), "id" );
+    bool hit_self = spell_jo.get_bool( "hit_self", false );
+
+    int trigger_once_in = spell_jo.get_int( "once_in", 1 );
+    str_or_var trigger_message;
+    if( spell_jo.has_member( "message" ) ) {
+        trigger_message = get_str_or_var( spell_jo.get_member( "message" ), "message", true );
+    } else {
+        trigger_message.str_val = "";
+    }
+    str_or_var npc_trigger_message;
+    if( spell_jo.has_member( "npc_message" ) ) {
+        npc_trigger_message = get_str_or_var( spell_jo.get_member( "npc_message" ), "npc_message", true );
+    } else {
+        npc_trigger_message.str_val = "";
+    }
+
+    dbl_or_var dov_max_level = get_dbl_or_var( spell_jo, "max_level", false, -1 );
+    dbl_or_var level = get_dbl_or_var( spell_jo, "min_level", false );
+    if( spell_jo.has_string( "level" ) ) {
+        debugmsg( "level member for fake_spell was renamed to min_level.  id: %s",
+                  id.str_val.value_or( "" ) );
+    }
+
+    function = [is_npc, id, hit_self, dov_max_level, trigger_once_in, level, trigger_message,
+                        npc_trigger_message, targeted, loc_var, true_eocs,
+            false_eocs]( dialogue & d ) {
+        std::optional<int> max_level;
+        int max_level_int = dov_max_level.evaluate( d );
+        if( max_level_int == -1 ) {
+            max_level = std::nullopt;
+        } else {
+            max_level = max_level_int;
+        }
+        fake_spell fake( spell_id( id.evaluate( d ) ), hit_self, max_level );
+        fake.trigger_once_in = trigger_once_in;
+        fake.level = level.evaluate( d );
+        fake.trigger_message = to_translation( trigger_message.evaluate( d ) );
+        fake.npc_trigger_message = to_translation( npc_trigger_message.evaluate( d ) );
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell.  %s", d.get_callstack() );

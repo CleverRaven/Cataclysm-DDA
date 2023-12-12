@@ -25,5 +25,14 @@
     "type": "monster_adjustment",
     "species": "ZOMBIE",
     "stat": { "name": "bleed_rate", "modifier": 0 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DDotD_initialize",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "//": "Adding a variable flag to the player allows certain dialogue to be changed that otherwise is hard to change in a mod.",
+    "condition": { "not": { "u_has_var": "modded", "type": "flag", "value": "ddotd" } },
+    "effect": [ { "u_add_var": "modded", "type": "flag", "value": "ddotd" } ]
   }
 ]

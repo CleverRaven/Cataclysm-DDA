@@ -495,12 +495,16 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     Character *const guy = creatures.creature_at<Character>( target );
     efftype_id spell_effect( sp.effect_data() );
     bool bodypart_effected = false;
-
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
-                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
-                bodypart_effected = true;
+                if( sp.has_flag( spell_flag::LIQUID ) ) {
+                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
+                    bodypart_effected = true;
+                } else {
+                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                    bodypart_effected = true;
+                }
             }
         }
     }
