@@ -73,7 +73,7 @@
           "prep_time": "1 seconds",
           "spell_to_cast": "spell_feline_leap",
           "message_success": "You squat down, build up tension in your legs, waggling your tail, then release, launching yourself quite a distance.",
-          "message_fail": "Your body is too starved to activate your slime spray."
+          "message_fail": "Your legs are too tired to perform a jump."
         }
       }
     ]
