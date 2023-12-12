@@ -3853,7 +3853,7 @@
       "active": false,
       "moves": 150
     },
-    "description": "A few odd-looking fruits ripen on stems growing out of your head.  They'll probably die off come winter, but you could pick them before then, if you wanted.",
+    "description": "A few odd-looking fruits ripen on stems growing out of your head.  They'll probably die off come winter, but you could activate this mutation to pick them before then, if you wanted.",
     "encumbrance_always": [ [ "head", 10 ] ],
     "restricts_gear": [ "head_crown" ],
     "types": [ "SCENT" ],
