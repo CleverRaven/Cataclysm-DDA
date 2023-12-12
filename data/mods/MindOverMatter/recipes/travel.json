@@ -16,9 +16,9 @@
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },
       { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_circuits", "required": true },
       { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_elec_integrated_circuits" }
+      { "proficiency": "prof_elec_integrated_circuits", "required": true }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ] ],
@@ -59,7 +59,7 @@
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },
       { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_circuits", "required": true },
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_integrated_circuits" }
     ],
