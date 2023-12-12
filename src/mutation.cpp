@@ -1512,8 +1512,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     for( size_t i = 0; ( !c_has_prevented_by ) && i < prevented_by.size(); i++ ) {
         if( has_trait( prevented_by[i] ) ) {
-                add_msg_debug( debugmode::DF_MUTATION,
-                               "mutate_towards: tried to gain %s, but it's prevented by an existing mutation.", mdata.id.c_str() );
+            add_msg_debug( debugmode::DF_MUTATION,
+                           "mutate_towards: tried to gain %s, but it's prevented by an existing mutation.", mdata.id.c_str() );
             return false;
         }
     }
