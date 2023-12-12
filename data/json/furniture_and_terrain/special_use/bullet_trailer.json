@@ -185,8 +185,8 @@
     "copy-from": "f_desk"
   },
   {
-    "type": "furniture",
-    "id": "f_bullettrailer_inner_door",
+    "type": "terrain",
+    "id": "t_bullettrailer_inner_door",
     "name": "trailer bathroom door",
     "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
     "move_cost_mod": -1,
@@ -212,8 +212,8 @@
     }
   },
   {
-    "type": "furniture",
-    "id": "f_bullettrailer_inner_door_o",
+    "type": "terrain",
+    "id": "t_bullettrailer_inner_door_o",
     "name": "trailer bathroom door",
     "move_cost_mod": 0,
     "required_str": -1,
