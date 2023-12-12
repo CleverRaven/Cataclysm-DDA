@@ -231,6 +231,7 @@
       "and": [
         { "u_has_trait": "SKIN_RASHY" },
         { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
         { "not": { "u_has_effect": "formication" } }
       ]
     },
@@ -245,6 +246,7 @@
         { "u_has_trait": "SEASONAL_ALLERGIES" },
         { "or": [ { "is_season": "spring" }, { "is_season": "autumn" } ] },
         { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
         { "not": { "u_has_effect": "hay_fever" } }
       ]
     },
@@ -262,6 +264,7 @@
         { "u_has_trait": "SEASONAL_ALLERGIES" },
         { "is_season": "SUMMER" },
         { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
         { "not": { "u_has_effect": "hay_fever" } }
       ]
     },
@@ -277,7 +280,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "hay_fever" },
-        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
         { "not": { "u_has_effect": "narcosis" } }
       ]
     },
