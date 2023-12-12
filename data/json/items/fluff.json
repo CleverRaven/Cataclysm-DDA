@@ -167,7 +167,7 @@
     "id": "handmade_chess",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "handmade chess set", "str_pl": "handmade chess sets" },
+    "name": { "str": "handmade chess set" },
     "description": "Two readily carved wood halves fixed together with a pair of small hinges.  It contains all the pieces needed to play a game of chess.",
     "weight": "275 g",
     "volume": "1200 ml",
