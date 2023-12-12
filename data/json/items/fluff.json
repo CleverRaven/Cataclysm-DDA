@@ -184,7 +184,7 @@
     "id": "checkers",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "checkers set", "str_pl": "checkers sets" },
+    "name": { "str": "checkers set" },
     "description": "A wooden box containing a set of round tokens used to play checkers.",
     "weight": "788 g",
     "volume": "1500 ml",
