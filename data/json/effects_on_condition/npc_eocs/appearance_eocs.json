@@ -116,7 +116,8 @@
           [ { "id": "brown_hair", "effect": { "u_add_trait": "hair_color_brown" } }, { "const": 1 } ],
           [ { "id": "gray_hair", "effect": { "u_add_trait": "hair_color_gray" } }, { "const": 1 } ]
         ]
-      }
+      },
+      { "run_eocs": "reset_hair_dye_color" }
     ]
   },
   {

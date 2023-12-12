@@ -236,7 +236,7 @@
   {
     "type": "mutation",
     "id": "hair_color_black",
-    "name": { "str": "Hair Color: black" },
+    "name": { "str": "Hair color: black" },
     "points": 0,
     "description": "You have black hair.",
     "starting_trait": true,
@@ -250,7 +250,7 @@
   {
     "type": "mutation",
     "id": "hair_color_blond",
-    "name": { "str": "Hair Color: blond" },
+    "name": { "str": "Hair color: blond" },
     "points": 0,
     "description": "You have blond hair.",
     "starting_trait": true,
@@ -264,7 +264,7 @@
   {
     "type": "mutation",
     "id": "hair_color_blue",
-    "name": { "str": "Hair Color: blue" },
+    "name": { "str": "Hair color: blue" },
     "points": 0,
     "description": "You have blue hair.",
     "starting_trait": true,
@@ -277,7 +277,7 @@
   {
     "type": "mutation",
     "id": "hair_color_brown",
-    "name": { "str": "Hair Color: brown" },
+    "name": { "str": "Hair color: brown" },
     "points": 0,
     "description": "You have brown hair.",
     "starting_trait": true,
@@ -291,7 +291,7 @@
   {
     "type": "mutation",
     "id": "hair_color_gray",
-    "name": { "str": "Hair Color: gray" },
+    "name": { "str": "Hair color: gray" },
     "points": 0,
     "description": "You have gray hair.",
     "starting_trait": true,
@@ -305,7 +305,7 @@
   {
     "type": "mutation",
     "id": "hair_color_green",
-    "name": { "str": "Hair Color: green" },
+    "name": { "str": "Hair color: green" },
     "points": 0,
     "description": "You have green hair.",
     "starting_trait": true,
@@ -318,7 +318,7 @@
   {
     "type": "mutation",
     "id": "hair_color_pink",
-    "name": { "str": "Hair Color: pink" },
+    "name": { "str": "Hair color: pink" },
     "points": 0,
     "description": "You have pink hair.",
     "starting_trait": true,
@@ -331,7 +331,7 @@
   {
     "type": "mutation",
     "id": "hair_color_purple",
-    "name": { "str": "Hair Color: purple" },
+    "name": { "str": "Hair color: purple" },
     "points": 0,
     "description": "You have purple hair.",
     "starting_trait": true,
@@ -344,7 +344,7 @@
   {
     "type": "mutation",
     "id": "hair_color_red",
-    "name": { "str": "Hair Color: red" },
+    "name": { "str": "Hair color: red" },
     "points": 0,
     "description": "You have red hair.",
     "starting_trait": true,
@@ -357,7 +357,7 @@
   {
     "type": "mutation",
     "id": "hair_color_white",
-    "name": { "str": "Hair Color: white" },
+    "name": { "str": "Hair color: white" },
     "points": 0,
     "description": "You have white hair.",
     "starting_trait": true,
