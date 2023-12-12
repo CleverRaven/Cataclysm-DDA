@@ -606,7 +606,7 @@ static void force_comedown( effect &eff )
     eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
 }
 
-void npc::discharge_cbm_weapon(bool fired)
+void npc::discharge_cbm_weapon( bool fired )
 {
     if( !is_using_bionic_weapon() ) {
         return;
