@@ -1718,7 +1718,7 @@
     "id": "bchess_queen",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "black queen", "str_pl": "black queens" },
+    "name": { "str": "black queen" },
     "symbol": "=",
     "color": "black",
     "looks_like": "marble",
