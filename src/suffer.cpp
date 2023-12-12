@@ -672,8 +672,8 @@ void suffer::in_sunlight( Character &you, outfit &worn )
     float exposure = 0.0;
     int sunlight_nutrition = 0;
     if( leafy ) {
-            // Phelloderm and bark photosynthesize.
-            if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
+        // Phelloderm and bark photosynthesize.
+        if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
             std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
                 for( auto &bp_exp : bp_exposure ) {
                    bodypart_id bp = bp_exp.first;
