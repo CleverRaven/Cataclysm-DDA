@@ -744,7 +744,9 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             rarm_leaf_surface *= .9;
             head_leaf_surface *= .9;
         }
-        if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
+        if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) &&
+            !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) &&
+            !you.has_trait( trait_LEAVES3_FALL ) ) {
             head_leaf_surface = 0;
         }
         sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface +
