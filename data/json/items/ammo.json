@@ -1508,7 +1508,7 @@
     "id": "wchess_pawn",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "white pawn", "str_pl": "white pawns" },
+    "name": { "str": "white pawn" },
     "symbol": "=",
     "color": "white",
     "looks_like": "marble",
