@@ -1697,7 +1697,7 @@
     "id": "bchess_rook",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "black rook", "str_pl": "black rooks" },
+    "name": { "str": "black rook" },
     "symbol": "=",
     "color": "black",
     "looks_like": "marble",
