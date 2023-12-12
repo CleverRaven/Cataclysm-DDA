@@ -1580,7 +1580,7 @@
     "symbol": "=",
     "color": "black",
     "description": "A loose black pawn from a game of chess.  It is the smallest piece and this one is represented by a simple, round-headed shape.",
-    "volume": "24 ml",
+    "volume": "24 ml"
   },
   {
     "type": "GENERIC",
