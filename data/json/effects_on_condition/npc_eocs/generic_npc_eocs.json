@@ -411,45 +411,5 @@
       { "math": [ "old_guard_rep_scouting", "=", "0" ] },
       { "u_add_var": "u_scouted_exodii", "type": "missions", "context": "old_guard", "value": "yes" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "hair_growth_tracking",
-    "//": "Hair usually grows at a rate of 1 cm per month.  This is not a hard number, because hair growth is very complex.",
-    "//2": "For the purposes of this EOC right now, we'll assume this rate.",
-    "//3": "For ease of calculation, all math will be done with centimeters for hair growth.",
-    "//4": "For reference starting point, a buzzcut is 0.32 centimeters long.",
-    "//5": "1 inch is 2.54 centimeters.",
-    "recurrence": [ "75 days", "90 days" ],
-    "effect": {
-      "if": { "u_has_trait": "buzzcut" },
-      "then": [ { "u_lose_trait": "buzzcut" }, { "u_add_trait": "crewcut" } ],
-      "else": {
-        "if": { "u_has_trait": "crewcut" },
-        "then": [ { "u_lose_trait": "crewcut" }, { "u_add_trait": "short" } ],
-        "else": {
-          "if": { "or": [ { "u_has_trait": "short" }, { "u_has_trait": "short_no_fringe" }, { "u_has_trait": "short_over_eye" } ] },
-          "then": [
-            { "u_lose_trait": "short" },
-            { "u_lose_trait": "short_no_fringe" },
-            { "u_lose_trait": "short_over_eye" },
-            { "u_add_trait": "medium" }
-          ],
-          "else": {
-            "if": { "u_has_trait": "medium" },
-            "then": [ { "u_lose_trait": "medium" }, { "u_add_trait": "long" } ],
-            "else": {
-              "if": { "or": [ { "u_has_trait": "long" }, { "u_has_trait": "mullet" }, { "u_has_trait": "long_over_eye" } ] },
-              "then": [
-                { "u_lose_trait": "long" },
-                { "u_lose_trait": "mullet" },
-                { "u_lose_trait": "long_over_eye" },
-                { "u_add_trait": "messy" }
-              ]
-            }
-          }
-        }
-      }
-    }
   }
 ]

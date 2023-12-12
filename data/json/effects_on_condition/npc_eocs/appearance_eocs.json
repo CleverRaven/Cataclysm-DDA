@@ -1,0 +1,103 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hair_growth_tracking",
+    "//": "Hair usually grows at a rate of 1 cm per month.  This is not a hard number, because hair growth is very complex.",
+    "//2": "For the purposes of this EOC right now, we'll assume this rate.",
+    "//3": "For ease of calculation, all math will be done with centimeters for hair growth.",
+    "//4": "For reference starting point, a buzzcut is 0.32 centimeters long.",
+    "//5": "1 inch is 2.54 centimeters.",
+    "recurrence": [ "75 days", "90 days" ],
+    "effect": [
+      {
+        "if": { "u_has_trait": "hair_buzzcut" },
+        "then": [ { "u_lose_trait": "hair_buzzcut" }, { "u_add_trait": "hair_crewcut" } ],
+        "else": {
+          "if": { "u_has_trait": "hair_crewcut" },
+          "then": [ { "u_lose_trait": "hair_crewcut" }, { "u_add_trait": "hair_short" } ],
+          "else": {
+            "if": {
+              "or": [ { "u_has_trait": "hair_short" }, { "u_has_trait": "hair_short_no_fringe" }, { "u_has_trait": "hair_short_over_eye" } ]
+            },
+            "then": [
+              { "u_lose_trait": "hair_short" },
+              { "u_lose_trait": "hair_short_no_fringe" },
+              { "u_lose_trait": "hair_short_over_eye" },
+              { "u_add_trait": "hair_medium" }
+            ],
+            "else": {
+              "if": { "or": [ { "u_has_trait": "hair_medium" }, { "u_has_trait": "hair_mohawk" } ] },
+              "then": [ { "u_lose_trait": "hair_medium" }, { "u_lose_trait": "hair_mohawk" }, { "u_add_trait": "hair_long" } ],
+              "else": {
+                "if": { "or": [ { "u_has_trait": "hair_long" }, { "u_has_trait": "hair_mullet" }, { "u_has_trait": "hair_long_over_eye" } ] },
+                "then": [
+                  { "u_lose_trait": "hair_long" },
+                  { "u_lose_trait": "hair_mullet" },
+                  { "u_lose_trait": "hair_long_over_eye" },
+                  { "u_add_trait": "hair_messy" }
+                ]
+              }
+            }
+          }
+        }
+      },
+      { "run_eocs": "reset_hair_dye_color" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "reset_hair_dye_color",
+    "effect": {
+      "if": { "u_has_var": "natural_hair_color_black", "type": "mutation", "context": "hair_color", "value": "yes" },
+      "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_black" } ],
+      "else": {
+        "if": { "u_has_var": "natural_hair_color_blond", "type": "mutation", "context": "hair_color", "value": "yes" },
+        "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_blond" } ],
+        "else": {
+          "if": { "u_has_var": "natural_hair_color_brown", "type": "mutation", "context": "hair_color", "value": "yes" },
+          "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_brown" } ],
+          "else": {
+            "if": { "u_has_var": "natural_hair_color_gray", "type": "mutation", "context": "hair_color", "value": "yes" },
+            "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_gray" } ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "remove_all_hair_color",
+    "effect": [
+      { "u_lose_trait": "hair_color_black" },
+      { "u_lose_trait": "hair_color_blond" },
+      { "u_lose_trait": "hair_color_blue" },
+      { "u_lose_trait": "hair_color_brown" },
+      { "u_lose_trait": "hair_color_gray" },
+      { "u_lose_trait": "hair_color_green" },
+      { "u_lose_trait": "hair_color_pink" },
+      { "u_lose_trait": "hair_color_purple" },
+      { "u_lose_trait": "hair_color_red" },
+      { "u_lose_trait": "hair_color_white" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_black",
+    "effect": { "u_add_var": "natural_hair_color_black", "type": "mutation", "context": "hair_color", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_blond",
+    "effect": { "u_add_var": "natural_hair_color_blond", "type": "mutation", "context": "hair_color", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_brown",
+    "effect": { "u_add_var": "natural_hair_color_brown", "type": "mutation", "context": "hair_color", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_gray",
+    "effect": { "u_add_var": "natural_hair_color_gray", "type": "mutation", "context": "hair_color", "value": "yes" }
+  }
+]
