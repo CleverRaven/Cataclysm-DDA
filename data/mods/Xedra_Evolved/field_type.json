@@ -158,7 +158,7 @@
             "intensity": 1,
             "body_part": "head",
             "immune_inside_vehicle": true,
-            "message": "You're vision shakes as the air warbles!",
+            "message": "Your vision shakes as the air warbles!",
             "message_npc": "<npcname> is sonically battered!",
             "message_type": "bad",
             "immunity_data": {
