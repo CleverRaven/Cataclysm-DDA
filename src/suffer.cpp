@@ -785,12 +785,12 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         }
 
         if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        you.vitamin_mod( vitamin_vitC, 1 );
-        you.mod_hunger( -1 );
-        // Photosynthesis absorbs kcal directly.
-        you.mod_stored_kcal( 1 );
-        you.stomach.ate();
-        } 
+            you.vitamin_mod( vitamin_vitC, 1 );
+            you.mod_hunger( -1 );
+            // Photosynthesis absorbs kcal directly.
+            you.mod_stored_kcal( 1 );
+            you.stomach.ate();
+        }
     }
     
     if( you.has_flag( json_flag_SUNBURN ) ) {
