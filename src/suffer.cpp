@@ -728,7 +728,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         // Some tropical plants can overcome this with specific adaptations, but that would probably be its own mutation.
             if( player_local_temp > 104 ) {
             flux -= ( player_local_temp - 104 ) * 3;
-            }
+        }
         if( you.has_trait( trait_LEAVES ) ) {
             head_leaf_surface *= .5;
         }
