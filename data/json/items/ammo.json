@@ -1634,7 +1634,7 @@
     "id": "bchess_pawn",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "black pawn", "str_pl": "black pawns" },
+    "name": { "str": "black pawn" },
     "symbol": "=",
     "color": "black",
     "looks_like": "marble",
