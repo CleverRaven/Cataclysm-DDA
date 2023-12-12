@@ -5059,6 +5059,9 @@ void Character::update_needs( int rate_multiplier )
                     spores(); // spawn some P O O F Y   B O I S
                 }
             }
+            if( has_trait( trait_WATERSLEEP ) ) {
+                mod_fatigue( -3 ); // Fish sleep less in water
+            }
         }
         if( has_trait( trait_WATERSLEEP ) ) {
             mod_fatigue( -3 ); // Fish sleep less in water
