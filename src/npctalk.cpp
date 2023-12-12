@@ -2958,7 +2958,7 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
     } else {
         new_item = item( item_name, calendar::turn );
     }
-    for( std::string flag : flags ) {
+    for( const std::string &flag : flags ) {
         new_item.set_flag( flag_id( flag ) );
     }
 
@@ -3046,8 +3046,8 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                add_talker, loc_var, force_equip, flags]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
-        std::vector<std::string> flags_str;
-        for( str_or_var flat_sov : flags ) {
+        std::vector<std::string> flags_str( flags.size() );
+        for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
         receive_item( iname, count.evaluate( d ), container_name.evaluate( d ), d, use_item_group,
@@ -3091,8 +3091,8 @@ void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view m
             return;
         }
         itype_id iname = itype_id( item_name.evaluate( d ) );
-        std::vector<std::string> flags_str;
-        for( str_or_var flat_sov : flags ) {
+        std::vector<std::string> flags_str( flags.size() );
+        for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
         receive_item( iname, count.evaluate( d ),
