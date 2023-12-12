@@ -159,7 +159,11 @@
       "TREE",
       "OBSTACLE"
     ],
-    "bash": { "str_min": 18, "str_max": 50, "sound": "crunch.", "sound_fail": "whish.",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
       "items": [
         { "item": "stick_long", "count": [ 1, 2 ] },
         { "item": "bone", "count": [ 1, 2 ] },
@@ -179,8 +183,23 @@
     "color": "green",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE", "YOUNG" ],
-    "bash": { "str_min": 8, "str_max": 50, "sound": "crunch.", "sound_fail": "whish.",
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_MATURE",
+      "SMALL_HIDE",
+      "YOUNG"
+    ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 50,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
       "items": [
         { "item": "stick_long", "count": [ 0, 2 ] },
         { "item": "bone", "count": [ 1, 2 ] },

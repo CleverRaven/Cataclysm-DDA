@@ -3790,7 +3790,14 @@
     "changes_to": [ "ROSEBUDS" ],
     "scent_mask": -200,
     "social_modifiers": { "lie": 10 },
-    "prevented_by": [ "FLOWERS_WINTER", "ROSEBUDS_SUMMER", "ROSEBUDS_FALL", "ROSEBUDS_WINTER", "ROSEBUDS_FALL_active", "ROSEBUDS_FALL_PICKED" ]
+    "prevented_by": [
+      "FLOWERS_WINTER",
+      "ROSEBUDS_SUMMER",
+      "ROSEBUDS_FALL",
+      "ROSEBUDS_WINTER",
+      "ROSEBUDS_FALL_active",
+      "ROSEBUDS_FALL_PICKED"
+    ]
   },
   {
     "type": "mutation",
@@ -3840,7 +3847,12 @@
     "visibility": 12,
     "ugliness": 2,
     "active": true,
-    "transform": { "target": "ROSEBUDS_FALL_active", "msg_transform": "Most of the fruits are beyond consideration, but you pick what you can and discard the rest.", "active": false, "moves": 150 },
+    "transform": {
+      "target": "ROSEBUDS_FALL_active",
+      "msg_transform": "Most of the fruits are beyond consideration, but you pick what you can and discard the rest.",
+      "active": false,
+      "moves": 150
+    },
     "description": "A few odd-looking fruits ripen on stems growing out of your head.  They'll probably die off come winter, but you could pick them before then, if you wanted.",
     "encumbrance_always": [ [ "head", 10 ] ],
     "restricts_gear": [ "head_crown" ],

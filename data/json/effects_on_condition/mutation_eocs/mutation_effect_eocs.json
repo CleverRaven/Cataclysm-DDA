@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "type": "effect_on_condition",
@@ -293,10 +298,7 @@
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "LEAVES" } ] },
     "effect": [
-      {
-        "u_message": "The grassy leaves on your head have succumbed to winter dormancy.",
-        "type": "bad"
-      },
+      { "u_message": "The grassy leaves on your head have succumbed to winter dormancy.", "type": "bad" },
       { "u_lose_trait": "LEAVES" },
       { "u_add_trait": "LEAVES_WINTER" }
     ]
@@ -353,17 +355,12 @@
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
       "and": [
-        {
-          "or": [ { "u_has_trait": "LEAVES2_FALL" }, { "u_has_trait": "LEAVES2_WINTER" } ]
-        },
+        { "or": [ { "u_has_trait": "LEAVES2_FALL" }, { "u_has_trait": "LEAVES2_WINTER" } ] },
         { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
       ]
     },
     "effect": [
-      {
-        "u_message": "New green leaves are growing in on your head and arms.",
-        "type": "good"
-      },
+      { "u_message": "New green leaves are growing in on your head and arms.", "type": "good" },
       { "u_lose_trait": "LEAVES2_WINTER" },
       { "u_lose_trait": "LEAVES2_FALL" },
       { "u_add_trait": "LEAVES2" }
@@ -374,16 +371,10 @@
     "id": "leaves2_fall_timer",
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_WINTER" } ] },
-        { "is_season": "autumn" }
-      ]
+      "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_WINTER" } ] }, { "is_season": "autumn" } ]
     },
     "effect": [
-      {
-        "u_message": "Your leaves are turning and starting to drop as the season changes.",
-        "type": "good"
-      },
+      { "u_message": "Your leaves are turning and starting to drop as the season changes.", "type": "good" },
       { "u_lose_trait": "LEAVES2" },
       { "u_lose_trait": "LEAVES2_WINTER" },
       { "u_spawn_item": "leaves", "count": 1 },
@@ -394,17 +385,9 @@
     "type": "effect_on_condition",
     "id": "leaves2_winter_timer",
     "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_FALL" } ] },
-        { "is_season": "winter" }
-      ]
-    },
+    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_FALL" } ] }, { "is_season": "winter" } ] },
     "effect": [
-      {
-        "u_message": "The last of your leaves fall, leaving your head and arms bare.",
-        "type": "bad"
-      },
+      { "u_message": "The last of your leaves fall, leaving your head and arms bare.", "type": "bad" },
       { "u_lose_trait": "LEAVES2" },
       { "u_lose_trait": "LEAVES2_FALL" },
       { "u_spawn_item": "leaves", "count": 1 },
@@ -417,17 +400,12 @@
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
       "and": [
-        {
-          "or": [ { "u_has_trait": "LEAVES3_FALL" }, { "u_has_trait": "LEAVES3_WINTER" } ]
-        },
+        { "or": [ { "u_has_trait": "LEAVES3_FALL" }, { "u_has_trait": "LEAVES3_WINTER" } ] },
         { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
       ]
     },
     "effect": [
-      {
-        "u_message": "New green leaves are growing in on your head and upper limbs.",
-        "type": "good"
-      },
+      { "u_message": "New green leaves are growing in on your head and upper limbs.", "type": "good" },
       { "u_lose_trait": "LEAVES3_WINTER" },
       { "u_lose_trait": "LEAVES3_FALL" },
       { "u_add_trait": "LEAVES3" }
@@ -438,10 +416,7 @@
     "id": "leaves3_fall_timer",
     "recurrence": [ "15 hours", "60 hours" ],
     "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_WINTER" } ] },
-        { "is_season": "autumn" }
-      ]
+      "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_WINTER" } ] }, { "is_season": "autumn" } ]
     },
     "effect": [
       {
@@ -458,17 +433,9 @@
     "type": "effect_on_condition",
     "id": "leaves3_winter_timer",
     "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_FALL" } ] },
-        { "is_season": "winter" }
-      ]
-    },
+    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_FALL" } ] }, { "is_season": "winter" } ] },
     "effect": [
-      {
-        "u_message": "The last of your leaves fall, leaving your head and upper limbs bare.",
-        "type": "bad"
-      },
+      { "u_message": "The last of your leaves fall, leaving your head and upper limbs bare.", "type": "bad" },
       { "u_lose_trait": "LEAVES3" },
       { "u_lose_trait": "LEAVES3_FALL" },
       { "u_spawn_item": "leaves", "count": 1 },
@@ -591,10 +558,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
     "effect": [
-      {
-        "u_message": "You've been shedding for a while, and your coat feels noticably lighter.",
-        "type": "good"
-      },
+      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
       { "u_lose_trait": "LUPINE_FUR" },
       { "u_add_trait": "LUPINE_FUR_SUMMER" }
     ]
@@ -603,17 +567,9 @@
     "type": "effect_on_condition",
     "id": "regrow_timer_lupine",
     "recurrence": [ "5 days", "15 days" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "LUPINE_FUR_SUMMER" },
-        { "not": { "is_season": "summer" } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "LUPINE_FUR_SUMMER" }, { "not": { "is_season": "summer" } } ] },
     "effect": [
-      {
-        "u_message": "It looks like your coat has grown back in for the colder seasons.",
-        "type": "good"
-      },
+      { "u_message": "It looks like your coat has grown back in for the colder seasons.", "type": "good" },
       { "u_lose_trait": "LUPINE_FUR_SUMMER" },
       { "u_add_trait": "LUPINE_FUR" }
     ]
@@ -624,10 +580,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
     "effect": [
-      {
-        "u_message": "You've been shedding for a while, and your coat feels noticably lighter.",
-        "type": "good"
-      },
+      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
       { "u_lose_trait": "URSINE_FUR" },
       { "u_add_trait": "URSINE_FUR_SUMMER" }
     ]
@@ -636,17 +589,9 @@
     "type": "effect_on_condition",
     "id": "regrow_timer_ursine",
     "recurrence": [ "5 days", "15 days" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "URSINE_FUR_SUMMER" },
-        { "not": { "is_season": "summer" } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "URSINE_FUR_SUMMER" }, { "not": { "is_season": "summer" } } ] },
     "effect": [
-      {
-        "u_message": "It looks like your coat has grown back in for the colder seasons.",
-        "type": "good"
-      },
+      { "u_message": "It looks like your coat has grown back in for the colder seasons.", "type": "good" },
       { "u_lose_trait": "URSINE_FUR_SUMMER" },
       { "u_add_trait": "URSINE_FUR" }
     ]
@@ -656,22 +601,15 @@
     "id": "seasonal_affective_fall",
     "recurrence": [ "5 days", "20 days" ],
     "condition": {
-      "and": [
-        { "u_has_trait": "SEASONAL_AFFECTIVE" },
-        { "is_season": "autumn" },
-        { "not": { "u_has_effect": "took_prozac" } }
-      ]
+      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "autumn" }, { "not": { "u_has_effect": "took_prozac" } } ]
     },
     "effect": [
+      { "u_message": "It's only fall, but you already miss the summer sun.", "type": "bad" },
       {
-        "u_message": "It's only fall, but you already miss the summer sun.",
-        "type": "bad"
-      },
-      {
-      "u_add_morale": "morale_feeling_bad",
-      "bonus": -15,
-      "max_bonus": -15,
-      "duration": { "math": [ "rand(216000) + 86400" ] }
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -15,
+        "max_bonus": -15,
+        "duration": { "math": [ "rand(216000) + 86400" ] }
       }
     ]
   },
@@ -680,22 +618,15 @@
     "id": "seasonal_affective_winter",
     "recurrence": [ "3 days", "12 days" ],
     "condition": {
-      "and": [
-        { "u_has_trait": "SEASONAL_AFFECTIVE" },
-        { "is_season": "winter" },
-        { "not": { "u_has_effect": "took_prozac" } }
-      ]
+      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "winter" }, { "not": { "u_has_effect": "took_prozac" } } ]
     },
     "effect": [
+      { "u_message": "The long, cold nights really get you feeling down.", "type": "bad" },
       {
-        "u_message": "The long, cold nights really get you feeling down.",
-        "type": "bad"
-      },
-      {
-      "u_add_morale": "morale_feeling_bad",
-      "bonus": -15,
-      "max_bonus": -15,
-      "duration": { "math": [ "rand(432000) + 86400" ] }
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -15,
+        "max_bonus": -15,
+        "duration": { "math": [ "rand(432000) + 86400" ] }
       }
     ]
   },
@@ -703,11 +634,7 @@
     "type": "effect_on_condition",
     "id": "picked_rosebuds_fall",
     "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "ROSEBUDS_FALL_active" }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "ROSEBUDS_FALL_active" } ] },
     "effect": [
       { "u_lose_trait": "ROSEBUDS_FALL_active" },
       { "u_spawn_item": "mutfruit", "count": 1 },
@@ -715,3 +642,4 @@
     ]
   }
 ]
+
