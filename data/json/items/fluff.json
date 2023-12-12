@@ -115,7 +115,7 @@
     "id": "chess",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "chess set", "str_pl": "chess sets" },
+    "name": { "str": "chess set" },
     "description": "A wooden box containing all the pieces needed to play a game of chess.",
     "weight": "550 g",
     "volume": "2400 ml",
