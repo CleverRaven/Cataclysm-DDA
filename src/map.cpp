@@ -8263,7 +8263,6 @@ void map::grow_plant( const tripoint &p )
             //Become a seedling
             std::optional<furn_str_id> seedling_form = seed->get_plant_seedling_form();
             furn_set( p, furn_str_id( seedling_form.value() ) );
-                        
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
                 return;
