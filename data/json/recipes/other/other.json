@@ -61,7 +61,7 @@
     "reversible": { "time": "10 s" },
     "autolearn": true,
     "components": [ [ [ "checkpaper", 1 ] ], [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ], [ [ "wchess_pawn", 8 ] ], [ [ "bchess_pawn", 8 ] ], [ [ "wchess_knight", 2 ] ], [ [ "bchess_knight", 2 ] ], [ [ "wchess_bishop", 2 ] ], [ [ "bchess_bishop", 2 ] ], [ [ "wchess_rook", 2 ] ], [ [ "bchess_rook", 2 ] ], [ [ "wchess_queen", 1 ] ], [ [ "bchess_queen", 1 ] ], [ [ "wchess_king", 1 ] ], [ [ "bchess_king", 1 ] ] ]
-},
+  },
   {
     "result": "handmade_chess",
     "type": "recipe",
@@ -74,7 +74,6 @@
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "checkpaper", 1 ] ], [ [ "2x4", 1 ] ], [ [ "hinge", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ], [ [ "wchess_pawn", 8 ] ], [ [ "bchess_pawn", 8 ] ], [ [ "wchess_knight", 2 ] ], [ [ "bchess_knight", 2 ] ], [ [ "wchess_bishop", 2 ] ], [ [ "bchess_bishop", 2 ] ], [ [ "wchess_rook", 2 ] ], [ [ "bchess_rook", 2 ] ], [ [ "wchess_queen", 1 ] ], [ [ "bchess_queen", 1 ] ], [ [ "wchess_king", 1 ] ], [ [ "bchess_king", 1 ] ] ]
-  },
   },
   {
     "type": "recipe",
