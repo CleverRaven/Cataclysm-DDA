@@ -606,7 +606,7 @@ static void force_comedown( effect &eff )
     eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
 }
 
-void npc::discharge_cbm_weapon()
+void npc::discharge_cbm_weapon(bool fired)
 {
     if( !is_using_bionic_weapon() ) {
         return;
@@ -619,7 +619,9 @@ void npc::discharge_cbm_weapon()
     }
     bionic &bio = **bio_opt;
 
-    mod_power_level( -bio.info().power_activate );
+    if (fired) {
+        mod_power_level(-get_wielded_item().get_item()->get_gun_bionic_drain());
+    }
 
     set_wielded_item( real_weapon );
     weapon_bionic_uid = 0;

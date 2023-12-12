@@ -1046,7 +1046,7 @@ class npc : public Character
         bool deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
         // in bionics.cpp
         // can't use bionics::activate because it calls plfire directly
-        void discharge_cbm_weapon();
+        void discharge_cbm_weapon(bool fired = true);
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
