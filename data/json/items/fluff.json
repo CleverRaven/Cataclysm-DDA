@@ -101,7 +101,7 @@
     "id": "checkpaper",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "checkered paper", "str_pl": "checkered papers" },
+    "name": { "str": "checkered paper" },
     "description": "A sheet of paper scrawled with a pattern identical to the checkerboard on a chessboard.  Only useful for trying a game of chess or checkers and nothing else.",
     "weight": "3 g",
     "volume": "6 ml",

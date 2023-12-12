@@ -1581,7 +1581,6 @@
     "color": "black",
     "description": "A loose black pawn from a game of chess.  It is the smallest piece and this one is represented by a simple, round-headed shape.",
     "volume": "24 ml",
-    "weight": "20 g"
   },
   {
     "type": "GENERIC",
@@ -1631,12 +1630,12 @@
     "type": "GENERIC",
     "id": "bchess_king",
     "copy-from": "wchess_pawn",
-    "name": { "str": "black king", "str_pl": "black kings" },
+    "name": { "str": "black king" },
     "symbol": "=",
     "color": "black",
     "description": "A loose black king from a game of chess.  It is the tallest piece in the game, this one is represented by a cross on the top.",
     "volume": "68 ml",
-    "weight": "58 g"
+    "weight": "57 g"
   },
   {
     "id": "scrap_bronze",
