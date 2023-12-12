@@ -3725,7 +3725,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                     case 2:
                         add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
                         return;
-                        default:
+                    default:
                         return;
                         }
             } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
