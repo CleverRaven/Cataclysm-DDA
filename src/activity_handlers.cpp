@@ -1609,11 +1609,11 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
             act->set_to_null();
         }
         if( one_in( 128 ) ) {
-        communioncycles += 1;
-        you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
-                                            translation() ) );
-        you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
-        you->mod_daily_health( ( rng( 0, 1 ) ), 5 );
+            communioncycles += 1;
+            you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
+                                        translation() ) );
+            you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
+            you->mod_daily_health( ( rng( 0, 1 ) ), 5 );
             if( communioncycles >= 20 ) {
             you->add_msg_if_player( _( "You retract your roots, feeling a lingering sense of warmth after your communion." ) );
             you->add_morale( MORALE_TREE_COMMUNION, 20, 20, 18_hours, 8_hours ); 
