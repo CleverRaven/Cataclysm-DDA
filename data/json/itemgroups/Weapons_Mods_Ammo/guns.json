@@ -497,7 +497,7 @@
       { "item": "plr16", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
       { "item": "ar10", "prob": 1, "charges-min": 0, "charges-max": 20 },
-      { "item": "modular_ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "group": "modular_ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
       { "item": "cx4", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "ksub2000", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "m1a", "prob": 1, "charges-min": 0, "charges-max": 5 },
@@ -524,8 +524,8 @@
       { "item": "varmint_airgun", "prob": 1, "charges-min": 0, "charges-max": 1 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
-      { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
-      { "item": "cz600", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "group": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "group": "cz600", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "rdb_223", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
@@ -537,7 +537,7 @@
     "//": "Empty rifles commonly found in gun stores.",
     "items": [
       { "item": "ar10", "prob": 35 },
-      { "item": "modular_ar15", "prob": 45 },
+      { "group": "modular_ar15", "prob": 45 },
       { "item": "cx4", "prob": 30 },
       { "item": "hpt3895", "prob": 1 },
       { "item": "ksub2000", "prob": 10 },
@@ -557,8 +557,8 @@
       { "item": "fn_ps90", "prob": 5 },
       { "item": "aksemi", "prob": 15 },
       { "item": "mk47", "prob": 10 },
-      { "item": "mdrx", "prob": 10 },
-      { "item": "cz600", "prob": 10 },
+      { "group": "mdrx", "prob": 10 },
+      { "group": "cz600", "prob": 10 },
       { "item": "ak556", "prob": 15 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10 },
       { "item": "varmint_airgun", "prob": 5 },
@@ -647,10 +647,10 @@
       { "item": "carbine_flintlock", "prob": 1 },
       { "item": "rifle_flintlock", "prob": 1 },
       { "item": "win70", "prob": 10 },
-      { "item": "mdrx", "prob": 10 },
+      { "group": "mdrx", "prob": 10 },
       { "item": "m1carbine", "prob": 10 },
       { "item": "mrad_smr", "prob": 10 },
-      { "item": "axmc", "prob": 10 },
+      { "group": "axmc", "prob": 10 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
       { "group": "nested_axmc_with_kits", "prob": 10 },
@@ -677,8 +677,8 @@
       { "item": "browning_blr", "prob": 10 },
       { "item": "ar10", "prob": 10 },
       { "item": "varmint_airgun", "prob": 5 },
-      { "item": "ar15_50", "prob": 10 },
-      { "item": "ar15_450", "prob": 12 }
+      { "group": "ar15_50", "prob": 10 },
+      { "group": "ar15_450", "prob": 12 }
     ]
   },
   {
@@ -1122,7 +1122,7 @@
     "type": "item_group",
     "id": "longguns_cop",
     "items": [
-      { "item": "modular_ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
+      { "group": "modular_ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
       { "item": "mossberg_500", "prob": 10, "charges": [ 0, 6 ], "contents-item": "shoulder_strap" },
       { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ], "contents-item": "shoulder_strap" },
       { "item": "remington_870", "prob": 10, "charges": [ 0, 5 ], "contents-item": "shoulder_strap" }
@@ -1146,7 +1146,7 @@
     "items": [
       {
         "collection": [
-          { "item": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
+          { "group": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
           { "group": "field_ar15" }
         ],
         "prob": 20
@@ -1250,7 +1250,7 @@
     "items": [
       {
         "collection": [
-          { "item": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" },
+          { "group": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" },
           { "group": "field_ar15" }
         ],
         "prob": 20
@@ -1260,7 +1260,7 @@
   {
     "type": "item_group",
     "id": "longguns_operator",
-    "items": [ { "item": "modular_ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" } ]
+    "items": [ { "group": "modular_ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" } ]
   },
   {
     "type": "item_group",
@@ -1338,7 +1338,7 @@
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
-      { "item": "axmc", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "group": "axmc", "prob": 10, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },
@@ -1348,13 +1348,13 @@
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
       { "group": "guns_improvised", "prob": 50 },
-      { "item": "modular_ar15", "prob": 13, "charges-min": 0, "charges-max": 30 },
+      { "group": "modular_ar15", "prob": 13, "charges-min": 0, "charges-max": 30 },
       { "item": "ar_pistol", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "plr16", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mossberg_500", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 11, "charges-min": 0, "charges-max": 5 },
       { "item": "remington_870", "variant": "ithaca37", "prob": 4, "charges-min": 0, "charges-max": 5 },
-      { "item": "cz600", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "group": "cz600", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },
       { "item": "shotgun_410", "prob": 1, "charges-min": 0, "charges-max": 1 },
       { "item": "shotgun_s", "prob": 10 },
@@ -1368,7 +1368,7 @@
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 2, "charges-min": 0, "charges-max": 30 },
-      { "item": "mdrx", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "group": "mdrx", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },

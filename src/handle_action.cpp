@@ -342,9 +342,9 @@ input_context game::get_player_input( std::string &action )
 
                     const tripoint mapp( map, u.posz() );
 
-                    const lit_level lighting = visibility_cache[mapp.x][mapp.y];
-
-                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
+                    if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
+                        m.get_visibility( visibility_cache[mapp.x][mapp.y], cache ) ==
+                        visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
                         wPrint.vdrops.emplace_back( iRand.x, iRand.y );
@@ -1728,7 +1728,7 @@ static void cast_spell()
 bool Character::cast_spell( spell &sp, bool fake_spell,
                             const std::optional<tripoint> &target = std::nullopt )
 {
-    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
+    if( is_armed() && !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
@@ -1742,7 +1742,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    if( !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
+    if( !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         has_effect( effect_stunned ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't focus enough to cast spell." ) );

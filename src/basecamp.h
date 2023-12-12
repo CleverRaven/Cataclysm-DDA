@@ -35,6 +35,10 @@ class mission_data;
 class recipe;
 class tinymap;
 
+const int work_day_hours = 10;
+const int work_day_rest_hours = 8;
+const int work_day_idle_hours = 6;
+
 struct expansion_data {
     std::string type;
     std::vector<itype_id> available_pseudo_items;
@@ -319,11 +323,11 @@ class basecamp
                                const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {} );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc, float exertion_level,
+                                       bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const skill_id &skill_tested, int skill_level );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc, float exertion_level,
+                                       bool must_feed, const std::string &desc,
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
@@ -332,7 +336,7 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level );
+        void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );

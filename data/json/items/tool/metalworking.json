@@ -191,7 +191,7 @@
     "id": "forge",
     "type": "TOOL",
     "name": { "str": "electric forge" },
-    "description": "A portable electric metalworking forge, powered by batteries.  With the right tools, you could use this for metalworking.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "description": "An electric metalworking forge, powered by your electric grid.  With the right tools, you could use this for metalworking.",
     "weight": "10000 g",
     "volume": "6 L",
     "price": 40000,
@@ -202,9 +202,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
-    ],
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" },
     "melee_damage": { "bash": 8 }
   },
   {

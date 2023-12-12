@@ -13,12 +13,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -48,12 +48,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -75,12 +75,12 @@
         "time_in_future": [
           {
             "math": [
-              "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+              "min( (( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
             ]
           },
           {
             "math": [
-              "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+              "min( (( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
             ]
           }
         ]
@@ -149,12 +149,12 @@
         "time_in_future": [
           {
             "math": [
-              "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+              "min( (( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
             ]
           },
           {
             "math": [
-              "min( ( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ), 14400)"
+              "min( (( ( (u_val('spell_level', 'spell: electrokinetic_personal_battery') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
             ]
           }
         ]
@@ -176,12 +176,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 120) + 600) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -211,12 +211,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 120) + 600) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) )"
+              "( (u_val('spell_level', 'spell: electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
