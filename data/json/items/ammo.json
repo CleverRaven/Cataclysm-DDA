@@ -1571,7 +1571,7 @@
     "id": "wchess_rook",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "white rook", "str_pl": "white rooks" },
+    "name": { "str": "white rook" },
     "symbol": "=",
     "color": "white",
     "looks_like": "marble",
