@@ -726,7 +726,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         int flux = ( player_local_temp - 32 ) / 5;
         // Efficiency rapidly falls off when it's too hot due to photosynthesis being an enzymatic process.
         // Some tropical plants can overcome this with specific adaptations, but that would probably be its own mutation.
-            if( player_local_temp > 104 ) {
+        if( player_local_temp > 104 ) {
             flux -= ( player_local_temp - 104 ) * 3;
         }
         if( you.has_trait( trait_LEAVES ) ) {
