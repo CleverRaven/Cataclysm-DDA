@@ -200,7 +200,7 @@
     "id": "small_checkers",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "compact checkers set", "str_pl": "compact checkers sets" },
+    "name": { "str": "compact checkers set" },
     "description": "A small and compact wooden box containing a set of round tokens used to play checkers.  Perfect for casual play and travel.",
     "weight": "394 g",
     "volume": "750 ml",
