@@ -1,0 +1,33 @@
+[
+  {
+    "id": "f_beach_seaweed",
+    "type": "furniture",
+    "name": "scattered seaweed",
+    "description": "Seaweed and other detritus, scattered along the high water line of the beach.",
+    "symbol": "{",
+    "looks_like": "f_leaves_pile",
+    "color": "dark_red",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
+  },
+  {
+    "id": "f_beach_log",
+    "type": "furniture",
+    "name": "driftwood log",
+    "description": "A small log, bleached white by sun and salt.",
+    "symbol": "-",
+    "looks_like": "t_trunk",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": 12,
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "splinter", "count": [ 25, 100 ] } ]
+    }
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "GRAZER_INEDIBLE", "MOUNTABLE" ]
+  }
+]
