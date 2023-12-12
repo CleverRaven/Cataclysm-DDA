@@ -1522,7 +1522,7 @@
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": [ "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
