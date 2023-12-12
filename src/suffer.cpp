@@ -675,16 +675,18 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         // Phelloderm and bark photosynthesize.
         if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
             std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
-                for( auto &bp_exp : bp_exposure ) {
-                   bodypart_id bp = bp_exp.first;
-                   exposure = bp_exp.second;
-                   if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) && you.has_trait( trait_NO_LEFT_ARM ) )
-                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) && you.has_trait( trait_NO_RIGHT_ARM ) )
-                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) && you.has_trait( trait_NO_LEFT_LEG ) )
-                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) && you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
-                   exposure = 0.0;
-                   }
-                   phelloderm_surface += exposure;
+            for( auto &bp_exp : bp_exposure ) {
+                bodypart_id bp = bp_exp.first;
+                exposure = bp_exp.second;
+                if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
+                      you.has_trait( trait_NO_LEFT_ARM ) )
+                    || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
+                         you.has_trait( trait_NO_RIGHT_ARM ) )
+                    || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
+                         you.has_trait( trait_NO_LEFT_LEG ) )
+                    || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
+                         you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
+                    exposure = 0.0;
                 }
                 // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
                 if( you.has_trait( trait_JAUNDICE ) ) {
