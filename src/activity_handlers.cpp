@@ -1606,6 +1606,8 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
                 you->add_msg_if_player(
                     _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );
             }
+            act->set_to_null();
+        }
         if( one_in( 128 ) ) {
         communioncycles += 1;
         you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
