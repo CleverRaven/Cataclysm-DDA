@@ -3706,11 +3706,11 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
         act->values.front() -= 1;
         if( act->values.front() == 0 ) {
             map &here = get_map();
-                for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
-                        if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
-                        adjacent_mutant_tree = true;
-                        }
-                    }
+            for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                    adjacent_mutant_tree = true;
+                }
+            }
             if( adjacent_mutant_tree == true ) {
                 uilist mutant_tree_query;
                 mutant_tree_query.text = string_format(
