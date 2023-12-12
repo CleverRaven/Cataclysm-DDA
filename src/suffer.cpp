@@ -665,7 +665,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                        you.has_trait( trait_LEAVES2 ) ||
                        you.has_trait( trait_LEAVES2_FALL ) ||
                        you.has_trait( trait_LEAVES3 ) ||
-                       you.has_trait( trait_LEAVES3_FALL) ||
+                       you.has_trait( trait_LEAVES3_FALL ) ||
                        you.has_trait( trait_PLANTSKIN ) ||
                        you.has_trait( trait_JAUNDICE );
     float phelloderm_surface = 0.0;
