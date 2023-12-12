@@ -688,12 +688,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                          you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
                     exposure = 0.0;
                 }
-                // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
-                if( you.has_trait( trait_JAUNDICE ) ) {
-                    phelloderm_surface *= .5;
-                };
-                // Multiply phelloderm_surface here so we can average it with head_exposure later.
-                phelloderm_surface *= 8.33;
+                phelloderm_surface += exposure;
             }
             // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
             if( you.has_trait( trait_JAUNDICE ) ) {
