@@ -700,11 +700,9 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
             if( you.has_trait( trait_JAUNDICE ) ) {
                 phelloderm_surface *= .5;
-            };
+            }
             // Multiply phelloderm_surface here so we can average it with head_exposure later.
             phelloderm_surface *= 8.33;
-        }
-                phelloderm_surface *= 8.33;
         const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
         const bodypart_id left_arm( "arm_l" );
         const bodypart_id right_arm( "arm_r" );
@@ -785,16 +783,16 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
             sunlight_nutrition *= 1.1;
         }
-    }
 
-    if( x_in_y( sunlight_nutrition, 12000 ) ) {
+        if( x_in_y( sunlight_nutrition, 12000 ) ) {
         you.vitamin_mod( vitamin_vitC, 1 );
         you.mod_hunger( -1 );
         // Photosynthesis absorbs kcal directly.
         you.mod_stored_kcal( 1 );
         you.stomach.ate();
+        } 
     }
-
+    
     if( you.has_flag( json_flag_SUNBURN ) ) {
         suffer::from_sunburn( you, true );
     }
