@@ -4426,7 +4426,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "show_in_info": true,
-    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ] }
+    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -50 ], "stamina_max": [ -150 ], "stamina_chance": [ 300 ] }
   },
   {
     "id": "star_vampire_blood_drank",

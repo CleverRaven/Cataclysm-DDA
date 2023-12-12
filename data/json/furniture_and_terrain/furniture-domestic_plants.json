@@ -144,8 +144,8 @@
     "description": "This bizarre tree spreads its twisted branches at odd angles toward the sky.  If you squint, it almost looks like a human figure with its arms raised to catch the sun.",
     "symbol": "7",
     "color": "light_green",
-    "move_cost_mod": 0,
     "required_str": -1,
+    "move_cost_mod": 0,
     "flags": [
       "PLANT",
       "SEALED",
@@ -156,7 +156,8 @@
       "DONT_REMOVE_ROTTEN",
       "GROWTH_HARVEST",
       "MUTANT_TREE",
-      "TREE"
+      "TREE",
+      "OBSTACLE"
     ],
     "bash": { "str_min": 18, "str_max": 50, "sound": "crunch.", "sound_fail": "whish.",
       "items": [
@@ -176,7 +177,7 @@
     "description": "A twisted and gnarled little tree.  Its shape is at once alien and familiar.",
     "symbol": "1",
     "color": "green",
-    "move_cost_mod": 0,
+    "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE", "YOUNG" ],
     "bash": { "str_min": 8, "str_max": 50, "sound": "crunch.", "sound_fail": "whish.",

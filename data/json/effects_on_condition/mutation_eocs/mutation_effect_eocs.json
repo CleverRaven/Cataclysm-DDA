@@ -230,7 +230,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "SKIN_RASHY" },
-        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "took_flumed" } },
         { "not": { "u_has_effect": "formication" } }
       ]
     },
@@ -239,7 +239,7 @@
   {
     "type": "effect_on_condition",
     "id": "hay_fever_spring_fall",
-    "recurrence": [ "4 hours", "3 days" ],
+    "recurrence": [ "6 hours", "4 days" ],
     "condition": {
       "and": [
         { "u_has_trait": "SEASONAL_ALLERGIES" },
@@ -256,7 +256,7 @@
   {
     "type": "effect_on_condition",
     "id": "hay_fever_summer",
-    "recurrence": [ "2 hours", "36 hours" ],
+    "recurrence": [ "8 hours", "8 days" ],
     "condition": {
       "and": [
         { "u_has_trait": "SEASONAL_ALLERGIES" },
@@ -602,7 +602,7 @@
   {
     "type": "effect_on_condition",
     "id": "regrow_timer_lupine",
-    "recurrence": [ "1 days", "7 days" ],
+    "recurrence": [ "5 days", "15 days" ],
     "condition": {
       "and": [
         { "u_has_trait": "LUPINE_FUR_SUMMER" },
@@ -635,7 +635,7 @@
   {
     "type": "effect_on_condition",
     "id": "regrow_timer_ursine",
-    "recurrence": [ "1 days", "7 days" ],
+    "recurrence": [ "5 days", "15 days" ],
     "condition": {
       "and": [
         { "u_has_trait": "URSINE_FUR_SUMMER" },
@@ -659,7 +659,6 @@
       "and": [
         { "u_has_trait": "SEASONAL_AFFECTIVE" },
         { "is_season": "autumn" },
-        { "not": { "u_has_effect": "seasonal_depression" } },
         { "not": { "u_has_effect": "took_prozac" } }
       ]
     },
@@ -670,8 +669,8 @@
       },
       {
       "u_add_morale": "morale_feeling_bad",
-      "bonus": 10,
-      "max_bonus": 10,
+      "bonus": -15,
+      "max_bonus": -15,
       "duration": { "math": [ "rand(216000) + 86400" ] }
       }
     ]
@@ -684,7 +683,6 @@
       "and": [
         { "u_has_trait": "SEASONAL_AFFECTIVE" },
         { "is_season": "winter" },
-        { "not": { "u_has_effect": "seasonal_depression" } },
         { "not": { "u_has_effect": "took_prozac" } }
       ]
     },
@@ -695,10 +693,25 @@
       },
       {
       "u_add_morale": "morale_feeling_bad",
-      "bonus": 10,
-      "max_bonus": 10,
+      "bonus": -15,
+      "max_bonus": -15,
       "duration": { "math": [ "rand(432000) + 86400" ] }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "picked_rosebuds_fall",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ROSEBUDS_FALL_active" }
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "ROSEBUDS_FALL_active" },
+      { "u_spawn_item": "mutfruit", "count": 1 },
+      { "u_add_trait": "ROSEBUDS_FALL_PICKED" }
     ]
   }
 ]

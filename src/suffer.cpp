@@ -711,7 +711,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             rarm_leaf_surface = .0;
             }
             if( you.has_trait( trait_VINES1 ) ) {
-            vine_leaf_surface = std::min(vine_leaf_surface + 0.5, 1.0);
+            vine_leaf_surface = vine_leaf_surface * 0.5;
             }
             if ( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) && !you.has_trait( trait_VINES3 ) ) {
             vine_leaf_surface = 0;
@@ -719,7 +719,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
         const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
-        int flux = ( player_local_temp - 65 ) / 2;
+        int flux = ( player_local_temp - 32 ) / 5;
         // Efficiency rapidly falls off when it's too hot due to photosynthesis being an enzymatic process.
         // Some tropical plants can overcome this with specific adaptations, but that would probably be its own mutation.
             if( player_local_temp > 104 ) {
@@ -735,18 +735,17 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             head_leaf_surface *= 1.75;
         }
         if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
-            vine_leaf_surface = std::max(vine_leaf_surface - 0.25, 0.0);
-            larm_leaf_surface = std::max(larm_leaf_surface - 0.25, 0.0);
-            rarm_leaf_surface = std::max(rarm_leaf_surface - 0.25, 0.0);
-            head_leaf_surface *= .75;
+            vine_leaf_surface *= .9;
+            larm_leaf_surface *= .9;
+            rarm_leaf_surface *= .9;
+            head_leaf_surface *= .9;
         }
         if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) && !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) && !you.has_trait( trait_LEAVES3_FALL ) ) {
             head_leaf_surface = 0;
         }
         sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface + phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = round( 12 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ) * 2;
-            add_msg( m_neutral, "Vine leaf surface is %1s rarm leaf surface is %2s", vine_leaf_surface, rarm_leaf_surface );
+            const int rate = ( std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ), 0.0f ) ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
         }
         you.get_size();

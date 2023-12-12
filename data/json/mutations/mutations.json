@@ -3790,7 +3790,7 @@
     "changes_to": [ "ROSEBUDS" ],
     "scent_mask": -200,
     "social_modifiers": { "lie": 10 },
-    "prevented_by": [ "FLOWERS_WINTER", "ROSEBUDS_SUMMER", "ROSEBUDS_FALL", "ROSEBUDS_WINTER" ]
+    "prevented_by": [ "FLOWERS_WINTER", "ROSEBUDS_SUMMER", "ROSEBUDS_FALL", "ROSEBUDS_WINTER", "ROSEBUDS_FALL_active", "ROSEBUDS_FALL_PICKED" ]
   },
   {
     "type": "mutation",
@@ -3840,14 +3840,27 @@
     "visibility": 12,
     "ugliness": 2,
     "active": true,
+    "transform": { "target": "ROSEBUDS_FALL_active", "msg_transform": "Most of the fruits are beyond consideration, but you pick what you can and discard the rest.", "active": false, "moves": 150 },
     "description": "A few odd-looking fruits ripen on stems growing out of your head.  They'll probably die off come winter, but you could pick them before then, if you wanted.",
     "encumbrance_always": [ [ "head", 10 ] ],
-    "spells_learned": [ [ "spell_rosebuds_fall", 1 ] ],
     "restricts_gear": [ "head_crown" ],
     "types": [ "SCENT" ],
     "prereqs": [ "FLOWERS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "//": "Sorry elves, only true plants can reproduce this way.",
+    "threshreq": [ "THRESH_PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_FALL_active",
+    "name": { "str": "Fruiting (picked)" },
+    "points": 3,
+    "active": true,
+    "description": "You shouldn't be able to see this, it's just used to proc the EOC.",
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
+    "valid": false,
+    "cancels": [ "SMELLY", "SMELLY2", "ROSEBUDS_FALL" ],
     "threshreq": [ "THRESH_PLANT" ]
   },
   {
@@ -3858,7 +3871,7 @@
     "description": "You've picked all your fruit and no longer have any, as such this mutation is not supposed to be visible.",
     "types": [ "SCENT" ],
     "prereqs": [ "FLOWERS" ],
-    "cancels": [ "SMELLY", "SMELLY2", "ROSEBUDS_FALL" ],
+    "cancels": [ "SMELLY", "SMELLY2", "ROSEBUDS_FALL_active" ],
     "threshreq": [ "THRESH_PLANT" ],
     "player_display": false
   },
@@ -7733,7 +7746,17 @@
     "visibility": 4,
     "ugliness": 2,
     "description": "Roots have started growing from your leaf-like hair.  They don't seem to do much.",
-    "prereqs": [ "LEAVES", "LEAVES2", "LEAVES3", "LEAVES_WINTER", "LEAVES2_FALL", "LEAVES2_WINTER", "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
+    "prereqs": [
+      "LEAVES",
+      "LEAVES2",
+      "LEAVES3",
+      "LEAVES_WINTER",
+      "LEAVES2_FALL",
+      "LEAVES2_WINTER",
+      "LEAVES3",
+      "LEAVES3_FALL",
+      "LEAVES3_WINTER"
+    ],
     "category": [ "PLANT", "ELFA" ]
   },
   {

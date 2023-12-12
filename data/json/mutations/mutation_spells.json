@@ -172,35 +172,5 @@
     "base_energy_cost": 1500,
     "max_level": 1,
     "energy_source": "STAMINA"
-  },
-  {
-    "type": "SPELL",
-    "id": "spell_rosebuds_fall",
-    "name": "Pick Fruit",
-    "description": "Most of your fruit is beyond consideration, but there's one good piece you could grab.",
-    "valid_targets": [ "none" ],
-    "effect": "spawn_item",
-    "effect_str": "mutfruit",
-    "extra_effects": [ { "id": "spell_rosebuds_fall_transform", "hit_self": true } ],
-    "shape": "blast",
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_EXPLOSION_SFX" ],
-    "difficulty": -20,
-    "base_casting_time": 150,
-    "base_energy_cost": 15,
-    "max_level": 1,
-    "energy_source": "STAMINA"
-  },
-  {
-    "type": "SPELL",
-    "id": "spell_rosebuds_fall_transform",
-    "name": "Pick Fruit",
-    "description": "You don't have any more fruit left.",
-    "valid_targets": [ "self" ],
-    "effect": "mutate",
-    "effect_str": "ROSEBUDS_FALL_PICKED",
-    "shape": "blast",
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_EXPLOSION_SFX", "MUTATE_TRAIT" ],
-    "difficulty": -20,
-    "max_level": 1
   }
 ]

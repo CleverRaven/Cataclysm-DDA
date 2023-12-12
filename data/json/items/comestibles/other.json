@@ -1211,19 +1211,5 @@
     "symbol": "B",
     "color": "yellow",
     "calories": 0
-  },
-  {
-    "id": "mutfruit_dry",
-    "copy-from": "mutfruit_peeled",
-    "type": "COMESTIBLE",
-    "name": { "str": "dried mutant fruit" },
-    "description": "A miserable little ball of fibrous plant matter and mummified flesh interwoven with ratty hair and human teeth.  It serves no purpose other than as a scientific curiosity, and is unbelievably disgusting.",
-    "weight": "12 g",
-    "color": "brown",
-    "quench": -2,
-    "smoking_result": "mutfruit_peeled",
-    "extend": { "flags": [ "EDIBLE_FROZEN", "SMOKED" ] },
-    "delete": { "flags": [ "SMOKABLE" ] },
-    "fun": -20
   }
 ]
