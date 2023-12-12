@@ -181,7 +181,13 @@
                 "run_eocs": [
                   {
                     "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES_3",
-                    "condition": { "x_in_y_chance": { "x": { "math": [ "u_effect_intensity('psi_nether_attention') * 2" ] }, "y": 100 } },
+                    "condition": {
+                      "and": [
+                        { "x_in_y_chance": { "x": { "math": [ "u_effect_intensity('psi_nether_attention') * 2" ] }, "y": 100 } },
+                        { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
+                        { "not": { "u_has_trait": "TELEPATHICDAMPENER_SHIELD" } }
+                      ]
+                    },
                     "effect": [
                       {
                         "u_message": "And as you look around, you notice you're not the only one who stepped out of the Nether.",

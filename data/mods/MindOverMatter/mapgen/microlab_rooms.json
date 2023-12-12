@@ -128,7 +128,10 @@
       },
       "items": {
         "C": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "Ȼ": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "Ȼ": [
+          { "item": "SUS_office_filing_cabinet", "chance": 80 },
+          { "item": "dist_matrix_translocation_items", "chance": 50, "repeat": [ 1, 3 ] }
+        ],
         "d": { "item": "SUS_office_desk", "chance": 50 },
         "L": [
           { "item": "psi_lab_no_recipes", "chance": 50, "repeat": [ 1, 3 ] },
