@@ -1592,10 +1592,9 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
     if( calendar::once_every( 2_minutes ) ) {
         bool adjacent_mutant_tree = false;
         map &here = get_map();
-            for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
-                    if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
-                    adjacent_mutant_tree = true;
-                    }
+        for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                adjacent_mutant_tree = true;
             }
             if( adjacent_mutant_tree == false ) {
                 if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
