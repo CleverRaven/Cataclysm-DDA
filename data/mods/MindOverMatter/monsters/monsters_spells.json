@@ -32,20 +32,6 @@
     "max_range": 10
   },
   {
-    "id": "delete_nullifying_fields_monster",
-    "type": "SPELL",
-    "name": "[Ψ]Delete Nullifying Fields Monster",
-    "description": "This cleans up the nullifying fields after a zombie null dies.  It's a bug if you have it.",
-    "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "ter_transform",
-    "effect_str": "ter_null_zombie_delete_fields",
-    "shape": "blast",
-    "max_level": 1,
-    "min_aoe": 12,
-    "max_aoe": 12
-  },
-  {
     "id": "biokinetic_speed_boost_monster_01",
     "type": "SPELL",
     "name": "[Ψ]Biokinetic Speed Boost Monster Lesser",
@@ -56,6 +42,36 @@
     "shape": "blast",
     "min_damage": 150,
     "max_damage": 350
+  },
+  {
+    "type": "SPELL",
+    "id": "pattern_screamer_rock_thrower_prep",
+    "name": { "str": "Feral One Perfect Shot" },
+    "teachable": false,
+    "description": "Pattern screamer prepares to hurl a rock with deadly accuracy",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 40,
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": 8,
+    "max_range": 8,
+    "range_increment": 0.1
+  },
+  {
+    "type": "SPELL",
+    "id": "pattern_screamer_rock_thrower_prep_self",
+    "name": { "str": "One Perfect Shot Self" },
+    "teachable": false,
+    "description": "Grants the effect for a pattern screamer to throw a rock.",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_pattern_screamer_rock_thrower",
+    "shape": "blast",
+    "min_duration": 100,
+    "max_duration": 100
   },
   {
     "id": "electrokinetic_shock_touch_monster",
@@ -791,5 +807,18 @@
     "min_duration": 1620000,
     "base_casting_time": 50,
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vitakinetic_regeneration_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Feral Vitakinetic healing",
+    "description": "Buffs regeneration for a feral vitakinetic.  It's a bug if you have it, and anyway it wouldn't work on you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_feral_regeneration",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 600
   }
 ]

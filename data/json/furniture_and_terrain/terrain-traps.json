@@ -153,6 +153,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_den_small",
+    "name": "small den",
+    "description": "A small den that burrowing animals such as groundhogs or hares call home.",
+    "symbol": "0",
+    "color": "yellow",
+    "looks_like": "t_den_large",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_den_large",
+    "name": "large den",
+    "description": "A large den that burrowing animals such as bears and foxes call home.",
+    "symbol": "0",
+    "color": "yellow",
+    "looks_like": "t_pit_shallow",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_slime",
     "name": "slime",
     "description": "A disgusting, slippery mess.  Could be used to stash things, because who'd want to touch it?",

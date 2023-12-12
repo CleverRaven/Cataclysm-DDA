@@ -200,6 +200,31 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_medigel_eff_trigger"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_combat_stims",
+    "name": [ "Combat Stimulants" ],
+    "desc": [ "You are under the effects of powerful military combat stimulants" ],
+    "rating": "good",
+    "blocks_effects": [ "stim_overdose", "shakes" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff",
+    "rating": "good",
+    "name": [ "Medigel" ],
+    "desc": [ "The medical gel applied to your wounds is slowly healing them." ],
+    "main_parts_only": true,
+    "part_descs": true,
+    "max_duration": "4 d",
+    "base_mods": { "healing_rate": [ 4 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
+    "scaling_mods": { "healing_rate": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "decreased_performance",
     "name": [ "Decreased Performance" ],
     "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],

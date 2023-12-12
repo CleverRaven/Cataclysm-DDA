@@ -1128,13 +1128,13 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
+| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
 | character_gets_headshot |  | { "character", `character_id` } | character / NONE |
 | character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
 | character_kills_monster |  | { "killer", `character_id` },<br/> { "victim_type", `mtype_id` },<br/> { "exp", `int` }, | character / monster |
 | character_learns_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
+| character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
 | character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
 | character_melee_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim_type", `mtype_id` },| character / monster |
 | character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
@@ -1448,7 +1448,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eocs" | **mandatory** | string or array of eocs | EoC or EoCS that would be run |
+| "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
 
 ##### Valid talkers:
 
@@ -1502,13 +1502,52 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
 }
 ```
 
+Use Context Variable as a eoc (A trick for loop)
+```
+[
+    {
+        "type": "effect_on_condition",
+        "id": "debug_eoc_for_loop",
+        "effect": [{
+                    "run_eoc_with": "eoc_for_loop",
+                    "variables": {
+                      "i": "0",
+                      "length": "10",
+                      "eoc":"eoc_msg_hello_world"
+                      }}]
+    },
+    {
+        "type":"effect_on_condition",
+        "id":"eoc_msg_hello_world",
+        "effect":[{"u_message": "hello world"}]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "eoc_for_loop",
+        "condition": {"and": [
+                {"expects_vars": ["i","length","eoc"]},
+                {"math": ["_i","<","_length"]}
+            ]
+        },
+        "effect": [
+            {"run_eocs": [{"context_val":"eoc"}]},
+            {"math":["_i", "++"]},
+            {
+                "run_eocs": "eoc_for_loop"
+            }
+        ],
+        "//": "As the generated dialogue for next EOC is a complete copy of the dialogue for this EOC, the context value will be passed on to the next EOC"
+    }
+]
+```
+
 
 #### `run_eoc_with`
 Same as `run_eocs`, but runs the specific EoC with provided variables as context variables
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eoc_with" | **mandatory** | string | EoC or EoCS that would be run |
+| "run_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC or EoCS that would be run |
 | "beta_loc" | optional | [variable object](#variable-object) | `u_location_variable`, where the EoC should be run | 
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
@@ -1578,7 +1617,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "queue_eocs" | **mandatory** | string, [variable object](#variable-object) or array | EoCs, that would be added into queue; Could be an inline EoC |
+| "queue_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object) or array of eocs | EoCs, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 | 
 
 ##### Valid talkers:
@@ -1604,7 +1643,7 @@ Combination of `run_eoc_with` and `queue_eocs` - Put EoC into queue and run into
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "queue_eoc_with" | **mandatory** | string or [variable object](#variable-object) | EoC, that would be added into queue; Could be an inline EoC |
+| "queue_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 |
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
@@ -2139,6 +2178,7 @@ Give character or NPC some mutation/trait
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_trait" / "npc_add_trait" | **mandatory** | string or [variable object](##variable-object) | id of trait that should be given |
+| "variant" | optional | string or [variable object](##variable-object) | id of the trait's variant |
 
 ##### Valid talkers:
 
@@ -2157,6 +2197,10 @@ Adds trait, stored in `trait_id` context value, to the character:
 { "u_add_trait": { "context_val": "trait_id" } }
 ```
 
+Adds `hair_mohawk` trait with the `purple` variant to the character:
+```json
+{ "u_add_trait": "hair_mohawk", "variant": "purple" }
+```
 
 #### `u_lose_effect`, `npc_effect`
 Remove effect from character or NPC, if it has one

@@ -1,6 +1,40 @@
 [
   {
     "type": "furniture",
+    "id": "f_transporter_beacon",
+    "name": "Transporter Beacon",
+    "symbol": "A",
+    "looks_like": "tr_telepad",
+    "description": "A transporter beacon, placed on the ground with a stable set of coordinates.  (e)xamine to finish the setup.",
+    "color": "blue",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [ { "item": "psionic_transporter_beacon" } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "matrix_shard", "count": [ 1, 5 ] },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "matrix_crystal_drained_dust", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_telepathic_amplifier",
     "name": "telepathic amplifier",
     "description": "A bulky machine with a chair and a hat-like mechanism designed to fit over the wearer's head, like something you would find in a hair salon.  You have no idea how to operate it, but you could scavenge it for parts.",

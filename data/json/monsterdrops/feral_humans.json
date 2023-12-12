@@ -646,7 +646,7 @@
     "magazine": 100,
     "ammo": 10,
     "id": "feral_autogun",
-    "items": [ [ "modular_m4_carbine", 500 ], [ "modular_ar15", 500 ] ]
+    "items": [ [ "modular_m4_carbine", 500 ], { "group": "modular_ar15", "prob": 500 } ]
   },
   {
     "type": "item_group",
@@ -685,7 +685,7 @@
       { "item": "e_tool", "prob": 15, "damage": [ 1, 4 ] },
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
-      { "group": "infantry_knives", "prob": 50, "damage": [ 2, 4 ] },
+      { "group": "infantry_knives", "prob": 100, "damage": [ 2, 4 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 10 ] },
       { "item": "stanag30ranger", "prob": 1, "ammo-item": "556", "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] }
