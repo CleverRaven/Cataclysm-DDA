@@ -1602,10 +1602,9 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
                 you->add_msg_if_player( m_bad,
                                         _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
                 you->add_morale( MORALE_FEELING_BAD, -10, 10, 6_hours, 2_hours );
-                } else {
-                you->add_msg_if_player( _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );    
-                }
-                act->set_to_null();  
+            } else {
+                you->add_msg_if_player(
+                    _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );
             }
         if( one_in( 128 ) ) {
         communioncycles += 1;
