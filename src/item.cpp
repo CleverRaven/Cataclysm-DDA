@@ -13989,11 +13989,12 @@ std::string item::get_plant_name() const
     return type->seed->plant_name.translated();
 }
 
-std::optional<furn_str_id> item::get_plant_seedling_form() const {
-  if ( !type->seed ) {
-    return std::nullopt;
-  }
-  return type->seed->seedling_form;
+std::optional<furn_str_id> item::get_plant_seedling_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->seedling_form;
 }
 
 std::optional<furn_str_id> item::get_plant_mature_form() const
