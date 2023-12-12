@@ -14003,11 +14003,12 @@ std::optional<furn_str_id> item::get_plant_mature_form() const {
   return type->seed->mature_form;
 }
 
-std::optional<furn_str_id> item::get_plant_harvestable_form() const {
-  if ( !type->seed ) {
-    return std::nullopt;
-  }
-  return type->seed->harvestable_form;
+std::optional<furn_str_id> item::get_plant_harvestable_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const
