@@ -716,8 +716,9 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             }
             if( you.has_trait( trait_VINES1 ) ) {
             vine_leaf_surface = vine_leaf_surface * 0.5;
-            }
-            if ( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) && !you.has_trait( trait_VINES3 ) ) {
+        }
+        if( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) &&
+            !you.has_trait( trait_VINES3 ) ) {
             vine_leaf_surface = 0;
         }
         const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
