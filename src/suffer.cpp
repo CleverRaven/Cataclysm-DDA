@@ -793,7 +793,6 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             you.stomach.ate();
         }
     }
-    
     if( you.has_flag( json_flag_SUNBURN ) ) {
         suffer::from_sunburn( you, true );
     }
