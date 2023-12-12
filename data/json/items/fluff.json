@@ -109,7 +109,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "flags": [ "NO_REPAIR" ],
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "chess",
