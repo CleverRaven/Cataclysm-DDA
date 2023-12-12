@@ -2216,8 +2216,8 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
             if( i.powered ) {
                 return deactivate_bionic( i, eff_only );
             } else {
-                if (i.info().has_flag(json_flag_BIONIC_GUN)) {
-                    discharge_cbm_weapon(false);
+                if( i.info().has_flag( json_flag_BIONIC_GUN ) ) {
+                    discharge_cbm_weapon( false );
                 }
                 return false;
             }
