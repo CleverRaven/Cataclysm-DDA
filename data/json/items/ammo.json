@@ -1529,7 +1529,7 @@
     "id": "wchess_knight",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "white knight", "str_pl": "white knights" },
+    "name": { "str": "white knight" },
     "symbol": "=",
     "color": "white",
     "looks_like": "marble",
