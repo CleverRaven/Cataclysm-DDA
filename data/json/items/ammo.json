@@ -1613,7 +1613,7 @@
     "id": "wchess_king",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "white king", "str_pl": "white kings" },
+    "name": { "str": "white king" },
     "symbol": "=",
     "color": "white",
     "looks_like": "marble",
