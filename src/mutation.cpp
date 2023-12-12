@@ -1216,7 +1216,6 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             std::vector<trait_id> prospective_traits;
             prospective_traits.insert( prospective_traits.end(), upgrades.begin(), upgrades.end() );
             prospective_traits.insert( prospective_traits.end(), valid.begin(), valid.end() );
-            
             for( trait_id dummy_trait : dummies ) {
                 // Only dummy traits with conflicts are considered
                 if( has_conflicting_trait( dummy_trait ) ) {
