@@ -3711,13 +3711,15 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                         }
                     }
             if( adjacent_mutant_tree == true ) {
-                    uilist mutant_tree_query;
-                    mutant_tree_query.text = string_format( _( "Something familiar reaches out to your roots as the communion begins." ) );
-                    mutant_tree_query.addentry( 1, true, 'f', _( "Focus only on the mutant tree." ) );
-                    mutant_tree_query.addentry( 2, true, 's', _( "Spread your roots in communion with all nearby trees." ) );
-                    mutant_tree_query.query();
-                        switch( mutant_tree_query.ret ) {
-                        case 1:
+                uilist mutant_tree_query;
+                mutant_tree_query.text = string_format(
+                                             _( "Something familiar reaches out to your roots as the communion begins." ) );
+                mutant_tree_query.addentry( 1, true, 'f', _( "Focus only on the mutant tree." ) );
+                mutant_tree_query.addentry( 2, true, 's',
+                                            _( "Spread your roots in communion with all nearby trees." ) );
+                mutant_tree_query.query();
+                switch( mutant_tree_query.ret ) {
+                    case 1:
                         you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
                         return;
                         case 2:
