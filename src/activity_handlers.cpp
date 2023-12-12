@@ -1596,9 +1596,11 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
             if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
                 adjacent_mutant_tree = true;
             }
-            if( adjacent_mutant_tree == false ) {
-                if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
-                you->add_msg_if_player( m_bad, _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
+        }
+        if( adjacent_mutant_tree == false ) {
+            if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
+                you->add_msg_if_player( m_bad,
+                                        _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
                 you->add_morale( MORALE_FEELING_BAD, -10, 10, 6_hours, 2_hours );
                 } else {
                 you->add_msg_if_player( _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );    
