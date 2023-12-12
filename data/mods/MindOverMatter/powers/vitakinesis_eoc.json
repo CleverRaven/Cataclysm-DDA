@@ -191,7 +191,8 @@
           "EOC_VITAKIN_CURE_DISEASE_VS_COMMON_COLD",
           "EOC_VITAKIN_CURE_DISEASE_VS_FLU",
           "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_VIRAL",
-          "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_BACTERIA"
+          "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_BACTERIA",
+          "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER"
         ]
       },
       {
@@ -254,6 +255,16 @@
       ]
     },
     "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_bacterial_protection", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER",
+    "//": "Hay fever is the immune system overreacting to environmental \"contaminants\".  If you supercharge your immune system, it's going to react more strongly.",
+    "condition": { "u_has_effect": "hay_fever" },
+    "effect": [ 
+      { "u_message": "Your eyes burn and your nose is clogged with mucus.", "type": "bad" },
+      { "u_add_effect": "severe_hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } } 
+    ]
   },
   {
     "type": "effect_on_condition",
