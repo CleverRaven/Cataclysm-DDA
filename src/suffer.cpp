@@ -755,11 +755,19 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         }
         you.get_size();
         // Multiply by the proportional difference in average height, as height roughly determines armspan,
-        // and that's how far out our branches extend. 
-            if( you.get_size() == creature_size::tiny ) { sunlight_nutrition *= .015; }
-            if( you.get_size() == creature_size::small ) { sunlight_nutrition *= .7; }
-            if( you.get_size() == creature_size::large ) { sunlight_nutrition *= 1.54; }
-            if( you.get_size() == creature_size::huge ) { sunlight_nutrition *= 2.35; }
+        // and that's how far out our branches extend.
+        if( you.get_size() == creature_size::tiny ) {
+            sunlight_nutrition *= .015;
+        }
+        if( you.get_size() == creature_size::small ) {
+            sunlight_nutrition *= .7;
+        }
+        if( you.get_size() == creature_size::large ) {
+            sunlight_nutrition *= 1.54;
+        }
+        if( you.get_size() == creature_size::huge ) {
+            sunlight_nutrition *= 2.35;
+        }
         // Chloromorph makes photosynthesis more efficient while the animal parts are in sleep mode.
             if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
             sunlight_nutrition *= 1.1;
