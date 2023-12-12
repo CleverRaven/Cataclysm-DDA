@@ -10965,7 +10965,8 @@ int Character::sleep_spot( const tripoint &p ) const
         sleepy += 10; //comfy water!
     }
 
-    if( has_trait( trait_CHLOROMORPH) && get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, pos() ) ) {
+    if( has_trait( trait_CHLOROMORPH ) &&
+        get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, pos() ) ) {
         sleepy += 25; // It's time for a nice nap.
     }
 
