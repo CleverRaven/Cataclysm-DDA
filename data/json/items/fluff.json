@@ -144,7 +144,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ],
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "makeshift_chess",
@@ -161,7 +161,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ],
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "handmade_chess",
@@ -178,7 +178,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ],
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "checkers",
