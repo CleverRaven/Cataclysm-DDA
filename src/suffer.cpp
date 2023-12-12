@@ -710,8 +710,8 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         float vine_leaf_surface = ( rarm_leaf_surface + larm_leaf_surface );
             if( you.has_trait( trait_NO_LEFT_ARM ) ) {
             larm_leaf_surface = .0;
-            }
-            if( you.has_trait( trait_NO_RIGHT_ARM ) ) {
+        }
+        if( you.has_trait( trait_NO_RIGHT_ARM ) ) {
             rarm_leaf_surface = .0;
         }
         if( you.has_trait( trait_VINES1 ) ) {
