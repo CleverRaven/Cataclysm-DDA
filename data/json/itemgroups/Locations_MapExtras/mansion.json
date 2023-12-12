@@ -317,7 +317,7 @@
       { "group": "manuals", "prob": 10 },
       { "group": "textbooks", "prob": 5 },
       { "group": "exotic_books", "prob": 5 },
-      { "group": "nice_chess", "prob": 1 },
+      { "group": "loose_chess_pieces", "prob": 1 },
       [ "necronomicon", 1 ]
     ]
   },
@@ -553,7 +553,7 @@
       [ "fc_hairpin", 30 ],
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
-      { "group": "cool_chess", "prob": 10, "count": [ 1, 2 ] },
+      { "group": "loose_chess_pieces", "prob": 10, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
       [ "pom_poms", 30 ],
       [ "shuttlecock", 5 ],
@@ -898,7 +898,7 @@
       { "group": "tinware", "prob": 20 },
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 },
-      { "group": "cool_chess", "prob": 1 },
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "writing_utensils", "prob": 10 }
     ]
   },

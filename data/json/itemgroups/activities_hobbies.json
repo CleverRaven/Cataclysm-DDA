@@ -170,7 +170,7 @@
   },
   {
     "type": "item_group",
-    "id": "nice_chess",
+    "id": "loose_chess_pieces",
     "//": "Loose chess pieces from a game of chess to be spawned at homes and other places, either as a decorative item or having been lost there.",
     "items": [
       { "item": "wchess_pawn", "prob": 1 },
