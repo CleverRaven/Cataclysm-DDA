@@ -154,7 +154,8 @@
           {
             "effect_id": "warbled",
             "min_duration": "1 minutes",
-            "max_duration": "72 hours", // Effect duration randomized between min and max duration
+            "max_duration": "72 hours", 
+            // Effect duration randomized between min and max duration
             "intensity": 1,
             "body_part": "head",
             "immune_inside_vehicle": true,
