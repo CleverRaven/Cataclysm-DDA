@@ -234,6 +234,7 @@
     "types": [ "hair_style" ]
   },
   {
+    "//": "When variants can support the use of processed EOCs, convert this into one mutation with lots of variants.",
     "type": "mutation",
     "id": "hair_color_black",
     "name": { "str": "Hair color: black" },
