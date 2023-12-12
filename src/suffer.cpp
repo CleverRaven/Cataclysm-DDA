@@ -665,34 +665,38 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                        you.has_trait( trait_LEAVES2 ) ||
                        you.has_trait( trait_LEAVES2_FALL ) ||
                        you.has_trait( trait_LEAVES3 ) ||
-                       you.has_trait( trait_LEAVES3_FALL) ||
+                       you.has_trait( trait_LEAVES3_FALL ) ||
                        you.has_trait( trait_PLANTSKIN ) ||
                        you.has_trait( trait_JAUNDICE );
     float phelloderm_surface = 0.0;
     float exposure = 0.0;
     int sunlight_nutrition = 0;
     if( leafy ) {
-            // Phelloderm and bark photosynthesize.
-            if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
+        // Phelloderm and bark photosynthesize.
+        if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
             std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
-                for( auto &bp_exp : bp_exposure ) {
-                   bodypart_id bp = bp_exp.first;
-                   exposure = bp_exp.second;
-                   if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) && you.has_trait( trait_NO_LEFT_ARM ) )
-                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) && you.has_trait( trait_NO_RIGHT_ARM ) )
-                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) && you.has_trait( trait_NO_LEFT_LEG ) )
-                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) && you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
-                   exposure = 0.0;
-                   }
-                   phelloderm_surface += exposure;
+            for( auto &bp_exp : bp_exposure ) {
+                bodypart_id bp = bp_exp.first;
+                exposure = bp_exp.second;
+                if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
+                      you.has_trait( trait_NO_LEFT_ARM ) )
+                    || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
+                         you.has_trait( trait_NO_RIGHT_ARM ) )
+                    || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
+                         you.has_trait( trait_NO_LEFT_LEG ) )
+                    || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
+                         you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
+                    exposure = 0.0;
                 }
-                // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
-                if( you.has_trait( trait_JAUNDICE ) ) {
-                    phelloderm_surface *= .5;
-                };
-                // Multiply phelloderm_surface here so we can average it with head_exposure later.
-                phelloderm_surface *= 8.33;
+                phelloderm_surface += exposure;
             }
+            // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
+            if( you.has_trait( trait_JAUNDICE ) ) {
+                phelloderm_surface *= .5;
+            };
+            // Multiply phelloderm_surface here so we can average it with head_exposure later.
+            phelloderm_surface *= 8.33;
+        }
         const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
         const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
         const bodypart_id left_arm( "arm_l" );
@@ -745,20 +749,29 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         }
         sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface + phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = ( std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ), 0.0f ) ) * 2;
+            const int rate = ( std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
+                                                vine_leaf_surface ) / 2 ) + flux ), 0.0f ) ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
         }
         you.get_size();
         // Multiply by the proportional difference in average height, as height roughly determines armspan,
-        // and that's how far out our branches extend. 
-            if( you.get_size() == creature_size::tiny ) { sunlight_nutrition *= .015; }
-            if( you.get_size() == creature_size::small ) { sunlight_nutrition *= .7; }
-            if( you.get_size() == creature_size::large ) { sunlight_nutrition *= 1.54; }
-            if( you.get_size() == creature_size::huge ) { sunlight_nutrition *= 2.35; }
+        // and that's how far out our branches extend.
+        if( you.get_size() == creature_size::tiny ) {
+            sunlight_nutrition *= .015;
+        }
+        if( you.get_size() == creature_size::small ) {
+            sunlight_nutrition *= .7;
+        }
+        if( you.get_size() == creature_size::large ) {
+            sunlight_nutrition *= 1.54;
+        }
+        if( you.get_size() == creature_size::huge ) {
+            sunlight_nutrition *= 2.35;
+        }
         // Chloromorph makes photosynthesis more efficient while the animal parts are in sleep mode.
-            if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
+        if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
             sunlight_nutrition *= 1.1;
-            }
+        }
     }
 
     if( x_in_y( sunlight_nutrition, 12000 ) ) {
@@ -925,17 +938,22 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) && !you.get_wielded_item()->has_flag( flag_TRANSPARENT ) )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) &&
+                     !you.get_wielded_item()->has_flag( flag_TRANSPARENT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
                         && you.can_use_hood() )
-                   || ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) && you.has_trait( trait_NO_LEFT_ARM ) )
-                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) && you.has_trait( trait_NO_RIGHT_ARM ) )
-                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) && you.has_trait( trait_NO_LEFT_LEG ) )
-                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) && you.has_trait( trait_NO_RIGHT_LEG ) )
+                   || ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
+                        you.has_trait( trait_NO_LEFT_ARM ) )
+                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
+                        you.has_trait( trait_NO_RIGHT_ARM ) )
+                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
+                        you.has_trait( trait_NO_LEFT_LEG ) )
+                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
+                        you.has_trait( trait_NO_RIGHT_LEG ) )
                    || ( bp == body_part_mouth
                         && you.worn_with_flag( flag_COLLAR )
                         && you.can_use_collar() ) ) {
