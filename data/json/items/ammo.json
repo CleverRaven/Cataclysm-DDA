@@ -1550,7 +1550,7 @@
     "id": "wchess_bishop",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "white bishop", "str_pl": "white bishops" },
+    "name": { "str": "white bishop" },
     "symbol": "=",
     "color": "white",
     "looks_like": "marble",
