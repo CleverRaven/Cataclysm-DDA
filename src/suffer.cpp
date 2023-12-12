@@ -769,7 +769,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             sunlight_nutrition *= 2.35;
         }
         // Chloromorph makes photosynthesis more efficient while the animal parts are in sleep mode.
-            if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
+        if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
             sunlight_nutrition *= 1.1;
             }
     }
