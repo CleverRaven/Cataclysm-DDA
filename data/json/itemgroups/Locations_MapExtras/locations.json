@@ -2252,7 +2252,7 @@
       [ "magnifying_glass", 8 ],
       [ "camera_control", 2 ],
       [ "eclipse_glasses", 1 ],
-      { "group": "cool_chess", "prob: 1 },
+      { "group": "cool_chess", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 }
     ]
   },
