@@ -195,8 +195,8 @@
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ]
-    },
-    {
+  },
+  {
     "id": "small_checkers",
     "type": "GENERIC",
     "category": "other",
