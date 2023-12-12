@@ -83,7 +83,15 @@
           "else": {
             "if": { "u_has_var": "natural_hair_color_gray", "type": "mutation", "context": "hair_color", "value": "yes" },
             "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_gray" } ],
-            "else": { "run_eocs": "assign_random_natural_hair_color" }
+            "else": {
+              "if": { "u_has_var": "natural_hair_color_red", "type": "mutation", "context": "hair_color", "value": "yes" },
+              "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_red" } ],
+              "else": {
+                "if": { "u_has_var": "natural_hair_color_white", "type": "mutation", "context": "hair_color", "value": "yes" },
+                "then": [ { "run_eocs": "remove_all_hair_color" }, { "u_add_trait": "hair_color_white" } ],
+                "else": { "run_eocs": "assign_random_natural_hair_color" }
+              }
+            }
           }
         }
       }
@@ -114,7 +122,9 @@
           [ { "id": "black_hair", "effect": { "u_add_trait": "hair_color_black" } }, { "const": 1 } ],
           [ { "id": "blond_hair", "effect": { "u_add_trait": "hair_color_blond" } }, { "const": 1 } ],
           [ { "id": "brown_hair", "effect": { "u_add_trait": "hair_color_brown" } }, { "const": 1 } ],
-          [ { "id": "gray_hair", "effect": { "u_add_trait": "hair_color_gray" } }, { "const": 1 } ]
+          [ { "id": "gray_hair", "effect": { "u_add_trait": "hair_color_gray" } }, { "const": 1 } ],
+          [ { "id": "white_hair", "effect": { "u_add_trait": "hair_color_gray" } }, { "const": 1 } ],
+          [ { "id": "red_hair", "effect": { "u_add_trait": "hair_color_gray" } }, { "const": 1 } ]
         ]
       },
       { "run_eocs": "reset_hair_dye_color" }
@@ -139,5 +149,15 @@
     "type": "effect_on_condition",
     "id": "natural_hair_color_gray",
     "effect": { "u_add_var": "natural_hair_color_gray", "type": "mutation", "context": "hair_color", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_white",
+    "effect": { "u_add_var": "natural_hair_color_white", "type": "mutation", "context": "hair_color", "value": "yes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_red",
+    "effect": { "u_add_var": "natural_hair_color_red", "type": "mutation", "context": "hair_color", "value": "yes" }
   }
 ]

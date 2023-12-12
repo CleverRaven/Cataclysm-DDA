@@ -352,6 +352,7 @@
     "purifiable": false,
     "player_display": true,
     "vanity": true,
+    "processed_eocs": [ "natural_hair_color_red" ],
     "types": [ "hair_color" ]
   },
   {
@@ -365,6 +366,7 @@
     "purifiable": false,
     "player_display": true,
     "vanity": true,
+    "processed_eocs": [ "natural_hair_color_white" ],
     "types": [ "hair_color" ]
   }
 ]
