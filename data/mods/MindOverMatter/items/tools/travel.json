@@ -13,7 +13,7 @@
       { "type": "alien_liquid", "portion": 5 },
       { "type": "nether_crystal", "portion": 15 }
     ],
-    "symbol": "Δ",
+    "symbol": "A",
     "color": "blue"
   },
   {
@@ -102,7 +102,7 @@
     "id": "psionic_transporter_remote_broken",
     "type": "TOOL",
     "name": { "str_sp": "transporter remote (burned out)" },
-    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array was sticking out of the side like an antenna, but it's now cracked and probably useless.  There is a small screen on the front, obviously burned out.  Parts of the plastic casing are warped as though the plastic had briefly flowed like a liquid.",
+    "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array was sticking out of the side like an antenna, but it's now cracked and probably useless.  There is a small screen on the front, obviously burned out.  Parts of the plastic casing are warped as though the plastic had frozen and cracked.",
     "copy-from": "psionic_transporter_remote",
     "use_action": [  ],
     "pocket_data": [  ],

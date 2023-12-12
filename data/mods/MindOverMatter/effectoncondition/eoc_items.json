@@ -164,9 +164,51 @@
     "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES",
     "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
     "effect": [
-      { "u_cast_spell": { "id": "teleport_gateway", "hit_self": true } },
       { "u_consume_item": "psionic_transporter_remote_on" },
-      { "u_spawn_item": "psionic_transporter_remote_broken", "count": 1, "suppress_message": true }
+      { "u_spawn_item": "psionic_transporter_remote_broken", "count": 1, "suppress_message": true },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES_2",
+            "condition": { "u_has_effect": "psi_nether_attention" },
+            "effect": [
+              { "u_cast_spell": { "id": "pure_translocate_power", "hit_self": true } },
+              {
+                "u_message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, all the while filled with the sensation of watchful eyes, and then you are somewhere else.  When you arrive, you can't help but glance over your shoulder.",
+                "type": "neutral"
+              },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES_3",
+                    "condition": { "x_in_y_chance": { "x": { "math": [ "u_effect_intensity('psi_nether_attention') * 2" ] }, "y": 100 } },
+                    "effect": [
+                      {
+                        "u_message": "And as you look around, you notice you're not the only one who stepped out of the Nether.",
+                        "type": "bad"
+                      },
+                      {
+                        "u_spawn_monster": "GROUP_NETHER_BREACH",
+                        "group": true,
+                        "real_count": [ 1, 3 ],
+                        "min_radius": 5,
+                        "max_radius": 25
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_cast_spell": { "id": "pure_translocate_power", "hit_self": true } },
+              {
+                "u_message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
     ]
   },
   {

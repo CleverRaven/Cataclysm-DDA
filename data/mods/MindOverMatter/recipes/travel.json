@@ -85,7 +85,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "45 m",
-    "qualities": [ { "id": "SCREW", "level": 2 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "difficulty": 4,
     "components": [
       [ [ "matrix_channeling_tool", 1 ] ],
@@ -102,7 +102,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "45 m",
-    "qualities": [ { "id": "SCREW", "level": 2 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "difficulty": 4,
     "components": [
       [ [ "matrix_channeling_tool", 1 ] ],
@@ -119,7 +119,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "45 m",
-    "qualities": [ { "id": "SCREW", "level": 2 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "difficulty": 4,
     "components": [ [ [ "matrix_crystal_drained", 1 ] ], [ [ "e_scrap", 5 ] ], [ [ "cable", 1 ] ] ]
   }
