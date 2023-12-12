@@ -1676,7 +1676,7 @@
     "id": "bchess_bishop",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "black bishop", "str_pl": "black bishops" },
+    "name": { "str": "black bishop" },
     "symbol": "=",
     "color": "black",
     "looks_like": "marble",
