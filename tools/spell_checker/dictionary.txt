@@ -2352,6 +2352,7 @@ prigs
 primeside
 privet
 prizefights
+proc
 procedurally
 procompsignathids
 proficiencies
@@ -3166,6 +3167,7 @@ uncured
 undecipherable
 underbarrel
 underbody
+undercoat
 undercovering
 underfongen
 undergrown
