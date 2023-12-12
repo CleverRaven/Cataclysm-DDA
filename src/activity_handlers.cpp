@@ -3727,7 +3727,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                         return;
                     default:
                         return;
-                        }
+                }
             } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
