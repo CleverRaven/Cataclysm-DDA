@@ -3722,7 +3722,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                     case 1:
                         you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
                         return;
-                        case 2:
+                    case 2:
                         add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
                         return;
                         default:
