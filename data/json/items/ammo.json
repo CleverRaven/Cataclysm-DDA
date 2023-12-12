@@ -1592,7 +1592,7 @@
     "id": "wchess_queen",
     "price": 10,
     "price_postapoc": 10,
-    "name": { "str": "white queen", "str_pl": "white queens" },
+    "name": { "str": "white queen" },
     "symbol": "=",
     "color": "white",
     "looks_like": "marble",
