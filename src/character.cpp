@@ -5065,10 +5065,6 @@ void Character::update_needs( int rate_multiplier )
                 mod_fatigue( -3 ); // Fish sleep less in water
             }
         }
-        if( has_trait( trait_WATERSLEEP ) ) {
-            mod_fatigue( -3 ); // Fish sleep less in water
-        }
-    }
     }
     if( is_avatar() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
         if( !activity ) {
