@@ -162,6 +162,7 @@ struct item_search_data {
     item_category_id category;
     material_id material;
     std::vector<flag_id> flags;
+    std::vector<flag_id> excluded_flags;
     bool worn_only;
     bool wielded_only;
 
@@ -171,6 +172,9 @@ struct item_search_data {
         material = material_id( jo.get_string( "material", "" ) );
         for( std::string flag : jo.get_string_array( "flags" ) ) {
             flags.emplace_back( flag );
+        }
+        for( std::string flag : jo.get_string_array( "excluded_flags" ) ) {
+            excluded_flags.emplace_back( flag );
         }
         worn_only = jo.get_bool( "worn_only", false );
         wielded_only = jo.get_bool( "wielded_only", false );
@@ -188,6 +192,11 @@ struct item_search_data {
         }
         for( flag_id flag : flags ) {
             if( !loc->has_flag( flag ) ) {
+                return false;
+            }
+        }
+        for( flag_id flag : excluded_flags ) {
+            if( loc->has_flag( flag ) ) {
                 return false;
             }
         }
