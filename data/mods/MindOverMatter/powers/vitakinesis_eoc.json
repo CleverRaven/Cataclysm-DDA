@@ -261,7 +261,7 @@
     "id": "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER",
     "//": "Hay fever is the immune system overreacting to environmental \"contaminants\".  If you supercharge your immune system, it's going to react more strongly.",
     "condition": { "u_has_effect": "hay_fever" },
-    "effect": [ 
+    "effect": [
       { "u_message": "Your eyes burn and your nose is clogged with mucus.", "type": "bad" },
       { "u_add_effect": "severe_hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } } 
     ]
