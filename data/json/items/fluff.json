@@ -151,7 +151,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "makeshift chess set", "str_pl": "makeshift chess sets" },
-    "description": "a piece of paper scribbled with a pattern identical to the checkerboard on a chessboard, along with all the necessary pieces and a container to store everything properly inside.",
+    "description": "A piece of paper scribbled with a pattern identical to the checkerboard on a chessboard, along with all the necessary pieces and a container to store everything properly inside.",
     "weight": "100 g",
     "volume": "500 ml",
     "longest_side": "15 cm",
