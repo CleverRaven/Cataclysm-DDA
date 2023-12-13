@@ -2202,12 +2202,13 @@ Adds `hair_mohawk` trait with the `purple` variant to the character:
 { "u_add_trait": "hair_mohawk", "variant": "purple" }
 ```
 
-#### `u_lose_effect`, `npc_effect`
+#### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_lose_effect" / "npc_lose_effect" | **mandatory** | string or [variable object](##variable-object) | id of effect to be removed; if character or NPC has no such effect, nothing happens |
+| "target_part" | optional | string or [variable object](##variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
 
 ##### Valid talkers:
 
@@ -2219,6 +2220,11 @@ Remove effect from character or NPC, if it has one
 Removes `infection` effect from player:
 ```json
 { "u_lose_effect": "infection" }
+```
+
+Removes `bleed` effect from player's head:
+```json
+{ "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
 Removes effect, stored in `effect_id` context value, from the player:

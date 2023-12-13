@@ -2774,8 +2774,16 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, std::string_vie
         bool is_npc )
 {
     str_or_var old_effect = get_str_or_var( jo.get_member( member ), member, true );
-    function = [is_npc, old_effect]( dialogue const & d ) {
-        d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ) );
+
+    str_or_var target;
+    if( jo.has_member( "target_part" ) ) {
+        target = get_str_or_var( jo.get_member( "target_part" ), "target_part", false, "bp_null" );
+    } else {
+        target.str_val = "bp_null";
+    }
+
+    function = [is_npc, old_effect, target]( dialogue const & d ) {
+        d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), target.evaluate( d ) );
     };
 }
 
