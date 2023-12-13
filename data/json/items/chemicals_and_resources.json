@@ -462,8 +462,8 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "grey_water",
-    "name": { "str_sp": "greywater" },
+    "id": "gray_water",
+    "name": { "str_sp": "graywater" },
     "material": [ "water" ],
     "weight": "260 g",
     "color": "light_gray",
