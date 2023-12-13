@@ -4543,7 +4543,7 @@ void overmap::place_lakes()
         if( !inbounds ) {
             return false;
         }
-        return f.noise_at( p ) > settings->overmap_lake->noise_threshold_lake;
+        return f.noise_at( p ) > settings->overmap_lake.noise_threshold_lake;
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -4575,7 +4575,7 @@ void overmap::place_lakes()
             // exclude the tiny lakes that don't provide interesting map features and exist mostly as a
             // noise artifact.
             if( lake_points.size() < static_cast<std::vector<point>::size_type>
-                ( settings->overmap_lake->lake_size_min ) ) {
+                ( settings->overmap_lake.lake_size_min ) ) {
                 continue;
             }
 
@@ -4622,10 +4622,10 @@ void overmap::place_lakes()
 
                 // If this is not a shore, we'll make our subsurface lake cubes and beds.
                 if( !shore ) {
-                    for( int z = -1; z > settings->overmap_lake->lake_depth; z-- ) {
+                    for( int z = -1; z > settings->overmap_lake.lake_depth; z-- ) {
                         ter_set( tripoint_om_omt( p, z ), lake_water_cube );
                     }
-                    ter_set( tripoint_om_omt( p, settings->overmap_lake->lake_depth ), lake_bed );
+                    ter_set( tripoint_om_omt( p, settings->overmap_lake.lake_depth ), lake_bed );
                 }
             }
 
@@ -4677,10 +4677,10 @@ void overmap::place_lakes()
 
 void overmap::place_oceans()
 {
-    int northern_ocean = settings->overmap_ocean.ocean_start_north;
-    int eastern_ocean = settings->overmap_ocean.ocean_start_east;
-    int western_ocean = settings->overmap_ocean.ocean_start_west;
-    int southern_ocean = settings->overmap_ocean.ocean_start_south;
+    int northern_ocean = settings->overmap_ocean->ocean_start_north;
+    int eastern_ocean = settings->overmap_ocean->ocean_start_east;
+    int western_ocean = settings->overmap_ocean->ocean_start_west;
+    int southern_ocean = settings->overmap_ocean->ocean_start_south;
 
     const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
     const point_abs_om this_om = pos();
@@ -4724,7 +4724,7 @@ void overmap::place_oceans()
             // It's too soon!  Too soon for an ocean!!  ABORT!!!
             return false;
         }
-        return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean;
+        return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean->noise_threshold_ocean;
     };
 
     const oter_id ocean_surface( "ocean_surface" );
@@ -4753,7 +4753,7 @@ void overmap::place_oceans()
             // you could change this, if you want little tiny oceans all over the place.
             // I'm not sure why you'd want that.  Use place_lakes, my friend.
             if( ocean_points.size() < static_cast<std::vector<point>::size_type>
-                ( settings->overmap_ocean.ocean_size_min ) ) {
+                ( settings->overmap_ocean->ocean_size_min ) ) {
                 continue;
             }
 
@@ -4789,10 +4789,10 @@ void overmap::place_oceans()
                 ter_set( tripoint_om_omt( p, 0 ), shore ? ocean_shore : ocean_surface );
 
                 if( !shore ) {
-                    for( int z = -1; z > settings->overmap_ocean.ocean_depth; z-- ) {
+                    for( int z = -1; z > settings->overmap_ocean->ocean_depth; z-- ) {
                         ter_set( tripoint_om_omt( p, z ), ocean_water_cube );
                     }
-                    ter_set( tripoint_om_omt( p, settings->overmap_ocean.ocean_depth ), ocean_bed );
+                    ter_set( tripoint_om_omt( p, settings->overmap_ocean->ocean_depth ), ocean_bed );
                 }
             }
 

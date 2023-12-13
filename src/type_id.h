@@ -194,8 +194,8 @@ using om_settings_forest_id = string_id<om_settings_forest>;
 struct om_settings_ravine;
 using om_settings_ravine_id = string_id<om_settings_ravine>;
 
-struct om_settings_lake;
-using om_settings_lake_id = string_id<om_settings_lake>;
+struct om_settings_ocean;
+using om_settings_ocean_id = string_id<om_settings_ocean>;
 
 class overmap_connection;
 using overmap_connection_id = string_id<overmap_connection>;

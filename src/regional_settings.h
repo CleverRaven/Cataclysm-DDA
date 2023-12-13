@@ -232,11 +232,31 @@ struct shore_extendable_overmap_terrain_alias {
     oter_str_id alias;
 };
 
-om_settings_lake_id const bogus_lake_id;
+om_settings_ocean_id const bogus_ocean_id;
 
-struct om_settings_lake {
-    om_settings_lake() = default;
+struct om_settings_ocean {
+    om_settings_ocean() = default;
 
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 500;
+    int ocean_start_east = 10;
+    int ocean_start_west = 1000;
+    int ocean_start_south = 0;
+
+    om_settings_ocean_id id;
+    std::vector<std::pair<om_settings_ocean_id, mod_id>> src;
+    bool was_loaded = false;
+    static void load_om_settings_ocean( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std:: string_view );
+    const std::vector<om_settings_ocean> &get_all();
+    bool is_valid() const;
+    void deserialize( const JsonObject &jo );
+    static void reset_om_settings_ocean();
+};
+
+struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
     int lake_depth = -5;
@@ -244,26 +264,8 @@ struct om_settings_lake {
     std::vector<oter_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
 
-    om_settings_lake_id id;
-    std::vector<std::pair<om_settings_lake_id, mod_id>> src;
-    bool was_loaded = false;
-    static void load_om_settings_lake( const JsonObject &jo, const std::string &src );
-    void load( const JsonObject &jo, std:: string_view );
-    const std::vector<om_settings_lake> &get_all();
-    bool is_valid() const;
-    void deserialize(const JsonObject &jo);
-    static void reset_om_settings_lake();
-};
-
-struct overmap_ocean_settings {
-    double noise_threshold_ocean = 0.25;
-    int ocean_size_min = 100;
-    int ocean_depth = -9;
-    int ocean_start_north = 0;
-    int ocean_start_east = 10;
-    int ocean_start_west = 0;
-    int ocean_start_south = 0;
-    overmap_ocean_settings() = default;
+    void finalize();
+    overmap_lake_settings() = default;
 };
 
 struct map_extras {
@@ -307,8 +309,8 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     om_settings_forest_id overmap_forest;
     om_settings_ravine_id overmap_ravine;
-    om_settings_lake_id overmap_lake;
-    overmap_ocean_settings overmap_ocean;
+    om_settings_ocean_id overmap_ocean;
+    overmap_lake_settings overmap_lake;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
