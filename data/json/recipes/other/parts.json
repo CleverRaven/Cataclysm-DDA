@@ -763,7 +763,7 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 3 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
