@@ -10,7 +10,7 @@
     "purifiable": false,
     "player_display": true,
     "vanity": true,
-    "types": [ "hair_style" ]
+    "types": [ "hair_style", "hair_color" ]
   },
   {
     "type": "mutation",
@@ -130,7 +130,7 @@
   },
   {
     "type": "mutation",
-    "id": "hair_messy",
+    "id": "hair_long_messy",
     "name": { "str": "Hair: long messy" },
     "points": 0,
     "description": "You have long, messy hair, worn loose and carefree!",

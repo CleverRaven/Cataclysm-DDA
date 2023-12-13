@@ -46,11 +46,11 @@
                     { "u_lose_trait": "hair_mullet" },
                     { "u_lose_trait": "hair_long_over_eye" },
                     { "u_lose_trait": "hair_long_mohawk" },
-                    { "u_add_trait": "hair_messy" }
+                    { "u_add_trait": "hair_long_messy" }
                   ],
                   "else": {
-                    "if": { "or": [ { "u_has_trait": "hair_messy" } ] },
-                    "then": [ { "u_lose_trait": "hair_messy" }, { "u_add_trait": "hair_very_long" } ],
+                    "if": { "or": [ { "u_has_trait": "hair_long_messy" } ] },
+                    "then": [ { "u_lose_trait": "hair_long_messy" }, { "u_add_trait": "hair_very_long" } ],
                     "else": {
                       "if": { "or": [ { "u_has_trait": "hair_very_long" } ] },
                       "then": [ { "u_lose_trait": "hair_very_long" }, { "u_add_trait": "hair_extremely_long" } ],
