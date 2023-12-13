@@ -888,6 +888,11 @@ void computer_session::action_repeater_mod()
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
                 break;
+            } else {
+                print_error( _( "You wouldn't gain anything from installing this repeater.  "
+                                "However, someone else in the wasteland might be interested "
+                                "in you doing so." ) );
+                query_any();
             }
         }
     } else {
