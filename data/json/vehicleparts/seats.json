@@ -76,7 +76,7 @@
     "id": "reclining_seat",
     "copy-from": "seat",
     "comfort": 3,
-    "description": "A soft seat with an adjustable backrest, making it reasonably comfortable.",
+    "description": "A soft seat with an adjustable backrest, making it a reasonably comfortable place to sleep.",
     "durability": 100,
     "size": "62500 ml",
     "floor_bedding_warmth": 350,
