@@ -79,10 +79,7 @@
     "reversible": { "time": "10 s" },
     "autolearn": true,
     "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
-    "components": [ 
-      [ [ "cardboard", 50 ] ],
-      [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ]
-    ]
+    "components": [ [ [ "cardboard", 50 ] ], [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ] ]
   },
   {
     "result": "makeshift_chess",
