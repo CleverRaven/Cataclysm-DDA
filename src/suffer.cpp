@@ -758,9 +758,11 @@ void suffer::in_sunlight( Character &you, outfit &worn )
             !you.has_trait( trait_LEAVES3_FALL ) ) {
             head_leaf_surface = 0;
         }
-        sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface + phelloderm_surface ) / 200 );
+        sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface +
+                              phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface + vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
+            const int rate = std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
+                                                    vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
         }
         you.get_size();
