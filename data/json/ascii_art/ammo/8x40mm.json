@@ -2,6 +2,10 @@
   {
     "type": "ascii_art",
     "id": "8mm_caseless",
-    "picture": [ "<color_light_red>_", "║", "\"" ]
+    "picture": [
+      "<color_light_red>_",
+      "║",
+      "\""
+    ]
   }
 ]
