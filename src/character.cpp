@@ -5903,7 +5903,7 @@ bool Character::is_rad_immune() const
 bool Character::is_knockdown_immune() const
 {
     // hard code for old tentacle mutation
-    bool knockdown_immune = ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
+    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
 
     // if we have 1.0 or greater knockdown resist
     knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;

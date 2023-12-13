@@ -69,9 +69,9 @@ static const ammotype ammo_NULL( "NULL" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
-static const furn_str_id furn_f_plant_seedling( "f_plant_seedling" );
-static const furn_str_id furn_f_plant_mature( "f_plant_mature" );
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_mature( "f_plant_mature" );
+static const furn_str_id furn_f_plant_seedling( "f_plant_seedling" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );

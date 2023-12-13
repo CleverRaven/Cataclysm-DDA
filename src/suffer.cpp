@@ -151,8 +151,8 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NO_LEFT_ARM( "NO_LEFT_ARM" );
-static const trait_id trait_NO_RIGHT_ARM( "NO_RIGHT_ARM" );
 static const trait_id trait_NO_LEFT_LEG( "NO_LEFT_LEG" );
+static const trait_id trait_NO_RIGHT_ARM( "NO_RIGHT_ARM" );
 static const trait_id trait_NO_RIGHT_LEG( "NO_RIGHT_LEG" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -761,8 +761,8 @@ void suffer::in_sunlight( Character &you, outfit &worn )
         sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface +
                               phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = ( std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
-                                                vine_leaf_surface ) / 2 ) + flux ), 0.0f ) ) * 2;
+            const int rate = std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
+                                                vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
         }
         you.get_size();
