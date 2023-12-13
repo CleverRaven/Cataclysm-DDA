@@ -97,9 +97,8 @@
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": "5 cent",
     "price_postapoc": "4 cent",
-    "material": [ "powder", "junk" ],
-    "primary_material": "powder",
-    "volume": "3 ml",
+    "material": [ "sugar" ],
+    "volume": "8 ml",
     "calories": 19,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted."

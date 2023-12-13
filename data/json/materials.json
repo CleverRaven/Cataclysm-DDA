@@ -760,6 +760,14 @@
   },
   {
     "type": "material",
+    "id": "drug_filler",
+    "name": "Drug filler",
+    "copy-from": "flesh",
+    "//": "Assumed a gelatine capsule that contain the drug, but can be any another drug filler like glucose, lactose, sucrose and the like.  Created so we don't need to specify three billion chemicals used in pills.",
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ]
+  },
+  {
+    "type": "material",
     "id": "gutskin",
     "name": "Gutskin",
     "density": 1.1,
@@ -1001,23 +1009,21 @@
   },
   {
     "type": "material",
-    "id": "hydrocarbons",
-    "name": "Hydrocarbons",
-    "//": "Oxyacetylene is the only user, stats based on Acetylene",
-    "density": 0.7,
-    "specific_heat_liquid": 0.5,
-    "specific_heat_solid": 0.5,
-    "latent_heat": 518,
+    "id": "sugar",
+    "name": "Sugar",
+    "density": 1.59,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 124,
     "conductive": true,
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "//1": "1L adds about 90 minutes to a fire at the lowest intensity bracket.",
     "burn_data": [
-      { "fuel": 300, "smoke": 6, "burn": 1 },
-      { "fuel": 600, "smoke": 6, "burn": 2 },
-      { "fuel": 900, "smoke": 6, "burn": 3 }
+      { "fuel": 150, "smoke": 6, "burn": 1 },
+      { "fuel": 300, "smoke": 6, "burn": 2 },
+      { "fuel": 450, "smoke": 6, "burn": 3 }
     ],
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
   },
