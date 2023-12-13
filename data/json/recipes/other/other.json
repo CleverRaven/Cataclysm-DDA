@@ -191,6 +191,7 @@
       [ [ "hinge", 1 ] ],
       [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
       [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
   },
   {
     "result": "small_checkers",
@@ -206,6 +207,7 @@
       [ [ "hinge", 1 ] ],
       [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
       [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
   },
   {
     "result": "handmade_checkers",
