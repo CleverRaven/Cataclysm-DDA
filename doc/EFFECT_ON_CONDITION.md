@@ -1448,7 +1448,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eocs" | **mandatory** | string or array of eocs | EoC or EoCS that would be run |
+| "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
 
 ##### Valid talkers:
 
@@ -1502,13 +1502,52 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
 }
 ```
 
+Use Context Variable as a eoc (A trick for loop)
+```
+[
+    {
+        "type": "effect_on_condition",
+        "id": "debug_eoc_for_loop",
+        "effect": [{
+                    "run_eoc_with": "eoc_for_loop",
+                    "variables": {
+                      "i": "0",
+                      "length": "10",
+                      "eoc":"eoc_msg_hello_world"
+                      }}]
+    },
+    {
+        "type":"effect_on_condition",
+        "id":"eoc_msg_hello_world",
+        "effect":[{"u_message": "hello world"}]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "eoc_for_loop",
+        "condition": {"and": [
+                {"expects_vars": ["i","length","eoc"]},
+                {"math": ["_i","<","_length"]}
+            ]
+        },
+        "effect": [
+            {"run_eocs": [{"context_val":"eoc"}]},
+            {"math":["_i", "++"]},
+            {
+                "run_eocs": "eoc_for_loop"
+            }
+        ],
+        "//": "As the generated dialogue for next EOC is a complete copy of the dialogue for this EOC, the context value will be passed on to the next EOC"
+    }
+]
+```
+
 
 #### `run_eoc_with`
 Same as `run_eocs`, but runs the specific EoC with provided variables as context variables
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eoc_with" | **mandatory** | string | EoC or EoCS that would be run |
+| "run_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC or EoCS that would be run |
 | "beta_loc" | optional | [variable object](#variable-object) | `u_location_variable`, where the EoC should be run | 
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
@@ -1578,7 +1617,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "queue_eocs" | **mandatory** | string, [variable object](#variable-object) or array | EoCs, that would be added into queue; Could be an inline EoC |
+| "queue_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object) or array of eocs | EoCs, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 | 
 
 ##### Valid talkers:
@@ -1604,7 +1643,7 @@ Combination of `run_eoc_with` and `queue_eocs` - Put EoC into queue and run into
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "queue_eoc_with" | **mandatory** | string or [variable object](#variable-object) | EoC, that would be added into queue; Could be an inline EoC |
+| "queue_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 |
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
@@ -2163,12 +2202,13 @@ Adds `hair_mohawk` trait with the `purple` variant to the character:
 { "u_add_trait": "hair_mohawk", "variant": "purple" }
 ```
 
-#### `u_lose_effect`, `npc_effect`
+#### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_lose_effect" / "npc_lose_effect" | **mandatory** | string or [variable object](##variable-object) | id of effect to be removed; if character or NPC has no such effect, nothing happens |
+| "target_part" | optional | string or [variable object](##variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
 
 ##### Valid talkers:
 
@@ -2180,6 +2220,11 @@ Remove effect from character or NPC, if it has one
 Removes `infection` effect from player:
 ```json
 { "u_lose_effect": "infection" }
+```
+
+Removes `bleed` effect from player's head:
+```json
+{ "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
 Removes effect, stored in `effect_id` context value, from the player:

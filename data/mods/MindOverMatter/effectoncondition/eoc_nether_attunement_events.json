@@ -232,7 +232,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, your head suddenly begins to throb!", "type": "bad" },
+      { "u_message": "As you unleash your powers, your head begins to throb.", "type": "bad" },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -287,7 +287,7 @@
       ]
     },
     "effect": [
-      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 )" ] }
     ]
   },
@@ -311,14 +311,19 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, an electric feeling passes through your whole body!", "type": "mixed" },
       {
         "run_eocs": [
           {
             "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE_2",
             "condition": { "math": [ "rand(1)", ">=", "1" ] },
-            "effect": [ { "u_add_effect": "effect_nether_attunement_health_bonus", "duration": "30 seconds" } ],
-            "false_effect": [ { "u_add_effect": "effect_nether_attunement_health_penalty", "duration": "30 seconds" } ]
+            "effect": [
+              { "u_add_effect": "effect_nether_attunement_health_bonus", "duration": "30 seconds" },
+              { "u_message": "As you unleash your powers, you bloom with vitality.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_add_effect": "effect_nether_attunement_health_penalty", "duration": "30 seconds" },
+              { "u_message": "As you unleash your powers, you are struck with malaise.", "type": "bad" }
+            ]
           }
         ]
       }
@@ -344,7 +349,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, blood drips from your nose!", "type": "bad" },
+      { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
       { "u_set_hp": { "math": [ "u_hp('head') - 1" ] }, "target_part": "head" }
     ]
@@ -369,7 +374,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, your vigor leaves you in a rush!", "type": "bad" },
+      { "u_message": "As you unleash your powers, they take more out of you than you expected.", "type": "bad" },
       { "math": [ "u_val('stamina')", "-=", "rng(3000,9000)" ] }
     ]
   },
@@ -393,7 +398,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you feel weary!", "type": "bad" },
+      { "u_message": "As you unleash your powers, you feel tired.", "type": "bad" },
       { "math": [ "u_val('fatigue')", "+=", "rng(30,90)" ] }
     ]
   },
@@ -417,7 +422,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you feel a surge of energy!", "type": "good" },
+      { "u_message": "As you unleash your powers, you feel a surge of strength!", "type": "good" },
       {
         "u_add_effect": "effect_nether_attunement_power_surge",
         "duration": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain') * rng(1,10)" ] }
@@ -475,7 +480,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, your muscles begin trembling!", "type": "bad" },
+      { "u_message": "As you unleash your powers, your muscles tremble and weaken.", "type": "bad" },
       {
         "u_add_effect": "effect_biokin_overload",
         "duration": {
