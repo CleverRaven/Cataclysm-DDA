@@ -178,7 +178,7 @@
     "type": "furniture",
     "id": "f_bullettrailer_desk",
     "name": "mini desk",
-    "move_cost_mod": 0,
+    "move_cost": 40,
     "symbol": "t",
     "color": "brown",
     "description": "A small wooden desk with a little attached bookshelf.",
