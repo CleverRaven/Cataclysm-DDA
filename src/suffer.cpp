@@ -762,7 +762,7 @@ void suffer::in_sunlight( Character &you, outfit &worn )
                               phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
             const int rate = std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
-                                                vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
+                                                    vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
         }
         you.get_size();
