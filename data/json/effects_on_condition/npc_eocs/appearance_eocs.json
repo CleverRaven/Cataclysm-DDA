@@ -8,6 +8,7 @@
     "//4": "For reference starting point, a buzzcut is 0.32 centimeters long.",
     "//5": "1 inch is 2.54 centimeters.",
     "recurrence": [ "75 days", "90 days" ],
+    "global": false,
     "effect": [
       {
         "if": { "u_has_trait": "hair_buzzcut" },
@@ -66,6 +67,109 @@
         }
       },
       { "run_eocs": "reset_hair_dye_color" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_beard_growth_tracking",
+    "//": "Use the same notes as hair growth.  However, facial hair grows faster than head hair, averaging 1.25 inches per month.",
+    "recurrence": [ "4 days", "7 days" ],
+    "global": false,
+    "effect": [
+      {
+        "if": { "u_has_trait": "FACIAL_HAIR_NONE" },
+        "then": [ { "u_lose_trait": "FACIAL_HAIR_NONE" }, { "u_add_trait": "FACIAL_HAIR_NECKBEARD" } ],
+        "else": {
+          "if": {
+            "or": [
+              { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+              { "u_has_trait": "FACIAL_HAIR_SIDEBURNS" },
+              { "u_has_trait": "FACIAL_HAIR_SOUL_PATCH" },
+              { "u_has_trait": "FACIAL_HAIR_CHIN_STRIP" }
+            ]
+          },
+          "then": [
+            { "u_lose_trait": "FACIAL_HAIR_NECKBEARD" },
+            { "u_lose_trait": "FACIAL_HAIR_SIDEBURNS" },
+            { "u_lose_trait": "FACIAL_HAIR_SOUL_PATCH" },
+            { "u_lose_trait": "FACIAL_HAIR_CHIN_STRIP" },
+            { "u_add_trait": "FACIAL_HAIR_3DAYSTUBBLE" }
+          ],
+          "else": {
+            "if": {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" }
+              ]
+            },
+            "then": [
+              { "u_lose_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+              { "u_lose_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+              { "u_lose_trait": "FACIAL_HAIR_CHIN_STRAP" },
+              { "u_lose_trait": "FACIAL_HAIR_MUSTACHE" },
+              { "u_lose_trait": "FACIAL_HAIR_NECKBEARD" },
+              { "u_lose_trait": "FACIAL_HAIR_WALRUS" },
+              { "u_lose_trait": "FACIAL_HAIR_ZAPPA" },
+              { "u_add_trait": "FACIAL_HAIR_GOATEE" }
+            ],
+            "else": {
+              "if": {
+                "or": [
+                  { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                  { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                  { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                  { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                  { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                  { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                  { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                  { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                  { "u_has_trait": "FACIAL_HAIR_VANDYKE" }
+                ]
+              },
+              "then": [
+                { "u_lose_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_lose_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_lose_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_lose_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_lose_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_lose_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_lose_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_lose_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_lose_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_add_trait": "FACIAL_HAIR_BEARD" }
+              ],
+              "else": {
+                "if": {
+                  "or": [
+                    { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                    { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                    { "u_has_trait": "FACIAL_HAIR_ROYALE" }
+                  ]
+                },
+                "then": [
+                  { "u_lose_trait": "FACIAL_HAIR_BEARD" },
+                  { "u_lose_trait": "FACIAL_HAIR_ANCHOR" },
+                  { "u_lose_trait": "FACIAL_HAIR_ROYALE" },
+                  { "u_add_trait": "FACIAL_HAIR_SHENANDOAH" }
+                ],
+                "else": {
+                  "if": { "or": [ { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" } ] },
+                  "then": [ { "u_lose_trait": "FACIAL_HAIR_SHENANDOAH" }, { "u_add_trait": "FACIAL_HAIR_BEARD_LONG" } ],
+                  "else": {
+                    "if": { "or": [ { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" } ] },
+                    "then": [ { "u_lose_trait": "FACIAL_HAIR_BEARD_LONG" }, { "u_add_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     ]
   },
   {
