@@ -122,7 +122,8 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "makeshift_dominoes",
@@ -135,7 +136,8 @@
     "material": [ "cardboard" ],
     "symbol": "?",
     "color": "white",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "checkboard",
