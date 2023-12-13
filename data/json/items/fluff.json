@@ -112,6 +112,32 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
+    "id": "tic_tac",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "tic-tac-toe set" },
+    "description": "Not really a set, just a sheet of paper with a big '#' drawn at the center, alongside three buttons of a specific color, three others from a different color and a proper container for storing it properly.  You can play tic tac toe indefinitely with that!",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "makeshift_dominoes",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "makeshift dominoes set" },
+    "description": "Just a proper number of rectangular pieces of cardboard, with dots on them so you can use it to play dominoes.  It has also a proper container for storing them all in place.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "cardboard" ],
+    "symbol": "?",
+    "color": "white",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "checkboard",
     "type": "GENERIC",
     "category": "other",
@@ -131,8 +157,8 @@
     "category": "other",
     "name": { "str": "compact checkboard" },
     "description": "A pair of smaller checkered wooden boards that together form a compact checkboard.  Useful as timber or for crafting a smaller chess or checkers board.",
-    "weight": "100 g",
-    "volume": "1200 ml",
+    "weight": "200 g",
+    "volume": "1000 ml",
     "longest_side": "15cm",
     "material": [ "wood" ],
     "symbol": "?",
