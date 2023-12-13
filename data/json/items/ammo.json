@@ -1547,7 +1547,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "bcheckers_man",
+    "id": "becheckers_man",
     "name": { "str": "beige checkers piece" },
     "description": "A loose beige man from a game of checkers.",
     "price": 60,
