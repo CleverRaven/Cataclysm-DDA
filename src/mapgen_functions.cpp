@@ -1890,9 +1890,9 @@ void mapgen_ocean_shore( mapgendata &dat )
     point sw = sw_corner;
 
     std::vector<std::vector<point>> line_segments;
-	int ns_direction_adjust = 0;
-	int ew_direction_adjust = 0;
-	int sand_margin = dat.region.overmap_ocean.sandy_beach_width;
+    int ns_direction_adjust = 0;
+    int ew_direction_adjust = 0;
+    int sand_margin = dat.region.overmap_ocean.sandy_beach_width;
     // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual ocean.
     if( n_ocean ) {
         nw.y += sector_length;
@@ -2019,25 +2019,25 @@ void mapgen_ocean_shore( mapgendata &dat )
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
-	// The direction adjust variables allow us to split the sandy area out of the shallow water.
+    // The direction adjust variables allow us to split the sandy area out of the shallow water.
 
-    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {	
-        ns_direction_adjust -= sand_margin;	
+    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+        ns_direction_adjust -= sand_margin;
         line_segments.push_back( { nw, ne } );
     }
 
     if( ne.x != ne_corner.x || se.x != se_corner.x ) {
-		ew_direction_adjust += sand_margin;
+        ew_direction_adjust += sand_margin;
         line_segments.push_back( { ne, se } );
     }
 
     if( se.y != se_corner.y || sw.y != sw_corner.y ) {
-		ns_direction_adjust += sand_margin;
+        ns_direction_adjust += sand_margin;
         line_segments.push_back( { se, sw } );
     }
 
     if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
-		ew_direction_adjust -= sand_margin;
+        ew_direction_adjust -= sand_margin;
         line_segments.push_back( { sw, nw } );
     }
 
@@ -2049,17 +2049,17 @@ void mapgen_ocean_shore( mapgendata &dat )
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         point from_mod = from;
         point to_mod = to;
-        if(from.x != 0 && from.x != SEEX * 2 - 1 ){ 
-		    from_mod.x += ew_direction_adjust;
+        if( from.x != 0 && from.x != SEEX * 2 - 1 ) {
+            from_mod.x += ew_direction_adjust;
         }
-        if(from.y != 0 && from.y  != SEEY * 2 - 1 ){ 
-		    from_mod.y += ns_direction_adjust;
+        if( from.y != 0 && from.y  != SEEY * 2 - 1 ) {
+            from_mod.y += ns_direction_adjust;
         }
-        if(to.x != 0 && to.x != SEEX * 2 - 1 ){ 
-		    to_mod.x += ew_direction_adjust;
+        if( to.x != 0 && to.x != SEEX * 2 - 1 ) {
+            to_mod.x += ew_direction_adjust;
         }
-        if(to.y != 0 && to.y  != SEEY * 2 - 1 ){ 
-		    to_mod.y += ns_direction_adjust;
+        if( to.y != 0 && to.y  != SEEY * 2 - 1 ) {
+            to_mod.y += ns_direction_adjust;
         }
         std::vector<point> points = line_to( from_mod, to_mod );
         for( point &p : points ) {
@@ -2072,7 +2072,7 @@ void mapgen_ocean_shore( mapgendata &dat )
             }
         }
     };
-	// This will draw our sandy beach coastline from the "from" point to the "to" point.
+    // This will draw our sandy beach coastline from the "from" point to the "to" point.
     const auto draw_sand = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
         for( point &p : points ) {
@@ -2090,8 +2090,8 @@ void mapgen_ocean_shore( mapgendata &dat )
                     continue;
                 }
                 point bp_mod = bp;
-		        bp_mod.x += ew_direction_adjust;
-		        bp_mod.y += ns_direction_adjust;
+                bp_mod.x += ew_direction_adjust;
+                bp_mod.y += ns_direction_adjust;
                 m->ter_set( bp_mod, t_swater_surf );
             }*/
         }
@@ -2109,8 +2109,8 @@ void mapgen_ocean_shore( mapgendata &dat )
     // For each of our valid shoreline line segments, generate a slightly more interesting
     // set of line segments by splitting the line into four segments with jittered
     // midpoints.
-	// Draw water after the sand to make sure we don't get too much sand.  Everyone hates sand,
-	// it's coarse and - you know what, never mind.
+    // Draw water after the sand to make sure we don't get too much sand.  Everyone hates sand,
+    // it's coarse and - you know what, never mind.
     for( auto &ls : line_segments ) {
         const point mp1 = jittered_midpoint( ls[0], ls[1] );
         const point mp2 = jittered_midpoint( ls[0], mp1 );
