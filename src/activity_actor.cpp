@@ -7396,7 +7396,7 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     //Create grey_water byproduct after washing
     map &here = get_map();
     item graywater( itype_water_gray, calendar::turn, requirements.water );
-    here.add_item_or_charges( p.pos(), graywater, requirements.water );
+    liquid_handler::handle_liquid( graywater, nullptr, 1, nullptr, nullptr, -1, nullptr );
 
     // Make sure newly washed components show up as available if player attempts to craft immediately
     p.invalidate_crafting_inventory();
