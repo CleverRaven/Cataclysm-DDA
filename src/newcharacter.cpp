@@ -91,11 +91,11 @@ static const matype_id style_none( "style_none" );
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
 
+static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
-static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 
 // Wether or not to use Outfit (M) at character creation
 static bool outfit = true;
