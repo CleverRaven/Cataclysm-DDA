@@ -66,6 +66,17 @@
   {
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "checkpaper",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 s",
+    "components": [
+      [ [ "paper", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "checkers",
     "skill_used": "fabrication",
     "difficulty": 1,
