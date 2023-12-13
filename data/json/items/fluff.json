@@ -253,6 +253,22 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "tangram",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "tangram set" },
+    "description": "A modest wooden box containing a square base, two small triangles, two large triangles, a parallelogram, a rhomboid, and a semi-circle, all painted in different colors to play the traditional Chinese puzzle of tangram.  At the box, there are several figures that you can make with the pieces.",
+    "weight": "788 g",
+    "volume": "1500 ml",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "brown",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
     "id": "chinese_checkers",
     "type": "GENERIC",
     "category": "other",
