@@ -37,7 +37,9 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 ) * u_nether_attunement_power_scaling" ] }
+      {
+        "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 ) * u_nether_attunement_power_scaling" ]
+      }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
