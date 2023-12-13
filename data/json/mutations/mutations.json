@@ -283,7 +283,17 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "DISIMMUNE", "DISRESISTANT", "INFIMMUNE", "INFRESIST", "NONADDICTIVE", "PARAIMMUNE", "POISRESIST", "STIMBOOST", "SEASONAL_ALLERGIES" ],
+    "cancels": [
+      "DISIMMUNE",
+      "DISRESISTANT",
+      "INFIMMUNE",
+      "INFRESIST",
+      "NONADDICTIVE",
+      "PARAIMMUNE",
+      "POISRESIST",
+      "STIMBOOST",
+      "SEASONAL_ALLERGIES"
+    ],
     "description": "Your immune system is more or less normal for a human."
   },
   {
