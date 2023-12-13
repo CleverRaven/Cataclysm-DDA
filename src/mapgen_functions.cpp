@@ -2099,7 +2099,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
-                if( m->ter( bp ) == t_swater_sh ){
+                if( m->ter( bp ) == t_swater_sh ) {
                     m->ter_set( bp, t_swater_surf );
                 }
             }
