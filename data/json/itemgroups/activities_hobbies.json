@@ -185,10 +185,10 @@
       { "item": "bchess_queen", "prob": 1 },
       { "item": "wchess_king", "prob": 1 },
       { "item": "bchess_king", "prob": 1 },
-      { "item": "wcheckers_man", "prob": 1},
-      { "item": "bcheckers_man", "prob": 1},
-      { "item": "rcheckers_man", "prob": 1},
-      { "item": "becheckers_man", "prob": 1}
+      { "item": "wcheckers_man", "prob": 1 },
+      { "item": "bcheckers_man", "prob": 1 },
+      { "item": "rcheckers_man", "prob": 1 },
+      { "item": "becheckers_man", "prob": 1 }
     ]
   },
   {
