@@ -990,14 +990,13 @@
           "leg_l",
           "leg_r",
           "foot_l",
-          "foot_r",
-          "TRANSPARENT"
+          "foot_r"
         ]
       }
     ],
     "material_thickness": 3.3,
     "environmental_protection": 8,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED", "TRANSPARENT" ]
   },
   {
     "id": "pocket_sun",
