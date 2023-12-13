@@ -283,7 +283,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "DISIMMUNE", "DISRESISTANT", "INFIMMUNE", "INFRESIST", "NONADDICTIVE", "PARAIMMUNE", "POISRESIST", "STIMBOOST" ],
+    "cancels": [ "DISIMMUNE", "DISRESISTANT", "INFIMMUNE", "INFRESIST", "NONADDICTIVE", "PARAIMMUNE", "POISRESIST", "STIMBOOST", "SEASONAL_ALLERGIES" ],
     "description": "Your immune system is more or less normal for a human."
   },
   {
@@ -751,6 +751,7 @@
     "points": -1,
     "description": "You tend to have bouts of depression during the fall and especially winter.  Taking antidepressants can help.",
     "starting_trait": true,
+    "types": [ "ATTITUDE" ],
     "category": [ "PLANT", "ELFA", "MEDICAL" ]
   },
   {
