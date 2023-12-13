@@ -1,5 +1,34 @@
 [
   {
+    "type": "om_settings_forest",
+    "id": "exoplanet",
+    "noise_threshold_forest": 0.5,
+    "noise_threshold_forest_thick": 0.55,
+    "noise_threshold_swamp_adjacent_water": 0.3,
+    "noise_threshold_swamp_isolated": 0.6,
+    "river_floodplain_buffer_distance_min": 3,
+    "river_floodplain_buffer_distance_max": 15
+  },
+  {
+    "type": "om_settings_ravine",
+    "id": "exoplanet",
+    "num_ravines": 15,
+    "ravine_width": 3,
+    "ravine_range": 45,
+    "ravine_depth": -3
+  },
+  {
+    "type": "om_settings_ocean",
+    "id": "exoplanet",
+    "noise_threshold_ocean": 10.0,
+    "ocean_size_min": 100,
+    "ocean_depth": -9,
+    "ocean_start_north": 0,
+    "ocean_start_east": 0,
+    "ocean_start_west": 0,
+    "ocean_start_south": 0
+  },
+  {
     "type": "region_settings",
     "id": "default",
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [ "EXOPLANET" ] },
@@ -27,6 +56,9 @@
       "empty_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "overmap_forest_settings": "exoplanet",
+    "overmap_ravine_settings": "exoplanet",
+    "overmap_ocean_settings": "exoplanet",
     "river_scale": 0,
     "city": {
       "shop_radius": 30,
@@ -107,24 +139,6 @@
         { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
-    },
-    "overmap_ocean_settings": {
-      "noise_threshold_ocean": 10.0,
-      "ocean_size_min": 100,
-      "ocean_depth": -9,
-      "ocean_start_north": 0,
-      "ocean_start_east": 0,
-      "ocean_start_west": 0,
-      "ocean_start_south": 0
-    },
-    "overmap_ravine_settings": { "num_ravines": 15, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
-    "overmap_forest_settings": {
-      "noise_threshold_forest": 0.5,
-      "noise_threshold_forest_thick": 0.55,
-      "noise_threshold_swamp_adjacent_water": 0.3,
-      "noise_threshold_swamp_isolated": 0.6,
-      "river_floodplain_buffer_distance_min": 3,
-      "river_floodplain_buffer_distance_max": 15
     },
     "forest_mapgen_settings": {
       "forest": {
