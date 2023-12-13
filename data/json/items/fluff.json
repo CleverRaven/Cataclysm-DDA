@@ -253,6 +253,38 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "chinese_checkers",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "chinese checkers set" },
+    "description": "A wooden box containing a wooden board with a star-shaped pattern, ten holes in each of its six arms, and a set of round pegs used to play chinese checkers.  At the box, there are a comprehensible explanation of how to play the game.",
+    "weight": "1134 g",
+    "volume": "750 ml",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "brown",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
+    "id": "mancala",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "tangram set" },
+    "description": "A somewhat big wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that looks like different coloured beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the specific rules.  At the box, there are a comprehensible step-by-step of how to play mancala.",
+    "weight": "1361 g",
+    "volume": "1000 ml",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "brown",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
     "id": "small_checkers",
     "type": "GENERIC",
     "category": "other",
