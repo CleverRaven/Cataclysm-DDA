@@ -474,10 +474,12 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "shot_00", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "shot_bird", "prob": 70, "charges": [ 1, 20 ] },
-      { "item": "shot_slug", "prob": 70, "charges": [ 1, 20 ] },
-      { "item": "410shot_000", "prob": 50, "charges": [ 1, 20 ] }
+      { "item": "shot_00", "prob": 200, "charges": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 140, "charges": [ 1, 20 ] },
+      { "item": "shot_slug", "prob": 140, "charges": [ 1, 20 ] },
+      { "item": "410shot_slug", "prob": 3, "charges": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 4, "charges": [ 1, 20 ] },
+      { "item": "410shot_bird", "prob": 19, "charges": [ 1, 20 ] }
     ]
   },
   {
@@ -486,10 +488,12 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "shot_00", "prob": 75 },
-      { "item": "shot_bird", "prob": 45 },
-      { "item": "shot_slug", "prob": 65 },
-      { "item": "410shot_000", "prob": 35 }
+      { "item": "shot_00", "prob": 200 },
+      { "item": "shot_bird", "prob": 140 },
+      { "item": "shot_slug", "prob": 140 },
+      { "item": "410shot_slug", "prob": 3 },
+      { "item": "410shot_000", "prob": 4 },
+      { "item": "410shot_bird", "prob": 19 }
     ]
   },
   {
@@ -498,10 +502,12 @@
     "//": "Loose shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "shot_00", "prob": 25, "charges": [ 0, 4 ] },
-      { "item": "shot_bird", "prob": 15, "charges": [ 0, 4 ] },
-      { "item": "shot_slug", "prob": 17, "charges": [ 0, 4 ] },
-      { "item": "410shot_000", "prob": 11, "charges": [ 0, 4 ] }
+      { "item": "shot_00", "prob": 200, "charges": [ 0, 4 ] },
+      { "item": "shot_bird", "prob": 140, "charges": [ 0, 4 ] },
+      { "item": "shot_slug", "prob": 140, "charges": [ 0, 4 ] },
+      { "item": "410shot_slug", "prob": 3, "charges": [ 0, 4 ] },
+      { "item": "410shot_000", "prob": 4, "charges": [ 0, 4 ] },
+      { "item": "410shot_bird", "prob": 19, "charges": [ 0, 4 ] }
     ]
   },
   {
