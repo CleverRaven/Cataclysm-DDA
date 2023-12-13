@@ -80,6 +80,21 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "small_checkers",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "small_checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
+      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "handflare",
     "skill_used": "fabrication",
