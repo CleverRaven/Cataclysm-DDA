@@ -1874,7 +1874,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     const bool w_river_bank = is_river_bank( dat.west() );
 
     // This is length we end up pushing things about by as a baseline.
-    const int sector_length = SEEX;
+    const int sector_length = SEEX - 1;
 
     // Define the corners of the map. These won't change.
     static constexpr point nw_corner{};
@@ -1892,7 +1892,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     std::vector<std::vector<point>> line_segments;
     int ns_direction_adjust = 0;
     int ew_direction_adjust = 0;
-    int sand_margin = dat.region.overmap_ocean.sandy_beach_width;
+    int sand_margin = dat.region.overmap_ocean.sandy_beach_width / 2;
     // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual ocean.
     if( n_ocean ) {
         nw.y += sector_length;
@@ -1964,6 +1964,8 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             n.x += sector_length;
             w.y += sector_length;
+            ns_direction_adjust -= sand_margin;
+            ew_direction_adjust -= sand_margin;
 
             line_segments.push_back( { n, w } );
         }
@@ -1979,6 +1981,9 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             n.x -= sector_length;
             e.y += sector_length;
+            ns_direction_adjust -= sand_margin;
+            ew_direction_adjust += sand_margin;
+
 
             line_segments.push_back( { n, e } );
         }
@@ -1994,6 +1999,9 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             s.x += sector_length;
             w.y -= sector_length;
+            ns_direction_adjust += sand_margin;
+            ew_direction_adjust -= sand_margin;
+
 
             line_segments.push_back( { s, w } );
         }
@@ -2009,6 +2017,9 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             s.x -= sector_length;
             e.y -= sector_length;
+            ns_direction_adjust += sand_margin;
+            ew_direction_adjust += sand_margin;
+
 
             line_segments.push_back( { s, e } );
         }
@@ -2019,25 +2030,24 @@ void mapgen_ocean_shore( mapgendata &dat )
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
-    // The direction adjust variables allow us to split the sandy area out of the shallow water.
 
     if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
-        ns_direction_adjust -= sand_margin;
+        ns_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { nw, ne } );
     }
 
     if( ne.x != ne_corner.x || se.x != se_corner.x ) {
-        ew_direction_adjust += sand_margin;
+        ew_direction_adjust += sand_margin * 2;
         line_segments.push_back( { ne, se } );
     }
 
     if( se.y != se_corner.y || sw.y != sw_corner.y ) {
-        ns_direction_adjust += sand_margin;
+        ns_direction_adjust += sand_margin * 2;
         line_segments.push_back( { se, sw } );
     }
 
     if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
-        ew_direction_adjust -= sand_margin;
+        ew_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { sw, nw } );
     }
 
@@ -2052,18 +2062,18 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( from.x != 0 && from.x != SEEX * 2 - 1 ) {
             from_mod.x += ew_direction_adjust;
         }
-        if( from.y != 0 && from.y  != SEEY * 2 - 1 ) {
+        if( from.y != 0 && from.y != SEEX * 2 - 1 ) {
             from_mod.y += ns_direction_adjust;
         }
         if( to.x != 0 && to.x != SEEX * 2 - 1 ) {
             to_mod.x += ew_direction_adjust;
         }
-        if( to.y != 0 && to.y  != SEEY * 2 - 1 ) {
+        if( to.y != 0 && to.y != SEEX * 2 - 1 ) {
             to_mod.y += ns_direction_adjust;
         }
         std::vector<point> points = line_to( from_mod, to_mod );
         for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, sand_margin / 2 ) ) {
+            for( const point &bp : closest_points_first( p, sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -2076,7 +2086,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     const auto draw_sand = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
         for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, sand_margin / 2 ) ) {
+            for( const point &bp : closest_points_first( p, sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -2085,15 +2095,14 @@ void mapgen_ocean_shore( mapgendata &dat )
                 m->ter_set( bp, t_null );
                 m->furn_set( bp, f_null );
             }
-            /*for( const point &bp : closest_points_first( p, 0 ) ) {
+            for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
-                point bp_mod = bp;
-                bp_mod.x += ew_direction_adjust;
-                bp_mod.y += ns_direction_adjust;
-                m->ter_set( bp_mod, t_swater_surf );
-            }*/
+                if( m->ter( bp ) == t_swater_sh ){
+                    m->ter_set( bp, t_swater_surf );
+                }
+            }
         }
     };
 
