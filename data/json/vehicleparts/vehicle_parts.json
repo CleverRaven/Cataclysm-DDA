@@ -202,7 +202,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "50 L",
+    "size": "65  L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
@@ -2474,6 +2474,7 @@
     "description": "A place to sit.",
     "item": "frame_wood_light",
     "location": "center",
+    "comfort": 1,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 2 } ] },
@@ -2513,6 +2514,7 @@
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
     "durability": 150,
+    "comfort": 1,
     "description": "A benchlike place to sit."
   },
   {

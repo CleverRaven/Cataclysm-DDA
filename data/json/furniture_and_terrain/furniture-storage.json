@@ -1402,6 +1402,8 @@
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": 16,
+    "//": "Furniture is 2 tiles wide. A 6 yard bin holds around 4500 liters, so we half that."
+    "max_volume": "2250 L",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER" ],
     "deconstruct": {
       "items": [
