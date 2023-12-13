@@ -49,7 +49,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
-    "size": "25 L",
+    "size": "63 L",
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
     "variants": [
@@ -103,7 +103,7 @@
     "floor_bedding_warmth": 500,
     "item": "seat_bench",
     "name": { "str": "bench seat" },
-    "size": "63 L",
+    "size": "65 L",
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part"
   },
@@ -168,7 +168,7 @@
   },
   {
     "id": "metal_bench",
-    "copy-from": "seat",
+    "copy-from": "seat_back",
     "breaks_into": "ig_vp_prison_bench",
     "comfort": 0,
     "floor_bedding_warmth": 0,
