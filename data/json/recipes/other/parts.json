@@ -763,7 +763,7 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon_patchwork", 20 ], [ "nylon_sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -790,7 +790,7 @@
       [ [ "spring", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "pipe_fittings", 4 ] ],
-      [ [ "nylon_patchwork", 8 ] ]
+      [ [ "nylon", 8 ] ]
     ]
   },
   {
@@ -811,12 +811,12 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon_patchwork", 20 ], [ "nylon_sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "nylon", 20 ], [ "sheet_nylon", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "seat_leather_bench",
+    "result": "seat_bench_leather",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -838,7 +838,7 @@
       [ [ "spring", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "pipe_fittings", 4 ] ],
-      [ [ "nylon_patchwork", 8 ] ]
+      [ [ "nylon", 8 ] ]
     ]
   },
   {

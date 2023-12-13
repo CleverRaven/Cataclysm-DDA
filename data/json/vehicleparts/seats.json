@@ -1,7 +1,7 @@
 [
   {
     "entries": [
-      { "count": [ 2, 8 ], "item": "nylon_patchwork" },
+      { "count": [ 2, 8 ], "item": "nylon" },
       { "count": [ 1, 3 ], "item": "pipe" },
       { "count": [ 0, 2 ], "item": "spring" },
       { "count": [ 3, 5 ], "item": "scrap" }
@@ -13,7 +13,7 @@
   {
     "entries": [
       { "count": [ 1, 5 ], "item": "leather" },
-      { "count": [ 1, 3 ], "item": "nylon_patchwork" },
+      { "count": [ 1, 3 ], "item": "nylon" },
       { "count": [ 1, 3 ], "item": "pipe" },
       { "count": [ 0, 2 ], "item": "spring" },
       { "count": [ 3, 5 ], "item": "scrap" }
@@ -78,9 +78,9 @@
     "comfort": 3,
     "description": "A soft seat with an adjustable backrest, making it reasonably comfortable.",
     "durability": 100,
+    "size": "62500 ml",
     "floor_bedding_warmth": 350,
     "name": { "str": "reclining bucket seat" },
-    "size": "6250 ml",
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
@@ -111,9 +111,8 @@
     "id": "seat_back_leather",
     "copy-from": "seat_back",
     "breaks_into": "ig_vp_seat_leather",
-    "item": "seat_leather",
-    "looks_like": "seat_leather",
     "item": "seat_bench_leather",
+    "looks_like": "seat_leather",
     "name": { "str": "leather bench seat" },
     "type": "vehicle_part"
   },
