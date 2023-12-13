@@ -171,7 +171,7 @@
   {
     "type": "item_group",
     "id": "loose_chess_pieces",
-    "//": "Loose chess pieces from a game of chess to be spawned at homes and other places, either as a decorative item or having been lost there.",
+    "//": "Loose chess pieces from a game of chess or checkers to be spawned at homes and other places, either as a decorative item or having been lost there.",
     "items": [
       { "item": "wchess_pawn", "prob": 1 },
       { "item": "bchess_pawn", "prob": 1 },
@@ -184,7 +184,11 @@
       { "item": "wchess_queen", "prob": 1 },
       { "item": "bchess_queen", "prob": 1 },
       { "item": "wchess_king", "prob": 1 },
-      { "item": "bchess_king", "prob": 1 }
+      { "item": "bchess_king", "prob": 1 },
+      { "item": "wcheckers_man", "prob": 1},
+      { "item": "bcheckers_man", "prob": 1},
+      { "item": "rcheckers_man", "prob": 1},
+      { "item": "becheckers_man", "prob": 1}
     ]
   },
   {
