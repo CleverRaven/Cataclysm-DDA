@@ -973,7 +973,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 1 );
 
-    // Test search_data: category, excluded flags
+    // Test search_data: excluded flags
     CHECK( effect_on_condition_EOC_run_inv_test5->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {

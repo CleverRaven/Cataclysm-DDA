@@ -93,7 +93,7 @@
       {
         "u_run_inv_eocs": "all",
         "true_eocs": [ "EOC_run_inv_test5_nested" ],
-        "search_data": [ { "category": "weapons", "excluded_flags": [ "BELT_CLIP" ] } ]
+        "search_data": [ { "excluded_flags": [ "BELT_CLIP" ] } ]
       }
     ]
   },
