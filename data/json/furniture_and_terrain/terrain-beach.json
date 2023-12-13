@@ -7,7 +7,7 @@
     "symbol": "-",
     "looks_like": "t_rockfloor",
     "color": "dark_gray",
-    "move_cost_mod": 1,
+    "move_cost": 3,
     "connect_groups": "BEACH_FORMATIONS",
     "connects_to": "BEACH_FORMATIONS",
     "flags": [ "TRANSPARENT" ]
@@ -20,7 +20,7 @@
     "symbol": "^",
     "looks_like": "t_craggy_rocks",
     "color": "dark_gray",
-    "move_cost_mod": 3,
+    "move_cost": 5,
     "connect_groups": "BEACH_FORMATIONS",
     "connects_to": "BEACH_FORMATIONS",
     "flags": [ "TRANSPARENT", "UNSTABLE" ]
@@ -33,7 +33,7 @@
     "symbol": "*",
     "looks_like": "t_jagged_rocks",
     "color": "dark_cyan",
-    "move_cost_mod": 2,
+    "move_cost": 3,
     "connect_groups": "BEACH_FORMATIONS",
     "connects_to": "BEACH_FORMATIONS",
     "flags": [ "TRANSPARENT" ]
@@ -46,7 +46,7 @@
     "symbol": "~",
     "looks_like": "t_craggy_rocks",
     "color": "dark_green",
-    "move_cost_mod": 4,
+    "move_cost": 5,
     "connect_groups": "BEACH_FORMATIONS",
     "connects_to": "BEACH_FORMATIONS",
     "flags": [ "TRANSPARENT", "UNSTABLE" ]
@@ -87,7 +87,7 @@
     "looks_like": "t_swater_sh",
     "symbol": "~",
     "color": "dark_cyan",
-    "move_cost": 3,
+    "move_cost": 4,
     "connect_groups": "BEACH_FORMATIONS",
     "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "SALT_WATER", "MURKY" ],
     "examine_action": "finite_water_source"
