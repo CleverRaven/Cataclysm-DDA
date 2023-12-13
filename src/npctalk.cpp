@@ -2948,7 +2948,8 @@ static void map_add_item( item &it, tripoint_abs_ms target_pos )
 }
 
 static void receive_item( itype_id &item_name, int count, std::string_view container_name,
-                          const dialogue &d, bool use_item_group, bool suppress_message, const std::vector<std::string> &flags,
+                          const dialogue &d, bool use_item_group, bool suppress_message,
+                          const std::vector<std::string> &flags,
                           bool add_talker = true,
                           const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
 {
