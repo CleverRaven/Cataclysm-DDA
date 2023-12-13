@@ -484,6 +484,38 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "dnd_2",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Swords and Fireballs", "str_pl": "sets of Swords and Fireballs" },
+    "description": "A roleplaying game set in the a fantasy medieval world with goblins and orcs.  You can be a mage, a warrior, a barbarian.  Typical RPG, you'know.",
+    "weight": "680 g",
+    "volume": "1250 ml",
+    "price": 12950,
+    "price_postapoc": 500,
+    "material": [ "plastic" ],
+    "symbol": "?",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
+    "id": "dnd_3",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Sticks and Stones", "str_pl": "sets of Sticks and Stones" },
+    "description": "A roleplaying game set in the Dawn of Man, the Primitive Age!  There, you can choose different places in the world, classes, and different species of hominids to survive the primitive world.",
+    "weight": "680 g",
+    "volume": "1250 ml",
+    "price": 12950,
+    "price_postapoc": 500,
+    "material": [ "plastic" ],
+    "symbol": "?",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
     "id": "g_warhammer",
     "type": "GENERIC",
     "category": "other",
