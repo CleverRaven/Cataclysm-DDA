@@ -43,7 +43,9 @@
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 ) * u_nether_attunement_power_scaling" ] }
+      {
+        "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 ) * u_nether_attunement_power_scaling" ]
+      }
     ]
   },
   {
