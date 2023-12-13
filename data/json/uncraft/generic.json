@@ -70,9 +70,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "1 s",
-    "components": [
-      [ [ "paper", 1 ] ]
-    ]
+    "components": [ [ [ "paper", 1 ] ] ]
   },
   {
     "type": "uncraft",
