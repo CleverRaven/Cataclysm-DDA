@@ -51,6 +51,40 @@
     "components": [ [ [ "paper", 1 ] ] ]
   },
   {
+    "result": "tic_tac",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "reversible": { "time": "10 s" },
+    "autolearn": true,
+    "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
+    "components": [ 
+      [ [ "paper", 1 ] ],
+      [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
+      [ [ "button_wood", 3 ], [ "button_steel", 3 ], [ "button_bronze", 3 ], [ "button_plastic", 3 ] ],
+      [ [ "button_wood", 3 ], [ "button_steel", 3 ], [ "button_bronze", 3 ], [ "button_plastic", 3 ] ]
+    ]
+  },
+  {
+    "result": "makeshiff_dominoes",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "reversible": { "time": "10 s" },
+    "autolearn": true,
+    "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
+    "components": [ 
+      [ [ "cardboard", 50 ] ],
+      [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ]
+    ]
+  },
+  {
     "result": "makeshift_chess",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
