@@ -6,8 +6,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include "imtui/imtui.h"
-#include "imtui/imtui-impl-text.h"
+#include "imtui.h"
+#include "imtui-impl-text.h"
 
 #include <cmath>
 #include <vector>
@@ -108,6 +108,10 @@ inline ImTui::TColor rgbToAnsi256(ImU32 col, bool doAlpha) {
     ImTui::TColor b = (col & 0x00FF0000) >> 16;
 
     if (r == g && g == b) {
+        if (doAlpha) {
+            ImTui::TColor a = (col & 0xFF000000) >> 24;
+            r = (float(r)*a)/255.0f;
+        }
         if (r < 8) {
             return 16;
         }
@@ -239,22 +243,22 @@ void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * scree
 
 bool ImTui_ImplText_Init() {
     ImGui::GetStyle().Alpha                   = 1.0f;
-    ImGui::GetStyle().WindowPadding           = ImVec2(0.5,0.0);
+    ImGui::GetStyle().WindowPadding           = ImVec2(0.5f, 0.0f);
     ImGui::GetStyle().WindowRounding          = 0.0f;
     ImGui::GetStyle().WindowBorderSize        = 0.0f;
-    ImGui::GetStyle().WindowMinSize           = ImVec2(4,2);
-    ImGui::GetStyle().WindowTitleAlign        = ImVec2(0.0f,0.0f);
+    ImGui::GetStyle().WindowMinSize           = ImVec2(4.0f, 2.0f);
+    ImGui::GetStyle().WindowTitleAlign        = ImVec2(0.0f, 0.0f);
     ImGui::GetStyle().WindowMenuButtonPosition= ImGuiDir_Left;
     ImGui::GetStyle().ChildRounding           = 0.0f;
     ImGui::GetStyle().ChildBorderSize         = 0.0f;
     ImGui::GetStyle().PopupRounding           = 0.0f;
     ImGui::GetStyle().PopupBorderSize         = 0.0f;
-    ImGui::GetStyle().FramePadding            = ImVec2(1.0,0.0);
+    ImGui::GetStyle().FramePadding            = ImVec2(1.0f, 0.0f);
     ImGui::GetStyle().FrameRounding           = 0.0f;
     ImGui::GetStyle().FrameBorderSize         = 0.0f;
-    ImGui::GetStyle().ItemSpacing             = ImVec2(1,0.0);
-    ImGui::GetStyle().ItemInnerSpacing        = ImVec2(1,0);
-    ImGui::GetStyle().TouchExtraPadding       = ImVec2(0.5,0.0);
+    ImGui::GetStyle().ItemSpacing             = ImVec2(1.0f, 0.0f);
+    ImGui::GetStyle().ItemInnerSpacing        = ImVec2(1.0f, 0.0f);
+    ImGui::GetStyle().TouchExtraPadding       = ImVec2(0.5f, 0.0f);
     ImGui::GetStyle().IndentSpacing           = 1.0f;
     ImGui::GetStyle().ColumnsMinSpacing       = 1.0f;
     ImGui::GetStyle().ScrollbarSize           = 0.5f;
@@ -266,9 +270,9 @@ bool ImTui_ImplText_Init() {
     ImGui::GetStyle().ColorButtonPosition     = ImGuiDir_Right;
     ImGui::GetStyle().ButtonTextAlign         = ImVec2(0.5f,0.0f);
     ImGui::GetStyle().SelectableTextAlign     = ImVec2(0.0f,0.0f);
-    ImGui::GetStyle().DisplayWindowPadding    = ImVec2(0,0);
-    ImGui::GetStyle().DisplaySafeAreaPadding  = ImVec2(0,0);
-    ImGui::GetStyle().CellPadding             = ImVec2(1,0);
+    ImGui::GetStyle().DisplayWindowPadding    = ImVec2(0.0f,0.0f);
+    ImGui::GetStyle().DisplaySafeAreaPadding  = ImVec2(0.0f,0.0f);
+    ImGui::GetStyle().CellPadding             = ImVec2(1.0f,0.0f);
     ImGui::GetStyle().MouseCursorScale        = 1.0f;
     ImGui::GetStyle().AntiAliasedLines        = false;
     ImGui::GetStyle().AntiAliasedFill         = false;
@@ -278,16 +282,26 @@ bool ImTui_ImplText_Init() {
     ImGui::GetStyle().Colors[ImGuiCol_TitleBg]          = ImVec4(0.35, 0.35, 0.35, 1.0f);
     ImGui::GetStyle().Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.15, 0.15, 0.15, 1.0f);
     ImGui::GetStyle().Colors[ImGuiCol_TextSelectedBg]   = ImVec4(0.75, 0.75, 0.75, 0.5f);
+    ImGui::GetStyle().Colors[ImGuiCol_NavHighlight]     = ImVec4(0.00, 0.00, 0.00, 0.0f);
 
     ImFontConfig fontConfig;
     fontConfig.GlyphMinAdvanceX = 1.0f;
     fontConfig.SizePixels = 1.00;
+    static const ImWchar ranges[] = {
+        0x0020, 0x052F,
+        0x1D00, 0x1DFF,
+        0x2000, 0x206F,
+        0x20A0, 0x20CF,
+        0x2100, 0x214F,
+        0x2190, 0x22FF,
+        //0x0020, 0xCFFF,
+        0
+    };
+    fontConfig.GlyphRanges = ranges;
     ImGui::GetIO().Fonts->AddFontDefault(&fontConfig);
 
     // Build atlas
-    unsigned char* tex_pixels = NULL;
-    int tex_w, tex_h;
-    ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&tex_pixels, &tex_w, &tex_h);
+    ImGui::GetIO().Fonts->Build();
 
     return true;
 }
