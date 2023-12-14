@@ -140,8 +140,6 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 
-static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
-
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
@@ -2178,6 +2176,7 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
+    deactivate_or_discharge_bionic_weapon();
     weapon_bionic_uid = 0;
 }
 
@@ -2216,9 +2215,6 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
             if( i.powered ) {
                 return deactivate_bionic( i, eff_only );
             } else {
-                if( i.info().has_flag( json_flag_BIONIC_GUN ) ) {
-                    discharge_cbm_weapon( false );
-                }
                 return false;
             }
         }
