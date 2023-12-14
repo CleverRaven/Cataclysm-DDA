@@ -583,7 +583,7 @@ bool is_river( const oter_id &ter )
 
 bool is_lake_or_river( const oter_id &ter )
 {
-    return ter->is_river() || ter->is_lake();
+    return ter->is_river() || ter->is_lake() || ter->is_lake_shore();
 }
 
 bool is_water_body( const oter_id &ter )
