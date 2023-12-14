@@ -1345,13 +1345,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a choking sound.",
     "volume": 10
   },
@@ -1705,19 +1705,43 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_shoggoth",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_surgeon",
+      "mon_mi_go_guard",
+      "mon_mi_go_myrmidon",
+      "mon_vocal_bigfrog"
+    ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_shoggoth",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_surgeon",
+      "mon_mi_go_guard",
+      "mon_mi_go_myrmidon",
+      "mon_vocal_bigfrog"
+    ],
     "sound": "a choking sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_shoggoth",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_surgeon",
+      "mon_mi_go_guard",
+      "mon_mi_go_myrmidon",
+      "mon_vocal_bigfrog"
+    ],
     "sound": "a slurping sound.",
     "volume": 20
   },
@@ -2113,7 +2137,15 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_leech_blossom",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_surgeon",
+      "mon_mi_go_guard",
+      "mon_mi_go_myrmidon",
+      "mon_vocal_bigfrog"
+    ],
     "sound": "a clear, high-pitched hum.",
     "volume": 15
   },
@@ -2827,5 +2859,35 @@
     "speaker": [ "mon_star_vampire" ],
     "sound": "a high-pitched tittering.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog" ],
+    "sound": "a series of rising peeps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog" ],
+    "sound": "a steady patter of light, whistling chirps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_frog" ],
+    "sound": "a long, soft squeek.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a loud and guttural wail.",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a reverberating, open-throated scream.",
+    "volume": 45
   }
 ]
