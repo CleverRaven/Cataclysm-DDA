@@ -470,5 +470,10 @@
     "id": "700nx_casing",
     "type": "MIGRATION",
     "replace": "458wm_casing"
+  },
+  {
+    "id": "trex_gun",
+    "type": "MIGRATION",
+    "replace": "win70_458"
   }
 ]
