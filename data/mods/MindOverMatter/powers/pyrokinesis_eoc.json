@@ -383,7 +383,7 @@
     "false_effect": { "u_message": "The bleeding is too much for you to stop with your powers.", "type": "bad" }
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
@@ -419,7 +419,7 @@
     ]
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
@@ -455,7 +455,7 @@
     ]
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
@@ -491,7 +491,7 @@
     ]
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
@@ -527,7 +527,7 @@
     ]
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
@@ -561,7 +561,7 @@
     ]
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
@@ -597,7 +597,7 @@
     ]
   },
   {
-    "type": "",
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK",
     "condition": { "x_in_y_chance": { "x": 1, "y": 15 } },
     "effect": [
