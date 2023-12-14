@@ -1276,7 +1276,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
 }
 
 void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
-        const tripoint &target )
+                                     const tripoint &target )
 {
     ::map &here = get_map();
     optional_vpart_position v_part_pos = here.veh_at( target );
