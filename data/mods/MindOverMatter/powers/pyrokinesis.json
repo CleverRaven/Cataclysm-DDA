@@ -102,7 +102,7 @@
     "id": "pyrokinetic_cauterize",
     "type": "SPELL",
     "name": "[Ψ]Cauterize",
-    "description": "Using an extremely focused application of pyrokinesis, sear a wound shut to stop the bleeding.  This is liable to be painful and is almost certainly likely to just cause more damage if you don't have any medical knowledge.  If the bleeding is too strong, cauterization will be ineffective",
+    "description": "Using an extremely focused application of pyrokinesis, sear a wound shut to stop the bleeding.  This is liable to be painful and is almost certainly likely to just cause more damage if you don't have any medical knowledge.  If the bleeding is too strong, cauterization will be ineffective, and there is a <color_red>chance of infection</color> whether you are successful or not.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
