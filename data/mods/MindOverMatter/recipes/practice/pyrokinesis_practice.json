@@ -145,7 +145,7 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_FLAMES",
+        "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE",
         "condition": {
           "and": [
             { "math": [ "u_val('spell_level', 'spell: pyrokinetic_cauterize')", ">=", "1" ] },
@@ -164,7 +164,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PYROKIN_FLAMES_FALSE",
+              "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_cauterize')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
