@@ -131,10 +131,26 @@
     "id": "EOC_statue_return",
     "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.",
     "condition": {
-      "u_query": "This will teleport you back home with only the items on your person.  Anything left behind will be as good as gone.  Are you ready to leave?",
+      "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
       "default": false
     },
-    "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+    "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport_item" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport_item",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "loc" },
+        "min_radius": 0,
+        "max_radius": 10,
+        "true_eocs": [ { "id": "EOC_map_item_run", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
+      },
+      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "1 s" },
+      { "u_message": "Now teleporting back home.  Please wait…" }
+    ]
   },
   {
     "type": "effect_on_condition",

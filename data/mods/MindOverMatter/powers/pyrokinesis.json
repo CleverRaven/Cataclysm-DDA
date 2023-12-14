@@ -49,8 +49,8 @@
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": {
       "pyrokinetic_call_flames": 5,
-      "pyrokinetic_flamethrower": 7,
-      "pyrokinetic_flash": 9,
+      "pyrokinetic_cauterize": 7,
+      "pyrokinetic_flamethrower": 9,
       "pyrokinetic_thermogenesis": 12,
       "pyrokinetic_blast": 15,
       "pyrokinetic_cloak": 17
@@ -105,6 +105,32 @@
     "casting_time_increment": -8,
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_cloak": 7, "pyrokinetic_thermogenesis": 10, "pyrokinetic_blast": 15 }
+  },
+  {
+    "id": "pyrokinetic_cauterize",
+    "type": "SPELL",
+    "name": "[Ψ]Cauterize",
+    "description": "Using an extremely focused application of pyrokinesis, sear a wound shut to stop the bleeding.  This is liable to be painful and is almost certainly likely to just cause more damage if you don't have any medical knowledge.  If the bleeding is too strong, cauterization will be ineffective, and there is a <color_red>chance of infection</color> whether you are successful or not.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_CAUTERIZE_SELECTOR",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2200,
+    "final_energy_cost": 750,
+    "energy_increment": -95,
+    "base_casting_time": 120,
+    "final_casting_time": 55,
+    "casting_time_increment": -5,
+    "learn_spells": { "pyrokinetic_lance": 7 }
   },
   {
     "id": "pyrokinetic_call_flames",
