@@ -12,6 +12,7 @@
     "nested_category_data": [
       "practice_pyrokinetic_flash",
       "practice_pyrokinetic_eruption",
+      "practice_pyrokinetic_cauterize",
       "practice_pyrokinetic_call_flames",
       "practice_pyrokinetic_quell_flames",
       "practice_pyrokinetic_thermogenesis",
@@ -114,6 +115,57 @@
             {
               "id": "EOC_PRACTICE_PYROKIN_FLAMES_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_eruption')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: cauterize",
+    "id": "practice_pyrokinetic_cauterize",
+    "description": "Contemplate your powers and improve your ability to close your wounds with precisely-directed fire.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_cauterize')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_cauterize')", "<=", "(difficulty_two_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_cauterize')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_cauterize')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

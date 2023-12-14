@@ -1281,6 +1281,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_post_cauterize",
+    "name": [ "Cauterized" ],
+    "desc": [ "You used your powers to cauterize a wound here.  Whether it worked or not, it still stings terribly." ],
+    "rating": "bad",
+    "max_intensity": 5,
+    "base_mods": { "pain_max_val": [ 30 ], "pain_min": [ 1 ], "pain_chance": [ 6 ], "pain_tick": [ 120 ] },
+    "scaling_mods": { "pain_chance": [ -1 ], "pain_tick": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_fire_tool",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

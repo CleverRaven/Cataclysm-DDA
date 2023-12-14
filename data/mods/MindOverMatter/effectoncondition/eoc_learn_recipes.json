@@ -135,6 +135,7 @@
     "effect": [
       { "u_learn_recipe": "practice_pyrokinetic_flash" },
       { "u_learn_recipe": "practice_pyrokinetic_eruption" },
+      { "u_learn_recipe": "practice_pyrokinetic_cauterize" },
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
