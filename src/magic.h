@@ -84,6 +84,7 @@ enum class spell_flag : int {
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
+    RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
     LAST
 };
 
