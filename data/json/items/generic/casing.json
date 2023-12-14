@@ -423,14 +423,14 @@
     "volume": "3ml"
   },
   {
-    "id": "700nx_casing",
+    "id": "458wm_casing",
     "copy-from": "casing",
-    "looks_like": "9mm_casing",
+    "looks_like": "50beowulf_casing",
     "type": "GENERIC",
-    "name": { "str": ".700 NX casing" },
-    "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto them.",
-    "weight": "18 g",
-    "volume": "12ml"
+    "name": { "str": ".458 WM casing" },
+    "description": "An empty casing from a .458 Winchester Magnum round.",
+    "weight": "13 g",
+    "volume": "8ml"
   },
   {
     "id": "762R_casing",

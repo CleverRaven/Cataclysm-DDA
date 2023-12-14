@@ -2016,12 +2016,12 @@
     ]
   },
   {
-    "id": "nested_trex_gun",
+    "id": "nested_win70_458",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "trex_gun", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_700nx" } ]
+    "entries": [ { "item": "win70_458", "charges-min": 0, "charges-max": 3 }, { "group": "on_hand_458wm" } ]
   },
   {
     "id": "nested_arx160",

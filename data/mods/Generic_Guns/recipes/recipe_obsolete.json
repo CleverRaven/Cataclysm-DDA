@@ -1783,5 +1783,15 @@
     "type": "recipe",
     "result": "bp_410shot_000_with_dowel",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_458wm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_458wm",
+    "obsolete": true
   }
 ]
