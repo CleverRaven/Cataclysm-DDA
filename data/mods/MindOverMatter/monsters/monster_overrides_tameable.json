@@ -196,6 +196,13 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
+    "id": "mon_wolf_mutant_huge",
+    "type": "MONSTER",
+    "copy-from": "mon_wolf_mutant_huge",
+    "name": { "str": "dire wolf", "str_pl": "dire wolves" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
     "id": "mon_reindeer",
     "type": "MONSTER",
     "copy-from": "mon_reindeer",
@@ -203,11 +210,25 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_coyote_mutant_shark",
+    "type": "MONSTER",
+    "copy-from": "mon_coyote_mutant_shark",
+    "name": { "str": "grinning coyote" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
     "id": "mon_tusked_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_tusked_moose_calf",
     "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
     "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_tusked_moose",
+    "type": "MONSTER",
+    "copy-from": "mon_tusked_moose",
+    "name": { "str": "tusked moose", "str_pl": "tusked moose" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_moose_calf",
