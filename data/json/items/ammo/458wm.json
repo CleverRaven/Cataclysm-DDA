@@ -8,7 +8,7 @@
     "weight": "42 g",
     "volume": "56 ml",
     "longest_side": "107 mm",
-    "price": 5700,
+    "price": 1750,
     "price_postapoc": 2000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
