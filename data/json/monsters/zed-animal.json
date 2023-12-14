@@ -44,13 +44,13 @@
   {
     "id": "mon_ocean_zhark",
     "type": "MONSTER",
-    "name": { "str": "abyssal jaws" },
+    "name": { "str": "abyssal terror" },
     "description": "Once a former apex predator of the seas, now an undead nightmare, this zombified Great White shark terrorizes the waters with its relentless hunger and aggression.",
     "default_faction": "zombie_aquatic",
     "bodytype": "fish",
     "species": [ "ZOMBIE" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "200000 ml",
+    "weight": "350 kg",
     "hp": 600,
     "speed": 175,
     "attack_cost": 200,
@@ -60,7 +60,7 @@
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 105,
-    "melee_skill": 7,
+    "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
@@ -81,7 +81,7 @@
       "FILTHY",
       "WATER_CAMOUFLAGE"
     ],
-    "armor": { "bash": 7, "cut": 3, "bullet": 2 }
+    "armor": { "bash": 8, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_zombie_dog",
