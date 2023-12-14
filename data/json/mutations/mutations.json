@@ -1424,7 +1424,7 @@
     "cancels": [ "UNOBSERVANT" ],
     "valid": false,
     "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+    "transform": { "target": "EAGLEEYED", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
