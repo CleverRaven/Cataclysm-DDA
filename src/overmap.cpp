@@ -62,6 +62,7 @@
 
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
+static const mongroup_id GROUP_OCEAN( "GROUP_OCEAN" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
@@ -585,6 +586,11 @@ bool is_water_body( const oter_id &ter )
 {
     return ter->is_river() || ter->is_lake() || ter->is_lake_shore() || ter->is_ocean() ||
            ter->is_ocean_shore();
+}
+
+bool is_ocean( const oter_id &ter )
+{
+    return ter->is_ocean() || ter->is_ocean_shore();
 }
 
 bool is_ot_match( const std::string &name, const oter_id &oter,
@@ -6991,6 +6997,29 @@ void overmap::place_mongroups()
                     std::round( norm_factor * rng( river_count * 8, river_count * 25 ) );
                 spawn_mon_group(
                     mongroup( GROUP_RIVER, project_combine( pos(), project_to<coords::sm>( p ) ),
+                              pop ), 3 );
+            }
+        }
+    }
+
+    // Now place ocean mongroup. Unchanged from lake/river code, but weights may need to be altered.
+    for( int x = 3; x < OMAPX - 3; x += 7 ) {
+        for( int y = 3; y < OMAPY - 3; y += 7 ) {
+            int ocean_count = 0;
+            for( int sx = x - 3; sx <= x + 3; sx++ ) {
+                for( int sy = y - 3; sy <= y + 3; sy++ ) {
+                    if( is_ocean( ter( { sx, sy, 0 } ) ) ) {
+                        ocean_count++;
+                    }
+                }
+            }
+            if( ocean_count >= 25 ) {
+                tripoint_om_omt p( x, y, 0 );
+                float norm_factor = std::abs( GROUP_OCEAN->freq_total / 1000.0f );
+                unsigned int pop =
+                    std::round( norm_factor * rng( ocean_count * 8, ocean_count * 25 ) );
+                spawn_mon_group(
+                    mongroup( GROUP_OCEAN, project_combine( pos(), project_to<coords::sm>( p ) ),
                               pop ), 3 );
             }
         }
