@@ -1414,7 +1414,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
         } else if( mon->friendly == 0 && mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
-        } 
+        }
     }
 }
 
