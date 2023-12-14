@@ -471,7 +471,8 @@
         "duration": {
           "math": [ "u_val('time: 5 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
         }
-      }
+      },
+      { "run_eocs": "EOC_PORTAL_ELECTRO_AWAKENING_FAILED_ZAP" }
     ]
   },
   {
