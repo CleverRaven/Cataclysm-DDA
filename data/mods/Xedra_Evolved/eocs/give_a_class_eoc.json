@@ -81,12 +81,16 @@
             "cases": [
               {
                 "case": 2,
-                "effect": { "u_message": "In your dream, you stand at the edge of two worlds, a bad feeling overcoming you.", "type": "mixed", "popup": true }
+                "effect": {
+                  "u_message": "In your dream, you stand at the edge of two worlds, a bad feeling overcoming you.",
+                  "type": "mixed",
+                  "popup": true
+                }
               },
               {
                 "case": 3,
                 "effect": {
-                  "u_message": "One world's infinitely small, concentrated into a singular dot, infinitely heavy, with neverending gales and scorching heat.",
+                  "u_message": "One world's infinitely dense, concentrated into a singular dot with neverending gales and scorching heat.",
                   "type": "mixed",
                   "popup": true
                 }
@@ -102,7 +106,11 @@
               {
                 "case": 5,
                 "effect": [
-                  { "u_message": "In your dream, there is only you to decide.", "type": "mixed", "popup": true },
+                  {
+                    "u_message": "You watch for a while but there is only you to decide and decide you must.",
+                    "type": "mixed",
+                    "popup": true
+                  },
                   {
                     "u_message": "You don't remember much from your dream, but what little you do is that there was something… or someone, and you answered their questions.",
                     "type": "mixed",
@@ -138,7 +146,7 @@
             "cases": [
               {
                 "case": 2,
-                "effect": { "u_message": "It happens again.  Otherworldy nightmares, they haunt you.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "It happens again.  Otherworldy nightmares haunt you.", "type": "mixed", "popup": true }
               },
               {
                 "case": 3,
