@@ -276,7 +276,7 @@
     "id": "effect_electrokin_overload",
     "name": [ "Jerky" ],
     "desc": [ "You muscles don't seem to be reacting exactly the way you want them to." ],
-    "apply_message": "Your limb twitch involuntarily!",
+    "apply_message": "Your limbs twitch involuntarily!",
     "remove_message": "The twitching stops",
     "rating": "bad",
     "limb_score_mods": [
