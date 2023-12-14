@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_CONTROL",
-    "recurrence": "1 day",
+    "recurrence": [ "12 hours", "1 day" ],
     "global": true,
     "effect": [
       { "u_teleport": { "global_val": "your_spawnpoint" } },
