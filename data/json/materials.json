@@ -1,5 +1,18 @@
 [
   {
+    "type": "material",
+    "id": "test_material",
+    "name": "Test",
+    "density": 9999,
+    "//": "Fake material, used to fix density of test items",
+    "//2": "Moved to vanilla to prevent order dependencies issues, that was caused by the fact test items are in the same folder as the material file, and in attempt to preserve blame history erase that can happen, if all of them would be moved, according to <https://archive.kernel.org/oldwiki/git.wiki.kernel.org/index.php/GitFaq.html#Why_does_Git_not_.22track.22_renames.3F>",
+    "bash_dmg_verb": "tested",
+    "cut_dmg_verb": "tested",
+    "dmg_adj": [ "lightly tested", "tested", "very tested", "thoroughly tested" ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0, "electric": 0 },
+    "chip_resist": 0
+  },
+  {
     "abstract": "generic_polymer_resin",
     "type": "material",
     "name": "Polymer Resin",
