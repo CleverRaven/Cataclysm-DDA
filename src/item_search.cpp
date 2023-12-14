@@ -78,7 +78,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 } else {
                     return false;
                 }
-             };
+            };
         // by book skill
         case 's':
             return [filter]( const item & i ) {
