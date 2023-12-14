@@ -227,7 +227,7 @@
     "id": "mon_tusked_moose",
     "type": "MONSTER",
     "copy-from": "mon_tusked_moose",
-    "name": { "str": "tusked moose", "str_pl": "tusked moose" },
+    "name": { "str_sp": "tusked moose" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
