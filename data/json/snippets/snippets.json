@@ -106,10 +106,7 @@
         "id": "charsheet_17",
         "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a noble."
       },
-      {
-        "id": "charsheet_18",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a monk."
-      },
+      { "id": "charsheet_18", "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a monk." },
       {
         "id": "charsheet_19",
         "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a priest."
