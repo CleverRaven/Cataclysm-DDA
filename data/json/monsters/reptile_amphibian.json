@@ -784,7 +784,7 @@
   {
     "id": "mon_jumbo_bigfrog",
     "type": "MONSTER",
-    "name": { "str": "Jumbo Treefrog" },
+    "name": { "str": "jumbo treefrog" },
     "description": "On, thick over-proportioned legs this large treefrog slings its weight with notable force.  It doesn't seem a danger, but its size is still cause for concern.  Even scrunched up, it is as large as a Thanksgiving turkey.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "20 L",
@@ -815,7 +815,7 @@
   {
     "id": "mon_vocal_bigfrog",
     "type": "MONSTER",
-    "name": { "str": "Wailing Frog" },
+    "name": { "str": "wailing frog" },
     "description": "Now the size of a dog, this tan, speckled tree frog will not stop making noise.  Its increased size has only boosted its volume.  It belts out sound in a relentless series of piercing, grinding chirps.",
     "copy-from": "mon_jumbo_bigfrog",
     "special_attacks": [
@@ -834,7 +834,7 @@
   {
     "id": "mon_shift_bigfrog",
     "type": "MONSTER",
-    "name": { "str": "Mimic Treefrog" },
+    "name": { "str": "mimic treefrog" },
     "description": "You've seen enough to gather that this is a frog with some very specialized camouflage.  Its skin appears able to reactively change texture and color to match its surroundings.  Like a morphing ghillie suit it can extend filamints to mimic individual leaves and blades of grass.  It is keen enough to match the swaying of brush in the wind.",
     "copy-from": "mon_jumbo_bigfrog",
     "speed": 130,
