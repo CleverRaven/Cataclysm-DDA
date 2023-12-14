@@ -91,5 +91,17 @@
       },
       { "result": [ [ "t_null", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_pit" ], "message": "" }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_teleport_location_attune",
+    "furniture": [
+      {
+        "result": "f_teleporter_attuned_ground",
+        "valid_furniture": [ "f_null" ],
+        "message": "You spend some time memorizing your location.",
+        "message_good": true
+      }
+    ]
   }
 ]

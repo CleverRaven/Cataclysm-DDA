@@ -215,31 +215,6 @@ static void load_forest_trail_settings( const JsonObject &jo,
                                     forest_trail_settings.trailhead_chance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
                                     forest_trail_settings.trailhead_road_distance, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
-                                    forest_trail_settings.trail_center_variance, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
-                                    forest_trail_settings.trail_width_offset_min, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_max",
-                                    forest_trail_settings.trail_width_offset_max, !overlay );
-        read_and_set_or_throw<bool>( forest_trail_settings_jo, "clear_trail_terrain",
-                                     forest_trail_settings.clear_trail_terrain, !overlay );
-
-        if( forest_trail_settings.clear_trail_terrain ) {
-            forest_trail_settings.unfinalized_trail_terrain.clear();
-        }
-
-        if( !forest_trail_settings_jo.has_object( "trail_terrain" ) ) {
-            if( !overlay ) {
-                forest_trail_settings_jo.throw_error( "trail_terrain required" );
-            }
-        } else {
-            for( const JsonMember member : forest_trail_settings_jo.get_object( "trail_terrain" ) ) {
-                if( member.is_comment() ) {
-                    continue;
-                }
-                forest_trail_settings.unfinalized_trail_terrain[member.name()] = member.get_int();
-            }
-        }
 
         if( !forest_trail_settings_jo.has_object( "trailheads" ) ) {
             if( !overlay ) {
@@ -391,6 +366,33 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
         }
+    }
+}
+
+static void load_overmap_ocean_settings( const JsonObject &jo,
+        overmap_ocean_settings &overmap_ocean_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_ocean_settings" ) && get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+        if( strict ) {
+            jo.throw_error( "OVERMAP_PLACE_OCEANS set to true, but \"overmap_ocean_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_ocean_settings_jo = jo.get_object( "overmap_ocean_settings" );
+        read_and_set_or_throw<double>( overmap_ocean_settings_jo, "noise_threshold_ocean",
+                                       overmap_ocean_settings.noise_threshold_ocean, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_size_min",
+                                    overmap_ocean_settings.ocean_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_depth",
+                                    overmap_ocean_settings.ocean_depth, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_north",
+                                    overmap_ocean_settings.ocean_start_north, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_east",
+                                    overmap_ocean_settings.ocean_start_east, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_west",
+                                    overmap_ocean_settings.ocean_start_west, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_south",
+                                    overmap_ocean_settings.ocean_start_south, !overlay );
     }
 }
 
@@ -605,6 +607,8 @@ void load_region_settings( const JsonObject &jo )
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
+
+    load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
@@ -982,15 +986,6 @@ void forest_mapgen_settings::finalize()
 
 void forest_trail_settings::finalize()
 {
-    for( const std::pair<const std::string, int> &pr : unfinalized_trail_terrain ) {
-        const ter_str_id tid( pr.first );
-        if( !tid.is_valid() ) {
-            debugmsg( "Tried to add invalid terrain %s to forest_trail_settings trail_terrain.", tid.c_str() );
-            continue;
-        }
-        trail_terrain.add( tid.id(), pr.second );
-    }
-
     trailheads.finalize();
 }
 
