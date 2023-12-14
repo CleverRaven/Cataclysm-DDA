@@ -102,6 +102,7 @@ enum class event_type : int {
     installs_faulty_cbm,
     learns_martial_art,
     loses_addiction,
+    loses_mutation,
     npc_becomes_hostile,
     opens_portal,
     opens_spellbook,
@@ -723,6 +724,14 @@ struct event_spec<event_type::loses_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "add_type", cata_variant_type::addiction_id },
+        }
+    };
+};
+template<>
+struct event_spec<event_type::loses_mutation> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "trait", cata_variant_type::trait_id },
         }
     };
 };

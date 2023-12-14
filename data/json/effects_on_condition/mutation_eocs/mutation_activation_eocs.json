@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_GENERIC_SPELL_MUTATION",
     "//energy_amount": "optional, how much stamina you spend on activation of the mutation - EoC works exclusively with stamina, to consume calories, fatigue or thirst use corresponding booleans in mutation; default zero if you don't need to consume stamina",
-    "//prep_time": "time you spend to prepare the activation, at least 1 second",
+    "//prep_time": "time you spend to prepare the activation, in seconds. Omit to make activation instant",
     "//spell_to_cast": "spell that would be casted if activation is successful",
     "//message_success": "message that would be printed if activation is successful",
     "//message_fail": "message, that would be printed, if you have less stamina than required",
@@ -16,7 +16,7 @@
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "context_val": "prep_time" } },
       { "math": [ "stamina", "-=", "_energy_amount" ] },
-      { "queue_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ], "time_in_future": { "math": [ "_prep_time - 1" ] } }
+      { "queue_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ], "time_in_future": { "context_val": "prep_time" } }
     ],
     "false_effect": [ { "u_message": { "context_val": "message_fail" }, "type": "bad" } ]
   },
@@ -39,7 +39,7 @@
       {
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "prep_time": "3 seconds",
+          "prep_time": "3",
           "spell_to_cast": "spell_spit_flare",
           "message_success": "You launch a glob of bioluminescent material!",
           "message_fail": "Your body is too starved to activate your bioluminescent flare."
@@ -54,7 +54,7 @@
       {
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "prep_time": "1 seconds",
+          "prep_time": "1",
           "spell_to_cast": "spell_slime_spray",
           "message_success": "You spit out some goo onto your enemies!",
           "message_fail": "Your body is too starved to activate your slime spray."
@@ -70,7 +70,7 @@
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2000",
-          "prep_time": "1 seconds",
+          "prep_time": "1",
           "spell_to_cast": "spell_feline_leap",
           "message_success": "You squat down, build up tension in your legs, waggling your tail, then release, launching yourself quite a distance.",
           "message_fail": "Your legs are too tired to perform a jump."
@@ -86,7 +86,7 @@
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2000",
-          "prep_time": "2 seconds",
+          "prep_time": "2",
           "spell_to_cast": "spell_short_leap",
           "message_success": "You squat down, build up tension in your legs and release, launching yourself quite a distance.",
           "message_fail": "Your legs are too tired to perform a jump."
@@ -102,7 +102,7 @@
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "6000",
-          "prep_time": "3 seconds",
+          "prep_time": "3",
           "spell_to_cast": "spell_crushing_leap",
           "message_success": "You squat down, build up tension in your legs and release.  Death from above.",
           "message_fail": "Your legs are too tired to perform a jump."
@@ -118,7 +118,7 @@
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2500",
-          "prep_time": "1 seconds",
+          "prep_time": "1",
           "spell_to_cast": "spell_avian_leap",
           "message_success": "You jump at your target with your talons up front, attempting to deal devastating damage to your target.",
           "message_fail": "Your legs are too tired to perform a jump."
