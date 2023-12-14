@@ -148,7 +148,7 @@
         "max_radius": 10,
         "true_eocs": [ { "id": "EOC_map_item_run", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
       },
-      { "queue_eocs": [ "EOC_return_OM_teleport" ] },
+      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "1 s" },
       { "u_message": "Now teleporting back home.  Please wait…" }
     ]
   },
