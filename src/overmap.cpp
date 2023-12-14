@@ -6994,9 +6994,11 @@ void overmap::place_mongroups()
                 float norm_factor = std::abs( GROUP_RIVER->freq_total / 1000.0f );
                 unsigned int pop =
                     std::round( norm_factor * rng( river_count * 8, river_count * 25 ) );
-                spawn_mon_group(
-                    mongroup( GROUP_RIVER, project_combine( pos(), project_to<coords::sm>( p ) ),
-                              pop ), 3 );
+                if( is_lake_or_river( ter( {x, y, 0 } ) ) ) {
+                    spawn_mon_group(
+                        mongroup( GROUP_RIVER, project_combine( pos(), project_to<coords::sm>( p ) ),
+                                  pop ), 3 );
+                }
             }
         }
     }
