@@ -473,7 +473,7 @@
       { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
       { "monster": "mon_odd_giganfrog", "weight": 40, "pack_size": [ 1, 2 ], "starts": "30 days" },
       { "monster": "mon_odd_megafrog", "weight": 10, "starts": "60 days" },
-	  { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
+      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
       { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 5 ], "starts": "15 days" },
       { "monster": "mon_shift_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" }
     ]
@@ -487,7 +487,7 @@
       { "monster": "mon_strange_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
       { "monster": "mon_foul_bigfrog", "weight": 100, "pack_size": [ 1, 4 ], "starts": "15 days" },
       { "monster": "mon_odd_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
-	  { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
+      { "monster": "mon_jumbo_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" },
       { "monster": "mon_vocal_bigfrog", "weight": 100, "pack_size": [ 1, 5 ], "starts": "15 days" },
       { "monster": "mon_shift_bigfrog", "weight": 100, "pack_size": [ 1, 3 ], "starts": "15 days" }
     ]
@@ -581,7 +581,7 @@
       { "group": "GROUP_MUTAFROGS_STRANGE", "weight": 20 },
       { "group": "GROUP_MUTAFROGS_FOUL", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_ODD", "weight": 100 },
-	  { "group": "GROUP_MUTAFROGS_VOCAL", "weight": 100 },
+      { "group": "GROUP_MUTAFROGS_VOCAL", "weight": 100 },
       { "monster": "mon_shift_bigfrog", "weight": 30, "pack_size": [ 1, 3 ], "starts": "15 days" }
     ]
   },
@@ -594,7 +594,7 @@
       { "group": "GROUP_MUTAFROGS_STRANGE", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_FOUL", "weight": 100 },
       { "group": "GROUP_MUTAFROGS_ODD", "weight": 100 },
-	  { "group": "GROUP_MUTAFROGS_VOCAL", "weight": 100 },
+      { "group": "GROUP_MUTAFROGS_VOCAL", "weight": 100 },
       { "monster": "mon_shift_bigfrog", "weight": 30, "pack_size": [ 1, 3 ], "starts": "15 days" }
     ]
   },

@@ -361,7 +361,7 @@
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
     "upgrades": { "age_grow": 8, "into": "mon_fowler_toad" },
-    "extend": {"flags": ["POISON"] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_foul_tadpole",
@@ -379,7 +379,7 @@
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
     "upgrades": { "age_grow": 15, "into": "mon_freedom_toad" },
-    "extend": {"flags": ["POISON"] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_odd_tadpole",
@@ -483,7 +483,7 @@
     "description": "This big tadpole has already grown some warty bumps on its softball-sized body.  Its nearly whip-thin tail appears to have no trouble propelling its much larger core.",
     "name": { "str": "giant tadpole" },
     "upgrades": { "age_grow": 8, "into": "mon_foul_bigfrog" },
-    "extend": {"flags": ["POISON"] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_odd_bigtad",
@@ -492,7 +492,7 @@
     "description": "Some kind of giant tadpole.  This speckled one has a body the size of a grapefruit and a thin, tapered tail.  It flits about the water in quick bursts.",
     "name": { "str": "giant tadpole" },
     "upgrades": { "age_grow": 10, "into": "mon_odd_bigfrog" },
-    "extend": {"flags": ["POISON"] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "abstract": "mon_proxy_frog",
@@ -566,7 +566,7 @@
     "weight": "3 kg",
     "hp": 12,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_strange_bigfrog" },
+    "upgrades": { "age_grow": 15, "into": "mon_strange_bigfrog" }
   },
   {
     "id": "mon_fowler_toad",
@@ -576,7 +576,7 @@
     "name": { "str": "fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "extend": {"flags": ["POISON"] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_foul_toad",
@@ -587,7 +587,7 @@
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_foul_bigfrog" },
-    "extend": { "flags": [  ["POISON", "NO_BREATHE" ] },
+    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
   },
   {
@@ -598,7 +598,7 @@
     "name": { "str": "american toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "extend": {"flags": ["POISON"] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_odd_toad",
@@ -633,7 +633,7 @@
     "name": { "str": "vocal treefrog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
-	"special_attacks": [ [ "PARROT", 30 ] ],
+    "special_attacks": [ [ "PARROT", 30 ] ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_VOCAL" }
   },
   {
@@ -675,7 +675,7 @@
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
-	"aggression": -10,
+    "aggression": -10,
     "morale": 20,
     "aggro_character": false,
     "melee_skill": 5,
@@ -714,10 +714,10 @@
     "description": "A mutant bullfrog larger than most dogs.  It looks unwell, as if this growth spurt was less than comfortable.",
     "copy-from": "mon_proxy_bigfrog",
     "color": "light_green",
-	"aggression": 0,
+    "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 },
-	"delete": { "flags": [ "SWARMS" ] }
+    "delete": { "flags": [ "SWARMS" ] }
   },
   {
     "id": "mon_odd_bigfrog",
@@ -725,11 +725,11 @@
     "name": { "str": "oversized toad" },
     "description": "This toad seems to have been mutated to absurd size by the Cataclysm.  It's only half your size but that hardly feels comforting.",
     "copy-from": "mon_proxy_bigfrog",
-	"aggression": 0,
+    "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 },
-	"extend": { "flags": [ "POISON" ] },
-	"delete": { "flags": [ "SWARMS" ] }
+    "extend": { "flags": [ "POISON" ] },
+    "delete": { "flags": [ "SWARMS" ] }
   },
   {
     "id": "mon_pattern_bigfrog",
@@ -760,7 +760,7 @@
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
-	"hp": 40,
+    "hp": 40,
     "speed": 70,
     "symbol": "g",
     "melee_dice_sides": 4,
@@ -859,7 +859,7 @@
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_ODD_MEGA" },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 18, "baby_timer": 20 },
-	"extend": { "flags": [ "POISON" ] }
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_pattern_giganfrog",
@@ -875,7 +875,7 @@
     "aggression": -1,
     "morale": 50,
     "melee_skill": 4,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 }, { "damage_type": "cut", "amount": 1 } ],    
+    "melee_damage": [ { "damage_type": "electric", "amount": 6 }, { "damage_type": "cut", "amount": 1 } ],
     "armor": { "bash": 6, "cut": 2, "acid": 3, "heat": 3, "electric": 6 },
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "luminance": 2,
@@ -906,7 +906,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
-	"extend": { "flags": [ "SWARMS" ] }
+    "extend": { "flags": [ "SWARMS" ] }
   },
   {
     "id": "mon_foul_giganfrog",
@@ -1052,7 +1052,7 @@
     "armor": { "bash": 18, "cut": 18, "bullet": 12, "electric": 4 },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 32, "baby_timer": 20 },
-	"extend": { "flags": [ "POISON" ] },
+    "extend": { "flags": [ "POISON" ] },
     "//": "Simple wallowing, likes to create deep pits and lay in them."
   },
   {
