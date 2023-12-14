@@ -581,6 +581,11 @@ bool is_river( const oter_id &ter )
     return ter->is_river();
 }
 
+bool is_lake_or_river( const oter_id &ter )
+{
+    return ter->is_river() || ter->is_lake();
+}
+
 bool is_water_body( const oter_id &ter )
 {
     return ter->is_river() || ter->is_lake() || ter->is_lake_shore() || ter->is_ocean() ||
@@ -6979,7 +6984,7 @@ void overmap::place_mongroups()
             int river_count = 0;
             for( int sx = x - 3; sx <= x + 3; sx++ ) {
                 for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_water_body( ter( { sx, sy, 0 } ) ) ) {
+                    if( is_lake_or_river( ter( { sx, sy, 0 } ) ) ) {
                         river_count++;
                     }
                 }
