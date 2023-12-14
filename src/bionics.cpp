@@ -618,7 +618,7 @@ void npc::discharge_cbm_weapon( bool fired, bool stow_real_weapon)
             mod_power_level( -pseudo_gun->get_gun_bionic_drain() );
         }
     } else {
-        debugmsg("NPC tried to use a non-existent bionic gun with UID %d", weapon_bionic_uid);
+        debugmsg( "NPC tried to use a non-existent bionic gun with UID %d", weapon_bionic_uid );
     }
 
     set_wielded_item( real_weapon);
