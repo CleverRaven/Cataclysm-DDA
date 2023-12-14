@@ -142,14 +142,14 @@
     "effect": [
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "u_map_run_item_eocs": "manual_mult",
+        "u_map_run_item_eocs": "all",
         "loc": { "context_val": "loc" },
-        "min_radius": 1,
+        "min_radius": 0,
         "max_radius": 10,
-        "title": "Pick the items on the ground you want to bring back home.",
         "true_eocs": [ { "id": "EOC_map_item_run", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
       },
-      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "3 seconds" }
+      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "3 seconds" },
+      { "u_message": "Now teleporting back home.  Please wait…" }
     ]
   },
   {
