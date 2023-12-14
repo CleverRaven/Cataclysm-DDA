@@ -249,7 +249,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
-        void remove_effect( const efftype_id &old_effect ) override;
+        void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string &var_name ) override;
 

@@ -248,6 +248,40 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
+struct eoc_entry {
+    std::optional<effect_on_condition_id> id;
+    std::optional<str_or_var> var;
+};
+static std::vector<eoc_entry>
+load_eoc_vector_id_and_var(
+    const JsonObject &jo, const std::string_view member )
+{
+    std::vector<eoc_entry> eocs_entries;
+    auto process_jv = [member, &eocs_entries]( const JsonValue & jv ) {
+        try {
+            eoc_entry entry;
+            entry.id = effect_on_conditions::load_inline_eoc( jv, "" );
+            eocs_entries.push_back( entry );
+        } catch( const JsonError &e ) {
+            std::optional<str_or_var> jv_var = get_str_or_var( jv, member );
+            if( jv_var.has_value() ) {
+                eoc_entry entry;
+                entry.var = jv_var;
+                eocs_entries.push_back( entry );
+            }
+        }
+    };
+    if( jo.has_array( member ) ) {
+        for( JsonValue jv : jo.get_array( member ) ) {
+            process_jv( jv );
+        }
+    } else if( jo.has_member( member ) ) {
+        process_jv( jo.get_member( member ) );
+    }
+    return eocs_entries;
+}
+
+
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill )
@@ -2740,8 +2774,16 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, std::string_vie
         bool is_npc )
 {
     str_or_var old_effect = get_str_or_var( jo.get_member( member ), member, true );
-    function = [is_npc, old_effect]( dialogue const & d ) {
-        d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ) );
+
+    str_or_var target;
+    if( jo.has_member( "target_part" ) ) {
+        target = get_str_or_var( jo.get_member( "target_part" ), "target_part", false, "bp_null" );
+    } else {
+        target.str_val = "bp_null";
+    }
+
+    function = [is_npc, old_effect, target]( dialogue const & d ) {
+        d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), target.evaluate( d ) );
     };
 }
 
@@ -2914,7 +2956,9 @@ static void map_add_item( item &it, tripoint_abs_ms target_pos )
 }
 
 static void receive_item( itype_id &item_name, int count, std::string_view container_name,
-                          const dialogue &d, bool use_item_group, bool suppress_message, bool add_talker = true,
+                          const dialogue &d, bool use_item_group, bool suppress_message,
+                          const std::vector<std::string> &flags,
+                          bool add_talker = true,
                           const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
 {
     item new_item;
@@ -2923,6 +2967,10 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
     } else {
         new_item = item( item_name, calendar::turn );
     }
+    for( const std::string &flag : flags ) {
+        new_item.set_flag( flag_id( flag ) );
+    }
+
     if( container_name.empty() ) {
         if( new_item.count_by_charges() ) {
             new_item.charges = count;
@@ -2998,12 +3046,21 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
         loc_var = read_var_info( jo.get_object( "loc" ) );
     }
     bool force_equip = jo.get_bool( "force_equip", false );
+
+    std::vector<str_or_var> flags;
+    for( JsonValue jv : jo.get_array( "flags" ) ) {
+        flags.emplace_back( get_str_or_var( jv, "flags" ) );
+    }
     function = [item_name, count, container_name, use_item_group, suppress_message,
-               add_talker, loc_var, force_equip]( dialogue & d ) {
+               add_talker, loc_var, force_equip, flags]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
+        std::vector<std::string> flags_str( flags.size() );
+        for( const str_or_var &flat_sov : flags ) {
+            flags_str.emplace_back( flat_sov.evaluate( d ) );
+        }
         receive_item( iname, count.evaluate( d ), container_name.evaluate( d ), d, use_item_group,
-                      suppress_message, add_talker, target_location, force_equip );
+                      suppress_message, flags_str, add_talker, target_location, force_equip );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
     likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
@@ -3030,17 +3087,25 @@ void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view m
         container_name.str_val = "";
     }
 
+    std::vector<str_or_var> flags;
+    for( JsonValue jv : jo.get_array( "flags" ) ) {
+        flags.emplace_back( get_str_or_var( jv, "flags" ) );
+    }
     str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
     function = [item_name, cost, count, container_name, true_eocs, false_eocs,
-               use_item_group, suppress_message]( dialogue & d ) {
+               use_item_group, suppress_message, flags]( dialogue & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
             return;
         }
         itype_id iname = itype_id( item_name.evaluate( d ) );
+        std::vector<std::string> flags_str( flags.size() );
+        for( const str_or_var &flat_sov : flags ) {
+            flags_str.emplace_back( flat_sov.evaluate( d ) );
+        }
         receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group, suppress_message );
+                      container_name.evaluate( d ), d, use_item_group, suppress_message, flags_str );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -4191,19 +4256,54 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
 void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
-    fake_spell fake;
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    mandatory( jo, false, member, fake );
-    bool targeted = false;
-    if( jo.has_bool( "targeted" ) ) {
-        targeted = jo.get_bool( "targeted" );
-    }
+    bool targeted = jo.get_bool( "targeted", false );
+
     std::optional<var_info> loc_var;
     if( jo.has_object( "loc" ) ) {
         loc_var = read_var_info( jo.get_object( "loc" ) );
     }
-    function = [is_npc, fake, targeted, loc_var, true_eocs, false_eocs]( dialogue const & d ) {
+    JsonObject spell_jo = jo.get_object( member );
+    str_or_var id = get_str_or_var( spell_jo.get_member( "id" ), "id" );
+    bool hit_self = spell_jo.get_bool( "hit_self", false );
+
+    int trigger_once_in = spell_jo.get_int( "once_in", 1 );
+    str_or_var trigger_message;
+    if( spell_jo.has_member( "message" ) ) {
+        trigger_message = get_str_or_var( spell_jo.get_member( "message" ), "message", true );
+    } else {
+        trigger_message.str_val = "";
+    }
+    str_or_var npc_trigger_message;
+    if( spell_jo.has_member( "npc_message" ) ) {
+        npc_trigger_message = get_str_or_var( spell_jo.get_member( "npc_message" ), "npc_message", true );
+    } else {
+        npc_trigger_message.str_val = "";
+    }
+
+    dbl_or_var dov_max_level = get_dbl_or_var( spell_jo, "max_level", false, -1 );
+    dbl_or_var level = get_dbl_or_var( spell_jo, "min_level", false );
+    if( spell_jo.has_string( "level" ) ) {
+        debugmsg( "level member for fake_spell was renamed to min_level.  id: %s",
+                  id.str_val.value_or( "" ) );
+    }
+
+    function = [is_npc, id, hit_self, dov_max_level, trigger_once_in, level, trigger_message,
+                        npc_trigger_message, targeted, loc_var, true_eocs,
+            false_eocs]( dialogue & d ) {
+        std::optional<int> max_level;
+        int max_level_int = dov_max_level.evaluate( d );
+        if( max_level_int == -1 ) {
+            max_level = std::nullopt;
+        } else {
+            max_level = max_level_int;
+        }
+        fake_spell fake( spell_id( id.evaluate( d ) ), hit_self, max_level );
+        fake.trigger_once_in = trigger_once_in;
+        fake.level = level.evaluate( d );
+        fake.trigger_message = to_translation( trigger_message.evaluate( d ) );
+        fake.npc_trigger_message = to_translation( npc_trigger_message.evaluate( d ) );
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell.  %s", d.get_callstack() );
@@ -4548,17 +4648,26 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
     };
 }
 
+
+
 void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-    if( eocs.empty() ) {
+    std::vector<eoc_entry> eocs_entries = load_eoc_vector_id_and_var( jo, member );
+
+    if( eocs_entries.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
-    function = [eocs]( dialogue const & d ) {
-        for( const effect_on_condition_id &eoc : eocs ) {
-            dialogue newDialog( d );
-            eoc->activate( newDialog );
-        }
+    function = [eocs_entries]( dialogue const & d ) {
+        for( const eoc_entry &entry : eocs_entries ) {
+            if( entry.id.has_value() ) {
+                dialogue newDialog( d );
+                entry.id.value()->activate( newDialog );
+            } else if( entry.var.has_value() ) {
+                effect_on_condition_id eoc_id( entry.var.value().evaluate( d ) );
+                dialogue newDialog( d );
+                eoc_id->activate( newDialog );
+            }
+        };
     };
 }
 
@@ -5059,30 +5168,40 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
 
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-    if( eocs.empty() ) {
+    std::vector<eoc_entry> eocs_entries = load_eoc_vector_id_and_var( jo, member );
+    if( eocs_entries.empty() ) {
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
                                          0_seconds );
-    function = [dov_time_in_future, eocs]( dialogue & d ) {
-        time_duration time_in_future = dov_time_in_future.evaluate( d );
-        for( const effect_on_condition_id &eoc : eocs ) {
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
-                if( alpha ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, d.get_context() );
-                } else if( eoc->global ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
-                            d.get_context() );
-                }
-                // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
-                // this is so monster attacks against other monsters won't give error messages.
-            } else {
-                debugmsg( "Cannot queue a non activation effect_on_condition.  %s", d.get_callstack() );
+    auto process_eoc = []( const effect_on_condition_id & eoc, dialogue & d,
+    time_duration time_in_future ) {
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+            if( alpha ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, d.get_context() );
+            } else if( eoc->global ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
+                        d.get_context() );
             }
+            // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+            // this is so monster attacks against other monsters won't give error messages.
+        } else {
+            debugmsg( "Cannot queue a non activation effect_on_condition.  %s", d.get_callstack() );
         }
+    };
+
+    function = [dov_time_in_future, eocs_entries, process_eoc]( dialogue & d ) {
+        time_duration time_in_future = dov_time_in_future.evaluate( d );
+        for( const eoc_entry &entry : eocs_entries ) {
+            if( entry.id.has_value() ) {
+                process_eoc( entry.id.value(), d, time_in_future );
+            } else if( entry.var.has_value() ) {
+                effect_on_condition_id eoc_id( entry.var.value().evaluate( d ) );
+                process_eoc( eoc_id, d, time_in_future );
+            }
+        };
     };
 }
 
