@@ -380,7 +380,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_OCEAN",
+    "name": "GROUP_OCEAN_SHORE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -391,7 +391,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DEEP_OCEAN",
+    "name": "GROUP_OCEAN_DEEP",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
