@@ -612,14 +612,13 @@ void npc::discharge_cbm_weapon( bool fired )
         return;
     }
 
-    std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
-    if( !bio_opt ) {
-        debugmsg( "NPC tried to use a non-existent gun bionic with UID %d", weapon_bionic_uid );
-        return;
-    }
-
-    if( fired ) {
-        mod_power_level( -get_wielded_item().get_item()->get_gun_bionic_drain() );
+    item* pseudo_gun = get_wielded_item().get_item();
+    if ( pseudo_gun != nullptr ) {
+        if (fired) {
+            mod_power_level(-pseudo_gun->get_gun_bionic_drain());
+        }
+    } else {
+        debugmsg("NPC tried to use a non-existent bionic gun with UID %d", weapon_bionic_uid);
     }
 
     set_wielded_item( real_weapon );
