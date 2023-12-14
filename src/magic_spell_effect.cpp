@@ -1407,8 +1407,8 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
-        if (mon->friendly != 0 && mon->get_hp() <= sp.damage(caster) &&
-            sp.has_flag(spell_flag::RECHARM)) {
+        if( mon->friendly != 0 && mon->get_hp() <= sp.damage( caster ) &&
+            sp.has_flag( spell_flag::RECHARM ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration(caster) / 100;
         }
