@@ -215,7 +215,7 @@
     "description": "A broad area of fine sand, washed by waves coming in from the sea.",
     "symbol": ".",
     "color": "cyan",
-    "looks_like": "t_water_pool",
+    "looks_like": "t_swater_sh",
     "move_cost": 4,
     "connect_groups": [ "SAND", "WATER" ],
     "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS", "WATER" ],
