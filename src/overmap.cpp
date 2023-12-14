@@ -60,9 +60,10 @@
 #include "text_snippets.h"
 #include "translations.h"
 
+static const mongroup_id GROUP_DEEP_OCEAN( "GROUP_DEEP_OCEAN" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
-static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_OCEAN( "GROUP_OCEAN" );
+static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
@@ -7002,7 +7003,29 @@ void overmap::place_mongroups()
         }
     }
 
-    // Now place ocean mongroup. Unchanged from lake/river code, but weights may need to be altered.
+    // Now place ocean mongroup. Weights may need to be altered.
+    constexpr int OCEAN_PELAGIC_CUTOFF = 1; // num of OMT's before we start generating pelagic creatures
+    const auto curr_pos = pos();
+    // first figure out if our current pos is beyond the ocean bounds
+    const int northern_ocean = settings->overmap_ocean.ocean_start_north;
+    const int eastern_ocean = settings->overmap_ocean.ocean_start_east;
+    const int western_ocean = settings->overmap_ocean.ocean_start_west;
+    const int southern_ocean = settings->overmap_ocean.ocean_start_south;
+
+    bool am_pelagic = false;
+    if( northern_ocean > 0 && curr_pos.y() <= ( northern_ocean + OCEAN_PELAGIC_CUTOFF ) * -1 ) {
+        am_pelagic = true;
+    }
+    if( eastern_ocean > 0 && curr_pos.x() >= ( eastern_ocean + OCEAN_PELAGIC_CUTOFF ) ) {
+        am_pelagic = true;
+    }
+    if( western_ocean > 0 && curr_pos.x() <= ( western_ocean + OCEAN_PELAGIC_CUTOFF ) * -1 ) {
+        am_pelagic = true;
+    }
+    if( southern_ocean > 0 && curr_pos.y() >= ( southern_ocean + OCEAN_PELAGIC_CUTOFF ) ) {
+        am_pelagic = true;
+    }
+
     for( int x = 3; x < OMAPX - 3; x += 7 ) {
         for( int y = 3; y < OMAPY - 3; y += 7 ) {
             int ocean_count = 0;
@@ -7018,9 +7041,15 @@ void overmap::place_mongroups()
                 float norm_factor = std::abs( GROUP_OCEAN->freq_total / 1000.0f );
                 unsigned int pop =
                     std::round( norm_factor * rng( ocean_count * 8, ocean_count * 25 ) );
-                spawn_mon_group(
-                    mongroup( GROUP_OCEAN, project_combine( pos(), project_to<coords::sm>( p ) ),
-                              pop ), 3 );
+                if( am_pelagic ) {
+                    spawn_mon_group(
+                        mongroup( GROUP_DEEP_OCEAN, project_combine( pos(), project_to<coords::sm>( p ) ),
+                                  pop ), 3 );
+                } else {
+                    spawn_mon_group(
+                        mongroup( GROUP_OCEAN, project_combine( pos(), project_to<coords::sm>( p ) ),
+                                  pop ), 3 );
+                }
             }
         }
     }
