@@ -707,7 +707,7 @@ void advanced_inventory::recalc_pane( side p )
     advanced_inv_area &other = squares[there.get_area()];
     avatar &player_character = get_avatar();
     if( pane.container &&
-        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_NORTHEAST ) {
+        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_ALL ) {
 
         const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
 
@@ -717,7 +717,7 @@ void advanced_inventory::recalc_pane( side p )
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;
-        } else {
+        } else if( pane.container_base_loc <= AIM_NORTHEAST ) {
             pane.container_base_loc = static_cast<aim_location>( ( offset.y() + 1 ) * 3 - offset.x() + 2 );
         }
     }
