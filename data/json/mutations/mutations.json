@@ -3891,21 +3891,13 @@
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
-    "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [
-      {
-        "hit_me_effect": [
-          {
-            "id": "generic_blinding_spray_1",
-            "hit_self": false,
-            "once_in": 15,
-            "message": "Your ink glands spray some ink into %2$s's eyes!",
-            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes!"
-          }
-        ]
-      }
-    ],
-    "category": [ "CEPHALOPOD" ]
+    "description": "Several ink glands have developed in your gill structure.  When active, they will spray defensive ink and blind an attacker in an emergency.",
+    "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "ink_gland_spray_primer", "once_in": 2, "hit_self": true } ] } ],
+    "prereqs": [ "GILLS_CEPH" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "category": [ "CEPHALOPOD" ],
+    "active": true,
+    "starts_active": true
   },
   {
     "type": "mutation",
