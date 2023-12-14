@@ -605,6 +605,7 @@
       [ "small_checkers", 50 ],
       [ "deck_of_cards", 50 ],
       [ "cards_magic", 50 ],
+      [ "uno", 30 ],
       [ "pictionary", 50 ],
       [ "monopoly", 50 ],
       [ "dnd", 50 ],
