@@ -622,6 +622,7 @@
     "volume": "20 ml",
     "weight": "4 g",
     "hp": 1,
+    "special_attacks": [ [ "PARROT", 100 ] ],
     "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER" ]
   },
