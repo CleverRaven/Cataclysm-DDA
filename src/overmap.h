@@ -427,7 +427,7 @@ class overmap
         bool remove_nemesis(); // returns true if nemesis found and removed
 
         // code deduplication - calc ocean gradient
-        float calculate_ocean_gradient( const point_om_omt &p, const point_abs_om this_omt );
+        float calculate_ocean_gradient( const point_om_omt &p, point_abs_om this_omt );
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
