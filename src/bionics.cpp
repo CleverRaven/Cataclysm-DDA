@@ -690,7 +690,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
 
     // the weapon value from `weapon_value` may be different from `npc_attack_rating`
-    // to avoid NPC infinite switch weapon,
+    // to avoid NPC infinitely switch weapon,
     // only use bionic weapon when the ammo of wielded gun has been used up
     bool ammo_used_up = !weap.is_gun() || ( ammo_count <= 0 && !can_reload_current() );
     if( !ammo_used_up ) {
