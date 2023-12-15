@@ -1258,7 +1258,7 @@
     "id": "mon_fish_blackfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": { "str": "black sea bass" },
+    "name": { "str_sp": "black sea bass" },
     "description": "A small, robust fish, the black sea bass is known for its dark, mottled color and meaty texture.",
     "volume": "1500 ml",
     "weight": "600 g",
