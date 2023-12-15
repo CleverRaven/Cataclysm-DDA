@@ -1309,7 +1309,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
     "name": { "str_sp": "Atlantic bluefin tuna" },
-    "description": "One of the largest and fastest fish in the ocean, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
+    "description": "One of the largest and fastest fish in the waters of New England, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
     "volume": "125000 ml",
     "weight": "98 kg",
     "reproduction": { "baby_egg": "egg_bluefin_tuna", "baby_count": 1, "baby_timer": 22 }
