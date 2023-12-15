@@ -681,7 +681,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     item_location weapon = get_wielded_item();
-    item weap = weapon ? *weapon : item();
+    const item &weap = weapon ? *weapon : null_item_reference();
 
     int ammo_count = weap.ammo_remaining( this );
     const units::energy ups_drain = weap.get_gun_ups_drain();
@@ -693,6 +693,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     // to avoid NPC infinite switch weapon,
     // only use bionic weapon when the ammo of wielded gun has been used up
     bool ammo_used_up = !weap.is_gun() || ( ammo_count <= 0 && !can_reload_current() );
+    if( !ammo_used_up ) {
+        return;
+    }
 
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
@@ -710,7 +713,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
 
-        if( ammo_used_up && weapon_value( weap, 0 ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             if( real_weapon.is_null() ) {
                 // Prevent replacing real weapon when migrating saves
                 real_weapon = weap;
@@ -730,14 +733,14 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         const item cbm_weapon = bio.get_weapon();
 
-        if( ammo_used_up && weapon_value( weap, 0 ) < weapon_value( cbm_weapon, 0 ) ) {
+        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, 0 ) ) {
             if( is_armed() ) {
                 stow_item( *weapon );
             }
             add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                     disp_name(), bio.info().name );
 
-            set_wielded_item( bio.get_weapon() );
+            set_wielded_item( cbm_weapon );
             mod_power_level( -bio.info().power_activate );
             bio.powered = true;
             weapon_bionic_uid = bio.get_uid();
@@ -1341,6 +1344,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
             }
             set_wielded_item( item() );
             weapon_bionic_uid = 0;
+            cached_info.erase( "weapon_value" );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
