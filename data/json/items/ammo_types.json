@@ -7,9 +7,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "700nx",
-    "name": ".700 Nitro Express",
-    "default": "700nx"
+    "id": "458wm",
+    "name": ".458 Winchester Magnum",
+    "default": "458wm"
   },
   {
     "type": "ammunition_type",

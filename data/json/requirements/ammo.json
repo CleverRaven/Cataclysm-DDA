@@ -47,6 +47,12 @@
     "components": [ [ [ "380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_458wm",
+    "type": "requirement",
+    "//": "Components required for 458 WM ammo",
+    "components": [ [ [ "458wm_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_57",
     "type": "requirement",
     "//": "Components required for 57 ammo",

@@ -400,12 +400,12 @@
     "replace": "bp_rifle_AP"
   },
   {
-    "id": [ "50_incendiary", "50_mk211", "50bmg", "50match" ],
+    "id": [ "50_incendiary", "50_mk211", "50bmg", "50match", "458wm" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_ball"
   },
   {
-    "id": [ "reloaded_50_incendiary", "reloaded_50bmg" ],
+    "id": [ "reloaded_50_incendiary", "reloaded_458wm", "reloaded_50bmg" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_ball"
   },
@@ -425,7 +425,7 @@
     "replace": "bp_rifle_huge_AP"
   },
   {
-    "id": [ "bp_50_incendiary", "bp_50match" ],
+    "id": [ "bp_50_incendiary", "bp_458wm", "bp_50match" ],
     "type": "MIGRATION",
     "replace": "bp_rifle_huge_ball"
   },
