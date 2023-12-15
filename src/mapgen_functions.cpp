@@ -2000,12 +2000,23 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( n_ocean && w_ocean ) {
             nw.x += sector_length / 2;
             nw.y += sector_length / 2;
-        } else if( n_shore && w_shore ) {
+        } else if( ( n_shore || n_river_bank ) && ( w_shore || w_river_bank ) ) {
             point n = nw_corner;
             point w = nw_corner;
 
-            n.x += sector_length;
-            w.y += sector_length;
+            n.x += sector_length * ( n_river_bank ? 2 : 1 );
+            w.y += sector_length * ( w_river_bank ? 2 : 1 );
+
+            n.y += n_river_bank ? sector_length / 2 : 0;
+            w.x += w_river_bank ? sector_length / 2 : 0;
+
+            if( w_river_bank ) {
+                line_segments.push_back( { sw, w } );
+            }
+
+            if( n_river_bank ) {
+                line_segments.push_back( { n, ne } );
+            }
 
             line_segments.push_back( { n, w } );
         }
@@ -2015,12 +2026,23 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( n_ocean && e_ocean ) {
             ne.x -= sector_length / 2;
             ne.y += sector_length / 2;
-        } else if( n_shore && e_shore ) {
+        } else if( ( n_shore || n_river_bank ) && ( e_shore || e_river_bank ) ) {
             point n = ne_corner;
             point e = ne_corner;
 
-            n.x -= sector_length;
-            e.y += sector_length;
+            n.x -= sector_length * ( n_river_bank ? 2 : 1 );
+            e.y += sector_length * ( e_river_bank ? 2 : 1 );
+
+            n.y += n_river_bank ? sector_length / 2 : 0;
+            e.x -= e_river_bank ? sector_length / 2 : 0;
+
+            if( e_river_bank ) {
+                line_segments.push_back( { se, e } );
+            }
+
+            if( n_river_bank ) {
+                line_segments.push_back( { n, nw } );
+            }
 
             line_segments.push_back( { n, e } );
         }
@@ -2030,12 +2052,23 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( s_ocean && w_ocean ) {
             sw.x += sector_length / 2;
             sw.y -= sector_length / 2;
-        } else if( s_shore && w_shore ) {
+        } else if( ( s_shore || s_river_bank ) && ( w_shore || w_river_bank ) ) {
             point s = sw_corner;
             point w = sw_corner;
 
-            s.x += sector_length;
-            w.y -= sector_length;
+            s.x += sector_length * ( s_river_bank ? 2 : 1 );
+            w.y -= sector_length * ( w_river_bank ? 2 : 1 );
+
+            s.y -= s_river_bank ? sector_length / 2 : 0;
+            w.x += w_river_bank ? sector_length / 2 : 0;
+
+            if( w_river_bank ) {
+                line_segments.push_back( { nw, w } );
+            }
+
+            if( s_river_bank ) {
+                line_segments.push_back( { s, se } );
+            }
 
             line_segments.push_back( { s, w } );
         }
@@ -2045,12 +2078,23 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( s_ocean && e_ocean ) {
             se.x -= sector_length / 2;
             se.y -= sector_length / 2;
-        } else if( s_shore && e_shore ) {
+        } else if( ( s_shore || s_river_bank ) && ( e_shore || e_river_bank ) ) {
             point s = se_corner;
             point e = se_corner;
 
-            s.x -= sector_length;
-            e.y -= sector_length;
+            s.x -= sector_length * ( s_river_bank ? 2 : 1 );
+            e.y -= sector_length * ( e_river_bank ? 2 : 1 );
+
+            s.y -= s_river_bank ? sector_length / 2 : 0;
+            e.x -= e_river_bank ? sector_length / 2 : 0;
+
+            if( e_river_bank ) {
+                line_segments.push_back( { ne, e } );
+            }
+
+            if( s_river_bank ) {
+                line_segments.push_back( { s, sw } );
+            }
 
             line_segments.push_back( { s, e } );
         }
