@@ -1375,7 +1375,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Terraforming - Earth", "str_pl": "sets of Terraforming - Earth" },
-    "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player ot players must work together to restore the planet’s ecosystems, atmosphere, and climate while also competing for resources and prestige.",
+    "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet’s ecosystems, atmosphere, and climate while also competing for resources and prestige.",
     "weight": "1004 g",
     "volume": "1450 ml",
     "price": 7050,
