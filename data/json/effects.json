@@ -3645,7 +3645,7 @@
       "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
     ],
     "max_intensity": 3,
-    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "//": "Mood debuff is handled separately by bad_food_mood_debuff EoC.",
     "rating": "bad"
   },
   {
