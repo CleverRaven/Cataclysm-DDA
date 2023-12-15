@@ -1119,7 +1119,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Farmland", "str_pl": "sets of Farmland" },
-    "description": "A fun strategy board game where players (or just a player, since you can play this alone as a solitaire board game) attempt to improve their farms by plowing fields, sowing crops, raising livestock, and expanding their families.  The game is set in the European farming community during the 17th century..",
+    "description": "A fun strategy board game where players (or just a player, since you can play this alone as a solitaire board game) attempt to improve their farms by plowing fields, sowing crops, raising livestock, and expanding their families.  The game is set in the European farming community during the 17th century.",
     "weight": "904 g",
     "volume": "1350 ml",
     "price": 7050,
