@@ -815,7 +815,7 @@
   {
     "id": "mon_vocal_bigfrog",
     "type": "MONSTER",
-    "name": { "str": "wailing frog" },
+    "name": { "str": "wailing treefrog" },
     "description": "Now the size of a dog, this tan, speckled tree frog will not stop making noise.  Its increased size has only boosted its volume.  It belts out sound in a relentless series of piercing, grinding chirps.",
     "copy-from": "mon_jumbo_bigfrog",
     "special_attacks": [

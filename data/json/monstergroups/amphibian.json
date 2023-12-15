@@ -649,7 +649,17 @@
   {
     "name": "GROUP_FROGS_UPGRADE_VOCAL",
     "type": "monstergroup",
-    "default": "mon_vocal_bigfrog",
-    "monsters": [ { "monster": "mon_vocal_bigfrog", "weight": 50 }, { "monster": "mon_jumbo_bigfrog", "weight": 50 } ]
+    "default": "mon_vocal_frog",
+    "monsters": [
+      { "monster": "mon_vocal_frog", "weight": 100 },
+      { "monster": "mon_vocal_bigfrog", "weight": 50 },
+      { "monster": "mon_jumbo_bigfrog", "weight": 50 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_UPGRADE_SHIFT",
+    "type": "monstergroup",
+    "default": "mon_shift_frog",
+    "monsters": [ { "monster": "mon_shift_frog", "weight": 70 }, { "monster": "mon_shift_bigfrog", "weight": 30 } ]
   }
 ]
