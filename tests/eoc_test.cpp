@@ -92,6 +92,7 @@ static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test4( "EOC_run_inv_test4" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test5( "EOC_run_inv_test5" );
 static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
@@ -971,6 +972,15 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     } );
 
     CHECK( items_after.size() == 1 );
+
+    // Test search_data: excluded flags
+    CHECK( effect_on_condition_EOC_run_inv_test5->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key5" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 3 );
 
     // Flag test for item
     CHECK( effect_on_condition_EOC_item_flag_test->activate( d ) );
