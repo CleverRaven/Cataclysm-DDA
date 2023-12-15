@@ -4604,5 +4604,19 @@
       "venom_pain",
       "venom_weaken"
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ink_gland_ink",
+    "name": [ "Depleted ink", "Deflated ink glands", "Inky glands", "Bulged ink glands" ],
+    "show_intensity": true,
+    "desc": [
+      "Your ink glands are empty.  Given some time and hydration they will recharge.",
+      "Your ink glands are almost empty.  Given some time and hydration they will recharge.",
+      "Your ink glands have some ink inside.  Given some time and hydration, more ink will be generated.",
+      "Your ink glands are bulged and full.  No more ink is being created."
+    ],
+    "max_intensity": 4,
+    "rating": "neutral"
   }
 ]

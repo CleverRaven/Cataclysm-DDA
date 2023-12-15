@@ -1,0 +1,152 @@
+[
+  {
+    "id": "modular_ar15",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_223rem" } ]
+  },
+  {
+    "id": "ar15_223long",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_223rem_extended" } ]
+  },
+  {
+    "id": "ar15_223medium",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_223rem_medium" } ]
+  },
+  {
+    "id": "ar15_223short",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_223rem_short" } ]
+  },
+  {
+    "id": "ar15_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_300blk" } ]
+  },
+  {
+    "id": "ar15_300medium",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_300blk_medium" } ]
+  },
+  {
+    "id": "ar15_300short",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_300blk_short" } ]
+  },
+  {
+    "id": "ar15_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_50beowulf" } ]
+  },
+  {
+    "id": "ar15_50medium",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_50beowulf_medium" } ]
+  },
+  {
+    "id": "ar15_50short",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_50beowulf_short" } ]
+  },
+  {
+    "id": "ar15_450",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_450" } ]
+  },
+  {
+    "id": "ar15_450medium",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_450_medium" } ]
+  },
+  {
+    "id": "ar15_450short",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_450_short" } ]
+  },
+  {
+    "id": "ar15_762",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_762" } ]
+  },
+  {
+    "id": "mdrx_223",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mdrx", "contents-item": "retool_mdrx_223rem" } ]
+  },
+  {
+    "id": "mdrx_223short",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mdrx", "contents-item": "retool_mdrx_223rem_short" } ]
+  },
+  {
+    "id": "mdrx",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mdrx", "contents-item": "retool_mdrx_223rem_medium" } ]
+  },
+  {
+    "id": "mdrx_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mdrx", "contents-item": "retool_mdrx_300blk" } ]
+  },
+  {
+    "id": "mdrx_308",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mdrx", "contents-item": "retool_mdrx_308win" } ]
+  },
+  {
+    "id": "mdrx_308medium",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mdrx", "contents-item": "retool_mdrx_308win_medium" } ]
+  },
+  {
+    "id": "axmc",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "axmc", "contents-item": "retool_axmc_338lapua" } ]
+  },
+  {
+    "id": "axmc_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "axmc_300", "contents-item": "retool_axmc_300win" } ]
+  },
+  {
+    "id": "axmc_308",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "axmc_308", "contents-item": "retool_axmc_308win" } ]
+  },
+  {
+    "id": "cz600",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cz600", "contents-item": "retool_cz600_223rem" } ]
+  },
+  {
+    "id": "cz600_762",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cz600", "contents-item": "retool_cz600_762" } ]
+  }
+]

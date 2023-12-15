@@ -163,7 +163,7 @@
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "clair_ranged_enhance": 6, "clair_voyance": 10, "clair_clear_sight": 15 }
+    "learn_spells": { "clair_ranged_enhance": 6, "clair_voyance": 10, "clair_craft_bonus": 12, "clair_clear_sight": 17 }
   },
   {
     "id": "clair_see_auras",
@@ -203,7 +203,7 @@
         "u_effect_intensity('effect_clair_see_auras') > -1 ? 10 : max((300 -(u_val('spell_level', 'spell: clair_see_auras') * 8.5)), 100)"
       ]
     },
-    "learn_spells": { "clair_dodge_power": 9, "clair_clear_sight": 15 }
+    "learn_spells": { "clair_dodge_power": 9, "clair_craft_bonus": 12, "clair_clear_sight": 15 }
   },
   {
     "id": "clair_sense_rads",
@@ -321,7 +321,13 @@
         "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 10 : max((200 -(u_val('spell_level', 'spell: clair_ranged_enhance') * 6)), 125)"
       ]
     },
-    "learn_spells": { "clair_spot_weakness": 5, "clair_see_map": 9, "clair_perfect_shot": 12, "clair_clear_sight": 16 }
+    "learn_spells": {
+      "clair_spot_weakness": 5,
+      "clair_craft_bonus": 8,
+      "clair_see_map": 10,
+      "clair_perfect_shot": 12,
+      "clair_clear_sight": 16
+    }
   },
   {
     "id": "clair_voyance",
