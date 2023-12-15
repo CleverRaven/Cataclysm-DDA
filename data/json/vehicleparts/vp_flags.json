@@ -669,7 +669,6 @@
   },
   {
     "id": "CARGO_PASSABLE",
-    "type": "json_flag",
-    "requires_flag": "CARGO_PASSABLE"
+    "type": "json_flag"
   }
 ]

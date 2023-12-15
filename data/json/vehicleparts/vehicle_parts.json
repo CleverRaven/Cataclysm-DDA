@@ -377,7 +377,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED", "CARGO_PASSABLE" ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "CARGO_PASSABLE", "LOCKABLE_CARGO", "COVERED" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
