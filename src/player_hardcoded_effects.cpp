@@ -54,6 +54,7 @@ static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bleedrate_up( "bleedrate_up" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
@@ -295,7 +296,17 @@ static void eff_fun_bleed( Character &u, effect &it )
     // Presuming that during the first-aid process you're putting pressure
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
-    const int intense = it.get_intensity();
+
+    // each aspirin you take gives you 1 points of intensity, which should be around 5% more bleeding.
+    // TODO: move to a non-linear model, as that makes more sense.
+    constexpr float BLOODLOSS_TO_INTENSITY_CONST = 0.05f;
+
+    float bloodloss_mod = 1;
+    if( u.has_effect( effect_bleedrate_up ) ) {
+        bloodloss_mod *= u.get_effect_int( effect_bleedrate_up ) * BLOODLOSS_TO_INTENSITY_CONST;
+    }
+    const int intense = static_cast<int>( std::round( it.get_intensity() ) * bloodloss_mod );
+
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
     // proficiency improves that factor to 3/4 and 4/5 respectively
     bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
