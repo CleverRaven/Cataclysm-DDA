@@ -1,54 +1,6 @@
 [
   {
     "id": "artifact_teleportitis_aura",
-    "type": "ARMOR",
-    "name": { "str": "strange pressure" },
-    "description": "You feel a strange force pressing you inwards and inside-out.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "white",
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "TRANSPARENT",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_teleportitis" } ] }
-  },
-  {
-    "id": "artifact_slow_aura",
-    "type": "ARMOR",
-    "name": { "str": "temporal distortion" },
-    "description": "A slight temporal distortion appears to be centered around you.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "white",
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "TRANSPARENT",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_slow_aura" } ] }
-  },
-  {
-    "id": "artifact_teleportitis_aura",
     "type": "effect_type",
     "name": [ "Strange Pressure" ],
     "desc": [ "You feel a strange force pressing you inwards and inside-out" ],
