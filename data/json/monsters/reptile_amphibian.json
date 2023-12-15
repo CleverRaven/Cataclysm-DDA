@@ -844,7 +844,7 @@
     "armor": { "bash": 5, "acid": 2, "heat": 5, "electric": 4 },
     "vision_night": 35,
     "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 12, "baby_timer": 20 },
-    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
+    "extend": { "flags": [ "CAMOUFLAGE" ] },
     "//": "Give climbing (Z axis) ability when available."
   },
   {
