@@ -37,7 +37,9 @@
 #include "units.h"
 #include "vpart_position.h"
 
+static const itype_id itype_acetaminophen( "acetaminophen" );
 static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_ibuprofen( " ibuprofen" );
 static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
@@ -796,7 +798,8 @@ bool inventory::has_enough_painkiller( int pain ) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if( ( pain <= 35 && it.typeId() == itype_aspirin ) ||
+        if( ( pain <= 35 && it.typeId() == itype_aspirin  || it.typeId() == itype_acetaminophen ||
+              it.typeId() == itype_ibuprofen ) ||
             ( pain >= 50 && it.typeId() == itype_oxycodone ) ||
             it.typeId() == itype_tramadol || it.typeId() == itype_codeine ) {
             return true;
@@ -812,7 +815,7 @@ item *inventory::most_appropriate_painkiller( int pain )
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
-        if( type == itype_aspirin ) {
+        if( type == itype_aspirin || type == itype_acetaminophen || type == itype_ibuprofen ) {
             diff = std::abs( pain - 15 );
         } else if( type == itype_codeine ) {
             diff = std::abs( pain - 30 );
