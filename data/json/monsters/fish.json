@@ -1245,6 +1245,13 @@
     "reproduction": { "baby_egg": "egg_mackerel", "baby_count": 3, "baby_timer": 20 }
   },
   {
+    "id": "mon_fry_mackerel",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_mackerel" },
+    "name": { "str_sp": "mackerel fry" }
+  },
+  {
     "id": "mon_fish_flounder",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
@@ -1253,6 +1260,13 @@
     "volume": "2500 ml",
     "weight": "1400 g",
     "reproduction": { "baby_egg": "egg_flounder", "baby_count": 2, "baby_timer": 22 }
+  },
+  {
+    "id": "mon_fry_flounder",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_flounder" },
+    "name": { "str_sp": "flounder fry" }
   },
   {
     "id": "mon_fish_blackfish",
@@ -1265,6 +1279,13 @@
     "reproduction": { "baby_egg": "egg_blackfish", "baby_count": 2, "baby_timer": 15 }
   },
   {
+    "id": "mon_fry_blackfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_blackfish" },
+    "name": { "str_sp": "black sea bass fry" }
+  },
+  {
     "id": "mon_fish_porgy",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
@@ -1273,6 +1294,13 @@
     "volume": "1300 ml",
     "weight": "550 g",
     "reproduction": { "baby_egg": "egg_porgy", "baby_count": 3, "baby_timer": 16 }
+  },
+  {
+    "id": "mon_fry_porgy",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_porgy" },
+    "name": { "str_sp": "scup (porgy) fry" }
   },
   {
     "id": "mon_fish_bluefish",
@@ -1285,6 +1313,13 @@
     "reproduction": { "baby_egg": "egg_bluefish", "baby_count": 2, "baby_timer": 18 }
   },
   {
+    "id": "mon_fry_bluefish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_bluefish" },
+    "name": { "str_sp": "bluefish fry" }
+  },
+  {
     "id": "mon_fish_cod",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
@@ -1293,6 +1328,13 @@
     "volume": "35000 ml",
     "weight": "22 kg",
     "reproduction": { "baby_egg": "egg_cod", "baby_count": 3, "baby_timer": 19 }
+  },
+  {
+    "id": "mon_fry_cod",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_cod" },
+    "name": { "str_sp": "cod fry" }
   },
   {
     "id": "mon_fish_haddock",
@@ -1305,6 +1347,13 @@
     "reproduction": { "baby_egg": "egg_haddock", "baby_count": 3, "baby_timer": 18 }
   },
   {
+    "id": "mon_fry_haddock",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_haddock" },
+    "name": { "str_sp": "haddock fry" }
+  },
+  {
     "id": "mon_fish_bluefin_tuna",
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
@@ -1315,6 +1364,13 @@
     "reproduction": { "baby_egg": "egg_bluefin_tuna", "baby_count": 1, "baby_timer": 22 }
   },
   {
+    "id": "mon_fry_bluefin_tuna",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_bluefin_tuna" },
+    "name": { "str_sp": "bluefin tuna fry" }
+  },
+  {
     "id": "mon_fish_halibut",
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
@@ -1323,6 +1379,13 @@
     "volume": "75000 ml",
     "weight": "42 kg",
     "reproduction": { "baby_egg": "egg_halibut", "baby_count": 2, "baby_timer": 20 }
+  },
+  {
+    "id": "mon_fry_halibut",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_halibut" },
+    "name": { "str_sp": "halibut fry" }
   },
   {
     "id": "mon_fish_pollock",
@@ -1336,73 +1399,10 @@
     "reproduction": { "baby_egg": "egg_pollock", "baby_count": 3, "baby_timer": 17 }
   },
   {
-    "id": "mon_fry_cod",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_cod" },
-    "name": { "str_sp": "cod fry" }
-  },
-  {
-    "id": "mon_fry_haddock",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_haddock" },
-    "name": { "str_sp": "haddock fry" }
-  },
-  {
-    "id": "mon_fry_bluefin_tuna",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluefin_tuna" },
-    "name": { "str_sp": "bluefin tuna fry" }
-  },
-  {
-    "id": "mon_fry_halibut",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_halibut" },
-    "name": { "str_sp": "halibut fry" }
-  },
-  {
     "id": "mon_fry_pollock",
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_pollock" },
     "name": { "str_sp": "pollock fry" }
-  },
-  {
-    "id": "mon_fry_flounder",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_flounder" },
-    "name": { "str_sp": "flounder fry" }
-  },
-  {
-    "id": "mon_fry_mackerel",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_mackerel" },
-    "name": { "str_sp": "mackerel fry" }
-  },
-  {
-    "id": "mon_fry_bluefish",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluefish" },
-    "name": { "str_sp": "bluefish fry" }
-  },
-  {
-    "id": "mon_fry_blackfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_blackfish" },
-    "name": { "str_sp": "black sea bass fry" }
-  },
-  {
-    "id": "mon_fry_porgy",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_porgy" },
-    "name": { "str_sp": "scup (porgy) fry" }
   }
 ]

@@ -61,8 +61,8 @@
 #include "translations.h"
 
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
-static const mongroup_id GROUP_OCEAN_SHORE( "GROUP_OCEAN_SHORE" );
 static const mongroup_id GROUP_OCEAN_DEEP( "GROUP_OCEAN_DEEP" );
+static const mongroup_id GROUP_OCEAN_SHORE( "GROUP_OCEAN_SHORE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
