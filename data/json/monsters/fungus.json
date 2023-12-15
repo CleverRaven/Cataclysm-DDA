@@ -451,7 +451,7 @@
     "type": "MONSTER",
     "name": { "str": "fungal wasp queen" },
     "description": "A mutated wasp queen that has been consumed by a sickly grey mold covering it's body.  Abandoning it's duty to laying eggs, it seemingly searches for anything to attack, as a mist of spores emit from it's mandibles.",
-    "copy-from": "mon_wasp_guard",
+    "copy-from": "mon_wasp_small_guard_fungus",
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_large",
     "armor": { "bash": 3, "cut": 10, "stab": 8, "bullet": 5, "electric": 2 }
