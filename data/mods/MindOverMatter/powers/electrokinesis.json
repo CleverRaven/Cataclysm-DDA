@@ -353,7 +353,7 @@
     "type": "SPELL",
     "name": "[Ψ]Re-energize",
     "description": "Turn your own energy into power for a vehicle or appliance.  You need merely touch the vehicle or any part of the power grid to recharge the batteries.",
-    "message": "You touch your target and power flows into it.",
+    "message": "Power flows into your target.",
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "ELECTROKINETIC",
