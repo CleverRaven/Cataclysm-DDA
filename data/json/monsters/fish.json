@@ -1268,7 +1268,7 @@
     "id": "mon_fish_porgy",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": { "str": "scup" },
+    "name": { "str_sp": "scup" },
     "description": "Also known as porgy, the scup is a small fish commonly found in Atlantic coastal waters, recognizable by its silver body with blue and purple tinges.",
     "volume": "1300 ml",
     "weight": "550 g",
