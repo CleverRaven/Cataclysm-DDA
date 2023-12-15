@@ -293,7 +293,7 @@
   {
     "abstract": "mon_proxy_tadpole",
     "type": "MONSTER",
-    "description": "The larval form of some species of frog. Soon enough it will undergo metamorphosis into its adult form. This one is only hypothetical and you shouldn't be seeing it.",
+    "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This one is only hypothetical and you shouldn't be seeing it.",
     "name": { "str": "tadpole" },
     "default_faction": "fish",
     "bodytype": "fish",
