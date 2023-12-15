@@ -537,7 +537,7 @@
       { "u_lose_trait": "ROSEBUDS_WINTER" },
       { "u_lose_trait": "ROSEBUDS" },
       { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_SUMMER" 
+      { "u_add_trait": "ROSEBUDS_SUMMER" }
     ]
   },
   {
@@ -650,6 +650,8 @@
         "u_add_effect": "ink_gland_ink",
         "duration": "PERMANENT",
         "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') - 1" ] }
+      }
+    ]
   },
   {
     "id": "EOC_ink_gland_recharge_timer",
