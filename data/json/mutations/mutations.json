@@ -696,6 +696,8 @@
     "category": [ "INSECT" ],
     "threshreq": [ "THRESH_INSECT" ],
     "active": true,
+    "kcal": true,
+    "cost": 400,
     "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
@@ -1422,7 +1424,7 @@
     "cancels": [ "UNOBSERVANT" ],
     "valid": false,
     "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+    "transform": { "target": "EAGLEEYED", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -3889,21 +3891,13 @@
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
-    "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [
-      {
-        "hit_me_effect": [
-          {
-            "id": "generic_blinding_spray_1",
-            "hit_self": false,
-            "once_in": 15,
-            "message": "Your ink glands spray some ink into %2$s's eyes!",
-            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes!"
-          }
-        ]
-      }
-    ],
-    "category": [ "CEPHALOPOD" ]
+    "description": "Several ink glands have developed in your gill structure.  When active, they will spray defensive ink and blind an attacker in an emergency.",
+    "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "ink_gland_spray_primer", "once_in": 2, "hit_self": true } ] } ],
+    "prereqs": [ "GILLS_CEPH" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "category": [ "CEPHALOPOD" ],
+    "active": true,
+    "starts_active": true
   },
   {
     "type": "mutation",
@@ -3913,7 +3907,10 @@
     "visibility": 1,
     "ugliness": 2,
     "description": "You exude slime from your pores.  You can spread that slime on an opponent in melee range.",
-    "spells_learned": [ [ "spell_slime_spray", 1 ] ],
+    "active": true,
+    "kcal": true,
+    "cost": 700,
+    "activated_eocs": [ "EOC_SLIME_SPRAY" ],
     "prereqs": [ "VISCOUS", "AMORPHOUS" ],
     "category": [ "GASTROPOD" ]
   },
@@ -4380,7 +4377,10 @@
     "points": 1,
     "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
-    "spells_learned": [ [ "spell_feline_leap", 1 ] ],
+    "active": true,
+    "kcal": true,
+    "cost": 400,
+    "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
     "prereqs": [ "TAIL_LONG" ],
     "prereqs2": [ "STRONG_LEGS" ],
@@ -4395,7 +4395,8 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You've gained a strong ability to leap from a standing position.",
-    "spells_learned": [ [ "spell_short_leap", 1 ] ],
+    "active": true,
+    "activated_eocs": [ "EOC_SHORT_LEAP" ],
     "prereqs": [ "STRONG_LEGS" ],
     "changes_to": [ "LEAPING_LEGS2" ],
     "category": [ "BATRACHIAN", "RABBIT" ],
@@ -4409,7 +4410,8 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You've gained a strong ability to leap a significant distance from a standing position and crush whatever you land on.",
-    "spells_learned": [ [ "spell_crushing_leap", 1 ] ],
+    "active": true,
+    "activated_eocs": [ "EOC_CRUSHING_LEAP" ],
     "prereqs": [ "LEAPING_LEGS" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ]
@@ -4444,7 +4446,8 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your legs and feet have become bird-like.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
-    "spells_learned": [ [ "spell_avian_leap", 1 ] ],
+    "active": true,
+    "activated_eocs": [ "EOC_AVIAN_LEAP" ],
     "types": [ "LEGS", "FEET" ],
     "prereqs": [ "WINGS_BIRD" ],
     "threshreq": [ "THRESH_BIRD" ],

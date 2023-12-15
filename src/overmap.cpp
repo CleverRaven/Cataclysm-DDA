@@ -581,6 +581,11 @@ bool is_river( const oter_id &ter )
     return ter->is_river();
 }
 
+bool is_lake_or_river( const oter_id &ter )
+{
+    return ter->is_river() || ter->is_lake() || ter->is_lake_shore();
+}
+
 bool is_water_body( const oter_id &ter )
 {
     return ter->is_river() || ter->is_lake() || ter->is_lake_shore() || ter->is_ocean() ||
@@ -6979,12 +6984,12 @@ void overmap::place_mongroups()
             int river_count = 0;
             for( int sx = x - 3; sx <= x + 3; sx++ ) {
                 for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_water_body( ter( { sx, sy, 0 } ) ) ) {
+                    if( is_lake_or_river( ter( { sx, sy, 0 } ) ) ) {
                         river_count++;
                     }
                 }
             }
-            if( river_count >= 25 ) {
+            if( river_count >= 25 && is_lake_or_river( ter( { x, y, 0 } ) ) ) {
                 tripoint_om_omt p( x, y, 0 );
                 float norm_factor = std::abs( GROUP_RIVER->freq_total / 1000.0f );
                 unsigned int pop =
