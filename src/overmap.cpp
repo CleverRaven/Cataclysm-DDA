@@ -4715,7 +4715,7 @@ float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_
         ocean_adjust_S = 0.0005f * static_cast<float>( p.y() + ( this_om.y() - southern_ocean ) * OMAPY );
     }
     return std::max( { ocean_adjust_N, ocean_adjust_E, ocean_adjust_W, ocean_adjust_S } );
-};
+}
 
 void overmap::place_oceans()
 {

@@ -1239,7 +1239,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "atlantic mackerel" },
-    "description": "An Atlantic mackerel. Known for its distinctive striped pattern.",
+    "description": "An Atlantic mackerel, known for its distinctive striped pattern.",
     "volume": "3000 ml",
     "weight": "1600 g",
     "reproduction": { "baby_egg": "egg_mackerel", "baby_count": 3, "baby_timer": 20 }
@@ -1256,7 +1256,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "flounder" },
-    "description": "A flounder, also known as a fluke, camouflaged against the ocean floor.",
+    "description": "A flatfish, the flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
     "volume": "2500 ml",
     "weight": "1400 g",
     "reproduction": { "baby_egg": "egg_flounder", "baby_count": 2, "baby_timer": 22 }
@@ -1307,7 +1307,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str_sp": "bluefish" },
-    "description": "The bluefish, a moderately proportioned marine fish, is known for its aggressive nature and sharp teeth. It sports a distinct blue-green coloration.",
+    "description": "The bluefish, a moderately proportioned marine fish, is known for its aggressive nature and sharp teeth.  It sports a distinct blue-green coloration.",
     "volume": "1600 ml",
     "weight": "700 g",
     "reproduction": { "baby_egg": "egg_bluefish", "baby_count": 2, "baby_timer": 18 }
@@ -1324,7 +1324,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str_sp": "Atlantic cod" },
-    "description": "A large, white-meat fish known for its mild flavor and flaky texture. Highly prized in both commercial and recreational fishing.",
+    "description": "A large, white-meat fish known for its mild flavor and flaky texture.  Highly prized in both commercial and recreational fishing.",
     "volume": "35000 ml",
     "weight": "22 kg",
     "reproduction": { "baby_egg": "egg_cod", "baby_count": 3, "baby_timer": 19 }
@@ -1358,7 +1358,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
     "name": { "str_sp": "Atlantic bluefin tuna" },
-    "description": "One of the largest and fastest fish in the ocean, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
+    "description": "One of the largest and fastest fish in the waters of New England, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
     "volume": "125000 ml",
     "weight": "98 kg",
     "reproduction": { "baby_egg": "egg_bluefin_tuna", "baby_count": 1, "baby_timer": 22 }
