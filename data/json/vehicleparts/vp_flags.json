@@ -666,5 +666,10 @@
     "id": "NEEDS_WHEEL_MOUNT_SKATEBOARD",
     "type": "json_flag",
     "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
+  },
+  {
+    "id": "CARGO_PASSABLE",
+    "type": "json_flag",
+    "requires_flag": "CARGO_PASSABLE"
   }
 ]

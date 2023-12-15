@@ -359,8 +359,8 @@
     "categories": [ "cargo" ],
     "color": "white",
     "durability": 400,
-    "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
-    "size": "100 L",
+    "description": "An aisle.  A hatch lets you access a cargo space beneath it, keeping items stored here out of the way.",
+    "size": "87500 ml",
     "item": "cargo_aisle",
     "location": "center",
     "//": "same requirements as aisle to install but higher repair costs due to more mass",
@@ -377,7 +377,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED", "CARGO_PASSABLE" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
