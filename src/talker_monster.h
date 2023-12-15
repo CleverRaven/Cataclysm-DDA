@@ -97,7 +97,7 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
-        void remove_effect( const efftype_id &old_effect ) override;
+        void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
         void mod_pain( int amount ) override;
 
         void set_value( const std::string &var_name, const std::string &value ) override;

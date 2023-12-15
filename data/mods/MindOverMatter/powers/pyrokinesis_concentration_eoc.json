@@ -14,12 +14,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 160) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -54,12 +54,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 160) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
