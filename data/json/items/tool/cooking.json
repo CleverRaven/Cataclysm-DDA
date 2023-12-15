@@ -1020,7 +1020,8 @@
     "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 2,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1045,7 +1046,8 @@
       }
     ],
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 }
   },
   {

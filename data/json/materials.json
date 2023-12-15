@@ -760,6 +760,14 @@
   },
   {
     "type": "material",
+    "id": "drug_filler",
+    "name": "Drug filler",
+    "copy-from": "flesh",
+    "//": "Assumed a gelatine capsule that contain the drug, but can be any another drug filler like glucose, lactose, sucrose and the like.  Created so we don't need to specify three billion chemicals used in pills.",
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ]
+  },
+  {
+    "type": "material",
     "id": "gutskin",
     "name": "Gutskin",
     "density": 1.1,
@@ -998,6 +1006,27 @@
       { "fuel": 0, "smoke": 5, "burn": 0.005 }
     ],
     "resist": { "bash": 0, "cut": 0, "acid": 1, "heat": 1, "bullet": 0 }
+  },
+  {
+    "type": "material",
+    "id": "sugar",
+    "name": "Sugar",
+    "//": "Any carbohydrates, ideally, but since not a lot of them exist now, name is a `sugar`",
+    "density": 1.59,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 124,
+    "conductive": true,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 150, "smoke": 6, "burn": 1 },
+      { "fuel": 300, "smoke": 6, "burn": 2 },
+      { "fuel": 450, "smoke": 6, "burn": 3 }
+    ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
   },
   {
     "type": "material",

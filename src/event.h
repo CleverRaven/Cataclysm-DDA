@@ -89,6 +89,7 @@ enum class event_type : int {
     fuel_tank_explodes,
     gains_addiction,
     gains_mutation,
+    gains_proficiency,
     gains_skill_level,
     game_avatar_death,
     game_avatar_new,
@@ -101,6 +102,7 @@ enum class event_type : int {
     installs_faulty_cbm,
     learns_martial_art,
     loses_addiction,
+    loses_mutation,
     npc_becomes_hostile,
     opens_portal,
     opens_spellbook,
@@ -182,7 +184,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 97,
+static_assert( static_cast<int>( event_type::num_event_types ) == 99,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -605,6 +607,15 @@ struct event_spec<event_type::gains_mutation> {
 };
 
 template<>
+struct event_spec<event_type::gains_proficiency> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "proficiency", cata_variant_type::proficiency_id },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::gains_skill_level> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "character", cata_variant_type::character_id },
@@ -713,6 +724,14 @@ struct event_spec<event_type::loses_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "add_type", cata_variant_type::addiction_id },
+        }
+    };
+};
+template<>
+struct event_spec<event_type::loses_mutation> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "trait", cata_variant_type::trait_id },
         }
     };
 };

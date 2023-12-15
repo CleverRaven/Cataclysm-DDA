@@ -1278,12 +1278,20 @@ void item::update_modified_pockets()
     std::optional<const pocket_data *> mag_or_mag_well;
     std::vector<const pocket_data *> container_pockets;
 
+    // Prevent cleanup of pockets belonging to the item base type
     for( const pocket_data &pocket : type->pockets ) {
         if( pocket.type == pocket_type::CONTAINER ) {
             container_pockets.push_back( &pocket );
         } else if( pocket.type == pocket_type::MAGAZINE ||
                    pocket.type == pocket_type::MAGAZINE_WELL ) {
             mag_or_mag_well = &pocket;
+        }
+    }
+
+    // Prevent cleanup of added modular pockets
+    for( const item *it : contents.get_added_pockets() ) {
+        for( const pocket_data &pocket : it->type->pockets ) {
+            container_pockets.push_back( &pocket );
         }
     }
 
