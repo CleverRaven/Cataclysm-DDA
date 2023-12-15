@@ -1232,10 +1232,9 @@ struct tile_render_info {
         const tripoint pos;
         // accumulator for 3d tallness of sprites rendered here so far;
         int height_3d = 0;
-        int draw_min_z = -OVERMAP_DEPTH;
 
-        common( const tripoint &pos, const int height_3d, const int draw_min_z )
-            : pos( pos ), height_3d( height_3d ), draw_min_z( draw_min_z ) {}
+        common( const tripoint &pos, const int height_3d )
+            : pos( pos ), height_3d( height_3d ) {}
     };
 
     struct vision_effect {
@@ -1475,7 +1474,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     invisible[0] = true;
                 } else {
                     if( would_apply_vision_effects( offscreen_type ) ) {
-                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0, pos.z },
+                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ offscreen_type } );
                     }
                     continue;
@@ -1653,7 +1652,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             || you.sees_with_specials( *critter ) ) ) ) {
                         invisible[0] = true;
                     } else {
-                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0, pos.z },
+                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ vis_type } );
                         continue;
                     }
@@ -1664,16 +1663,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 invisible[1 + i] = apply_visible( np, ch, here );
             }
 
-            // Determine lowest z-level to draw for 3D vision. Some off-screen
-            // tiles are also considered here to simply the logic.
-            int draw_min_z;
-            tripoint p_temp = pos;
-            while( !here.dont_draw_lower_floor( p_temp ) && pos.z - p_temp.z < max_draw_depth ) {
-                p_temp.z -= 1;
-            }
-            draw_min_z = p_temp.z;
-
-            draw_points[row].emplace_back( tile_render_info::common{ pos, 0, draw_min_z },
+            draw_points[row].emplace_back( tile_render_info::common{ pos, 0 },
                                            tile_render_info::sprite{ ll, invisible } );
         }
     }
@@ -1727,15 +1717,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Start drawing from the lowest visible z-level (some off-screen tiles
         // are considered visible here to simplify the logic.)
         int cur_zlevel = center.z + 1;
-        for( const std::pair<const int, std::vector<tile_render_info>> &pts : draw_points ) {
-            for( const tile_render_info &p : pts.second ) {
-                cur_zlevel = std::min( cur_zlevel, p.com.draw_min_z );
-                if( cur_zlevel <= center.z - max_draw_depth
-                    || cur_zlevel <= -OVERMAP_DEPTH ) {
-                    break;
-                }
-            }
-        }
         while( cur_zlevel <= center.z ) {
             const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
                     ? z_any_tile_range[center.z - cur_zlevel] : top_any_tile_range;
@@ -1749,11 +1730,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 for( auto f : drawing_layers ) {
                     // For each tile
                     for( tile_render_info &p : draw_points[row] ) {
-                        // Skip if z-level less than draw_min_z
-                        // Basically occlusion culling
-                        if( cur_zlevel < p.com.draw_min_z ) {
-                            continue;
-                        }
                         tripoint draw_loc = p.com.pos;
                         draw_loc.z = cur_zlevel;
                         if( const tile_render_info::vision_effect * const
@@ -1779,8 +1755,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 }
                             } else if( f == &cata_tiles::draw_critter_at ) {
                                 // Draw
-                                if( !( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false ) && do_draw_shadow &&
-                                    cur_zlevel == p.com.draw_min_z ) {
+                                if( !( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false ) && do_draw_shadow ) { //replace bottom detection
                                     // Draw shadow of flying critters on bottom-most tile if no other critter drawn
                                     draw_critter_above( draw_loc, ll, p.com.height_3d, invisible );
                                 }
