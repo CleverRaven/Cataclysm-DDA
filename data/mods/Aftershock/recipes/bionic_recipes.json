@@ -99,7 +99,7 @@
     "difficulty": 6,
     "time": "4 h",
     "reversible": true,
-    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
@@ -166,7 +166,7 @@
     "time": "4 h",
     "reversible": true,
     "decomp_learn": 7,
-    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
     "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
@@ -212,7 +212,7 @@
     "time": "6 h",
     "reversible": true,
     "decomp_learn": 7,
-    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
     "using": [ [ "soldering_standard", 100 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
@@ -332,7 +332,7 @@
     "time": "4 h",
     "reversible": true,
     "decomp_learn": 9,
-    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 6 ] ],
     "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
@@ -355,7 +355,7 @@
     "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 5 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 6 ] ],
     "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -383,7 +383,7 @@
     "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 5 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 6 ] ],
     "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -410,7 +410,7 @@
     "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 5 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 6 ] ],
     "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -437,7 +437,7 @@
     "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 6 ] ],
     "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },

@@ -2374,7 +2374,6 @@
       { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
       { "item": "money_bundle_hundred", "prob": 10, "count": [ 1, 2 ] },
       { "group": "coins", "prob": 2, "count": [ 1, 10 ] },
-      [ "recipe_mil_augs", 5 ],
       [ "recipe_caseless", 5 ],
       [ "recipe_labchem", 5 ],
       [ "file", 20 ],

@@ -71,7 +71,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "stone" ],
-    "weight": "1000 g",
+    "weight": "510 g",
     "volume": "185 ml"
   },
   {
@@ -97,7 +97,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "weight": "200 g",
+    "weight": "165 g",
     "volume": "165 ml"
   },
   {
