@@ -369,5 +369,17 @@
     "vanity": true,
     "processed_eocs": [ "natural_hair_color_white" ],
     "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "no_hair_growth",
+    "name": { "str": "No Hair Growth" },
+    "description": "Due to circumstances within your life, your hair will no longer grow.  You can cut it, but it won't come back.",
+    "points": -1,
+    "starting_trait": true,
+    "valid": true,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true
   }
 ]
