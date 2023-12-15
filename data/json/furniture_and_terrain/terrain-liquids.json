@@ -306,6 +306,19 @@
   },
   {
     "type": "terrain",
+    "id": "t_saltwater_cube",
+    "name": "submersed salt water",
+    "description": "You are submerged below the surface of the water, your feet can't touch the ground.  With a watertight container, you could gather salt water from here.",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "SALT_WATER", "WATER_CUBE", "NO_FLOOR_WATER" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
     "id": "t_lake_bed",
     "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "lake bed",

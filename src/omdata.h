@@ -182,6 +182,8 @@ enum class oter_flags : int {
     requires_predecessor,
     lake,
     lake_shore,
+    ocean,
+    ocean_shore,
     ravine,
     ravine_edge,
     generic_loot,
@@ -419,6 +421,14 @@ struct oter_t {
 
         bool is_lake_shore() const {
             return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ocean() const {
+            return type->has_flag( oter_flags::ocean );
+        }
+
+        bool is_ocean_shore() const {
+            return type->has_flag( oter_flags::ocean_shore );
         }
 
         bool is_ravine() const {

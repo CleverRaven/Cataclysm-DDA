@@ -7071,5 +7071,30 @@
     "skill_used": "fabrication",
     "nested_category_data": [ "right_arm_prosthetic_wood", "left_arm_prosthetic_wood", "right_arm_prosthetic_steel", "left_arm_prosthetic_steel" ],
     "difficulty": 4
+  },
+  {
+    "id": "nested_ballistic_plates",
+    "type": "nested_category",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "makeshift ballistic plates",
+    "description": "Recipes related to constructing makeshift ESAPI and ESBI plates.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "scrap_esapi_plate",
+      "lc_esapi_plate",
+      "mc_esapi_plate",
+      "hc_esapi_plate",
+      "ch_esapi_plate",
+      "qt_esapi_plate",
+      "scrap_esbi_plate",
+      "lc_esbi_plate",
+      "mc_esbi_plate",
+      "hc_esbi_plate",
+      "ch_esbi_plate",
+      "qt_esbi_plate"
+    ],
+    "difficulty": 5
   }
 ]
