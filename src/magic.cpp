@@ -714,10 +714,17 @@ int spell::damage( const Creature &caster ) const
                     std::max( leveled_damage,
                               static_cast<int>( type->max_damage.evaluate( d ) ) ) );
     } else {
-        if( type->min_damage.evaluate( d ) >= 0 ||
-            type->max_damage.evaluate( d ) >= type->min_damage.evaluate( d ) ) {
-            return std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
-        } else { // if it's negative, min and max work differently
+        if( type->min_damage.evaluate( d ) >= 0 ) {
+            if( type->max_damage.evaluate( d ) > type->min_damage.evaluate( d ) ) {
+                return std::clamp( leveled_damage, static_cast<int>( type->min_damage.evaluate( d ) ),
+                                   static_cast<int>( type->max_damage.evaluate( d ) ) );
+            } else {
+                return std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            }
+        } else if( type->max_damage.evaluate( d ) < type->min_damage.evaluate( d ) ) {
+            return std::clamp( leveled_damage, static_cast<int>( type->min_damage.evaluate( d ) ),
+                               static_cast<int>( type->max_damage.evaluate( d ) ) );
+        } else {
             return std::max( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
         }
     }
@@ -734,10 +741,18 @@ int spell::accuracy( Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_accuracy = min_leveled_accuracy( caster );
-    if( type->min_accuracy.evaluate( d ) >= 0 ||
-        type->max_accuracy.evaluate( d ) >= type->min_accuracy.evaluate( d ) ) {
-        return std::min( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
-    } else { // if it's negative, min and max work differently
+
+    if( type->min_accuracy.evaluate( d ) > 0 ) {
+        if( type->max_accuracy.evaluate( d ) > type->min_accuracy.evaluate( d ) ) {
+            return std::clamp( leveled_accuracy, static_cast<int>( type->min_accuracy.evaluate( d ) ),
+                               static_cast<int>( type->max_accuracy.evaluate( d ) ) );
+        } else {
+            return std::min( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
+        }
+    } else if( type->max_accuracy.evaluate( d ) < type->min_accuracy.evaluate( d ) ) {
+        return std::clamp( leveled_accuracy, static_cast<int>( type->min_accuracy.evaluate( d ) ),
+                           static_cast<int>( type->max_accuracy.evaluate( d ) ) );
+    } else {
         return std::max( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
     }
 }
@@ -753,10 +768,17 @@ int spell::damage_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_dot = min_leveled_dot( caster );
-    if( type->min_dot.evaluate( d ) >= 0 ||
-        type->max_dot.evaluate( d ) >= type->min_dot.evaluate( d ) ) {
-        return std::min( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
-    } else { // if it's negative, min and max work differently
+    if( type->min_dot.evaluate( d ) >= 0 ) {
+        if( type->max_dot.evaluate( d ) > type->min_dot.evaluate( d ) ) {
+            return std::clamp( leveled_dot, static_cast<int>( type->min_dot.evaluate( d ) ),
+                               static_cast<int>( type->max_dot.evaluate( d ) ) );
+        } else {
+            return std::min( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
+        }
+    } else if( type->max_dot.evaluate( d ) < type->min_dot.evaluate( d ) ) {
+        return std::clamp( leveled_dot, static_cast<int>( type->min_dot.evaluate( d ) ),
+                           static_cast<int>( type->max_dot.evaluate( d ) ) );
+    } else {
         return std::max( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
     }
 }
@@ -863,10 +885,11 @@ int spell::aoe( const Creature &caster ) const
         return_value = rng( std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ),
                             std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ) );
     } else {
-        if( type->max_aoe.evaluate( d ) >= type->min_aoe.evaluate( d ) ) {
-            return_value = std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
+        if( type->max_aoe.evaluate( d ) > type->min_aoe.evaluate( d ) ) {
+            return_value = std::clamp( leveled_aoe, static_cast<int>( type->min_aoe.evaluate( d ) ),
+                                       static_cast<int>( type->max_aoe.evaluate( d ) ) );
         } else {
-            return_value = std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
+            return_value = std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
         }
     }
     return return_value * temp_aoe_multiplyer;
@@ -910,8 +933,9 @@ int spell::range( const Creature &caster ) const
     const int leveled_range = type->min_range.evaluate( d ) + std::round( get_effective_level() *
                               type->range_increment.evaluate( d ) );
     float range;
-    if( type->max_range.evaluate( d ) >= type->min_range.evaluate( d ) ) {
-        range = std::min( leveled_range, static_cast<int>( type->max_range.evaluate( d ) ) );
+    if( type->max_range.evaluate( d ) > type->min_range.evaluate( d ) ) {
+        range = std::clamp( leveled_range, static_cast<int>( type->min_range.evaluate( d ) ),
+                            static_cast<int>( type->max_range.evaluate( d ) ) );
     } else {
         range = std::max( leveled_range, static_cast<int>( type->max_range.evaluate( d ) ) );
     }
@@ -975,10 +999,11 @@ int spell::duration( const Creature &caster ) const
                     std::max( leveled_duration,
                               static_cast<int>( type->max_duration.evaluate( d ) ) ) );
     } else {
-        if( type->max_duration.evaluate( d ) >= type->min_duration.evaluate( d ) ) {
-            return std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
+        if( type->max_duration.evaluate( d ) > type->min_duration.evaluate( d ) ) {
+            return std::clamp( leveled_duration, static_cast<int>( type->min_duration.evaluate( d ) ),
+                               static_cast<int>( type->max_duration.evaluate( d ) ) );
         } else {
-            return std::max( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
+            return std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
         }
     }
     return std::max( duration * temp_duration_multiplyer, 0.0f );
