@@ -71,7 +71,7 @@
     "replace": "rifle_casing"
   },
   {
-    "id": [ "50_casing", "700nx_casing" ],
+    "id": [ "50_casing", "458wm_casing", "700nx_casing" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_casing"
   },

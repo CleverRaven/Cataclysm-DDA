@@ -450,5 +450,30 @@
     "id": "greasegun32mag",
     "type": "MIGRATION",
     "replace": "greasegun30mag"
+  },
+  {
+    "id": "700nx",
+    "type": "MIGRATION",
+    "replace": "458wm"
+  },
+  {
+    "id": "reloaded_700nx",
+    "type": "MIGRATION",
+    "replace": "reloaded_458wm"
+  },
+  {
+    "id": "bp_700nx",
+    "type": "MIGRATION",
+    "replace": "bp_458wm"
+  },
+  {
+    "id": "700nx_casing",
+    "type": "MIGRATION",
+    "replace": "458wm_casing"
+  },
+  {
+    "id": "trex_gun",
+    "type": "MIGRATION",
+    "replace": "win70_458"
   }
 ]

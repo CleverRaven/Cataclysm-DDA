@@ -951,46 +951,41 @@
     ]
   },
   {
-    "result": "reloaded_700nx",
+    "result": "reloaded_458wm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 9,
+    "difficulty": 7,
     "skills_required": [ "gun", 7 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 7 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
-    "//": "16523 mg gunpowder rounded to 165 100 mg 'pieces'",
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_458wm", 1 ] ],
+    "//": "4296 mg gunpowder rounded to 43 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "700nx_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 165 ], [ "gunpowder_large_rifle", 165 ] ],
-      [ [ "copper", 10 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 43 ], [ "gunpowder_large_rifle", 43 ] ], [ [ "copper", 10 ] ] ]
   },
   {
-    "result": "bp_700nx",
+    "result": "bp_458wm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 9,
+    "difficulty": 7,
     "skills_required": [ "gun", 7 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 7 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_458wm", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "700nx_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 165 ] ], [ [ "copper", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 43 ] ], [ [ "copper", 10 ] ] ]
   },
   {
     "result": "reloaded_762_51",
