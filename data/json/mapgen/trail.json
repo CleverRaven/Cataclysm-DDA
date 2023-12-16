@@ -364,7 +364,7 @@
       "parameters": {
         "den_palette": {
           "type": "palette_id",
-          "scope": "omt",
+          "scope": "nest",
           "default": {
             "distribution": [
               [ "trail_small_den_empty_palette", 20 ],

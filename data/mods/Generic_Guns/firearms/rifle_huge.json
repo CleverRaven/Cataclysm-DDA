@@ -19,7 +19,7 @@
   },
   {
     "id": "rifle_huge_double",
-    "copy-from": "trex_gun",
+    "copy-from": "bfg50",
     "type": "GUN",
     "name": { "str": "elephant rifle" },
     "ammo": [ "ammo_rifle_huge" ],

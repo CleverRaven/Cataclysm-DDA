@@ -274,17 +274,16 @@
   {
     "type": "effect_type",
     "id": "effect_electrokin_overload",
-    "name": [ "Electrified" ],
-    "desc": [ "Your skin is emitting sparks." ],
-    "apply_message": "Your skin begins to tingle!",
-    "remove_message": "The tingling sensation stops",
+    "name": [ "Jerky" ],
+    "desc": [ "You muscles don't seem to be reacting exactly the way you want them to." ],
+    "apply_message": "Your limbs twitch involuntarily!",
+    "remove_message": "The twitching stops",
     "rating": "bad",
     "limb_score_mods": [
       { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 },
       { "limb_score": "grip", "modifier": 0.8 },
       { "limb_score": "block", "modifier": 0.9 }
     ],
-    "enchantments": [ "enchant_electrokin_overload" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {

@@ -17,12 +17,12 @@
     "type": "material",
     "id": "test_material",
     "name": "Test",
-    "density": 1,
+    "density": 9999,
     "//": "Fake material, used to fix density of test items",
     "bash_dmg_verb": "tested",
     "cut_dmg_verb": "tested",
     "dmg_adj": [ "lightly tested", "tested", "very tested", "thoroughly tested" ],
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0, "electric": 0 },
-    "chip_resist": 18
+    "chip_resist": 0
   }
 ]

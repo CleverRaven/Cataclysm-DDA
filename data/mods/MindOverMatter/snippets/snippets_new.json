@@ -292,6 +292,11 @@
         "name": "testing report B4-2567",
         "id": "lab_file_teleportation_04",
         "text": "Attempt 1: Move pencil at least 400 cm: Successful\nAttempt 2: Move pencil at least 2 m: Failed\nAttempt 3: Move pencil inside sealed, clear plastic bag to outside the bag: Successful\nAttempt 4: Move pencil inside sealed, opaque plastic bag outside the bag: Failed\nAttempt 5: Move eraser without moving the rest of the pencil: Failed\nAttempt 6: Rotate pencil during transit of at least 400 cm so that eraser previously facing the door is now facing away from the door: Successful\nAttempt 7: Move pencil 400 cm into pencil sharpener: Successful\nAttempt 8: Move pencil at least 400 cm into bucket of water: Successful\nAttempt 9: Move pencil at least 400 cm into block of ice: Failed\nAttempt 10: Move stationary pencil 400 cm so that it arrives at destination with upward velocity: Failed\nAttempt 11: Preserve velocity of falling pencil after moving it at least 400 cm: Successful\nAttempt 12: Move pencil gripped firmly in hand at least 400 cm: Successful"
+      },
+      {
+        "name": "It's alive!  IT'S ALIVE!",
+        "id": "lab_file_teleportation_05",
+        "text": "Like we won't be for much longer.\n\nNews outside is a nightmare.  I saw some phone video of a giant monster destroying LA before the net went down.  There's no way I'll be able to report this to Dr. Liu, but I finally made a breakthrough.  Or maybe I should say, a breakthrough was made, because I sure as hell didn't do anything to cause it.  I went to go test QN283 today and it just worked.  I didn't change anything, I didn't make any adjustments, I just turned on the remote and the payload vanished and reappeared near the beacon just like it was supposed to.  Is this because of the end of the world?  I can hear gunfire and shouting in the distance and there's nowhere to run because we're been on lockdown for weeks but I invent functional teleportation, one of the greatest discoveries in human history?  Great.\n\nIf I only had gotten C78 to sneak a beacon outside before lockdown.  If she can get out of here with her powers, maybe I can still escape."
       }
     ]
   },

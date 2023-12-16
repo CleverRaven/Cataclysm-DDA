@@ -5043,6 +5043,34 @@ void Character::update_needs( int rate_multiplier )
 
             }
         }
+        map &here = get_map();
+        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
+                has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
+            here.is_outside( pos() ) ) {
+            if( has_trait( trait_CHLOROMORPH ) && get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
+                is_barefoot() ) {
+                if( get_thirst() >= -40 ) {
+                    mod_thirst( -5 );
+                }
+                // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
+                vitamin_mod( vitamin_iron, 2 );
+                vitamin_mod( vitamin_calcium, 2 );
+            }
+            if( has_trait( trait_M_SKIN3 ) ) {
+                // Spores happen!
+                if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
+                    if( get_fatigue() >= 0 ) {
+                        mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                    }
+                    if( calendar::once_every( 1_hours ) ) {
+                        spores(); // spawn some P O O F Y   B O I S
+                    }
+                }
+            }
+            if( has_trait( trait_WATERSLEEP ) ) {
+                mod_fatigue( -3 ); // Fish sleep less in water
+            }
+        }
     }
     if( is_avatar() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
         if( !activity ) {
@@ -8926,8 +8954,6 @@ void Character::fall_asleep()
         // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
         // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
-    } else if( has_active_mutation( trait_CHLOROMORPH ) ) {
-        fall_asleep( 1_days );
     } else {
         fall_asleep( 10_hours );    // default max sleep time.
     }
@@ -10935,7 +10961,6 @@ int Character::sleep_spot( const tripoint &p ) const
 
     int sleepy = static_cast<int>( comfort_info.level );
     bool watersleep = has_trait( trait_WATERSLEEP );
-    bool activechloro = has_active_mutation( trait_CHLOROMORPH );
 
     if( has_addiction( addiction_sleeping_pill ) ) {
         sleepy -= 4;
@@ -10947,7 +10972,8 @@ int Character::sleep_spot( const tripoint &p ) const
         sleepy += 10; //comfy water!
     }
 
-    if( activechloro ) {
+    if( has_trait( trait_CHLOROMORPH ) &&
+        get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, pos() ) ) {
         sleepy += 25; // It's time for a nice nap.
     }
 
