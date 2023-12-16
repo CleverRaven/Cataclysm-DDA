@@ -441,15 +441,15 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then thirst
-    extract_effect( to_extract, "RESPIRATION", {
-        {"respiration_amount",      mod_action::AMOUNT},
-        {"respiration_min",         mod_action::MIN},
-        {"respiration_max",         mod_action::MAX},
-        {"respiration_min_val",     mod_action::MIN_VAL},
-        {"respiration_max_val",     mod_action::MAX_VAL},
-        {"respiration_chance",      mod_action::CHANCE_TOP},
-        {"respiration_chance_bot",  mod_action::CHANCE_BOT},
-        {"respiration_tick",        mod_action::TICK},
+    extract_effect( to_extract, "PERSPIRATION", {
+        {"perspiration_amount",      mod_action::AMOUNT},
+        {"perspiration_min",         mod_action::MIN},
+        {"perspiration_max",         mod_action::MAX},
+        {"perspiration_min_val",     mod_action::MIN_VAL},
+        {"perspiration_max_val",     mod_action::MAX_VAL},
+        {"perspiration_chance",      mod_action::CHANCE_TOP},
+        {"perspiration_chance_bot",  mod_action::CHANCE_BOT},
+        {"perspiration_tick",        mod_action::TICK},
     } );
 
     // Then fatigue
