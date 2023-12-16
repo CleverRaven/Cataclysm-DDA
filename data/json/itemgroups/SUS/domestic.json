@@ -779,7 +779,28 @@
         "distribution": [
           {
             "item": "aspirin",
-            "prob": 160,
+            "prob": 50,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "acetaminophen",
+            "prob": 70,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "ibuprofen",
+            "prob": 80,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "naproxen",
+            "prob": 20,
             "count": [ 1, 30 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_pill_painkiller"

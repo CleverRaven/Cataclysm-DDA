@@ -4517,10 +4517,14 @@
   {
     "type": "item_group",
     "id": "aspirin_bottle_plastic_pill_painkiller_20",
-    "subtype": "collection",
+    "subtype": "distribution",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": 20 } ]
+    "entries": [
+      { "item": "aspirin", "container-item": "null", "count": 20 },
+      { "item": "ibuprofen", "container-item": "null", "count": 20 },
+      { "item": "acetaminophen", "container-item": "null", "count": 20 }
+    ]
   },
   {
     "type": "item_group",
