@@ -315,7 +315,7 @@
     "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
-    "durability": 8,
+    "durability": 7,
     "min_cycle_recoil": 39,
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -324,8 +324,8 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
@@ -347,7 +347,7 @@
       {
         "id": "sw_22",
         "name": { "str_sp": "S&W 22A" },
-        "description": "A modest offering from the Smith and Wesson (S&W) gun company, this is a medium sized pistol that fires the .22 LR cartridge.  Featuring an integrated rail for optics mounting, it was a popular .22 handgun amongst shooters of the low-power cartridge."
+        "description": "A modest offering from the Smith and Wesson (S&W) gun company, this is a medium sized pistol that fires the .22 LR cartridge.  Featuring an integrated rail for optics mounting, it was a popular .22 handgun amongst target shooters."
       }
     ],
     "ascii_picture": "sw_22a",
@@ -366,6 +366,18 @@
     "min_cycle_recoil": 39,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sw22mag" ] } ],
     "melee_damage": { "bash": 9 }
   },
@@ -391,12 +403,25 @@
     "price": 7000,
     "price_postapoc": 750,
     "to_hit": -3,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "22" ],
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "belt clip", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ],
