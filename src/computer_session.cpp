@@ -893,17 +893,16 @@ void computer_session::action_repeater_mod()
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
                 break;
-            } else if ( miss->mission_id() == repeat || miss->mission_id() == repeatb ) {
+            } else if( miss->mission_id() == repeat || miss->mission_id() == repeatb ) {
                 miss->step_complete( 1 );
-                print_line( "Installing repeater…" );
+                print_line( _( "Repeater mod installed…" ) );
+                print_line( _( "Mission Complete!" ) );
                 player_character.use_amount( itype_radio_repeater_mod, 1 );
-                print_line( "Repeater mod installed. Mission complete!" );
                 query_any();
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
                 break;
-            } else if( miss->mission_id() != commo_3 && miss->mission_id() != commo_4 &&
-                       miss->mission_id() != repeat && miss->mission_id() != repeatb ) {
+            } else {
                 print_error( _( "You wouldn't gain anything from installing this repeater.  "
                                 "However, someone else in the wasteland might reward you "
                                 "for doing so." ) );
