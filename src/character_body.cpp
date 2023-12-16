@@ -1324,6 +1324,21 @@ float Character::get_heartrate_index() const
     return heart_rate_index;
 }
 
+void Character::set_heartrate_effect_mod(const int mod)
+{
+    heart_rate_effect_mod = mod;
+}
+
+void Character::modify_heartrate_effect_mod(const int mod)
+{
+    heart_rate_effect_mod += mod;
+}
+
+float Character::get_heartrate_effect_mod() const
+{
+    return heart_rate_effect_mod;
+}
+
 void Character::update_heartrate_index()
 {
     // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
@@ -1384,9 +1399,14 @@ void Character::update_heartrate_index()
     // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
     const float hr_bp_loss_mod = 0.0f;
 
+    const int effect_mod = get_heartrate_effect_mod();
+    // heartrate effect is an integer.  Div by 20 currently.
+    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
+
     heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
-                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
-    // update_circulation();
+                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod + hr_effect_mod;
+     update_circulation();
 }
 
 float Character::get_bloodvol_index() const
@@ -1394,12 +1414,13 @@ float Character::get_bloodvol_index() const
     return blood_vol_index;
 }
 
+
 void Character::update_bloodvol_index()
 {
     // vitamin_blood ranges from -50k(death) to 0(no hypovolemia).
     blood_vol_index = 1.0f - ( static_cast<float>( vitamin_get( vitamin_blood ) ) / static_cast<float>
                                ( vitamin_blood->min() ) );
-    // update_circulation();
+     //update_circulation();
 }
 
 float Character::get_circulation_resistance() const
@@ -1407,21 +1428,65 @@ float Character::get_circulation_resistance() const
     return circulation_resistance;
 }
 
-void Character::set_circulation_resistance( float ncirculation_resistance )
+void Character::set_bp_effect_mod(int mod) 
 {
-    circulation_resistance = ncirculation_resistance;
-    update_circulation();
+    bp_effect_mod = mod;
+}
+
+void Character::modify_bp_effect_mod(int mod)
+{
+    bp_effect_mod += mod;
+}
+
+float Character::get_bp_effect_mod() const
+{
+    return bp_effect_mod;
+}
+
+void Character::update_circulation_resistance()
+{
+    const int effect_mod = get_bp_effect_mod();
+    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    circulation_resistance = 1.0f + effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
 }
 
 void Character::update_circulation()
 {
+    update_circulation_resistance();
     circulation = get_bloodvol_index() * get_heartrate_index() * get_circulation_resistance();
-    // Incredibly annoying debug function - don't forget to comment out before merge!
-    //if( circulation < 0.8 ) {
-    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) + " " + std::to_string(
-    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
-    //} else if( circulation > 2.0 ) {
-    //    debugmsg( "High blood pressure" + std::to_string( circulation ) + " " + std::to_string(
-    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
-    //}
+     //Incredibly annoying debug function - don't forget to comment out before merge!
+    if( circulation < 0.8 ) {
+        debugmsg( "Low blood pressure: " + std::to_string( circulation ) + " " + std::to_string(
+                      get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    } else if( circulation > 2.0 ) {
+        debugmsg( "High blood pressure" + std::to_string( circulation ) + " " + std::to_string(
+                      get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    }
+}
+
+float Character::get_perspiration_rate() const
+{
+    return perspiration_rate;
+}
+
+float Character::get_perspiration_effect_mod() const
+{
+    return persp_rate_effect_mod;
+}
+
+void Character::modify_perspiration_effect_mod(int mod)
+{
+    persp_rate_effect_mod += mod;
+}
+
+void Character::set_perspiration_effect_mod(int mod)
+{
+    persp_rate_effect_mod = mod;
+}
+
+void Character::update_perspiration_rate()
+{
+    const int effect_mod = get_perspiration_effect_mod();
+    constexpr float PERSP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    perspiration_rate = 1.0f + effect_mod * PERSP_EFFECT_INT_TO_FLOAT_MULT;
 }

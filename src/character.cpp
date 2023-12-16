@@ -10790,6 +10790,30 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
+    // Handle Blood Pressure
+    val = get_effect( "BLOOD_PRESSURE", reduced );
+    if (val != 0) {
+        if (is_new || it.activated(calendar::turn, "BLOOD_PRESSURE", val, reduced, mod)) {
+            modify_bp_effect_mod(bound_mod_to_vals(get_bp_effect_mod(), val, it.get_max_val("BLOOD_PRESSURE", reduced), 0));
+        }
+    }
+
+    // handle heart rate
+    val = get_effect( "HEART_RATE", reduced );
+    if (val != 0) {
+        if (is_new || it.activated(calendar::turn, "HEART_RATE", val, reduced, mod)) {
+            modify_heartrate_effect_mod(bound_mod_to_vals(get_heartrate_effect_mod(), val, it.get_max_val("HEART_RATE", reduced), 0));
+        }
+    }
+    // handle perspiration rate
+    val = get_effect( "PERSPIRATION_RATE", reduced );
+    if (val != 0) {
+        if (is_new || it.activated(calendar::turn, "PERSPIRATION_RATE", val, reduced, mod)) {
+            modify_perspiration_effect_mod(bound_mod_to_vals(get_perspiration_effect_mod(), val, it.get_max_val("PERSPIRATION_RATE", reduced), 0));
+        }
+    }
+
+
     // Handle coughing
     mod = 1;
     val = 0;
