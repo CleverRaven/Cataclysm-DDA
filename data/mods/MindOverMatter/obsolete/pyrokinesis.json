@@ -89,7 +89,7 @@
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_cast_spell": { "id": "pyrokin_call_flame_short_term" } },
       { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
     ]
   },
   {
@@ -99,7 +99,7 @@
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_cast_spell": { "id": "pyrokin_call_flame_long_term" } },
       { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
     ]
   }
 ]

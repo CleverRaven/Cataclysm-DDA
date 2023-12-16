@@ -303,37 +303,37 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MUTAGEN_PURGE",
     "effect": [
-      { "math": [ "u_val('vitamin', 'name: mutagen')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_alpha')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_batrachian')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_beast')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_bird')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_cattle')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_cephalopod')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_chelator')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_chimera')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_elfa')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_feline')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_fish')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_gastropod')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_human')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_insect')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_lizard')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_lupine')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_medical')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_mouse')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_plant')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_rabbit')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_raptor')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_rat')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_slime')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_spider')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_troglobite')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_ursine')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagenic_slurry')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutant_toxin')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] }
+      { "math": [ "u_vitamin('mutagen')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_alpha')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_batrachian')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_beast')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_bird')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_cattle')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_cephalopod')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_chelator')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_chimera')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_crustacean')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_elfa')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_feline')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_fish')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_gastropod')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_human')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_insect')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_lizard')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_lupine')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_medical')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_mouse')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_plant')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_rabbit')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_raptor')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_rat')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_slime')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_spider')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_troglobite')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_ursine')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagenic_slurry')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutant_toxin')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_crustacean')", "=", "0" ] }
     ]
   },
   {
@@ -513,11 +513,11 @@
       { "u_lose_effect": "conjunctivitis_viral" },
       { "u_lose_effect": "pre_conjunctivitis_bacterial" },
       { "u_lose_effect": "conjunctivitis_bacterial" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ],
     "false_effect": [
       { "u_message": "The ailment proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ]
   },
   {
@@ -546,11 +546,11 @@
       { "u_message": "You breathe easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
       { "u_lose_effect": "effect_asthma_disease_absorbed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
     ]
   },
   {
@@ -578,11 +578,11 @@
     "effect": [
       { "u_message": "You body feels more normal.", "type": "good" },
       { "u_lose_trait": "CHEMIMBALANCE" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
     ]
   },
   {
@@ -610,11 +610,11 @@
     "effect": [
       { "u_message": "You mind feels more normal.", "type": "good" },
       { "u_lose_trait": "SCHIZOPHRENIC" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
     ]
   },
   {
@@ -642,11 +642,11 @@
     "effect": [
       { "u_message": "You muscles stop trembling.", "type": "good" },
       { "u_lose_trait": "JITTERY" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
     ]
   },
   {
@@ -674,11 +674,11 @@
     "effect": [
       { "u_message": "You mood calms.", "type": "good" },
       { "u_lose_trait": "MOODSWINGS" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
     ]
   },
   {
@@ -706,11 +706,11 @@
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "WEAKENING" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ]
   },
   {
@@ -738,11 +738,11 @@
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "NARCOLEPTIC" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
     ],
     "false_effect": [
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
     ]
   },
   {
@@ -750,9 +750,9 @@
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
       { "math": [ "u_val('stored_kcal')", "-=", "rng( 50,250 )" ] },
-      { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 50,200 )" ] },
-      { "math": [ "u_val('vitamin', 'name:calcium')", "-=", "rng( 100,200 )" ] },
-      { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 20,80 )" ] },
+      { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
+      { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
+      { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,80 )" ] },
       { "math": [ "u_val('fatigue')", "+=", "rng( 2,10 )" ] }
     ]
   },
@@ -810,11 +810,11 @@
       { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
       { "u_add_trait": "HAS_RIGHT_LEG" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ]
   },
   {
@@ -847,11 +847,11 @@
       { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
       { "u_add_trait": "HAS_LEFT_LEG" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ]
   },
   {
@@ -884,11 +884,11 @@
       { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" },
       { "u_add_trait": "HAS_RIGHT_ARM" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ]
   },
   {
@@ -921,11 +921,11 @@
       { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
       { "u_add_trait": "HAS_LEFT_ARM" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
     ]
   },
   {
@@ -934,9 +934,9 @@
     "//": "About 2.5 times as costly as the super heal drain, factored for each tick of healing. Assuming you're using super heal at level twelve, it ticks 15 times. 15 * 2.5 = 37.5 times increase for proper scaling in a single tick of this.  You are regrowing a whole body part, you know.",
     "effect": [
       { "math": [ "u_val('stored_kcal')", "-=", "rng( 1875,9375 )" ] },
-      { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 1875,7500 )" ] },
-      { "math": [ "u_val('vitamin', 'name:calcium')", "-=", "rng( 3750,7500 )" ] },
-      { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 750,3000 )" ] },
+      { "math": [ "u_vitamin('iron')", "-=", "rng( 1875,7500 )" ] },
+      { "math": [ "u_vitamin('calcium')", "-=", "rng( 3750,7500 )" ] },
+      { "math": [ "u_vitamin('vitC')", "-=", "rng( 750,3000 )" ] },
       { "math": [ "u_val('fatigue')", "+=", "rng( 75,375 )" ] }
     ]
   },
@@ -963,9 +963,9 @@
       { "u_set_hp": 5, "only_increase": true, "target_part": "leg_r" },
       { "u_set_hp": 5, "only_increase": true, "target_part": "leg_l" },
       { "u_cast_spell": { "id": "vita_pain_split", "hit_self": true } },
-      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
+      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
+      { "math": [ "u_vitamin('blood')", "=", "0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "onfire" },
       { "u_lose_effect": "dazed" },
