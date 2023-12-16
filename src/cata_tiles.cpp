@@ -1340,6 +1340,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     const int max_col = top_any_tile_range.p_max.x;
     const int min_row = bottom_any_tile_range.p_min.y;
     const int max_row = top_any_tile_range.p_max.y;
+    const int draw_min_z = std::max( center.z - fov_3d_z_range, -OVERMAP_DEPTH );
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
@@ -1446,15 +1447,16 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    std::map<int, std::vector<tile_render_info>> draw_points;
+    std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points;
     for( int row = min_row; row < max_row; row ++ ) {
-        draw_points[row].reserve( std::max( 0, max_col - min_col ) );
+        draw_points[center.z][row].reserve( std::max( 0, max_col - min_col ) );
         for( int col = min_col; col < max_col; col ++ ) {
             const std::optional<point> temp = tile_to_player( { col, row } );
+            for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
             if( !temp.has_value() ) {
                 continue;
             }
-            const tripoint pos( temp.value(), center.z );
+            const tripoint pos( temp.value(), zlevel );
             const tripoint_abs_ms pos_global = here.getglobal( pos );
             const int &x = pos.x;
             const int &y = pos.y;
@@ -1474,7 +1476,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     invisible[0] = true;
                 } else {
                     if( would_apply_vision_effects( offscreen_type ) ) {
-                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0 },
+                        draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ offscreen_type } );
                     }
                     continue;
@@ -1652,7 +1654,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             || you.sees_with_specials( *critter ) ) ) ) {
                         invisible[0] = true;
                     } else {
-                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0 },
+                        draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ vis_type } );
                         continue;
                     }
@@ -1663,8 +1665,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 invisible[1 + i] = apply_visible( np, ch, here );
             }
 
-            draw_points[row].emplace_back( tile_render_info::common{ pos, 0 },
+            draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                            tile_render_info::sprite{ ll, invisible } );
+        }
         }
     }
 
@@ -1699,7 +1702,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
             for( auto f : drawing_layers_legacy ) {
-                for( tile_render_info &p : draw_points[row] ) {
+                for( tile_render_info &p : draw_points[center.z][row] ) {
                     if( const tile_render_info::vision_effect * const
                         var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                         if( f == &cata_tiles::draw_terrain ) {
@@ -1723,13 +1726,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // For each row
             for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
                 // Set base height for each tile
-                for( tile_render_info &p : draw_points[row] ) {
+                for( tile_render_info &p : draw_points[cur_zlevel][row] ) {
                     p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                 }
                 // For each layer
                 for( auto f : drawing_layers ) {
                     // For each tile
-                    for( tile_render_info &p : draw_points[row] ) {
+                    for( tile_render_info &p : draw_points[cur_zlevel][row] ) {
                         tripoint draw_loc = p.com.pos;
                         draw_loc.z = cur_zlevel;
                         if( const tile_render_info::vision_effect * const
@@ -1773,7 +1776,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     // display number of monsters to spawn in mapgen preview
     for( int row = top_any_tile_range.p_min.y; row < top_any_tile_range.p_max.y; row ++ ) {
-        for( const tile_render_info &p : draw_points[row] ) {
+        for( const tile_render_info &p : draw_points[center.z][row] ) {
             const tile_render_info::sprite *const
             var = std::get_if<tile_render_info::sprite>( &p.var );
             if( !var ) {
