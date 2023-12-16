@@ -45,7 +45,7 @@
         "id": "EOC_PRACTICE_TELEKIN_PULL",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_pull')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_pull')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: telekinetic_pull')", "<=", "(difficulty_one_contemplation(1))" ] }
           ]
         },
@@ -60,7 +60,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_PULL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_pull')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_pull')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -94,7 +94,7 @@
         "id": "EOC_PRACTICE_TELEKIN_PUSH",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_push')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_push')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: telekinetic_push')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
@@ -109,7 +109,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_PUSH_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_push')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_push')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -143,7 +143,7 @@
         "id": "EOC_PRACTICE_TELEKIN_MOMENTUM",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_momentum')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_momentum')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -160,7 +160,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_momentum')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -195,7 +195,7 @@
         "id": "EOC_PRACTICE_TELEKIN_SLOWFALL",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_slowfall')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_slowfall')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -212,7 +212,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_SLOWFALL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_slowfall')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -247,7 +247,7 @@
         "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_wave')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_wave')", "<=", "(difficulty_four_contemplation(1))" ]
             }
@@ -264,7 +264,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_wave')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -299,7 +299,7 @@
         "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_strength')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_strength')", "<=", "(difficulty_five_contemplation(1))" ]
             }
@@ -316,7 +316,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_strength')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -351,7 +351,7 @@
         "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_hammer')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_hammer')", "<=", "(difficulty_five_contemplation(1))" ]
             }
@@ -368,7 +368,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_hammer')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -403,7 +403,7 @@
         "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_vehicle_lift')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_vehicle_lift')", "<=", "(difficulty_six_contemplation(1))" ]
             }
@@ -420,7 +420,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_vehicle_lift')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -455,7 +455,7 @@
         "id": "EOC_PRACTICE_TELEKIN_BARRIER",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_shield')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_shield')", "<=", "(difficulty_six_contemplation(1))" ]
             }
@@ -472,7 +472,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_BARRIER_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_shield')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -507,7 +507,7 @@
         "id": "EOC_PRACTICE_TELEKIN_BLAST",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_explosion')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_explosion')", "<=", "(difficulty_seven_contemplation(1))" ]
             }
@@ -524,7 +524,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_BLAST_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_explosion')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -559,7 +559,7 @@
         "id": "EOC_PRACTICE_LEVITATION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_levitation')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_levitation')", "<=", "(difficulty_seven_contemplation(1))" ]
             }
@@ -576,7 +576,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_LEVITATION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_levitation')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -611,7 +611,7 @@
         "id": "EOC_PRACTICE_TELEKIN_AEGIS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_aegis')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_aegis')", "<=", "(difficulty_nine_contemplation(1))" ]
             }
@@ -628,7 +628,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_AEGIS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_aegis')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -663,7 +663,7 @@
         "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telekinetic_earthshaker')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telekinetic_earthshaker')", "<=", "(difficulty_ten_contemplation(1))" ]
             }
@@ -680,7 +680,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_earthshaker')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

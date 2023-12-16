@@ -48,7 +48,7 @@
         "id": "EOC_PRACTICE_VITAKIN_HEALTH",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_health_power')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_health_power')", "<=", "(difficulty_one_contemplation(1))" ]
             }
@@ -65,7 +65,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HEALTH_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_health_power')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -99,7 +99,7 @@
         "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_stop_bleeding')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_stop_bleeding')", "<=", "(difficulty_two_contemplation(1))" ]
             }
@@ -116,7 +116,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_STAUNCHING_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_stop_bleeding')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -150,7 +150,7 @@
         "id": "EOC_PRACTICE_VITAKIN_HURT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_hurt_touch')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_hurt_touch')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -167,7 +167,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HURT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_hurt_touch')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -201,7 +201,7 @@
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_health_power_ally')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_health_power_ally')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -218,7 +218,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_health_power_ally')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -252,7 +252,7 @@
         "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_remove_poison')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_remove_poison')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -269,7 +269,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_remove_poison')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -304,7 +304,7 @@
         "id": "EOC_PRACTICE_VITAKIN_SLEEP",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_sleeping_trance')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_sleeping_trance')", "<=", "(difficulty_four_contemplation(1))" ]
             }
@@ -321,7 +321,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_SLEEP_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_sleeping_trance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -356,7 +356,7 @@
         "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_cure_disease')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_cure_disease')", "<=", "(difficulty_four_contemplation(1))" ]
             }
@@ -373,7 +373,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_cure_disease')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -408,7 +408,7 @@
         "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_pain_split')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: vita_pain_split')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
@@ -423,7 +423,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_pain_split')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -458,7 +458,7 @@
         "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_stop_infection')", "<=", "(difficulty_five_contemplation(1))" ]
             }
@@ -475,7 +475,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -510,7 +510,7 @@
         "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_healing_trance')", "<=", "(difficulty_six_contemplation(1))" ]
             }
@@ -527,7 +527,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -562,7 +562,7 @@
         "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_purge_rads')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: vita_purge_rads')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
@@ -577,7 +577,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_purge_rads')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -612,7 +612,7 @@
         "id": "EOC_PRACTICE_VITAKIN_PURGE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_blood_purge')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_blood_purge')", "<=", "(difficulty_seven_contemplation(1))" ]
             }
@@ -629,7 +629,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_PURGE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_blood_purge')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -664,7 +664,7 @@
         "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_banish_illness')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_banish_illness')", "<=", "(difficulty_eight_contemplation(1))" ]
             }
@@ -681,7 +681,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_banish_illness')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -716,7 +716,7 @@
         "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_super_heal')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: vita_super_heal')", "<=", "(difficulty_nine_contemplation(1))" ] }
           ]
         },
@@ -731,7 +731,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_super_heal')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -766,7 +766,7 @@
         "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_limb_restore')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_limb_restore')", "<=", "(difficulty_ten_contemplation(1))" ]
             }
@@ -783,7 +783,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_limb_restore')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -818,7 +818,7 @@
         "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: vita_return_from_death')", ">=", "1" ] },
+            { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: vita_return_from_death')", "<=", "(difficulty_ten_contemplation(1))" ]
             }
@@ -835,7 +835,7 @@
           "run_eocs": [
             {
               "id": "EEOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_return_from_death')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

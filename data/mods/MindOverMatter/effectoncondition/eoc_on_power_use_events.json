@@ -289,7 +289,7 @@
           ]
         },
         {
-          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_val('spell_level', 'spell: photokinetic_invisibility')),4)" ] }, "y": 1000 }
+          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_spell_level('photokinetic_invisibility')),4)" ] }, "y": 1000 }
         }
       ]
     },
@@ -309,7 +309,7 @@
         { "u_has_effect": "effect_photokin_invisibility" },
         { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
         {
-          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_val('spell_level', 'spell: photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
+          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_spell_level('photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
         }
       ]
     },

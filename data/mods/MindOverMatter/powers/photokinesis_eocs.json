@@ -69,7 +69,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_CREATE_LIGHT_SWITCH",
     "effect": {
-      "switch": { "math": [ "u_val('spell_level', 'spell: photokinetic_create_light')" ] },
+      "switch": { "math": [ "u_spell_level('photokinetic_create_light')" ] },
       "cases": [
         { "case": 0, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_01" }, "targeted": true } ] },
         { "case": 8, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_02" }, "targeted": true } ] },

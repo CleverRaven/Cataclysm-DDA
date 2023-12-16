@@ -47,7 +47,7 @@
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_night_vision')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_night_vision')", "<=", "(difficulty_one_contemplation(1))" ]
             }
@@ -64,7 +64,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_night_vision')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -98,7 +98,7 @@
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_danger_sense')", "<=", "(difficulty_two_contemplation(1))" ]
             }
@@ -115,7 +115,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -149,7 +149,7 @@
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_speed_reading')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_speed_reading')", "<=", "(difficulty_two_contemplation(1))" ]
             }
@@ -166,7 +166,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SPEED_READING_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_speed_reading')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -200,7 +200,7 @@
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_spot_weakness')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_spot_weakness')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -217,7 +217,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_spot_weakness')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -251,7 +251,7 @@
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_sense_rads')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_sense_rads')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -268,7 +268,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SENSE_RADS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_sense_rads')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -302,7 +302,7 @@
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_see_auras')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_see_auras')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -319,7 +319,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SEE_AURAS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_see_auras')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -354,7 +354,7 @@
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_ranged_enhance')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_ranged_enhance')", "<=", "(difficulty_four_contemplation(1))" ]
             }
@@ -371,7 +371,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_ranged_enhance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -406,7 +406,7 @@
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_voyance')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: clair_voyance')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
@@ -421,7 +421,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_VOYANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_voyance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -456,7 +456,7 @@
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_dodge_power')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "<=", "(difficulty_six_contemplation(1))" ]
             }
@@ -473,7 +473,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_dodge_power')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -508,7 +508,7 @@
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_craft_bonus')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_craft_bonus')", "<=", "(difficulty_six_contemplation(1))" ]
             }
@@ -525,7 +525,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_craft_bonus')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -560,7 +560,7 @@
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_see_map')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: clair_see_map')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
@@ -575,7 +575,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SEE_MAP_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_see_map')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -610,7 +610,7 @@
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_perfect_shot')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_perfect_shot')", "<=", "(difficulty_seven_contemplation(1))" ]
             }
@@ -627,7 +627,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_perfect_shot')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -662,7 +662,7 @@
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "<=", "(difficulty_eight_contemplation(1))" ]
             }
@@ -679,7 +679,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -714,7 +714,7 @@
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_group_tactics')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_group_tactics')", "<=", "(difficulty_nine_contemplation(1))" ]
             }
@@ -731,7 +731,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_group_tactics')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -766,7 +766,7 @@
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_omniscience')", ">=", "1" ] },
+            { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: clair_omniscience')", "<=", "(difficulty_ten_contemplation(1))" ]
             }
@@ -783,7 +783,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_OMNISCENCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_omniscience')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

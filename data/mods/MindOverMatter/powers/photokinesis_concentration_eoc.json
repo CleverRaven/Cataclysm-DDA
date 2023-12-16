@@ -12,12 +12,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 900) + 5400) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 900) + 5400) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -47,12 +47,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_light_local') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -76,12 +76,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -115,12 +115,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -142,12 +142,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 50) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_camouflage') * 50) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 100) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_camouflage') * 100) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -203,12 +203,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_hide_ugly') * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 55) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -263,12 +263,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_hide_ugly') * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 55) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -291,12 +291,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -327,12 +327,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

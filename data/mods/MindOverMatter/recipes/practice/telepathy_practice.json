@@ -44,7 +44,7 @@
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_concentration')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_concentration')", "<=", "(difficulty_one_contemplation(1))" ]
             }
@@ -61,7 +61,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_concentration')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -95,7 +95,7 @@
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_shield')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_shield')", "<=", "(difficulty_two_contemplation(1))" ]
             }
@@ -112,7 +112,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_SHIELD_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_shield')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -146,7 +146,7 @@
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_morale')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_morale')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -163,7 +163,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_MORALE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_morale')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -197,7 +197,7 @@
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_mind_sense')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_mind_sense')", "<=", "(difficulty_three_contemplation(1))" ]
             }
@@ -214,7 +214,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_sense')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -249,7 +249,7 @@
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_blast')", "<=", "(difficulty_four_contemplation(1))" ]
             }
@@ -266,7 +266,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATHIC_BLAST_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -301,7 +301,7 @@
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_animal_mind_control')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_animal_mind_control')", "<=", "(difficulty_four_contemplation(1))" ]
             }
@@ -320,7 +320,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_animal_mind_control')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -355,7 +355,7 @@
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_confusion')", "<=", "(difficulty_five_contemplation(1))" ]
             }
@@ -372,7 +372,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_CONFUSION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -407,7 +407,7 @@
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_invisibility')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_invisibility')", "<=", "(difficulty_six_contemplation(1))" ]
             }
@@ -424,7 +424,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_invisibility')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -459,7 +459,7 @@
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_fear')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
             { "math": [ "u_val('spell_exp', 'spell: telepathic_fear')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
@@ -474,7 +474,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_fear')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -509,7 +509,7 @@
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_blast_radius')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_blast_radius')", "<=", "(difficulty_seven_contemplation(1))" ]
             }
@@ -526,7 +526,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast_radius')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -561,7 +561,7 @@
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_mind_control')", "<=", "(difficulty_eight_contemplation(1))" ]
             }
@@ -578,7 +578,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -613,7 +613,7 @@
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_network')", ">=", "1" ] },
+            { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
             {
               "math": [ "u_val('spell_exp', 'spell: telepathic_network')", "<=", "(difficulty_nine_contemplation(1))" ]
             }
@@ -630,7 +630,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_network')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
