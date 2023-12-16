@@ -155,8 +155,30 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some aspirin.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 720 }, { "id": "ibuprofen_eff", "duration": 720 } ]
+      "activation_message": "You take some ibuprofen.",
+      "effects": [ { "id": "pkill1_nsaid", "duration": 720 }, { "id": "ibuprofen_eff", "duration": 1500 } ]
+    }
+  },
+  {
+    "id": "naproxen",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "naproxen" },
+    "description": "Naproxen, a mild long-lasting NSAID-based painkiller.  Take to relieve pain and swelling.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "2 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "drug_filler" ],
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_plastic_pill_painkiller",
+    "healthy": -1,
+    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take some naproxen.",
+      "effects": [ { "id": "pkill1_nsaid", "duration": 1500 }, { "id": "ibuprofen_eff", "duration": 3000 } ]
     }
   },
   {
