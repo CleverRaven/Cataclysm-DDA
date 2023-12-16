@@ -798,8 +798,8 @@ bool inventory::has_enough_painkiller( int pain ) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if( ( pain <= 35 && it.typeId() == itype_aspirin  || it.typeId() == itype_acetaminophen ||
-              it.typeId() == itype_ibuprofen ) ||
+        if( ( pain <= 35 && ( it.typeId() == itype_aspirin  || it.typeId() == itype_acetaminophen ||
+                              it.typeId() == itype_ibuprofen ) ) ||
             ( pain >= 50 && it.typeId() == itype_oxycodone ) ||
             it.typeId() == itype_tramadol || it.typeId() == itype_codeine ) {
             return true;
