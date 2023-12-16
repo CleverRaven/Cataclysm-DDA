@@ -129,10 +129,10 @@
     "id": "jigsaw",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "White House jigsaw puzzle" },
-    "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the front view of the White House in Washington, DC.",
-    "weight": "500 g",
-    "volume": "1000 ml",
+    "name": { "str": "Jigsaw puzzle" },
+    "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms a image of something, somewhere.",
+    "weight": "410 g",
+    "volume": "2200 ml",
     "price": 2000,
     "price_postapoc": 500,
     "material": [ "cardboard" ],
@@ -140,72 +140,50 @@
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "jigsaw_0",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "St. Basil's jigsaw puzzle" },
-    "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the main view of the St. Basil's Cathedral in Moscow, Russia.",
-    "weight": "500 g",
-    "volume": "1000 ml",
-    "price": 2000,
-    "price_postapoc": 500,
-    "material": [ "cardboard" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "jigsaw_1",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Big Ben jigsaw puzzle" },
-    "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the front view of the Big Ben in London, United Kingdom.",
-    "weight": "500 g",
-    "volume": "1000 ml",
-    "price": 2000,
-    "price_postapoc": 500,
-    "material": [ "cardboard" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "jigsaw_2",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Christ Redeemer jigsaw puzzle" },
-    "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the backside view of Christ Redeemer, the Copacabana Beach, and the Pao de Acucar in Rio de Janeiro, Brazil.",
-    "weight": "500 g",
-    "volume": "1000 ml",
-    "price": 2000,
-    "price_postapoc": 500,
-    "material": [ "cardboard" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "jigsaw_3",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Curitiba's Botanical Garden jigsaw puzzle" },
-    "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the front view of the Curitiba's Botanical Garden in Curitiba, Brazil.",
-    "weight": "500 g",
-    "volume": "1000 ml",
-    "price": 2000,
-    "price_postapoc": 500,
-    "material": [ "cardboard" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "jigsaw_1",
+        "name": { "str": "White House jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the main view of the White House in Washington, DC.",
+        "color": "blue",
+        "weight": 20
+      },
+      {
+        "id": "jigsaw_2",
+        "name": { "str": "St. Basil's jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the main view of the St. Basil's Cathedral at the Red Square in Moscow, Russia.",
+        "color": "blue",
+        "weight": 20
+      },
+      {
+        "id": "jigsaw_3",
+        "name": { "str": "Big Ben jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the front view of the Big Ben in London, United Kingdom.",
+        "color": "blue",
+        "weight": 20
+      },
+      {
+        "id": "jigsaw_4",
+        "name": { "str": "Curitiba's Botanical Garden jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the front view of the Curitiba's Botanical Garden in Curitiba, Brazil.",
+        "color": "blue",
+        "weight": 5
+      },
+      {
+        "id": "jigsaw_5",
+        "name": { "str": "Christ Redeemer jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the backside view of Christ Redeemer, the Copacabana Beach, and the Pao de Acucar in Rio de Janeiro, Brazil.",
+        "color": "blue",
+        "weight": 20
+      },
+      {
+        "id": "jigsaw_6",
+        "name": { "str": "Machu Picchu jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the backside view of Christ Redeemer, the Copacabana Beach, and the Pao de Acucar in Rio de Janeiro, Brazil.",
+        "color": "blue",
+        "weight": 20
+        
     "id": "jigsaw_4",
     "type": "GENERIC",
     "category": "other",
