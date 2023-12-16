@@ -261,7 +261,7 @@
     "type": "ammunition_type",
     "id": "303",
     "name": ".303 British",
-    "default": "303_bthp"
+    "default": "303_fmjbt"
   },
   {
     "type": "ammunition_type",
