@@ -482,25 +482,6 @@
     "duration_increment": 72000
   },
   {
-    "id": "stormshaper_stormglove_zap",
-    "type": "SPELL",
-    "name": "Stormglove Zap",
-    "description": "This casts when you hit people with the stormglove.",
-    "valid_targets": [ "hostile" ],
-    "effect": "attack",
-    "shape": "blast",
-    "damage_type": "electric",
-    "min_damage": 1,
-    "max_damage": {
-      "math": [ "(5 + (1 * u_val('spell_level', 'spell: stormfist')) + (1 * u_val('spell_level', 'spell: stormfist_plus')))" ]
-    },
-    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE" ],
-    "sound_type": "combat",
-    "sound_description": "arcing electricity!",
-    "min_range": 1,
-    "max_range": 1
-  },
-  {
     "id": "create_electric_lighter",
     "type": "SPELL",
     "name": "Fire Spark",
