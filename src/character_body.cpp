@@ -1521,7 +1521,7 @@ void Character::update_respiration_rate()
 }
 
 
-void Character::check_vitals()
+void Character::check_vitals() const
 {
     const float max_hr = 220 - age();
     if( heart_rate_index * avg_nat_bpm > max_hr ) {
