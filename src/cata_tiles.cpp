@@ -1449,7 +1449,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     creature_tracker &creatures = get_creature_tracker();
     std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points;
     for( int row = min_row; row < max_row; row ++ ) {
-        draw_points[center.z][row].reserve( std::max( 0, max_col - min_col ) );
+    	// Reserve columns on each row
+    	for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
+            draw_points[zlevel][row].reserve( std::max( 0, max_col - min_col ) );
+        }
         for( int col = min_col; col < max_col; col ++ ) {
             const std::optional<point> temp = tile_to_player( { col, row } );
             for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
