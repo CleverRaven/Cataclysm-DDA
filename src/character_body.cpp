@@ -1384,8 +1384,8 @@ void Character::update_heartrate_index()
     const float max_cardio_fit = get_cardio_acc_base();
     // diff ratio goes from 3.0 to 1.0. This should correspond to a natural decrease of around 20% bpm at max fitness.
     // however this ratio should also increase cardiac output, as the heart is more efficient. So lower bpm, same CO.
-    const float diff = max_cardio_fit/cardio_fit; 
-    const float hr_health_mod = -(3.0f - diff) * 0.1f;
+    const float diff = max_cardio_fit / cardio_fit;
+    const float hr_health_mod = -( 3.0f - diff ) * 0.1f;
 
     // Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
     // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
@@ -1397,15 +1397,14 @@ void Character::update_heartrate_index()
 
     float hr_adrenaline_mod = 0.0f;
     // Adrenaline increases heart rate by 25% per point.
-    if (has_effect(effect_adrenaline)) {
-        const int adrenaline_level = get_effect_int(effect_adrenaline);
+    if( has_effect( effect_adrenaline ) ) {
+        const int adrenaline_level = get_effect_int( effect_adrenaline );
         // at adrenaline level 0, do nothing.
         // at adrenaline level 1, decrease heart rate by 10% (comedown).
         // at adrenaline level 2, increase heart rate by 20% (woooo!).
-        if (adrenaline_level == 1) {
+        if( adrenaline_level == 1 ) {
             hr_adrenaline_mod = -0.1f;
-        }
-        else if (adrenaline_level == 2) {
+        } else if( adrenaline_level == 2 ) {
             hr_adrenaline_mod = 0.2f;
         }
     }
@@ -1470,7 +1469,7 @@ void Character::update_circulation_resistance()
     // DOI: 10.1111/j.1365-2702.2005.01494.x
     // when prone, 8% higher than standing.
     float stance_mod = 0.0f;
-    if (is_prone()) {
+    if( is_prone() ) {
         stance_mod = 0.08f;
     }
 
@@ -1525,18 +1524,14 @@ void Character::update_respiration_rate()
 void Character::check_vitals()
 {
     const float max_hr = 220 - age();
-    if (heart_rate_index * avg_nat_bpm > max_hr)
-    {
+    if( heart_rate_index * avg_nat_bpm > max_hr ) {
         // cause high heart rate problems.
-    }
-    else if (heart_rate_index * avg_nat_bpm < 45)
-    {
+    } else if( heart_rate_index * avg_nat_bpm < 45 ) {
         // cause low heart rate problems.
     }
-    if (circulation < 0.75) {
+    if( circulation < 0.75 ) {
         // cause low blood pressure problems.
-    }
-    else if (circulation > 1.2) {
+    } else if( circulation > 1.2 ) {
         // cause high blood pressure problems.
     }
 }
