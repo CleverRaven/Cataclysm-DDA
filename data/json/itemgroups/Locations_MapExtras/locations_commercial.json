@@ -6,7 +6,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "group": "tobacco_products", "prob": 161 },
@@ -2164,14 +2164,6 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_1_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

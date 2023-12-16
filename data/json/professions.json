@@ -5832,6 +5832,7 @@
           "wristwatch",
           "boots",
           { "item": "aspirin", "count": 5 },
+          { "item": "acetaminophen", "count": 3 },
           "adrenaline_injector",
           { "item": "adhesive_bandages", "count": 8 }
         ],
@@ -5934,7 +5935,7 @@
           "scalpel",
           "syringe",
           "morphine",
-          "aspirin",
+          "acetaminophen",
           "antibiotics",
           "disinfectant",
           "pepto",

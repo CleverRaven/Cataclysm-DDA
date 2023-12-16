@@ -1127,7 +1127,7 @@
       [ "bikini_bottom", 10 ],
       [ "bikini_bottom_short", 5 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_10" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
       [ "karate_gi", 10 ],
       [ "judo_gi", 5 ],
       [ "fitness_band", 5 ],
