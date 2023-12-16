@@ -1455,10 +1455,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
         for( int col = min_col; col < max_col; col ++ ) {
             const std::optional<point> temp = tile_to_player( { col, row } );
-            for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
             if( !temp.has_value() ) {
                 continue;
             }
+            for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
             const tripoint pos( temp.value(), zlevel );
             const tripoint_abs_ms pos_global = here.getglobal( pos );
             const int &x = pos.x;
