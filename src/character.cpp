@@ -5074,8 +5074,8 @@ void Character::update_needs( int rate_multiplier )
         modify_heartrate_effect_mod( -std::min( get_heartrate_effect_mod(), rate_multiplier ) );
     }
 
-    if( get_perspiration_effect_mod() > 0 ) {
-        modify_perspiration_effect_mod( -std::min( get_perspiration_effect_mod(), rate_multiplier ) );
+    if( get_respiration_effect_mod() > 0 ) {
+        modify_respiration_effect_mod( -std::min( get_respiration_effect_mod(), rate_multiplier ) );
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
