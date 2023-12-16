@@ -255,7 +255,9 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill1_generic( "pkill1_generic" );
+static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
+static const efftype_id effect_pkill1_acetaminophen( "pkill1_acetaminophen" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
@@ -5063,6 +5065,18 @@ void Character::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
+    if( get_bp_effect_mod() > 0 ) {
+        modify_bp_effect_mod( -std::min( get_bp_effect_mod(), rate_multiplier ) );
+    }
+
+    if( get_heartrate_effect_mod() > 0 ) {
+        modify_heartrate_effect_mod( -std::min( get_heartrate_effect_mod(), rate_multiplier ) );
+    }
+
+    if( get_perspiration_effect_mod() > 0 ) {
+        modify_perspiration_effect_mod( -std::min( get_perspiration_effect_mod(), rate_multiplier ) );
+    }
+
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && get_size() == creature_size::huge &&
         !( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) ) ) {
@@ -7489,7 +7503,9 @@ void Character::vomit()
             }
         }
     }
-    remove_effect( effect_pkill1 );
+    remove_effect( effect_pkill1_generic );
+    remove_effect( effect_pkill1_acetaminophen );
+    remove_effect( effect_pkill1_nsaid );
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
@@ -10725,24 +10741,27 @@ void Character::process_one_effect( effect &it, bool is_new )
 
     // Handle Blood Pressure
     val = get_effect( "BLOOD_PRESSURE", reduced );
-    if (val != 0) {
-        if (is_new || it.activated(calendar::turn, "BLOOD_PRESSURE", val, reduced, mod)) {
-            modify_bp_effect_mod(bound_mod_to_vals(get_bp_effect_mod(), val, it.get_max_val("BLOOD_PRESSURE", reduced), 0));
+    if( val != 0 ) {
+        if( is_new || it.activated( calendar::turn, "BLOOD_PRESSURE", val, reduced, mod ) ) {
+            modify_bp_effect_mod( bound_mod_to_vals( get_bp_effect_mod(), val, it.get_max_val( "BLOOD_PRESSURE",
+                                  reduced ), 0 ) );
         }
     }
 
     // handle heart rate
     val = get_effect( "HEART_RATE", reduced );
-    if (val != 0) {
-        if (is_new || it.activated(calendar::turn, "HEART_RATE", val, reduced, mod)) {
-            modify_heartrate_effect_mod(bound_mod_to_vals(get_heartrate_effect_mod(), val, it.get_max_val("HEART_RATE", reduced), 0));
+    if( val != 0 ) {
+        if( is_new || it.activated( calendar::turn, "HEART_RATE", val, reduced, mod ) ) {
+            modify_heartrate_effect_mod( bound_mod_to_vals( get_heartrate_effect_mod(), val,
+                                         it.get_max_val( "HEART_RATE", reduced ), 0 ) );
         }
     }
     // handle perspiration rate
     val = get_effect( "PERSPIRATION_RATE", reduced );
-    if (val != 0) {
-        if (is_new || it.activated(calendar::turn, "PERSPIRATION_RATE", val, reduced, mod)) {
-            modify_perspiration_effect_mod(bound_mod_to_vals(get_perspiration_effect_mod(), val, it.get_max_val("PERSPIRATION_RATE", reduced), 0));
+    if( val != 0 ) {
+        if( is_new || it.activated( calendar::turn, "PERSPIRATION_RATE", val, reduced, mod ) ) {
+            modify_perspiration_effect_mod( bound_mod_to_vals( get_perspiration_effect_mod(), val,
+                                            it.get_max_val( "PERSPIRATION_RATE", reduced ), 0 ) );
         }
     }
 
