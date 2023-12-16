@@ -1,16 +1,21 @@
 #include "cata_imgui.h"
+
 #include <stack>
-#include "output.h"
-#include "ui_manager.h"
-#include "color.h"
-#include "input.h"
 #include <type_traits>
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+
+#include "color.h"
+#include "input.h"
+#include "output.h"
+#include "ui_manager.h"
+
 #if !(defined(TILES) || defined(WIN32))
 #include <curses.h>
 #include <imtui/imtui-impl-ncurses.h>
 #include <imtui/imtui-impl-text.h>
+
 #include "color_loader.h"
 
 struct RGBTuple {
