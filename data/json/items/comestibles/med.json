@@ -120,7 +120,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "aspirin" },
-    "description": "Acetylsalicylic acid, a mild anti-inflammatory and blood thinner.  Take to relieve pain and swelling. Careful - it can increase bleeding.",
+    "description": "Acetylsalicylic acid, a mild anti-inflammatory and blood thinner.  Take to relieve pain and swelling.  Careful - it can increase bleeding.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": "2 cent",
