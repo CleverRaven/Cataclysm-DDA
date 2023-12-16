@@ -186,7 +186,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "acetaminophen" },
-    "description": "Acetaminophen, a mild painkiller that works well in conjuction with NSAID-based painkillers like aspirin.  Take to relieve pain and swelling.",
+    "description": "Acetaminophen, a mild painkiller that works well in conjunction with NSAID-based painkillers like aspirin.  Take to relieve pain and swelling.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": "2 cent",
