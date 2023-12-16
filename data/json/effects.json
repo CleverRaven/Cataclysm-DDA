@@ -2038,6 +2038,13 @@
   },
   {
     "type": "effect_type",
+    "id": "ibuprofen_eff",
+    "max_duration": "20 m",
+    "//": "Blood pressure up.",
+    "base_mods": { "blood_pressure_tick": [ 42 ], "blood_pressure_min": [ 1 ]}
+  },
+  {
+    "type": "effect_type",
     "id": "pkill1_generic",
     "max_duration": "4 m",
     "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
