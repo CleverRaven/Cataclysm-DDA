@@ -3014,13 +3014,15 @@ class Character : public Creature, public visitable
         int get_bp_effect_mod() const;
         void update_circulation_resistance();
 
-        float get_perspiration_rate() const;
-        void set_perspiration_effect_mod( int mod );
-        int get_perspiration_effect_mod() const;
-        void modify_perspiration_effect_mod( int mod );
-        void update_perspiration_rate();
+        float get_respiration_rate() const;
+        void set_respiration_effect_mod( int mod );
+        int get_respiration_effect_mod() const;
+        void modify_respiration_effect_mod( int mod );
+        void update_respiration_rate();
 
         void update_circulation();
+
+        void check_vitals();
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -3964,7 +3966,7 @@ class Character : public Creature, public visitable
         // i.e. a value of 1.1 means 110% of normal.
         float heart_rate_index = 1.0f;
         float blood_vol_index = 1.0f;
-        float perspiration_rate = 1.0f;
+        float respiration_rate = 1.0f;
 
         float circulation;
         // Should remain fixed at 1.0 for now.
