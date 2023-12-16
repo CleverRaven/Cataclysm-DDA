@@ -476,30 +476,36 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then blood pressure. No min/max val, as they are handled internally.
-    extract_effect(to_extract, "BLOOD_PRESSURE", {
+    extract_effect( to_extract, "BLOOD_PRESSURE", {
         {"blood_pressure_amount",      mod_action::AMOUNT},
         {"blood_pressure_min",         mod_action::MIN},
         {"blood_pressure_max",         mod_action::MAX},
+        {"blood_pressure_max_val",     mod_action::MAX_VAL},
+        {"blood_pressure_min_val",     mod_action::MIN_VAL},
         {"blood_pressure_chance",      mod_action::CHANCE_TOP},
         {"blood_pressure_chance_bot",  mod_action::CHANCE_BOT},
         {"blood_pressure_tick",        mod_action::TICK},
     } );
 
     // Then Heart Rate
-    extract_effect(to_extract, "HEART_RATE", {
+    extract_effect( to_extract, "HEART_RATE", {
         {"heart_rate_amount",      mod_action::AMOUNT},
         {"heart_rate_min",         mod_action::MIN},
         {"heart_rate_max",         mod_action::MAX},
+        {"heart_rate_max_val",     mod_action::MAX_VAL},
+        {"heart_rate_min_val",     mod_action::MIN_VAL},
         {"heart_rate_chance",      mod_action::CHANCE_TOP},
         {"heart_rate_chance_bot",  mod_action::CHANCE_BOT},
         {"heart_rate_tick",        mod_action::TICK},
     } );
 
     // Then Respirato Rate
-    extract_effect(to_extract, "RESPIRATORY_RATE", {
+    extract_effect( to_extract, "RESPIRATORY_RATE", {
         {"respiratory_rate_amount",      mod_action::AMOUNT},
         {"respiratory_rate_min",         mod_action::MIN},
         {"respiratory_rate_max",         mod_action::MAX},
+        {"respiratory_rate_max_val",     mod_action::MAX_VAL},
+        {"respiratory_rate_min_val",     mod_action::MIN_VAL},
         {"respiratory_rate_chance",      mod_action::CHANCE_TOP},
         {"respiratory_rate_chance_bot",  mod_action::CHANCE_BOT},
         {"respiratory_rate_tick",        mod_action::TICK},
