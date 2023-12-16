@@ -42,7 +42,7 @@
     "id": "onirim",
     "type": "GENERIC",
     "copy-from": "deck_of_cards",
-    "name": { "str": "deck of Shadowcaser cards", "str_pl": " decks of Shadowcaser cards" },
+    "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
     "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them."
   },
   {
