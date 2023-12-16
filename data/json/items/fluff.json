@@ -35,7 +35,7 @@
     "id": "uno",
     "type": "GENERIC",
     "copy-from": "deck_of_cards",
-    "name": { "str": "deck of Uno cards", "str_pl": " decks of Uno cards" },
+    "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
     "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead."
   },
   {
