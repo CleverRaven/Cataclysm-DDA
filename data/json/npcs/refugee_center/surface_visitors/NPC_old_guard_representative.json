@@ -363,7 +363,7 @@
       [
         { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
         { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
-        { "u_spawn_item": "bandages", "count":5 },
+        { "u_spawn_item": "bandages", "count": 5 },
         { "u_spawn_item": "9mmP", "container": "box_small", "count": 15 },
         { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
         { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
@@ -397,7 +397,7 @@
       [
         { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
         { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
-        { "u_spawn_item": "bandages", "count":5 },
+        { "u_spawn_item": "bandages", "count": 5 },
         { "u_spawn_item": "9mmP", "container": "box_small", "count": 15 },
         { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
         { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
