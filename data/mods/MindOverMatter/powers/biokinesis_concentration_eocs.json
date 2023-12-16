@@ -63,9 +63,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_overcome_pain')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
@@ -125,9 +123,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_physical_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_physical_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_PHYSICAL_ENHANCE_DRAIN",
@@ -193,9 +189,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
@@ -256,9 +250,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_climate_control')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
@@ -360,9 +352,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_enhance_mobility')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
@@ -428,9 +418,7 @@
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
@@ -490,9 +478,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_reflex_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_BIOKIN_REFLEX_ENHANCE_DRAIN",
@@ -552,9 +538,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_seven", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(7)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_val('sleep_deprivation')", "-=", "10" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

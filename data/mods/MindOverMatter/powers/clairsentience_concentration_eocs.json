@@ -67,9 +67,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
@@ -135,9 +133,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
@@ -197,7 +193,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
-      { "math": [ "u_val('spell_exp', 'spell: clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
@@ -257,9 +253,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
@@ -319,9 +313,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
@@ -381,9 +373,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
@@ -467,9 +457,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
@@ -529,9 +517,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_eight", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(8)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
@@ -597,9 +583,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_nine", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(9)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",

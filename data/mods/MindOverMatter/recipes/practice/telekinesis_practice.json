@@ -46,12 +46,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_pull')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: telekinetic_pull')", "<=", "(difficulty_one_contemplation(1))" ] }
+            { "math": [ "u_spell_exp('telekinetic_pull')", "<=", "(difficulty_one_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_pull')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_pull')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -95,12 +95,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_push')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: telekinetic_push')", "<=", "(difficulty_two_contemplation(1))" ] }
+            { "math": [ "u_spell_exp('telekinetic_push')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_push')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_push')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -144,14 +144,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_momentum')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_momentum')", "<=", "(difficulty_three_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_momentum')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -196,14 +194,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_slowfall')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_slowfall')", "<=", "(difficulty_three_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_slowfall')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_slowfall')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -248,14 +244,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_wave')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_wave')", "<=", "(difficulty_four_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_wave')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_wave')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -300,14 +294,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_strength')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_strength')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_strength')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -352,14 +344,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_hammer')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_hammer')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_hammer')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_hammer')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -404,14 +394,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_vehicle_lift')", "<=", "(difficulty_six_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_vehicle_lift')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -456,14 +444,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_shield')", "<=", "(difficulty_six_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_shield')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_shield')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_shield')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -508,14 +494,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_explosion')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_explosion')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_explosion')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_explosion')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -560,14 +544,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_levitation')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_levitation')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_levitation')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -612,14 +594,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_aegis')", "<=", "(difficulty_nine_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_aegis')", "<=", "(difficulty_nine_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_aegis')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_aegis')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -664,14 +644,12 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telekinetic_earthshaker')", "<=", "(difficulty_ten_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('telekinetic_earthshaker')", "<=", "(difficulty_ten_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telekinetic_earthshaker')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_spell_exp('telekinetic_earthshaker')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

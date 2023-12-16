@@ -97,9 +97,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEPATH_SHIELD_DRAIN",
@@ -159,9 +157,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEPATH_SENSE_MINDS_DRAIN",

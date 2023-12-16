@@ -39,9 +39,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: vita_health_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('vita_health_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
@@ -102,9 +100,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: vita_cure_disease')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('vita_cure_disease')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
@@ -167,7 +163,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_nine", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(9)" ] },
-      { "math": [ "u_val('spell_exp', 'spell: vita_super_heal')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('vita_super_heal')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
@@ -238,9 +234,7 @@
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_ten", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(10)" ] },
       { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_val('stored_kcal')" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: vita_return_from_death')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
