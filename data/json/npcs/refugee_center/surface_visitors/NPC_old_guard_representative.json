@@ -359,8 +359,8 @@
       "success_lie": "Huh; that's weird, the boys at comms say that they didn't really see an improvement.  Well, if you want to try again, come to me.  Maybe this time it'll work.",
       "failure": "That's a damn shame…  You can come back anytime if you want to try again."
     },
-    "end": { "effect":
-      [
+    "end": {
+      "effect": [
         { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
         { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
         { "u_spawn_item": "bandages", "count": 5 },
@@ -368,7 +368,7 @@
         { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
         { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
         { "u_spawn_item": "556", "container": "box_small", "count": 60 },
-        { "u_spawn_item": "FMCNote", "count": 25  }
+        { "u_spawn_item": "FMCNote", "count": 25 }
       ]
     }
   },
@@ -393,8 +393,8 @@
       "success_lie": "Huh, that's weird, the boys at comms say that they didn't really see an improvement.  Well, if you want to try again, come to me.  Maybe this time it'll work.",
       "failure": "Oh well, you can try again anytime."
     },
-    "end": { "effect":
-      [
+    "end": {
+      "effect": [
         { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
         { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
         { "u_spawn_item": "bandages", "count": 5 },
@@ -402,7 +402,7 @@
         { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
         { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
         { "u_spawn_item": "556", "container": "box_small", "count": 60 },
-        { "u_spawn_item": "FMCNote", "count": 25  }
+        { "u_spawn_item": "FMCNote", "count": 25 }
       ]
     }
   }
