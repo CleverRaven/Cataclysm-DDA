@@ -1211,7 +1211,7 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-    "id": "scythe",
+    "id": "scythe_game",
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Steam Gears", "str_pl": "sets of Steam Gears" },
