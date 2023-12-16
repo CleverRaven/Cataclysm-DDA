@@ -3019,7 +3019,7 @@ class Character : public Creature, public visitable
 
         void update_circulation();
 
-        void check_vitals();
+        void check_vitals() const;
 
         int get_stamina() const;
         int get_stamina_max() const;
