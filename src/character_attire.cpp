@@ -2351,11 +2351,14 @@ void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
         // What body parts does this item cover?
         body_part_set covered = it.get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts ) {
+            float part_exposure = 1.0;
             if( !covered.test( bp.id() ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
+            if( !it.has_flag( flag_TRANSPARENT ) ) {
+                part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
+            }
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] *= part_exposure;
         }
