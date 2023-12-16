@@ -159,6 +159,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
+        case spell_flag::RECHARM: return "RECHARM";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
