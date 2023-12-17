@@ -1581,8 +1581,7 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
 {
     if( target_property == "caster_level" ) {
         temp_level_adjustment += adjustment;
-    }
-    if( target_property == "casting_time" ) {
+    } else if( target_property == "casting_time" ) {
         temp_cast_time_multiplyer += adjustment;
     } else if( target_property == "cost" ) {
         temp_spell_cost_multiplyer += adjustment;
