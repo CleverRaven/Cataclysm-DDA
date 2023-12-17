@@ -1463,6 +1463,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const tripoint_abs_ms pos_global = here.getglobal( pos );
             const int &x = pos.x;
             const int &y = pos.y;
+            const bool is_center_z = ( zlevel == center.z );
 
             // light level is used for choosing between grayscale filter and normal lit tiles.
             lit_level ll;
@@ -1478,7 +1479,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     ll = lit_level::DARK;
                     invisible[0] = true;
                 } else {
-                    if( would_apply_vision_effects( offscreen_type ) ) {
+                    if( is_center_z && would_apply_vision_effects( offscreen_type ) ) {
                         draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ offscreen_type } );
                     }
@@ -1657,8 +1658,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             || you.sees_with_specials( *critter ) ) ) ) {
                         invisible[0] = true;
                     } else {
+                    	if( is_center_z ) {
                         draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ vis_type } );
+                        }
                         continue;
                     }
                 }
