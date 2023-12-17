@@ -596,7 +596,7 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "portable_diesel_generator", 25],
+      [ "portable_diesel_generator", 25 ],
       [ "4x4_car", 100 ],
       [ "4x4_car_diesel", 100 ],
       [ "underlift_tow_truck", 250 ]
