@@ -534,7 +534,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0, 50) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10"
+               "( clamp( ( u_vitamin('vitamin_psionic_drain')  - 160), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 3.5 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"          
               ]
             },
             "y": 1000
