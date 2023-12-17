@@ -3766,7 +3766,7 @@ bool overmap::generate_over( const int z )
                     tripoint_om_omt support_point = p + tripoint_below;
                     int support_z = 0;
                     // place the rest of the support columns
-                    while( ( ter( support_point ) -> is_water() ) && ( --support_z >= -OVERMAP_DEPTH ) ) {
+                    while( ter( support_point ) -> is_water() && --support_z >= -OVERMAP_DEPTH ) {
                         ter_set( support_point, oter_id( "bridge" + oter_get_rotation_string( oter_ground ) ) );
                         support_point += tripoint_below;
                     }
