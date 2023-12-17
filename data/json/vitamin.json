@@ -48,6 +48,18 @@
     "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
   },
   {
+    "id": "vit_betablocker",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Beta-Blocker" },
+    "excess": "betablock",
+    "min": 0,
+    "max": 6000,
+    "//": [ "Takes 30 min to kick in, lasts 24 hours" ],
+    "rate": "44 s",
+    "disease_excess": [ [ 1000, 2000 ], [ 2001, 3000 ], [ 3001, 6000 ] ]
+  },
+  {
     "id": "mutant_toxin",
     "type": "vitamin",
     "vit_type": "toxin",

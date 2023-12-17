@@ -24,6 +24,7 @@ character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_m
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_betablock( "betablock" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
@@ -1380,12 +1381,17 @@ void Character::update_heartrate_index()
             hr_nicotine_mod = 0.1f;
         }
     }
-    const float cardio_fit = get_cardiofit();
-    const float max_cardio_fit = get_cardio_acc_base();
+    // ********************
     // diff ratio goes from 3.0 to 1.0. This should correspond to a natural decrease of around 20% bpm at max fitness.
     // however this ratio should also increase cardiac output, as the heart is more efficient. So lower bpm, same CO.
-    const float diff = max_cardio_fit / cardio_fit;
-    const float hr_health_mod = -( 3.0f - diff ) * 0.1f;
+    //const float cardio_fit = get_cardiofit();
+    //const float max_cardio_fit = get_cardio_acc_base();
+    //const float diff = max_cardio_fit / cardio_fit;
+    //const float hr_health_mod = ( diff - 3.0f ) * 0.1f;
+    // ********************
+    //  EDIT: It is a better idea to change the actual avg_nat_bpm that this index is multiplied by, rather than changing this index.
+    //  This way, it won't have any direct health effects, which makes more sense.
+    //  I am leaving the code above commented in case anyone thinks it should be restored.
 
     // Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
     // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
@@ -1407,6 +1413,25 @@ void Character::update_heartrate_index()
         } else if( adrenaline_level == 2 ) {
             hr_adrenaline_mod = 0.2f;
         }
+    }
+
+    // if under the effect of a betablocker, decrease hr_adrenaline_mod and hr_pain_mod
+    if( has_effect( effect_betablock ) ) {
+        const int betablock_level = get_effect_int( effect_betablock );
+        // at betablock level 1, reduce by 60%
+        // at betablock level 2, 80%.
+        // at betablock level 3, 100%.
+        float betablock_mod = 1.0f;
+        switch( betablock_level ) {
+            case 1:
+                betablock_mod = 0.4;
+            case 2:
+                betablock_mod = 0.2;
+            case 3:
+                betablock_mod = 0;
+        }
+        hr_adrenaline_mod *= betablock_mod;
+        hr_pain_mod *= betablock_mod;
     }
 
     // TODO: implement support for HR increasing to compensate for low BP.
@@ -1461,19 +1486,19 @@ int Character::get_bp_effect_mod() const
 
 void Character::update_circulation_resistance()
 {
-    const int effect_mod = get_bp_effect_mod();
+    const int bp_effect_mod = get_bp_effect_mod();
     constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.01f;
-    const float item_effect_mod = effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
+    const float bp_item_effect_mod = bp_effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
 
     // should also be affected by stance.
     // DOI: 10.1111/j.1365-2702.2005.01494.x
     // when prone, 8% higher than standing.
-    float stance_mod = 0.0f;
+    float bp_stance_mod = 0.0f;
     if( is_prone() ) {
-        stance_mod = 0.08f;
+        bp_stance_mod = 0.08f;
     }
 
-    circulation_resistance = 1.0f + item_effect_mod + stance_mod;
+    circulation_resistance = 1.0f + bp_item_effect_mod + bp_stance_mod + bp_health_mod;
 }
 
 void Character::update_circulation()
@@ -1523,15 +1548,19 @@ void Character::update_respiration_rate()
 
 void Character::check_vitals()
 {
-    const float max_hr = 220 - age();
-    if( heart_rate_index * avg_nat_bpm > max_hr ) {
+    // TODO FOR FUTURE PR.
+    constexpr float max_hr = 2.0;
+    constexpr float min_hr = 0.4;
+    constexpr float max_bp = 1.2;
+    constexpr float min_bp = 0.75;
+    if( heart_rate_index > max_hr ) {
         // cause high heart rate problems.
-    } else if( heart_rate_index * avg_nat_bpm < 45 ) {
+    } else if( heart_rate_index < min_hr ) {
         // cause low heart rate problems.
     }
-    if( circulation < 0.75 ) {
-        // cause low blood pressure problems.
-    } else if( circulation > 1.2 ) {
+    if( circulation > max_bp ) {
         // cause high blood pressure problems.
+    } else if( circulation < min_bp ) {
+        // cause low blood pressure problems.
     }
 }

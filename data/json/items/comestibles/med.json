@@ -134,7 +134,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some aspirin.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 720 }, { "id": "bleedrate_up", "duration": 86400 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 720 }, { "id": "bleedrate_up", "duration": 432000 } ]
     }
   },
   {
@@ -201,6 +201,28 @@
       "type": "consume_drug",
       "activation_message": "You take some acetaminophen.",
       "effects": [ { "id": "pkill1_acetaminophen", "duration": 720 } ]
+    }
+  },
+  {
+    "id": "metaprolol",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "metaprolol" },
+    "description": "Metaprolol, a classic beta blocker.  It lowers blood pressure and decouples heart rate from stressful events such as anxiety or pain.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "2 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "drug_filler" ],
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_plastic_pill_painkiller",
+    "healthy": -1,
+    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take some metaprolol.",
+      "vitamins": [ [ "vit_betablocker", 2000 ] ]
     }
   },
   {
