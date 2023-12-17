@@ -164,6 +164,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", { "const": 3 } ],
                 [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", { "const": 3 } ],
                 [ "EOC_NETHER_EFFECT_CHECK_BREATHING", { "const": 3 } ],
+                [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", { "const": 3 } ],
                 [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", { "const": 3 } ]
               ]
             }
@@ -183,6 +184,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", { "const": 3 } ],
                 [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", { "const": 3 } ],
                 [ "EOC_NETHER_EFFECT_CHECK_BREATHING", { "const": 3 } ],
+                [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", { "const": 3 } ],
                 [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", { "const": 3 } ],
                 [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", { "const": 2 } ]
               ]
@@ -517,6 +519,36 @@
         "duration": {
           "math": [
             "u_val('time: 30 s') * rng( ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ), ( u_val('vitamin', 'name:vitamin_psionic_drain') * 2 ) )"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_HALLUCINATIONS",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "clamp( (u_vitamin('vitamin_psionic_drain') - 280), 0, 50) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you begin to feel a sudden sense of dread and paranoia!", "type": "bad" },
+      {
+        "u_add_effect": "hallu",
+        "duration": {
+          "math": [
+            "u_val('time: 45 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
           ]
         }
       }
