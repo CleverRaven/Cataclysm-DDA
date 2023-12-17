@@ -215,7 +215,7 @@
   {
     "id": "engine_1cyl_diesel_large",
     "type": "vehicle_part",
-	"copy-from": "diesel_engine",
+    "copy-from": "diesel_engine",
     "item": "engine_1cyl_diesel_large",
     "description": "A 200cc engine, suitable for a dirt bike, scooter, or generator.",
     "durability": 150,
