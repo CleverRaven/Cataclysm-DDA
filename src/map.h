@@ -311,7 +311,7 @@ struct tile_render_info {
     tile_render_info( const common &com, const sprite &var )
         : com( com ), var( var ) {}
 };
-        
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -2345,8 +2345,6 @@ class map
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
 
-        
-        
         std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points;
 };
 
