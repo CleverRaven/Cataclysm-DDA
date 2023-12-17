@@ -548,7 +548,7 @@
         "u_add_effect": "hallu",
         "duration": {
           "math": [
-            "u_val('time: 45 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
+            "u_val('time: 90 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
           ]
         }
       }
