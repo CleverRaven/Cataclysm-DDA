@@ -1309,7 +1309,7 @@
         { "vehicle": "helicopter_blackhawk_3a", "x": 50, "y": 32, "chance": 5, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 5, "y": 61, "chance": 25, "rotation": 180, "status": 1 },
         { "vehicle": "military_vehicles", "x": 7, "y": 54, "chance": 25, "rotation": 180, "status": 1 },
-        { "vehicle": "portable_generator", "x": 76, "y": 12, "chance": 50, "status": 1 }
+        { "vehicle": "portable_diesel_generator", "x": 76, "y": 12, "chance": 50, "status": 1 }
       ],
       "computers": {
         "0": {
