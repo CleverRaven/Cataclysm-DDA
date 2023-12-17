@@ -249,7 +249,7 @@
           ]
         },
         {
-          "arithmetic": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "0" } ]
+          "math": [ "nunez_arrived", "=", "0"  ]
         }
       ]
     }
