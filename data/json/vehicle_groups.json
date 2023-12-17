@@ -469,7 +469,7 @@
       [ "scooter", 100 ],
       [ "scooter_electric", 100 ],
       [ "portable_generator", 50 ],
-      [ "portable_diesel)generator", 25],
+      [ "portable_diesel)generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
