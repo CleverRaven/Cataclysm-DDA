@@ -330,7 +330,7 @@
         "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the natural view of the entrance of the Acadia National Park, located in Maine.",
         "color": "blue",
         "weight": 20
-        },
+      },
       {
         "id": "jigsaw_28",
         "name": { "str": "Mark Twain House jigsaw puzzle" },
