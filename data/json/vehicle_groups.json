@@ -676,7 +676,7 @@
       [ "autotractor", 1000 ],
       [ "excavator", 500 ],
       [ "wheelbarrow", 100 ],
-      { "portable_diesel_generator", 75 ]
+      [ "portable_diesel_generator", 75 ]
     ]
   },
   {
