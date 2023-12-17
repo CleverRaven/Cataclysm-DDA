@@ -1739,12 +1739,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 for( auto f : drawing_layers ) {
                     // For each tile
                     for( tile_render_info &p : draw_points[cur_zlevel][row] ) {
-                        tripoint draw_loc = p.com.pos;
-                        draw_loc.z = cur_zlevel;
                         if( const tile_render_info::vision_effect * const
                             var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                             if( f == &cata_tiles::draw_terrain ) {
-                                apply_vision_effects( draw_loc, var->vis, p.com.height_3d );
+                                apply_vision_effects( p.com.pos, var->vis, p.com.height_3d );
                             }
                         } else if( const tile_render_info::sprite * const
                                    var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
@@ -1758,19 +1756,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 // Reset height_3d to base when drawing vehicles
                                 p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                                 // Draw
-                                if( !( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false ) ) {
+                                if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) ) {
                                     // If no vpart drawn, revert height_3d changes
                                     p.com.height_3d = temp_height_3d;
                                 }
                             } else if( f == &cata_tiles::draw_critter_at ) {
                                 // Draw
-                                if( !( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false ) && do_draw_shadow ) { //replace bottom detection
+                                if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) && do_draw_shadow ) { //replace bottom detection
                                     // Draw shadow of flying critters on bottom-most tile if no other critter drawn
-                                    draw_critter_above( draw_loc, ll, p.com.height_3d, invisible );
+                                    draw_critter_above( p.com.pos, ll, p.com.height_3d, invisible );
                                 }
                             } else {
                                 // Draw
-                                ( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false );
+                                ( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false );
                             }
                         }
                     }
