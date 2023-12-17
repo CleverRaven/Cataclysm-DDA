@@ -708,26 +708,14 @@ int spell::damage( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_damage = min_leveled_damage( caster );
+    
+    double const min = type->min_damage.evaluate( d );
+    double const max = std::max( min, type->max_damage.evaluate( d ) );
 
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
-        return rng( std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) ),
-                    std::max( leveled_damage,
-                              static_cast<int>( type->max_damage.evaluate( d ) ) ) );
-    } else {
-        if( type->min_damage.evaluate( d ) >= 0 ) {
-            if( type->max_damage.evaluate( d ) > type->min_damage.evaluate( d ) ) {
-                return std::clamp( leveled_damage, static_cast<int>( type->min_damage.evaluate( d ) ),
-                                   static_cast<int>( type->max_damage.evaluate( d ) ) );
-            } else {
-                return std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
-            }
-        } else if( type->max_damage.evaluate( d ) < type->min_damage.evaluate( d ) ) {
-            return std::clamp( leveled_damage, static_cast<int>( type->min_damage.evaluate( d ) ),
-                               static_cast<int>( type->max_damage.evaluate( d ) ) );
-        } else {
-            return std::max( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
-        }
+        return rng_float( min, max );
     }
+    return std::clamp( static_cast<double>( leveled_damage ), min, max );
 }
 
 int spell::min_leveled_accuracy( const Creature &caster ) const
@@ -742,19 +730,9 @@ int spell::accuracy( Creature &caster ) const
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_accuracy = min_leveled_accuracy( caster );
 
-    if( type->min_accuracy.evaluate( d ) > 0 ) {
-        if( type->max_accuracy.evaluate( d ) > type->min_accuracy.evaluate( d ) ) {
-            return std::clamp( leveled_accuracy, static_cast<int>( type->min_accuracy.evaluate( d ) ),
-                               static_cast<int>( type->max_accuracy.evaluate( d ) ) );
-        } else {
-            return std::min( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
-        }
-    } else if( type->max_accuracy.evaluate( d ) < type->min_accuracy.evaluate( d ) ) {
-        return std::clamp( leveled_accuracy, static_cast<int>( type->min_accuracy.evaluate( d ) ),
-                           static_cast<int>( type->max_accuracy.evaluate( d ) ) );
-    } else {
-        return std::max( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
-    }
+    double const min = type->min_accuracy.evaluate( d );
+    double const max = std::max( min, type->max_accuracy.evaluate( d ) );
+    return std::clamp( static_cast<double>( leveled_accuracy ), min, max );
 }
 
 int spell::min_leveled_dot( const Creature &caster ) const
@@ -768,19 +746,9 @@ int spell::damage_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_dot = min_leveled_dot( caster );
-    if( type->min_dot.evaluate( d ) >= 0 ) {
-        if( type->max_dot.evaluate( d ) > type->min_dot.evaluate( d ) ) {
-            return std::clamp( leveled_dot, static_cast<int>( type->min_dot.evaluate( d ) ),
-                               static_cast<int>( type->max_dot.evaluate( d ) ) );
-        } else {
-            return std::min( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
-        }
-    } else if( type->max_dot.evaluate( d ) < type->min_dot.evaluate( d ) ) {
-        return std::clamp( leveled_dot, static_cast<int>( type->min_dot.evaluate( d ) ),
-                           static_cast<int>( type->max_dot.evaluate( d ) ) );
-    } else {
-        return std::max( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
-    }
+    double const min = type->min_dot.evaluate( d );
+    double const max = std::max( min, type->max_dot.evaluate( d ) );
+    return std::clamp( static_cast<double>( leveled_dot ), min, max );
 }
 
 damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps,
@@ -879,18 +847,15 @@ int spell::aoe( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_aoe = min_leveled_aoe( caster );
-    int return_value;
+    int return_value{};
+
+    double const min = type->min_aoe.evaluate( d );
+    double const max = std::max( min, type->max_aoe.evaluate( d ) );
 
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
-        return_value = rng( std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ),
-                            std::max( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) ) );
+        return_value = rng_float( min, max );
     } else {
-        if( type->max_aoe.evaluate( d ) > type->min_aoe.evaluate( d ) ) {
-            return_value = std::clamp( leveled_aoe, static_cast<int>( type->min_aoe.evaluate( d ) ),
-                                       static_cast<int>( type->max_aoe.evaluate( d ) ) );
-        } else {
-            return_value = std::min( leveled_aoe, static_cast<int>( type->max_aoe.evaluate( d ) ) );
-        }
+        return_value = std::clamp( static_cast<double>( leveled_aoe ), min, max );
     }
     return return_value * temp_aoe_multiplyer;
 }
@@ -932,14 +897,10 @@ int spell::range( const Creature &caster ) const
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_range = type->min_range.evaluate( d ) + std::round( get_effective_level() *
                               type->range_increment.evaluate( d ) );
-    float range;
-    if( type->max_range.evaluate( d ) > type->min_range.evaluate( d ) ) {
-        range = std::clamp( leveled_range, static_cast<int>( type->min_range.evaluate( d ) ),
-                            static_cast<int>( type->max_range.evaluate( d ) ) );
-    } else {
-        range = std::max( leveled_range, static_cast<int>( type->max_range.evaluate( d ) ) );
-    }
-    return std::max( range * temp_range_multiplyer, 0.0f );
+    double const min = std::max( 0.0, type->min_range.evaluate( d ) );
+    double const max = std::max( min, type->max_range.evaluate( d ) );
+    double const range = std::clamp( static_cast<double>( leveled_range ), min, max );
+    return range * temp_range_multiplyer;
 }
 
 std::vector<tripoint> spell::targetable_locations( const Character &source ) const
@@ -992,21 +953,17 @@ int spell::duration( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_duration = min_leveled_duration( caster );
-    float duration;
+    double duration{};
+
+    double const min = std::max( 0.0, type->min_duration.evaluate( d ) );
+    double const max = std::max( min, type->max_duration.evaluate( d ) );
 
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
-        return rng( std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) ),
-                    std::max( leveled_duration,
-                              static_cast<int>( type->max_duration.evaluate( d ) ) ) );
+        duration = rng_float( min, max );
     } else {
-        if( type->max_duration.evaluate( d ) > type->min_duration.evaluate( d ) ) {
-            return std::clamp( leveled_duration, static_cast<int>( type->min_duration.evaluate( d ) ),
-                               static_cast<int>( type->max_duration.evaluate( d ) ) );
-        } else {
-            return std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
-        }
+        duration = std::clamp( static_cast<double>( leveled_duration ), min, max );
     }
-    return std::max( duration * temp_duration_multiplyer, 0.0f );
+    return duration * temp_duration_multiplyer;
 }
 
 std::string spell::duration_string( const Creature &caster ) const
