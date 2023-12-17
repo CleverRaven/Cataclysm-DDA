@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <tuple>
 #include <unordered_set>
-#include <variant>
 
 #include "action.h"
 #include "avatar.h"
