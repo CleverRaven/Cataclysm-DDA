@@ -237,7 +237,7 @@
       { "u_lose_effect": "effect_telepath_invisibility" },
       { "u_lose_effect": "effect_telepath_network_effect" },
       { "u_lose_effect": "effect_vitakin_purge_rads" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "=", "0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   },
@@ -293,7 +293,7 @@
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "=", "0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   }
