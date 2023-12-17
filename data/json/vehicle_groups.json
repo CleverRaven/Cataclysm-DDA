@@ -416,7 +416,7 @@
       [ "pickup", 300 ],
       [ "4seat_pickup", 125 ],
       [ "portable_generator", 50 ],
-      [ "portable_diesel_generator", 25],
+      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
