@@ -4,6 +4,6 @@
     "id": "EOC_BRIDGE_OVERRIDE",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "bridge_override", "=", "0" ] } ]
+    "effect": [ { "math": [ "vanilla_bridge", "=", "1" ] } ]
   }
 ]
