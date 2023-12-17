@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "path_info.h"
 #include "rng.h"
 
 snippet_library SNIPPET;
@@ -77,11 +78,101 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
     }
 }
 
+void snippet_library::reload_names( const cata_path &path )
+{
+    read_from_file_json( path, [this]( const JsonArray & names_json ) {
+        struct usage_info {
+            bool gendered;
+            category_snippets *cat;
+            category_snippets *male_cat;
+            category_snippets *female_cat;
+        };
+
+        const std::unordered_map<std::string, usage_info> usages = {
+            { "backer", { true, nullptr, &snippets_by_category["<male_backer_name>"], &snippets_by_category["<female_backer_name>"] } },
+            { "given", { true, nullptr, &snippets_by_category["<male_given_name>"], &snippets_by_category["<female_given_name>"] } },
+            { "family", { false, &snippets_by_category["<family_name>"], nullptr, nullptr } },
+            { "nick", { false, &snippets_by_category["<nick_name>"], nullptr, nullptr } },
+            { "city", { false, &snippets_by_category["<city_name>"], nullptr, nullptr } },
+            { "world", { false, &snippets_by_category["<world_name>"], nullptr, nullptr } },
+        };
+
+        // First clear previously loaded names
+        for( const std::pair<const std::string, usage_info> &kv : usages ) {
+            const usage_info &use = kv.second;
+            if( use.gendered ) {
+                use.male_cat->no_id.clear();
+                use.female_cat->no_id.clear();
+            } else {
+                use.cat->no_id.clear();
+            }
+        }
+
+        for( JsonObject jo : names_json ) {
+            const std::string usage = jo.get_string( "usage" );
+            const auto it = usages.find( usage );
+            if( it == usages.end() ) {
+                debugmsg( "Unknown name usage %s.", usage );
+                continue;
+            }
+            const usage_info &info = it->second;
+            std::vector<category_snippets *> cats;
+            if( info.gendered ) {
+                const std::string gender = jo.get_string( "gender" );
+                if( gender == "unisex" ) {
+                    cats.emplace_back( info.male_cat );
+                    cats.emplace_back( info.female_cat );
+                } else if( gender == "male" ) {
+                    cats.emplace_back( info.male_cat );
+                } else if( gender == "female" ) {
+                    cats.emplace_back( info.female_cat );
+                } else {
+                    debugmsg( "Unknown name gender %s.", gender );
+                    continue;
+                }
+            } else {
+                cats.emplace_back( info.cat );
+            }
+            if( jo.has_array( "name" ) ) {
+                for( const std::string n : jo.get_array( "name" ) ) {
+                    for( category_snippets *const cat : cats ) {
+                        cat->no_id.emplace_back( no_translation( n ) );
+                    }
+                }
+            } else {
+                const std::string n = jo.get_string( "name" );
+                for( category_snippets *const cat : cats ) {
+                    cat->no_id.emplace_back( no_translation( n ) );
+                }
+            }
+        }
+
+        // Add fallback in case no name was loaded
+        for( const std::pair<const std::string, usage_info> &kv : usages ) {
+            const usage_info &use = kv.second;
+            if( use.gendered ) {
+                if( use.male_cat->no_id.empty() ) {
+                    use.male_cat->no_id.emplace_back( to_translation( "Tom" ) );
+                }
+                if( use.female_cat->no_id.empty() ) {
+                    use.female_cat->no_id.emplace_back( to_translation( "Tom" ) );
+                }
+            } else {
+                if( use.cat->no_id.empty() ) {
+                    use.cat->no_id.emplace_back( to_translation( "Tom" ) );
+                }
+            }
+        }
+    } );
+}
+
 void snippet_library::clear_snippets()
 {
     hash_to_id_migration = std::nullopt;
     snippets_by_category.clear();
     snippets_by_id.clear();
+    // Needed by world creation etc
+    reload_names( PATH_INFO::names() );
 }
 
 bool snippet_library::has_category( const std::string &category ) const

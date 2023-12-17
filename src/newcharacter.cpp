@@ -44,7 +44,6 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
-#include "name.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -63,6 +62,7 @@
 #include "start_location.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -373,7 +373,7 @@ void Character::pick_name( bool bUseDefault )
     if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
-        name = Name::generate( male );
+        name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     }
 }
 

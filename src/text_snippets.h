@@ -13,6 +13,7 @@
 #include "dialogue.h"
 #include "type_id.h"
 
+class cata_path;
 class JsonArray;
 class JsonObject;
 
@@ -36,6 +37,10 @@ class snippet_library
          * stored in snippets_by_id.
          */
         void add_snippet_from_json( const std::string &category, const JsonObject &jo );
+        /**
+         * Load name list from name.h/cpp
+         */
+        void reload_names( const cata_path &path );
         void clear_snippets();
 
         bool has_category( const std::string &category ) const;
