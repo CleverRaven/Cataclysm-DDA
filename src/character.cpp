@@ -7946,6 +7946,45 @@ std::string Character::weapname_ammo() const
     }
 }
 
+bool Character::move_in_vehicle( Creature *source, const tripoint &dest_loc )
+{
+    map &m = get_map();
+    const optional_vpart_position vp_there = m.veh_at( dest_loc );
+    if( vp_there ) {
+        add_msg( m_warning, _( "VP is there." ) );
+        vehicle &veh = vp_there->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
+        for( auto& part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
+            const optional_vpart_position vp = m.veh_at( dest_loc );
+            if ( !vp.part_with_feature("CARGO_PASSABLE", true ) ) {
+            add_msg( m_warning, _( "There's cargo there." ) );
+            capacity += vpinfo.size;
+            free_cargo += contents.free_volume();
+            }
+        }
+
+        if( capacity > 0_ml ) {
+            add_msg( m_warning, _( "Free cargo is %s." ), format_volume( free_cargo ) );
+            // First, we'll try to squeeze in.
+            if( ( ( get_size() > creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 250000_ml ) ) {
+                if( ( ( get_size() > creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 187500_ml ) ) {
+                add_msg_if_player( m_warning, _( "There's not enough room for you to fit there." ) );
+                add_msg_if_npc( m_warning, _( "There's not enough room for %s to fit there." ), source->disp_name() );
+                return false; // Even if you squeeze, there's no room.
+            }
+            add_msg_if_player( m_warning, _( "You contort your body to squeeze into the cramped space." ) );
+            add_msg_if_npc( m_warning, _( "%s contorts their body to fit into the cramped space." ), source->disp_name() );
+            return true;
+            }
+        }
+    }
+    return true;
+}
+
 void Character::on_hit( Creature *source, bodypart_id bp_hit,
                         float /*difficulty*/, dealt_projectile_attack const *const proj )
 {

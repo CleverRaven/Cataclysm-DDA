@@ -1386,6 +1386,9 @@ class Character : public Creature, public visitable
         void dismount();
         void forced_dismount();
 
+        /** Attempt to enter a tile in a vehicle */
+        bool move_in_vehicle( Creature *source, const tripoint &dest_loc );
+
         bool is_deaf() const;
         bool is_mute() const;
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
