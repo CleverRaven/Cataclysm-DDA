@@ -1884,65 +1884,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                   "SDL_RenderSetClipRect failed" );
 }
 
-std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripoint &draw_loc )
-{
-    avatar &you = get_avatar();
-    map &here = get_map();
-    creature_tracker &creatures = get_creature_tracker();
-    const visibility_variables &cache = here.get_visibility_variables_cache();
-    const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
-    const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
-                             ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
-    const level_cache &ch = here.access_cache( draw_loc.z );
-    const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {
-        return np.y < min_visible.y || np.y > max_visible.y ||
-               np.x < min_visible.x || np.x > max_visible.x ||
-               would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
-                                           cache ) );
-    };
-
-    lit_level ll  = lit_level::DARK;
-    // invisible to normal eyes
-    std::array<bool, 5> invisible;
-    invisible[0] = false;
-    tripoint pos = draw_loc;
-    tripoint_abs_ms pos_global = here.getglobal( pos );
-
-    if( draw_loc.y < min_visible.y || draw_loc.y > max_visible.y || draw_loc.x < min_visible.x ||
-        draw_loc.x > max_visible.x ) {
-        if( has_memory_at( pos_global ) ) {
-            ll = lit_level::MEMORIZED;
-            invisible[0] = true;
-        } else if( has_draw_override( pos ) ) {
-            ll = lit_level::DARK;
-            invisible[0] = true;
-        }
-    } else {
-        ll = here.access_cache( draw_loc.z ).visibility_cache[draw_loc.x][draw_loc.y];
-    }
-
-    if( !invisible[0] ) {
-        const visibility_type vis_type = here.get_visibility( ll, cache );
-        if( would_apply_vision_effects( vis_type ) ) {
-            const Creature *critter = creatures.creature_at( pos, true );
-            if( has_draw_override( pos ) || has_memory_at( pos_global ) ||
-                ( critter &&
-                  ( critter->has_flag( mon_flag_ALWAYS_VISIBLE )
-                    || you.sees_with_infrared( *critter )
-                    || you.sees_with_specials( *critter ) ) ) ) {
-                invisible[0] = true;
-            }
-        }
-    }
-    for( int i = 0; i < 4; i++ ) {
-        const tripoint np = pos + neighborhood[i];
-        invisible[1 + i] = apply_visible( np, ch, here );
-    }
-
-    std::pair<lit_level, std::array<bool, 5>> ret( ll, invisible );
-    return ret;
-}
-
 void cata_tiles::clear_draw_caches()
 {
     get_map().draw_points.clear();
