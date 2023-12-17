@@ -1,16 +1,15 @@
 [
-    {
-      "type": "MOD_INFO",
-      "id": "No_Fungus",
-      "name": "No_Fungals",
-      "authors": [ "lech14" ],
-      "description": "Removes all fungal type enemies (disabling fungal structures from mapgen is WIP)",
-      "category": "monster_exclude",
-      "dependencies": [ "dda" ]
-    },
-    {
-      "type": "MONSTER_BLACKLIST",
-      "species": [ "FUNGUS" ]
-    }
-  ]
-  
+  {
+    "type": "MOD_INFO",
+    "id": "No_Fungus",
+    "name": "No_Fungals",
+    "authors": [ "lech14" ],
+    "description": "Removes all fungal type enemies (disabling fungal structures from mapgen is WIP)",
+    "category": "monster_exclude",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "FUNGUS" ]
+  }
+]
