@@ -1275,6 +1275,23 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
     }
 }
 
+void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
+                                     const tripoint &target )
+{
+    ::map &here = get_map();
+    optional_vpart_position v_part_pos = here.veh_at( target );
+    if( !v_part_pos ) {
+        caster.add_msg_if_player( m_bad, _( "There's no battery there." ) );
+        return;
+    }
+    vehicle &veh = v_part_pos->vehicle();
+    if( sp.damage( caster ) >= 0 ) {
+        veh.charge_battery( sp.damage( caster ), false );
+    } else {
+        veh.discharge_battery( -sp.damage( caster ), false );
+    }
+}
+
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint &target )
 {
     avatar *you = caster.as_avatar();

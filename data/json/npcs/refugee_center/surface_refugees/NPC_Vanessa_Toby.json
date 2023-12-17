@@ -28,8 +28,7 @@
     "weapon_override": "REFUGEE_Vanessa_wield",
     "traits": [
       { "trait": "SKIN_TAN" },
-      { "trait": "hair_medium" },
-      { "trait": "hair_color_gray" },
+      { "trait": "hair_medium", "variant": "gray" },
       { "group": "NPC_starting_traits" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
@@ -252,18 +251,6 @@
           "barber_hair",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
-      },
-      {
-        "text": "Could you fix it to where I can grow my hair out, please?",
-        "topic": "TALK_DONE",
-        "condition": { "u_has_trait": "no_hair_growth" },
-        "effect": { "u_lose_trait": "no_hair_growth" }
-      },
-      {
-        "text": "I'd like it if my hair didn't grow out anymore.  Can you help me with that?",
-        "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_trait": "no_hair_growth" } },
-        "effect": { "u_add_trait": "no_hair_growth" }
       },
       { "text": "That's a bit rich for my blood.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "That's a bit rich for my blood.  I better head out.", "topic": "TALK_DONE" }
