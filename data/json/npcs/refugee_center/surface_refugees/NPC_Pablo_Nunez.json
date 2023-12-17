@@ -248,9 +248,7 @@
             { "time": "2 days" }
           ]
         },
-        {
-          "math": [ "nunez_arrived", "=", "0"  ]
-        }
+        { "math": [ "nunez_arrived", "=", "0" ] }
       ]
     }
   },
