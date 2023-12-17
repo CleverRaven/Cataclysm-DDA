@@ -1637,6 +1637,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             here.draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                            tile_render_info::sprite{ ll, invisible } );
+            // Stop building draw points below when floor reached
+            if( here.dont_draw_lower_floor( pos ) ) {
+            	break;
+            }
         }
         }
     }
