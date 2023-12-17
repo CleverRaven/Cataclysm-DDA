@@ -1227,41 +1227,6 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
     }
 }
 
-struct tile_render_info {
-    struct common {
-        const tripoint pos;
-        // accumulator for 3d tallness of sprites rendered here so far;
-        int height_3d = 0;
-
-        common( const tripoint &pos, const int height_3d )
-            : pos( pos ), height_3d( height_3d ) {}
-    };
-
-    struct vision_effect {
-        visibility_type vis;
-
-        explicit vision_effect( const visibility_type vis )
-            : vis( vis ) {}
-    };
-
-    struct sprite {
-        lit_level ll;
-        std::array<bool, 5> invisible;
-
-        sprite( const lit_level ll, const std::array<bool, 5> &inv )
-            : ll( ll ), invisible( inv ) {}
-    };
-
-    common com;
-    std::variant<vision_effect, sprite> var;
-
-    tile_render_info( const common &com, const vision_effect &var )
-        : com( com ), var( var ) {}
-
-    tile_render_info( const common &com, const sprite &var )
-        : com( com ), var( var ) {}
-};
-
 static std::map<tripoint, int> display_npc_attack_potential()
 {
     avatar &you = get_avatar();
@@ -1447,11 +1412,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points;
     for( int row = min_row; row < max_row; row ++ ) {
     	// Reserve columns on each row
     	for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
-            draw_points[zlevel][row].reserve( std::max( 0, max_col - min_col ) );
+            here.draw_points[zlevel][row].reserve( std::max( 0, max_col - min_col ) );
         }
         for( int col = min_col; col < max_col; col ++ ) {
             const std::optional<point> temp = tile_to_player( { col, row } );
@@ -1480,7 +1444,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     invisible[0] = true;
                 } else {
                     if( is_center_z && would_apply_vision_effects( offscreen_type ) ) {
-                        draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                        here.draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ offscreen_type } );
                     }
                     continue;
@@ -1659,7 +1623,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         invisible[0] = true;
                     } else {
                     	if( is_center_z ) {
-                        draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                        here.draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                                        tile_render_info::vision_effect{ vis_type } );
                         }
                         continue;
@@ -1671,7 +1635,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 invisible[1 + i] = apply_visible( np, ch, here );
             }
 
-            draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+            here.draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                            tile_render_info::sprite{ ll, invisible } );
         }
         }
@@ -1708,7 +1672,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
             for( auto f : drawing_layers_legacy ) {
-                for( tile_render_info &p : draw_points[center.z][row] ) {
+                for( tile_render_info &p : here.draw_points[center.z][row] ) {
                     if( const tile_render_info::vision_effect * const
                         var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                         if( f == &cata_tiles::draw_terrain ) {
@@ -1732,13 +1696,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // For each row
             for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
                 // Set base height for each tile
-                for( tile_render_info &p : draw_points[cur_zlevel][row] ) {
+                for( tile_render_info &p : here.draw_points[cur_zlevel][row] ) {
                     p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                 }
                 // For each layer
                 for( auto f : drawing_layers ) {
                     // For each tile
-                    for( tile_render_info &p : draw_points[cur_zlevel][row] ) {
+                    for( tile_render_info &p : here.draw_points[cur_zlevel][row] ) {
                         if( const tile_render_info::vision_effect * const
                             var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                             if( f == &cata_tiles::draw_terrain ) {
@@ -1780,7 +1744,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     // display number of monsters to spawn in mapgen preview
     for( int row = top_any_tile_range.p_min.y; row < top_any_tile_range.p_max.y; row ++ ) {
-        for( const tile_render_info &p : draw_points[center.z][row] ) {
+        for( const tile_render_info &p : here.draw_points[center.z][row] ) {
             const tile_render_info::sprite *const
             var = std::get_if<tile_render_info::sprite>( &p.var );
             if( !var ) {
@@ -1981,7 +1945,7 @@ std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripo
 
 void cata_tiles::clear_draw_caches()
 {
-    get_map().ll_invis_cache.clear();
+    get_map().draw_points.clear();
 }
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
@@ -3025,7 +2989,7 @@ bool cata_tiles::draw_sprite_at(
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
     // this reference passes all the way back up the call chain back to
-    // cata_tiles::draw() draw_points[row][col].com.height_3d
+    // cata_tiles::draw() here.draw_points[row][col].com.height_3d
     // where we are accumulating the height of every sprite stacked up in a tile
     height_3d += tile.height_3d;
     return true;

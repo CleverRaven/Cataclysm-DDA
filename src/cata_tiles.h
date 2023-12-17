@@ -809,9 +809,6 @@ class cata_tiles
 
     public:
         // Draw caches persist data between draws to avoid unnecessary recalculations
-        // Any event that would invalidate cached data should also clear it
-        // Currently only includes ll_invis_cache
-        // Performance gain from caching draw_points, overlay_strings and color_blocks is negligible
         void clear_draw_caches();
 
         std::string memory_map_mode = "color_pixel_sepia";
