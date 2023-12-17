@@ -1730,7 +1730,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 }
                             } else if( f == &cata_tiles::draw_critter_at ) {
                                 // Draw
-                                if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) && do_draw_shadow ) { //replace bottom detection
+                                if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) && do_draw_shadow && here.dont_draw_lower_floor( p.com.pos ) ) {
                                     // Draw shadow of flying critters on bottom-most tile if no other critter drawn
                                     draw_critter_above( p.com.pos, ll, p.com.height_3d, invisible );
                                 }
