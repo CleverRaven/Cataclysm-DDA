@@ -87,7 +87,7 @@ mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
 static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
 static const mission_type_id mission_MISSION_OLD_GUARD_REPEATER( "MISSION_OLD_GUARD_REPEATER" );
-static const mission_type_id 
+static const mission_type_id
 mission_MISSION_OLD_GUARD_REPEATER_BEGIN( "MISSION_OLD_GUARD_REPEATER_BEGIN" );
 static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
 
