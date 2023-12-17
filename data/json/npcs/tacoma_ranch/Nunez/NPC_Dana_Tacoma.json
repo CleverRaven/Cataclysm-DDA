@@ -76,7 +76,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_1",
-    "dynamic_line": "*stands in the middle of a cramped kitchen, covered in flour.  The scene looks reminiscent of easier times, but the illusion is broken as he apron shifts to reveal a heavy machete and holstered pistol on  her belt.  She looks up as you approach, then beams in recognition. \"Welcome to Dana's Bakery, stranger!\"  She laughs brightly.  \"Glad you made out this way.  What can I do for you?\"",
+    "dynamic_line": "*stands in the middle of a cramped kitchen, covered in flour.  The scene looks reminiscent of easier times, but the illusion is broken as he apron shifts to reveal a heavy machete and holstered pistol on  her belt.  She looks up as you approach, then beams in recognition.  \"Welcome to Dana's Bakery, stranger!\"  She laughs brightly.  \"Glad you made out this way.  What can I do for you?\"",
     "responses": [
       { "text": "Hi Dana, how are things here?", "topic": "TALK_TACOMA_Dana_2" },
       { "text": "Got any bread for sale?", "topic": "TALK_TACOMA_Dana_Baking" },
@@ -153,7 +153,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer3",
-    "dynamic_line": "*sighs and nods.  \"Making do with what I've got, but yeah. I can only crank out a couple loaves a day, and can't do anything fun.  Pablo has been talking about setting me up a separate kitchen to really get going, but we've got so much critical work to do, and fresh bread is a luxury, even if it's great for morale.\"",
+    "dynamic_line": "*sighs and nods.  \"Making do with what I've got, but yeah.  I can only crank out a couple loaves a day, and can't do anything fun.  Pablo has been talking about setting me up a separate kitchen to really get going, but we've got so much critical work to do, and fresh bread is a luxury, even if it's great for morale.\"",
     "speaker_effect": { "effect": { "u_add_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
     "responses": [
       { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
