@@ -708,7 +708,6 @@ int spell::damage( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_damage = min_leveled_damage( caster );
-    
     double const min = type->min_damage.evaluate( d );
     double const max = std::max( min, type->max_damage.evaluate( d ) );
 
