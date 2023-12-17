@@ -882,7 +882,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
-        { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
       ]
     },
     "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_basic', 'format: 2400')", "+=", "rand(4)" ] } ],
@@ -893,7 +893,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
-              { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] }
+              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
             ]
           },
           "effect": [
@@ -908,7 +908,7 @@
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                    { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] }
+                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
                   ]
                 },
                 "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_master', 'format: 9600')", "+=", "rand(4)" ] } ]
@@ -923,10 +923,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
     "condition": {
-      "and": [
-        { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] },
-        { "math": [ "u_val('focus')", ">=", "25" ] }
-      ]
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
@@ -934,10 +931,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
     "condition": {
-      "and": [
-        { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] },
-        { "math": [ "u_val('focus')", ">=", "25" ] }
-      ]
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
