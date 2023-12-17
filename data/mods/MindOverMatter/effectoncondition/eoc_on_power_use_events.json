@@ -851,7 +851,6 @@
             "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
           ]
         },
-        { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] },
         {
           "x_in_y_chance": {
             "x": {
@@ -880,13 +879,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
-    "condition": { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+        { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] }
+      ]
+    },
     "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_basic', 'format: 2400')", "+=", "rand(4)" ] } ],
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
-          "condition": { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+          "condition": {
+            "and": [
+              { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+              { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] }
+            ]
+          },
           "effect": [
             {
               "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_intermediate', 'format: 4800')", "+=", "rand(4)" ]
@@ -896,7 +905,12 @@
             "run_eocs": [
               {
                 "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
-                "condition": { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                "condition": {
+                  "and": [
+                    { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                    { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", ">", "0" ] }
+                  ]
+                },
                 "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_master', 'format: 9600')", "+=", "rand(4)" ] } ]
               }
             ]
