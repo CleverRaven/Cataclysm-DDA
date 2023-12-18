@@ -75,6 +75,10 @@
         "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer."
       },
       {
+        "id": "charsheet_9f",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorceress."
+      },
+      {
         "id": "charsheet_10",
         "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a caveman."
       },
@@ -130,6 +134,10 @@
       {
         "id": "charsheet_23",
         "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a beast hunter."
+      },
+      {
+        "id": "charsheet_23f",
+        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a beast huntress."
       },
       {
         "id": "charsheet_24",
@@ -369,7 +377,7 @@
       },
       {
         "id": "charsheet_82",
-        "text": "It's a Sticks & Stones 2nd Edition character sheet.  This one is for a sling-shotter."
+        "text": "It's a Sticks & Stones 2nd Edition character sheet.  This one is for a sling-shooter."
       },
       {
         "id": "charsheet_83",
