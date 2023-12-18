@@ -159,7 +159,7 @@
       "activation_message": "You take some ibuprofen.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 720 } ]
     },
-    "vitamins": [ [ "vit_ibuprofen", 432 ] ]
+    "vitamins": [ [ "vit_ibuprofen", 216 ] ]
   },
   {
     "id": "naproxen",
@@ -180,8 +180,9 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some naproxen.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 1500 }, { "id": "ibuprofen_eff", "duration": 3000 } ]
-    }
+      "effects": [ { "id": "pkill1_nsaid", "duration": 1500 } ]
+    },
+    "vitamins": [ [ "vit_ibuprofen", 432 ] ]
   },
   {
     "id": "acetaminophen",
