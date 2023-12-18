@@ -4800,12 +4800,12 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
     }
     const tripoint &selection = *pnt_;
 
-    const optional_vpart_position s_vp = here.veh_at( selection );
+    const optional_vpart_position sel_vp = here.veh_at( selection );
     if( !can_link( selection ) ) {
-        if( to_ports && s_vp && s_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
+        if( to_ports && sel_vp && sel_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You can't attach it there - try the dashboard or electronics controls." ) );
-        } else if( !to_ports && s_vp && !s_vp->vehicle().batteries.empty() ) {
+        } else if( !to_ports && sel_vp && !sel_vp->vehicle().batteries.empty() ) {
             p->add_msg_if_player( m_info,
                                   _( "You can't attach it there - try the battery." ) );
         } else {
@@ -4822,25 +4822,25 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
         // Starting a new connection to a vehicle or connecting a cable CBM to a vehicle.
         bool had_bio_link = it.link->has_state( link_state::bio_cable );
-        if( !it.link_to( s_vp, to_ports ? link_state::vehicle_port :
+        if( !it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
                          link_state::vehicle_battery ).success() ) {
             debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
         }
 
         // Get the part name for the connection message, using the vehicle name as a fallback.
-        std::string s_vp_name = s_vp->vehicle().name;
-        std::optional<vpart_reference> s_vp_ref;
-        if( ( s_vp_ref = s_vp.avail_part_with_feature( "APPLIANCE" ) ) ||
-            ( s_vp_ref = s_vp.avail_part_with_feature( "CABLE_PORTS" ) ) ||
-            ( s_vp_ref = s_vp.avail_part_with_feature( "BATTERY" ) ) ) {
-            s_vp_name = s_vp_ref->part().name( false );
+        std::string sel_vp_name = sel_vp->vehicle().name;
+        std::optional<vpart_reference> sel_vp_ref;
+        if( ( sel_vp_ref = sel_vp.avail_part_with_feature( "APPLIANCE" ) ) ||
+            ( sel_vp_ref = sel_vp.avail_part_with_feature( "CABLE_PORTS" ) ) ||
+            ( sel_vp_ref = sel_vp.avail_part_with_feature( "BATTERY" ) ) ) {
+            sel_vp_name = sel_vp_ref->part().name( false );
         }
 
         if( had_bio_link ) {
-            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), s_vp_name );
+            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), sel_vp_name );
             it.link->s_state = link_state::bio_cable;
         } else {
-            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), s_vp_name );
+            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), sel_vp_name );
         }
 
         it.process( here, p, p->pos() );
@@ -4859,7 +4859,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
                 return std::nullopt;
             }
         }
-        vehicle *const sel_veh = &s_vp->vehicle();
+        vehicle *const sel_veh = &sel_vp->vehicle();
         vehicle *const prev_veh = it.link->t_veh_safe.get();
         if( prev_veh == sel_veh ) {
             p->add_msg_if_player( m_warning, _( "You cannot connect the %s to itself." ), prev_veh->name );
@@ -4904,7 +4904,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
 
         const point vcoords1 = it.link->t_mount;
-        const point vcoords2 = s_vp->mount();
+        const point vcoords2 = sel_vp->mount();
 
         const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
         if( !can_mount1.success() ) {
@@ -4964,13 +4964,13 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         return std::nullopt;
     }
     const tripoint &selection = *pnt_;
-    const optional_vpart_position s_vp = here.veh_at( selection );
-    if( !s_vp ) {
+    const optional_vpart_position sel_vp = here.veh_at( selection );
+    if( !sel_vp ) {
         p->add_msg_if_player( _( "There's no vehicle there." ) );
         return std::nullopt;
     }
 
-    vehicle *const sel_veh = &s_vp->vehicle();
+    vehicle *const sel_veh = &sel_vp->vehicle();
     if( sel_veh->has_tow_attached() || sel_veh->is_towed() ||
         sel_veh->is_towing() ) {
         p->add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
@@ -4980,7 +4980,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
         return std::nullopt;
     }
-    if( !sel_veh->part( s_vp->part_index() ).carried_stack.empty() ) {
+    if( !sel_veh->part( sel_vp->part_index() ).carried_stack.empty() ) {
         p->add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
         return std::nullopt;
     }
@@ -4991,7 +4991,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
     if( it.link->has_no_links() ) {
 
         // Starting a new tow cable connection.
-        if( !it.link_to( s_vp ).success() ) {
+        if( !it.link_to( sel_vp ).success() ) {
             debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
         }
         if( to_towing ) {
@@ -5001,7 +5001,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         }
 
         p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
-                              s_vp->vehicle().name );
+                              sel_vp->vehicle().name );
 
         it.process( here, p, p->pos() );
         p->moves -= move_cost;
@@ -5056,7 +5056,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         }
 
         const point vcoords1 = it.link->t_mount;
-        const point vcoords2 = s_vp->mount();
+        const point vcoords2 = sel_vp->mount();
 
         const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
         if( !can_mount1.success() ) {
