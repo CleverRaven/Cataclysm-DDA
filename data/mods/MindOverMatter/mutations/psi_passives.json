@@ -147,7 +147,6 @@
     "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
     "valid": false,
     "player_display": true,
-    
     "purifiable": false,
     "integrated_armor": [ "telekinetic_container_3" ]
   },
