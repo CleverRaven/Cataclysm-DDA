@@ -2301,6 +2301,24 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                     return 0;
                 }
             };
+        } else if( checked_value == "heart_rate" ) {
+            return [is_npc]( dialogue const & d ) {
+                Character const *you = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
+                if( you ) {
+                    return static_cast<int>(100*you->get_heartrate_index());
+                } else {
+                    return 0;
+                }
+            };
+        } else if( checked_value == "blood_pressure" ) {
+            return [is_npc]( dialogue const & d ) {
+                Character const *you = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
+                if( you ) {
+                    return static_cast<int>(100*you->get_circulation());
+                } else {
+                    return 0;
+                }
+            };
         } else if( checked_value == "age" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_age();
