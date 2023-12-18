@@ -594,7 +594,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Reversi set" },
-    "description": "A board game cardboard box containing  a grid, and various pieces, alongside a booklet explaining how to play Reversi.",
+    "description": "A cardboard box containing a grid, and various round black and white pieces, alongside a booklet explaining how to play Reversi.",
     "weight": "900 g",
     "volume": "1300 ml",
     "price": 2000,
