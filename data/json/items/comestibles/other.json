@@ -1055,6 +1055,7 @@
     "name": { "str_sp": "acid soaked hide" },
     "description": "Raw hide soaking in a dilute acid solution to extract collagen.  After 24 hours the solution can be strained to extract fresh gelatin.",
     "weight": "500 g",
+    "material": [ "leather", "acid" ],
     "color": "yellow",
     "sealed": false,
     "symbol": "~",
