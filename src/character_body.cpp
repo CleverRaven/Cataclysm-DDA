@@ -1558,7 +1558,7 @@ void Character::update_respiration_rate()
 }
 
 
-void Character::check_vitals()
+void Character::check_vitals() const
 {
     // TODO FOR FUTURE PR.
     constexpr float max_hr = 2.0;
