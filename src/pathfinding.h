@@ -763,8 +763,8 @@ void AStarState<Node, Cost, VisitedSet, BestPathMap>::generate_neighbors(
     NeighborsFn &&neighbors_fn )
 {
     // Can't use structured bindings here due to a defect in Clang 10.
-    const std::pair<int, Node> &best_path = best_paths_[current];
-    const int current_cost = best_path.first;
+    const std::pair<Cost, Node> &best_path = best_paths_[current];
+    const Cost current_cost = best_path.first;
     const Node &current_parent = best_path.second;
     neighbors_fn( current_parent, current, [this, &s_cost_fn, &t_cost_fn, &heuristic_fn, &current,
           current_cost]( const Node & neighbour ) {

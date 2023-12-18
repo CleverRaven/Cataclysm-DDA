@@ -40,7 +40,7 @@ bool RealityBubblePathfindingCache::vertical_move_destination( const map &here, 
         tripoint &t ) const
 {
     const int z = t.z;
-    if( const std::optional<point> p = find_point_closest_first( t.xy(), 0, SEEX, [this, &here, flag,
+    if( const std::optional<point> p = find_point_closest_first( t.xy(), 0, SEEX, [&here, flag,
           z]( const point & p ) {
     if( p.x >= 0 && p.x < MAPSIZE_X && p.y >= 0 && p.y < MAPSIZE_Y ) {
             const tripoint t2( p, z );
@@ -525,7 +525,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
             } ) ) {
                 if( transition_cost( *this, from, line_path[0], settings, *pathfinding_cache() ).has_value() ) {
                     bool good = true;
-                    for( int i = 1; i < line_path.size(); ++i ) {
+                    for( std::size_t i = 1; i < line_path.size(); ++i ) {
                         if( !transition_cost( *this, line_path[i - 1], line_path[i], settings,
                                               *pathfinding_cache() ).has_value() ) {
                             good = false;
