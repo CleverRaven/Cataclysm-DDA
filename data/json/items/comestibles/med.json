@@ -134,8 +134,9 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some aspirin.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 720 }, { "id": "bleedrate_up", "duration": 432000 } ]
-    }
+      "effects": [ { "id": "pkill1_nsaid", "duration": 720 } ]
+    },
+    "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
   },
   {
     "id": "ibuprofen",
@@ -156,8 +157,9 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some ibuprofen.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 720 }, { "id": "ibuprofen_eff", "duration": 1500 } ]
-    }
+      "effects": [ { "id": "pkill1_nsaid", "duration": 720 } ]
+    },
+    "vitamins": [ [ "vit_ibuprofen", 432 ] ]
   },
   {
     "id": "naproxen",
@@ -220,7 +222,7 @@
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some metaprolol." },
-    "vitamins": [ [ "vit_betablocker", 2000 ] ]
+    "vitamins": [ [ "vit_betablocker", 864 ] ]
   },
   {
     "id": "bfipowder",
