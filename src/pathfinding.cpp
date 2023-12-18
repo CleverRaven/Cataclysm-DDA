@@ -545,12 +545,13 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
         return {};
     }
 
+    const RealityBubblePathfindingCache &cache = *pathfinding_cache();
     return pathfinder()->find_path( settings.rb_settings(), from, to,
-    [this, &settings]( const tripoint_bub_ms & p ) {
-        return position_cost( *this, p, settings, *pathfinding_cache() );
+    [this, &settings, &cache]( const tripoint_bub_ms & p ) {
+        return position_cost( *this, p, settings, cache );
     },
-    [this, &settings]( const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
-        return transition_cost( *this, from, to, settings, *pathfinding_cache() );
+    [this, &settings, &cache]( const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
+        return transition_cost( *this, from, to, settings, cache );
     },
     []( const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
         return 100 * distance_metric( from, to );

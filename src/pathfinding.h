@@ -278,25 +278,11 @@ class RealityBubblePathfindingSettings
             return avoid_mask_;
         }
 
-        int x_padding() const {
-            return x_padding_;
+        const tripoint_rel_ms &padding() const {
+            return padding_;
         }
-        void set_x_padding( int v = 0 ) {
-            x_padding_ = v;
-        }
-
-        int y_padding() const {
-            return y_padding_;
-        }
-        void set_y_padding( int v = 0 ) {
-            y_padding_ = v;
-        }
-
-        int z_padding() const {
-            return z_padding_;
-        }
-        void set_z_padding( int v = 0 ) {
-            z_padding_ = v;
+        void set_padding( const tripoint_rel_ms &v ) {
+            padding_ = v;
         }
 
     private:
@@ -304,9 +290,7 @@ class RealityBubblePathfindingSettings
         bool allow_falling_ = false;
         bool allow_stairways_ = false;
         int max_cost_ = 0;
-        int x_padding_ = 16;
-        int y_padding_ = 16;
-        int z_padding_ = 1;
+        tripoint_rel_ms padding_ = tripoint_rel_ms( 16, 16, 1 );
         PathfindingFlags avoid_mask_ = PathfindingFlag::Air | PathfindingFlag::Impassable;
 };
 
@@ -876,38 +860,23 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
         const tripoint_bub_ms &to, PositionCostFn &&p_cost_fn, MoveCostFn &&m_cost_fn,
         HeuristicFn &&heuristic_fn )
 {
-    const int min_x_bound = std::max( std::min( to.x(), from.x() ) - settings.x_padding(), 0 );
-    const int max_x_bound = std::min( std::max( to.x(), from.x() ) + settings.x_padding(),
-                                      MAPSIZE_X - 1 );
-    const int min_y_bound = std::max( std::min( to.y(), from.y() ) - settings.y_padding(), 0 );
-    const int max_y_bound = std::min( std::max( to.y(), from.y() ) + settings.y_padding(),
-                                      MAPSIZE_Y - 1 );
-    const int min_z_bound = std::max( std::min( to.z(), from.z() ) - settings.z_padding(),
-                                      -OVERMAP_DEPTH );
-    const int max_z_bound = std::min( std::max( to.z(), from.z() ) + settings.z_padding(),
-                                      OVERMAP_HEIGHT );
+    const tripoint_bub_ms min = coord_max( coord_min( from, to ) - settings.padding(),
+                                           tripoint_bub_ms( 0, 0, -OVERMAP_DEPTH ) );
+    const tripoint_bub_ms max = coord_min( coord_max( from, to ) + settings.padding(),
+                                           tripoint_bub_ms( MAPSIZE_X - 1, MAPSIZE_Y - 1, OVERMAP_HEIGHT ) );
+    inclusive_cuboid<tripoint_bub_ms> bounds( min, max );
 
     return impl.find_path( settings.max_cost(), from, to, std::forward<PositionCostFn>( p_cost_fn ),
                            std::forward<MoveCostFn>( m_cost_fn ), std::forward<HeuristicFn>( heuristic_fn ), [this, &settings,
-                                         min_x_bound, max_x_bound, min_y_bound, max_y_bound, min_z_bound,
-          max_z_bound]( const tripoint_bub_ms & parent, const tripoint_bub_ms & current, auto &&emit_fn ) {
-        const int cx = current.x();
-        const int cy = current.y();
-        const int cz = current.z();
-
-        const int min_x = std::max( cx - 1, min_x_bound );
-        const int max_x = std::min( cx + 1, max_x_bound );
-
-        const int min_y = std::max( cy - 1, min_y_bound );
-        const int max_y = std::min( cy + 1, max_y_bound );
-
+          bounds]( tripoint_bub_ms p, tripoint_bub_ms c, auto &&emit_fn ) {
+        const tripoint_rel_ms offset( 1, 1, 1 );
+        const tripoint_bub_ms min = clamp( c - offset, bounds );
+        const tripoint_bub_ms max = clamp( c + offset, bounds );
         if( settings.allow_flying() ) {
-            const int min_z = std::max( cz - 1, min_z_bound );
-            const int max_z = std::min( cz + 1, max_z_bound );
-            for( int z = min_z; z <= max_z; ++z ) {
-                for( int y = min_y; y <= max_y; ++y ) {
-                    for( int x = min_x; x <= max_x; ++x ) {
-                        if( x == cx && y == cy && z == cz ) {
+            for( int z = min.z(); z <= max.z(); ++z ) {
+                for( int y = min.y(); y <= max.y(); ++y ) {
+                    for( int x = min.x(); x <= max.x(); ++x ) {
+                        if( x == c.x() && y == c.y() && z == c.z() ) {
                             continue;
                         }
                         const tripoint_bub_ms next( x, y, z );
@@ -918,19 +887,19 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             return;
         }
 
-        const PathfindingFlags flags = cache_->flags( current );
+        const PathfindingFlags flags = cache_->flags( c );
 
         // If we're falling, we can only continue falling.
-        if( cz > -OVERMAP_DEPTH && flags.is_set( PathfindingFlag::Air ) ) {
-            const tripoint_bub_ms down( cx, cy, cz - 1 );
+        if( c.z() > -OVERMAP_DEPTH && flags.is_set( PathfindingFlag::Air ) ) {
+            const tripoint_bub_ms down( c.x(), c.y(), c.z() - 1 );
             emit_fn( down );
             return;
         }
 
-        const int dx = ( cx > parent.x() ) - ( cx < parent.x() );
-        const int dy = ( cy > parent.y() ) - ( cy < parent.y() );
-        const int xd = cx + dx;
-        const int yd = cy + dy;
+        const int dx = ( c.x() > p.x() ) - ( c.x() < p.x() );
+        const int dy = ( c.y() > p.y() ) - ( c.y() < p.y() );
+        const int xd = c.x() + dx;
+        const int yd = c.y() + dy;
 
         if( dx != 0 && dy != 0 ) {
             // Diagonal movement. Visit the following states:
@@ -943,18 +912,18 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // p is the parent state (not visited)
             // c is the current state (not visited)
             // . is not visited
-            if( min_x <= xd && xd <= max_x ) {
-                for( int y = min_y; y <= max_y; ++y ) {
-                    const tripoint_bub_ms next( xd, y, cz );
+            if( min.x() <= xd && xd <= max.x() ) {
+                for( int y = min.y(); y <= max.y(); ++y ) {
+                    const tripoint_bub_ms next( xd, y, c.z() );
                     emit_fn( next );
                 }
             }
-            if( min_y <= yd && yd <= max_y ) {
-                for( int x = min_x; x <= max_x; ++x ) {
+            if( min.y() <= yd && yd <= max.y() ) {
+                for( int x = min.x(); x <= max.x(); ++x ) {
                     if( x == xd ) {
                         continue;
                     }
-                    const tripoint_bub_ms next( x, yd, cz );
+                    const tripoint_bub_ms next( x, yd, c.z() );
                     emit_fn( next );
                 }
             }
@@ -969,9 +938,9 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // p is the parent state (not visited)
             // c is the current state (not visited)
             // . is not visited
-            if( min_x <= xd && xd <= max_x ) {
-                for( int y = min_y; y <= max_y; ++y ) {
-                    const tripoint_bub_ms next( xd, y, cz );
+            if( min.x() <= xd && xd <= max.x() ) {
+                for( int y = min.y(); y <= max.y(); ++y ) {
+                    const tripoint_bub_ms next( xd, y, c.z() );
                     emit_fn( next );
                 }
             }
@@ -986,9 +955,9 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // p is the parent state (not visited)
             // c is the current state (not visited)
             // . is not visited
-            if( min_y <= yd && yd <= max_y ) {
-                for( int x = min_x; x <= max_x; ++x ) {
-                    const tripoint_bub_ms next( x, yd, cz );
+            if( min.y() <= yd && yd <= max.y() ) {
+                for( int x = min.x(); x <= max.x(); ++x ) {
+                    const tripoint_bub_ms next( x, yd, c.z() );
                     emit_fn( next );
                 }
             }
@@ -996,12 +965,12 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // We arrived in this state with same x/y, which means
             // we got here by traversing a staircase or similar. Need to
             // visit all directions.
-            for( int y = min_y; y <= max_y; ++y ) {
-                for( int x = min_x; x <= max_x; ++x ) {
-                    if( x == cx && y == cy ) {
+            for( int y = min.y(); y <= max.y(); ++y ) {
+                for( int x = min.x(); x <= max.x(); ++x ) {
+                    if( x == c.x() && y == c.y() ) {
                         continue;
                     }
-                    const tripoint_bub_ms next( x, y, cz );
+                    const tripoint_bub_ms next( x, y, c.z() );
                     emit_fn( next );
                 }
             }
@@ -1009,30 +978,30 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
 
         if( settings.allow_stairways() ) {
             if( flags.is_set( PathfindingFlag::GoesDown ) ) {
-                emit_fn( cache_->down_destination( current ) );
+                emit_fn( cache_->down_destination( c ) );
             }
             if( flags.is_set( PathfindingFlag::GoesUp ) ) {
-                emit_fn( cache_->up_destination( current ) );
+                emit_fn( cache_->up_destination( c ) );
             }
         }
         if( flags.is_set( PathfindingFlag::RampUp ) ) {
-            for( int y = min_y; y <= max_y; ++y ) {
-                for( int x = min_x; x <= max_x; ++x ) {
-                    if( x == cx && y == cy ) {
+            for( int y = min.y(); y <= max.y(); ++y ) {
+                for( int x = min.x(); x <= max.x(); ++x ) {
+                    if( x == c.x() && y == c.y() ) {
                         continue;
                     }
-                    const tripoint_bub_ms above( x, y, cz + 1 );
+                    const tripoint_bub_ms above( x, y, c.z() + 1 );
                     emit_fn( above );
                 }
             }
         }
         if( flags.is_set( PathfindingFlag::RampDown ) ) {
-            for( int y = min_y; y <= max_y; ++y ) {
-                for( int x = min_x; x <= max_x; ++x ) {
-                    if( x == cx && y == cy ) {
+            for( int y = min.y(); y <= max.y(); ++y ) {
+                for( int x = min.x(); x <= max.x(); ++x ) {
+                    if( x == c.x() && y == c.y() ) {
                         continue;
                     }
-                    const tripoint_bub_ms below( x, y, cz - 1 );
+                    const tripoint_bub_ms below( x, y, c.z() - 1 );
                     emit_fn( below );
                 }
             }

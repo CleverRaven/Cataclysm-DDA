@@ -318,6 +318,13 @@ coord_min( const coord_point<Point, Origin, Scale> &l, const coord_point<Point, 
     return { std::min( l.x(), r.x() ), std::min( l.y(), r.y() ), std::min( l.z(), r.z() ) };
 }
 
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point<Point, Origin, Scale>
+coord_max( const coord_point<Point, Origin, Scale> &l, const coord_point<Point, Origin, Scale> &r )
+{
+    return { std::max( l.x(), r.x() ), std::max( l.y(), r.y() ), std::max( l.z(), r.z() ) };
+}
+
 template<int ScaleUp, int ScaleDown, scale ResultScale>
 struct project_to_impl;
 
