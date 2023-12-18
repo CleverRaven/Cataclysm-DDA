@@ -2345,7 +2345,8 @@ class map
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
 
-        std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points;
+        bool draw_points_cache_dirty = true;
+        std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
 };
 
 map &get_map();
