@@ -243,7 +243,7 @@
       {
         "id": "jigsaw_15",
         "name": { "str": "Colossus of Rhodes jigsaw puzzle" },
-        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms a representation of the Colossus of Rhodes in the island of same name, Greece, that might be or not be accurate.",
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms a representation of the Colossus of Rhodes in the island of same name, Greece, that may or may not be accurate.",
         "color": "blue",
         "weight": 20
       },
