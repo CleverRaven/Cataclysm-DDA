@@ -31,6 +31,21 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "warp_vortex_token",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_WARP",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 15 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "warphome",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

@@ -74,6 +74,20 @@
     "faults": [ "fault_engine_starter" ]
   },
   {
+    "id": "engine_1cyl_diesel_large",
+    "copy-from": "engine_diesel",
+    "type": "ENGINE",
+    "name": { "str": "large 1-cylinder diesel engine" },
+    "//": "200cc scooter, dirtbike, or diesel generator",
+    "description": "A high-compression, 200cc single-cylinder 4-stroke diesel combustion engine.",
+    "weight": "28 kg",
+    "volume": "42 L",
+    "price": 10000,
+    "price_postapoc": 1250,
+    "displacement": 20,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
     "id": "1cyl_combustion_small",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",

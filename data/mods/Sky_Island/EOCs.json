@@ -129,12 +129,72 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_statue_return",
-    "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.",
+    "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.  Behavior based on difficulty selector",
+    "effect": {
+      "switch": { "math": [ "roomteleportselector" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "run_eocs": "EOC_statue_return_whole_room" } ] },
+        { "case": 1, "effect": [ { "run_eocs": "EOC_statue_return_whole_room_cost" } ] },
+        { "case": 2, "effect": [ { "run_eocs": "EOC_statue_return_self_only" } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room",
+    "//": "This is the version that returns the whole room home.",
     "condition": {
-      "u_query": "This will teleport you back home with only the items on your person.  Anything left behind will be as good as gone.  Are you ready to leave?",
+      "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport_item" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room_cost",
+    "condition": { "u_has_items": { "item": "warp_vortex_token", "count": 1 } },
+    "effect": [ { "run_eocs": [ "EOC_statue_return_whole_room_cost_2" ] } ],
+    "false_effect": [ { "run_eocs": [ "EOC_statue_return_self_only" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room_cost_2",
+    "//": "This is the version that returns the whole room home if you pay a vortex token.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  You will spend your vortex token to return any items in the room home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [
+      { "math": [ "raidswon", "++" ] },
+      { "u_consume_item": "warp_vortex_token", "count": 1 },
+      { "run_eocs": [ "EOC_return_OM_teleport_item" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_self_only",
+    "//": "This version returns only you home.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  Any items not on your person WILL BE LOST.  Are you ready to leave?",
       "default": false
     },
     "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport_item",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "loc" },
+        "min_radius": 0,
+        "max_radius": 10,
+        "true_eocs": [ { "id": "EOC_map_item_run", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
+      },
+      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "1 s" },
+      { "u_message": "Now teleporting back home.  Please wait…" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -324,7 +384,7 @@
         "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
   {
@@ -335,7 +395,7 @@
         "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
   {
@@ -346,7 +406,7 @@
         "u_message": "Difficulty set to Hard.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "30 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
   {
@@ -357,6 +417,55 @@
         "u_message": "Difficulty set to Impossible.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
+      { "run_eocs": "EOC_difficultycheck_2" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultycheck_2",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_warphome_adjuster_1", "EOC_warphome_adjuster_2", "EOC_warphome_adjuster_3" ],
+        "names": [ "Whole Room", "Whole Room for a Cost", "Self Only" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [
+          "Set the behavior of the return obelisk.\nWith this option, everything in the room with you will return to your sky island.  Getting resources will generally not be a problem as long as you make it to the extraction point.",
+          "Set the behavior of the return obelisk.\nWith this option, if you have a warp vortex token with you, everything in the room with you will return to your sky island.  Otherwise, only what you are carrying on your person will return with you.  You may have to make difficult choices about what to bring back.",
+          "Set the behavior of the return obelisk.\nWith this option, only what you are carrying on your person will return with you.  You will always have to make difficult choices about what to bring back."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warphome_adjuster_1",
+    "effect": [
+      {
+        "u_message": "Warp home behavior set to whole room.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "roomteleportselector", "=", "0" ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warphome_adjuster_2",
+    "effect": [
+      {
+        "u_message": "Warp home behavior set to whole room at a cost.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "roomteleportselector", "=", "1" ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warphome_adjuster_3",
+    "effect": [
+      {
+        "u_message": "Warp home behavior set to self only.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "roomteleportselector", "=", "2" ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
     ]
   },

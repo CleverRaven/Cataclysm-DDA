@@ -143,7 +143,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "454_Casull", "prob": 100 },
-      { "item": "45colt_jhp", "prob": 50 },
+      { "item": "45colt_jhp", "prob": 14 },
+      { "item": "45colt_cowboy", "prob": 36 },
       { "item": "500_Magnum", "prob": 100 },
       { "item": "762_25", "prob": 50 },
       { "item": "762_25hot", "prob": 50 },
@@ -160,7 +161,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "454_Casull", "prob": 75 },
-      { "item": "45colt_jhp", "prob": 50 },
+      { "item": "45colt_jhp", "prob": 14 },
+      { "item": "45colt_cowboy", "prob": 36 },
       { "item": "500_Magnum", "prob": 75 },
       { "item": "762_25", "prob": 50 },
       { "item": "762_25hot", "prob": 25 },
@@ -198,7 +200,10 @@
       { "item": "reloaded_45_super", "prob": 40 },
       { "item": "reloaded_46mm", "prob": 20 },
       { "item": "reloaded_454_Casull", "prob": 5 },
-      { "item": "reloaded_45colt_jhp", "prob": 10 },
+      { "item": "reloaded_45colt_jhp", "prob": 2 },
+      { "item": "reloaded_45colt_fmj", "prob": 1 },
+      { "item": "reloaded_45colt_cowboy", "prob": 4 },
+      { "item": "bp_45colt_cowboy", "prob": 3 },
       { "item": "reloaded_460_fmj", "prob": 5 },
       { "item": "reloaded_460_rowland", "prob": 5 },
       { "item": "reloaded_500_Magnum", "prob": 5 },
@@ -309,6 +314,7 @@
       { "item": "303_bthp", "prob": 30 },
       { "item": "303_sp", "prob": 25 },
       { "item": "303_fmjbt", "prob": 25 },
+      { "item": "77mm_arisaka_jsp", "prob": 10 },
       { "item": "223", "prob": 74 },
       { "item": "556", "prob": 25 },
       { "item": "556_m855a1", "prob": 1 },
@@ -321,7 +327,6 @@
       { "item": "4570_pen", "prob": 20 },
       { "item": "4570_low", "prob": 40 },
       { "item": "762_m87", "prob": 25 },
-      { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 15 },
       { "item": "300blk_ss", "prob": 10 },
       { "item": "50beowulf_xtp", "prob": 15 },
@@ -343,13 +348,17 @@
       { "item": "303_bthp", "prob": 30 },
       { "item": "303_sp", "prob": 25 },
       { "item": "303_fmjbt", "prob": 25 },
+      { "item": "77mm_arisaka_jsp", "prob": 10 },
       { "item": "556", "prob": 75 },
       { "item": "762_51", "prob": 75 },
       { "item": "4570_sp", "prob": 40 },
       { "item": "4570_pen", "prob": 20 },
       { "item": "4570_low", "prob": 40 },
       { "item": "762_m87", "prob": 25 },
-      { "item": "8mm_civilian", "prob": 15 },
+      { "item": "8mm_caseless", "prob": 30 },
+      { "item": "8mm_caseless", "prob": 30 },
+      { "item": "8mm_caseless", "prob": 30 },
+      { "item": "8mm_jhp", "prob": 10 },
       { "item": "300blk", "prob": 20 },
       { "item": "762_54R", "prob": 35 },
       { "item": "762_m87", "prob": 20 },
@@ -407,11 +416,6 @@
       { "item": "762_51_incendiary", "prob": 10 },
       { "item": "762_51", "prob": 40 },
       { "item": "762_51_m993", "prob": 20 },
-      { "item": "8mm_caseless", "prob": 30 },
-      { "item": "8mm_fmj", "prob": 30 },
-      { "item": "8mm_hvp", "prob": 10 },
-      { "item": "8mm_inc", "prob": 20 },
-      { "item": "8mm_jhp", "prob": 10 },
       { "item": "300blk", "prob": 15 },
       { "item": "300blk_ss", "prob": 10 },
       { "item": "338lapua_fmjbt", "prob": 15 },
@@ -423,14 +427,14 @@
     "id": "ammo_rifle_obscure",
     "//": "Imported or otherwise very obscure rifle ammo.",
     "subtype": "distribution",
-    "entries": [ { "item": "545", "prob": 150 }, { "item": "545_ap", "prob": 100 }, { "item": "700nx", "prob": 70 } ]
+    "entries": [ { "item": "545", "prob": 150 }, { "item": "545_ap", "prob": 100 }, { "item": "458wm", "prob": 70 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_obscure_collection",
     "//": "Imported or otherwise very obscure rifle ammo.",
     "subtype": "collection",
-    "entries": [ { "item": "545", "prob": 75 }, { "item": "545_ap", "prob": 50 }, { "item": "700nx", "prob": 35 } ]
+    "entries": [ { "item": "545", "prob": 75 }, { "item": "545_ap", "prob": 50 }, { "item": "458wm", "prob": 35 } ]
   },
   {
     "type": "item_group",
@@ -463,6 +467,7 @@
       { "item": "reloaded_450_ftx", "prob": 10 },
       { "item": "reloaded_450_penetrator", "prob": 5 },
       { "item": "reloaded_338lapua_hpbt", "prob": 5 },
+      { "item": "reloaded_77mm_arisaka_jsp", "prob": 10 },
       { "item": "reloaded_303", "prob": 20 },
       { "item": "reloaded_303sp", "prob": 5 },
       { "item": "reloaded_303fmj", "prob": 5 }
@@ -474,10 +479,12 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "shot_00", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "shot_bird", "prob": 70, "charges": [ 1, 20 ] },
-      { "item": "shot_slug", "prob": 70, "charges": [ 1, 20 ] },
-      { "item": "410shot_000", "prob": 50, "charges": [ 1, 20 ] }
+      { "item": "shot_00", "prob": 200, "charges": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 140, "charges": [ 1, 20 ] },
+      { "item": "shot_slug", "prob": 140, "charges": [ 1, 20 ] },
+      { "item": "410shot_slug", "prob": 3, "charges": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 4, "charges": [ 1, 20 ] },
+      { "item": "410shot_bird", "prob": 19, "charges": [ 1, 20 ] }
     ]
   },
   {
@@ -486,10 +493,12 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "shot_00", "prob": 75 },
-      { "item": "shot_bird", "prob": 45 },
-      { "item": "shot_slug", "prob": 65 },
-      { "item": "410shot_000", "prob": 35 }
+      { "item": "shot_00", "prob": 200 },
+      { "item": "shot_bird", "prob": 140 },
+      { "item": "shot_slug", "prob": 140 },
+      { "item": "410shot_slug", "prob": 3 },
+      { "item": "410shot_000", "prob": 4 },
+      { "item": "410shot_bird", "prob": 19 }
     ]
   },
   {
@@ -498,10 +507,12 @@
     "//": "Loose shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "shot_00", "prob": 25, "charges": [ 0, 4 ] },
-      { "item": "shot_bird", "prob": 15, "charges": [ 0, 4 ] },
-      { "item": "shot_slug", "prob": 17, "charges": [ 0, 4 ] },
-      { "item": "410shot_000", "prob": 11, "charges": [ 0, 4 ] }
+      { "item": "shot_00", "prob": 200, "charges": [ 0, 4 ] },
+      { "item": "shot_bird", "prob": 140, "charges": [ 0, 4 ] },
+      { "item": "shot_slug", "prob": 140, "charges": [ 0, 4 ] },
+      { "item": "410shot_slug", "prob": 3, "charges": [ 0, 4 ] },
+      { "item": "410shot_000", "prob": 4, "charges": [ 0, 4 ] },
+      { "item": "410shot_bird", "prob": 19, "charges": [ 0, 4 ] }
     ]
   },
   {
@@ -766,8 +777,10 @@
       { "item": "50beowulf_casing", "prob": 45 },
       { "item": "450_casing", "prob": 45 },
       { "item": "338lapua_casing", "prob": 45 },
+      { "item": "303_casing", "prob": 45 },
+      { "item": "77arisaka_casing", "prob": 45 },
       { "item": "57mm_casing", "prob": 60 },
-      { "item": "700nx_casing", "prob": 40 },
+      { "item": "458wm_casing", "prob": 40 },
       { "item": "762_casing", "prob": 80 },
       { "item": "762_25_casing", "prob": 60 },
       { "item": "762_51_casing", "prob": 80 },
@@ -822,7 +835,7 @@
       [ "3006_casing", 40 ],
       [ "308_casing", 50 ],
       [ "50_casing", 30 ],
-      [ "700nx_casing", 10 ],
+      [ "458wm_casing", 10 ],
       [ "300_casing", 60 ],
       [ "762R_casing", 10 ],
       [ "32_casing", 70 ],

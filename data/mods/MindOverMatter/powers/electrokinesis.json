@@ -204,7 +204,7 @@
     "base_casting_time": 350,
     "final_casting_time": 150,
     "casting_time_increment": -9,
-    "learn_spells": { "electrokinetic_kill_robot": 14 }
+    "learn_spells": { "electrokinetic_recharge_vehicle": 9, "electrokinetic_kill_robot": 14 }
   },
   {
     "id": "electrokinetic_paralysis",
@@ -347,6 +347,39 @@
     "sound_description": "zzzzaaaaaapp!",
     "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "electrokinetic_kill_robot": 7, "electrokinetic_lightning_aura": 12, "electrokinetic_lightning_blast": 14 }
+  },
+  {
+    "id": "electrokinetic_recharge_vehicle",
+    "type": "SPELL",
+    "name": "[Ψ]Re-energize",
+    "description": "Turn your own energy into power for a vehicle or appliance.  You need merely touch the vehicle or any part of the power grid to recharge the batteries.",
+    "message": "Power flows into your target.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "recharge_vehicle",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_recharge_vehicle') * 125) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: electrokinetic_recharge_vehicle') * 250) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7500,
+    "final_energy_cost": 4500,
+    "energy_increment": -150,
+    "base_casting_time": 1500
   },
   {
     "id": "electrokinetic_pain_immune",

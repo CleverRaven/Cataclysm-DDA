@@ -83,6 +83,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_inv_test5_nested",
+    "effect": [ { "npc_add_var": "key5", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test5",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test5_nested" ],
+        "search_data": [ { "excluded_flags": [ "BELT_CLIP" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_item_math_test",
     "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] } ]
   },
