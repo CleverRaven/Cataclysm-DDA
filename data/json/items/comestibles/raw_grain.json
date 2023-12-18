@@ -48,14 +48,15 @@
     "color": "yellow",
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
+    "calories": 20,
     "symbol": "%",
-    "description": "An empty corn cob.  No longer contains any edible kernels, but it can be used to make stock or as fuel.",
+    "description": "An empty corn cob.  No longer contains any edible kernels, but it can be used to make stock, as fuel or cattle fodder.",
     "price": 1,
     "price_postapoc": 1,
     "material": [ "veggy", "wood" ],
     "volume": "465 ml",
     "fun": -8,
-    "flags": [ "RAW" ]
+    "flags": [ "RAW", "INEDIBLE" ]
   },
   {
     "type": "COMESTIBLE",
