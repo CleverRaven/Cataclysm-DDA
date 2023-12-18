@@ -204,7 +204,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "70  L",
+    "size": "150  L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
@@ -2227,7 +2227,7 @@
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "//1": "240cm weld to install, 60cm per damage quadrant to repair",
-    "size": "200 L",
+    "size": "300 L",
     "comfort": 2,
     "item": "livestock_carrier",
     "location": "center",
@@ -2519,7 +2519,7 @@
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
     "durability": 150,
-    "size": "65 L",
+    "size": "62500 ml",
     "description": "A benchlike place to sit."
   },
   {
