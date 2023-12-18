@@ -108,6 +108,8 @@ class PathfindingFlags
 {
     public:
         constexpr PathfindingFlags() = default;
+
+        // NOLINTNEXTLINE(google-explicit-constructor)
         constexpr PathfindingFlags( PathfindingFlag flag ) : flags_( uint32_t{ 1 } << static_cast<uint8_t>
                     ( flag ) ) {}
 
@@ -131,7 +133,7 @@ class PathfindingFlags
             return flags_;
         }
 
-        constexpr operator bool() const {
+        constexpr explicit operator bool() const {
             return is_any_set();
         }
 
@@ -315,24 +317,9 @@ class RealityBubblePathfinder
                 // iterator implementation, and the pathfinder doesn't use it anyways.
                 struct NotIterator {};
 
-                std::pair<NotIterator, bool> emplace( const tripoint_bub_ms &p ) {
-                    const int z = p.z() + OVERMAP_DEPTH;
-                    dirty_[z] = true;
-                    const int i = p.y() * MAPSIZE_X + p.x();
-                    const bool missing = !set_[z].test( i );
-                    set_[z].set( i );
-                    return std::make_pair( NotIterator(), missing );
-                }
+                std::pair<NotIterator, bool> emplace( const tripoint_bub_ms &p );
 
-                void clear() {
-                    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                        if( !dirty_[z] ) {
-                            continue;
-                        }
-                        dirty_[z] = false;
-                        set_[z].reset();
-                    }
-                }
+                void clear();
 
                 std::size_t count( const tripoint_bub_ms &p ) const {
                     return set_[p.z() + OVERMAP_DEPTH].test( p.y() * MAPSIZE_X + p.x() );
@@ -343,39 +330,32 @@ class RealityBubblePathfinder
                 std::array<std::bitset<MAPSIZE_X *MAPSIZE_Y>, OVERMAP_LAYERS> set_ = {};
         };
 
-
         // Minimum implementation of std::unordered_map interface that is used in the pathfinder.
-        struct FastBestPathMap {
-            std::pair<std::pair<int, tripoint_bub_ms>*, bool> try_emplace( const tripoint_bub_ms &child,
-                    int cost, const tripoint_bub_ms &parent ) {
-                std::pair<int, tripoint_bub_ms> &result = best_states[child.z() +
-                        OVERMAP_DEPTH][child.y()][child.x()];
-                if( const auto [_, inserted] = in.emplace( child ); inserted ) {
-                    result.first = cost;
-                    result.second = parent;
-                    return std::make_pair( &result, true );
+        class FastBestPathMap
+        {
+            public:
+                std::pair<std::pair<int, tripoint_bub_ms>*, bool> try_emplace( const tripoint_bub_ms &child,
+                        int cost, const tripoint_bub_ms &parent );
+
+                std::size_t count( const tripoint_bub_ms &p ) const {
+                    return in_.count( p );
                 }
-                return std::make_pair( &result, false );
-            }
 
-            std::size_t count( const tripoint_bub_ms &p ) const {
-                return in.count( p );
-            }
+                void clear() {
+                    in_.clear();
+                }
 
-            void clear() {
-                in.clear();
-            }
+                const std::pair<int, tripoint_bub_ms> &at( const tripoint_bub_ms &child ) const {
+                    return best_states_[child.z() + OVERMAP_DEPTH][child.y()][child.x()];
+                }
 
-            const std::pair<int, tripoint_bub_ms> &at( const tripoint_bub_ms &child ) const {
-                return best_states[child.z() + OVERMAP_DEPTH][child.y()][child.x()];
-            }
+                std::pair<int, tripoint_bub_ms> &operator[]( const tripoint_bub_ms &child ) {
+                    return *try_emplace( child, 0, child ).first;
+                }
 
-            std::pair<int, tripoint_bub_ms> &operator[]( const tripoint_bub_ms &child ) {
-                return *try_emplace( child, 0, child ).first;
-            }
-
-            FastTripointSet in;
-            RealityBubbleArray<std::pair<int, tripoint_bub_ms>> best_states;
+            private:
+                FastTripointSet in_;
+                RealityBubbleArray<std::pair<int, tripoint_bub_ms>> best_states_;
         };
 
         template <typename AStar, typename PositionCostFn, typename MoveCostFn, typename HeuristicFn>
@@ -625,17 +605,16 @@ class PathfindingSettings
 
         int max_distance_ = 0;
 
+        bool avoid_bashing_ = false;
         int bash_strength_ = 0;
 
-        // Expected terrain cost (2 is flat ground) of climbing a wire fence
-        // 0 means no climbing
+        // Expected terrain cost (2 is flat ground) of climbing a wire fence, 0 means no climbing
+        bool avoid_climbing_ = false;
         int climb_cost_ = 0;
-        bool is_digging_ = false;
 
+        bool is_digging_ = false;
         RealityBubblePathfindingSettings rb_settings_;
 
-        bool avoid_bashing_ = false;
-        bool avoid_climbing_ = false;
         bool avoid_opening_doors_ = false;
         bool avoid_unlocking_doors_ = false;
         std::function<bool( const field_type_id & )> maybe_avoid_dangerous_fields_fn_;

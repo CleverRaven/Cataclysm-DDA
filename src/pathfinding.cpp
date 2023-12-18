@@ -307,6 +307,42 @@ int PathfindingSettings::bash_rating_from_range( int min, int max ) const
     return std::max( ret, 1.0 );
 }
 
+std::pair<RealityBubblePathfinder::FastTripointSet::NotIterator, bool>
+RealityBubblePathfinder::FastTripointSet::emplace( const tripoint_bub_ms &p )
+{
+    const int z = p.z() + OVERMAP_DEPTH;
+    dirty_[z] = true;
+    const int i = p.y() * MAPSIZE_X + p.x();
+    const bool missing = !set_[z].test( i );
+    set_[z].set( i );
+    return std::make_pair( NotIterator(), missing );
+}
+
+void RealityBubblePathfinder::FastTripointSet::clear()
+{
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        if( !dirty_[z] ) {
+            continue;
+        }
+        dirty_[z] = false;
+        set_[z].reset();
+    }
+}
+
+std::pair<std::pair<int, tripoint_bub_ms>*, bool>
+RealityBubblePathfinder::FastBestPathMap::try_emplace( const tripoint_bub_ms &child, int cost,
+        const tripoint_bub_ms &parent )
+{
+    std::pair<int, tripoint_bub_ms> &result = best_states_[child.z() +
+            OVERMAP_DEPTH][child.y()][child.x()];
+    if( const auto [_, inserted] = in_.emplace( child ); inserted ) {
+        result.first = cost;
+        result.second = parent;
+        return std::make_pair( &result, true );
+    }
+    return std::make_pair( &result, false );
+}
+
 namespace
 {
 
