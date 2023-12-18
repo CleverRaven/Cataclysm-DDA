@@ -219,11 +219,8 @@
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You take some metaprolol.",
-      "vitamins": [ [ "vit_betablocker", 2000 ] ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take some metaprolol." },
+    "vitamins": [ [ "vit_betablocker", 2000 ] ]
   },
   {
     "id": "bfipowder",

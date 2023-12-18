@@ -941,6 +941,18 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
+        // For vitamins, normal vitamins go through guts.
+        // However, drug vitamins skip guts and get absorbed directly into the body.
+        for( const auto &vitamin : digested_to_guts.nutr.vitamins() ) {
+            // collect all drug vitamins in a map
+            std::map<vitamin_id, int> drug_vitamins;
+            const auto &vitamin_type = vitamin.first->type();
+            if( vitamin_type == vitamin_type::DRUG ) {
+                drug_vitamins[vitamin.first] = vitamin.second;
+            }
+            vitamins_mod( effect_vitamin_mod( drug_vitamins ) );
+        }
+
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
@@ -1448,7 +1460,7 @@ void Character::update_heartrate_index()
     const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
-                       hr_health_mod + hr_pain_mod + hr_adrenaline_mod + hr_bp_loss_mod + hr_effect_mod;
+                       hr_pain_mod + hr_adrenaline_mod + hr_bp_loss_mod + hr_effect_mod;
 }
 
 float Character::get_bloodvol_index() const
@@ -1498,7 +1510,7 @@ void Character::update_circulation_resistance()
         bp_stance_mod = 0.08f;
     }
 
-    circulation_resistance = 1.0f + bp_item_effect_mod + bp_stance_mod + bp_health_mod;
+    circulation_resistance = 1.0f + bp_item_effect_mod + bp_stance_mod;
 }
 
 void Character::update_circulation()
