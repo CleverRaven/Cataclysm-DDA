@@ -22,148 +22,556 @@
 #include "point.h"
 #include "submap.h"
 #include "trap.h"
-#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
-enum astar_state {
-    ASL_NONE,
-    ASL_OPEN,
-    ASL_CLOSED
-};
-
-// Turns two indexed to a 2D array into an index to equivalent 1D array
-static constexpr int flat_index( const point &p )
+RealityBubblePathfindingCache::RealityBubblePathfindingCache()
 {
-    return ( p.x * MAPSIZE_Y ) + p.y;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+        dirty_z_levels_.emplace( z );
+    }
 }
 
-// Flattened 2D array representing a single z-level worth of pathfinding data
-struct path_data_layer {
-    // State is accessed way more often than all other values here
-    std::array< astar_state, MAPSIZE_X *MAPSIZE_Y > state;
-    std::array< int, MAPSIZE_X *MAPSIZE_Y > score;
-    std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
-    std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
-
-    void init( const point &min, const point &max ) {
-        for( int x = min.x; x <= max.x; x++ ) {
-            for( int y = min.y; y <= max.y; y++ ) {
-                const int ind = flat_index( point( x, y ) );
-                state[ind] = ASL_NONE; // Mark as unvisited
-            }
-        }
-    }
-};
-
-struct pathfinder {
-    point min;
-    point max;
-    pathfinder( const point &_min, const point &_max ) :
-        min( _min ), max( _max ) {
-    }
-
-    std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
-    open;
-    std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
-
-    path_data_layer &get_layer( const int z ) {
-        std::unique_ptr< path_data_layer > &ptr = path_data[z + OVERMAP_DEPTH];
-        if( ptr != nullptr ) {
-            return *ptr;
-        }
-
-        ptr = std::make_unique<path_data_layer>();
-        ptr->init( min, max );
-        return *ptr;
-    }
-
-    bool empty() const {
-        return open.empty();
-    }
-
-    tripoint get_next() {
-        const auto pt = open.top();
-        open.pop();
-        return pt.second;
-    }
-
-    void add_point( const int gscore, const int score, const tripoint &from, const tripoint &to ) {
-        path_data_layer &layer = get_layer( to.z );
-        const int index = flat_index( to.xy() );
-        if( ( layer.state[index] == ASL_OPEN && gscore >= layer.gscore[index] ) ||
-            layer.state[index] == ASL_CLOSED ) {
-            return;
-        }
-
-        layer.state [index] = ASL_OPEN;
-        layer.gscore[index] = gscore;
-        layer.parent[index] = from;
-        layer.score [index] = score;
-        open.emplace( score, to );
-    }
-
-    void close_point( const tripoint &p ) {
-        path_data_layer &layer = get_layer( p.z );
-        const int index = flat_index( p.xy() );
-        layer.state[index] = ASL_CLOSED;
-    }
-
-    void unclose_point( const tripoint &p ) {
-        path_data_layer &layer = get_layer( p.z );
-        const int index = flat_index( p.xy() );
-        layer.state[index] = ASL_NONE;
-    }
-};
-
-// Modifies `t` to point to a tile with `flag` in a 1-submap radius of `t`'s original value,
-// searching nearest points first (starting with `t` itself).
-// return false if it could not find a suitable point
-static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoint &t )
+// Modifies `t` to point to a tile with `flag` in a 1-submap radius of `t`'s original value, searching
+// nearest points first (starting with `t` itself).
+// Returns false if it could not find a suitable point
+bool RealityBubblePathfindingCache::vertical_move_destination( const map &here, ter_furn_flag flag,
+        tripoint &t ) const
 {
-    const pathfinding_cache &pf_cache = m.get_pathfinding_cache_ref( t.z );
-    for( const point &p : closest_points_first( t.xy(), SEEX ) ) {
-        if( pf_cache.special[p.x][p.y] & PF_UPDOWN ) {
-            const tripoint t2( p, t.z );
-            if( m.has_flag( flag, t2 ) ) {
-                t = t2;
-                return true;
-            }
+    const int z = t.z;
+    if( const std::optional<point> p = find_point_closest_first( t.xy(), 0, SEEX, [this, &here, flag,
+          z]( const point & p ) {
+    if( p.x >= 0 && p.x < MAPSIZE_X && p.y >= 0 && p.y < MAPSIZE_Y ) {
+            const tripoint t2( p, z );
+            return here.has_flag( flag, t2 );
         }
+        return false;
+    } ) ) {
+        t = tripoint( *p, z );
+        return true;
     }
     return false;
 }
 
-template<class Set1, class Set2>
-static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
+void RealityBubblePathfindingCache::invalidate_dependants( const tripoint_bub_ms &p )
 {
-    if( set1.empty() || set2.empty() ) {
-        return true;
-    }
-
-    typename Set1::const_iterator it1 = set1.begin();
-    typename Set1::const_iterator it1_end = set1.end();
-
-    typename Set2::const_iterator it2 = set2.begin();
-    typename Set2::const_iterator it2_end = set2.end();
-
-    if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
-        return true;
-    }
-
-    while( it1 != it1_end && it2 != it2_end ) {
-        if( *it1 == *it2 ) {
-            return false;
+    const auto iter = dependants_by_position_.find( p );
+    if( iter != dependants_by_position_.end() ) {
+        // This is guaranteed to have at least one element.
+        std::vector<tripoint_bub_ms> &dependants = iter->second;
+        const tripoint_bub_ms dependant = dependants.back();
+        dependants.pop_back();
+        if( dependants.empty() ) {
+            // This could be recursive and bounce back here. Need to remove
+            // it from the dependant map entirely to stop infinite recursion.
+            dependants_by_position_.erase( iter );
         }
-        if( *it1 < *it2 ) {
-            it1++;
+        invalidate( dependant );
+    }
+}
+
+void RealityBubblePathfindingCache::update( const map &here )
+{
+    for( const int z : dirty_z_levels_ ) {
+        for( int y = 0; y < MAPSIZE_Y; ++y ) {
+            for( int x = 0; x < MAPSIZE_X; ++x ) {
+                const tripoint_bub_ms p( x, y, z );
+                invalidate_dependants( p );
+                update( here, p );
+            }
+        }
+    }
+    for( const int z : dirty_z_levels_ ) {
+        dirty_positions_.erase( z );
+    }
+    dirty_z_levels_.clear();
+
+    for( const auto& [z, dirty_points] : dirty_positions_ ) {
+        for( const point_bub_ms &p : dirty_points ) {
+            update( here, tripoint_bub_ms( p, z ) );
+        }
+    }
+    dirty_positions_.clear();
+}
+
+void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_ms &p )
+{
+    PathfindingFlags flags;
+
+    const const_maptile &tile = here.maptile_at( p );
+    const ter_t &terrain = tile.get_ter_t();
+    const ter_id terrain_id = tile.get_ter();
+    const furn_t &furniture = tile.get_furn_t();
+    const optional_vpart_position veh = here.veh_at( p );
+
+    const int orig_cost = here.move_cost( p );
+    const int cost = orig_cost < 0 ? 0 : orig_cost;
+
+    if( cost > 2 ) {
+        flags |= PathfindingFlag::Slow;
+    }
+
+    if( !terrain.has_flag( ter_furn_flag::TFLAG_BURROWABLE ) ||
+        !terrain.has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+        flags |= PathfindingFlag::HardGround;
+    }
+
+    if( veh ) {
+        flags |= PathfindingFlag::Vehicle;
+    }
+
+    if( cost == 0 ) {
+        flags |= PathfindingFlag::Obstacle;
+
+        bool impassable = flags.is_set( PathfindingFlag::HardGround );
+        if( here.is_bashable( p.raw() ) ) {
+            if( const auto bash_range = here.bash_range( p.raw() ) ) {
+                flags |= PathfindingFlag::Bashable;
+                impassable = false;
+                bash_range_ref( p ) = *bash_range;
+            }
+        }
+
+        if( terrain.open || furniture.open ) {
+            impassable = false;
+            flags |= PathfindingFlag::Door;
+
+            if( terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ||
+                furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) {
+                flags |= PathfindingFlag::InsideDoor;
+            }
+        }
+
+        if( veh ) {
+            if( const auto vpobst = veh->obstacle_at_part() ) {
+                const int vpobst_i = vpobst->part_index();
+                const vehicle &v = veh->vehicle();
+                const int open_inside = v.next_part_to_open( vpobst_i, false );
+                if( open_inside != -1 ) {
+                    impassable = false;
+                    flags |= PathfindingFlag::Door;
+
+                    const int open_outside = v.next_part_to_open( vpobst_i, true );
+                    if( open_inside != open_outside ) {
+                        flags |= PathfindingFlag::InsideDoor;
+                    }
+                    const int lock = v.next_part_to_unlock( vpobst_i, false );
+                    if( lock != -1 ) {
+                        flags |= PathfindingFlag::LockedDoor;
+                    }
+                }
+            }
+        }
+
+        if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
+            impassable = false;
+            flags |= PathfindingFlag::Climmable;
+        }
+
+        if( impassable ) {
+            flags |= PathfindingFlag::Impassable;
+        }
+    }
+
+    if( cost > std::numeric_limits<char>::max() ) {
+        debugmsg( "Tile move cost too large for cache: %s, %d", terrain_id.id().str(), cost );
+    } else {
+        move_cost_ref( p ) = cost < 2 ? 2 : cost;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
+        flags |= PathfindingFlag::Air;
+    } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+        flags |= PathfindingFlag::Swimmable;
+    } else {
+        flags |= PathfindingFlag::Ground;
+    }
+
+    const bool has_vehicle_floor = here.has_vehicle_floor( p );
+    if( !has_vehicle_floor ) {
+        if( terrain_id == t_pit || terrain_id == t_pit_spiked || terrain_id == t_pit_glass ) {
+            flags |= PathfindingFlag::Pit;
+        }
+
+        if( terrain_id == t_lava ) {
+            flags |= PathfindingFlag::Lava;
+        }
+
+        if( terrain.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
+            flags |= PathfindingFlag::DeepWater;
+        }
+
+        if( !tile.get_trap_t().is_benign() ) {
+            flags |= PathfindingFlag::DangerousTrap;
+        }
+
+        if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) ) {
+            flags |= PathfindingFlag::Sharp;
+        }
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_BURROWABLE ) ) {
+        flags |= PathfindingFlag::Burrowable;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
+        flags |= PathfindingFlag::SmallPassage;
+    }
+
+    if( !g->is_sheltered( p.raw() ) ) {
+        flags |= PathfindingFlag::Unsheltered;
+    }
+
+    for( const auto &fld : tile.get_field() ) {
+        const field_entry &cur = fld.second;
+        if( cur.is_dangerous() ) {
+            flags |= PathfindingFlag::DangerousField;
+            break;
+        }
+    }
+
+    if( p.z() < OVERMAP_HEIGHT ) {
+        up_destinations_.erase( p );
+        const tripoint_bub_ms up( p.xy(), p.z() + 1 );
+        if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
+            bool rope_ladder = false;
+            if( std::optional<tripoint> dest = g->find_or_make_stairs( here,
+                                               p.z() - 1, rope_ladder, false, p.raw() ) ) {
+                if( vertical_move_destination( here, ter_furn_flag::TFLAG_GOES_DOWN, *dest ) ) {
+                    tripoint_bub_ms d( *dest );
+                    flags |= PathfindingFlag::GoesUp;
+                    up_destinations_.emplace( p, d );
+                    dependants_by_position_[d].push_back( p );
+                }
+            } else {
+                dependants_by_position_[up].push_back( p );
+            }
+        }
+
+        if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) ||
+            terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ) {
+            dependants_by_position_[up].push_back( p );
+            if( ( terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
+                  here.valid_move( p.raw(), up.raw(), false, true, true ) ) ||
+                ( terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
+                  here.valid_move( p.raw(), up.raw(), false, true ) ) ) {
+                flags |= PathfindingFlag::RampUp;
+            }
+        }
+    }
+
+    if( p.z() > -OVERMAP_DEPTH ) {
+        down_destinations_.erase( p );
+        const tripoint_bub_ms down( p.xy(), p.z() - 1 );
+        if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+            bool rope_ladder = false;
+            if( std::optional<tripoint> dest = g->find_or_make_stairs( here,
+                                               p.z(), rope_ladder, false, p.raw() ) ) {
+                if( vertical_move_destination( here, ter_furn_flag::TFLAG_GOES_UP, *dest ) ) {
+                    tripoint_bub_ms d( *dest );
+                    flags |= PathfindingFlag::GoesDown;
+                    down_destinations_.emplace( p, d );
+                    dependants_by_position_[d].push_back( p );
+                }
+            } else {
+                dependants_by_position_[down].push_back( p );
+            }
+        }
+
+        if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
+            dependants_by_position_[down].push_back( p );
+            if( here.valid_move( p.raw(), down.raw(), false, true, true ) ) {
+                flags |= PathfindingFlag::RampDown;
+            }
+        }
+    }
+
+    flags_ref( p ) = flags;
+}
+
+int PathfindingSettings::bash_rating_from_range( int min, int max ) const
+{
+    if( avoid_bashing_ ) {
+        return 0;
+    }
+    // TODO: Move all the bash stuff to map so this logic isn't duplicated.
+    ///\EFFECT_STR increases smashing damage
+    if( bash_strength_ < min ) {
+        return 0;
+    } else if( bash_strength_ >= max ) {
+        return 10;
+    }
+    const double ret = ( 10.0 * ( bash_strength_ - min ) ) / ( max - min );
+    // Round up to 1, so that desperate NPCs can try to bash down walls
+    return std::max( ret, 1.0 );
+}
+
+namespace
+{
+
+// TODO: move these into tripoint_bub_ms code.
+float octile_distance( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+{
+    const int dx = std::abs( from.x() - to.x() );
+    const int dy = std::abs( from.y() - to.y() );
+    const int dz = std::abs( from.z() - to.z() );
+    const int min = std::min( dx, std::min( dy, dz ) );
+    const int max = std::max( dx, std::max( dy, dz ) );
+    const int mid = dx + dy + dz - min - max;
+
+    constexpr float one_axis = 1.0f;
+    constexpr float two_axis = 1.4142f;
+    constexpr float three_axis = 1.73205f;
+    return ( three_axis - two_axis ) * min + ( two_axis - one_axis ) * mid + one_axis * max;
+}
+
+float square_distance( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+{
+    const int dx = std::abs( from.x() - to.x() );
+    const int dy = std::abs( from.y() - to.y() );
+    const int dz = std::abs( from.z() - to.z() );
+    return std::max( dx, std::max( dy, dz ) );
+}
+
+float distance_metric( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+{
+    return trigdist ? octile_distance( from, to ) : square_distance( from, to );
+}
+
+std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
+                                  const PathfindingSettings &settings, const RealityBubblePathfindingCache &cache )
+{
+    const PathfindingFlags flags = cache.flags( p );
+    if( flags & settings.avoid_mask() ) {
+        return std::nullopt;
+    }
+
+    int cost = 0;
+    if( flags.is_set( PathfindingFlag::Obstacle ) ) {
+        if( settings.is_digging() ) {
+            if( !flags.is_set( PathfindingFlag::Burrowable ) ) {
+                return std::nullopt;
+            }
+        } else if( flags.is_set( PathfindingFlag::Climmable ) && !settings.avoid_climbing() &&
+                   settings.climb_cost() > 0 ) {
+            // Climbing fences
+            cost = settings.climb_cost();
+        } else if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
+                   ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
+            cost = flags.is_set( PathfindingFlag::LockedDoor ) ? 4 : 2;
+        } else if( flags.is_set( PathfindingFlag::Bashable ) ) {
+            const auto [bash_min, bash_max] = cache.bash_range( p );
+            const int bash_rating = settings.bash_rating_from_range( bash_min, bash_max );
+            if( bash_rating >= 1 ) {
+                // Expected number of turns to bash it down
+                cost = 20 / bash_rating;
+            } else {
+                // Unbashable and unopenable from here
+                return std::nullopt;
+            }
         } else {
-            it2++;
+            // Can't pass the obstacle at all.
+            return std::nullopt;
         }
     }
 
-    return true;
+    const auto &maybe_avoid_dangerous_fields_fn = settings.maybe_avoid_dangerous_fields_fn();
+    if( flags.is_set( PathfindingFlag::DangerousField ) && maybe_avoid_dangerous_fields_fn ) {
+        const field &target_field = here.field_at( p.raw() );
+        for( const auto &dfield : target_field ) {
+            if( dfield.second.is_dangerous() && maybe_avoid_dangerous_fields_fn( dfield.first ) ) {
+                return std::nullopt;
+            }
+        }
+    }
+
+    const auto &maybe_avoid_fn = settings.maybe_avoid_fn();
+    if( maybe_avoid_fn && maybe_avoid_fn( p ) ) {
+        return std::nullopt;
+    }
+
+    return cost * 50;
+}
+
+std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from,
+                                    const tripoint_bub_ms &to, const PathfindingSettings &settings,
+                                    const RealityBubblePathfindingCache &cache )
+{
+    const PathfindingFlags from_flags = cache.flags( from );
+    const bool is_falling = from_flags.is_set( PathfindingFlag::Air ) && !settings.is_flying();
+    if( is_falling ) {
+        // Can only fall straight down.
+        if( from.z() < to.z() || from.xy() != to.xy() ) {
+            return std::nullopt;
+        }
+    }
+
+    const bool is_vertical_movement = from.z() != to.z();
+    if( !is_falling && is_vertical_movement ) {
+        const tripoint_bub_ms &upper = from.z() > to.z() ? from : to;
+        const tripoint_bub_ms &lower = from.z() < to.z() ? from : to;
+        if( cache.flags( lower ).is_set( PathfindingFlag::GoesUp ) &&
+            cache.flags( upper ).is_set( PathfindingFlag::GoesDown ) ) {
+            if( settings.avoid_climb_stairway() ) {
+                return std::nullopt;
+            }
+        } else if( settings.is_flying() ) {
+            const tripoint_bub_ms below_upper( upper.xy(), upper.z() - 1 );
+            const tripoint_bub_ms above_lower( lower.xy(), lower.z() + 1 );
+            if( !( cache.flags( below_upper ).is_set( PathfindingFlag::Air ) ||
+                   cache.flags( above_lower ).is_set( PathfindingFlag::Air ) ) ) {
+                return std::nullopt;
+            }
+        } else if( !( from.z() < to.z() && from_flags.is_set( PathfindingFlag::RampUp ) ) ||
+                   !( from.z() > to.z() && from_flags.is_set( PathfindingFlag::RampDown ) ) ) {
+            return std::nullopt;
+        }
+    }
+
+
+    const PathfindingFlags flags = cache.flags( from );
+    if( flags.is_set( PathfindingFlag::Obstacle ) ) {
+        if( !settings.is_digging() ) {
+            if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
+                ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
+                const bool is_inside_door = flags.is_set( PathfindingFlag::InsideDoor );
+                if( is_inside_door ) {
+                    int dummy;
+                    const bool is_vehicle = flags.is_set( PathfindingFlag::Vehicle );
+                    const bool is_outside = is_vehicle ? here.veh_at_internal( from.raw(),
+                                            dummy ) != here.veh_at_internal( to.raw(), dummy ) : here.is_outside( from.raw() );
+                    if( is_outside ) {
+                        return std::nullopt;
+                    }
+                }
+            }
+        }
+    }
+
+    // TODO: Move the move cost cache into map so this logic isn't duplicated.
+    const float mult = distance_metric( from, to ) * 25;
+    const int cost = cache.move_cost( from ) + cache.move_cost( to );
+    return static_cast<int>( mult * cost );
+}
+
+}  // namespace
+
+bool map::can_teleport( const tripoint_bub_ms &to, const PathfindingSettings &settings ) const
+{
+    if( !inbounds( to ) ) {
+        return false;
+    }
+    pathfinding_cache()->update( *this );
+    return position_cost( *this, to, settings, *pathfinding_cache() ).has_value();
+}
+
+bool map::can_move( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
+                    const PathfindingSettings &settings ) const
+{
+    if( !inbounds( from ) || !inbounds( to ) ) {
+        return false;
+    }
+    if( from == to ) {
+        return true;
+    }
+    pathfinding_cache()->update( *this );
+    if( position_cost( *this, to, settings, *pathfinding_cache() ).has_value() ) {
+        return transition_cost( *this, from, to, settings, *pathfinding_cache() ).has_value();
+    }
+    return false;
+}
+
+std::optional<int> map::move_cost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
+                                   const PathfindingSettings &settings ) const
+{
+    if( !inbounds( from ) || !inbounds( to ) ) {
+        return std::nullopt;
+    }
+    if( from == to ) {
+        return 0;
+    }
+    pathfinding_cache()->update( *this );
+    if( const std::optional<int> p_cost = position_cost( *this, to, settings, *pathfinding_cache() ) ) {
+        if( const std::optional<int> t_cost = transition_cost( *this, from, to, settings,
+                                              *pathfinding_cache() ) ) {
+            return *p_cost + *t_cost;
+        }
+    }
+    return std::nullopt;
+}
+
+std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
+        const PathfindingSettings &settings ) const
+{
+    if( from == to || !inbounds( from ) || !inbounds( to ) ) {
+        return {};
+    }
+    pathfinding_cache()->update( *this );
+
+    // First, check for a simple straight line on flat ground
+    // Except when the line contains a pre-closed tile - we need to do regular pathing then
+    if( from.z() == to.z() ) {
+        std::vector<tripoint_bub_ms> line_path = line_to( from, to );
+        const PathfindingFlags avoid = settings.avoid_mask() | PathfindingFlag::Obstacle;
+        // Check all points for all fast avoidance.
+        if( !std::any_of( line_path.begin(), line_path.end(), [this, avoid]( const tripoint_bub_ms & p ) {
+        return pathfinding_cache()->flags( p ) & avoid;
+        } ) ) {
+            // Now do the slow check.
+            if( std::all_of( line_path.begin(), line_path.end(), [this,
+            &settings]( const tripoint_bub_ms & p ) {
+            return position_cost( *this, p, settings, *pathfinding_cache() );
+            } ) ) {
+                if( transition_cost( *this, from, line_path[0], settings, *pathfinding_cache() ).has_value() ) {
+                    bool good = true;
+                    for( int i = 1; i < line_path.size(); ++i ) {
+                        if( !transition_cost( *this, line_path[i - 1], line_path[i], settings,
+                                              *pathfinding_cache() ).has_value() ) {
+                            good = false;
+                            break;
+                        }
+                    }
+                    if( good ) {
+                        return line_path;
+                    }
+                }
+            }
+        }
+    }
+
+    // If expected path length is greater than max distance, allow only line path, like above
+    if( octile_distance( from, to ) > settings.max_distance() ) {
+        return {};
+    }
+
+    return pathfinder()->find_path( settings.rb_settings(), from, to,
+    [this, &settings]( const tripoint_bub_ms & p ) {
+        return position_cost( *this, p, settings, *pathfinding_cache() );
+    },
+    [this, &settings]( const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
+        return transition_cost( *this, from, to, settings, *pathfinding_cache() );
+    },
+    []( const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
+        return 100 * distance_metric( from, to );
+    } );
+}
+
+PathfindingSettings pathfinding_settings::to_new_pathfinding_settings() const
+{
+    PathfindingSettings settings;
+    settings.set_bash_strength( bash_strength );
+    settings.set_max_distance( max_dist );
+    settings.set_max_cost( max_length * 50 );
+    settings.set_climb_cost( climb_cost );
+    settings.set_avoid_opening_doors( !allow_open_doors );
+    settings.set_avoid_unlocking_doors( !allow_unlock_doors );
+    settings.set_avoid_dangerous_traps( avoid_traps );
+    if( avoid_rough_terrain ) {
+        settings.set_avoid_rough_terrain( true );
+    }
+    settings.set_avoid_sharp( avoid_sharp );
+    return settings;
 }
 
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
@@ -184,353 +592,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         clip_to_bounds( clipped );
         return route( f, clipped, settings, pre_closed );
     }
-    // First, check for a simple straight line on flat ground
-    // Except when the line contains a pre-closed tile - we need to do regular pathing then
-    static const pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
-    if( f.z == t.z ) {
-        auto line_path = line_to( f, t );
-        const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
-        // Check all points for any special case (including just hard terrain)
-        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
-        return !( pf_cache.special[p.x][p.y] & non_normal );
-        } ) ) {
-            const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
 
-            if( is_disjoint( sorted_line, pre_closed ) ) {
-                return line_path;
-            }
-        }
-    }
-
-    // If expected path length is greater than max distance, allow only line path, like above
-    if( rl_dist( f, t ) > settings.max_dist ) {
-        return ret;
-    }
-
-    const int max_length = settings.max_length;
-    const int bash = settings.bash_strength;
-    const int climb_cost = settings.climb_cost;
-    const bool doors = settings.allow_open_doors;
-    const bool locks = settings.allow_unlock_doors;
-    const bool trapavoid = settings.avoid_traps;
-    const bool roughavoid = settings.avoid_rough_terrain;
-    const bool sharpavoid = settings.avoid_sharp;
-
-    const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
-    tripoint min( std::min( f.x, t.x ) - pad, std::min( f.y, t.y ) - pad, std::min( f.z, t.z ) );
-    tripoint max( std::max( f.x, t.x ) + pad, std::max( f.y, t.y ) + pad, std::max( f.z, t.z ) );
-    clip_to_bounds( min.x, min.y, min.z );
-    clip_to_bounds( max.x, max.y, max.z );
-
-    pathfinder pf( min.xy(), max.xy() );
-    // Make NPCs not want to path through player
-    // But don't make player pathing stop working
-    for( const tripoint &p : pre_closed ) {
-        if( p.x >= min.x && p.x < max.x && p.y >= min.y && p.y < max.y ) {
-            pf.close_point( p );
-        }
-    }
-
-    // Start and end must not be closed
-    pf.unclose_point( f );
-    pf.unclose_point( t );
-    pf.add_point( 0, 0, f, f );
-
-    bool done = false;
-
-    do {
-        tripoint cur = pf.get_next();
-
-        const int parent_index = flat_index( cur.xy() );
-        path_data_layer &layer = pf.get_layer( cur.z );
-        auto &cur_state = layer.state[parent_index];
-        if( cur_state == ASL_CLOSED ) {
-            continue;
-        }
-
-        if( layer.gscore[parent_index] > max_length ) {
-            // Shortest path would be too long, return empty vector
-            return std::vector<tripoint>();
-        }
-
-        if( cur == t ) {
-            done = true;
-            break;
-        }
-
-        cur_state = ASL_CLOSED;
-
-        const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( cur.z );
-        const pf_special cur_special = pf_cache.special[cur.x][cur.y];
-
-        // 7 3 5
-        // 1 . 2
-        // 6 4 8
-        constexpr std::array<int, 8> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1 }};
-        constexpr std::array<int, 8> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1 }};
-        for( size_t i = 0; i < 8; i++ ) {
-            const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
-            const int index = flat_index( p.xy() );
-
-            // TODO: Remove this and instead have sentinels at the edges
-            if( p.x < min.x || p.x >= max.x || p.y < min.y || p.y >= max.y ) {
-                continue;
-            }
-
-            if( layer.state[index] == ASL_CLOSED ) {
-                continue;
-            }
-
-            // Penalize for diagonals or the path will look "unnatural"
-            int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
-
-            const pf_special p_special = pf_cache.special[p.x][p.y];
-            // TODO: De-uglify, de-huge-n
-            if( !( p_special & non_normal ) ) {
-                // Boring flat dirt - the most common case above the ground
-                newg += 2;
-            } else {
-                if( roughavoid ) {
-                    layer.state[index] = ASL_CLOSED; // Close all rough terrain tiles
-                    continue;
-                }
-
-                int part = -1;
-                const const_maptile &tile = maptile_at_internal( p );
-                const ter_t &terrain = tile.get_ter_t();
-                const furn_t &furniture = tile.get_furn_t();
-                const field &field = tile.get_field();
-                const vehicle *veh = veh_at_internal( p, part );
-
-                const int cost = move_cost_internal( furniture, terrain, field, veh, part );
-                // Don't calculate bash rating unless we intend to actually use it
-                const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                                   bash_rating_internal( bash, furniture, terrain, false, veh, part );
-
-                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open || !furniture.open ) && veh == nullptr &&
-                    climb_cost <= 0 ) {
-                    layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
-                    continue;
-                }
-
-                newg += cost;
-                if( cost == 0 ) {
-                    if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
-                        // Climbing fences
-                        newg += climb_cost;
-                    } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
-                                   !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
-                                 !is_outside( cur ) ) ) {
-                        // Only try to open INSIDE doors from the inside
-                        // To open and then move onto the tile
-                        newg += 4;
-                    } else if( veh != nullptr ) {
-                        const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
-                        part = vpobst ? vpobst->part_index() : -1;
-                        int dummy = -1;
-                        const bool is_outside_veh = veh_at_internal( cur, dummy ) != veh;
-
-                        if( doors && veh->next_part_to_open( part, is_outside_veh ) != -1 ) {
-                            // Handle car doors, but don't try to path through curtains
-                            newg += 10; // One turn to open, 4 to move there
-                        } else if( locks && veh->next_part_to_unlock( part, is_outside_veh ) != -1 ) {
-                            newg += 12; // 2 turns to open, 4 to move there
-                        } else if( part >= 0 && bash > 0 ) {
-                            // Car obstacle that isn't a door
-                            // TODO: Account for armor
-                            int hp = veh->part( part ).hp();
-                            if( hp / 20 > bash ) {
-                                // Threshold damage thing means we just can't bash this down
-                                layer.state[index] = ASL_CLOSED;
-                                continue;
-                            } else if( hp / 10 > bash ) {
-                                // Threshold damage thing means we will fail to deal damage pretty often
-                                hp *= 2;
-                            }
-
-                            newg += 2 * hp / bash + 8 + 4;
-                        } else if( part >= 0 ) {
-                            const vehicle_part &vp = veh->part( part );
-                            if( !doors || !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
-                                // Won't be openable, don't try from other sides
-                                layer.state[index] = ASL_CLOSED;
-                            }
-
-                            continue;
-                        }
-                    } else if( rating > 1 ) {
-                        // Expected number of turns to bash it down, 1 turn to move there
-                        // and 5 turns of penalty not to trash everything just because we can
-                        newg += ( 20 / rating ) + 2 + 10;
-                    } else if( rating == 1 ) {
-                        // Desperate measures, avoid whenever possible
-                        newg += 500;
-                    } else {
-                        // Unbashable and unopenable from here
-                        if( !doors || !terrain.open || !furniture.open ) {
-                            // Or anywhere else for that matter
-                            layer.state[index] = ASL_CLOSED;
-                        }
-
-                        continue;
-                    }
-                }
-
-                if( trapavoid && ( p_special & PF_TRAP ) ) {
-                    const trap &ter_trp = terrain.trap.obj();
-                    const trap &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
-                    if( !trp.is_benign() ) {
-                        // For now make them detect all traps
-                        if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
-                            // Special case - ledge in z-levels
-                            // Warning: really expensive, needs a cache
-                            if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
-                                tripoint below( p.xy(), p.z - 1 );
-                                if( !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
-                                    // Otherwise this would have been a huge fall
-                                    path_data_layer &layer = pf.get_layer( p.z - 1 );
-                                    // From cur, not p, because we won't be walking on air
-                                    pf.add_point( layer.gscore[parent_index] + 10,
-                                                  layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
-                                                  cur, below );
-                                }
-
-                                // Close p, because we won't be walking on it
-                                layer.state[index] = ASL_CLOSED;
-                                continue;
-                            }
-                        } else {
-                            // Otherwise it's walkable
-                            newg += 500;
-                        }
-                    }
-                }
-
-                if( sharpavoid && p_special & PF_SHARP ) {
-                    layer.state[index] = ASL_CLOSED; // Avoid sharp things
-                }
-
-            }
-
-            // If not visited, add as open
-            // If visited, add it only if we can do so with better score
-            if( layer.state[index] == ASL_NONE || newg < layer.gscore[index] ) {
-                pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );
-            }
-        }
-
-        if( !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
-            // The part below is only for z-level pathing
-            continue;
-        }
-
-        bool rope_ladder = false;
-        const const_maptile &parent_tile = maptile_at_internal( cur );
-        const ter_t &parent_terrain = parent_tile.get_ter_t();
-        if( settings.allow_climb_stairs && cur.z > min.z &&
-            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                               cur.z - 1, rope_ladder, false, cur );
-            if( !opt_dest ) {
-                continue;
-            }
-            tripoint dest = opt_dest.value();
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
-                if( !inbounds( dest ) ) {
-                    continue;
-                }
-                path_data_layer &layer = pf.get_layer( dest.z );
-                pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                              cur, dest );
-            }
-        }
-        if( settings.allow_climb_stairs && cur.z < max.z &&
-            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                               cur.z + 1, rope_ladder, false, cur );
-            if( !opt_dest ) {
-                continue;
-            }
-            tripoint dest = opt_dest.value();
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
-                if( !inbounds( dest ) ) {
-                    continue;
-                }
-                path_data_layer &layer = pf.get_layer( dest.z );
-                pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                              cur, dest );
-            }
-        }
-        if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
-            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z + 1 );
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
-                if( !inbounds( above ) ) {
-                    continue;
-                }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
-            }
-        }
-        if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
-            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z + 1 );
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
-                if( !inbounds( above ) ) {
-                    continue;
-                }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
-            }
-        }
-        if( cur.z > min.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
-            valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z - 1 );
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
-                if( !inbounds( below ) ) {
-                    continue;
-                }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
-                              cur, below );
-            }
-        }
-
-    } while( !done && !pf.empty() );
-
-    if( done ) {
-        ret.reserve( rl_dist( f, t ) * 2 );
-        tripoint cur = t;
-        // Just to limit max distance, in case something weird happens
-        for( int fdist = max_length; fdist != 0; fdist-- ) {
-            const int cur_index = flat_index( cur.xy() );
-            const path_data_layer &layer = pf.get_layer( cur.z );
-            const tripoint &par = layer.parent[cur_index];
-            if( cur == f ) {
-                break;
-            }
-
-            ret.push_back( cur );
-            // Jumps are acceptable on 1 z-level changes
-            // This is because stairs teleport the player too
-            if( rl_dist( cur, par ) > 1 && std::abs( cur.z - par.z ) != 1 ) {
-                debugmsg( "Jump in our route!  %d:%d:%d->%d:%d:%d",
-                          cur.x, cur.y, cur.z, par.x, par.y, par.z );
-                return ret;
-            }
-
-            cur = par;
-        }
-
-        std::reverse( ret.begin(), ret.end() );
+    PathfindingSettings new_settings = settings.to_new_pathfinding_settings();
+    new_settings.set_maybe_avoid_fn( [&pre_closed, &f]( const tripoint_bub_ms & p ) {
+        return f != p.raw() && pre_closed.count( p.raw() ) == 1;
+    } );
+    for( const tripoint_bub_ms &p : route( tripoint_bub_ms( f ), tripoint_bub_ms( t ),
+                                           new_settings ) ) {
+        ret.push_back( p.raw() );
     }
 
     return ret;

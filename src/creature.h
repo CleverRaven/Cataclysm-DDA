@@ -930,11 +930,6 @@ class Creature : public viewer
 
         virtual units::mass weight_capacity() const;
 
-        /** Returns settings for pathfinding. */
-        virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
-        /** Returns a set of points we do not want to path through. */
-        virtual std::set<tripoint> get_path_avoid() const = 0;
-
         int moves;
         bool underwater;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;

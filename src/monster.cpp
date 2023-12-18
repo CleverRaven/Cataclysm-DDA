@@ -1354,8 +1354,8 @@ bool monster::has_intelligence() const
            has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
            has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ||
            has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
-           get_pathfinding_settings().avoid_sharp ||
-           get_pathfinding_settings().avoid_traps;
+           type->path_settings.avoid_sharp ||
+           type->path_settings.avoid_traps;
 }
 
 std::vector<material_id> monster::get_absorb_material() const
@@ -3961,39 +3961,4 @@ void monster::on_load()
 
     add_msg_debug( debugmode::DF_MONSTER, "on_load() by %s, %d turns, healed %d hp, %d speed",
                    name(), to_turns<int>( dt ), healed, healed_speed );
-}
-
-const pathfinding_settings &monster::get_pathfinding_settings() const
-{
-    return type->path_settings;
-}
-
-std::set<tripoint> monster::get_path_avoid() const
-{
-    std::set<tripoint> ret;
-
-    map &here = get_map();
-    int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );
-
-    for( const tripoint &p : here.points_in_radius( pos(), radius ) ) {
-        if( !can_move_to( p ) ) {
-            if( bash_skill() <= 0 || !here.is_bashable( p ) ) {
-                ret.insert( p );
-            }
-        }
-    }
-
-    if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
-        radius = 2;
-    } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-               has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
-        radius = 1;
-    } else {
-        return ret;
-    }
-    for( Creature *critter : here.get_creatures_in_radius( pos(), radius ) ) {
-        ret.insert( critter->pos() );
-    }
-
-    return ret;
 }

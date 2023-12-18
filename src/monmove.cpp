@@ -166,115 +166,32 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-bool monster::monster_move_in_vehicle( const tripoint &p ) const
+PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) const
 {
-    map &m = get_map();
-    monster critter = *this;
-    const optional_vpart_position vp = m.veh_at( p );
-    if( vp.has_value() ) {
-        vehicle &veh = vp->vehicle();
-        units::volume capacity = 0_ml;
-        units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
-        for( vehicle_part *&part : cargo_parts ) {
-            vehicle_stack contents = veh.get_items( *part );
-            const vpart_info &vpinfo = part->info();
-            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
-                capacity += vpinfo.size;
-                free_cargo += contents.free_volume();
-            }
-        }
-        if( capacity > 0_ml ) {
-            // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-            if( !veh.enclosed_at( p ) ) {
-                free_cargo *= 1.2;
-            }
-            if( !veh.enclosed_at( p ) && flies() ) {
-                return true; // No amount of cargo will block a flying monster if there's no roof.
-            }
-            const creature_size size = get_size();
-            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
-                ( size == creature_size::small && free_cargo < 31250_ml ) ||
-                ( size == creature_size::medium && free_cargo < 62500_ml ) ||
-                ( size == creature_size::large && free_cargo < 125000_ml ) ||
-                ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                if( ( size == creature_size::tiny && free_cargo < 11719_ml ) ||
-                    ( size == creature_size::small && free_cargo < 23438_ml ) ||
-                    ( size == creature_size::medium && free_cargo < 46875_ml ) ||
-                    ( size == creature_size::large && free_cargo < 93750_ml ) ||
-                    ( size == creature_size::huge && free_cargo < 187500_ml ) ||
-                    ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", true ) ) ) {
-                    return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
-                    // I'm sorry but you can't let a kaiju ride shotgun.
-                }
-                if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                      has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
-                    return true; // Return true if we're wiggly enough to be fine with cramped space.
-                }
-                critter.add_effect( effect_cramped_space, 2_turns, true );
-                return true; // Otherwise we add the effect and return true.
-            }
-            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-                !vp.part_with_feature( "HUGE_OK", true ) ) {
-                critter.add_effect( effect_cramped_space, 2_turns, true );
-                return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
-            }
-        }
-    }
-    return true;
-}
+    PathfindingSettings settings = type->path_settings.to_new_pathfinding_settings();
 
-bool monster::will_move_to( const tripoint &p ) const
-{
-    map &here = get_map();
-    if( here.impassable( p ) ) {
-        if( digging() ) {
-            if( !here.has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
-                return false;
-            }
-        } else if( !( can_climb() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, p ) ) ) {
-            return false;
-        }
-    }
+    settings.set_avoid_bashing( avoid_bashing );
 
-    if( !here.has_vehicle_floor( p ) ) {
-        if( !can_submerge() && !flies() && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
-            return false;
-        }
-    }
+    settings.set_is_digging( digging() );
 
-    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
-        return false;
-    }
+    settings.set_avoid_climbing( !can_climb() );
 
-    if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
-        return false;
-    }
+    const bool can_fly = flies();
+    settings.set_avoid_deep_water( !can_submerge() && !can_fly );
 
-    if( has_flag( mon_flag_AQUATIC ) && (
-            !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
-            // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
-            ( here.veh_at( p ) && !here.veh_at( pos() ) )
-        ) ) {
-        return false;
-    }
+    settings.set_avoid_hard_ground( digs() );
 
-    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( p ) ) {
-        return false;
-    }
+    const bool is_aquatic = has_flag( mon_flag_AQUATIC );
+    settings.set_avoid_ground( is_aquatic );
+    // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
+    settings.set_avoid_vehicle( is_aquatic && !get_map().veh_at( pos() ) );
 
-    if( get_size() > creature_size::medium &&
-        here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, p ) ) {
-        return false; // if a large critter, can't move through tight passages
-    }
+    // If we hate the sun, stay inside when it is out.
+    settings.set_avoid_unsheltered( has_flag( mon_flag_SUNDEATH ) &&
+                                    incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal );
 
-    return true;
-}
-
-bool monster::know_danger_at( const tripoint &p ) const
-{
-    map &here = get_map();
+    // if a large critter, can't move through tight passages
+    settings.set_avoid_small_passages( get_size() > creature_size::medium );
 
     // Various avoiding behaviors.
 
@@ -282,8 +199,8 @@ bool monster::know_danger_at( const tripoint &p ) const
     bool avoid_fall = has_flag( mon_flag_PATH_AVOID_FALL );
     bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER_1 );
     bool avoid_complex = has_flag( mon_flag_PATH_AVOID_DANGER_2 );
-    bool avoid_sharp = get_pathfinding_settings().avoid_sharp;
-    bool avoid_traps = get_pathfinding_settings().avoid_traps;
+    bool avoid_sharp = type->path_settings.avoid_sharp;
+    bool avoid_traps = type->path_settings.avoid_traps;
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -300,99 +217,71 @@ bool monster::know_danger_at( const tripoint &p ) const
         avoid_sharp = true;
     }
 
-    // technically this will shortcut in evaluation from fire or fall
-    // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple ||
-        avoid_complex || avoid_traps || avoid_sharp ) {
-        const ter_id target = here.ter( p );
-        if( !here.has_vehicle_floor( p ) ) {
-            // Don't enter lava if we have any concept of heat being bad
-            if( avoid_fire && target == t_lava ) {
-                return false;
-            }
+    // Don't enter lava if we have any concept of heat being bad
+    settings.set_avoid_lava( avoid_fire );
 
-            if( avoid_fall ) {
-                // Don't throw ourselves off cliffs if we have a concept of falling
-                if( !here.has_floor_or_water( p ) && !flies() ) {
-                    return false;
-                }
+    settings.set_is_flying( can_fly );
+    if( can_fly ) {
+        settings.set_avoid_falling( false );
+    } else {
+        // Don't throw ourselves off cliffs if we have a concept of falling
+        settings.set_avoid_falling( avoid_fall );
+    }
 
-                // Don't enter open pits ever unless tiny, can fly or climb well
-                if( !( type->size == creature_size::tiny || can_climb() ) &&
-                    ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-                    return false;
-                }
-            }
+    // Don't enter open pits ever unless tiny, can fly or climb well
+    settings.set_avoid_pits( avoid_fall && type->size != creature_size::tiny && !can_climb() );
 
-            // Some things are only avoided if we're not attacking
-            if( attitude( &get_player_character() ) != MATT_ATTACK ) {
-                // Sharp terrain is ignored while attacking
-                if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
-                    !( type->size == creature_size::tiny || flies() ||
-                       get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
-                    return false;
-                }
-            }
+    // Some things are only avoided if we're not attacking the player
+    if( get_player_character().get_location() != get_dest() ||
+        attitude( &get_player_character() ) != MATT_ATTACK ) {
+        // Sharp terrain is ignored while attacking
+        settings.set_avoid_sharp( avoid_sharp && !( type->size == creature_size::tiny || can_fly ||
+                                  get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) );
+    } else {
+        // yolo, get that bread, etc
+        settings.set_avoid_sharp( false );
+    }
 
-            // Don't step on any traps (if we can see)
-            const trap &target_trap = here.tr_at( p );
-            if( avoid_traps && has_flag( mon_flag_SEES ) &&
-                !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
-                return false;
-            }
-        }
+    // Don't step on any traps (if we can see)
+    settings.set_avoid_dangerous_traps( avoid_traps && has_flag( mon_flag_SEES ) );
 
-        const field &target_field = here.field_at( p );
-        // Higher awareness is needed for identifying these as threats.
-        if( avoid_complex ) {
-            // Don't enter any dangerous fields
-            if( is_dangerous_fields( target_field ) ) {
-                return false;
-            }
-        }
-
+    if( avoid_complex ) {
+        // Don't enter any dangerous fields
+        settings.set_maybe_avoid_dangerous_fields_fn( [this]( const field_type_id & field_id ) {
+            return !is_immune_field( field_id );
+        } );
+    } else {
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) && !is_immune_field( fd_fire ) ) {
-            return false;
-        }
-        if( avoid_simple && target_field.find_field( fd_electricity ) &&
-            !is_immune_field( fd_electricity ) ) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool monster::can_reach_to( const tripoint &p ) const
-{
-    map &here = get_map();
-    if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
-            return true;
-        }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos() ) && here.has_floor( p ) ) {
-            // can't go through the roof
-            return false;
-        }
-    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        const tripoint above( p.xy(), p.z + 1 );
-        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
-            return true;
-        }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) &&
-            ( here.has_floor( above ) || ( !flies() && !here.has_floor_or_water( above ) ) ) ) {
-            // can't go through the floor
-            // Check floors for flying monsters movement
-            return false;
+        const bool should_avoid_fire = avoid_fire && !is_immune_field( fd_fire );
+        const bool should_avoid_simple = avoid_simple && !is_immune_field( fd_electricity );
+        if( should_avoid_fire && should_avoid_simple ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & field_id ) {
+                return field_id == fd_fire || field_id == fd_electricity;
+            } );
+        } else if( should_avoid_fire ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & field_id ) {
+                return field_id == fd_fire;
+            } );
+        } else if( should_avoid_simple ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & field_id ) {
+                return field_id == fd_electricity;
+            } );
+        } else {
+            settings.set_maybe_avoid_dangerous_fields_fn();
         }
     }
-    return true;
+    return settings;
 }
 
-bool monster::can_move_to( const tripoint &p ) const
+bool monster::can_move_to( const tripoint &p, const PathfindingSettings &settings ) const
 {
-    return can_reach_to( p ) && will_move_to( p ) && know_danger_at( p );
+    const map &here = get_map();
+    const tripoint_bub_ms &from = pos_bub();
+    if( here.inbounds( from ) ) {
+        return here.can_move( from, tripoint_bub_ms( p ), settings );
+    } else {
+        return here.can_teleport( tripoint_bub_ms( p ), settings );
+    }
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
@@ -1064,11 +953,12 @@ void monster::move()
     bool moved = false;
     tripoint destination;
 
+    PathfindingSettings settings = get_pathfinding_settings();
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
-            if( can_move_to( dest ) &&
+            if( can_move_to( dest, settings ) &&
                 creatures.creature_at( dest, true ) == nullptr ) {
                 try_to_move = true;
                 break;
@@ -1107,11 +997,16 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const pathfinding_settings &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
+            if( settings.max_distance() >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
-                path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                path.clear();
+                // Temporarily allow bashing to find a path through bashable terrain.
+                settings.set_avoid_bashing( false );
+                for( const tripoint_bub_ms &p : here.route( pos_bub(), tripoint_bub_ms( local_dest ), settings ) ) {
+                    path.push_back( p.raw() );
+                }
+                settings.set_avoid_bashing( true );
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
@@ -1272,7 +1167,7 @@ void monster::move()
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
             // Bail out if we can't move there and we can't bash.
-            if( !pathed && !can_move_to( candidate ) ) {
+            if( !pathed && !can_move_to( candidate, settings ) ) {
                 if( !can_bash ) {
                     continue;
                 }
@@ -1572,11 +1467,12 @@ tripoint monster::scent_move()
         }
     }
 
+    const PathfindingSettings settings = get_pathfinding_settings();
     for( const tripoint &direction : sdirection ) {
         // Add some randomness to make creatures zigzag towards the source
         for( const tripoint &dest : here.points_in_radius( direction, 1 ) ) {
             if( here.valid_move( pos(), dest, can_bash, true ) &&
-                ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
+                ( can_move_to( dest, settings ) || ( dest == player_character.pos() ) ||
                   ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
                 smoves.push_back( dest );
             }
@@ -2270,9 +2166,10 @@ void monster::stumble()
     }
 
     creature_tracker &creatures = get_creature_tracker();
+    const PathfindingSettings settings = get_pathfinding_settings();
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
-        if( can_move_to( dest ) &&
+        if( can_move_to( dest, settings ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water
             //(Unless they can swim/are aquatic)
             //But let them wander OUT of water if they are there.
@@ -2360,76 +2257,6 @@ void monster::knock_back_to( const tripoint &to )
         setpos( to );
     }
     check_dead_state();
-}
-
-/* will_reach() is used for determining whether we'll get to stairs (and
- * potentially other locations of interest).  It is generally permissive.
- * TODO: Pathfinding;
-         Make sure that non-smashing monsters won't "teleport" through windows
-         Injure monsters if they're gonna be walking through pits or whatever
- */
-bool monster::will_reach( const point &p )
-{
-    monster_attitude att = attitude( &get_player_character() );
-    if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND ) {
-        return false;
-    }
-
-    if( digs() || has_flag( mon_flag_AQUATIC ) ) {
-        return false;
-    }
-
-    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) &&
-        ( pos().xy() != p ) ) {
-        return false;
-    }
-
-    auto path = get_map().route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
-    if( path.empty() ) {
-        return false;
-    }
-
-    if( has_flag( mon_flag_SMELLS ) && get_scent().get( pos() ) > 0 &&
-        get_scent().get( { p, posz() } ) > get_scent().get( pos() ) ) {
-        return true;
-    }
-
-    if( can_hear() && wandf > 0 && rl_dist( get_map().getlocal( wander_pos ).xy(), p ) <= 2 &&
-        rl_dist( get_location().xy(), wander_pos.xy() ) <= wandf ) {
-        return true;
-    }
-
-    if( can_see() && sees( tripoint( p, posz() ) ) ) {
-        return true;
-    }
-
-    return false;
-}
-
-int monster::turns_to_reach( const point &p )
-{
-    map &here = get_map();
-    // HACK: This function is a(n old) temporary hack that should soon be removed
-    auto path = here.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
-    if( path.empty() ) {
-        return 999;
-    }
-
-    double turns = 0.;
-    for( size_t i = 0; i < path.size(); i++ ) {
-        const tripoint &next = path[i];
-        if( here.impassable( next ) ) {
-            // No bashing through, it looks stupid when you go back and find
-            // the doors intact.
-            return 999;
-        } else if( i == 0 ) {
-            turns += static_cast<double>( calc_movecost( pos(), next ) ) / get_speed();
-        } else {
-            turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();
-        }
-    }
-
-    return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
 }
 
 void monster::shove_vehicle( const tripoint &remote_destination,

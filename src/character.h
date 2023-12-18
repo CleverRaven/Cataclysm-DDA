@@ -3171,8 +3171,11 @@ class Character : public Creature, public visitable
         /** Returns the player's modified base movement cost */
         int run_cost( int base_cost, bool diag = false ) const;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+        /** Returns settings for pathfinding. */
+        virtual const pathfinding_settings &get_pathfinding_settings() const;
+        /** Returns a set of points we do not want to path through. */
+        virtual std::set<tripoint> get_path_avoid() const;
+
         /**
          * Get all hostile creatures currently visible to this player.
          */

@@ -5098,7 +5098,7 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
     if( creatures.creature_at<Character>( p ) ) {
         return false;
     }
-    return mon.will_move_to( p ) && mon.know_danger_at( p );
+    return mon.can_move_to( p );
 }
 
 static bool can_place_npc( const tripoint &p )
@@ -12163,7 +12163,8 @@ void game::start_hauling( const tripoint &pos )
     u.assign_activity( actor );
 }
 
-std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+std::optional<tripoint> game::find_or_make_stairs( const map &mp, const int z_after,
+        bool &rope_ladder,
         bool peeking, const tripoint &pos )
 {
     const bool is_avatar = u.pos() == pos;

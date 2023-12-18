@@ -159,26 +159,10 @@ std::vector<point> closest_points_first( const point &center, int min_dist, int 
     std::vector<point> result;
     result.reserve( n + ( is_center_included ? 1 : 0 ) );
 
-    if( is_center_included ) {
-        result.push_back( center );
-    }
-
-    int x_init = std::max( min_dist, 1 );
-    point p( x_init, 1 - x_init );
-
-    point d( point_east );
-
-    for( int i = 0; i < n; i++ ) {
-        result.push_back( center + p );
-
-        if( p.x == p.y || ( p.x < 0 && p.x == -p.y ) || ( p.x > 0 && p.x == 1 - p.y ) ) {
-            std::swap( d.x, d.y );
-            d.x = -d.x;
-        }
-
-        p.x += d.x;
-        p.y += d.y;
-    }
+    find_point_closest_first( center, min_dist, max_dist, [&result]( const point & p ) {
+        result.push_back( p );
+        return false;
+    } );
 
     return result;
 }

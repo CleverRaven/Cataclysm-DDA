@@ -279,6 +279,10 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
 
+template <typename PredicateFn>
+std::optional<point> find_point_closest_first( const point &center, int min_dist, int max_dist,
+        PredicateFn fn );
+
 inline constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 inline constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 
@@ -351,5 +355,51 @@ inline const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_south_east },
     }
 };
+
+template <typename PredicateFn>
+std::optional<point> find_point_closest_first( const point &center, int min_dist, int max_dist,
+        PredicateFn predicate_fn )
+{
+    min_dist = std::max( min_dist, 0 );
+    max_dist = std::max( max_dist, 0 );
+
+    if( min_dist > max_dist ) {
+        return std::nullopt;
+    }
+
+    const int min_edge = min_dist * 2 + 1;
+    const int max_edge = max_dist * 2 + 1;
+
+    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 );
+    const bool is_center_included = min_dist == 0;
+
+    if( is_center_included ) {
+        if( predicate_fn( center ) ) {
+            return center;
+        }
+    }
+
+    int x_init = std::max( min_dist, 1 );
+    point p( x_init, 1 - x_init );
+
+    point d( point_east );
+
+    for( int i = 0; i < n; i++ ) {
+        const point next = center + p;
+        if( predicate_fn( next ) ) {
+            return next;
+        }
+
+        if( p.x == p.y || ( p.x < 0 && p.x == -p.y ) || ( p.x > 0 && p.x == 1 - p.y ) ) {
+            std::swap( d.x, d.y );
+            d.x = -d.x;
+        }
+
+        p.x += d.x;
+        p.y += d.y;
+    }
+
+    return std::nullopt;
+}
 
 #endif // CATA_SRC_POINT_H
