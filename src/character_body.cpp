@@ -1434,13 +1434,11 @@ void Character::update_heartrate_index()
         // at betablock level 2, 80%.
         // at betablock level 3, 100%.
         float betablock_mod = 1.0f;
-        if (betablock_level == 1) {
+        if( betablock_level == 1 ) {
             betablock_mod = 0.4f;
-        }
-        else if (betablock_level == 2) {
+        } else if( betablock_level == 2 ) {
             betablock_mod = 0.2f;
-        }
-        else if (betablock_level == 3) {
+        } else if( betablock_level == 3 ) {
             betablock_mod = 0.0f;
         }
         hr_adrenaline_mod *= betablock_mod;
@@ -1554,8 +1552,8 @@ void Character::set_respiration_effect_mod( int mod )
 void Character::update_respiration_rate()
 {
     const int effect_mod = get_respiration_effect_mod();
-    constexpr float RERSP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
-    respiration_rate = 1.0f + effect_mod * RERSP_EFFECT_INT_TO_FLOAT_MULT;
+    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
 }
 
 
