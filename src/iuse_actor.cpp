@@ -4416,7 +4416,6 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 
     const bool no_extensions = it.cables().empty();
     item dummy( it );
-    dummy.link = cata::make_value<item::link_data>();
     dummy.update_link_traits();
 
     std::string length_all_info = string_format( _( "<bold>Cable length</bold>: %d" ),
@@ -4693,9 +4692,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
         }
         it.update_link_traits();
-        it.link->last_processed = calendar::turn;
-        p->moves -= move_cost;
         it.process( here, p, p->pos() );
+        p->moves -= move_cost;
         return 0;
 
     } else if( choice == 21 ) {
@@ -4732,9 +4730,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         it.link->s_state = link_state::ups;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
-        it.link->last_processed = calendar::turn;
-        p->moves -= move_cost;
         it.process( here, p, p->pos() );
+        p->moves -= move_cost;
         return 0;
 
     } else if( choice == 22 ) {
@@ -4771,9 +4768,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         it.link->s_state = link_state::solarpack;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
-        it.link->last_processed = calendar::turn;
-        p->moves -= move_cost;
         it.process( here, p, p->pos() );
+        p->moves -= move_cost;
         return 0;
     }
     return std::nullopt;
@@ -4823,7 +4819,13 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
     }
     if( !it.link->has_state( link_state::vehicle_port ) &&
         !it.link->has_state( link_state::vehicle_battery ) ) {
+
         // Starting a new connection to a vehicle or connecting a cable CBM to a vehicle.
+        bool had_bio_link = it.link->has_state( link_state::bio_cable );
+        if( !it.link_to( s_vp, to_ports ? link_state::vehicle_port :
+                         link_state::vehicle_battery ).success() ) {
+            debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
+        }
 
         // Get the part name for the connection message, using the vehicle name as a fallback.
         std::string s_vp_name = s_vp->vehicle().name;
@@ -4834,28 +4836,20 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             s_vp_name = s_vp_ref->part().name( false );
         }
 
-        if( it.link->has_no_links() ) {
-            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), s_vp_name );
-        } else if( it.link->has_state( link_state::bio_cable ) ) {
+        if( had_bio_link ) {
             p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), s_vp_name );
             it.link->s_state = link_state::bio_cable;
         } else {
-            debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
-            return std::nullopt;
+            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), s_vp_name );
         }
 
-        it.link->t_state = to_ports ? link_state::vehicle_port : link_state::vehicle_battery;
-        it.link->t_abs_pos = here.getglobal( s_vp->vehicle().global_pos3() );
-        it.link->t_mount = s_vp->mount();
-        it.update_link_traits();
-        it.link->last_processed = calendar::turn;
-        p->moves -= move_cost;
         it.process( here, p, p->pos() );
+        p->moves -= move_cost;
         return 0;
 
     } else {
-        // Connecting one vehicle/appliance to another.
 
+        // Connecting one vehicle/appliance to another.
         if( !it.link->t_veh_safe ) {
             vehicle *found_veh = vehicle::find_vehicle( it.link->t_abs_pos );
             if( found_veh ) {
@@ -4995,27 +4989,27 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         it.link = cata::make_value<item::link_data>();
     }
     if( it.link->has_no_links() ) {
-        // Starting a new tow cable connection.
 
-        p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
-                              s_vp->vehicle().name );
+        // Starting a new tow cable connection.
+        if( !it.link_to( s_vp ).success() ) {
+            debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
+        }
         if( to_towing ) {
             it.link->s_state = link_state::vehicle_tow; // Assign towing vehicle.
         } else {
             it.link->t_state = link_state::vehicle_tow; // Assign towed vehicle.
         }
-        it.link->t_abs_pos = here.getglobal( s_vp->vehicle().global_pos3() );
-        it.link->t_mount = s_vp->mount();
-        it.link->max_length = cable_length != -1 ? cable_length : it.type->maximum_charges();
-        it.update_link_traits();
-        it.link->last_processed = calendar::turn;
-        p->moves -= move_cost;
+
+        p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
+                              s_vp->vehicle().name );
+
         it.process( here, p, p->pos() );
+        p->moves -= move_cost;
         return 0;
 
     } else {
-        // Connecting two vehicles with tow cable.
 
+        // Connecting two vehicles with tow cable.
         if( !it.link->t_veh_safe ) {
             vehicle *found_veh = vehicle::find_vehicle( it.link->t_abs_pos );
             if( found_veh ) {
@@ -5181,13 +5175,11 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
             debugmsg( "Failed to put %s inside %s!", cable_copy.type_name(), extended_ptr->type_name() );
         }
     }
-    if( !extended_ptr->link ) {
-        extended_ptr->link = cata::make_value<item::link_data>();
-    }
     if( extension->link ) {
         extended_ptr->link = extension->link;
     }
     extended_ptr->update_link_traits();
+    extended_ptr->process( get_map(), p, p->pos() );
 
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.

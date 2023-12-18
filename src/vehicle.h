@@ -994,8 +994,6 @@ class vehicle
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
 
-        item init_cord( const tripoint &pos );
-        void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         bool precollision_check( units::angle &angle, map &here, bool follow_protocol );

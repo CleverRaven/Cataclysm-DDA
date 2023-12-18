@@ -6719,26 +6719,23 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
     if( !is_towing() && !is_towed() ) {
         return;
     }
+    const int tow_cable_idx = get_tow_part();
     if( first_vehicle ) {
         vehicle *other_veh = is_towing() ? tow_data.get_towed() :
                              is_towed() ? tow_data.get_towed_by() : nullptr;
-        const int tow_cable_idx = get_tow_part();
         if( tow_cable_idx > -1 ) {
             vehicle_part &vp = parts[tow_cable_idx];
             item drop = part_to_item( vp );
             drop.set_damage( 0 );
-            if( other_veh != nullptr ) {
+            const int other_tow_cable_idx = other_veh ? other_veh->get_tow_part() : -1;
+            if( other_tow_cable_idx > -1 ) {
+                drop.link_to( *other_veh, other_veh->part( other_tow_cable_idx ).mount );
                 if( is_towing() ) {
                     drop.link->s_state = link_state::no_link;
                     drop.link->t_state = link_state::vehicle_tow;
                 } else {
                     drop.link->s_state = link_state::vehicle_tow;
                     drop.link->t_state = link_state::no_link;
-                }
-                const int other_tow_cable_idx = other_veh->get_tow_part();
-                drop.link->t_abs_pos = other_veh->global_square_location();
-                if( other_tow_cable_idx > -1 ) {
-                    drop.link->t_mount = other_veh->part( other_tow_cable_idx ).mount;
                 }
             } else {
                 drop.reset_link();
@@ -6761,7 +6758,6 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
         }
         tow_data.clear_towing();
     } else {
-        const int tow_cable_idx = get_tow_part();
         if( tow_cable_idx > -1 ) {
             vehicle_part &vp = parts[tow_cable_idx];
             remove_part( vp );
@@ -8069,24 +8065,16 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( flag_CABLE_SPOOL ) ) {
-        tmp.link = cata::make_value<item::link_data>();
-
-        // Tow cables have these variables assigned in invalidate_towing, which calls part_to_item.
-        if( !tmp.has_flag( flag_TOW_CABLE ) ) {
-            const std::optional<vpart_reference> remote = get_remote_part( vp );
-            if( remote ) {
-                tmp.link->t_veh_safe = remote->vehicle().get_safe_reference();
-                tmp.link->t_mount = remote->part().mount;
-            } else {
-                // The linked vehicle can't be found, so this part shouldn't exist.
-                tmp.set_flag( flag_NO_DROP );
-            }
+    // Tow cables are handled inside of invalidate_towing instead.
+    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
+        const std::optional<vpart_reference> remote = get_remote_part( vp );
+        if( remote ) {
+            tmp.link_to( remote->vehicle(), remote->part().mount, link_state::automatic );
             tmp.link->t_abs_pos = tripoint_abs_ms( vp.target.second );
+        } else {
+            // The linked vehicle can't be found, so this part shouldn't exist.
+            tmp.set_flag( flag_NO_DROP );
         }
-
-        tmp.update_link_traits( true );
-        tmp.link->last_processed = calendar::turn;
     }
 
     // quantize damage and degradation to the middle of each damage_level so that items will stack nicely

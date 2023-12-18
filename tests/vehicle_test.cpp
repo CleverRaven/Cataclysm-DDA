@@ -426,23 +426,21 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
                                 const itype_id &itm )
 {
     map &here = get_map();
-    item cord( itm );
-    cord.link = cata::make_value<item::link_data>();
-    cord.link->t_state = link_state::vehicle_port;
-    cord.link->t_abs_pos = here.getglobal( src_pos );
-    cord.update_link_traits();
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );
     const optional_vpart_position source_vp = here.veh_at( src_pos );
-
     if( !target_vp ) {
         return;
     }
+
     vehicle *const target_veh = &target_vp->vehicle();
     vehicle *const source_veh = &source_vp->vehicle();
     if( source_veh == target_veh ) {
         return ;
     }
+
+    item cord( itm );
+    cord.link_to( source_vp, link_state::vehicle_port );
 
     tripoint target_global = here.getabs( dst_pos );
     const vpart_id vpid( cord.typeId().str() );

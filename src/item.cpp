@@ -13257,10 +13257,56 @@ bool item::can_link_up() const
     return !!link || type->can_use( "link_up" );
 }
 
-void item::update_link_traits( const bool assign_t_state )
+ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
+{
+    return linked_vp ? link_to( linked_vp->vehicle(), linked_vp->mount(), link_type ) :
+           ret_val<void>::make_failure();
+}
+
+ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )
+{
+    if( !can_link_up() ) {
+        return ret_val<void>::make_failure( "%s doesn't have a cable!", tname() );
+    }
+    if( !link ) {
+        link = cata::make_value<item::link_data>();
+    }
+
+    if( link_type != link_state::automatic ) {
+        link->t_state = link_type;
+    } else {
+        // Assign t_state based on the parts available at the connected mount point.
+        const link_up_actor *it_actor = static_cast<const link_up_actor *>
+                                        ( get_use( "link_up" )->get_actor_ptr() );
+        if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
+            ( veh.avail_part_with_feature( mount, "CABLE_PORTS" ) != -1 ||
+              veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
+            link->t_state = link_state::vehicle_port;
+        } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
+                   ( veh.avail_part_with_feature( mount, "BATTERY" ) != -1 ||
+                     veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
+            link->t_state = link_state::vehicle_battery;
+        } else {
+            return ret_val<void>::make_failure( "%s cannot connect to that.", tname() );
+        }
+    }
+
+    link->t_veh_safe = veh.get_safe_reference();
+    link->t_abs_pos = get_map().getglobal( link->t_veh_safe->global_pos3() );
+    link->t_mount = mount;
+    link->s_bub_pos = tripoint_min; // Forces the item to check the length during process_link.
+
+    update_link_traits();
+    return ret_val<void>::make_success();
+}
+
+void item::update_link_traits()
 {
     if( !can_link_up() ) {
         return;
+    }
+    if( !link ) {
+        link = cata::make_value<item::link_data>();
     }
 
     const link_up_actor *it_actor = static_cast<const link_up_actor *>
@@ -13269,6 +13315,7 @@ void item::update_link_traits( const bool assign_t_state )
     link->efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
     // Reset s_bub_pos to force the item to check the length during process_link.
     link->s_bub_pos = tripoint_min;
+    link->last_processed = calendar::turn;
 
     for( const item *cable : cables() ) {
         if( !cable->can_link_up() ) {
@@ -13282,23 +13329,13 @@ void item::update_link_traits( const bool assign_t_state )
                            link->efficiency * actor->efficiency;
     }
 
-    link->charge_rate = link->efficiency < MIN_LINK_EFFICIENCY ? 0 : it_actor->charge_rate.value();
-    // Convert charge_rate to how long it takes to charge 1 kW, the unit batteries use.
-    // 0 means batteries won't be charged, but it can still provide power to devices unless efficiency is also 0.
-    link->charge_interval = link->efficiency < MIN_LINK_EFFICIENCY || it_actor->charge_rate == 0_W ? 0 :
-                            std::max( static_cast<int>( std::floor( 1000000.0 / abs( it_actor->charge_rate.value() ) + 0.5 ) ),
-                                      1 );
-
-    if( assign_t_state && link->t_veh_safe ) {
-        // Assign t_state based on the parts available at the connected mount point.
-        if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
-            ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "CABLE_PORTS" ) != -1 ||
-              link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
-            link->t_state = link_state::vehicle_port;
-        } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
-                   ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "BATTERY" ) != -1 ||
-                     link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
-            link->t_state = link_state::vehicle_battery;
+    if( link->efficiency >= MIN_LINK_EFFICIENCY ) {
+        link->charge_rate = it_actor->charge_rate.value();
+        // Convert charge_rate to how long it takes to charge 1 kW, the unit batteries use.
+        // 0 means batteries won't be charged, but it can still provide power to devices unless efficiency is also 0.
+        if( it_actor->charge_rate != 0_W ) {
+            double charge_rate = std::floor( 1000000.0 / abs( it_actor->charge_rate.value() ) + 0.5 );
+            link->charge_interval = std::max( 1, static_cast<int>( charge_rate ) );
         }
     }
 }
@@ -13646,7 +13683,6 @@ bool item::reset_link( Character *p, int vpart_index,
     link.reset();
     if( !cables().empty() ) {
         // If there are extensions, keep link active to maintain max_length.
-        link = cata::make_value<item::link_data>();
         update_link_traits();
     }
     return has_flag( flag_NO_DROP );

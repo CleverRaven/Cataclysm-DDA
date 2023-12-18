@@ -552,33 +552,9 @@ void vehicle::toggle_tracking()
     }
 }
 
-item vehicle::init_cord( const tripoint &pos )
-{
-    item cord( "power_cord" );
-    cord.link = cata::make_value<item::link_data>();
-    cord.link->t_state = link_state::vehicle_port;
-    cord.link->t_veh_safe = get_safe_reference();
-    cord.link->t_abs_pos = get_map().getglobal( pos );
-    cord.update_link_traits();
-    cord.link->max_length = 2;
-
-    return cord;
-}
-
-void vehicle::plug_in( const tripoint &pos )
-{
-    item cord = init_cord( pos );
-
-    if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
-    }
-}
-
 void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 {
-    item cord = init_cord( source_pos );
     map &here = get_map();
-
     const optional_vpart_position sel_vp = here.veh_at( target_pos );
     const optional_vpart_position prev_vp = here.veh_at( source_pos );
 
@@ -591,6 +567,10 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
         return ;
     }
 
+    item cord( "power_cord" );
+    if( !cord.link_to( prev_vp, link_state::vehicle_port ).success() ) {
+        debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", cord.tname() );
+    }
     const vpart_id vpid( cord.typeId().str() );
 
     // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles

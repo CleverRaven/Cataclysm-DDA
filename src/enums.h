@@ -478,6 +478,7 @@ enum class link_state : int {
     // Utility states
     no_link = 0,   // No connection, the default state
     needs_reeling, // Cable has been disconnected and needs to be manually reeled in before it can be used again
+    automatic,     // Use in link_to to automatically set the type of connection based on the connected vehicle part
 
     // States of a cable's link at the end represented by the item (s_state)
     ups,       // Linked to a UPS the cable holder is holding
