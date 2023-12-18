@@ -7946,7 +7946,7 @@ std::string Character::weapname_ammo() const
     }
 }
 
-bool Character::move_in_vehicle( Creature *source, const tripoint &dest_loc )
+bool Character::move_in_vehicle(Creature* c, const tripoint& dest_loc) const
 {
     map &m = get_map();
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
@@ -7973,11 +7973,11 @@ bool Character::move_in_vehicle( Creature *source, const tripoint &dest_loc )
             if( ( ( get_size() > creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 250000_ml ) ) {
                 if( ( ( get_size() > creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 187500_ml ) ) {
                 add_msg_if_player( m_warning, _( "There's not enough room for you to fit there." ) );
-                add_msg_if_npc( m_warning, _( "There's not enough room for %s to fit there." ), source->disp_name() );
+                add_msg_if_npc( m_warning, _( "There's not enough room for %s to fit there." ), c->disp_name() );
                 return false; // Even if you squeeze, there's no room.
             }
             add_msg_if_player( m_warning, _( "You contort your body to squeeze into the cramped space." ) );
-            add_msg_if_npc( m_warning, _( "%s contorts their body to fit into the cramped space." ), source->disp_name() );
+            add_msg_if_npc( m_warning, _( "%s contorts their body to fit into the cramped space." ), c->disp_name() );
             return true;
             }
         }

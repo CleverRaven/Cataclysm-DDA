@@ -419,6 +419,10 @@ bool npc::could_move_onto( const tripoint &p ) const {
     if( !here.passable( p ) ) {
         return false;
     }
+    if ( !move_in_vehicle(const_cast<npc*>(this), p ) ) {
+        add_msg( m_bad, _( "%s is tryna go around." ), get_name().c_str() );
+        return false;
+    }
 
     if( !sees_dangerous_field( p ) ) {
         return true;
@@ -1808,25 +1812,25 @@ void npc::execute_action( npc_action action )
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
-
-
+                add_msg( m_warning, _( "SEAT: checking all boardable parts." ) );
                 // a seat is available if either unassigned or assigned to us
-                auto available_seat = [&]( const vehicle_part & pt ) {
+                auto available_seat = [&]( const vehicle_part & pt, const vpart_reference & checked_part ) {
                     if( !pt.is_seat() ) {
                         return false;
                     }
-                    if( vp.part_with_feature( VPFLAG_CARGO, true ) ) {
+                    if( checked_part.part_with_feature( VPFLAG_CARGO, true ) ) {
                         add_msg( m_warning, _( "SEAT: checking if its cargo." ) );
                         units::volume capacity = 0_ml;
                         units::volume free_cargo = 0_ml;
-                        auto cargo_parts = veh->get_parts_at( tar, "CARGO", part_status_flag::any );
+                        tripoint target = veh->global_part_pos3( pt );
+                        auto cargo_parts = veh->get_parts_at( target, "CARGO", part_status_flag::any );
                             for( auto& part : cargo_parts ) {
                             add_msg( m_warning, _( "SEAT: cargo_parts initiated." ) );
                             vehicle_stack contents = veh->get_items( *part );
                             const vpart_info &vpinfo = part->info();
                             tripoint spot = veh->global_part_pos3( *part );
                             const optional_vpart_position checkpart = here.veh_at( spot );
-                               add_msg( m_warning, _( "SEAT: There's cargo where NPC wants to go." ) );
+                               add_msg( m_warning, _( "SEAT: There's cargo at %s." ), spot.to_string_writable() );
                                if ( !checkpart.part_with_feature( "CARGO_PASSABLE", true ) ) {
                                add_msg( m_warning, _( "SEAT: CARGO_PASSABLE not found." ) );
                                capacity += vpinfo.size;
@@ -1857,7 +1861,7 @@ void npc::execute_action( npc_action action )
                     // We probably wanted to go there in the last turn
                     priority = 4;
 
-                } else if( available_seat( pt ) ) {
+                } else if( available_seat( pt, vp ) ) {
                     // Assuming player "owns" a sensible vehicle seats should be in good spots to occupy
                     // Prefer our assigned seat if we have one
                     const npc *who = pt.crew();
@@ -2866,9 +2870,17 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     }
 
     if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( this, p ) ) {
-        path.clear();
-        move_pause();
-        return;
+        auto other_points = here.get_dir_circle( pos(), p );
+            for( const tripoint &ot : other_points ) {
+                if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                    p = ot;
+                    break;
+                    } else {
+                    path.clear();
+                    move_pause();
+                    return;
+                    }
+            }
     }
 
     // if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) ) {
