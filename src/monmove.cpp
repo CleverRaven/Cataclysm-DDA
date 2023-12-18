@@ -50,6 +50,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
@@ -163,6 +164,36 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
+bool monster::monster_move_in_vehicle( const tripoint& p ) const
+{
+    map &m = get_map();
+    const optional_vpart_position vp_there = m.veh_at( p );
+    if( vp_there ) {
+        vehicle &veh = vp_there->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
+        for( auto& part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
+            const optional_vpart_position vp = m.veh_at( p );
+            if ( !vp.part_with_feature("CARGO_PASSABLE", true ) ) {
+            capacity += vpinfo.size;
+            free_cargo += contents.free_volume();
+            }
+        }
+        if( capacity > 0_ml ) {
+            // Unlike characters, monsters don't squeeze, they fit or they don't.           
+            if( ( ( get_size() > creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 187500_ml ) ) {
+            return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+
 bool monster::will_move_to( const tripoint &p ) const
 {
     map &here = get_map();
@@ -177,9 +208,13 @@ bool monster::will_move_to( const tripoint &p ) const
     }
 
     if( !here.has_vehicle_floor( p ) ) {
-        if( ( !can_submerge() && !flies() ) && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+        if( !can_submerge() && !flies() && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
             return false;
         }
+    }
+
+    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
+        return false;
     }
 
     if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&

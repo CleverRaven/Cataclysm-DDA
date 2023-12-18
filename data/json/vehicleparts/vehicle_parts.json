@@ -121,7 +121,8 @@
       "STEERABLE",
       "UNMOUNT_ON_DAMAGE",
       "UNSTABLE_WHEEL",
-      "WHEEL"
+      "WHEEL",
+      "HUGE_OK"
     ],
     "damage_reduction": { "all": 2 },
     "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
@@ -160,7 +161,8 @@
       "STEERABLE",
       "UNMOUNT_ON_DAMAGE",
       "UNSTABLE_WHEEL",
-      "WHEEL"
+      "WHEEL",
+      "HUGE_OK"
     ],
     "damage_reduction": { "all": 20 },
     "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
@@ -187,7 +189,7 @@
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
-    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE", "HUGE_OK" ],
     "damage_reduction": { "all": 2 },
     "variants": [ { "symbols": "-", "symbols_broken": "~" } ]
   },
@@ -864,7 +866,7 @@
     "size": "75 L",
     "item": "frame_wood_light",
     "location": "center",
-    "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "HUGE_OK" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
@@ -2206,7 +2208,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "HUGE_OK" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
@@ -2226,6 +2228,7 @@
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "//1": "240cm weld to install, 60cm per damage quadrant to repair",
     "size": "200 L",
+    "comfort": 2,
     "item": "livestock_carrier",
     "location": "center",
     "requirements": {
@@ -2241,7 +2244,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK", "BED" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },

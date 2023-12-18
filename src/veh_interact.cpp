@@ -2930,8 +2930,8 @@ void veh_interact::display_details( const vpart_info *part )
     }
 
     // line 5 [vertical/hybrid] flags
-    std::vector<std::string> flags = { { "OPAQUE", "OPENABLE", "BOARDABLE" } };
-    std::vector<std::string> flag_labels = { { _( "opaque" ), _( "openable" ), _( "boardable" ) } };
+    std::vector<std::string> flags = { { "OPAQUE", "OPENABLE", "BOARDABLE", "CARGO_PASSABLE" } };
+    std::vector<std::string> flag_labels = { { _( "opaque" ), _( "openable" ), _( "boardable" ), _( "secure storage" ) } };
     std::string label;
     for( size_t i = 0; i < flags.size(); i++ ) {
         if( part->has_flag( flags[i] ) ) {

@@ -1812,37 +1812,31 @@ void npc::execute_action( npc_action action )
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
-                add_msg( m_warning, _( "SEAT: checking all boardable parts." ) );
                 // a seat is available if either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt, const vpart_reference & checked_part ) {
                     if( !pt.is_seat() ) {
                         return false;
                     }
                     if( checked_part.part_with_feature( VPFLAG_CARGO, true ) ) {
-                        add_msg( m_warning, _( "SEAT: checking if its cargo." ) );
                         units::volume capacity = 0_ml;
                         units::volume free_cargo = 0_ml;
                         tripoint target = veh->global_part_pos3( pt );
                         auto cargo_parts = veh->get_parts_at( target, "CARGO", part_status_flag::any );
                             for( auto& part : cargo_parts ) {
-                            add_msg( m_warning, _( "SEAT: cargo_parts initiated." ) );
                             vehicle_stack contents = veh->get_items( *part );
                             const vpart_info &vpinfo = part->info();
                             tripoint spot = veh->global_part_pos3( *part );
                             const optional_vpart_position checkpart = here.veh_at( spot );
-                               add_msg( m_warning, _( "SEAT: There's cargo at %s." ), spot.to_string_writable() );
                                if ( !checkpart.part_with_feature( "CARGO_PASSABLE", true ) ) {
-                               add_msg( m_warning, _( "SEAT: CARGO_PASSABLE not found." ) );
                                capacity += vpinfo.size;
                                free_cargo += contents.free_volume();
                                }
                             }
                         if( capacity > 0_ml ) {
-                        add_msg( m_warning, _( "SEAT: Free cargo for NPC seat is %s." ), format_volume( free_cargo ) );
                         // First, we'll try to squeeze in.
                             if( ( ( get_size() > creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 250000_ml ) ) {
                                 if( ( ( get_size() > creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 187500_ml ) ) {
-                                add_msg( m_warning, _( "SEAT: There's not enough room for NPC to fit there, free cargo is %s." ), format_volume( free_cargo ) );
+                                add_msg_debug( debugmode::DF_NPC, "%s can't find a seat with enough free space.", disp_name() );
                                 return false;
                                 }
                             }
@@ -2882,49 +2876,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                     }
             }
     }
-
-    // if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) ) {
-    //    add_msg( m_warning, _( "Cargo found for npc." ) );
-    //    const optional_vpart_position vp = here.veh_at( p );
-    //    vehicle &veh1 = vp->vehicle();
-    //    units::volume capacity = 0_ml;
-    //    units::volume free_cargo = 0_ml;
-    //    auto cargo_parts = veh1.get_parts_at( p, "CARGO", part_status_flag::any );
-    //        for( auto& part : cargo_parts ) {
-    //        vehicle_stack contents = veh1.get_items( *part );
-    //        const vpart_info &vpinfo = part->info();
-    //        const optional_vpart_position vp = here.veh_at( p );
-    //           if ( !vp.part_with_feature("CARGO_PASSABLE", true ) ) {
-    //            add_msg( m_warning, _( "There's cargo where NPC wants to go." ) );
-    //            capacity += vpinfo.size;
-    //            free_cargo += contents.free_volume();
-    //            }
-    //        }
-    //        if( capacity > 0_ml ) {
-    //            add_msg( m_warning, _( "Free cargo for NPC spot is %s." ), format_volume( free_cargo ) );
-                // First, we'll try to squeeze in.
-    //                if( ( ( get_size() > creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 250000_ml ) ) {
-    //                    if( ( ( get_size() > creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 187500_ml ) ) {
-    //                    add_msg( m_warning, _( "There's not enough room for NPC to fit there, free cargo is %s." ), format_volume( free_cargo ) );
-                        // Move to a neighbor field instead, if possible.
-                        // Maybe this code already exists somewhere?
-                        //auto other_points = here.get_dir_circle( pos(), p );
-                        //    for( const tripoint &ot : other_points ) {
-                        //        if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
-                        //        p = ot;
-                        //        break;
-                        //        }
-                         //   }
-     //                   }
-    //                   path.clear();
-    //                   move_pause();
-    //                   return;
-    //                }
-    //        }
-    //                add_msg( m_warning, _( "There's room for NPC to fit there, free cargo is %s." ), format_volume( free_cargo ) );
-    //}
-
-
 
     recoil = MAX_RECOIL;
 

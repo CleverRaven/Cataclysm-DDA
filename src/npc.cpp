@@ -3510,8 +3510,8 @@ std::set<tripoint> npc::get_path_avoid() const
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
-        if( sees_dangerous_field( p ) ) {
+    for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
+        if( sees_dangerous_field( p ) || ( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( const_cast<npc*>(this), p ) ) ) {
             ret.insert( p );
         }
     }

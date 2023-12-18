@@ -670,5 +670,9 @@
   {
     "id": "CARGO_PASSABLE",
     "type": "json_flag"
+  },
+  {
+    "id": "HUGE_OK",
+    "type": "json_flag"
   }
 ]

@@ -223,6 +223,7 @@ static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_cough_suppress( "cough_suppress" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
@@ -5063,23 +5064,22 @@ void Character::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && get_size() == creature_size::huge &&
-        !( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) ) ) {
-        vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
-        // it's painful to work the controls, but passengers in open topped vehicles are fine
-        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
-            add_msg_if_player( m_bad,
-                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
-            if( is_npc() ) {
-                npc &as_npc = dynamic_cast<npc &>( *this );
-                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
-            }
-
-            mod_pain( rng( 4, 6 ) );
-            mod_focus( -1 );
+    // Being stuck in a tight space sucks.
+    if( has_effect( effect_cramped_space) ) {
+        if ( !in_vehicle ) {
+            remove_effect( effect_cramped_space );
         }
-    }
+        if ( move_in_vehicle( this, pos() ) ) {
+            remove_effect( effect_cramped_space );
+        }
+        vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
+        if( ( veh->player_in_control( *this ) ) ) {
+        }        
+        if( is_npc() && !has_effect( effect_narcosis ) ) {
+            npc &as_npc = dynamic_cast<npc &>( *this );
+            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            }
+        }
 }
 needs_rates Character::calc_needs_rates() const
 {
@@ -5572,7 +5572,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             } else {
                 comfort -= here.move_cost( p );
             }
-            if( vp->vehicle().enclosed_at( p ) && get_size() == creature_size::huge ) {
+            if( has_effect( effect_cramped_space) ) {
                 comfort = static_cast<int>( comfort_level::impossible );
             }
         }
@@ -7961,23 +7961,35 @@ bool Character::move_in_vehicle(Creature* c, const tripoint& dest_loc) const
             const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
             if ( !vp.part_with_feature("CARGO_PASSABLE", true ) ) {
-            add_msg( m_warning, _( "There's cargo there." ) );
             capacity += vpinfo.size;
             free_cargo += contents.free_volume();
             }
         }
 
         if( capacity > 0_ml ) {
+            const optional_vpart_position vp = m.veh_at( dest_loc );
             add_msg( m_warning, _( "Free cargo is %s." ), format_volume( free_cargo ) );
-            // First, we'll try to squeeze in.
-            if( ( ( get_size() > creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 250000_ml ) ) {
-                if( ( ( get_size() > creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() > creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() > creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() > creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() > creature_size::huge ) && free_cargo < 187500_ml ) ) {
+            // First, we'll try to squeeze in. Open-topped vehicle parts have more room for us.
+            if( !veh.enclosed_at( dest_loc ) ) {
+                free_cargo *= 1.2;
+            }
+            if( ( ( get_size() == creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() == creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() == creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() == creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() == creature_size::huge ) && free_cargo < 250000_ml ) ) {
+                if( ( ( get_size() == creature_size::tiny ) && free_cargo < 11719_ml ) || ( ( get_size() == creature_size::small ) && free_cargo < 23438_ml ) || ( ( get_size() == creature_size::medium ) && free_cargo < 46875_ml ) || ( ( get_size() == creature_size::large ) && free_cargo < 93750_ml ) || ( ( get_size() == creature_size::huge ) && free_cargo < 187500_ml ) ) {
                 add_msg_if_player( m_warning, _( "There's not enough room for you to fit there." ) );
-                add_msg_if_npc( m_warning, _( "There's not enough room for %s to fit there." ), c->disp_name() );
                 return false; // Even if you squeeze, there's no room.
+            }
+            // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
+            if( get_size() == creature_size::huge ) {
+                if ( !vp.part_with_feature( "AISLE", true ) || !vp.part_with_feature( "HUGE_OK", true ) ) {
+                add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
+                add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
+                c->add_effect( effect_cramped_space, 2_turns, true );
+                return true;
+                }
             }
             add_msg_if_player( m_warning, _( "You contort your body to squeeze into the cramped space." ) );
             add_msg_if_npc( m_warning, _( "%s contorts their body to fit into the cramped space." ), c->disp_name() );
+            c->add_effect( effect_cramped_space, 2_turns, true );
             return true;
             }
         }
