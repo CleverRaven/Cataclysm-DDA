@@ -323,44 +323,6 @@ class RealityBubblePathfinder
                                                 PositionCostFn &&p_cost_fn, MoveCostFn &&m_cost_fn, HeuristicFn &&heuristic_fn );
 
     private:
-        // If you're seeing these asserts, you're probably messing with the reality bubble. These probably
-        // need to be made shorts instead.
-        using X = unsigned char;
-        static_assert( MAPSIZE_X <= std::numeric_limits<X>::max(), "Type too small." );
-        using Y = unsigned char;
-        static_assert( MAPSIZE_Y <= std::numeric_limits<Y>::max(), "Type too small." );
-        using Z = char;
-
-        // This is a packed version of tripoint_bub_ms. This is done in order to conserve memory, and
-        // reduce the amount of cache thrashing.
-        //
-        // Note that z is based on 0, not -OVERMAP_DEPTH.
-        struct PackedTripoint {
-            X x;
-            Y y;
-            Z z;
-
-            PackedTripoint() = default;
-
-            constexpr PackedTripoint( X x, Y y, Z z ) : x( x ), y( y ), z( z ) {}
-
-            constexpr PackedTripoint( const tripoint_bub_ms &p ) : x( p.x() ), y( p.y() ),
-                z( p.z() + OVERMAP_DEPTH ) {}
-
-            constexpr operator tripoint_bub_ms() const {
-                return tripoint_bub_ms( static_cast<int>( x ), static_cast<int>( y ),
-                                        static_cast<int>( z ) - OVERMAP_DEPTH );
-            }
-
-            constexpr bool operator==( PackedTripoint other ) const {
-                return x == other.x && y == other.y && z == other.z;
-            }
-
-            constexpr bool operator!=( PackedTripoint other ) const {
-                return !( *this == other );
-            }
-        };
-
         // Minimum implementation of std::unordered_set interface that is used in the pathfinder.
         class FastTripointSet
         {
@@ -369,11 +331,12 @@ class RealityBubblePathfinder
                 // iterator implementation, and the pathfinder doesn't use it anyways.
                 struct NotIterator {};
 
-                std::pair<NotIterator, bool> emplace( PackedTripoint p ) {
-                    dirty_[p.z] = true;
-                    const int i = p.y * MAPSIZE_X + p.x;
-                    const bool missing = !set_[p.z].test( i );
-                    set_[p.z].set( i );
+                std::pair<NotIterator, bool> emplace( const tripoint_bub_ms &p ) {
+                    const int z = p.z() + OVERMAP_DEPTH;
+                    dirty_[z] = true;
+                    const int i = p.y() * MAPSIZE_X + p.x();
+                    const bool missing = !set_[z].test( i );
+                    set_[z].set( i );
                     return std::make_pair( NotIterator(), missing );
                 }
 
@@ -387,8 +350,8 @@ class RealityBubblePathfinder
                     }
                 }
 
-                std::size_t count( PackedTripoint p ) const {
-                    return set_[p.z].test( p.y * MAPSIZE_X + p.x );
+                std::size_t count( const tripoint_bub_ms &p ) const {
+                    return set_[p.z() + OVERMAP_DEPTH].test( p.y() * MAPSIZE_X + p.x() );
                 }
 
             private:
@@ -399,9 +362,10 @@ class RealityBubblePathfinder
 
         // Minimum implementation of std::unordered_map interface that is used in the pathfinder.
         struct FastBestPathMap {
-            std::pair<std::pair<int, PackedTripoint>*, bool> try_emplace( PackedTripoint child,
-                    int cost, PackedTripoint parent ) {
-                std::pair<int, PackedTripoint> &result = best_states[child.z][child.y][child.x];
+            std::pair<std::pair<int, tripoint_bub_ms>*, bool> try_emplace( const tripoint_bub_ms &child,
+                    int cost, const tripoint_bub_ms &parent ) {
+                std::pair<int, tripoint_bub_ms> &result = best_states[child.z() +
+                        OVERMAP_DEPTH][child.y()][child.x()];
                 if( const auto [_, inserted] = in.emplace( child ); inserted ) {
                     result.first = cost;
                     result.second = parent;
@@ -410,7 +374,7 @@ class RealityBubblePathfinder
                 return std::make_pair( &result, false );
             }
 
-            std::size_t count( PackedTripoint p ) const {
+            std::size_t count( const tripoint_bub_ms &p ) const {
                 return in.count( p );
             }
 
@@ -418,16 +382,16 @@ class RealityBubblePathfinder
                 in.clear();
             }
 
-            const std::pair<int, PackedTripoint> &at( PackedTripoint child ) const {
-                return best_states[child.z][child.y][child.x];
+            const std::pair<int, tripoint_bub_ms> &at( const tripoint_bub_ms &child ) const {
+                return best_states[child.z() + OVERMAP_DEPTH][child.y()][child.x()];
             }
 
-            std::pair<int, PackedTripoint> &operator[]( PackedTripoint child ) {
+            std::pair<int, tripoint_bub_ms> &operator[]( const tripoint_bub_ms &child ) {
                 return *try_emplace( child, 0, child ).first;
             }
 
             FastTripointSet in;
-            RealityBubbleArray<std::pair<int, PackedTripoint>> best_states;
+            RealityBubbleArray<std::pair<int, tripoint_bub_ms>> best_states;
         };
 
         template <typename AStar, typename PositionCostFn, typename MoveCostFn, typename HeuristicFn>
@@ -437,8 +401,8 @@ class RealityBubblePathfinder
                 PositionCostFn &&p_cost_fn, MoveCostFn &&m_cost_fn, HeuristicFn &&heuristic_fn );
 
         RealityBubblePathfindingCache *cache_;
-        AStarPathfinder<PackedTripoint, int, FastTripointSet, FastBestPathMap> astar_;
-        BidirectionalAStarPathfinder<PackedTripoint, int, FastTripointSet, FastBestPathMap>
+        AStarPathfinder<tripoint_bub_ms, int, FastTripointSet, FastBestPathMap> astar_;
+        BidirectionalAStarPathfinder<tripoint_bub_ms, int, FastTripointSet, FastBestPathMap>
         bidirectional_astar_;
 };
 
@@ -918,37 +882,35 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
     const int min_y_bound = std::max( std::min( to.y(), from.y() ) - settings.y_padding(), 0 );
     const int max_y_bound = std::min( std::max( to.y(), from.y() ) + settings.y_padding(),
                                       MAPSIZE_Y - 1 );
-    const int min_z_bound = std::max( std::min( to.z(),
-                                      from.z() ) - settings.z_padding() + OVERMAP_DEPTH, 0 );
-    const int max_z_bound = std::min( std::max( to.z(),
-                                      from.z() ) + settings.z_padding() + OVERMAP_DEPTH, OVERMAP_LAYERS - 1 );
+    const int min_z_bound = std::max( std::min( to.z(), from.z() ) - settings.z_padding(),
+                                      -OVERMAP_DEPTH );
+    const int max_z_bound = std::min( std::max( to.z(), from.z() ) + settings.z_padding(),
+                                      OVERMAP_HEIGHT );
 
-    std::vector<PackedTripoint> path = impl.find_path( settings.max_cost(), from, to,
-                                       std::forward<PositionCostFn>( p_cost_fn ), std::forward<MoveCostFn>( m_cost_fn ),
-                                       std::forward<HeuristicFn>( heuristic_fn ), [this,
-                                               &settings, min_x_bound, max_x_bound, min_y_bound, max_y_bound, min_z_bound,
-                                               max_z_bound]( PackedTripoint parent, PackedTripoint current,
-    auto &&emit_fn ) {
-        const int cx = current.x;
-        const int cy = current.y;
-        const int cz = current.z;
+    return impl.find_path( settings.max_cost(), from, to, std::forward<PositionCostFn>( p_cost_fn ),
+                           std::forward<MoveCostFn>( m_cost_fn ), std::forward<HeuristicFn>( heuristic_fn ), [this, &settings,
+                                         min_x_bound, max_x_bound, min_y_bound, max_y_bound, min_z_bound,
+          max_z_bound]( const tripoint_bub_ms & parent, const tripoint_bub_ms & current, auto &&emit_fn ) {
+        const int cx = current.x();
+        const int cy = current.y();
+        const int cz = current.z();
 
-        const int min_x = cx > min_x_bound ? cx - 1 : min_x_bound;
-        const int max_x = cx < max_x_bound ? cx + 1 : max_x_bound;
+        const int min_x = std::max( cx - 1, min_x_bound );
+        const int max_x = std::min( cx + 1, max_x_bound );
 
-        const int min_y = cy > min_y_bound ? cy - 1 : min_y_bound;
-        const int max_y = cy < max_y_bound ? cy + 1 : max_y_bound;
+        const int min_y = std::max( cy - 1, min_y_bound );
+        const int max_y = std::min( cy + 1, max_y_bound );
 
         if( settings.allow_flying() ) {
-            const Z min_z = cz > min_z_bound ? cz - 1 : min_z_bound;
-            const Z max_z = cz < max_z_bound ? cz + 1 : max_z_bound;
-            for( Z z = min_z; z <= max_z; ++z ) {
-                for( Y y = min_y; y <= max_y; ++y ) {
-                    for( X x = min_x; x <= max_x; ++x ) {
+            const int min_z = std::max( cz - 1, min_z_bound );
+            const int max_z = std::min( cz + 1, max_z_bound );
+            for( int z = min_z; z <= max_z; ++z ) {
+                for( int y = min_y; y <= max_y; ++y ) {
+                    for( int x = min_x; x <= max_x; ++x ) {
                         if( x == cx && y == cy && z == cz ) {
                             continue;
                         }
-                        const PackedTripoint next( x, y, z );
+                        const tripoint_bub_ms next( x, y, z );
                         emit_fn( next );
                     }
                 }
@@ -959,14 +921,14 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
         const PathfindingFlags flags = cache_->flags( current );
 
         // If we're falling, we can only continue falling.
-        if( cz > 0 && flags.is_set( PathfindingFlag::Air ) ) {
-            const PackedTripoint down( cx, cy, cz - 1 );
+        if( cz > -OVERMAP_DEPTH && flags.is_set( PathfindingFlag::Air ) ) {
+            const tripoint_bub_ms down( cx, cy, cz - 1 );
             emit_fn( down );
             return;
         }
 
-        const int dx = ( cx > parent.x ) - ( cx < parent.x );
-        const int dy = ( cy > parent.y ) - ( cy < parent.y );
+        const int dx = ( cx > parent.x() ) - ( cx < parent.x() );
+        const int dy = ( cy > parent.y() ) - ( cy < parent.y() );
         const int xd = cx + dx;
         const int yd = cy + dy;
 
@@ -983,7 +945,7 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // . is not visited
             if( min_x <= xd && xd <= max_x ) {
                 for( int y = min_y; y <= max_y; ++y ) {
-                    const PackedTripoint next( xd, y, cz );
+                    const tripoint_bub_ms next( xd, y, cz );
                     emit_fn( next );
                 }
             }
@@ -992,7 +954,7 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
                     if( x == xd ) {
                         continue;
                     }
-                    const PackedTripoint next( x, yd, cz );
+                    const tripoint_bub_ms next( x, yd, cz );
                     emit_fn( next );
                 }
             }
@@ -1009,7 +971,7 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // . is not visited
             if( min_x <= xd && xd <= max_x ) {
                 for( int y = min_y; y <= max_y; ++y ) {
-                    const PackedTripoint next( xd, y, cz );
+                    const tripoint_bub_ms next( xd, y, cz );
                     emit_fn( next );
                 }
             }
@@ -1026,7 +988,7 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             // . is not visited
             if( min_y <= yd && yd <= max_y ) {
                 for( int x = min_x; x <= max_x; ++x ) {
-                    const PackedTripoint next( x, yd, cz );
+                    const tripoint_bub_ms next( x, yd, cz );
                     emit_fn( next );
                 }
             }
@@ -1039,7 +1001,7 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
                     if( x == cx && y == cy ) {
                         continue;
                     }
-                    const PackedTripoint next( x, y, cz );
+                    const tripoint_bub_ms next( x, y, cz );
                     emit_fn( next );
                 }
             }
@@ -1054,35 +1016,28 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             }
         }
         if( flags.is_set( PathfindingFlag::RampUp ) ) {
-            for( Y y = min_y; y <= max_y; ++y ) {
-                for( X x = min_x; x <= max_x; ++x ) {
+            for( int y = min_y; y <= max_y; ++y ) {
+                for( int x = min_x; x <= max_x; ++x ) {
                     if( x == cx && y == cy ) {
                         continue;
                     }
-                    const PackedTripoint above( x, y, cz + 1 );
+                    const tripoint_bub_ms above( x, y, cz + 1 );
                     emit_fn( above );
                 }
             }
         }
         if( flags.is_set( PathfindingFlag::RampDown ) ) {
-            for( Y y = min_y; y <= max_y; ++y ) {
-                for( X x = min_x; x <= max_x; ++x ) {
+            for( int y = min_y; y <= max_y; ++y ) {
+                for( int x = min_x; x <= max_x; ++x ) {
                     if( x == cx && y == cy ) {
                         continue;
                     }
-                    const PackedTripoint below( x, y, cz - 1 );
+                    const tripoint_bub_ms below( x, y, cz - 1 );
                     emit_fn( below );
                 }
             }
         }
     } );
-
-    std::vector<tripoint_bub_ms> tripath;
-    tripath.reserve( path.size() );
-    for( PackedTripoint p : path ) {
-        tripath.push_back( p );
-    }
-    return tripath;
 }
 
 // Legacy Pathfinding

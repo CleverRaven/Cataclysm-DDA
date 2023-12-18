@@ -41,7 +41,7 @@ bool RealityBubblePathfindingCache::vertical_move_destination( const map &here, 
 {
     const int z = t.z;
     if( const std::optional<point> p = find_point_closest_first( t.xy(), 0, SEEX, [&here, flag,
-          z]( const point & p ) {
+           z]( const point & p ) {
     if( p.x >= 0 && p.x < MAPSIZE_X && p.y >= 0 && p.y < MAPSIZE_Y ) {
             const tripoint t2( p, z );
             return here.has_flag( flag, t2 );
