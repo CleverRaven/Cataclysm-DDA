@@ -319,9 +319,15 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins() ) {
-        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
-        digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
-                                   vit.second ) );
+        const auto vit_type = vit.first->type();
+        if (vit_type == vitamin_type::VITAMIN) {
+            int vit_fraction = std::lround(vit.second * rates.percent_vitamin);
+            digested.nutr.set_vitamin(vit.first, half_hours * clamp(rates.min_vitamin, vit_fraction,
+                vit.second));
+        }
+        else if (vit_type == vitamin_type::DRUG && stomach) {
+            digested.nutr.set_vitamin(vit.first, vit.second);
+        }
     }
 
     nutr -= digested.nutr;
