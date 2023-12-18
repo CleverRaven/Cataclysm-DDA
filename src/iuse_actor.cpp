@@ -5035,8 +5035,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
                     ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
                     it.link->t_abs_pos.raw() );
 
-        if( trigdist ? trig_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length :
-            square_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length ) {
+        if( rl_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length ) {
             p->add_msg_if_player( m_warning, _( "The %1$s can't stretch that far!" ), it.type_name() );
             return std::nullopt;
         }
