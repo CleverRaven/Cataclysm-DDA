@@ -562,7 +562,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Four in a Row set" },
-    "description": "A board game cardboard box containing a plastic grid with seven columns and six rows, and 42 coloured discs, alongside a small booklet explaining how to play Four in a Row.",
+    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 coloured discs, alongside a small booklet explaining how to play Four in a Row.",
     "weight": "680 g",
     "volume": "600 ml",
     "price": 2000,
