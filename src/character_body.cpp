@@ -1373,7 +1373,7 @@ void Character::update_heartrate_index()
     const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier;
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     // The influence of stamina on heartrate seemeed excessive and was toned down.
-    const float hr_stamina_mod = 1.6f * ( 1.0f - stamina_level );
+    const float hr_stamina_mod = 1.4f * ( 1.0f - stamina_level );
 
     const int stim_level = get_stim();
     float hr_stim_mod = 0.0f;
@@ -1388,7 +1388,7 @@ void Character::update_heartrate_index()
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
             10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
-            hr_nicotine_mod = 0.4f;
+            hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;
         }
@@ -1411,6 +1411,10 @@ void Character::update_heartrate_index()
     float hr_pain_mod = 0.0f;
     if( cur_pain > 5 ) {
         hr_pain_mod = 0.01 * ( cur_pain - 5 );
+    }
+    // clamp to a reasonable 30% increase in heart rate.
+    if( hr_pain_mod > 0.3f ) {
+        hr_pain_mod = 0.3f;
     }
 
     float hr_adrenaline_mod = 0.0f;
@@ -1445,6 +1449,13 @@ void Character::update_heartrate_index()
         hr_pain_mod *= betablock_mod;
     }
 
+    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 60%.
+    // this means you cannot actually have serious tachycardia by just working out too much while in pain.
+    float hr_activity_mods = hr_adrenaline_mod + hr_pain_mod + hr_stamina_mod;
+    if( hr_activity_mods > 0.6f ) {
+        hr_activity_mods = 0.6f;
+    }
+
     // TODO: implement support for HR increasing to compensate for low BP.
     // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
     // increasing/decreasing blood pressure, as the geometry of blood vessels also changes. This means that at low
@@ -1458,8 +1469,8 @@ void Character::update_heartrate_index()
     constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.01f;
     const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
 
-    heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
-                       hr_pain_mod + hr_adrenaline_mod + hr_bp_loss_mod + hr_effect_mod;
+    heart_rate_index = 1.0f + hr_temp_mod + hr_activity_mods + hr_stim_mod + hr_nicotine_mod
+                       + hr_bp_loss_mod + hr_effect_mod;
 }
 
 float Character::get_bloodvol_index() const
@@ -1515,18 +1526,17 @@ void Character::update_circulation_resistance()
 void Character::update_circulation()
 {
     update_circulation_resistance();
-    circulation = get_bloodvol_index() * get_heartrate_index() * get_circulation_resistance();
-    //Incredibly annoying debug function - don't forget to comment out before merge!
-    //if( circulation < 0.8 ) {
-    //    debugmsg( "Low blood pressure: " + std::to_string(circulation_resistance) + " " + std::to_string(
-    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
-    //} else if( circulation > 2.0 ) {
-    //    debugmsg( "High blood pressure" + std::to_string(circulation_resistance) + " " + std::to_string(
-    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
-    //}
+    const float hr_indx = get_heartrate_index();
+    const float bloodvol_indx = get_bloodvol_index();
+    // we need to modify the effect of hr_indx to be more rational.
+    // for now take sqrt of hr_indx.
 
-    //debugmsg( "Blood INFO: " + std::to_string( circulation_resistance ) + " " + std::to_string(
-    //              get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    circulation = bloodvol_indx * sqrtf( hr_indx ) * get_circulation_resistance();
+}
+
+float Character::get_circulation() const
+{
+    return circulation;
 }
 
 float Character::get_respiration_rate() const
@@ -1559,19 +1569,33 @@ void Character::update_respiration_rate()
 
 void Character::check_vitals() const
 {
-    //// TODO FOR FUTURE PR.
+    // TODO FOR FUTURE PR.
     //constexpr float max_hr = 2.0;
     //constexpr float min_hr = 0.4;
     //constexpr float max_bp = 1.2;
     //constexpr float min_bp = 0.75;
     //if( heart_rate_index > max_hr ) {
     //    // cause high heart rate problems.
+    //    debugmsg( "High heart rate: " + std::to_string( heart_rate_index ) );
+    //    // this should be relatively minor (at least for reasonable hr).
+    //    // Start with negative messages.
+
+    //    // Then chest pain.
+
+    //    // Then dropped morale.
+
+    //    // Then reduced focus.
+    //    // If it gets extreme, arrythmia and *death*. NOT IN THIS PR.
     //} else if( heart_rate_index < min_hr ) {
     //    // cause low heart rate problems.
+    //    debugmsg( "Low heart rate: " + std::to_string( heart_rate_index ) );
+    //    // this does nothing except indirectly cause low bp problems.
     //}
     //if( circulation > max_bp ) {
     //    // cause high blood pressure problems.
+    //    debugmsg( "High blood pressure: " + std::to_string( circulation ) );
     //} else if( circulation < min_bp ) {
     //    // cause low blood pressure problems.
+    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) );
     //}
 }
