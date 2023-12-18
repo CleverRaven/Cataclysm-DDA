@@ -319,15 +319,14 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins() ) {
-        const auto vit_type = vit.first->type();
-        if( vit_type == vitamin_type::VITAMIN ) {
+        if( vit.first->type() != vitamin_type::DRUG ) {
             int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
             digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
                                        vit.second ) );
         }
         // drug vitamins are absorbed to the blood instantly after the first stomach step.
         // this makes the drug vitamins easier to balance (no need to account for slow trickle-ing in of the drug)
-        else if( vit_type == vitamin_type::DRUG && stomach ) {
+        else if( vit.first->type() == vitamin_type::DRUG && stomach ) {
             digested.nutr.set_vitamin( vit.first, vit.second );
         }
     }

@@ -946,7 +946,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         for( const auto &vitamin : digested_to_guts.nutr.vitamins() ) {
             // collect all drug vitamins in a map
             std::map<vitamin_id, int> drug_vitamins;
-            const auto &vitamin_type = vitamin.first->type();
+            const vitamin_type &vitamin_type = vitamin.first->type();
             if( vitamin_type == vitamin_type::DRUG ) {
                 drug_vitamins[vitamin.first] = vitamin.second;
             }
@@ -1434,13 +1434,14 @@ void Character::update_heartrate_index()
         // at betablock level 2, 80%.
         // at betablock level 3, 100%.
         float betablock_mod = 1.0f;
-        switch( betablock_level ) {
-            case 1:
-                betablock_mod = 0.4;
-            case 2:
-                betablock_mod = 0.2;
-            case 3:
-                betablock_mod = 0;
+        if (betablock_level == 1) {
+            betablock_mod = 0.4f;
+        }
+        else if (betablock_level == 2) {
+            betablock_mod = 0.2f;
+        }
+        else if (betablock_level == 3) {
+            betablock_mod = 0.0f;
         }
         hr_adrenaline_mod *= betablock_mod;
         hr_pain_mod *= betablock_mod;
@@ -1553,26 +1554,26 @@ void Character::set_respiration_effect_mod( int mod )
 void Character::update_respiration_rate()
 {
     const int effect_mod = get_respiration_effect_mod();
-    constexpr float PERSP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
-    respiration_rate = 1.0f + effect_mod * PERSP_EFFECT_INT_TO_FLOAT_MULT;
+    constexpr float RERSP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    respiration_rate = 1.0f + effect_mod * RERSP_EFFECT_INT_TO_FLOAT_MULT;
 }
 
 
 void Character::check_vitals() const
 {
-    // TODO FOR FUTURE PR.
-    constexpr float max_hr = 2.0;
-    constexpr float min_hr = 0.4;
-    constexpr float max_bp = 1.2;
-    constexpr float min_bp = 0.75;
-    if( heart_rate_index > max_hr ) {
-        // cause high heart rate problems.
-    } else if( heart_rate_index < min_hr ) {
-        // cause low heart rate problems.
-    }
-    if( circulation > max_bp ) {
-        // cause high blood pressure problems.
-    } else if( circulation < min_bp ) {
-        // cause low blood pressure problems.
-    }
+    //// TODO FOR FUTURE PR.
+    //constexpr float max_hr = 2.0;
+    //constexpr float min_hr = 0.4;
+    //constexpr float max_bp = 1.2;
+    //constexpr float min_bp = 0.75;
+    //if( heart_rate_index > max_hr ) {
+    //    // cause high heart rate problems.
+    //} else if( heart_rate_index < min_hr ) {
+    //    // cause low heart rate problems.
+    //}
+    //if( circulation > max_bp ) {
+    //    // cause high blood pressure problems.
+    //} else if( circulation < min_bp ) {
+    //    // cause low blood pressure problems.
+    //}
 }
