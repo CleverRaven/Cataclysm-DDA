@@ -1427,6 +1427,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const int &x = pos.x;
                 const int &y = pos.y;
                 const bool is_center_z = ( zlevel == center.z );
+                const level_cache &ch2 = here.access_cache( zlevel );
 
                 // light level is used for choosing between grayscale filter and normal lit tiles.
                 lit_level ll;
@@ -1449,7 +1450,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         continue;
                     }
                 } else {
-                    ll = ch.visibility_cache[x][y];
+                    ll = ch2.visibility_cache[x][y];
                 }
 
                 // Add scent value to the overlay_strings list for every visible tile when
@@ -1631,7 +1632,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
                 for( int i = 0; i < 4; i++ ) {
                     const tripoint np = pos + neighborhood[i];
-                    invisible[1 + i] = apply_visible( np, ch, here );
+                    invisible[1 + i] = apply_visible( np, ch2, here );
                 }
 
                 here.draw_points[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
