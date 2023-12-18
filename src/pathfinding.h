@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_PATHFINDING_H
 #define CATA_SRC_PATHFINDING_H
 
+#include <queue>
+
 #include "coordinates.h"
 #include "game_constants.h"
 #include "mapdata.h"
@@ -760,7 +762,10 @@ void AStarState<Node, Cost, VisitedSet, BestPathMap>::generate_neighbors(
     HeuristicFn &&heuristic_fn,
     NeighborsFn &&neighbors_fn )
 {
-    const auto& [current_cost, current_parent] = best_paths_[current];
+    // Can't use structured bindings here due to a defect in Clang 10.
+    const std::pair<int, Node> &best_path = best_paths_[current];
+    const int current_cost = best_path.first;
+    const Node &current_parent = best_path.second;
     neighbors_fn( current_parent, current, [this, &s_cost_fn, &t_cost_fn, &heuristic_fn, &current,
           current_cost]( const Node & neighbour ) {
         if( visited_.count( neighbour ) ) {
