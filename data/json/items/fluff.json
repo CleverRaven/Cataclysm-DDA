@@ -353,13 +353,6 @@
         "weight": 20
       },
       {
-        "id": "jigsaw_31",
-        "name": { "str": "Taj Mahal jigsaw puzzle" },
-        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the background view of the Taj Mahal mausoleum in Agra, India.",
-        "color": "blue",
-        "weight": 20
-      },
-      {
         "id": "jigsaw_32",
         "name": { "str": "Eiffel Tower jigsaw puzzle" },
         "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the beautiful front view of the Eiffel Tower in Paris, France.",
