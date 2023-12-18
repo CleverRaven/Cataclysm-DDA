@@ -1456,6 +1456,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     ll = ch2.visibility_cache[x][y];
                 }
 
+                if( is_center_z ) {
                 // Add scent value to the overlay_strings list for every visible tile when
                 // displaying scent
                 if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invisible[0] ) {
@@ -1612,6 +1613,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     // cache
                     bool reachable = here.has_potential_los( you.pos(), tile_pos );
                     draw_debug_tile( reachable ? 0 : 6, std::to_string( value ) );
+                }
                 }
 
                 if( !invisible[0] ) {
