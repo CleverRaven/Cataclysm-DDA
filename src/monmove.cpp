@@ -161,11 +161,6 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     return Creature::is_immune_field( fid );
 }
 
-static bool z_is_valid( int z )
-{
-    return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
-}
-
 PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) const
 {
     PathfindingSettings settings = type->path_settings.to_new_pathfinding_settings();
