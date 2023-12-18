@@ -546,7 +546,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "mancala set" },
-    "description": "A somewhat big wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that looks like different coloured beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the specific rules.  At the box, there are a comprehensible step-by-step of how to play mancala.",
+    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different coloured beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
     "weight": "1361 g",
     "volume": "1000 ml",
     "price": 2000,
