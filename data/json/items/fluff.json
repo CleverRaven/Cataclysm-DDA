@@ -578,7 +578,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Rummy-o set" },
-    "description": "A board game cardboard box containing a grid, and various pieces, alongside a booklet explaining how to play Rummy-o.",
+    "description": "A cardboard box containing a grid, and various tiles akin to a classic deck of cards, alongside a booklet explaining how to play Rummy-o.",
     "weight": "907 g",
     "volume": "1000 ml",
     "price": 2000,
