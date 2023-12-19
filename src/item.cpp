@@ -13775,6 +13775,20 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     return link().charge_rate;
 }
 
+bool item::force_reset_link( Character *p, int vpart_index,
+                             const bool loose_message, const tripoint cable_position )
+{
+    if( !can_link_up() || !has_link_data() ) {
+        return has_flag( flag_NO_DROP );
+    }
+    link().length = 0;
+    if( link_has_state( link_state::needs_reeling ) ) {
+        link().source = link_state::no_link;
+        link().target = link_state::no_link;
+    }
+    return reset_link( p, vpart_index, loose_message, cable_position );
+}
+
 bool item::reset_link( Character *p, int vpart_index,
                        const bool loose_message, const tripoint cable_position )
 {
