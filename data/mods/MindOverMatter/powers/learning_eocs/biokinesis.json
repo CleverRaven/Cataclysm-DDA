@@ -30,6 +30,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_FLEXIBILITY",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
+        { "math": [ "u_spell_level('biokin_flexibility')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_flexibility" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "practice_biokin_flexibility" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could twist your joints and relax your muscles far beyond the capability of a baseline human, allowing you to escape shackles and adeptly dodge blows for a brief period, if you can figure out the proper technique."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_DASH",
     "recurrence": [ "12 hours", "24 hours" ],
     "condition": {
