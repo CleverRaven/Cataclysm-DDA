@@ -261,7 +261,7 @@
     "casting_time_increment": -3.5,
     "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "telepathic_mind_control": 10 }
+    "learn_spells": { "telepathic_beast_taming": 7, "telepathic_mind_control": 12 }
   },
   {
     "id": "telepathic_confusion",
@@ -530,6 +530,91 @@
         "min( (( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     }
+  },
+  {
+    "id": "telepathic_beast_taming",
+    "type": "SPELL",
+    "name": "[Ψ]Beast Tamer",
+    "description": "Perform mental surgery on an animal, making it friendly to you for a much longer duration.  The animal must already be friendly, either naturally or through powers such as Beastmastery, or order to be tamed.",
+    "message": "The animal sniffs at your palm.",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RECHARM", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "charm_monster",
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_seven", "hit_self": true },
+      { "id": "telepathic_beast_taming_pet", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 15) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 35) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_val('spell_level', 'spell: telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 5500,
+    "energy_increment": -185,
+    "base_casting_time": 12000,
+    "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
+  },
+  {
+    "id": "telepathic_beast_taming_pet",
+    "type": "SPELL",
+    "name": "[Ψ]Beast Tamer Pet Effect",
+    "description": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "pet",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_val('spell_level', 'spell: telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
+    "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_mind_control",

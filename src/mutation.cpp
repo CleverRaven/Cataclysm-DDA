@@ -59,6 +59,8 @@ static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
+static const move_mode_id move_mode_prone( "prone" );
+
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
@@ -876,20 +878,25 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
-        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
-            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
-            return;
-        }
         // Check for adjacent trees.
         bool adjacent_tree = false;
+        bool adjacent_mutant_tree = false;
         map &here = get_map();
         for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;
             }
+            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                adjacent_mutant_tree = true;
+            }
         }
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() && !adjacent_mutant_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
+            return;
+        }
+
         if( !adjacent_tree ) {
-            add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
+            add_msg_if_player( m_info, _( "You can only do that next to a fully grown tree." ) );
             return;
         }
 
@@ -899,8 +906,9 @@ void Character::activate_mutation( const trait_id &mut )
                    has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
+            set_movement_mode( move_mode_prone );
             add_msg_if_player(
-                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+                _( "You lie down, letting your hair roots tangle with the tree's." ) );
         }
 
         assign_activity( ACT_TREE_COMMUNION );
@@ -1479,9 +1487,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     bool c_has_both_prereqs = false;
     bool c_has_prereq1 = false;
     bool c_has_prereq2 = false;
+    bool c_has_prevented_by = false;
     std::vector<trait_id> canceltrait;
     std::vector<trait_id> prereqs1 = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
+    std::vector<trait_id> prevented_by = mdata.prevented_by;
     std::vector<trait_id> cancel = mdata.cancels;
     std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
@@ -1497,6 +1507,14 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: same-typed trait %s added to cancel list",
                            consider.c_str() );
             cancel.push_back( consider );
+        }
+    }
+
+    for( size_t i = 0; ( !c_has_prevented_by ) && i < prevented_by.size(); i++ ) {
+        if( has_trait( prevented_by[i] ) ) {
+            add_msg_debug( debugmode::DF_MUTATION,
+                           "mutate_towards: tried to gain %s, but it's prevented by an existing mutation.", mdata.id.c_str() );
+            return false;
         }
     }
 
