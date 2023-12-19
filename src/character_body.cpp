@@ -1544,17 +1544,17 @@ float Character::get_respiration_rate() const
 
 int Character::get_respiration_effect_mod() const
 {
-    return persp_rate_effect_mod;
+    return resp_rate_effect_mod;
 }
 
 void Character::modify_respiration_effect_mod( int mod )
 {
-    persp_rate_effect_mod += mod;
+    resp_rate_effect_mod += mod;
 }
 
 void Character::set_respiration_effect_mod( int mod )
 {
-    persp_rate_effect_mod = mod;
+    resp_rate_effect_mod = mod;
 }
 
 void Character::update_respiration_rate()
