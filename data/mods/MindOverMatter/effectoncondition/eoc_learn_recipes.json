@@ -312,6 +312,31 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
+    "recurrence": [ "12 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "0" ] }
+      ]
+    },
+    "deactivate_condition": { "and": [ { "not": { "u_has_trait": "BIOKINETIC" } } ] },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSI_USB_RAD_RECIPE",
     "condition": { "or": [ { "u_has_item": "laptop" }, { "u_has_item": "laptop_screen_lit" } ] },
     "effect": [

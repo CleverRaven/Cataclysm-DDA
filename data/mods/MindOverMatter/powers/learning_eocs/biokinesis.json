@@ -1,0 +1,397 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_DASH",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "5" ] }
+              ]
+            },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
+                { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_dash')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_dash" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can supercharge your muscles to move incredibly quickly for brief periods."
+      },
+      { "math": [ "u_spell_exp('biokin_dash')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_ARMOR_SKIN",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "6" ] }
+              ]
+            },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "7" ] },
+                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "6" ] }
+              ]
+            }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_armor_skin" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can harden your skin to protect yourself from damage."
+      },
+      { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_CLIMATE_CONTROL",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] },
+                { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
+              ]
+            },
+            { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_climate_control" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can adapt your physiology to be comfortable in hotter or colder temperatures."
+      },
+      { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_ADRENALINE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+              ]
+            },
+            { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "5" ] }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_adrenaline" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can control your adrenaline, unleashing a surge of it on command when you need it."
+      },
+      { "math": [ "u_spell_exp('biokin_adrenaline')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_ENHANCE_MOBILITY",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_dash')", ">=", "10" ] },
+                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "4" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] }
+              ]
+            },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
+                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "9" ] }
+              ]
+            },
+            { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "4" ] }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_enhance_mobility" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can enhance your skin tension and joint flexibility to make your gear much less encumbering."
+      },
+      { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_HAMMERHAND",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "11" ] },
+        { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_hammerhand" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can replicate simple tools with your body, applying enough torque to turn bolts with your fingers or enough force to hammer a nail with your thumb."
+      },
+      { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_REFLEX_ENHANCE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
+            { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_reflex_enhance" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can enhance your sensory acuity and reaction time, spotting threats from further away and moving more quickly to counter them."
+      },
+      { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_SEALED_SYSTEM",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "9" ] },
+                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "9" ] }
+              ]
+            },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "7" ] },
+                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "10" ] }
+              ]
+            }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_sealed_system" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  With an enormously deep breath and an alteration to your skin, you can protect yourself from harmful gases, electricity, radiation, and other deleterious conditions."
+      },
+      { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_METABOLISM_ENHANCE",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
+        { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_metabolism_enhance" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can enhance your metabolism to a preternatural degree, eating only once a day and sleeping every two to three days."
+      },
+      { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_COMBAT_DANCE",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
+        { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "10" ] },
+        {
+          "or": [
+            { "math": [ "u_spell_level('biokin_dash')", ">=", "6" ] },
+            { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "9" ] }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_combat_dance" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  Combining enhancements to speed, strength, reaction time, agility, and coordination, you can enter a battle trance like the legendary berserkergang, but with full control over your mind."
+      },
+      { "math": [ "u_spell_exp('biokin_combat_dance)", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_PERFECTED_MOTION",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
+        { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_metabolism_enhance" ],
+        "type": "spell",
+        "message": "Practicing your powers has led to an insight.  You can maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding sny difficukt terrain while doing so."
+      },
+      { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "4900" ] }
+    ]
+  }
+]
+
+
+
+
+
+
+
+
