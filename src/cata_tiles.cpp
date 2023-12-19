@@ -1434,7 +1434,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     const tripoint_abs_ms pos_global = here.getglobal( pos );
                     const int &x = pos.x;
                     const int &y = pos.y;
-                    const bool is_center_z = ( zlevel == center.z );
+                    const bool is_center_z = zlevel == center.z;
                     const level_cache &ch2 = here.access_cache( zlevel );
 
                     // light level is used for choosing between grayscale filter and normal lit tiles.
