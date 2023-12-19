@@ -1457,23 +1457,19 @@ class item : public visitable
             /// How long it takes to charge 1 kW, the unit batteries use.
             int charge_interval = 0;
 
-            bool has_state( link_state state ) const {
-                return s_state == state || t_state == state;
-            }
-            bool has_states( link_state s_state_, link_state t_state_ ) const {
-                return s_state == s_state_ && t_state == t_state_;
-            }
-            bool has_no_links() const {
-                return s_state == link_state::no_link && t_state == link_state::no_link;
-            }
-
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
-        /**
-         * @brief Returns true if the item is/has a cable that can link up to other things.
-         */
+
+        /// Returns true if the item is/has a cable that can link up to other things.
         bool can_link_up() const;
+        /// Returns true if either of the link's ends have the specified state.
+        bool link_has_state( link_state state ) const;
+        /// Returns true if both of the item's link connections match the specified states.
+        /// link_state::automatic will always match.
+        bool link_has_states( link_state s_state_, link_state t_state_ ) const;
+        /// Returns true if the item has no active link, or if both link states are link_state::no_link.
+        bool has_no_links() const;
 
         /**
          * @brief Initializes the item's link_data and starts a connection to the specified vehicle position.

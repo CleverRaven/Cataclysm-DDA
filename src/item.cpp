@@ -13258,6 +13258,25 @@ bool item::can_link_up() const
     return !!link || type->can_use( "link_up" );
 }
 
+bool item::link_has_state( link_state state ) const
+{
+    return !link ? state == link_state::no_link :
+           link->s_state == state || link->t_state == state;
+}
+
+bool item::link_has_states( link_state s_state_, link_state t_state_ ) const
+{
+    return !link ? s_state_ == link_state::no_link && t_state_ == link_state::no_link :
+           ( link->s_state == s_state_ || link->s_state == link_state::automatic ) &&
+           ( link->t_state == t_state_ || link->t_state == link_state::automatic );
+}
+
+bool item::has_no_links() const
+{
+    return !link ? true :
+           link->s_state == link_state::no_link && link->t_state == link_state::no_link;
+}
+
 ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
 {
     return linked_vp ? link_to( linked_vp->vehicle(), linked_vp->mount(), link_type ) :
@@ -13284,7 +13303,7 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         return ret_val<void>::make_failure( _( "%s doesn't have a cable!" ), tname() );
     }
 
-    if( !link || link->has_no_links() ) {
+    if( has_no_links() ) {
 
         // Option 1: Start a new link to a vehicle/appliance.
 
@@ -13320,7 +13339,7 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
 
     // Option 2: There's already a connection, so link the previous vehicle/appliance to the new one.
 
-    if( !link->has_state( link_state::no_link ) ) {
+    if( !link_has_state( link_state::no_link ) ) {
         debugmsg( "Failed to connect the %s, both ends are already connected!", tname() );
         return ret_val<void>::make_failure();
     }
@@ -13458,8 +13477,8 @@ void item::update_link_traits()
 
 int item::link_length() const
 {
-    return !link || link->has_no_links() ? -2 :
-           link->has_state( link_state::needs_reeling ) ? -1 : link->length;
+    return has_no_links() ? -2 :
+           link_has_state( link_state::needs_reeling ) ? -1 : link->length;
 }
 
 int item::max_link_length() const
@@ -13738,7 +13757,7 @@ bool item::reset_link( Character *p, int vpart_index,
         return has_flag( flag_NO_DROP );
     }
     // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
-    if( link->has_state( link_state::needs_reeling ) ) {
+    if( link_has_state( link_state::needs_reeling ) ) {
         return false;
     }
 
@@ -13814,7 +13833,7 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
     }
     bool has_connected_cable = carrier->cache_has_item_with( "can_link_up", &item::can_link_up,
     [&required_state]( const item & it ) {
-        return it.link && it.link->has_state( required_state );
+        return it.link_has_state( required_state );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
