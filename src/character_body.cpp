@@ -1417,7 +1417,6 @@ void Character::update_heartrate_index()
     }
 
     float hr_adrenaline_mod = 0.0f;
-    // Adrenaline increases heart rate by 25% per point.
     if( has_effect( effect_adrenaline ) ) {
         const int adrenaline_level = get_effect_int( effect_adrenaline );
         // at adrenaline level 0, do nothing.
@@ -1448,7 +1447,7 @@ void Character::update_heartrate_index()
         hr_pain_mod *= betablock_mod;
     }
 
-    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 60%.
+    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 70%.
     // this means you cannot actually have serious tachycardia by just working out too much while in pain.
     float hr_activity_mods = hr_adrenaline_mod + hr_pain_mod + hr_stamina_mod;
     if( hr_activity_mods > 0.7f ) {
