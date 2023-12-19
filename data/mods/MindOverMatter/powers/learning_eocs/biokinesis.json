@@ -1,4 +1,32 @@
 [
+ {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
+        { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "3" ] },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "u_spell_level('biokin_breathe_skin')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_breathe_skin" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "practice_biokin_breathe_skin" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could use your powers to make your skin selectively permiable to oxygen, allowing you to breathe underwater, if you can figure out the proper technique."
+      },
+      { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "4900" ] }
+    ]
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_DASH",
@@ -24,16 +52,17 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_dash" } }
       ]
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_dash')", ">=", "1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_dash" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can supercharge your muscles to move incredibly quickly for brief periods."
+        "u_roll_remainder": [ "practice_biokin_dash" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You coild supercharge your muscles to move incredibly quickly for brief periods, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_dash')", "+=", "4900" ] }
     ]
@@ -63,7 +92,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_armor_skin" } }
       ]
     },
     "deactivate_condition": {
@@ -72,9 +102,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_armor_skin" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can harden your skin to protect yourself from damage."
+        "u_roll_remainder": [ "practice_biokin_armor_skin" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could harden your skin to protect yourself from damage, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "4900" ] }
     ]
@@ -99,7 +129,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_climate_control" } }
       ]
     },
     "deactivate_condition": {
@@ -108,9 +139,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_climate_control" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can adapt your physiology to be comfortable in hotter or colder temperatures."
+        "u_roll_remainder": [ "practice_biokin_climate_control" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could adapt your physiology to be comfortable in hotter or colder temperatures, id you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "4900" ] }
     ]
@@ -135,7 +166,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_adrenaline" } }
       ]
     },
     "deactivate_condition": {
@@ -144,9 +176,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_adrenaline" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can control your adrenaline, unleashing a surge of it on command when you need it."
+        "u_roll_remainder": [ "practice_biokin_adrenaline" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could control your adrenaline, unleashing a surge of it on command when you need it, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_adrenaline')", "+=", "4900" ] }
     ]
@@ -178,7 +210,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_enhance_mobility" } }
       ]
     },
     "deactivate_condition": {
@@ -187,9 +220,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_enhance_mobility" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can enhance your skin tension and joint flexibility to make your gear much less encumbering."
+        "u_roll_remainder": [ "practice_biokin_enhance_mobility" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could enhance your skin tension and joint flexibility to make your gear much less encumbering, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "4900" ] }
     ]
@@ -205,7 +238,8 @@
         { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "11" ] },
         { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_hammerhand" } }
       ]
     },
     "deactivate_condition": {
@@ -214,9 +248,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_hammerhand" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can replicate simple tools with your body, applying enough torque to turn bolts with your fingers or enough force to hammer a nail with your thumb."
+        "u_roll_remainder": [ "practice_biokin_hammerhand" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could replicate simple tools with your body, applying enough torque to turn bolts with your fingers or enough force to hammer a nail with your thumb, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "4900" ] }
     ]
@@ -242,7 +276,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_reflex_enhance" } }
       ]
     },
     "deactivate_condition": {
@@ -251,9 +286,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_reflex_enhance" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can enhance your sensory acuity and reaction time, spotting threats from further away and moving more quickly to counter them."
+        "u_roll_remainder": [ "practice_biokin_reflex_enhance" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could enhance your sensory acuity and reaction time, spotting threats from further away and moving more quickly to counter them, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "4900" ] }
     ]
@@ -283,7 +318,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_sealed_system" } }
       ]
     },
     "deactivate_condition": {
@@ -292,9 +328,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_sealed_system" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  With an enormously deep breath and an alteration to your skin, you can protect yourself from harmful gases, electricity, radiation, and other deleterious conditions."
+        "u_roll_remainder": [ "practice_biokin_sealed_system" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  With an enormously deep breath and an alteration to your skin, you could protect yourself from harmful gases, electricity, radiation, and other deleterious conditions, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "4900" ] }
     ]
@@ -310,7 +346,8 @@
         { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
         { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_metabolism_enhance" } }
       ]
     },
     "deactivate_condition": {
@@ -319,9 +356,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_metabolism_enhance" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can enhance your metabolism to a preternatural degree, eating only once a day and sleeping every two to three days."
+        "u_roll_remainder": [ "practice_biokin_metabolism_enhance" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could enhance your metabolism to a preternatural degree, eating only once a day and sleeping every two to three days, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "4900" ] }
     ]
@@ -343,7 +380,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_combat_dance" } }
       ]
     },
     "deactivate_condition": {
@@ -352,9 +390,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_combat_dance" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  Combining enhancements to speed, strength, reaction time, agility, and coordination, you can enter a battle trance like the legendary berserkergang, but with full control over your mind."
+        "u_roll_remainder": [ "practice_biokin_combat_dance" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  Combining enhancements to speed, strength, reaction time, agility, and coordination, you could enter a battle trance like the legendary berserkergang, but with full control over your mind, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_combat_dance)", "+=", "4900" ] }
     ]
@@ -370,7 +408,8 @@
         { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
         { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] }
+        { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_perfected_motion" } }
       ]
     },
     "deactivate_condition": {
@@ -379,9 +418,9 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "biokin_metabolism_enhance" ],
-        "type": "spell",
-        "message": "Practicing your powers has led to an insight.  You can maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding sny difficukt terrain while doing so."
+        "u_roll_remainder": [ "practice_biokin_metabolism_enhance" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding any difficult terrain while doing so, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "4900" ] }
     ]

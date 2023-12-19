@@ -5,17 +5,7 @@
     "effect": [
       { "u_learn_recipe": "practice_biokin_physical_enhance" },
       { "u_learn_recipe": "practice_biokin_overcome_pain" },
-      { "u_learn_recipe": "practice_biokin_breathe_skin" },
-      { "u_learn_recipe": "practice_biokin_flexibility" },
-      { "u_learn_recipe": "practice_biokin_climate_control" },
-      { "u_learn_recipe": "practice_biokin_enhance_mobility" },
-      { "u_learn_recipe": "practice_biokin_hammerhand" },
-      { "u_learn_recipe": "practice_biokin_armor_skin" },
-      { "u_learn_recipe": "practice_biokin_reflex_enhance" },
-      { "u_learn_recipe": "practice_biokin_sealed_system" },
-      { "u_learn_recipe": "practice_biokin_metabolism_enhance" },
-      { "u_learn_recipe": "practice_biokin_combat_dance" },
-      { "u_learn_recipe": "practice_biokin_perfected_motion" }
+      { "u_learn_recipe": "practice_biokin_flexibility" }
     ]
   },
   {
