@@ -4670,7 +4670,7 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                 // obviously inefficient, but probably fast enough since this only is calculated once per attack.
                 float eff_scale = 1.0f;
                 for( const effect &e : get_effects() ) {
-                    for( const auto &eff_dur_mod : e.get_effect_dur_scaling() ) {
+                    for( const effect_dur_mod &eff_dur_mod : e.get_effect_dur_scaling() ) {
                         // debugmsg( "Checking effect %s, with same_bp, modifier %f", eff.id.c_str(), eff_dur_mod.modifier);
                         if( eff_dur_mod.effect_id == eff.id ) {
                             if( eff_dur_mod.same_bp ) {
