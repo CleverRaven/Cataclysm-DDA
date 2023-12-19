@@ -26,7 +26,7 @@ enum class PathfindingFlag : uint8_t {
     GoesDown,       // Valid stairs down
     RampUp,         // Valid ramp up
     RampDown,       // Valid ramp down
-    Climmable,      // Impassable but can be climbed on examine
+    Climmable,      // Obstacle but can be climbed on examine
     Sharp,          // Sharp items (barbed wire, etc)
     Door,           // A door (any kind)
     InsideDoor,     // A door that can be opened from the inside only
