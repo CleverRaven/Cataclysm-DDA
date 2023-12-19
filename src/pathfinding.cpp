@@ -346,33 +346,9 @@ RealityBubblePathfinder::FastBestPathMap::try_emplace( const tripoint_bub_ms &ch
 namespace
 {
 
-// TODO: move these into tripoint_bub_ms code.
-float octile_distance( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
-{
-    const int dx = std::abs( from.x() - to.x() );
-    const int dy = std::abs( from.y() - to.y() );
-    const int dz = std::abs( from.z() - to.z() );
-    const int min = std::min( dx, std::min( dy, dz ) );
-    const int max = std::max( dx, std::max( dy, dz ) );
-    const int mid = dx + dy + dz - min - max;
-
-    constexpr float one_axis = 1.0f;
-    constexpr float two_axis = 1.4142f;
-    constexpr float three_axis = 1.73205f;
-    return ( three_axis - two_axis ) * min + ( two_axis - one_axis ) * mid + one_axis * max;
-}
-
-float square_distance( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
-{
-    const int dx = std::abs( from.x() - to.x() );
-    const int dy = std::abs( from.y() - to.y() );
-    const int dz = std::abs( from.z() - to.z() );
-    return std::max( dx, std::max( dy, dz ) );
-}
-
 float distance_metric( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
 {
-    return trigdist ? octile_distance( from, to ) : square_distance( from, to );
+    return trigdist ? octile_dist_exact( from, to ) : static_cast<float>( square_dist( from, to ) );
 }
 
 std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
@@ -543,45 +519,40 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
     if( from == to || !inbounds( from ) || !inbounds( to ) ) {
         return {};
     }
-    pathfinding_cache()->update( *this );
 
-    // First, check for a simple straight line on flat ground
-    // Except when the line contains a pre-closed tile - we need to do regular pathing then
+    RealityBubblePathfindingCache &cache = *pathfinding_cache();
+    cache.update( *this );
+
+    // First, check for a simple straight line on flat ground.
     if( from.z() == to.z() ) {
         std::vector<tripoint_bub_ms> line_path = line_to( from, to );
-        const PathfindingFlags avoid = settings.avoid_mask() | PathfindingFlag::Obstacle;
+        const PathfindingFlags avoid = settings.avoid_mask() | PathfindingSettings::RoughTerrain;
         // Check all points for all fast avoidance.
-        if( !std::any_of( line_path.begin(), line_path.end(), [this, avoid]( const tripoint_bub_ms & p ) {
-        return pathfinding_cache()->flags( p ) & avoid;
+        if( !std::any_of( line_path.begin(), line_path.end(), [&cache, avoid]( const tripoint_bub_ms & p ) {
+        return cache.flags( p ) & avoid;
         } ) ) {
-            // Now do the slow check.
-            if( std::all_of( line_path.begin(), line_path.end(), [this,
-            &settings]( const tripoint_bub_ms & p ) {
-            return position_cost( *this, p, settings, *pathfinding_cache() );
+            // Now do the slow check. Check if all the positions are valid.
+            if( std::all_of( line_path.begin(), line_path.end(), [this, &cache,
+                  &settings]( const tripoint_bub_ms & p ) {
+            return position_cost( *this, p, settings, cache );
             } ) ) {
-                if( transition_cost( *this, from, line_path[0], settings, *pathfinding_cache() ).has_value() ) {
-                    bool good = true;
-                    for( std::size_t i = 1; i < line_path.size(); ++i ) {
-                        if( !transition_cost( *this, line_path[i - 1], line_path[i], settings,
-                                              *pathfinding_cache() ).has_value() ) {
-                            good = false;
-                            break;
-                        }
-                    }
-                    if( good ) {
-                        return line_path;
-                    }
+                // Now check that all the transitions between each position are valid.
+                const tripoint_bub_ms *prev = &from;
+                if( std::find_if_not( line_path.begin(), line_path.end(), [this, &prev, &cache,
+                      &settings]( const tripoint_bub_ms & p ) {
+                return transition_cost( *this, *std::exchange( prev, &p ), p, settings, cache ).has_value();
+                } ) == line_path.end() ) {
+                    return line_path;
                 }
             }
         }
     }
 
     // If expected path length is greater than max distance, allow only line path, like above
-    if( octile_distance( from, to ) > settings.max_distance() ) {
+    if( distance_metric( from, to ) > settings.max_distance() ) {
         return {};
     }
 
-    const RealityBubblePathfindingCache &cache = *pathfinding_cache();
     return pathfinder()->find_path( settings.rb_settings(), from, to,
     [this, &settings, &cache]( const tripoint_bub_ms & p ) {
         return position_cost( *this, p, settings, cache );
