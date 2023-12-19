@@ -170,13 +170,10 @@ static bool z_is_valid( int z )
 bool monster::monster_move_in_vehicle( const tripoint &p ) const
 {
     map &m = get_map();
-    const tripoint_abs_ms this_spot;
-    creature_tracker &creatures = get_creature_tracker();
-    monster *const critter = creatures.creature_at<monster>( this_spot );
-    const optional_vpart_position vp_there = m.veh_at( p );
+    monster critter = *this;
     const optional_vpart_position vp = m.veh_at( p );
-    if( vp_there ) {
-        vehicle &veh = vp_there->vehicle();
+    if( vp ) {
+        vehicle &veh = vp->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
         auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
@@ -210,17 +207,17 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                     ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", true ) ) ) {
                     return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
                     // I'm sorry but you can't let a kaiju ride shotgun.
-                    if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                          has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
-                        return true; // Return true if we're wiggly enough to be fine with cramped space.
-                    }
-                    critter->add_effect( effect_cramped_space, 2_turns, true );
-                    return true; // Otherwise we add the effect and return true.
                 }
+                if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                      has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
+                    return true; // Return true if we're wiggly enough to be fine with cramped space.
+                }
+                critter.add_effect( effect_cramped_space, 2_turns, true );
+                return true; // Otherwise we add the effect and return true.
             }
             if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
                 !vp.part_with_feature( "HUGE_OK", true ) ) {
-                critter->add_effect( effect_cramped_space, 2_turns, true );
+                critter.add_effect( effect_cramped_space, 2_turns, true );
                 return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
             }
         }
