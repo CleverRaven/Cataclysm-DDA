@@ -509,10 +509,10 @@
     "description": "A handful of silvery-white metallic powder composed of nickel.  Common industrial uses include production of stainless steel as well as other alloys.",
     "container": "bag_plastic",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "8908 mg",
+    "volume": "1 ml",
+    "weight": "36 mg",
     "ammo_type": "components",
-    "count": 250
+    "count": 1
   },
   {
     "type": "AMMO",

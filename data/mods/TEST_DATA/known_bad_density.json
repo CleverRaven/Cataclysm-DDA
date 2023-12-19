@@ -2,14 +2,10 @@
   {
     "type": "test_data",
     "known_bad": [
-      "meal_chitin_piece",
       "blood",
       "curry_meat",
-      "speargun",
-      "delay_fuze",
       "apple_canned",
       "broken_mech_recon",
-      "chem_nickel_powder",
       "drink_karsk",
       "brew_sake_koji",
       "coffee_raw",
