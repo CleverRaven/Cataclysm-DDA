@@ -344,13 +344,11 @@ class maptile_impl
 
         maptile_impl( Submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
-
-    public:
         template<typename OtherSubmap>
         // NOLINTNEXTLINE(google-explicit-constructor)
         maptile_impl( const maptile_impl<OtherSubmap> &other ) :
             sm( other.wrapped_submap() ), pos_( other.pos() ) { }
-
+    public:
         Submap *wrapped_submap() const {
             return sm;
         }
