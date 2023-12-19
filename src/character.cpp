@@ -5093,22 +5093,8 @@ void Character::update_needs( int rate_multiplier )
     }
 
     // Being stuck in a tight space sucks.
-    if( has_effect( effect_cramped_space) ) {
-        if ( !in_vehicle ) {
-            remove_effect( effect_cramped_space );
-        }
-        if ( move_in_vehicle( this, pos() ) ) {
-            remove_effect( effect_cramped_space );
-        }
-        vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
-        if( ( veh->player_in_control( *this ) ) ) {
-        }        
-        if( is_npc() && !has_effect( effect_narcosis ) ) {
-            npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
-            }
-        }
 }
+
 needs_rates Character::calc_needs_rates() const
 {
     const effect &sleep = get_effect( effect_sleep );
@@ -7979,7 +7965,7 @@ bool Character::move_in_vehicle(Creature* c, const tripoint& dest_loc) const
     map &m = get_map();
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
     if( vp_there ) {
-        add_msg( m_warning, _( "VP is there." ) );
+        //const optional_vpart_position vp_there = m.veh_at( dest_loc );
         vehicle &veh = vp_there->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
@@ -7995,8 +7981,6 @@ bool Character::move_in_vehicle(Creature* c, const tripoint& dest_loc) const
         }
 
         if( capacity > 0_ml ) {
-            const optional_vpart_position vp = m.veh_at( dest_loc );
-            add_msg( m_warning, _( "Free cargo is %s." ), format_volume( free_cargo ) );
             // First, we'll try to squeeze in. Open-topped vehicle parts have more room for us.
             if( !veh.enclosed_at( dest_loc ) ) {
                 free_cargo *= 1.2;
@@ -8006,20 +7990,17 @@ bool Character::move_in_vehicle(Creature* c, const tripoint& dest_loc) const
                 add_msg_if_player( m_warning, _( "There's not enough room for you to fit there." ) );
                 return false; // Even if you squeeze, there's no room.
             }
-            // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
-            if( get_size() == creature_size::huge ) {
-                if ( !vp.part_with_feature( "AISLE", true ) || !vp.part_with_feature( "HUGE_OK", true ) ) {
-                add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
-                add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
-                c->add_effect( effect_cramped_space, 2_turns, true );
-                return true;
-                }
-            }
-            add_msg_if_player( m_warning, _( "You contort your body to squeeze into the cramped space." ) );
-            add_msg_if_npc( m_warning, _( "%s contorts their body to fit into the cramped space." ), c->disp_name() );
             c->add_effect( effect_cramped_space, 2_turns, true );
             return true;
             }
+        }
+    const optional_vpart_position vp = m.veh_at( dest_loc );
+    // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
+    if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) && !vp.part_with_feature( "HUGE_OK", true ) && !has_effect( effect_cramped_space ) ) {
+        add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
+        add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
+        c->add_effect( effect_cramped_space, 2_turns, true );
+        return true;
         }
     }
     return true;
@@ -10911,6 +10892,56 @@ void Character::process_effects()
 
         terminating_effects.pop();
     }
+
+    // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
+    if( has_effect( effect_cramped_space ) && !in_vehicle ) {
+        remove_effect( effect_cramped_space );
+        }
+    // Check all of this here to ensure the player can't sit in a comfortable seat and then drop 50 liters of junk in their own lap.
+    if( in_vehicle ) {
+        map &here = get_map();
+        const tripoint your_pos = pos();
+            if ( in_vehicle ) {
+                if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
+                npc &as_npc = dynamic_cast<npc &>( *this );
+                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+                }
+            }
+            const optional_vpart_position vp_there = here.veh_at( your_pos );
+            vehicle &veh = vp_there->vehicle();
+            units::volume capacity = 0_ml;
+            units::volume free_cargo = 0_ml;
+            auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
+                for( auto& part : cargo_parts ) {
+                vehicle_stack contents = veh.get_items( *part );
+                const vpart_info &vpinfo = part->info();
+                const optional_vpart_position vp = here.veh_at( your_pos );
+                    if ( !vp.part_with_feature("CARGO_PASSABLE", true ) ) {
+                    capacity += vpinfo.size;
+                    free_cargo += contents.free_volume();
+                    }
+                }
+                if( capacity > 0_ml ) {
+                    // Open-topped vehicle parts have more room.
+                    if( !veh.enclosed_at( your_pos ) ) {
+                    free_cargo *= 1.2;
+                    }
+                    if( ( ( get_size() == creature_size::tiny ) && free_cargo < 15625_ml ) || ( ( get_size() == creature_size::small ) && free_cargo < 31250_ml ) || ( ( get_size() == creature_size::medium ) && free_cargo < 62500_ml ) || ( ( get_size() == creature_size::large ) && free_cargo < 125000_ml ) || ( ( get_size() == creature_size::huge ) && free_cargo < 250000_ml ) ) {
+                        if( !has_effect( effect_cramped_space ) ) {
+                        add_effect( effect_cramped_space, 2_turns, true );
+                        }
+                    return;
+                    }
+                }
+                const optional_vpart_position vp = here.veh_at( your_pos );
+                    if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) && !vp.part_with_feature( "HUGE_OK", true ) ) {
+                        if( !has_effect( effect_cramped_space ) ) {
+                        add_effect( effect_cramped_space, 2_turns, true );
+                        }
+                    return;
+                    }
+    remove_effect( effect_cramped_space );
+    }    
 
     if( has_effect( effect_boomered ) && ( is_avatar() || is_npc() ) && one_in( 10 ) &&
         !has_trait( trait_COMPOUND_EYES ) && !has_effect( effect_pre_conjunctivitis_bacterial ) &&

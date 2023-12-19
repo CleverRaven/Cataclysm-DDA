@@ -669,10 +669,12 @@
   },
   {
     "id": "CARGO_PASSABLE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Items stored here won't get in the way of any passengers."
   },
   {
     "id": "HUGE_OK",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Even when roofed, this part is roomy enough to comfortably admit very large creatures, like cows and horses."
   }
 ]

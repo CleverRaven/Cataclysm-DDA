@@ -103,7 +103,6 @@
     "floor_bedding_warmth": 500,
     "item": "seat_bench",
     "name": { "str": "bench seat" },
-    "size": "80 L",
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part"
   },
@@ -182,7 +181,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "size": "62500 ml",
-    "delete": { "flags": [ "CARGO" ] },
     "type": "vehicle_part"
   }
 ]

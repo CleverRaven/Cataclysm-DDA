@@ -204,7 +204,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "150  L",
+    "size": "100  L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
@@ -2519,7 +2519,6 @@
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
     "durability": 150,
-    "size": "62500 ml",
     "description": "A benchlike place to sit."
   },
   {
