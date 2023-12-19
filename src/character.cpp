@@ -4665,10 +4665,32 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                                                  eff.duration + eff.duration_dmg_scaling * scaling ) );
                 int scaled_int = roll_remainder( std::max( static_cast<float>( eff.intensity ),
                                                  eff.intensity + eff.intensity_dmg_scaling * scaling ) );
+
+                // go through all effects. if they modify effect duration, scale dur accordingly.
+                // obviously inefficient, but probably fast enough since this only is calculated once per attack.
+                float eff_scale = 1.0f;
+                for( const effect &e : get_effects() ) {
+                    for( const auto &eff_dur_mod : e.get_effect_dur_scaling() ) {
+                        // debugmsg( "Checking effect %s, with same_bp, modifier %f", eff.id.c_str(), eff_dur_mod.modifier);
+                        if( eff_dur_mod.effect_id == eff.id ) {
+                            if( eff_dur_mod.same_bp ) {
+                                if( e.get_bp() != body_part->get_id() ) {
+                                    continue;
+                                }
+                            }
+                            eff_scale *= eff_dur_mod.modifier;
+                        }
+                    }
+                }
+
+                scaled_dur = static_cast<int>( scaled_dur * eff_scale );
+
                 add_msg_debug( debugmode::DF_CHARACTER,
-                               "Atempting to add effect %s, scaled duration %d turns, scaled intensity %d", eff.id.c_str(),
+                               "Atempting to add effect %s, scaled duration %d turns, scaled intensity %d, effect scaling %f",
+                               eff.id.c_str(),
                                scaled_dur,
-                               scaled_int );
+                               scaled_int,
+                               eff_scale );
 
                 // Handle intensity/duration clamping
                 if( eff.max_intensity != INT_MAX ) {

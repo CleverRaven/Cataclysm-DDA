@@ -297,15 +297,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
 
-    // each aspirin you take gives you 1 points of intensity, which should be around 5% more bleeding.
-    // TODO: move to a non-linear model, as that makes more sense.
-    constexpr float BLOODLOSS_TO_INTENSITY_CONST = 0.05f;
-
-    float bloodloss_mod = 1;
-    if( u.has_effect( effect_bleedrate_up ) ) {
-        bloodloss_mod *= u.get_effect_int( effect_bleedrate_up ) * BLOODLOSS_TO_INTENSITY_CONST;
-    }
-    const int intense = static_cast<int>( std::round( it.get_intensity() * bloodloss_mod ) );
+    const int intense = it.get_intensity();
 
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
     // proficiency improves that factor to 3/4 and 4/5 respectively
