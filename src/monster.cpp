@@ -3344,7 +3344,10 @@ void monster::process_effects()
     map &here = get_map();
     const tripoint z_pos = pos();
     const optional_vpart_position vp = here.veh_at( z_pos );
-    if( vp ) {
+    if( has_effect( effect_cramped_space ) && !vp.has_value() ) {
+        remove_effect( effect_cramped_space );
+    }
+    if( vp.has_value() ) {
         vehicle &veh = vp->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;

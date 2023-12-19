@@ -172,7 +172,7 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
     map &m = get_map();
     monster critter = *this;
     const optional_vpart_position vp = m.veh_at( p );
-    if( vp ) {
+    if( vp.has_value() ) {
         vehicle &veh = vp->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
