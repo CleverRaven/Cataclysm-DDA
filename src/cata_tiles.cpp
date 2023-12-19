@@ -1412,7 +1412,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     if( here.draw_points_cache_dirty ) {
     here.draw_points_cache_dirty = false;
+    // overlay_strings and color_blocks are generated with draw_points and thus are cleared together
     here.draw_points_cache.clear();
+    here.overlay_strings_cache.clear();
+    here.color_blocks_cache = {};
+    	
+    // Generate new draw points
     creature_tracker &creatures = get_creature_tracker();
     for( int row = min_row; row < max_row; row ++ ) {
         // Reserve columns on each row
@@ -1462,7 +1467,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invisible[0] ) {
                     const int scent_value = get_scent().get( pos );
                     if( scent_value > 0 ) {
-                        overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                        here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                                  formatted_text( std::to_string( scent_value ),
                                                          8 + catacurses::yellow, direction::NORTH ) );
                     }
@@ -1473,7 +1478,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
                     const scenttype_id scent_type = get_scent().get_type( pos );
                     if( !scent_type.is_empty() ) {
-                        overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                        here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                                  formatted_text( scent_type.c_str(),
                                                          8 + catacurses::yellow, direction::NORTH ) );
                     }
@@ -1491,7 +1496,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         } else {
                             col = catacurses::cyan;
                         }
-                        overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                        here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                                  formatted_text( std::to_string( rad_value ),
                                                          8 + col, direction::NORTH ) );
                     }
@@ -1508,7 +1513,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         } else {
                             color = catacurses::white;
                         }
-                        overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
+                        here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                                  formatted_text( std::to_string( val ), color,
                                                          direction::NORTH ) );
                     }
@@ -1543,7 +1548,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     } else {
                         temp_str = string_format( "%.0f", units::to_fahrenheit( temp_value ) );
                     }
-                    overlay_strings.emplace( player_to_screen( point( x, y ) ),
+                    here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ),
                                              formatted_text( temp_str, color,
                                                      text_alignment::left ) );
                 }
@@ -1556,12 +1561,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     SDL_Color block_color = visibility ? windowsPalette[catacurses::green] :
                                             SDL_Color{ 192, 192, 192, 255 };
                     block_color.a = 100;
-                    color_blocks.first = SDL_BLENDMODE_BLEND;
-                    color_blocks.second.emplace( player_to_screen( point( x, y ) ), block_color );
+                    here.color_blocks_cache.first = SDL_BLENDMODE_BLEND;
+                    here.color_blocks_cache.second.emplace( player_to_screen( point( x, y ) ), block_color );
 
                     // overlay string
                     std::string visibility_str = visibility ? "+" : "-";
-                    overlay_strings.emplace( player_to_screen( point( x, y ) ) + quarter_tile,
+                    here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + quarter_tile,
                                              formatted_text( visibility_str, catacurses::black,
                                                      direction::NORTH ) );
                 }
@@ -1579,11 +1584,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     // color overlay
                     SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
                     color.a = 100;
-                    color_blocks.first = SDL_BLENDMODE_BLEND;
-                    color_blocks.second.emplace( tile_pos, color );
+                    here.color_blocks_cache.first = SDL_BLENDMODE_BLEND;
+                    here.color_blocks_cache.second.emplace( tile_pos, color );
 
                     // string overlay
-                    overlay_strings.emplace(
+                    here.overlay_strings_cache.emplace(
                         tile_pos + quarter_tile,
                         formatted_text( text, catacurses::black, direction::NORTH ) );
                 };
@@ -1650,6 +1655,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
     }
+    overlay_strings = here.overlay_strings_cache;
+    color_blocks = here.color_blocks_cache;
 
     // List all layers for a single z-level
     const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
