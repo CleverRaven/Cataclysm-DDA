@@ -31,7 +31,7 @@
     "min": 0,
     "max": 100,
     "rate": "0 h"
-  }, 
+  },
   {
     "id": "vitamin_psi_learning_counter",
     "type": "vitamin",
