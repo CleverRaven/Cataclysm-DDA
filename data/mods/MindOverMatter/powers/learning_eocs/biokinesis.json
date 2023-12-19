@@ -10,6 +10,8 @@
         { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
         { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "3" ] },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_breathe_skin')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_breathe_skin" } }
       ]
@@ -51,6 +53,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_dash" } }
       ]
@@ -91,6 +95,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_armor_skin" } }
       ]
@@ -128,6 +134,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_climate_control" } }
       ]
@@ -165,6 +173,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_adrenaline" } }
       ]
@@ -209,6 +219,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_enhance_mobility" } }
       ]
@@ -237,6 +249,8 @@
         { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "11" ] },
         { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hammerhand" } }
       ]
@@ -275,6 +289,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_reflex_enhance" } }
       ]
@@ -317,6 +333,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_sealed_system" } }
       ]
@@ -345,6 +363,8 @@
         { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
         { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_metabolism_enhance" } }
       ]
@@ -379,6 +399,8 @@
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_combat_dance" } }
       ]
@@ -407,6 +429,8 @@
         { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
         { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
         { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_perfected_motion" } }
       ]

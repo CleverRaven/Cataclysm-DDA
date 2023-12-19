@@ -1,6 +1,7 @@
 [
   {
     "id": "biokinetic_practice",
+    "//": "Random time to unlock new power is 2 hours + hours equal to the Difficulty +/- 20% each way",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
@@ -90,34 +91,15 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] }
-          ]
-        },
+        "condition": 
+            { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_physical_enhance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        ]
       }
     ]
   },
@@ -148,18 +130,18 @@
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
-          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "12 hours" },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
-            "time_in_future": [ "210 minutes", "270 minutes" ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2))"] }, { "math": [ "learn_new_power_upper_time_bound(2))"] } ]
           }
         ]
       }
     ]
   },
-   {
+  {
     "type": "effect_on_condition",
     "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
     "condition": {
@@ -195,13 +177,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_flexibility')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_flexibility')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
-          ]
+        "condition": { "math": [ "u_val('spell_level', 'spell: biokin_flexibility')", ">=", "1" ] 
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
@@ -209,23 +185,7 @@
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_flexibility')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        ]
       }
     ]
   },
@@ -247,13 +207,8 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_armor_skin')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_armor_skin')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
-          ]
+        "condition": 
+            { "math": [ "u_val('spell_level', 'spell: biokin_armor_skin')", ">=", "1" ] }
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
@@ -262,24 +217,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_armor_skin')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4))"] }, { "math": [ "learn_new_power_upper_time_bound(4))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_armor_skin" ],
+        "type": "spell",
+        "message": "You unlocked the Hardened Skin power."
+      },
+      { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -314,24 +282,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_climate_control')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4))"] }, { "math": [ "learn_new_power_upper_time_bound(4))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_climate_control" ],
+        "type": "spell",
+        "message": "You unlocked the Temperature Adaptability power."
+      },
+      { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -351,13 +332,9 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_enhance_mobility')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
-          ]
+        "condition": 
+            { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')", ">=", "1" ] 
+          
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
@@ -366,24 +343,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5))"] }, { "math": [ "learn_new_power_upper_time_bound(5))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 9 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_enhance_mobility" ],
+        "type": "spell",
+        "message": "You unlocked the Enhance Mobility power."
+      },
+      { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -403,14 +393,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_hammerhand')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "+=", "(contemplation_factor(1))" ] },
@@ -418,24 +401,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_hammerhand')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5))"] }, { "math": [ "learn_new_power_upper_time_bound(5))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 9 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_hammerhand" ],
+        "type": "spell",
+        "message": "You unlocked the Hammerhand power."
+      },
+      { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -456,12 +452,7 @@
       {
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
         "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_reflex_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_reflex_enhance')", "<=", "(difficulty_six_contemplation(1))" ]
-            }
-          ]
+        { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] }
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
@@ -470,24 +461,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_reflex_enhance')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6))"] }, { "math": [ "learn_new_power_upper_time_bound(6))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_reflex_enhance" ],
+        "type": "spell",
+        "message": "You unlocked the Heightened Reflexes power."
+      },
+      { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -507,14 +511,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_sealed_system')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_sealed_system')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_sealed_system')", "+=", "(contemplation_factor(1))" ] },
@@ -522,24 +519,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_sealed_system')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7))"] }, { "math": [ "learn_new_power_upper_time_bound(7))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_sealed_system" ],
+        "type": "spell",
+        "message": "You unlocked the Sealed System power."
+      },
+      { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -559,14 +569,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_metabolism_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(contemplation_factor(1))" ] },
@@ -574,24 +577,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_metabolism_enhance')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7))"] }, { "math": [ "learn_new_power_upper_time_bound(7))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_metabolism_enhance" ],
+        "type": "spell",
+        "message": "You unlocked the Metabolic Hyperefficiency power."
+      },
+      { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -611,14 +627,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_combat_dance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_combat_dance')", "<=", "(difficulty_eight_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_combat_dance')", "+=", "(contemplation_factor(1))" ] },
@@ -626,24 +635,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_combat_dance')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8))"] }, { "math": [ "learn_new_power_upper_time_bound(8))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 12 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_combat_dance" ],
+        "type": "spell",
+        "message": "You unlocked the Combat Dance power."
+      },
+      { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
@@ -663,14 +685,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_perfected_motion')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "<=", "(difficulty_nine_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "+=", "(contemplation_factor(1))" ] },
@@ -678,23 +693,36 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_perfected_motion')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9))"] }, { "math": [ "learn_new_power_upper_time_bound(9))"] } ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 13 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_perfected_motion" ],
+        "type": "spell",
+        "message": "You unlocked the Perfected Motion power."
+      },
+      { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   }
 ]
