@@ -593,7 +593,7 @@
       }
     ]
   },
-  {
+   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: lacerating touch",
@@ -613,9 +613,7 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] },
-            {
-              "math": [ "u_spell_exp('vita_attack_touch')", "<=", "(difficulty_six_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_exp('vita_attack_touch')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
