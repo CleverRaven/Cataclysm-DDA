@@ -334,7 +334,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         update_bloodvol_index();
         update_heartrate_index();
         update_circulation();
-        check_vitals();
     }
 
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
