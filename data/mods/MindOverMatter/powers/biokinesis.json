@@ -169,7 +169,7 @@
     "damage_type": "biological",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: biokin_dash') * 0.5) + 1 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
+        "min( (( (u_spell_level('biokin_dash') * 0.5) + 1 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
       ]
     },
     "max_range": 12,
@@ -248,7 +248,7 @@
     "id": "biokin_adrenaline",
     "type": "SPELL",
     "name": "[Ψ]Adrenaline Trigger",
-    "description": "With a moment of concentaruon, you can trigger a surge of adrenaline.  This provides a .",
+    "description": "With a moment of concentration, you can trigger a surge of adrenaline.  This provides a .",
     "message": "Your heartbeat surges as your body floods with adrenaline.",
     "teachable": false,
     "valid_targets": [ "self" ],

@@ -451,7 +451,7 @@
     "id": "vita_attack_touch",
     "type": "SPELL",
     "name": "[Ψ]Lacerating Touch",
-    "description": "With an inverse of vitkinesis's healing powers, you randomly tear flesh and cut blood vessels, causing significant damage in your target.",
+    "description": "With an inverse of vitakinesis's healing powers, you randomly tear flesh and cut blood vessels, causing significant damage in your target.",
     "message": "You touch your target and wounds open on their flesh.",
     "teachable": false,
     "valid_targets": [ "hostile" ],
