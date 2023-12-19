@@ -399,10 +399,6 @@ void overmap_npc_move()
 
 } // namespace
 
-extern int mon_routes_total;
-extern int mon_routes_ok;
-extern int mon_routes_missing;
-
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
 bool do_turn()
