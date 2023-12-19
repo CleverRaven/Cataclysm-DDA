@@ -1158,6 +1158,7 @@ void regional_settings::finalize()
         city_spec.finalize();
         forest_composition.finalize();
         forest_trail.finalize();
+		overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
         for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {
