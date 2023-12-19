@@ -10835,11 +10835,11 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
     // handle perspiration rate
-    val = get_effect( "PERSPIRATION_RATE", reduced );
+    val = get_effect( "RESPIRATION_RATE", reduced );
     if( val != 0 ) {
-        if( is_new || it.activated( calendar::turn, "PERSPIRATION_RATE", val, reduced, mod ) ) {
+        if( is_new || it.activated( calendar::turn, "RESPIRATION_RATE", val, reduced, mod ) ) {
             modify_respiration_effect_mod( bound_mod_to_vals( get_respiration_effect_mod(), val,
-                                           it.get_max_val( "PERSPIRATION_RATE", reduced ), 0 ) );
+                                           it.get_max_val( "RESPIRATION_RATE", reduced ), 0 ) );
         }
     }
 

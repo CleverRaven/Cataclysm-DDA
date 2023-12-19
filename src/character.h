@@ -3988,7 +3988,7 @@ class Character : public Creature, public visitable
 
         int bp_effect_mod = 0;
         int heart_rate_effect_mod = 0;
-        int persp_rate_effect_mod = 0;
+        int resp_rate_effect_mod = 0;
 
         int radiation;
 
