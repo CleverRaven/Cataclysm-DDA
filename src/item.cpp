@@ -13841,8 +13841,7 @@ bool item::reset_link( Character *p, int vpart_index,
         }
     }
 
-    const int respool_threshold = 6;
-    if( link().length > respool_threshold ) {
+    if( link().length > LINK_RESPOOL_THRESHOLD ) {
         // Cables that are too long need to be manually rewound before reuse.
         link().source = link_state::needs_reeling;
         return false;

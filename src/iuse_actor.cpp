@@ -4467,11 +4467,10 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
     const std::string cable_name = is_cable_item ? it.type_name() :
                                    string_format( _( "%s's cable" ), it.type_name() );
 
-    const int respool_threshold = 6;
     const int respool_time_per_square = 200;
-    const int respool_time_total = it.link().length < respool_threshold ? 0 :
-                                   ( it.link().length - respool_threshold ) * respool_time_per_square;
-    const bool past_respool_threshold = it.link_length() > respool_threshold;
+    const bool past_respool_threshold = it.link_length() > item::LINK_RESPOOL_THRESHOLD;
+    const int respool_time_total = !past_respool_threshold ? 0 :
+                                   ( it.link_length() - item::LINK_RESPOOL_THRESHOLD ) * respool_time_per_square;
     const bool unspooled = it.link_length() == -1;
     const bool has_loose_end = !unspooled && is_cable_item ?
                                it.link_has_state( link_state::no_link ) : it.has_no_links();

@@ -1460,6 +1460,8 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
+        /// Disconnecting a cable beyond this length will leave it unspooled, requiring respooling to be usable again.
+        static const int LINK_RESPOOL_THRESHOLD = 6;
 
         /// Gets the item's link data, initializing it if needed. Will throw an error if used on items that fail can_link_up().
         /// To avoid unnecessary link_data initialization, simple boolean link functions should be used instead if possible.
