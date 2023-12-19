@@ -799,10 +799,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
         region.field_coverage.boosted_percent_str[member.name()] = member.get_float();
     }
-    optional( jo, false, "overmap_forest_settings", region.overmap_forest, bogus_forest_id );
-    optional( jo, false, "overmap_ravine_settings", region.overmap_ravine, bogus_ravine_id );
-    optional( jo, false, "overmap_ocean_settings", region.overmap_ocean, bogus_ocean_id );
-    load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
     if( region.field_coverage.boost_chance > 0.0f &&
         region.field_coverage.boosted_percent_str.empty() ) {
@@ -860,6 +856,12 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_building_types( "parks", region.city_spec.parks );
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
+
+    optional( jo, false, "overmap_forest_settings", region.overmap_forest, bogus_forest_id );
+    optional( jo, false, "overmap_ravine_settings", region.overmap_ravine, bogus_ravine_id );
+    optional( jo, false, "overmap_ocean_settings", region.overmap_ocean, bogus_ocean_id );
+
+    load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
