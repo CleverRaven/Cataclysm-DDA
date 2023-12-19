@@ -6729,6 +6729,7 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
             drop.set_damage( 0 );
             const int other_tow_cable_idx = other_veh ? other_veh->get_tow_part() : -1;
             if( other_tow_cable_idx > -1 ) {
+                drop.link.reset();
                 drop.link_to( *other_veh, other_veh->part( other_tow_cable_idx ).mount );
                 if( is_towing() ) {
                     drop.link->s_state = link_state::no_link;
@@ -8067,9 +8068,10 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
     // stored, and if a cable actually drops, it should be half-connected.
     // Tow cables are handled inside of invalidate_towing instead.
     if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
+        tmp.link.reset();
         const std::optional<vpart_reference> remote = get_remote_part( vp );
-        if( remote ) {
-            tmp.link_to( remote->vehicle(), remote->part().mount, link_state::automatic );
+        if( remote &&
+            tmp.link_to( remote->vehicle(), remote->part().mount, link_state::automatic ).success() ) {
             tmp.link->t_abs_pos = tripoint_abs_ms( vp.target.second );
         } else {
             // The linked vehicle can't be found, so this part shouldn't exist.

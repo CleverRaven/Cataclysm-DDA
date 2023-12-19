@@ -1484,6 +1484,16 @@ class item : public visitable
         ret_val<void> link_to( const optional_vpart_position &linked_vp,
                                link_state link_type = link_state::no_link );
         /**
+         * @brief Initializes the item's link_data and starts a connection between the first specified vehicle position and the second.
+         * @param first_linked_vp An optional_vpart_position to connect the item to first.
+         * @param second_linked_vp An optional_vpart_position to connect the item to second.
+         * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
+         * @return true if the item was successfully connected.
+         */
+        ret_val<void> link_to( const optional_vpart_position &first_linked_vp,
+                               const optional_vpart_position &second_linked_vp,
+                               link_state link_type = link_state::no_link );
+        /**
          * @brief Initializes the item's link_data and starts a connection to the specified vehicle and mount point.
          * @param veh The vehicle to connect the item to.
          * @param mount The mount point of the part being connected to.

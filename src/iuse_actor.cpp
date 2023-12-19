@@ -4796,6 +4796,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
                                          "", can_link, false, false );
     if( !pnt_ ) {
+        p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;
     }
     const tripoint &selection = *pnt_;
@@ -4849,94 +4850,15 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
     } else {
 
-        // Connecting one vehicle/appliance to another.
-        if( !it.link->t_veh_safe ) {
-            vehicle *found_veh = vehicle::find_vehicle( it.link->t_abs_pos );
-            if( found_veh ) {
-                it.link->t_veh_safe = found_veh->get_safe_reference();
-            } else {
-                debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", it.tname() );
-                return std::nullopt;
-            }
+        ret_val<void> result = it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
+                                           link_state::vehicle_battery );
+        if( !result.success() ) {
+            p->add_msg_if_player( m_bad, result.str() );
+            return 0;
         }
-        vehicle *const sel_veh = &sel_vp->vehicle();
-        vehicle *const prev_veh = it.link->t_veh_safe.get();
-        if( prev_veh == sel_veh ) {
-            p->add_msg_if_player( m_warning, _( "You cannot connect the %s to itself." ), prev_veh->name );
-            return std::nullopt;
-        }
-
-        // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-        const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                    here.getabs( selection ),
-                    sel_veh->global_square_location().raw() );
-        const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                    ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
-                    it.link->t_abs_pos.raw() );
-
-        for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
-            if( vpr.part().target.first == prev_part_target.first &&
-                vpr.part().target.second == prev_part_target.second ) {
-                p->add_msg_if_player( m_warning, _( "The %1$s and %2$s are already connected." ),
-                                      sel_veh->name, prev_veh->name );
-                return std::nullopt;
-            }
-        }
-
-        if( trigdist ? trig_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length :
-            square_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length ) {
-            p->add_msg_if_player( m_warning, _( "The %1$s can't stretch that far!" ), it.type_name() );
-            return std::nullopt;
-        }
-
-        const itype_id item_id = it.typeId();
-        vpart_id vpid = vpart_id::NULL_ID();
-        for( const vpart_info &e : vehicles::parts::get_all() ) {
-            if( e.base_item == item_id ) {
-                vpid = e.id;
-                break;
-            }
-        }
-
-        if( vpid.is_null() ) {
-            debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
-            return std::nullopt;
-        }
-
-        const point vcoords1 = it.link->t_mount;
-        const point vcoords2 = sel_vp->mount();
-
-        const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
-        if( !can_mount1.success() ) {
-            //~ %1$s - cable name, %2$s - the reason why it failed
-            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                  it.type_name(), can_mount1.str() );
-            return std::nullopt;
-        }
-        const ret_val<void> can_mount2 = sel_veh->can_mount( vcoords2, *vpid );
-        if( !can_mount2.success() ) {
-            //~ %1$s - cable name, %2$s - the reason why it failed
-            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                  it.type_name(), can_mount2.str() );
-            return std::nullopt;
-        }
-
-        vehicle_part prev_veh_part( vpid, item( it ) );
-        prev_veh_part.target.first = prev_part_target.first;
-        prev_veh_part.target.second = prev_part_target.second;
-        prev_veh->install_part( vcoords1, std::move( prev_veh_part ) );
-        prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
-
-        vehicle_part sel_veh_part( vpid, item( it ) );
-        sel_veh_part.target.first = sel_part_target.first;
-        sel_veh_part.target.second = sel_part_target.second;
-        sel_veh->install_part( vcoords2, std::move( sel_veh_part ) );
-        sel_veh->precalc_mounts( 1, sel_veh->pivot_rotation[1], sel_veh->pivot_anchor[1] );
-
         if( p->has_item( it ) ) {
             //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
-            p->add_msg_if_player( m_good, _( "You connect %1$s and %2$s with the %3$s." ),
-                                  prev_veh->disp_name(), sel_veh->disp_name(), it.type_name() );
+            p->add_msg_if_player( m_good, result.str() );
         }
         if( it.typeId() != itype_power_cord ) {
             // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
@@ -4961,6 +4883,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             to_towing ? _( "Attach cable to the vehicle that will do the towing." ) :
             _( "Attach cable to the vehicle that will be towed." ), "", can_link, false, false );
     if( !pnt_ ) {
+        p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;
     }
     const tripoint &selection = *pnt_;
@@ -5010,93 +4933,14 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
     } else {
 
         // Connecting two vehicles with tow cable.
-        if( !it.link->t_veh_safe ) {
-            vehicle *found_veh = vehicle::find_vehicle( it.link->t_abs_pos );
-            if( found_veh ) {
-                it.link->t_veh_safe = found_veh->get_safe_reference();
-            } else {
-                debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", it.tname() );
-                return std::nullopt;
-            }
+        ret_val<void> result = it.link_to( sel_vp, link_state::vehicle_tow );
+        if( !result.success() ) {
+            p->add_msg_if_player( m_bad, result.str() );
+            return 0;
         }
-        vehicle *const prev_veh = it.link->t_veh_safe.get();
-        if( prev_veh == sel_veh ) {
-            if( p->has_item( it ) ) {
-                p->add_msg_if_player( m_warning, _( "The %s cannot tow itself!" ), prev_veh->name );
-            }
-            return std::nullopt;
-        };
-
-        // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-        const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                    here.getabs( selection ),
-                    sel_veh->global_square_location().raw() );
-        const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                    ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
-                    it.link->t_abs_pos.raw() );
-
-        if( rl_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length ) {
-            p->add_msg_if_player( m_warning, _( "The %1$s can't stretch that far!" ), it.type_name() );
-            return std::nullopt;
-        }
-
-        const itype_id item_id = it.typeId();
-        vpart_id vpid = vpart_id::NULL_ID();
-        for( const vpart_info &e : vehicles::parts::get_all() ) {
-            if( e.base_item == item_id ) {
-                vpid = e.id;
-                break;
-            }
-        }
-
-        if( vpid.is_null() ) {
-            debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
-            return std::nullopt;
-        }
-
-        const point vcoords1 = it.link->t_mount;
-        const point vcoords2 = sel_vp->mount();
-
-        const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
-        if( !can_mount1.success() ) {
-            //~ %1$s - tow cable name, %2$s - the reason why it failed
-            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                  it.type_name(), can_mount1.str() );
-            return std::nullopt;
-        }
-        const ret_val<void> can_mount2 = sel_veh->can_mount( vcoords2, *vpid );
-        if( !can_mount2.success() ) {
-            //~ %1$s - tow cable name, %2$s - the reason why it failed
-            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                  it.type_name(), can_mount2.str() );
-            return std::nullopt;
-        }
-
-        vehicle_part prev_veh_part( vpid, item( it ) );
-        prev_veh_part.target.first = prev_part_target.first;
-        prev_veh_part.target.second = prev_part_target.second;
-        prev_veh->install_part( vcoords1, std::move( prev_veh_part ) );
-        prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
-
-        vehicle_part sel_veh_part( vpid, item( it ) );
-        sel_veh_part.target.first = sel_part_target.first;
-        sel_veh_part.target.second = sel_part_target.second;
-        sel_veh->install_part( vcoords2, std::move( sel_veh_part ) );
-        sel_veh->precalc_mounts( 1, sel_veh->pivot_rotation[1], sel_veh->pivot_anchor[1] );
-
         if( p->has_item( it ) ) {
             //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name,
-            p->add_msg_if_player( m_good, _( "You connect the %1$s and %2$s with the %3$s." ),
-                                  prev_veh->disp_name(), sel_veh->disp_name(), it.type_name() );
-        }
-        if( to_towing ) {
-            sel_veh->tow_data.set_towing( sel_veh, prev_veh );
-        } else {
-            prev_veh->tow_data.set_towing( prev_veh, sel_veh );
-        }
-        if( it.typeId() != itype_power_cord ) {
-            // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
-            it.reset_link( p );
+            p->add_msg_if_player( m_good, result.str() );
         }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.

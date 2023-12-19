@@ -563,38 +563,14 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     }
     vehicle *const sel_veh = &sel_vp->vehicle();
     vehicle *const prev_veh = &prev_vp->vehicle();
-    if( prev_veh == sel_veh ) {
+    if( &sel_vp->vehicle() == &prev_vp->vehicle() ) {
         return ;
     }
 
     item cord( "power_cord" );
-    if( !cord.link_to( prev_vp, link_state::vehicle_port ).success() ) {
+    if( !cord.link_to( prev_vp, sel_vp, link_state::vehicle_port ).success() ) {
         debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", cord.tname() );
     }
-    const vpart_id vpid( cord.typeId().str() );
-
-    // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                here.getabs( target_pos ),
-                sel_veh->global_square_location().raw() );
-    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                ( cord.link->t_abs_pos + prev_veh->coord_translate( cord.link->t_mount ) ).raw(),
-                cord.link->t_abs_pos.raw() );
-
-    const point vcoords1 = cord.link->t_mount;
-    const point vcoords2 = sel_vp->mount();
-
-    vehicle_part prev_veh_part( vpid, item( cord ) );
-    prev_veh_part.target.first = prev_part_target.first;
-    prev_veh_part.target.second = prev_part_target.second;
-    prev_veh->install_part( vcoords1, std::move( prev_veh_part ) );
-    prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
-
-    vehicle_part sel_veh_part( vpid, item( cord ) );
-    sel_veh_part.target.first = sel_part_target.first;
-    sel_veh_part.target.second = sel_part_target.second;
-    sel_veh->install_part( vcoords2, std::move( sel_veh_part ) );
-    sel_veh->precalc_mounts( 1, sel_veh->pivot_rotation[1], sel_veh->pivot_anchor[1] );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const

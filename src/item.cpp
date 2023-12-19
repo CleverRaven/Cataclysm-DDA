@@ -169,6 +169,7 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_stock_none( "stock_none" );
@@ -13263,41 +13264,156 @@ ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_stat
            ret_val<void>::make_failure();
 }
 
+ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
+                             const optional_vpart_position &second_linked_vp, link_state link_type )
+{
+    if( !first_linked_vp || !second_linked_vp ) {
+        return ret_val<void>::make_failure();
+    }
+    // Link up the second vehicle first so, if it's a tow cable, the first vehicle will tow the second.
+    ret_val<void> result = link_to( second_linked_vp->vehicle(), second_linked_vp->mount(), link_type );
+    if( !result.success() ) {
+        return result;
+    }
+    return link_to( first_linked_vp->vehicle(), first_linked_vp->mount(), link_type );
+}
+
 ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )
 {
     if( !can_link_up() ) {
-        return ret_val<void>::make_failure( "%s doesn't have a cable!", tname() );
-    }
-    if( !link ) {
-        link = cata::make_value<item::link_data>();
+        return ret_val<void>::make_failure( _( "%s doesn't have a cable!" ), tname() );
     }
 
-    if( link_type != link_state::automatic ) {
-        link->t_state = link_type;
-    } else {
-        // Assign t_state based on the parts available at the connected mount point.
-        const link_up_actor *it_actor = static_cast<const link_up_actor *>
-                                        ( get_use( "link_up" )->get_actor_ptr() );
-        if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
-            ( veh.avail_part_with_feature( mount, "CABLE_PORTS" ) != -1 ||
-              veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
-            link->t_state = link_state::vehicle_port;
-        } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
-                   ( veh.avail_part_with_feature( mount, "BATTERY" ) != -1 ||
-                     veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
-            link->t_state = link_state::vehicle_battery;
+    if( !link || link->has_no_links() ) {
+
+        // Option 1: Start a new link to a vehicle/appliance.
+
+        link = cata::make_value<item::link_data>();
+
+        if( link_type != link_state::automatic ) {
+            link->t_state = link_type;
         } else {
-            return ret_val<void>::make_failure( "%s cannot connect to that.", tname() );
+            // Assign t_state based on the parts available at the connected mount point.
+            const link_up_actor *it_actor = static_cast<const link_up_actor *>
+                                            ( get_use( "link_up" )->get_actor_ptr() );
+            if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
+                ( veh.avail_part_with_feature( mount, "CABLE_PORTS" ) != -1 ||
+                  veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
+                link->t_state = link_state::vehicle_port;
+            } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
+                       ( veh.avail_part_with_feature( mount, "BATTERY" ) != -1 ||
+                         veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
+                link->t_state = link_state::vehicle_battery;
+            } else {
+                return ret_val<void>::make_failure( _( "%s can't connect to that." ), tname() );
+            }
+        }
+
+        link->t_veh_safe = veh.get_safe_reference();
+        link->t_abs_pos = get_map().getglobal( link->t_veh_safe->global_pos3() );
+        link->t_mount = mount;
+        link->s_bub_pos = tripoint_min; // Forces the item to check the length during process_link.
+
+        update_link_traits();
+        return ret_val<void>::make_success();
+    }
+
+    // Option 2: There's already a connection, so link the previous vehicle/appliance to the new one.
+
+    if( !link->has_state( link_state::no_link ) ) {
+        debugmsg( "Failed to connect the %s, both ends are already connected!", tname() );
+        return ret_val<void>::make_failure();
+    }
+    if( !link->t_veh_safe ) {
+        vehicle *found_veh = vehicle::find_vehicle( link->t_abs_pos );
+        if( found_veh ) {
+            link->t_veh_safe = found_veh->get_safe_reference();
+        } else {
+            debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", tname() );
+            return ret_val<void>::make_failure();
+        }
+    }
+    vehicle *prev_veh = link->t_veh_safe.get();
+    if( prev_veh == &veh ) {
+        return ret_val<void>::make_failure( _( "You cannot connect the %s to itself." ), prev_veh->name );
+    }
+
+    // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
+    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
+                ( veh.global_square_location() + veh.coord_translate( mount ) ).raw(),
+                veh.global_square_location().raw() );
+    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
+                ( link->t_abs_pos + prev_veh->coord_translate( link->t_mount ) ).raw(),
+                link->t_abs_pos.raw() );
+
+    for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
+        if( vpr.part().target.first == prev_part_target.first &&
+            vpr.part().target.second == prev_part_target.second ) {
+            return ret_val<void>::make_failure( _( "The %1$s and %2$s are already connected." ),
+                                                veh.name, prev_veh->name );
         }
     }
 
-    link->t_veh_safe = veh.get_safe_reference();
-    link->t_abs_pos = get_map().getglobal( link->t_veh_safe->global_pos3() );
-    link->t_mount = mount;
-    link->s_bub_pos = tripoint_min; // Forces the item to check the length during process_link.
+    if( rl_dist( prev_part_target.first, sel_part_target.first ) > link->max_length ) {
+        return ret_val<void>::make_failure( _( "The %s can't stretch that far!" ), type_name() );
+    }
 
-    update_link_traits();
-    return ret_val<void>::make_success();
+    const itype_id item_id = typeId();
+    vpart_id vpid = vpart_id::NULL_ID();
+    for( const vpart_info &e : vehicles::parts::get_all() ) {
+        if( e.base_item == item_id ) {
+            vpid = e.id;
+            break;
+        }
+    }
+
+    if( vpid.is_null() ) {
+        debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+        return ret_val<void>::make_failure();
+    }
+
+    const point prev_mount = link->t_mount;
+
+    const ret_val<void> can_mount1 = prev_veh->can_mount( prev_mount, *vpid );
+    if( !can_mount1.success() ) {
+        //~ %1$s - cable name, %2$s - the reason why it failed
+        return ret_val<void>::make_failure( _( "You can't attach the %1$s: %2$s" ),
+                                            type_name(), can_mount1.str() );
+    }
+    const ret_val<void> can_mount2 = veh.can_mount( mount, *vpid );
+    if( !can_mount2.success() ) {
+        //~ %1$s - cable name, %2$s - the reason why it failed
+        return ret_val<void>::make_failure( _( "You can't attach the %1$s: %2$s" ),
+                                            type_name(), can_mount2.str() );
+    }
+
+    vehicle_part prev_veh_part( vpid, item( *this ) );
+    prev_veh_part.target.first = prev_part_target.first;
+    prev_veh_part.target.second = prev_part_target.second;
+    prev_veh->install_part( prev_mount, std::move( prev_veh_part ) );
+    prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
+
+    vehicle_part sel_veh_part( vpid, item( *this ) );
+    sel_veh_part.target.first = sel_part_target.first;
+    sel_veh_part.target.second = sel_part_target.second;
+    veh.install_part( mount, std::move( sel_veh_part ) );
+    veh.precalc_mounts( 1, veh.pivot_rotation[1], veh.pivot_anchor[1] );
+
+    if( link_type == link_state::vehicle_tow ) {
+        if( link->s_state == link_state::vehicle_tow ) {
+            veh.tow_data.set_towing( prev_veh, &veh ); // Previous vehicle is towing.
+        } else {
+            veh.tow_data.set_towing( &veh, prev_veh ); // Previous vehicle is being towed.
+        }
+    }
+
+    if( typeId() != itype_power_cord ) {
+        // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
+        reset_link();
+    }
+    //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
+    return ret_val<void>::make_success( _( "You connect the %1$s and %2$s with the %3$s." ),
+                                        prev_veh->disp_name(), veh.disp_name(), type_name() );
 }
 
 void item::update_link_traits()
