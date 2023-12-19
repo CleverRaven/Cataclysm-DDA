@@ -843,7 +843,7 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
                                            tripoint_bub_ms( 0, 0, -OVERMAP_DEPTH ) );
     const tripoint_bub_ms max = coord_min( coord_max( from, to ) + settings.padding(),
                                            tripoint_bub_ms( MAPSIZE_X - 1, MAPSIZE_Y - 1, OVERMAP_HEIGHT ) );
-    inclusive_cuboid<tripoint_bub_ms> bounds( min, max );
+    const inclusive_cuboid<tripoint_bub_ms> bounds( min, max );
 
     return impl.find_path( settings.max_cost(), from, to, std::forward<PositionCostFn>( p_cost_fn ),
                            std::forward<MoveCostFn>( m_cost_fn ), std::forward<HeuristicFn>( heuristic_fn ), [this, &settings,
@@ -870,73 +870,75 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
 
         // If we're falling, we can only continue falling.
         if( c.z() > -OVERMAP_DEPTH && flags.is_set( PathfindingFlag::Air ) ) {
-            const tripoint_bub_ms down( c.x(), c.y(), c.z() - 1 );
+            const tripoint_bub_ms down( c.xy(), c.z() - 1 );
             emit_fn( down );
             return;
         }
 
-        const int dx = ( c.x() > p.x() ) - ( c.x() < p.x() );
-        const int dy = ( c.y() > p.y() ) - ( c.y() < p.y() );
-        const int xd = c.x() + dx;
-        const int yd = c.y() + dy;
+        const point_rel_ms d( ( c.x() > p.x() ) - ( c.x() < p.x() ),
+                              ( c.y() > p.y() ) - ( c.y() < p.y() ) );
+        const point_bub_ms n = c.xy() + d;
 
-        if( dx != 0 && dy != 0 ) {
+        if( d.x() != 0 && d.y() != 0 ) {
             // Diagonal movement. Visit the following states:
             //
-            //  * * *
+            //  * * n
             //  . c *
             //  p . *
             //
             // where * is a state to be visited
+            // n is the state in movement direction, visited
             // p is the parent state (not visited)
             // c is the current state (not visited)
             // . is not visited
-            if( min.x() <= xd && xd <= max.x() ) {
+            if( min.x() <= n.x() && n.x() <= max.x() ) {
                 for( int y = min.y(); y <= max.y(); ++y ) {
-                    const tripoint_bub_ms next( xd, y, c.z() );
+                    const tripoint_bub_ms next( n.x(), y, c.z() );
                     emit_fn( next );
                 }
             }
-            if( min.y() <= yd && yd <= max.y() ) {
+            if( min.y() <= n.y() && n.y() <= max.y() ) {
                 for( int x = min.x(); x <= max.x(); ++x ) {
-                    if( x == xd ) {
+                    if( x == n.x() ) {
                         continue;
                     }
-                    const tripoint_bub_ms next( x, yd, c.z() );
+                    const tripoint_bub_ms next( x, n.y(), c.z() );
                     emit_fn( next );
                 }
             }
-        } else if( dx != 0 ) {
+        } else if( d.x() != 0 ) {
             // Horizontal movement. Visit the following states:
             //
             //  . . *
-            //  p c *
+            //  p c n
             //  . . *
             //
             // where * is a state to be visited
+            // n is the state in movement direction, visited
             // p is the parent state (not visited)
             // c is the current state (not visited)
             // . is not visited
-            if( min.x() <= xd && xd <= max.x() ) {
+            if( min.x() <= n.x() && n.x() <= max.x() ) {
                 for( int y = min.y(); y <= max.y(); ++y ) {
-                    const tripoint_bub_ms next( xd, y, c.z() );
+                    const tripoint_bub_ms next( n.x(), y, c.z() );
                     emit_fn( next );
                 }
             }
-        } else if( dy != 0 ) {
+        } else if( d.y() != 0 ) {
             // Vertical movement. Visit the following states:
             //
-            //  * * *
+            //  * n *
             //  . c .
             //  . p .
             //
             // where * is a state to be visited
+            // n is the state in movement direction, visited
             // p is the parent state (not visited)
             // c is the current state (not visited)
             // . is not visited
-            if( min.y() <= yd && yd <= max.y() ) {
+            if( min.y() <= n.y() && n.y() <= max.y() ) {
                 for( int x = min.x(); x <= max.x(); ++x ) {
-                    const tripoint_bub_ms next( x, yd, c.z() );
+                    const tripoint_bub_ms next( x, n.y(), c.z() );
                     emit_fn( next );
                 }
             }
