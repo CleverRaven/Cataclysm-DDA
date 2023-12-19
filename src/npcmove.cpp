@@ -414,12 +414,13 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
     return is_dangerous_fields( get_map().field_at( p ) );
 }
 
-bool npc::could_move_onto( const tripoint &p ) const {
+bool npc::could_move_onto( const tripoint &p ) const
+{
     map &here = get_map();
     if( !here.passable( p ) ) {
         return false;
     }
-    if ( !move_in_vehicle(const_cast<npc*>(this), p ) ) {
+    if( !move_in_vehicle( const_cast<npc *>( this ), p ) ) {
         return false;
     }
 
@@ -1813,13 +1814,13 @@ void npc::execute_action( npc_action action )
                 }
                 // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
-                tripoint target = veh->global_part_pos3( pt );
+                    tripoint target = veh->global_part_pos3( pt );
                     if( !pt.is_seat() ) {
                         return false;
                     }
                     if( !could_move_onto( target ) ) {
                         return false;
-                    }               
+                    }
                     const npc *who = pt.crew();
                     return !who || who->getID() == getID();
                 };
@@ -2844,16 +2845,16 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( this, p ) ) {
         auto other_points = here.get_dir_circle( pos(), p );
-            for( const tripoint &ot : other_points ) {
-                if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
-                    p = ot;
-                    break;
-                    } else {
-                    path.clear();
-                    move_pause();
-                    return;
-                    }
+        for( const tripoint &ot : other_points ) {
+            if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                p = ot;
+                break;
+            } else {
+                path.clear();
+                move_pause();
+                return;
             }
+        }
     }
 
     recoil = MAX_RECOIL;
@@ -3081,12 +3082,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        here.board_vehicle( p, this );
+            here.board_vehicle( p, this );
         }
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
-        }
     }
+}
 
 
 void npc::move_to_next()

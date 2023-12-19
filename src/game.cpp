@@ -10420,8 +10420,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
     u.set_underwater( false );
 
-    if( vp_there && !u.move_in_vehicle(static_cast<Creature*>(&u), dest_loc) ) {
-    return false;
+    if( vp_there && !u.move_in_vehicle( static_cast<Creature *>( &u ), dest_loc ) ) {
+        return false;
     }
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {

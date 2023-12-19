@@ -167,7 +167,7 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-bool monster::monster_move_in_vehicle( const tripoint& p ) const
+bool monster::monster_move_in_vehicle( const tripoint &p ) const
 {
     map &m = get_map();
     const tripoint_abs_ms this_spot;
@@ -180,12 +180,12 @@ bool monster::monster_move_in_vehicle( const tripoint& p ) const
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
         auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
-        for( auto& part : cargo_parts ) {
+        for( auto &part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
-            if ( !vp.part_with_feature("CARGO_PASSABLE", true ) ) {
-            capacity += vpinfo.size;
-            free_cargo += contents.free_volume();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                capacity += vpinfo.size;
+                free_cargo += contents.free_volume();
             }
         }
         if( capacity > 0_ml ) {
@@ -197,29 +197,31 @@ bool monster::monster_move_in_vehicle( const tripoint& p ) const
                 return true; // No amount of cargo will block a flying monster if there's no roof.
             }
             const creature_size size = get_size();
-                if ( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
+            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
                 ( size == creature_size::small && free_cargo < 31250_ml ) ||
                 ( size == creature_size::medium && free_cargo < 62500_ml ) ||
                 ( size == creature_size::large && free_cargo < 125000_ml ) ||
                 ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    if ( ( size == creature_size::tiny && free_cargo < 11719_ml ) ||
+                if( ( size == creature_size::tiny && free_cargo < 11719_ml ) ||
                     ( size == creature_size::small && free_cargo < 23438_ml ) ||
                     ( size == creature_size::medium && free_cargo < 46875_ml ) ||
                     ( size == creature_size::large && free_cargo < 93750_ml ) ||
-                    ( size == creature_size::huge && free_cargo < 187500_ml ) || 
+                    ( size == creature_size::huge && free_cargo < 187500_ml ) ||
                     ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", true ) ) ) {
                     return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
-                                  // I'm sorry but you can't let a kaiju ride shotgun.
-                        if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" || has_flag( mon_flag_PLASTIC )|| has_flag( mon_flag_SMALL_HIDER ) ) ) {
+                    // I'm sorry but you can't let a kaiju ride shotgun.
+                    if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                          has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
                         return true; // Return true if we're wiggly enough to be fine with cramped space.
-                        }
+                    }
                     critter->add_effect( effect_cramped_space, 2_turns, true );
                     return true; // Otherwise we add the effect and return true.
-                    }
                 }
-            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) && !vp.part_with_feature( "HUGE_OK", true ) ) {
-            critter->add_effect( effect_cramped_space, 2_turns, true );
-            return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
+            }
+            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+                !vp.part_with_feature( "HUGE_OK", true ) ) {
+                critter->add_effect( effect_cramped_space, 2_turns, true );
+                return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
             }
         }
     }
