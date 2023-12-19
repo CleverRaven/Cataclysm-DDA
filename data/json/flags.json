@@ -653,6 +653,11 @@
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
+    "id": "PROVIDES_TECHNIQUES",
+    "type": "json_flag",
+    "//": "This item provides martial arts techniques in addition to the character's weapon"
+  },
+  {
     "id": "SPAWN_ACTIVE",
     "type": "json_flag",
     "//": "This item will spawn active. Not advised for items that drain power when active."
@@ -2361,5 +2366,10 @@
     "id": "UNDERFED",
     "type": "json_flag",
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
+  },
+  {
+    "id": "TRANSPARENT",
+    "type": "json_flag",
+    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
   }
 ]

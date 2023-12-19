@@ -80,6 +80,11 @@ The player can gauge an NPC's personality during dialogue with them
 The Han Solo Special: NPCs identify when fleeing is failing. Also adds flee modes and panic.
 Boomer bile is slippery, causes pinkeye, and is blocked by waterproof eyewear
 The map changes as you travel east-west and north-south, revealing either rural areas or oceans and megacities
+Furniture/terrain have semi-persistent damage from being bashed
+Rework Character::overmap_sight_range to allow night overmap sight through mutation
+re-add pre-seeded hordes, make them unconditional, and show up even with wandering hordes disabled
+Allow for a "variant" field when using the add_trait effect
+There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free to add content for it.
 
 
 ## Content:
@@ -146,6 +151,10 @@ Winnowing, new method of obtaining raw grain
 Adds compensators, adds conflict for suppressors/barrel porting
 Changes some items' material to fiberglass
 New portal storm monster based off a dream I had
+Add liquid recipes for faction camps
+Add the star vampire, an invisible blood-drinking monster
+Metamagic perks from Bombastic Perks
+More trail variety
 
 
 ## Interface:
@@ -194,6 +203,7 @@ Update gun mod removal UI to use inventory menu instead of a prompt; prevent rem
 Show the mass of vitamins in food items
 Melee weapons tell you your skill is too low to see melee values instead of just hiding them
 Shows the starting location for a scenario when there is only one possible option.
+Show language selection window in options menu
 
 
 ## Mods:
@@ -273,6 +283,7 @@ Add Bombastic Perk compatibility to Defense Mode.
 [Backrooms] Autodoc special and long-term progression tweaks
 [MoM] Add Project PHAVIAN skyscraper lab
 [MoM] Add telepathic dampener```
+[Xedra Evolved] Revamp spell learning system
 
 
 ## Balance:
@@ -470,6 +481,8 @@ Faction editing on Debug menu
 Change NPC faction from debug menu
 Remove action portion out of assess_danger into a dedicated method
 Add u_has_proficiency to EoC conditions
+JSON-ify hallucinations
+Parameterize new geography changes to overmaps
 
 
 ## Build:

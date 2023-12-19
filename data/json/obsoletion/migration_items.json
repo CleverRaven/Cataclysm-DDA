@@ -5,6 +5,21 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "artifact_teleportitis_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "artifact_slow_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "recipe_mil_augs",
+    "type": "MIGRATION",
+    "replace": "recipe_lab_elec"
+  },
+  {
     "id": "ar15_223long",
     "type": "MIGRATION",
     "replace": "modular_ar15"
