@@ -2038,7 +2038,8 @@
     "id": "bleedrate_up",
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Blood Thinner"
+    "blood_analysis_description": "Blood Thinner",
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
   },
   {
     "type": "effect_type",
