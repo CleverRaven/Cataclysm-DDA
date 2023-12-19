@@ -799,9 +799,9 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
         region.field_coverage.boosted_percent_str[member.name()] = member.get_float();
     }
-    optional( jo, false, "overmap_forest_settings", new_region.overmap_forest, bogus_forest_id );
-    optional( jo, false, "overmap_ravine_settings", new_region.overmap_ravine, bogus_ravine_id );
-    optional( jo, false, "overmap_ocean_settings", new_region.overmap_ocean, bogus_ocean_id );
+    optional( jo, false, "overmap_forest_settings", region.overmap_forest, bogus_forest_id );
+    optional( jo, false, "overmap_ravine_settings", region.overmap_ravine, bogus_ravine_id );
+    optional( jo, false, "overmap_ocean_settings", region.overmap_ocean, bogus_ocean_id );
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
     if( region.field_coverage.boost_chance > 0.0f &&
