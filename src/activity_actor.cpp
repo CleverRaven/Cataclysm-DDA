@@ -5264,9 +5264,9 @@ void reel_cable_activity_actor::start( player_activity &act, Character & )
 
 void reel_cable_activity_actor::finish( player_activity &act, Character &who )
 {
-    cable->link->length = 0;
-    cable->link->source = link_state::no_link;
-    cable->link->target = link_state::no_link;
+    cable->link().length = 0;
+    cable->link().source = link_state::no_link;
+    cable->link().target = link_state::no_link;
     cable->reset_link( &who, -2 );
     who.add_msg_if_player( m_info,
                            string_format( cable->has_flag( flag_CABLE_SPOOL ) ? _( "You reel in the %s and wind it up." ) :

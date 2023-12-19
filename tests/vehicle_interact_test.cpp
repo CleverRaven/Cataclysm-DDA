@@ -47,7 +47,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
         if( plug_in_tools && added_tool->can_link_up() ) {
             added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north_west ),
                                  link_state::automatic );
-            REQUIRE( added_tool->link->t_veh );
+            REQUIRE( added_tool->link().t_veh );
         }
     }
     player_character.set_skill_level( skill_mechanics, 10 );

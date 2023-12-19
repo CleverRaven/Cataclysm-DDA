@@ -3028,11 +3028,11 @@ void item::io( Archive &archive )
     static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
     static const cata::value_ptr<link_data> null_link_ptr = nullptr;
-    archive.io( "link_data", link, null_link_ptr );
-    if( link ) {
-        const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+    archive.io( "link_data", link_, null_link_ptr );
+    if( has_link_data() ) {
+        const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
         if( vp ) {
-            link->t_veh = vp.value().vehicle().get_safe_reference();
+            link().t_veh = vp.value().vehicle().get_safe_reference();
         }
     }
 

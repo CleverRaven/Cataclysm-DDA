@@ -1461,6 +1461,13 @@ class item : public visitable
             void deserialize( const JsonObject &data );
         };
 
+        /// Gets the item's link data, initializing it if needed. Will throw an error if used on items that fail can_link_up().
+        /// To avoid unnecessary link_data initialization, simple boolean link functions should be used instead if possible.
+        item::link_data &link();
+        const item::link_data &link() const;
+        /// Returns true if the item has valid link_data. Does not mean the link actually connects to anything; use has_no_links() for that.
+        bool has_link_data() const;
+
         /// Returns true if the item is/has a cable that can link up to other things.
         bool can_link_up() const;
         /// Returns true if either of the link's ends have the specified state.
@@ -1525,7 +1532,7 @@ class item : public visitable
         int link_sort_key() const;
 
         /**
-         * Brings a cable item back to its initial state.
+         * Resets a cable item back to its initial state, or become unspooled if it's too long.
          * @param p Set to character that's holding the linked item, nullptr if none.
          * @param vpart_index The index of the vehicle part the cable is attached to, so it can have `linked_flag` removed.
          * @param * At -1, the default, this function will look up the index itself. At -2, skip modifying the part's flags entirely.
@@ -1538,8 +1545,8 @@ class item : public visitable
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
-        * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
-        * while a negative link.charge_rate will charge the vehicle at the expense of the item.
+        * @brief A positive link().charge_rate will charge the item at the expense of the vehicle,
+        * while a negative link().charge_rate will charge the vehicle at the expense of the item.
         *
         * @param linked_veh The vehicle the item is connected to.
         * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
@@ -3073,7 +3080,6 @@ class item : public visitable
     public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-        cata::value_ptr<link_data> link;
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
@@ -3140,6 +3146,7 @@ class item : public visitable
         int degradation_ = 0;
         light_emission light = nolight;
         mutable std::optional<float> cached_relative_encumbrance;
+        mutable cata::value_ptr<link_data> link_;
 
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
