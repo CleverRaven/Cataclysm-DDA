@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "desert",
+    "id": "field",
     "copy-from": "generic_open_land",
     "name": "desert",
     "sym": ".",
@@ -9,7 +9,6 @@
     "see_cost": 2,
     "extras": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "mapgen": [ { "method": "json", "name": "field" } ],
     "flags": [ "NO_ROTATE" ]
   }
 ]
