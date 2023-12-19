@@ -1433,11 +1433,11 @@ class item : public visitable
 
         struct link_data {
             /// State of the link's source, the end usually represented by the cable item. @ref link_state.
-            link_state s_state = link_state::no_link;
+            link_state source = link_state::no_link;
             /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
-            link_state t_state = link_state::no_link;
+            link_state target = link_state::no_link;
             /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
-            safe_reference<vehicle> t_veh_safe; // NOLINT(cata-serialize)
+            safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
             /// Absolute position of the linked target vehicle/appliance.
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
             /// The linked part's mount offset on the target vehicle.
@@ -1467,7 +1467,7 @@ class item : public visitable
         bool link_has_state( link_state state ) const;
         /// Returns true if both of the item's link connections match the specified states.
         /// link_state::automatic will always match.
-        bool link_has_states( link_state s_state_, link_state t_state_ ) const;
+        bool link_has_states( link_state source, link_state target ) const;
         /// Returns true if the item has no active link, or if both link states are link_state::no_link.
         bool has_no_links() const;
 

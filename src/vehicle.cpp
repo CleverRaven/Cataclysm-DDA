@@ -6732,11 +6732,11 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
                 drop.link.reset();
                 drop.link_to( *other_veh, other_veh->part( other_tow_cable_idx ).mount );
                 if( is_towing() ) {
-                    drop.link->s_state = link_state::no_link;
-                    drop.link->t_state = link_state::vehicle_tow;
+                    drop.link->source = link_state::no_link;
+                    drop.link->target = link_state::vehicle_tow;
                 } else {
-                    drop.link->s_state = link_state::vehicle_tow;
-                    drop.link->t_state = link_state::no_link;
+                    drop.link->source = link_state::vehicle_tow;
+                    drop.link->target = link_state::no_link;
                 }
             } else {
                 drop.reset_link();

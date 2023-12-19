@@ -480,17 +480,17 @@ enum class link_state : int {
     needs_reeling, // Cable has been disconnected and needs to be manually reeled in before it can be used again
     automatic,     // Use in link_to to automatically set the type of connection based on the connected vehicle part
 
-    // States of a cable's link at the end represented by the item (s_state)
+    // States of a cable's link at the end represented by the item (source)
     ups,       // Linked to a UPS the cable holder is holding
     solarpack, // Linked to a solarpack the cable holder is wearing
 
-    // States of a cable's link at the end represented by t_abs_pos (t_state)
+    // States of a cable's link at the end represented by t_abs_pos (target)
     vehicle_port, // Linked to a vehicle's cable ports / electrical controls or an appliance
     vehicle_battery, // Linked to a vehicle's battery or an appliance
 
     // States of a link that could be at either the source or the target
-    bio_cable,   // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise
-    vehicle_tow, // Linked to a valid tow point on a vehicle - s_state if it's the towing vehicle, t_state if the towed one
+    bio_cable,   // Linked to the cable holder's cable system bionic - source if connected to a vehicle, target otherwise
+    vehicle_tow, // Linked to a valid tow point on a vehicle - source if it's the towing vehicle, target if the towed one
 
     last
 };
