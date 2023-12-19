@@ -681,6 +681,15 @@ void check_region_settings()
     for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
         const std::string &region_name = p.first;
         const regional_settings &region = p.second;
+        if( !region.overmap_forest.is_valid() ) {
+            debugmsg( "Region '%s' has invalid forest settings object '%s'", region_name, region.overmap_forest.str() );
+        }
+        if( !region.overmap_ravine.is_valid() ) {
+            debugmsg( "Region '%s' has invalid ravine settings object '%s'", region_name, region.overmap_ravine.str() );
+        }
+        if( !region.overmap_ocean.is_valid() ) {
+            debugmsg( "Region '%s' has invalid ocean settings object '%s'", region_name, region.overmap_ocean.str() );
+        }
         for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
             const std::string extras_name = p2.first;
             const map_extras &extras = p2.second;
