@@ -857,11 +857,11 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
-    optional( jo, region.overmap_forest.was_loaded, "overmap_forest_settings",
+    optional( jo, region.overmap_forest->was_loaded, "overmap_forest_settings",
               region.overmap_forest, bogus_forest_id );
-    optional( jo, region.overmap_ravine.was_loaded, "overmap_ravine_settings",
+    optional( jo, region.overmap_ravine->was_loaded, "overmap_ravine_settings",
               region.overmap_ravine, bogus_ravine_id );
-    optional( jo, region.overmap_ocean.was_loaded, "overmap_ocean_settings",
+    optional( jo, region.overmap_ocean->was_loaded, "overmap_ocean_settings",
               region.overmap_ocean, bogus_ocean_id );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
