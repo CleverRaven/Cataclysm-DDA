@@ -37,7 +37,7 @@
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
     "difficulty": 7,
-    "time": "4 h",
+    "time": "1 h",
     "book_learn": [ [ "phavian_report_psionic_drain", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": true },
