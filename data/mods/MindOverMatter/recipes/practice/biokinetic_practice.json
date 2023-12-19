@@ -152,13 +152,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_breathe_skin" ],
-        "type": "spell",
-        "message": "You unlocked the Oxygen Absorption power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Oxygen Absorption power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
     ]
   },
@@ -212,13 +212,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_flexibility" ],
-        "type": "spell",
-        "message": "You unlocked the Flexibility power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Flexibility power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_flexibility')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ]
   },
@@ -277,13 +277,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_armor_skin" ],
-        "type": "spell",
-        "message": "You unlocked the Hardened Skin power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hardened Skin power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ]
   },
@@ -344,13 +344,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_climate_control" ],
-        "type": "spell",
-        "message": "You unlocked the Temperature Adaptability power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Temperature Adaptability power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ]
   },
@@ -407,13 +407,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_enhance_mobility" ],
-        "type": "spell",
-        "message": "You unlocked the Enhance Mobility power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Enhance Mobility power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ]
   },
@@ -467,13 +467,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_hammerhand" ],
-        "type": "spell",
-        "message": "You unlocked the Hammerhand power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hammerhand power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ]
   },
@@ -529,13 +529,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_reflex_enhance" ],
-        "type": "spell",
-        "message": "You unlocked the Heightened Reflexes power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Heightened Reflexes power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
     ]
   },
@@ -589,14 +589,14 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_sealed_system" ],
-        "type": "spell",
-        "message": "You unlocked the Sealed System power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Sealed System power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ],
     "false_effect": [ 
-    { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ]
   },
@@ -650,13 +650,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_metabolism_enhance" ],
-        "type": "spell",
-        "message": "You unlocked the Metabolic Hyperefficiency power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Metabolic Hyperefficiency power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ]
   },
@@ -710,14 +710,14 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_combat_dance" ],
-        "type": "spell",
-        "message": "You unlocked the Combat Dance power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Combat Dance power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
     ],
     "false_effect": [ 
-    { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } 
+    { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true } 
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
     ]
   },
@@ -771,13 +771,13 @@
     "effect": [
       {
         "u_roll_remainder": [ "biokin_perfected_motion" ],
-        "type": "spell",
-        "message": "You unlocked the Perfected Motion power."
+        "type": "spell"
       },
+      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Perfected Motion power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." },
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
     { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
     ]
   }
