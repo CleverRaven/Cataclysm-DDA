@@ -4945,11 +4945,9 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
     if( is_cable_item ) {
         const bool can_extend_devices = can_extend.find( "ELECTRICAL_DEVICES" ) != can_extend.end();
         const auto filter = [this, &it, &can_extend_devices]( const item & inv ) {
-            if( it.link_length() >= 0 || inv.link_has_state( link_state::needs_reeling ) ) {
+            if( !inv.can_link_up() || inv.link_has_state( link_state::needs_reeling ) ||
+                ( !inv.has_flag( flag_CABLE_SPOOL ) && !can_extend_devices ) ) {
                 return false;
-            }
-            if( !inv.has_flag( flag_CABLE_SPOOL ) ) {
-                return can_extend_devices && inv.can_link_up();
             }
             return can_extend.find( inv.typeId().c_str() ) != can_extend.end() && &inv != &it;
         };
@@ -4957,8 +4955,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                    _( "You don't have a compatible cable." ) );
     } else {
         const auto filter = [&it]( const item & inv ) {
-            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.can_link_up() ||
-                ( it.link_length() >= 0 || inv.link_has_state( link_state::needs_reeling ) ) ) {
+            if( !inv.can_link_up() || inv.link_has_state( link_state::needs_reeling ) ||
+                !inv.has_flag( flag_CABLE_SPOOL ) ) {
                 return false;
             }
             const link_up_actor *actor = static_cast<const link_up_actor *>
