@@ -40,6 +40,10 @@ Format:
   "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
   "bonus_int": { "one_in": 3 },                                            // Optional. This example adds 1 to the stat, but only about ~33.33% of the time (1 in 3).
   "bonus_per": { "sum": [ { "constant": 100 }, { "dice": [ 10, 10 ] } ] }, // Optional. This example adds 100 + 10d10 (10 dice each with 10 sides) to the stat.
+  "bonus_aggression": { "rng": [ -4, 0 ] },                                // Optional. Modifies NPC's personality score like the above examples.
+  "bonus_bravery": 100,                                                    // Optional.
+  "bonus_collector": { "one_in": 3 },                                      // Optional.
+  "bonus_altruism": -10,                                                   // Optional.
   "skills": [
     {
       "skill": "ALL",                                                      // Optional. Applies bonuses/penalties to skills like the examples above. `ALL` is a special string which

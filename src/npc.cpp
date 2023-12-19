@@ -821,6 +821,11 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     int_max += the_class.roll_intelligence();
     per_max += the_class.roll_perception();
 
+    personality.aggression += the_class.roll_aggression();
+    personality.bravery += the_class.roll_bravery();
+    personality.collector += the_class.roll_collector();
+    personality.altruism += the_class.roll_altruism();
+
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
 
