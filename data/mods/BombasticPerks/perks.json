@@ -408,7 +408,16 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+        "values": [
+          {
+            "value": "ITEM_DAMAGE_BASH",
+            "add": {
+              "math": [
+                "u_armor('bash', 'torso') + u_armor('bash', 'head') + u_armor('bash', 'arm_l') + u_armor('bash', 'arm_r') + u_armor('bash', 'hand_l') + u_armor('bash', 'hand_r') + u_armor('bash', 'leg_l') + u_armor('bash', 'leg_r') * u_attack_speed() / 200"
+              ]
+            }
+          }
+        ]
       }
     ]
   },
