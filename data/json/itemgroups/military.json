@@ -1025,6 +1025,7 @@
       [ "wheel_rim_medium", 5 ],
       [ "wheel_rim_wide", 5 ],
       [ "1cyl_combustion", 1 ],
+      [ "engine_1cyl_diesel_large", 10 ],
       [ "v2_combustion", 2 ],
       [ "i4_combustion", 2 ],
       [ "v6_combustion", 10 ],
