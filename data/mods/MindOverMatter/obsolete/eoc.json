@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_ELECTRO_AWAKENING_FAILED_ZAP",
+    "condition": { "u_has_effect": "effect_electrokin_overload" },
+    "effect": [
+      { "u_message": "Your muscles suddenly seize up!", "type": "bad" },
+      { "u_add_effect": "downed", "duration": 5 },
+      { "u_add_effect": "motor_seizure", "duration": 4 },
+      { "u_add_effect": "stunned", "duration": 1 },
+      { "queue_eocs": "EOC_PORTAL_ELECTRO_AWAKENING_FAILED_ZAP", "time_in_future": [ "1 minutes", "45 minutes" ] }
+    ]
+  }
+]

@@ -346,6 +346,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sneezing",
+    "name": [ "Sneezing" ],
+    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "max_duration": "1 s",
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "acid_charged",
     "name": [ "Charged Acid Glands" ],
     "//": "Enables special attacks where specified",
@@ -2926,12 +2935,12 @@
       "rat_bite_fever",
       "infected",
       "asthma",
-      "common_cold",
-      "flu",
       "pre_conjunctivitis_viral",
       "pre_conjunctivitis_bacterial",
       "conjunctivitis_viral",
-      "conjunctivitis_bacterial"
+      "conjunctivitis_bacterial",
+      "common_cold",
+      "flu"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -4493,6 +4502,16 @@
     "show_intensity": true,
     "resist_traits": [ "GASTROPOD_BALANCE" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "hay_fever",
+    "name": [ "Hay Fever" ],
+    "desc": [ "Your eyes are itchy and you've got a runny nose." ],
+    "rating": "bad",
+    "resist_effects": [ "took_flumed", "took_antihistamine" ],
+    "show_in_info": true,
+    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -50 ], "stamina_max": [ -150 ], "stamina_chance": [ 300 ] }
   },
   {
     "id": "star_vampire_blood_drank",

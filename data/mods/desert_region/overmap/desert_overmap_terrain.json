@@ -161,7 +161,7 @@
     "name": "lake bed shore",
     "color": "light_gray",
     "delete": { "flags": [ "LAKE" ] },
-    "extend": { "flags": [ "LAKE_SHORE" ] },
+    "extend": { "flags": [ "LAKE_SHORE", "IGNORE_ROTATION_FOR_ADJACENCY" ] },
     "extras": "lake_shore",
     "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
   },

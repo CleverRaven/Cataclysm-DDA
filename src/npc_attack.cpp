@@ -461,7 +461,7 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
 bool npc_attack_gun::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( *gunmode ).success();
+    return source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success();
 }
 
 int npc_attack_gun::base_time_penalty( const npc &source ) const

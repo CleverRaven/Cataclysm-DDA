@@ -159,6 +159,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
+        case spell_flag::RECHARM: return "RECHARM";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -1580,8 +1581,7 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
 {
     if( target_property == "caster_level" ) {
         temp_level_adjustment += adjustment;
-    }
-    if( target_property == "casting_time" ) {
+    } else if( target_property == "casting_time" ) {
         temp_cast_time_multiplyer += adjustment;
     } else if( target_property == "cost" ) {
         temp_spell_cost_multiplyer += adjustment;

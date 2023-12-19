@@ -2176,6 +2176,7 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
+    deactivate_or_discharge_bionic_weapon();
     weapon_bionic_uid = 0;
 }
 
@@ -3889,7 +3890,7 @@ bool npc::wield_better_weapon()
     double best_value = -100.0;
 
     const auto compare_weapon =
-    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
+    [this, &weap, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -3899,7 +3900,11 @@ bool npc::wield_better_weapon()
             val = weapon_value( it, ammo_count );
         }
 
-        if( val > best_value ) {
+        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                             && &it != &weap
+                                             && it.type->get_id() == weap.type->get_id();
+
+        if( val > best_value && !using_same_type_bionic_weapon ) {
             best = const_cast<item *>( &it );
             best_value = val;
         }

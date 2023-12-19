@@ -1534,6 +1534,13 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
 void npc::stow_item( item &it )
 {
+    bool stow_bionic_weapon = is_using_bionic_weapon()
+                              && get_wielded_item().get_item() == &it;
+    if( stow_bionic_weapon ) {
+        deactivate_or_discharge_bionic_weapon( true );
+        return;
+    }
+
     bool avatar_sees = get_player_view().sees( pos() );
     if( wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
