@@ -22,9 +22,8 @@
       {
         "u_roll_remainder": [ "practice_biokin_breathe_skin" ],
         "type": "recipe",
-        "message": "Practicing your powers has led to an insight.  You could use your powers to make your skin selectively permiable to oxygen, allowing you to breathe underwater, if you can figure out the proper technique."
-      },
-      { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "4900" ] }
+        "message": "Practicing your powers has led to an insight.  You could use your powers to make your skin selectively permeable to oxygen, allowing you to breathe underwater, if you can figure out the proper technique."
+      }
     ]
   },
   {
@@ -62,7 +61,7 @@
       {
         "u_roll_remainder": [ "practice_biokin_dash" ],
         "type": "recipe",
-        "message": "Practicing your powers has led to an insight.  You coild supercharge your muscles to move incredibly quickly for brief periods, if you can figure out the technique."
+        "message": "Practicing your powers has led to an insight.  You could supercharge your muscles to move incredibly quickly for brief periods, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_dash')", "+=", "4900" ] }
     ]

@@ -2,7 +2,6 @@
   {
     "id": "biokinetic_practice",
     "type": "nested_category",
-    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_METAPHYSICS",
@@ -45,10 +44,7 @@
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_overcome_pain')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_overcome_pain')", "<=", "(difficulty_one_contemplation(1))" ]
-            }
+            { "math": [ "u_val('spell_level', 'spell: biokin_overcome_pain')", ">=", "1" ] }
           ]
         },
         "effect": [
@@ -96,10 +92,7 @@
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_physical_enhance')", "<=", "(difficulty_two_contemplation(1))" ]
-            }
+            { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] }
           ]
         },
         "effect": [
@@ -145,14 +138,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_breathe_skin')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "<=", "(difficulty_two_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "and": [ { "math": [ "u_val('spell_level', 'spell: biokin_breathe_skin')", ">=", "1" ] } ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "+=", "(contemplation_factor(1))" ] },
@@ -160,24 +146,37 @@
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_breathe_skin')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "12 hours" },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
+            "time_in_future": [ "210 minutes", "270 minutes" ]
+          }
+        ]
       }
     ]
+  },
+   {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
+    "condition": {
+      "and": [
+        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 6 },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "biokin_breathe_skin" ],
+        "type": "spell",
+        "message": "You unlocked the Oxygen Absorption power."
+      },
+      { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "4900" ] }
+    ],
+    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again." } ]
   },
   {
     "type": "recipe",
