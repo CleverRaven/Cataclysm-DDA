@@ -15,6 +15,7 @@ on:
       - '**.cpp'
       - '**.h'
       - '**.c'
+  merge_group:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{ github.event_name }}

@@ -8,6 +8,7 @@ on:
     branches:
     - master
     types: [opened, reopened, synchronize, ready_for_review]
+  merge_group:
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 # Allow running master builds to complete to help with ccache refreshes.

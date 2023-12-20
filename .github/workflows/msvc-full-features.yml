@@ -29,6 +29,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+  merge_group:
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
