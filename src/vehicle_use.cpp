@@ -87,6 +87,7 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -96,7 +97,6 @@ static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
-static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 
 static const mon_flag_str_id mon_flag_PET_HARNESSABLE( "PET_HARNESSABLE" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
