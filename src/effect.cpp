@@ -85,6 +85,18 @@ void limb_score_effect::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+void effect_dur_mod::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "effect_id", effect_id );
+    mandatory( jo, false, "modifier", modifier );
+    optional( jo, false, "same_bp", same_bp, false );
+}
+
+void effect_dur_mod::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
 /** @relates string_id */
 template<>
 const effect_type &string_id<effect_type>::obj() const
@@ -1549,6 +1561,7 @@ void load_effect_type( const JsonObject &jo )
 
     optional( jo, false, "vitamins", new_etype.vitamin_data );
     optional( jo, false, "limb_score_mods", new_etype.limb_score_data );
+    optional( jo, false, "effect_dur_scaling", new_etype.effect_dur_scaling );
     optional( jo, false, "chance_kill", new_etype.kill_chance );
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
@@ -1599,6 +1612,11 @@ bool effect::has_flag( const flag_id &flag ) const
 std::vector<limb_score_effect> effect::get_limb_score_data() const
 {
     return eff_type->limb_score_data;
+}
+
+std::vector<effect_dur_mod> effect::get_effect_dur_scaling() const
+{
+    return eff_type->effect_dur_scaling;
 }
 
 bool effect::kill_roll( bool reduced ) const

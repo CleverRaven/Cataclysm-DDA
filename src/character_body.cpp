@@ -334,7 +334,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         update_bloodvol_index();
         update_heartrate_index();
         update_circulation();
-        check_vitals();
     }
 
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
@@ -1418,7 +1417,6 @@ void Character::update_heartrate_index()
     }
 
     float hr_adrenaline_mod = 0.0f;
-    // Adrenaline increases heart rate by 25% per point.
     if( has_effect( effect_adrenaline ) ) {
         const int adrenaline_level = get_effect_int( effect_adrenaline );
         // at adrenaline level 0, do nothing.
@@ -1449,11 +1447,11 @@ void Character::update_heartrate_index()
         hr_pain_mod *= betablock_mod;
     }
 
-    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 60%.
+    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 70%.
     // this means you cannot actually have serious tachycardia by just working out too much while in pain.
     float hr_activity_mods = hr_adrenaline_mod + hr_pain_mod + hr_stamina_mod;
-    if( hr_activity_mods > 0.6f ) {
-        hr_activity_mods = 0.6f;
+    if( hr_activity_mods > 0.7f ) {
+        hr_activity_mods = 0.7f;
     }
 
     // TODO: implement support for HR increasing to compensate for low BP.
@@ -1465,8 +1463,8 @@ void Character::update_heartrate_index()
     const float hr_bp_loss_mod = 0.0f;
 
     const int effect_mod = get_heartrate_effect_mod();
-    // heartrate effect is an integer.  Div by 100 currently.
-    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.01f;
+    // heartrate effect is an integer.  Div by 10000 currently.(HR mod of 200 in JSON becomes 2%).
+    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_activity_mods + hr_stim_mod + hr_nicotine_mod
@@ -1509,7 +1507,7 @@ int Character::get_bp_effect_mod() const
 void Character::update_circulation_resistance()
 {
     const int bp_effect_mod = get_bp_effect_mod();
-    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.01f;
+    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     const float bp_item_effect_mod = bp_effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
 
     // should also be affected by stance.
@@ -1546,56 +1544,22 @@ float Character::get_respiration_rate() const
 
 int Character::get_respiration_effect_mod() const
 {
-    return persp_rate_effect_mod;
+    return resp_rate_effect_mod;
 }
 
 void Character::modify_respiration_effect_mod( int mod )
 {
-    persp_rate_effect_mod += mod;
+    resp_rate_effect_mod += mod;
 }
 
 void Character::set_respiration_effect_mod( int mod )
 {
-    persp_rate_effect_mod = mod;
+    resp_rate_effect_mod = mod;
 }
 
 void Character::update_respiration_rate()
 {
     const int effect_mod = get_respiration_effect_mod();
-    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
-}
-
-
-void Character::check_vitals() const
-{
-    // TODO FOR FUTURE PR.
-    //constexpr float max_hr = 2.0;
-    //constexpr float min_hr = 0.4;
-    //constexpr float max_bp = 1.2;
-    //constexpr float min_bp = 0.75;
-    //if( heart_rate_index > max_hr ) {
-    //    // cause high heart rate problems.
-    //    debugmsg( "High heart rate: " + std::to_string( heart_rate_index ) );
-    //    // this should be relatively minor (at least for reasonable hr).
-    //    // Start with negative messages.
-
-    //    // Then chest pain.
-
-    //    // Then dropped morale.
-
-    //    // Then reduced focus.
-    //    // If it gets extreme, arrythmia and *death*. NOT IN THIS PR.
-    //} else if( heart_rate_index < min_hr ) {
-    //    // cause low heart rate problems.
-    //    debugmsg( "Low heart rate: " + std::to_string( heart_rate_index ) );
-    //    // this does nothing except indirectly cause low bp problems.
-    //}
-    //if( circulation > max_bp ) {
-    //    // cause high blood pressure problems.
-    //    debugmsg( "High blood pressure: " + std::to_string( circulation ) );
-    //} else if( circulation < min_bp ) {
-    //    // cause low blood pressure problems.
-    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) );
-    //}
 }
