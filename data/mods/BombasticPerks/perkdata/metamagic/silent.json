@@ -1,0 +1,31 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_silent",
+    "condition": { "u_has_var": "silent_deactivated", "context": "perk_metamagic", "value": "yes" },
+    "effect": [
+      { "u_message": "You activate your silent metamagic" },
+      { "u_add_var": "silent_deactivated", "context": "perk_metamagic", "value": "no" }
+    ],
+    "false_effect": [
+      { "u_message": "You deactivate your silent metamagic" },
+      { "u_add_var": "silent_deactivated", "context": "perk_metamagic", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_silent",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_metamagic_silent" },
+        { "not": { "u_has_var": "silent_deactivated", "context": "perk_metamagic", "value": "yes" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('sound', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "-1" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "0.2" ] }
+    ]
+  }
+]

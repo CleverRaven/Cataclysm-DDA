@@ -21,7 +21,7 @@
     "id": "xe_bio_chiropteran_signal",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": { "str": "chiropteran signal cbm" },
+    "name": { "str": "Chiropteran Signal CBM" },
     "description": "A jar-like container that includes a set of vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
     "price": 350000,
     "difficulty": 8

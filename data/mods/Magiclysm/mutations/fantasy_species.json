@@ -126,9 +126,9 @@
   {
     "type": "mutation_category",
     "id": "SPECIES_RAVENFOLK",
-    "name": "Dwarf",
+    "name": "Ravenfolk",
     "threshold_mut": "THRESH_SPECIES_RAVENFOLK",
-    "mutagen_message": "You feel the call of the sky.",
+    "mutagen_message": "You feel the call of the sky.  There are treasures out there to collect.",
     "vitamin": "mutagen_species_ravenfolk",
     "memorial_message": "Fell from your perch on the World Tree.",
     "base_removal_chance": 0
@@ -248,6 +248,12 @@
     "type": "mutation",
     "id": "NIGHTVISION2",
     "copy-from": "NIGHTVISION2",
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION3",
+    "copy-from": "NIGHTVISION3",
     "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
@@ -503,12 +509,48 @@
     "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.",
     "mixed_effect": true,
     "valid": false,
+    "flags": [ "MYOPIC_IN_LIGHT" ],
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": -50 } ] },
       { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOCTURNAL_DAY",
+    "name": { "str": "Nocturnal OverMap Day Vision" },
+    "//": "Invisible to player, sets overmap vision",
+    "points": 0,
+    "ugliness": 0,
+    "visibility": 0,
+    "description": "This adjusts goblin overmap sight so their vision is not as far during the day.",
+    "mixed_effect": true,
+    "valid": false,
+    "player_display": false,
+    "overmap_sight": -2,
+    "category": [ "SPECIES_GOBLIN" ],
+    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
+    "triggers": [ [ { "condition": { "not": "is_day" }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "NOCTURNAL_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "NOCTURNAL_NIGHT",
+    "name": { "str": "Nocturnal OverMap Night Vision" },
+    "points": 0,
+    "ugliness": 0,
+    "visibility": 0,
+    "description": "This adjusts goblin overmap sight so their vision is farther at night.",
+    "mixed_effect": true,
+    "valid": false,
+    "player_display": false,
+    "overmap_sight": 6,
+    "category": [ "SPECIES_GOBLIN" ],
+    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
+    "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "NOCTURNAL_DAY", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",

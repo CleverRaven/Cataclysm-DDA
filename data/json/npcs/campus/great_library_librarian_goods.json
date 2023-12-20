@@ -1,0 +1,50 @@
+[
+  {
+    "//1": "This list tracks the things that Elvira will sell the player.",
+    "//2": "As a general rule of thumb, Elvira should offer any book or magazine for sale that can be easily replaced. She will never sell a rare or unique work.",
+    "//3": "Non-book resources should be at a minimum. Another NPC may deal in that in the future.",
+    "//4": "Elvira offers the following things:",
+    "//5": "- Books, magazines, manuals, games;",
+    "//6": "- Tools and resources useful for copying documents like paper and pens.",
+    "type": "item_group",
+    "id": "GREAT_LIBRARY_Shop",
+    "subtype": "collection",
+    "items": [
+      { "group": "GREAT_LIBRARY_Shop_Supplies", "count": [ 10, 20 ] },
+      { "group": "GREAT_LIBRARY_Shop_Books", "count": [ 40, 50 ] },
+      { "group": "GREAT_LIBRARY_Shop_Tools", "count": [ 5, 8 ] }
+    ]
+  },
+  {
+    "//": "Generic spare parts that can be used to make or repair written materials",
+    "type": "item_group",
+    "id": "GREAT_LIBRARY_Shop_Supplies",
+    "subtype": "distribution",
+    "items": [
+      { "item": "duct_tape", "charges": [ 35, 50 ] },
+      { "item": "superglue", "count": [ 0, 1 ] },
+      { "item": "paper", "count": [ 150, 200 ] },
+      { "item": "cardboard", "count": [ 10, 20 ] }
+    ]
+  },
+  {
+    "//": "Books and games that could reasonably be found in a Community College library.  No unique or rare books for sale",
+    "type": "item_group",
+    "id": "GREAT_LIBRARY_Shop_Books",
+    "subtype": "distribution",
+    "items": [
+      { "group": "novels", "count": [ 9, 12 ] },
+      { "group": "manuals_school", "count": [ 9, 12 ] },
+      { "group": "textbooks_school", "count": [ 9, 12 ] },
+      { "group": "literature", "count": [ 9, 12 ] },
+      { "group": "games", "count": [ 5, 6 ] }
+    ]
+  },
+  {
+    "//": "Tools needed to copy and repair books.",
+    "type": "item_group",
+    "id": "GREAT_LIBRARY_Shop_Tools",
+    "subtype": "collection",
+    "items": [ { "group": "pens", "count": [ 9, 12 ] }, { "item": "xacto", "count": [ 1, 2 ] } ]
+  }
+]

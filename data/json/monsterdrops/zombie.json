@@ -121,45 +121,6 @@
   },
   {
     "type": "item_group",
-    "subtype": "collection",
-    "id": "mon_zeriatric",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "transition_glasses_eye", "prob": 25, "damage": [ 1, 4 ] },
-          { "item": "transition_glasses_reading", "prob": 25, "damage": [ 1, 4 ] },
-          { "item": "transition_glasses_bifocal", "prob": 25, "damage": [ 1, 4 ] }
-        ]
-      },
-      {
-        "distribution": [
-          { "item": "jersey", "damage": [ 1, 4 ], "prob": 5 },
-          { "item": "linuxtshirt", "damage": [ 1, 4 ], "prob": 5 },
-          { "item": "longshirt", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "striped_shirt", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "sweater", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "sweatshirt", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "tshirt", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "polo_shirt", "damage": [ 1, 4 ], "prob": 10 }
-        ]
-      },
-      {
-        "distribution": [
-          { "item": "pants_checkered", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "pants", "damage": [ 1, 4 ], "prob": 40 },
-          { "item": "jeans", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "pants", "variant": "pants_flag", "damage": [ 1, 4 ], "prob": 5 },
-          { "item": "breeches", "damage": [ 1, 4 ], "prob": 25 }
-        ]
-      },
-      { "item": "cane", "damage": [ 1, 4 ], "prob": 50 },
-      { "item": "briefs", "damage": [ 1, 4 ], "prob": 100 },
-      { "item": "slippers", "damage": [ 1, 4 ], "prob": 100 },
-      { "item": "dentures", "prob": 75 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "zombie_fursuits",
     "subtype": "distribution",
     "entries": [

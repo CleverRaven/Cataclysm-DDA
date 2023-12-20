@@ -8,7 +8,7 @@
       "context": "BEM_ANCHOR_SELLER",
       "value": "yes",
       "yes": "Sorry I'd rather be left alone right now.",
-      "no": "&A grim expression and deep sunken eyes imply some malady that cant be simply drowned with alcohol alone.  They interrupt you just as you were about to introduce yourself.  \"This anchor im wearing, I dont think I will be needing it anymore.  I-I'm just looking for someone to rid me of it"
+      "no": "&A grim expression and deep sunken eyes imply some malady that can't be simply drowned with alcohol alone.  They interrupt you just as you were about to introduce yourself.  \"This anchor im wearing, I don't think I will be needing it anymore.  I-I'm just looking for someone to rid me of it"
     },
     "responses": [
       {
@@ -19,14 +19,14 @@
         "topic": "BEM_ANCHOR_SELLER_2"
       },
       {
-        "text": "Well, whats that thing for anyways?",
+        "text": "Well, what's that thing for anyways?",
         "condition": {
           "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
         },
         "topic": "BEM_ANCHOR_SELLER_ASK"
       },
       {
-        "text": "Sorry, I dont think I can help you.",
+        "text": "Sorry, I don't think I can help you.",
         "condition": {
           "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
         },

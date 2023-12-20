@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mutation",
+    "id": "iso_trait",
+    "name": "Lab Diver",
+    "points": 0,
+    "description": "Secret anchor point trait for gameplay enchantments.  Mod will break if you purify this trait.",
+    "enchantments": [ "iso_ranged_adjust" ],
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  }
+]

@@ -25,7 +25,6 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "material.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -49,6 +48,7 @@ class item;
 class iteminfo_query;
 class monster;
 class nc_color;
+enum class pocket_type;
 class recipe;
 class relic;
 struct part_material;
@@ -234,9 +234,10 @@ class item : public visitable
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
+         * @param carrier A pointer to the character that's carrying the item, nullptr if none, which is the default.
          * @return same instance to allow method chaining
          */
-        item &convert( const itype_id &new_type );
+        item &convert( const itype_id &new_type, Character *carrier = nullptr );
 
         /**
          * Filter converting this instance to the inactive type
@@ -351,6 +352,7 @@ class item : public visitable
         bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
+        bool is_cash_card() const;
         bool is_software() const;
         bool is_software_storage() const;
 
@@ -371,6 +373,11 @@ class item : public visitable
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
+
+        /**
+         * Returns a symbol for indicating the overheat level for a gun.
+         */
+        std::string overheat_symbol() const;
 
         /**
          * Returns a symbol indicating the current degradation of the item.
@@ -809,9 +816,9 @@ class item : public visitable
         /** Whether it is a container with only one pocket, and if it is has some restrictions */
         bool is_single_container_with_restriction() const;
         // whether the contents has a pocket with the associated type
-        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_pocket_type( pocket_type pk_type ) const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
-                           item_pocket::pocket_type pk_type ) const;
+                           pocket_type pk_type ) const;
 
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
@@ -858,7 +865,8 @@ class item : public visitable
                        bool unseal_pockets = false,
                        bool allow_sealed = false,
                        bool ignore_settings = false,
-                       bool into_bottom = false );
+                       bool into_bottom = false,
+                       Character *carrier = nullptr );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -924,9 +932,9 @@ class item : public visitable
         /**
          * Puts the given item into this one.
          */
-        ret_val<void> put_in( const item &payload, item_pocket::pocket_type pk_type,
-                              bool unseal_pockets = false );
-        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<void> put_in( const item &payload, pocket_type pk_type,
+                              bool unseal_pockets = false, Character *carrier = nullptr );
+        void force_insert_item( const item &it, pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1374,10 +1382,13 @@ class item : public visitable
         std::string damage_indicator() const;
 
         /**
-         * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
-         * returns a symbol with color tag already applied. Otherwise, returns an adjective.
+         * Provides a prefix for the durability state of the item.
+         * With ITEM_HEALTH set to:
+         *     "bars": returns a symbol with color tag already applied.
+         *     "descriptions": returns an adjective.
+         *     "both": returns a symbol as well as an adjective.
          * if include_intact is true, this provides a string for the corner case of a player
-         * with ITEM_HEALTH_BAR disabled, but we need still a string for some reason.
+         *     with ITEM_HEALTH set to "descriptions", but we need still a string for some reason.
          */
         std::string durability_indicator( bool include_intact = false ) const;
 
@@ -1458,6 +1469,11 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
+        /**
+         * @brief Returns true if the item is/has a cable that can link up to other things.
+         */
+        bool can_link_up() const;
+
         /**
          * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
          * @brief max_length is set to the sum of all cable lengths.
@@ -1637,10 +1653,10 @@ class item : public visitable
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
-        bool can_contain( const itype &tp ) const;
-        bool can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain( const itype &tp ) const;
+        ret_val<void> can_contain_partial( const item &it ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
-        bool can_contain_partial_directly( const item &it ) const;
+        ret_val<void> can_contain_partial_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
@@ -1967,8 +1983,19 @@ class item : public visitable
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
+         */
+        std::optional<furn_str_id> get_plant_seedling_form() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
+         */
+        std::optional<furn_str_id> get_plant_mature_form() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
+         */
+        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
-
         /**
          * @name Armor related functions.
          *
@@ -2325,6 +2352,9 @@ class item : public visitable
         void set_itype_variant( const std::string &variant );
 
         void clear_itype_variant();
+
+        // Description of the item provided by the variant, or an empty string
+        std::string variant_description() const;
 
         /**
          * Quantity of shots in the gun. Looks at both ammo and available energy.
@@ -2726,6 +2756,7 @@ class item : public visitable
         faction_id get_owner() const;
         faction_id get_old_owner() const;
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
+        bool is_owned_by( const monster &m, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
         std::string get_old_owner_name() const;
         std::string get_owner_name() const;
@@ -2826,11 +2857,11 @@ class item : public visitable
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
-        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_top( pocket_type pk_type ) const;
         /** returns a list of pointers to all top-level items
          *  if unloading is true it ignores items in pockets that are flagged to not unload
          */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+        std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );
 
         item const *this_or_single_content() const;
         bool contents_only_one_type() const;
@@ -2841,9 +2872,9 @@ class item : public visitable
          */
         std::list<const item *> all_items_ptr() const;
         /** returns a list of pointers to all items inside recursively */
-        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
-        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+        std::list<item *> all_items_ptr( pocket_type pk_type );
 
         /** returns a list of pointers to all visible or remembered top-level items */
         std::list<item *> all_known_contents();
@@ -2861,6 +2892,7 @@ class item : public visitable
         item &only_item();
         const item &only_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
 
         /**
          * returns the number of items stacks in contents
@@ -2916,8 +2948,8 @@ class item : public visitable
         /** Update flags associated with temperature */
         void set_temp_flags( units::temperature new_temperature, float freeze_percentage );
 
-        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
-        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+        std::list<item *> all_items_top_recursive( pocket_type pk_type );
+        std::list<const item *> all_items_top_recursive( pocket_type pk_type ) const;
 
         /** Returns true if protection info was printed as well */
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
@@ -2954,6 +2986,7 @@ class item : public visitable
         bool process_link( map &here, Character *carrier, const tripoint &pos );
         bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
+        bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
 
     public:

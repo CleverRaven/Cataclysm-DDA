@@ -3,5 +3,10 @@
     "id": "morale_ate_dross",
     "type": "morale_type",
     "text": "Ate dreamdross"
+  },
+  {
+    "id": "morale_craving_lotus_blossom",
+    "type": "morale_type",
+    "text": "A hum at the edge of your thoughts."
   }
 ]

@@ -154,12 +154,19 @@
         "topic": "TALK_ISHERWOOD_CLAIRE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_CLAIRE_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE_RESTOCK",
+    "dynamic_line": "Around <interval>.",
+    "responses": [ { "text": "Alright then, bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

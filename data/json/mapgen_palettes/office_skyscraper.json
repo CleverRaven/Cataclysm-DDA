@@ -1,0 +1,507 @@
+[
+  {
+    "type": "palette",
+    "id": "skyscraper_shopping_palette",
+    "parameters": {
+      "carpet_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ] ]
+        }
+      }
+    },
+    "terrain": {
+      "*": "t_null",
+      "~": { "param": "carpet_type", "fallback": "t_floor" },
+      "#": "t_concrete_wall",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "'": "t_thconc_floor",
+      ".": "t_floor",
+      ":": "t_floor",
+      " ": "t_region_groundcover_urban",
+      ",": "t_pavement_y",
+      "_": "t_pavement",
+      "%": [ [ "t_region_shrub_decorative", 16 ], [ "t_region_groundcover_forest", 5 ] ],
+      "I": "t_region_tree_shade",
+      "+": "t_door_c",
+      "D": "t_door_metal_c",
+      "!": "t_door_metal_locked",
+      "E": "t_elevator",
+      "G": "t_door_glass_c",
+      "H": "t_wall_glass",
+      "R": "t_railing_v",
+      "s": "t_sidewalk",
+      "-": "t_brick_wall",
+      "|": "t_brick_wall",
+      "Ŧ": "t_ramp_down_high",
+      "±": "t_ramp_down_low"
+    },
+    "furniture": { "b": "f_bench", "^": [ "f_indoor_plant", "f_indoor_plant_y" ], "x": "f_console_broken" },
+    "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "toilets": { "T": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "skyscraper_apartment_palette",
+    "parameters": {
+      "i_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 6 ],
+            [ "t_wall_y", 1 ]
+          ]
+        }
+      },
+      "wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_strconc_wall", 2 ], [ "t_brick_wall", 5 ] ] } },
+      "railing_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_glass_railing", 4 ], [ "t_concrete_railing", 7 ] ] } },
+      "shrubbery_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_region_groundcover_urban", 3 ], [ "t_region_shrub_decorative", 2 ] ] }
+      },
+      "carpet_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ] ]
+        }
+      },
+      "window_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_window_domestic", 7 ], [ "t_wall_glass", 1 ] ] } }
+    },
+    "nested": {
+      "á": {
+        "chunks": [
+          [ "bedroom_4x4_adult_1_N", 20 ],
+          [ "bedroom_4x4_adult_1_S", 20 ],
+          [ "bedroom_4x4_adult_2_N", 20 ],
+          [ "bedroom_4x4_adult_2_W", 20 ],
+          [ "bedroom_4x4_adult_2_S", 20 ],
+          [ "bedroom_4x4_adult_3_S", 20 ],
+          [ "bedroom_4x4_adult_3_N", 20 ]
+        ]
+      },
+      "ä": {
+        "chunks": [
+          [ "bedroom_4x4_adult_1_N", 20 ],
+          [ "bedroom_4x4_adult_1_W", 20 ],
+          [ "bedroom_4x4_adult_1_S", 20 ],
+          [ "bedroom_4x4_adult_2_N", 20 ],
+          [ "bedroom_4x4_adult_2_E", 20 ],
+          [ "bedroom_4x4_adult_2_S", 20 ],
+          [ "bedroom_4x4_adult_3_S", 20 ],
+          [ "bedroom_4x4_adult_3_N", 20 ]
+        ]
+      },
+      "Á": {
+        "chunks": [
+          [ "bedroom_4x4_adult_1_N", 20 ],
+          [ "bedroom_4x4_adult_2_N", 20 ],
+          [ "bedroom_4x4_adult_2_W", 20 ],
+          [ "bedroom_4x4_adult_3_N", 20 ],
+          [ "bedroom_4x4_adult_3_W", 20 ],
+          [ "bedroom_5x5_adult_W_1", 20 ]
+        ]
+      },
+      "Ä": {
+        "chunks": [
+          [ "bedroom_4x4_adult_1_N", 20 ],
+          [ "bedroom_4x4_adult_2_N", 20 ],
+          [ "bedroom_4x4_adult_2_E", 20 ],
+          [ "bedroom_4x4_adult_3_N", 20 ],
+          [ "bedroom_4x4_adult_3_E", 20 ]
+        ]
+      },
+      "ő": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1A", 20 ],
+          [ "diningroom_6x6_E_W_1A", 20 ],
+          [ "diningroom_6x6_E_W_2A", 20 ],
+          [ "diningroom_6x6_N_S_2A", 20 ],
+          [ "livingroom_5x5_W_1", 20 ],
+          [ "livingroom_5x5_E_2", 20 ]
+        ]
+      },
+      "ö": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1B", 20 ],
+          [ "diningroom_6x6_E_W_1A", 20 ],
+          [ "diningroom_6x6_E_W_2", 20 ],
+          [ "diningroom_6x6_N_S_2", 20 ],
+          [ "livingroom_5x5_E_1", 20 ],
+          [ "livingroom_5x5_E_2", 20 ]
+        ]
+      },
+      "?": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1A", 20 ],
+          [ "diningroom_6x6_E_W_1A", 20 ],
+          [ "diningroom_6x6_E_W_2A", 20 ],
+          [ "diningroom_6x6_N_S_2A", 20 ]
+        ]
+      },
+      "!": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1B", 20 ],
+          [ "diningroom_6x6_E_W_1A", 20 ],
+          [ "diningroom_6x6_E_W_2", 20 ],
+          [ "diningroom_6x6_N_S_2", 20 ]
+        ]
+      },
+      "$": { "chunks": [ [ "livingroom_5x5_W_1", 20 ], [ "livingroom_5x5_E_2", 20 ] ] },
+      "§": { "chunks": [ [ "livingroom_5x5_E_1", 20 ], [ "livingroom_5x5_E_2", 20 ] ] },
+      "Ő": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1B", 20 ],
+          [ "diningroom_6x6_E_W_1", 20 ],
+          [ "diningroom_6x6_E_W_2A", 20 ],
+          [ "diningroom_6x6_N_S_2A", 20 ],
+          [ "livingroom_5x5_N_1", 10 ],
+          [ "livingroom_5x5_S_1", 10 ],
+          [ "livingroom_5x5_W_1", 10 ],
+          [ "livingroom_5x5_S_2", 10 ],
+          [ "livingroom_5x5_E_2", 10 ]
+        ]
+      },
+      "Ö": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1A", 20 ],
+          [ "diningroom_6x6_E_W_1", 20 ],
+          [ "diningroom_6x6_E_W_2", 20 ],
+          [ "diningroom_6x6_N_S_2", 20 ],
+          [ "livingroom_5x5_N_1", 10 ],
+          [ "livingroom_5x5_S_1", 10 ],
+          [ "livingroom_5x5_E_1", 10 ],
+          [ "livingroom_5x5_S_2", 10 ]
+        ]
+      },
+      "`": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1B", 20 ],
+          [ "diningroom_6x6_E_W_1", 20 ],
+          [ "diningroom_6x6_E_W_2A", 20 ],
+          [ "diningroom_6x6_N_S_2A", 20 ]
+        ]
+      },
+      "´": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1A", 20 ],
+          [ "diningroom_6x6_E_W_1", 20 ],
+          [ "diningroom_6x6_E_W_2", 20 ],
+          [ "diningroom_6x6_N_S_2", 20 ]
+        ]
+      },
+      "Ý": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 10 ],
+          [ "livingroom_5x5_S_1", 10 ],
+          [ "livingroom_5x5_E_1", 10 ],
+          [ "livingroom_5x5_S_2", 10 ]
+        ]
+      },
+      "ý": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 10 ],
+          [ "livingroom_5x5_S_1", 10 ],
+          [ "livingroom_5x5_W_1", 10 ],
+          [ "livingroom_5x5_S_2", 10 ],
+          [ "livingroom_5x5_E_2", 10 ]
+        ]
+      },
+      "ü": { "chunks": [ [ "livingroom_4x4_N_S_1", 100 ] ] },
+      "Ü": { "chunks": [ [ "livingroom_4x4_N_1", 20 ], [ "null", 1 ] ] },
+      "ű": { "chunks": [ [ "kitchen_5x5_N_1", 20 ], [ "kitchen_5x5_N_1A", 20 ] ] },
+      "é": { "chunks": [ [ "kitchen_5x5_N_1A", 20 ], [ "kitchen_5x5_N_1B", 10 ], [ "kitchen_5x5_N_1C", 10 ] ] },
+      "É": { "chunks": [ [ "kitchen_5x5_N_1A", 20 ], [ "kitchen_5x5_N_1B", 10 ] ] },
+      "e": { "chunks": [ [ "kitchen_5x5_N_1A", 20 ], [ "kitchen_5x5_N_1C", 10 ] ] },
+      "Ű": { "chunks": [ [ "kitchen_5x5_N_1", 20 ], [ "kitchen_5x5_N_2", 40 ], [ "kitchen_5x5_N_3", 20 ] ] },
+      "ó": {
+        "chunks": [
+          [ "bonus_room_3x3_1A", 20 ],
+          [ "bonus_room_3x3_S_5", 20 ],
+          [ "bonus_room_3x3_E_6", 20 ],
+          [ "bonus_room_3x3_S_6", 20 ],
+          [ "bonus_room_3x3_E_8", 20 ],
+          [ "bonus_room_3x3_S_8", 20 ],
+          [ "bonus_room_3x3_S_7", 20 ]
+        ]
+      },
+      "Ó": {
+        "chunks": [
+          [ "bonus_room_3x3_1", 20 ],
+          [ "bonus_room_3x3_S_5", 20 ],
+          [ "bonus_room_3x3_S_6", 20 ],
+          [ "bonus_room_3x3_W_6", 20 ],
+          [ "bonus_room_3x3_S_8", 20 ],
+          [ "bonus_room_3x3_W_8", 20 ],
+          [ "bonus_room_3x3_S_7", 20 ],
+          [ "bonus_room_3x3_E_7", 20 ]
+        ]
+      },
+      "o": {
+        "chunks": [
+          [ "bonus_room_3x3_1A", 20 ],
+          [ "bonus_room_3x3_2", 20 ],
+          [ "bonus_room_3x3_4", 20 ],
+          [ "bonus_room_3x3_N_6", 20 ],
+          [ "bonus_room_3x3_E_6", 20 ],
+          [ "bonus_room_3x3_N_8", 20 ],
+          [ "bonus_room_3x3_E_8", 20 ]
+        ]
+      },
+      "O": {
+        "chunks": [
+          [ "bonus_room_3x3_1", 20 ],
+          [ "bonus_room_3x3_2", 20 ],
+          [ "bonus_room_3x3_3", 20 ],
+          [ "bonus_room_3x3_4", 20 ],
+          [ "bonus_room_3x3_N_6", 20 ],
+          [ "bonus_room_3x3_W_6", 20 ],
+          [ "bonus_room_3x3_N_8", 20 ],
+          [ "bonus_room_3x3_W_8", 20 ]
+        ]
+      },
+      "í": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 20 ],
+          [ "livingroom_5x5_N_2", 20 ],
+          [ "livingroom_5x5_S_2", 20 ],
+          [ "livingroom_5x5_E_1", 20 ],
+          [ "livingroom_5x5_E_2", 20 ],
+          [ "diningroom_5x5_N_S", 50 ],
+          [ "diningroom_5x5_E_W", 50 ]
+        ]
+      },
+      "Í": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 20 ],
+          [ "livingroom_5x5_N_2", 20 ],
+          [ "livingroom_5x5_S_2", 20 ],
+          [ "livingroom_5x5_W_1", 20 ],
+          [ "livingroom_5x5_W_2", 20 ],
+          [ "diningroom_5x5_N_S", 50 ],
+          [ "diningroom_5x5_E_W", 50 ]
+        ]
+      },
+      "²": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 20 ],
+          [ "livingroom_5x5_N_2", 20 ],
+          [ "livingroom_5x5_S_2", 20 ],
+          [ "livingroom_5x5_E_1", 20 ],
+          [ "livingroom_5x5_E_2", 20 ]
+        ]
+      },
+      "³": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 20 ],
+          [ "livingroom_5x5_N_2", 20 ],
+          [ "livingroom_5x5_S_2", 20 ],
+          [ "livingroom_5x5_W_1", 20 ],
+          [ "livingroom_5x5_W_2", 20 ]
+        ]
+      },
+      "µ": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+      "_": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] }
+    },
+    "terrain": {
+      "#": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" },
+      " ": "t_region_groundcover_urban",
+      "+": [ [ "t_door_c", 12 ], "t_door_o" ],
+      "%": "t_rock",
+      "=": "t_door_metal_c",
+      "D": [ [ "t_door_locked_interior", 20 ], [ "t_door_boarded", 1 ] ],
+      "E": "t_elevator",
+      "~": { "param": "carpet_type", "fallback": "t_floor" },
+      "G": "t_door_glass_c",
+      "R": { "param": "railing_type", "fallback": "t_concrete_railing" },
+      "*": "t_railing_v",
+      "W": "t_window",
+      "s": "t_sidewalk",
+      "J": "t_sidewalk",
+      "w": { "param": "window_type", "fallback": "t_window_domestic" },
+      "|": { "param": "wall_type", "fallback": "t_brick_wall" },
+      "-": { "param": "i_wall_type", "fallback": "t_wall_w" },
+      "z": "t_flat_roof",
+      "Z": "t_glass_roof",
+      "(": "t_flat_roof",
+      "&": "t_flat_roof",
+      "a": "t_flat_roof",
+      "@": "t_flat_roof",
+      "Đ": "t_flat_roof",
+      ",": "t_thconc_floor",
+      "Q": "t_thconc_floor",
+      "4": "t_gutter_west",
+      "5": "t_gutter_south",
+      "6": "t_gutter_east",
+      "7": "t_gutter_drop",
+      "8": "t_gutter_north",
+      "i": "t_linoleum_white",
+      "S": "t_linoleum_white",
+      "T": "t_linoleum_white",
+      "b": "t_linoleum_white",
+      "f": "t_chainfence_v",
+      "g": "t_chaingate_c",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "¤": "t_open_air_rooved",
+      "/": "t_open_air"
+    },
+    "furniture": {
+      "a": "f_small_satelitte_dish",
+      "b": "f_bathtub",
+      "j": "f_trashcan",
+      "J": "f_dumpster",
+      "K": "f_generator_broken",
+      "M": "f_machinery_heavy",
+      "p": "f_mailbox",
+      "C": "f_desk",
+      "Q": "f_air_conditioner",
+      "r": [ "f_rack", "f_utility_shelf", [ "f_locker", 2 ] ],
+      "U": [ [ "f_cardboard_box", 8 ], "f_crate_o" ],
+      "S": "f_sink",
+      "x": "f_console_broken",
+      "Y": "f_rack_coat",
+      "h": "f_chair",
+      "L": "f_table",
+      "u": [ "f_rack", [ "f_rack_wood", 3 ] ],
+      "B": "f_bookcase",
+      "^": [ "f_indoor_plant", "f_indoor_plant_y", [ "f_null", 3 ] ],
+      "(": "f_solar_unit",
+      "&": "f_chimney",
+      "@": "f_TV_antenna"
+    },
+    "toilets": { "T": {  } },
+    "items": {
+      "C": { "item": "SUS_office_desk", "chance": 33 },
+      "j": { "item": "trash", "chance": 65, "repeat": [ 1, 3 ] },
+      "J": { "item": "trash", "chance": 65, "repeat": [ 1, 6 ] },
+      "b": { "item": "shower", "chance": 20 },
+      "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "B": { "item": "homebooks", "chance": 30, "repeat": [ 2, 4 ] },
+      "r": [
+        { "item": "tools_home", "chance": 40 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "hardware", "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "games", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "U": [
+        { "item": "art", "chance": 10 },
+        { "item": "stash_drugs", "chance": 1 },
+        { "item": "home_display_case", "chance": 1 },
+        { "item": "maps", "chance": 4 },
+        { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "toy_store", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 10 }
+      ],
+      "T": { "item": "SUS_toilet", "chance": 50, "repeat": [ 1, 3 ] },
+      "S": [ { "item": "SUS_bathroom_sink", "chance": 50 }, { "item": "SUS_bathroom_medicine", "chance": 50 } ],
+      "Y": { "item": "unisex_coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+      "u": [ { "item": "SUS_pantry", "chance": 20 }, { "item": "cannedfood", "chance": 25, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "skyscraper_office_palette",
+    "parameters": {
+      "carpet_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ] ]
+        }
+      }
+    },
+    "terrain": {
+      "*": "t_null",
+      "/": "t_open_air",
+      "#": "t_concrete_wall",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "'": "t_thconc_floor",
+      "r": "t_thconc_floor",
+      "Q": "t_thconc_floor",
+      "O": "t_thconc_floor",
+      ".": "t_linoleum_white",
+      ":": "t_linoleum_gray",
+      "i": "t_linoleum_white",
+      "S": "t_linoleum_white",
+      "T": "t_linoleum_white",
+      "e": "t_linoleum_white",
+      "o": "t_linoleum_white",
+      "C": "t_linoleum_white",
+      "y": "t_linoleum_white",
+      " ": "t_region_groundcover_urban",
+      ",": "t_pavement_y",
+      "_": "t_pavement",
+      "%": [ [ "t_region_shrub_decorative", 16 ], [ "t_region_groundcover_forest", 5 ] ],
+      "I": "t_region_tree_shade",
+      "+": "t_door_c",
+      "=": "t_door_locked",
+      "D": "t_door_metal_c",
+      "!": "t_door_metal_locked",
+      "E": "t_elevator",
+      "G": "t_door_glass_c",
+      "H": "t_wall_glass",
+      "R": "t_railing_v",
+      "s": "t_sidewalk",
+      "V": "t_wall_glass",
+      "w": "t_window",
+      "-": "t_brick_wall",
+      "|": "t_brick_wall",
+      "Δ": "t_ramp_up_low",
+      "Ʌ": "t_ramp_up_high",
+      "Ŧ": "t_ramp_down_high",
+      "±": "t_ramp_down_low"
+    },
+    "furniture": {
+      "?": "f_sofa",
+      "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "a": "f_trashcan",
+      "b": "f_bench",
+      "B": "f_bulletin",
+      "c": "f_counter",
+      "C": "f_counter",
+      "d": "f_desk",
+      "e": "f_fridge",
+      "F": "f_filing_cabinet",
+      "h": "f_chair",
+      "l": "f_locker",
+      "M": "f_armchair",
+      "n": "f_table",
+      "N": "f_machinery_heavy",
+      "o": "f_oven",
+      "O": [ [ "f_cardboard_box", 6 ], "f_crate_c" ],
+      "r": "f_rack",
+      "S": "f_sink",
+      "t": "f_table",
+      "T": "f_toilet",
+      "x": "f_console_broken",
+      "X": "f_generator_broken",
+      "y": "f_locker",
+      "Y": "f_rack_coat"
+    },
+    "items": {
+      "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
+      "e": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ],
+      "o": { "item": "oven", "chance": 70 },
+      "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],
+      "y": { "item": "SUS_janitors_closet", "chance": 90 },
+      "Y": { "item": "coat_rack", "chance": 90 },
+      "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] },
+      "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
+      "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
+      ".": { "item": "office_mess", "chance": 1 }
+    },
+    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "toilets": { "T": {  } }
+  }
+]

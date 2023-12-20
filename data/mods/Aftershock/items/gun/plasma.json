@@ -27,6 +27,44 @@
     "melee_damage": { "bash": 6 }
   },
   {
+    "id": "afs_magnadrive_230k",
+    "type": "GUN",
+    "name": { "str": "Magnadrive 230K" },
+    "copy-from": "afs_plasma_base",
+    "looks_like": "plasma_gun",
+    "description": "A heavy plasma railgun that easily defeats most forms of conventional armor and flash-incinerates anything  behind it.  Its large size and liability to overheat make it unsuitable for infantry use, but it is a common sight on military vehicles and in the hands of power-armored troops, especially when heavy armor is expected.",
+    "weight": "8500 g",
+    "volume": "4 L",
+    "longest_side": "45 cm",
+    "price": "15 kUSD",
+    "price_postapoc": "15 kUSD",
+    "range": 15,
+    "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 80 } ],
+    "delete": { "ammo_effects": [ "FLAME" ] },
+    "extend": { "flags": [ "OVERHEATS" ] },
+    "ammo": [ "afs_shydrogen" ],
+    "dispersion": 200,
+    "ammo_to_fire": 2,
+    "overheat_threshold": 100,
+    "cooling_value": 3,
+    "heat_per_shot": 30,
+    "recoil": 30,
+    "durability": 4,
+    "loudness": 5,
+    "reload": 1800,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "120 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_20g_plasma", "afs_4g_plasma" ]
+      }
+    ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_safety" ]
+  },
+  {
     "id": "afs_pam-41",
     "type": "GUN",
     "name": { "str": "PAM-41 2g" },
@@ -38,11 +76,9 @@
     "price": "350 USD",
     "price_postapoc": "350 USD",
     "range": 5,
-    "ranged_damage": [
-      { "damage_type": "bullet", "amount": 15, "armor_penetration": 30 },
-      { "damage_type": "heat", "amount": 40, "armor_penetration": 10 }
-    ],
+    "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 50 } ],
     "delete": { "ammo_effects": [ "FLAME" ] },
+    "extend": { "flags": [ "OVERHEATS" ] },
     "built_in_mods": [ "afs_terrible_sights" ],
     "ammo": [ "afs_shydrogen" ],
     "dispersion": 900,
@@ -77,7 +113,7 @@
     "charges_per_use": 2,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS" ],
     "gun_data": {
       "dispersion": 1500,
       "ammo_to_fire": 2,
@@ -88,10 +124,10 @@
       "delete": { "ammo_effects": [ "FLAME", "EXPLOSIVE_SMALL" ] },
       "extend": { "ammo_effects": [ "DAZZLE_BEAM" ] },
       "range": 3,
-      "ranged_damage": [
-        { "damage_type": "bullet", "amount": 35, "armor_penetration": 30 },
-        { "damage_type": "heat", "amount": 30, "armor_penetration": 10 }
-      ],
+      "overheat_threshold": 100,
+      "cooling_value": 3,
+      "heat_per_shot": 27,
+      "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 45 } ],
       "valid_mod_locations": [ [ "sling", 1 ] ]
     },
     "pocket_data": [
@@ -103,6 +139,7 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_40g_plasma_civ" ]
       }
-    ]
+    ],
+    "faults": [ "fault_overheat_melting" ]
   }
 ]

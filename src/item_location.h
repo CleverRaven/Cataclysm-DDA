@@ -19,6 +19,7 @@ class map_cursor;
 class vehicle_cursor;
 class talker;
 struct tripoint;
+template<typename T> class ret_val;
 
 /**
  * A lightweight handle to an item independent of it's location
@@ -109,6 +110,9 @@ class item_location
         item_location parent_item() const;
         item_pocket *parent_pocket() const;
 
+        /** returns the character whose inventory contains this item, nullptr if none **/
+        Character *carrier() const;
+
         /** returns true if the item is in the inventory of the given character **/
         bool held_by( Character const &who ) const;
 
@@ -139,8 +143,8 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
-        bool parents_can_contain_recursive( item *it ) const;
-        int max_charges_by_parent_recursive( const item &it ) const;
+        ret_val<void> parents_can_contain_recursive( item *it ) const;
+        ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 
         /**
          * Returns whether another item is eventually contained by this item
@@ -158,5 +162,6 @@ class item_location
         std::shared_ptr<impl> ptr;
 };
 std::unique_ptr<talker> get_talker_for( item_location &it );
+std::unique_ptr<talker> get_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
 #endif // CATA_SRC_ITEM_LOCATION_H

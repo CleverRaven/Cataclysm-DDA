@@ -310,13 +310,32 @@
     "type": "harvest",
     "entries": [
       { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "ravenfolk",
+    "//": "taken from mutant flightless bird but with demihuman meat and organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "demihuman_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "demihuman_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -324,10 +343,10 @@
     "type": "harvest",
     "entries": [
       { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.0025 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.0025 },
+      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1025 }
@@ -338,10 +357,10 @@
     "type": "harvest",
     "entries": [
       { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1 }

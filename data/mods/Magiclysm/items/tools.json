@@ -161,5 +161,29 @@
     "description": "A broken shard of glassteel covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
     "material": [ "glassteel" ],
     "melee_damage": { "cut": 7 }
+  },
+  {
+    "id": "magic_circle_rank_1",
+    "type": "TOOL",
+    "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 2" },
+    "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+    "symbol": "O",
+    "color": "red",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "qualities": [ [ "MANA_INFUSE", 1 ], [ "MANA_FOCUS", 1 ] ],
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "magic_circle_rank_2",
+    "type": "TOOL",
+    "name": { "str": "Magic Circle Rank 2", "str_pl": "Magic Circles Rank 2" },
+    "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+    "symbol": "O",
+    "color": "red",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "qualities": [ [ "MANA_INFUSE", 2 ], [ "MANA_FOCUS", 2 ] ],
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

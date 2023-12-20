@@ -51,7 +51,7 @@
       "furniture": {
         "c": "f_counter",
         "r": "f_rack",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": [ "f_water_purifier", "f_home_furnace" ],
         "a": [
           [ "f_table", 30 ],

@@ -121,7 +121,7 @@
       "describe": "Clear out a mi-go tower for the Valhallists.",
       "offer": "We've found more aliens in the area.  My scouts have reported a scout tower for those weird multi limbed aliens showed up recently, and that they might have prisoners inside.  I want you to go over there and kill every last <name_b> you can find, and free those prisoners.  I'm not looking to recruit anyone you free from there, just make sure they're alright.  Come back to me when you're done.",
       "accepted": "May Thor protect you.",
-      "rejected": "They'll pay with their lives eventually, why wait?.",
+      "rejected": "They'll pay with their lives eventually, why wait?",
       "advice": "That tower is like a furnace on the interior, the scouts could even feel it from the outside.  They've got to have some source of heat though, so I'd destroy whatever's belching it out.  Also, shoot those <name_b>s from a distance, they'll fuck you up in hand-to-hand fighting.",
       "inquire": "You're pretty clean for someone who should be killing <name_b>s.",
       "success": "Those aliens had it coming to them.  You have done Odins' will today.",

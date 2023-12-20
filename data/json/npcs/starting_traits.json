@@ -2,6 +2,7 @@
   {
     "//": "Mainlined from a mod originally written by Spencer Michaels",
     "//2": "This group picks out several negative and positive traits",
+    "//3": "This implicitly extends if attempting to add to it for mod purposes",
     "type": "trait_group",
     "id": "NPC_starting_traits",
     "subtype": "collection",
@@ -65,7 +66,9 @@
       { "trait": "SCHIZOPHRENIC", "prob": 1 },
       { "trait": "SQUEAMISH", "prob": 20 },
       { "trait": "ANTIWHEAT", "prob": 5 },
-      { "trait": "WOOLALLERGY", "prob": 5 }
+      { "trait": "WOOLALLERGY", "prob": 5 },
+      { "trait": "SEASONAL_ALLERGIES", "prob": 8 },
+      { "trait": "SEASONAL_AFFECTIVE", "prob": 5 }
     ]
   },
   {

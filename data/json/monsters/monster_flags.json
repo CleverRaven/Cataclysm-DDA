@@ -40,6 +40,11 @@
     "//": "Is a nemesis monster"
   },
   {
+    "id": "HAS_MIND",
+    "type": "monster_flag",
+    "//": "It's sapient and capable of reason (no matter how limited--ferals count)"
+  },
+  {
     "id": "NOHEAD",
     "type": "monster_flag",
     "//": "Headshots not allowed!"
@@ -193,6 +198,11 @@
     "id": "COLDPROOF",
     "type": "monster_flag",
     "//": "Immune to cold damage"
+  },
+  {
+    "id": "BIOLOGICALPROOF",
+    "type": "monster_flag",
+    "//": "Immune to biological damage"
   },
   {
     "id": "COMBAT_MOUNT",
@@ -488,6 +498,11 @@
     "id": "DROPS_AMMO",
     "type": "monster_flag",
     "//": "This monster drops ammo.  Should not be set for monsters that use pseudo ammo."
+  },
+  {
+    "id": "WIELDED_WEAPON",
+    "type": "monster_flag",
+    "//": "This monster wields a weapon.  Used for disarming techniques to trigger with this enemy."
   },
   {
     "id": "INSECTICIDEPROOF",

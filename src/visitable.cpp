@@ -373,7 +373,7 @@ VisitResponse item_contents::visit_contents( const std::function<VisitResponse( 
         &func, item *parent )
 {
     for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
             // anything that is not CONTAINER is accessible only via its specific accessor
             continue;
         }
@@ -566,6 +566,11 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     }
 
     contents.remove_internal( filter, count, res );
+
+    // updating pockets is only necessary when removing mods,
+    // but no way to determine where something got removed here
+    update_modified_pockets();
+
     return res;
 }
 
@@ -647,6 +652,8 @@ std::list<item> Character::remove_items_with( const
         // nothing to do
         return res;
     }
+
+    invalidate_weight_carried_cache();
 
     // first try and remove items from the inventory
     res = inv->remove_items_with( filter, count );

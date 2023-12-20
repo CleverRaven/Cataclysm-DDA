@@ -10,12 +10,14 @@ accessorizing
 acclimatization
 accoustrement
 accuracies
+accurized
 achelousaurus
 acho
 acidball
 acrocanthosaurus
 acrostic
 acrylamide
+actinic
 activatable
 actuated
 adaptors
@@ -27,15 +29,20 @@ aeroctinus
 aerofoil
 aeterna
 aetheric
+aetherically
+affixes
 affordability
 affordably
 afterbirth
+aftereffect
+aftereffects
 afterglow
 afterimage
 afterlife
 aftermarket
 aftermath
 afternoon
+afternoons
 aftertaste
 afterthought
 afterward
@@ -223,6 +230,8 @@ backrest
 backstep
 backstepping
 backsteps
+backswing
+backswings
 backtracing
 bagh
 bakelite
@@ -419,6 +428,7 @@ butadiene
 butternut
 butternuts
 buttstock
+buttstroke
 buzzcut
 buzzz
 bzzt
@@ -564,7 +574,6 @@ coalesces
 coati
 coatings
 coatis
-cockatrice
 cods
 coeculus
 coelophysis
@@ -632,6 +641,7 @@ coverplate
 crablike
 cracklins
 craftable
+crafter
 craftsfolk
 craftswoman
 craftwork
@@ -733,6 +743,7 @@ deliriant
 delsihous
 demagnetized
 demihuman
+demining
 demisexuality
 demoed
 denarius
@@ -841,6 +852,8 @@ dreamdrossed
 dreamforged
 dreamsmith
 dreamstuff
+dress
+dresses
 driers
 drivetrain
 dromaeosaurid
@@ -863,6 +876,7 @@ duplicator
 duplicators
 dustbunny
 dynamically
+dynamos
 dyoplosaurus
 dysfunctions
 dysmorphia
@@ -897,6 +911,8 @@ einiosaurus
 elderberries
 electrochemistry
 electrohack
+electrokinesis
+electrokinetic
 electrolaser
 electrolyzer
 electromancy
@@ -969,6 +985,7 @@ everfrost
 eviscerations
 exactingly
 exchangeable
+exchanger
 excreta
 excretions
 exhorts
@@ -976,6 +993,7 @@ existentialists
 exobay
 exodii
 exoplanet
+exoplanetary
 exosuit
 exosuits
 expansionary
@@ -1265,6 +1283,7 @@ grnd
 grodd
 grommets
 groundcover
+groundhogs
 groundnut
 groundsheet
 gryposaurus
@@ -1325,6 +1344,7 @@ hdd
 headbutts
 headin
 headwear
+headwrap
 healthiness
 heartiness
 heartlike
@@ -1491,6 +1511,8 @@ intermixed
 interwar
 intimidatingly
 intolerances
+intone
+intones
 intoxications
 intoxicative
 inulin
@@ -1785,6 +1807,8 @@ mealworms
 meanin
 meathook
 medibot
+megachette
+megachettes
 megacorporations
 megafauna
 megalith
@@ -1902,7 +1926,9 @@ mote
 motes
 motorpool
 motorsports
+moulinet
 mountable
+mountings
 mouthgear
 mouthpart
 mouthparts
@@ -2039,6 +2065,8 @@ nothronychus
 npc
 npcs
 nrmmy
+nuckalavee
+nuckalavees
 nuda
 nudicaulis
 numbingly
@@ -2095,6 +2123,7 @@ outgrowths
 outperforms
 outputting
 ovata
+overboots
 overbore
 overbuilt
 overclock
@@ -2103,13 +2132,18 @@ overdosage
 overdrinking
 overengineered
 overexertion
+overgloves
 overgrowth
+overhood
+overhoods
 overmap
 overmaps
 overpenetration
 overpressure
 overqueen
 overshoes
+oversuit
+oversuits
 overswing
 overswinging
 overtaxing
@@ -2146,6 +2180,7 @@ paratrooping
 parboiling
 paroxysms
 parries
+parrying
 parst
 parthenogenetic
 partyin
@@ -2318,6 +2353,7 @@ prigs
 primeside
 privet
 prizefights
+proc
 procedurally
 procompsignathids
 proficiencies
@@ -2452,6 +2488,7 @@ reckonin
 reclines
 recolherem
 recrafted
+recuperator
 recursively
 recurve
 recutita
@@ -2596,6 +2633,7 @@ sawblade
 sawblades
 sawteeth
 sayig
+scabbards
 scalable
 scatterer
 schippe
@@ -2653,10 +2691,12 @@ shantak
 shantytowns
 shapechangers
 sharksuit
+sharksuits
 shedded
 shenandoah
 shipside
 shitstorms
+shivs
 shlip
 shlop
 shoddily
@@ -2758,6 +2798,8 @@ spadelike
 spak
 spall
 spalling
+sparker
+sparkers
 spasmically
 spasming
 spearcat
@@ -2803,6 +2845,7 @@ spongey
 sporeling
 spork
 sporter
+spraining
 sprayable
 spraypainted
 spraypainting
@@ -2980,7 +3023,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-th
+thaumaturge
 thaumaturgical
 thawb
 themm
@@ -3120,10 +3163,12 @@ uncleaned
 uncluttered
 uncoiling
 uncoils
+uncontacted
 uncured
 undecipherable
 underbarrel
 underbody
+undercoat
 undercovering
 underfongen
 undergrown
@@ -3340,6 +3385,8 @@ wielders
 wieldier
 willin
 willowbark
+wimple
+wimples
 windowframe
 windproof
 winglike

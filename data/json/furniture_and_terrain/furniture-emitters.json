@@ -72,24 +72,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_vent_smoke_plume",
-    "description": "A metal vent.  You can see smoke seeping from it.",
-    "copy-from": "f_vent_cold_air2_stream",
-    "symbol": "~",
-    "color": "white",
-    "emissions": [ "emit_smoke_plume" ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_vent_smoke_stream",
-    "description": "A metal vent.  You can see smoke streaming out of it.",
-    "copy-from": "f_vent_cold_air2_stream",
-    "symbol": "~",
-    "color": "white",
-    "emissions": [ "emit_smoke_stream" ]
-  },
-  {
-    "type": "furniture",
     "id": "f_vent_toxic_leak",
     "description": "A metal vent.  Toxic-looking clouds seep from it.",
     "copy-from": "f_vent_cold_air2_stream",
@@ -114,15 +96,6 @@
     "symbol": "~",
     "color": "green",
     "emissions": [ "emit_rad_leak" ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_vent_rad_cloud",
-    "description": "A metal vent.",
-    "copy-from": "f_vent_cold_air2_stream",
-    "symbol": "~",
-    "color": "green",
-    "emissions": [ "emit_rad_cloud" ]
   },
   {
     "type": "furniture",

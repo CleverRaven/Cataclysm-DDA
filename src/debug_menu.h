@@ -91,7 +91,6 @@ enum class debug_menu_index : int {
     VEHICLE_DELETE,
     VEHICLE_EXPORT,
     GENERATE_EFFECT_LIST,
-    EDIT_CAMP_LARDER,
     WRITE_GLOBAL_EOCS,
     WRITE_GLOBAL_VARS,
     EDIT_GLOBAL_VARS,
@@ -102,6 +101,10 @@ enum class debug_menu_index : int {
     EXPORT_FOLLOWER,
     EXPORT_SELF,
     QUICK_SETUP,
+    TOGGLE_SETUP_MUTATION,
+    NORMALIZE_BODY_STAT,
+    SIX_MILLION_DOLLAR_SURVIVOR,
+    EDIT_FACTION,
     last
 };
 

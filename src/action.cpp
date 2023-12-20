@@ -193,6 +193,8 @@ std::string action_ident( action_id act )
             return "grab";
         case ACTION_HAUL:
             return "haul";
+        case ACTION_HAUL_TOGGLE:
+            return "haul_toggle";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -237,6 +239,8 @@ std::string action_ident( action_id act )
             return "reload_weapon";
         case ACTION_RELOAD_WIELDED:
             return "reload_wielded";
+        case ACTION_INSERT_ITEM:
+            return "insert";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -889,6 +893,7 @@ action_id handle_action_menu()
             // Everything below here can be accessed through
             // the inventory screen, so it's sorted to the
             // end of the list.
+            REGISTER_ACTION( ACTION_INSERT_ITEM );
             REGISTER_ACTION( ACTION_UNLOAD_CONTAINER );
             REGISTER_ACTION( ACTION_DROP );
             REGISTER_ACTION( ACTION_COMPARE );
@@ -940,6 +945,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
+            REGISTER_ACTION( ACTION_HAUL_TOGGLE );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
@@ -1183,5 +1189,10 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
         g->add_draw_callback( hilite_cb );
     }
 
-    return choose_adjacent( pos, message, allow_vertical );
+    const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
+        return chosen;
+    }
+
+    return std::nullopt;
 }

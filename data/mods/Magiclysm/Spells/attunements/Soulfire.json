@@ -51,7 +51,7 @@
     "type": "effect_type",
     "name": [ "Soul Burn" ],
     "desc": [
-      "A little of your soul has been burned away, leaving you in a weakened state.  The soul heals quickly, but your body has problem with regeneration while the soul is weak."
+      "A little of your soul has been burned away, leaving you in a weakened state.  The soul heals quickly, but your body regenerates more slowly while the soul is weak."
     ],
     "rating": "bad",
     "show_intensity": false,

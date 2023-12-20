@@ -121,7 +121,7 @@
     "id": "effect_pfruit_nightvision",
     "name": [ "Wintergreen Vision" ],
     "desc": [ "You can see in the dark." ],
-    "apply_message": "The night doesn't seem so dark anymore",
+    "apply_message": "The night doesn't seem so dark anymore.",
     "remove_message": "The darkness of the night rushes in again.",
     "rating": "good",
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],

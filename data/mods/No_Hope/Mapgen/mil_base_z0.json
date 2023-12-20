@@ -507,7 +507,7 @@
         { "item": "crowbar", "x": 53, "y": 59, "chance": 75, "repeat": [ 10, 25 ] },
         { "item": "e_tool", "x": 52, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mask_gas", "x": 51, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "gasfilter_m", "x": 50, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "gasfilter_med", "x": 50, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "binoculars", "x": 49, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "multitool", "x": 46, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "heatpack", "x": 45, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },

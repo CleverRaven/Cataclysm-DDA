@@ -37,6 +37,7 @@
 #include "safemode_ui.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
@@ -479,6 +480,16 @@ void sounds::process_sounds()
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
+            }
+        }
+        // Trigger sound-triggered traps
+        for( const trap *trapType : trap::get_sound_triggered_traps() ) {
+            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
+                const int dist = sound_distance( source, tp );
+                const trap &tr = get_map().tr_at( tp );
+                if( tr.triggered_by_sound( vol, dist ) ) {
+                    tr.trigger( tp );
+                }
             }
         }
     }

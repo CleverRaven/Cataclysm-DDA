@@ -107,19 +107,19 @@
         "ss%|:::::...|--|-|-|HHHGGHHH|-|-|--|...:::::|%ss",
         "ss%|:::::...|SS|T|T|........|T|T|SS|...:::::|%ss",
         "ss%|----|...+ii|+|+|........|+|+|ii+...|----|%ss",
-        "ss%|rrrr|...|iiiiii|........|iiiiii|...|rrrr|%ss",
-        "ss%|''''+...|---|--||......||--|---|...+''''|%ss",
-        "ss%|rrrr|...|>R<|EEE|......|xEE|>R<|...|rrrr|%ss",
+        "ss%|gggg|6..|iiiiii|........|iiiiii|...|rrrr|%ss",
+        "ss%|''''L...|---|--||......||--|---|...+''''|%ss",
+        "ss%|gggg|...|>R<|EEE|......|xEE|>R<|...|rrrr|%ss",
         "ss%|----|...|'R'|EEED......DEEE|'R'|...|----|%ss",
         "ss%|:::::...|'''|EEED......DEEE|'''|...:::::|%ss",
         "ss%|:::::...|'''|EEx|......|EEE|'''|...:::::|%ss",
         "ss%|:::::...|-+-|---|^....^|---|-+-|...:::::|%ss",
         "ss%Vc.h.+..........................+...:::::V%ss",
         "ss%Vcddx|^.........................+...:::::V%ss",
-        "ssI|-ww-|-|-+--ccc--|-+----|...|---|...:::::|%ss",
-        "ss%|''O''O|..cc.h..F|d.cc.F|...='''+...:::::V%ss",
-        "sss=''''''+...h....F|dh...F|...|rrr|^..::::^V%ss",
-        "ss%|rrrOO'|.xdd....F|xxx|--|...|---|--------|%ss",
+        "ssI|----|-|-+--ccc--|-+----|...|---|...:::::|%ss",
+        "ss%|QQQQQQ|..cc.h..F|d.cc.F|...='''+...:::::V%ss",
+        "sss|''''''L...h....F|dh...F|HGH|rrr|^..::::^V%ss",
+        "ss%|QQQQQQ|7xdd....F|xxx|--|...|---|--------|%ss",
         "ssI|------|---------|---|..a...::::::::.....VIss",
         "ss%|~################~~~|......::::::::.....Vsss",
         "ss%|~#±±±±±±##±±±±±±#~~~|......::::::::.....Gsss",
@@ -147,6 +147,20 @@
           "repeat": [ 1, 4 ]
         }
       ],
+      "computers": {
+        "7": {
+          "name": "Border Patrol OS v0.A17 - Armory Access",
+          "security": 2,
+          "options": [ { "name": "Unlock Armory", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        },
+        "6": {
+          "name": "Border Patrol OS v0.A17 - Evidence Locker Access",
+          "security": 3,
+          "options": [ { "name": "Unlock Evidence Locker", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        }
+      },
       "place_nested": [
         {
           "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
@@ -338,6 +352,7 @@
         {
           "chunks": [
             [ "xed_office_slide_dl", 20 ],
+            [ "xed__contraband_containment", 40 ],
             [ "xed_glass_dl", 20 ],
             [ "xed_private_dl", 20 ],
             [ "xed_crowded_dl", 20 ],
@@ -724,19 +739,19 @@
         "ss%|:::::...|--|-|-|HHHGGHHH|-|-|--|...:::::|%ss",
         "ss%|:::::...|SS|T|T|........|T|T|SS|...:::::|%ss",
         "ss%|----|...+ii|+|+|........|+|+|ii+...|----|%ss",
-        "ss%|rrrr|...|iiiiii|........|iiiiii|...|rrrr|%ss",
-        "ss%|''''+...|---|--||......||--|---|...+''''|%ss",
-        "ss%|rrrr|...|>R<|EEE|......|xEE|>R<|...|rrrr|%ss",
+        "ss%|gggg|6..|iiiiii|........|iiiiii|...|rrrr|%ss",
+        "ss%|''''L...|---|--||......||--|---|...+''''|%ss",
+        "ss%|gggg|...|>R<|EEE|......|xEE|>R<|...|rrrr|%ss",
         "ss%|----|...|'R'|EEED......DEEE|'R'|...|----|%ss",
         "ss%|:::::...|'''|EEED......DEEE|'''|...:::::|%ss",
         "ss%|:::::...|'''|EEx|......|EEE|'''|...:::::|%ss",
         "ss%|:::::...|-+-|---|^....^|---|-+-|...:::::|%ss",
         "ss%Vc.h.+..........................+...:::::V%ss",
         "ss%Vcddx|^.........................+...:::::V%ss",
-        "ssI|-ww-|-|-+--ccc--|-+----|...|---|...:::::|%ss",
-        "ss%|''O''O|..cc.h..F|d.cc.F|...='''+...:::::V%ss",
-        "sss=''''''+...h....F|dh...F|...|rrr|^..::::^V%ss",
-        "ss%|rrrOO'|.xdd....F|xxx|--|...|---|--------|%ss",
+        "ssI|----|-|-+--ccc--|-+----|...|---|...:::::|%ss",
+        "ss%|QQQQQQ|..cc.h..F|d.cc.F|...='''+...:::::V%ss",
+        "sss|''''''L...h....F|dh...F|HGH|rrr|^..::::^V%ss",
+        "ss%|QQQQQQ|7xdd....F|xxx|--|...|---|--------|%ss",
         "ssI|------|---------|---|..a...::::::::.....VIss",
         "ss%|~################~~~|......::::::::.....Vsss",
         "ss%|~#±±±±±±##±±±±±±#~~~|......::::::::.....Gsss",
@@ -758,6 +773,20 @@
         { "monster": "GROUP_FERAL_AGENTS", "x": [ 10, 23 ], "y": [ 10, 23 ], "chance": 2, "repeat": [ 1, 4 ] },
         { "monster": "GROUP_Exodii_Jotunn", "x": [ 26, 38 ], "y": [ 26, 38 ], "chance": 2, "repeat": [ 1, 4 ] }
       ],
+      "computers": {
+        "7": {
+          "name": "Border Patrol OS v0.A17 - Armory Access",
+          "security": 2,
+          "options": [ { "name": "Unlock Armory", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        },
+        "6": {
+          "name": "Border Patrol OS v0.A17 - Evidence Locker Access",
+          "security": 3,
+          "options": [ { "name": "Unlock Evidence Locker", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        }
+      },
       "place_nested": [
         {
           "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
@@ -949,6 +978,7 @@
         {
           "chunks": [
             [ "xed_office_slide_dl", 20 ],
+            [ "xed__contraband_containment", 40 ],
             [ "xed_glass_dl", 20 ],
             [ "xed_private_dl", 20 ],
             [ "xed_crowded_dl", 20 ],

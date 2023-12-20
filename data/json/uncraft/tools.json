@@ -74,6 +74,23 @@
     ]
   },
   {
+    "result": "corded_powerdrill",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "antenna", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
     "result": "trimmer_off",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -198,7 +215,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 3 ] ],
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "wire", 1 ] ],
@@ -215,7 +231,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "wire", 1 ] ],
@@ -233,7 +248,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "wire", 1 ] ],
@@ -250,7 +264,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "wire", 1 ] ],
@@ -268,7 +281,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
       [ [ "wire", 1 ] ],

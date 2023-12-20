@@ -175,13 +175,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "walther_ppq_9mm",
-    "type": "GUN",
-    "copy-from": "walther_ppq_9mm",
-    "name": { "str": "Walther PPQ 9mm" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "cannon_3in_ordnance",
     "type": "GUN",
     "copy-from": "cannon_3in_ordnance",
@@ -284,6 +277,20 @@
     "type": "GUN",
     "copy-from": "mosin44",
     "name": { "str": "Mosin carbine" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type99",
+    "type": "GUN",
+    "copy-from": "type99",
+    "name": { "str": "7.7mm battle rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type99_sniper",
+    "type": "GUN",
+    "copy-from": "type99_sniper",
+    "name": { "str": "7.7mm sniper rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   }
 ]

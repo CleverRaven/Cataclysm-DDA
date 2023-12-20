@@ -28,10 +28,26 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "1 s",
+    "time": "16 s",
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
-    "//": "Too simple to learn any tailoring or healthcare.",
+    "//": "using brute force, so not very precise, but still relatively fast;  can't make str requirement for the recipe; so assume relatively weak character tries to rip it",
+    "//2": "Too simple to learn any tailoring or healthcare.",
+    "result_mult": 2,
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
+  },
+  {
+    "result": "bandages_makeshift",
+    "id_suffix": "with_tool",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "time": "12 s",
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "result_mult": 3,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
   },
   {
@@ -45,8 +61,8 @@
     "time": "5 m",
     "batch_time_factors": [ 95, 4 ],
     "autolearn": true,
-    "result_mult": 3,
-    "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "bleach", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
+    "result_mult": 9,
+    "components": [ [ [ "bandages_makeshift", 9 ] ], [ [ "bleach", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
   },
   {
     "result": "bandages_makeshift_boiled",
@@ -62,8 +78,8 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
     "//": "3 units of water + 114g of cotton, bandages will soak up some of the water but the rest should be potable",
-    "result_mult": 3,
-    "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ],
+    "result_mult": 9,
+    "components": [ [ [ "bandages_makeshift", 9 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ],
     "byproducts": [ [ "water_clean", 2 ] ]
   },
   {
@@ -246,6 +262,7 @@
     "type": "recipe",
     "id_suffix": "from_alder",
     "result": "quikclot",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",

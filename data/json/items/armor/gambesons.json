@@ -583,6 +583,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 15,
+        "layers": [ "NORMAL" ],
         "//warmth": 30
       },
       {
@@ -1162,6 +1163,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10,
+        "layers": [ "NORMAL" ],
         "//warmth": 30
       },
       {
@@ -1747,6 +1749,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 23,
+        "layers": [ "NORMAL" ],
         "//warmth": 33
       },
       {

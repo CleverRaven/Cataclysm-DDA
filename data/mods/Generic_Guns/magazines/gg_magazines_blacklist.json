@@ -2,6 +2,6 @@
   {
     "type": "ITEM_BLACKLIST",
     "whitelist": false,
-    "items": [ "m74_clip" ]
+    "items": [ "m74_clip", "exodiisapramag5", "robofac_gun_40mm_10rd", "robofac_gun_40mm_5rd", "robofac_gun_40mm_3rd" ]
   }
 ]

@@ -74,7 +74,7 @@
       "TALK_REFUGEE_Uyen_Background",
       "TALK_REFUGEE_Uyen_Situation",
       "TALK_REFUGEE_Uyen_Training",
-      "TALK_REFUGEE_UYEN_World",
+      "TALK_REFUGEE_Uyen_World",
       "TALK_REFUGEE_Uyen_Kaiju"
     ],
     "responses": [
@@ -99,7 +99,7 @@
         "condition": { "u_has_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" },
         "topic": "TALK_REFUGEE_Uyen_Teach"
       },
-      { "text": "What do you think happened to the world?", "topic": "TALK_REFUGEE_UYEN_World" },
+      { "text": "What do you think happened to the world?", "topic": "TALK_REFUGEE_Uyen_World" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

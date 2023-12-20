@@ -1,39 +1,6 @@
 [
   {
     "type": "npc",
-    "id": "thug",
-    "//": "Generic melee focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Thug",
-    "class": "NC_THUG",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_DONE",
-    "faction": "hells_raiders"
-  },
-  {
-    "type": "npc",
-    "id": "bandit",
-    "//": "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Bandit",
-    "class": "NC_SCAVENGER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_DONE",
-    "faction": "hells_raiders"
-  },
-  {
-    "type": "npc",
-    "id": "hells_raiders_assassin",
-    "//": "EOC-specific, should not spawn outside of trigger events.",
-    "name_suffix": "assassin",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 10,
-    "mission": 0,
-    "chat": "TALK_DONE",
-    "faction": "hells_raiders"
-  },
-  {
-    "type": "npc",
     "id": "deserter",
     "//": "Generic hostile military deserter.",
     "name_suffix": "Deserter",
@@ -254,5 +221,17 @@
     "mission_offered": "MISSION_JOIN_TRACKER",
     "chat": "TALK_STRANGER_FRIENDLY",
     "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_debug",
+    "//": "Someone helps you test the game.",
+    "name_suffix": "Debug",
+    "class": "NC_NONE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "no_faction",
+    "death_eocs": [ "EOC_event_NPC_DEATH_test" ]
   }
 ]

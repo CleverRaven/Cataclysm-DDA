@@ -280,7 +280,7 @@
     "category": "armor",
     "name": { "str": "steel-plated Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and thin steel plating in many places.  Protects from the elements as well as from harm.",
-    "weight": "16200 g",
+    "weight": "9500 g",
     "volume": "12 L",
     "price": 200000,
     "price_postapoc": 7000,
@@ -436,6 +436,7 @@
     "armor": [
       {
         "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.5 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
         ],
@@ -444,27 +445,48 @@
         "encumbrance": [ 19, 19 ]
       }
     ],
+    "//": "Pockets are half in size of those found on technical shorts and without a pocket in the flap.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
+        "max_contains_weight": "1 kg",
+        "moves": 130,
         "max_item_length": "11 cm",
-        "description": "Pants pocket."
+        "watertight": true,
+        "description": "Back pocket."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
+        "max_contains_weight": "1 kg",
+        "moves": 130,
         "max_item_length": "11 cm",
-        "description": "Pants pocket."
+        "watertight": true,
+        "description": "Back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "description": "Pants pocket.",
+        "volume_encumber_modifier": 0.25,
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "description": "Pants pocket.",
+        "volume_encumber_modifier": 0.25,
+        "moves": 80
       }
     ],
     "warmth": 41,
-    "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
+    "environmental_protection": 12,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -480,6 +502,92 @@
     "type": "ARMOR",
     "name": { "str": "XL Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "h20survivor_jumpsuit_light",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "light Kevlar wetsuit oversuit" },
+    "description": "A hand-built light combination armor made from an expanded and lightened wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
+    "weight": "6400 g",
+    "volume": "7000 ml",
+    "price_postapoc": 5000,
+    "material": [ "neoprene", "kevlar" ],
+    "symbol": "[",
+    "to_hit": -3,
+    "looks_like": "wetsuit",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 11, 11 ]
+      }
+    ],
+    "//": "Pockets are half in size of those found on technical shorts and without a pocket in the flap.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 130,
+        "max_item_length": "11 cm",
+        "watertight": true,
+        "description": "Back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 130,
+        "max_item_length": "11 cm",
+        "watertight": true,
+        "description": "Back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "description": "Pants pocket.",
+        "volume_encumber_modifier": 0.2,
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "description": "Pants pocket.",
+        "volume_encumber_modifier": 0.2,
+        "moves": 80
+      }
+    ],
+    "warmth": 30,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY" ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "xs_h20survivor_jumpsuit_light",
+    "type": "ARMOR",
+    "name": { "str": "XS light Kevlar wetsuit oversuit" },
+    "copy-from": "h20survivor_jumpsuit_light",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "xl_h20survivor_jumpsuit_light",
+    "type": "ARMOR",
+    "name": { "str": "XL light Kevlar wetsuit oversuit" },
+    "copy-from": "h20survivor_jumpsuit_light",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -500,8 +608,8 @@
     "armor": [
       {
         "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
@@ -509,27 +617,48 @@
         "encumbrance": [ 26, 26 ]
       }
     ],
+    "//": "Pockets are from normal thick wetsuit with back pockets added on.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
+        "max_contains_weight": "1 kg",
+        "moves": 130,
         "max_item_length": "11 cm",
-        "description": "Pants pocket."
+        "watertight": true,
+        "description": "Back pocket."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
+        "max_contains_weight": "1 kg",
+        "moves": 130,
         "max_item_length": "11 cm",
-        "description": "Pants pocket."
+        "watertight": true,
+        "description": "Back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 130,
+        "max_item_length": "20 cm",
+        "watertight": true,
+        "description": "Hip pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 130,
+        "max_item_length": "20 cm",
+        "watertight": true,
+        "description": "Hip pocket."
       }
     ],
     "warmth": 70,
-    "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
+    "environmental_protection": 14,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
     "melee_damage": { "bash": 6 }
   },
   {

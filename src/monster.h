@@ -118,6 +118,7 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void digest_food();
+        void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -131,6 +132,7 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
         int get_eff_per() const override;
+        void witness_thievery( item *it ) override;
 
         float get_mountable_weight_ratio() const;
 
@@ -181,6 +183,9 @@ class monster : public Creature
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool shearable() const;
+        bool is_pet() const;
+        bool is_pet_follow() const;
+        bool has_intelligence() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -200,10 +205,12 @@ class monster : public Creature
          * will_move_to() checks for impassable terrain etc
          * can_reach_to() checks for z-level difference.
          * can_move_to() is a wrapper for both of them.
+         * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
         bool can_move_to( const tripoint &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
+        bool know_danger_at( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -487,6 +494,8 @@ class monster : public Creature
         bool is_electrical() const override;    // true if the monster produces electric radiation
 
         bool is_nether() const override;    // true if the monster is from the nether
+
+        bool has_mind() const override;    // true if the monster is sapient and capable of reason
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;

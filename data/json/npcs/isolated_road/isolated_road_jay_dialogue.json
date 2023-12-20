@@ -148,8 +148,15 @@
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "Let's trade.", "topic": "TALK_GUNSMITH_SERVICES", "effect": "start_trade" },
+      { "text": "How's the 'printing' thing going?", "topic": "TALK_GUNSMITH_RESTOCK" },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_GUNSMITH_RESTOCK",
+    "type": "talk_topic",
+    "dynamic_line": "Next series of currency gotta be ready in around <interval>, fresh off the print!",
+    "responses": [ { "text": "I'll make sure to take a look.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_GUNSMITH_SHOP_ABOUT",
@@ -212,7 +219,7 @@
     "id": "TALK_GUNSMITH_KORD",
     "type": "talk_topic",
     "dynamic_line": [
-      "Where did you… I- I don't know what to say.\"  Jay takes the rifle reverently.  He turns it over so carefully that you could mistake him for holding a child instead of a gun.  \"This thing is is beautiful.  Modern rails, ergonomic furniture, recoil balancing system.  I know Cody thinks that she did something wrong, but all I remember is being so angry… just blindingly furious.  Then I was running.  When I woke up everything, was fine.\"\n\nJay hands back the Kord.  \"Thank you for letting me see this, and for getting Cody and I talking.  If you could help me out with something for Cody, I'll hook you up with a casket mag for that thing and a box of the good ammo.  Stuff from my reserves."
+      "Where did you… I- I don't know what to say.\"  Jay takes the rifle reverently.  He turns it over so carefully that you could mistake him for holding a child instead of a gun.  \"This thing is is beautiful.  Modern rails, ergonomic furniture, recoil balancing system.  I know Cody thinks that she did something wrong, but all I remember is being so angry… just blindingly furious.  Then I was running.  When I woke up, everything was fine.\"\n\nJay hands back the Kord.  \"Thank you for letting me see this, and for getting Cody and I talking.  If you could help me out with something for Cody, I'll hook you up with a casket mag for that thing and a box of the good ammo.  Stuff from my reserves."
     ],
     "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
     "responses": [

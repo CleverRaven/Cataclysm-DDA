@@ -453,5 +453,43 @@
         "prob": 100
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "//": "Dreamsmith artifact creation itemgroup.",
+    "id": "dreamsmith_artifact",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "dreamforged_boots_ench", "prob": 100 },
+      { "group": "dreamforged_armguard_plate_ench", "prob": 100 },
+      { "group": "dreamforged_plate_armor_ench", "prob": 100 },
+      { "group": "dreamforged_helmet_ench", "prob": 100 },
+      { "group": "dreamforged_fullhelmet_ench", "prob": 100 },
+      { "group": "dreamforged_knuckle_ench", "prob": 100 },
+      { "group": "dreamforged_lucerne_ench", "prob": 100 },
+      { "group": "dreamforged_khopesh_ench", "prob": 100 },
+      { "group": "dreamforged_zweihander_ench", "prob": 100 },
+      { "group": "dreamforged_wakizashi_ench", "prob": 100 },
+      { "group": "dreamforged_tanto_ench", "prob": 100 },
+      { "group": "dreamforged_rapier_ench", "prob": 100 },
+      { "group": "dreamforged_nodachi_ench", "prob": 100 },
+      { "group": "dreamforged_kukri_ench", "prob": 100 },
+      { "group": "dreamforged_kris_ench", "prob": 100 },
+      { "group": "dreamforged_knife_combat_ench", "prob": 100 },
+      { "group": "dreamforged_katana_ench", "prob": 100 },
+      { "group": "dreamforged_battleaxe_ench", "prob": 100 },
+      { "group": "dreamforged_broadsword_ench", "prob": 100 },
+      { "group": "dreamforged_arming_sword_ench", "prob": 100 },
+      { "group": "dreamforged_estoc_ench", "prob": 100 },
+      { "group": "dreamforged_morningstar_ench", "prob": 100 },
+      { "group": "dreamforged_mace_ench", "prob": 100 },
+      { "group": "dreamforged_naginata_ench", "prob": 100 },
+      { "group": "dreamforged_glaive_ench", "prob": 100 },
+      { "group": "dreamforged_halberd_ench", "prob": 100 },
+      { "group": "dreamforged_spear_ench", "prob": 100 },
+      { "group": "dreamforged_warhammer_ench", "prob": 100 },
+      { "group": "dreamforged_longsword_ench", "prob": 100 },
+      { "group": "dreamforged_q_staff_ench", "prob": 100 }
+    ]
   }
 ]

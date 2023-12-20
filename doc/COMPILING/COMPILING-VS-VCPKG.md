@@ -10,7 +10,6 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
 * Visual Studio 2019 (or 2015 Visual Studio Update 3 and above);
-  * **Note**: If you are using Visual Studio 2022, you must install the Visual Studio 2019 compilers to work around a vcpkg bug. In the Visual Studio Installer, select the 'Individual components' tab and search for / select the component that looks like 'MSVC v142 - VS 2019 C++ x64/x86 Build Tools'. See https://github.com/microsoft/vcpkg/issues/22287.
 * Latest version of vcpkg (see instructions on [vcpkg homepage](https://github.com/Microsoft/vcpkg)).
 
 **Note:** Windows XP is unsupported!
@@ -23,7 +22,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `5b1214315250939257ef5d62ecdcbca18cf4fb1c` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `66444e13a86da7087ee24c342f91801cc6eb9877` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
@@ -147,8 +146,8 @@ It is possible to use `llvm-lib.exe` and `lld-link.exe` to speed up your local b
 <Project>
   <PropertyGroup>
     <CDDA_ENABLE_THIN_ARCHIVES>true</CDDA_ENABLE_THIN_ARCHIVES>
-    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\</CDDA_ENABLE_THIN_ARCHIVES>
-    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\</CDDA_ENABLE_THIN_ARCHIVES>
+    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\</CDDA_LLVM_LIB_PATH>
+    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\</CDDA_LLD_LINK_PATH>
   </PropertyGroup>
 </Project>
 ```

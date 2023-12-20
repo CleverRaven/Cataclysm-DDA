@@ -10,23 +10,20 @@
 #include <QtCore/QCoreApplication>
 
 creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags flags )
-    : QMainWindow( parent, flags )
+    : QWidget ( parent, flags )
 {
-    QWidget* wid = new QWidget( this );
-    this->setCentralWidget( wid );
+
     this->setAcceptDrops( true );
 
     QHBoxLayout* mainRow = new QHBoxLayout;
     QVBoxLayout* mainColumn1 = new QVBoxLayout;
     QVBoxLayout* mainColumn2 = new QVBoxLayout;
+    QVBoxLayout* mainColumn3 = new QVBoxLayout;
 
-    wid->setLayout( mainRow );
+    this->setLayout( mainRow );
     mainRow->addLayout( mainColumn1, 0 );
     mainRow->addLayout( mainColumn2, 1 );
-
-    item_group_json.resize( QSize( 800, 600 ) );
-    item_group_json.setReadOnly( true );
-
+    mainRow->addLayout( mainColumn3, 2 );
 
     // =========================================================================================
     // first column of boxes
@@ -165,11 +162,18 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     scrollArea->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     scrollArea->setWidgetResizable( true );
 
-
     group_container = new nested_group_container( scrollArea, this );
     scrollArea->setWidget( group_container );
     mainColumn2->addWidget( scrollArea );
 
+
+    // =========================================================================================
+    // third column
+
+    item_group_json.setMinimumSize( QSize( 400, 300 ) );
+    item_group_json.setMaximumWidth(500);
+    item_group_json.setReadOnly( true );
+    mainColumn3->addWidget( &item_group_json );
 
     // =========================================================================================
     // Finalize
@@ -328,7 +332,7 @@ bool creator::item_group_window::event( QEvent* event )
         return true;
     }
     //call the event method of the base class for the events that aren't handled
-    return QMainWindow::event( event );
+    return QWidget::event( event );
 }
 
 
@@ -729,7 +733,39 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "\nput into the item. This allows water, that contains a book, that contains";
     tooltipText += "\na steel frame, that contains a corpse.";
     contentsGroup_frame->setToolTip( tooltipText );
-    
+
+    containerItem_frame = new simple_property_widget( this, QString( "container-item" ), 
+                                            property_type::LINEEDIT, this );
+    containerItem_frame->hide();
+    containerItem_frame->allow_hiding( true );
+    tooltipText = "The container that the item spawns in.";
+    tooltipText += "\nWill override the item's default container.";
+    containerItem_frame->setToolTip( tooltipText );
+
+    ammoItem_frame = new simple_property_widget( this, QString( "ammo-item" ), 
+                                            property_type::LINEEDIT, this );
+    ammoItem_frame->hide();
+    ammoItem_frame->allow_hiding( true );
+    tooltipText = "Can be specified for guns and magazines in the entries ";
+    tooltipText += "\narray to use a non-default ammo type.";
+    ammoItem_frame->setToolTip( tooltipText );
+
+    entryWrapper_frame = new simple_property_widget( this, QString( "entry-wrapper" ), 
+                                            property_type::LINEEDIT, this );
+    entryWrapper_frame->hide();
+    entryWrapper_frame->allow_hiding( true );
+    tooltipText = "Used for spawning lots of non-stackable items inside a container. ";
+    tooltipText += "\nInstead of creating a dedicated itemgroup for that, you can use this field to ";
+    tooltipText += "\ndefine that inside an entry. Note that you may want to set ";
+    tooltipText += "\ncontainer-item to null to override the item's default container.";
+    entryWrapper_frame->setToolTip( tooltipText );
+
+    sealed_frame = new simple_property_widget( this, QString( "sealed" ), 
+                                            property_type::BOOLEAN, this );
+    sealed_frame->hide();
+    sealed_frame->allow_hiding( true );
+    tooltipText = "If true, a container will be sealed when the item spawns. Default is true.";
+    sealed_frame->setToolTip( tooltipText );
 
     if( !group ) {
         variant_frame = new simple_property_widget( this, QString( "variant" ), 
@@ -748,9 +784,10 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
                                                     "contents-item", "contents-group" } );
     } else {
         add_property->addItems( QStringList{ "Add property", "count", "charges", "damage",
-                                            "contents-item", "contents-group", "variant" } );
+                            "contents-item", "contents-group", "container-item", "ammo-item", 
+                            "entry-wrapper", "sealed", "variant" } );
     }
-    add_property->setMaximumWidth( 60 );
+    add_property->setMaximumWidth( 145 );
     connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
                                     [=](){ add_property_changed(); }) ;
 
@@ -768,6 +805,10 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     flowLayout->addWidget( damage_frame );
     flowLayout->addWidget( contentsItem_frame );
     flowLayout->addWidget( contentsGroup_frame );
+    flowLayout->addWidget( containerItem_frame );
+    flowLayout->addWidget( ammoItem_frame );
+    flowLayout->addWidget( entryWrapper_frame );
+    flowLayout->addWidget( sealed_frame );
 
     //Variant only applies to items, not groups
     if ( !group ) {
@@ -830,6 +871,14 @@ void creator::itemGroupEntry::add_property_changed() {
         contentsItem_frame->show();
     } else if ( prop == "contents-group" ){
         contentsGroup_frame->show();
+    } else if ( prop == "container-item" ){
+        containerItem_frame->show();
+    } else if ( prop == "ammo-item" ){
+        ammoItem_frame->show();
+    } else if ( prop == "entry-wrapper" ){
+        entryWrapper_frame->show();
+    } else if ( prop == "sealed" ){
+        sealed_frame->show();
     } else if ( prop == "variant" ){
         variant_frame->show();
     }
@@ -881,6 +930,18 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     }
     if( !contentsGroup_frame->isHidden() ) {
         contentsGroup_frame->get_json( jo );
+    }
+    if( !containerItem_frame->isHidden() ) {
+        containerItem_frame->get_json( jo );
+    }
+    if( !ammoItem_frame->isHidden() ) {
+        ammoItem_frame->get_json( jo );
+    }
+    if( !entryWrapper_frame->isHidden() ) {
+        entryWrapper_frame->get_json( jo );
+    }
+    if( !sealed_frame->isHidden() ) {
+        sealed_frame->get_json( jo );
     }
     if( this->objectName() == "item" ) {
         if( !variant_frame->isHidden() ) {

@@ -35,8 +35,15 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
       { "text": "Let's see what you've managed to find.", "topic": "TALK_RANCH_SCAVENGER_1", "effect": "start_trade" },
+      { "text": "Any lucky find?", "topic": "TALK_RANCH_SCAVENGER_ASK_RESTOCK" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCAVENGER_ASK_RESTOCK",
+    "dynamic_line": "Nope, current run hasn't returned yet.  Come back in <interval>.  You might find something you like.",
+    "responses": [ { "text": "Alright, thanks.", "topic": "TALK_RANCH_SCAVENGER_1" } ]
   },
   {
     "type": "talk_topic",

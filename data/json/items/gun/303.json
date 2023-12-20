@@ -11,8 +11,7 @@
       {
         "id": "smle_mk3",
         "name": { "str": "SMLE No. 1 Mk III" },
-        "description": "An English darling and icon of the First World War, the Short Magazine Lee-Enfield Mk III was the standard issue battle rifle of the British commonwealth from 1907.  Chambered for .303 ammunition, the rifle makes use of ten-round detachable magazines.  With its full-length wooden handguard, brass buttplate, and smooth action, the Lee-Enfield cuts a recognizable profile in either the trenches of the Great War or the zombie-strewn wastelands.",
-        "weight": 1
+        "description": "An English darling and icon of the First World War, the Short Magazine Lee-Enfield Mk III was the standard issue battle rifle of the British commonwealth from 1907.  Chambered for .303 ammunition, the rifle makes use of ten-round detachable magazines.  With its full-length wooden handguard, brass buttplate, and smooth action, the Lee-Enfield cuts a recognizable profile in either the trenches of the Great War or the zombie-strewn wastelands."
       }
     ],
     "weight": "3960 g",
@@ -32,6 +31,7 @@
     "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
@@ -52,14 +52,13 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "updated Enfield rifle" },
-    "description": "An evolution of Britten’s First World War battle rifle, this bolt-action firearm uses the same .303-caliber cartridge as its forerunner.  Much beloved across the globe by collectors, rifles like this served as England’s infantry rifle well into the 1950s, with a specialized sniper variant remaining in service until the early nineties.",
+    "description": "An evolution of Britain’s First World War battle rifle, this bolt-action firearm uses the same .303-caliber cartridge as its forerunner.  Much beloved across the globe by collectors, rifles like this served as England’s infantry rifle well into the 1950s, with a specialized sniper variant remaining in service until the early nineties.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "number4_mki",
         "name": { "str": "Lee-Enfield No. 4 Mk I" },
-        "description": "A Second World War progression of the British Commonwealth's Lee-Enfield battle rifle, the No. 4 began its decades-long service life in 1939.  Externally similar to its forefather, the rifle possesses a reinforced receiver, an adjusted nose cap, and a heavier barrel.  Still chambered for the same .303-caliber cartridge, the No. 4 represents one of the most populous firearm imports in U.S. history.",
-        "weight": 1
+        "description": "A Second World War progression of the British Commonwealth's Lee-Enfield battle rifle, the No. 4 began its decades-long service life in 1939.  Externally similar to its forefather, the rifle possesses a reinforced receiver, an adjusted nose cap, and a heavier barrel.  Still chambered for the same .303-caliber cartridge, the No. 4 represents one of the most populous firearm imports in U.S. history."
       }
     ],
     "weight": "4110 g",
@@ -80,6 +79,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],

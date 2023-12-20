@@ -300,29 +300,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     _rustAccumulator -= catchup_amount;
     _knowledgeExperience += knowledge_amount;
 
-    const auto xp_to_level = [&]() {
-        return 100 * 100 * pow( unadjustedLevel() + 1, 2U );
-    };
-    while( _exercise >= xp_to_level() ) {
-        _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
-        ++_level;
-        if( unadjustedLevel() > unadjustedKnowledgeLevel() ) {
-            _knowledgeLevel = _level;
-            _knowledgeExperience = 0;
-        }
-    }
-
-    if( _rustAccumulator < 0 ) {
-        _rustAccumulator = 0;
-    }
-    if( level() == knowledgeLevel() && _exercise > _knowledgeExperience ) {
-        _knowledgeExperience = _exercise;
-    }
-
-    if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
-        _knowledgeExperience = 0;
-        ++_knowledgeLevel;
-    }
+    on_exercise_change( allow_multilevel );
     practice();
 }
 
@@ -407,10 +385,7 @@ bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
-    if( _exercise < 0 ) {
-        _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
-        --_level;
-    }
+    on_exercise_change();
 
     return false;
 }
@@ -432,6 +407,44 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 bool SkillLevel::can_train() const
 {
     return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
+}
+
+void SkillLevel::set_exercise( int value, bool raw )
+{
+    _exercise = raw ? value : value * ( 100 * ( level() + 1 ) * ( level() + 1 ) );
+    on_exercise_change( true );
+}
+
+void SkillLevel::on_exercise_change( bool allow_multilevel )
+{
+    if( _exercise < 0 ) {
+        _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
+        --_level;
+    } else {
+        const auto xp_to_level = [&]() {
+            return 100 * 100 * pow( unadjustedLevel() + 1, 2U );
+        };
+        while( _exercise >= xp_to_level() ) {
+            _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
+            ++_level;
+            if( unadjustedLevel() > unadjustedKnowledgeLevel() ) {
+                _knowledgeLevel = _level;
+                _knowledgeExperience = 0;
+            }
+        }
+
+        if( _rustAccumulator < 0 ) {
+            _rustAccumulator = 0;
+        }
+        if( level() == knowledgeLevel() && _exercise > _knowledgeExperience ) {
+            _knowledgeExperience = _exercise;
+        }
+
+        if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
+            _knowledgeExperience = 0;
+            ++_knowledgeLevel;
+        }
+    }
 }
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
@@ -507,6 +520,18 @@ int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &conte
 {
     const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_knowledge_level( id );
+}
+
+float SkillLevelMap::get_knowledge_progress_level( const skill_id &ident ) const
+{
+    return static_cast<float>( get_skill_level_object( ident ).knowledgeExperience() ) / 100.0f;
+}
+
+float SkillLevelMap::get_knowledge_progress_level( const skill_id &ident,
+        const item &context ) const
+{
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_progress_level( id );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const

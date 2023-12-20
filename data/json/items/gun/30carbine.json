@@ -9,6 +9,7 @@
     "weight": "2400 g",
     "volume": "2800 ml",
     "longest_side": "900 mm",
+    "barrel_length": "451 mm",
     "price": 80000,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -22,6 +23,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],

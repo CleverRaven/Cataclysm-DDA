@@ -28,7 +28,7 @@
     "traits": [
       { "trait": "SKIN_LIGHT" },
       { "trait": "eye_color", "variant": "brown" },
-      { "trait": "hair_brown_short" },
+      { "trait": "hair_short", "variant": "brown" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },
       { "trait": "GOODCARDIO" },
@@ -133,7 +133,7 @@
     "type": "item_group",
     "id": "john_bailey_quiver",
     "subtype": "collection",
-    "entries": [ { "item": "arrow_cf", "charges": 20 } ]
+    "entries": [ { "item": "arrow_cf", "count": 20 } ]
   },
   {
     "type": "talk_topic",

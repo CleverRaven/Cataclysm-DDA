@@ -1,0 +1,40 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_box_84x246mm_any_full",
+    "items": [ { "group": "ammo_box_84x246mm_he_full", "prob": 100 }, { "group": "ammo_box_84x246mm_hedp_full", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_84x246mm_he_full",
+    "container-item": "ammunition_box_carlgustav_he",
+    "items": [ { "group": "ammo_can_84x246mm_he_full", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_84x246mm_hedp_full",
+    "container-item": "ammunition_box_carlgustav_hedp",
+    "items": [ { "group": "ammo_can_84x246mm_hedp_full", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_84x246mm_he_full",
+    "//": "1 charge per pocket. the charge system in items must die",
+    "container-item": "ammunition_can_carlgustav_he",
+    "subtype": "collection",
+    "items": [
+      { "item": "84x246mm_he", "count": 1, "charges-min": 1, "charges-max": 1 },
+      { "item": "84x246mm_he", "count": 1, "charges-min": 1, "charges-max": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_84x246mm_hedp_full",
+    "container-item": "ammunition_can_carlgustav_hedp",
+    "subtype": "collection",
+    "items": [
+      { "item": "84x246mm_hedp", "count": 1, "charges-min": 1, "charges-max": 1 },
+      { "item": "84x246mm_hedp", "count": 1, "charges-min": 1, "charges-max": 1 }
+    ]
+  }
+]

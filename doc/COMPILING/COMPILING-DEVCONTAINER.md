@@ -17,11 +17,32 @@ The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Catac
 3. Add Cleverraven as the remote upstream with git remote add upstream git@github.com:CleverRaven/Cataclysm-DDA.git
 4. Open the folder where you cloned your repository in Visual Studio Code via the UI or by navigating to the directory in a terminal and typing Code
 5. Visual Studio Code will show a pup-up in the bottom right with recommended extentions. Install those.
-6. Now restart visual studio code. When prompted, click "Reopen in container":
+6. If you don't plan to compile the object creator, open the Dockerfile in the VSCode file browser and scroll down to find this section:
+  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Find-Uncommented-Linux-QT5-Libs.png)
+
+  comment out that part so it looks like this:
+  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Commented-Out-Qt5-Linux-Libs.png)
+
+If you don't plan to cross-compile the game, scroll down to find this section:
+
+  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-Windows-Part-In-Dockerfile.png)
+
+  comment out that part (select it and press ctrl+/ in vscode) so it looks like this:
+  ![Image showing the commented part of the dockerfile](../img/Devcontainer-Find-Commented-Windows-Commands-In-Dockerfile.png)
+
+Next, scroll down to find this section:
+  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-QT5-Part-In-Dockerfile.png)
+  
+  comment that part out (select it and press ctrl+/ in vscode) so it looks like this:
+
+  ![Image showing the commented part of the dockerfile](../img/Devcontainer-Find-Commented-QT5-Commands-In-Dockerfile.png)
+
+  
+7. Now restart visual studio code. When prompted, click "Reopen in container":
    
   ![Re-open devcontainer in vscode](../img/Devcontainer-Re-Open-In-Container.png)
 
-  6.1 Linux only: You may see this message:
+  7.1 Linux only: You may see this message:
   
   ![User does not have access to group, add user to docker group first](../img/Devcontainer-User-Does-Not-Have-Access-Add-To-Group-First.png)
   
@@ -32,12 +53,12 @@ The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Catac
   After that, log out of your account and log back in so the permissions are updated. If that doesn't work, reboot your computer.
 
   
-7. Allow the container to build and for VSCode to Reopen. If everything goes well, you will see the container running:
+8. Allow the container to build and for VSCode to Reopen. If everything goes well, you will see the container running:
 
   ![Image showing the container is running in vscode](../img/Devcontainer-Running-Cataclysm-Devcontainer.png)
 
 
-8. Select the makefile extension on the bottom left and choose your desired configuration. Press the "Play" button to build the project
+9. Select the makefile extension on the bottom left and choose your desired configuration. Press the "Play" button to build the project
 
   ![Image the buttons to press in the makefile extention](../img/Devcontainer-Make-File-Configs.png)
 

@@ -1,0 +1,80 @@
+[
+  {
+    "type": "mutation",
+    "id": "GOBLIN_FRUIT_GIANT_GROWTH",
+    "name": { "str": "Giant-sized" },
+    "//": "Mostly copied from Huge with some Tough mixed in.  Strength bonus includes improvements from STR_UP mutation that's normally required for LARGE",
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Eating that goblin fruit has made you grow to enormous size!",
+    "flags": [ "HUGE" ],
+    "passive_mods": { "str_mod": 6 },
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "stomach_size_multiplier": 2.0,
+    "weight_capacity_modifier": 1.1,
+    "cardio_multiplier": 1.25,
+    "social_modifiers": { "intimidate": 15 },
+    "enchantments": [ "ench_giant_growth_size_bonuses" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_giant_growth_size_bonuses",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_HP", "multiply": 0.4 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "karma_arms",
+    "name": { "str": "Karma" },
+    "active": true,
+    "points": 1,
+    "visibility": 10,
+    "description": "Ethereal hands appear behind your back, making you looks like an ancient god.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "activated_eocs": [ "EOC_KARMA_ARMS_INITIATE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "karma_arm_up_r" },
+          { "gain": "karma_arm_up_l" },
+          { "gain": "karma_arm_lw_r" },
+          { "gain": "karma_arm_lw_l" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "devil_tail",
+    "name": { "str": "Devil's Tail" },
+    "active": true,
+    "points": 1,
+    "visibility": 6,
+    "description": "While not actually a devil's, this long, triangular pointed tail can stretch very far, allowing it to easily kill someone nearby.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "activated_eocs": [ "EOC_DEVIL_TAIL_INITIATE" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "stalker_eyes",
+    "name": { "str": "Stalker's Vision" },
+    "active": true,
+    "points": 1,
+    "visibility": 1,
+    "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
+    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+  }
+]

@@ -70,7 +70,7 @@
     "hit_dmg_npc": "%1$s curses <npcname> and they fall to the ground!",
     "no_dmg_msg_u": "%1$s tries to curse %2$s and knock you down!",
     "no_dmg_msg_npc": "%1$s tries to curse and knock <npcname> down!",
-    "miss_msg_u": "%s tries to curse your %2$s but you dodge!",
+    "miss_msg_u": "%1$s tries to curse your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to curse and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
   }

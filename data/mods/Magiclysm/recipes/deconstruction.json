@@ -66,5 +66,21 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "black_dragon_tanned_hide", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "orrery_item",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "2 h",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "HAMMER", "level": 2 }
+    ],
+    "components": [ [ [ "clockworks", 30 ] ], [ [ "scrap", 20 ] ], [ [ "pipe", 9 ] ], [ [ "wire", 20 ] ], [ [ "hinge", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   }
 ]

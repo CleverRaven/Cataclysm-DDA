@@ -55,7 +55,7 @@
     "copy-from": "card_plastic_abstract",
     "color": "blue",
     "name": { "str": "visitor's pass", "str_pl": "visitor's passes" },
-    "description": "A visitor's pass to some sort of facility.  The reverse side describes the protocol for using it; this could grant one-time access at a card reader, if you can find one.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
+    "description": "A visitor's pass to some sort of facility.  The reverse side describes the protocol for using it; this could grant access at a card reader, if you can find one.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
     "price": 60000,
     "extend": { "flags": [ "SCIENCE_CARD_VISITOR" ] },
     "price_postapoc": 250,
@@ -117,7 +117,7 @@
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "transport freight employee badge" },
-    "description": "An employee badge for a freight hauler.  The reverse side describes the protocol for using it; this could grant one-time access to a transport freight card reader.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
+    "description": "An employee badge for a freight hauler.  The reverse side describes the protocol for using it; this could grant access at transport freight card readers.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
     "flags": [ "SCIENCE_CARD_TRANSPORT_1", "CREDIT_CARD_SHAPED" ],
     "use_action": {
       "type": "reveal_map",

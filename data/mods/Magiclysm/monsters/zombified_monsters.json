@@ -109,7 +109,7 @@
     "id": "mon_owlbear_zombie_brute",
     "copy-from": "mon_owlbear_zombie",
     "name": "Zowlbear Predator",
-    "description": "An once zombified owlbear, now faster and much bigger in size.  Its thick skin protects the monster from harm, a sharp beak capable of rending through metal and a fury in its eyes warns you to stay away.",
+    "description": "A once zombified owlbear, now faster and much bigger in size.  Its thick skin protects the monster from harm, a sharp beak capable of rending through metal and a fury in its eyes warns you to stay away.",
     "upgrades": false,
     "path_settings": { "max_dist": 0 },
     "proportional": { "volume": 1.15, "weight": 1.2 },

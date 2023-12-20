@@ -60,7 +60,7 @@
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
         "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },
-      { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
+      { "text": "Hey, what are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
       {
         "text": "Can I do anything for you?",
         "topic": "TALK_MISSION_LIST",
@@ -100,7 +100,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE3",
-    "dynamic_line": "I know all the grown ups worry about us, but I think we can adapt better than them in the long run.  Chris has some interesting thoughts on the matter.",
+    "dynamic_line": "I know all the grown-ups worry about us, but I think we can adapt better than them in the long run.  Chris has some interesting thoughts on the matter.",
     "responses": [
       { "text": "Where can I find Chris?", "topic": "TALK_LUKE_CHRIS" },
       { "text": "What sort of ideas does Chris have?", "topic": "TALK_LUKE_CHRIS2" },
@@ -112,7 +112,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE",
-    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
+    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

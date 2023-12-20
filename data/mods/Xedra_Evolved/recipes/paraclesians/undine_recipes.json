@@ -1,0 +1,64 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "salt_water",
+    "id_suffix": "from_water",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "id_suffix": "from_salt_water",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [ [ [ "salt_water", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water_clean",
+    "id_suffix": "from_water",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [ [ [ "water", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "id_suffix": "from_water_clean",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "id_suffix": "from_liquid",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [
+      [ [ "hard_liquor", 1, "LIST" ], [ "cheap_wine", 1, "LIST" ], [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
+    ]
+  }
+]

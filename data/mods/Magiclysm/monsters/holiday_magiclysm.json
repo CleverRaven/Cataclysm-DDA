@@ -81,7 +81,7 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 3 }
   },
   {
@@ -110,6 +110,6 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "tracking_distance": 8,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
   }
 ]

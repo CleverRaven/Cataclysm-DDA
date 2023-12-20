@@ -36,12 +36,12 @@
     "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
-      { "level": 1, "name": "speech" },
-      { "level": 1, "name": "deduction" }
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "pistol" },
+      { "level": 4, "name": "speech" },
+      { "level": 5, "name": "deduction" }
     ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
         "items": [
@@ -75,9 +75,9 @@
     "name": "Xedra Response Team Member",
     "description": "Before Xedra recruited you, you probably worked for the ATF or a PMC like Kroll.  It was your job to investigate any cross-pollination incidents where alternate physics regions crossed over the Nether and reached our world.  Part exterminator part investigator, you made sure that any new resources and contaminants were accounted for, including any intelligent life trying to sneak into our world.  Local law enforcement and civilians called you 'Zebras' since your identification and badges only had a barcode instead of any name/rank/number.  This job has shown you things you don't want to remember but luckily the Zebra docs seem to have an endless supply of pills.",
     "points": 6,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "speech" } ],
+    "skills": [ { "level": 7, "name": "gun" }, { "level": 7, "name": "pistol" }, { "level": 5, "name": "speech" } ],
     "addictions": [ { "intensity": 10, "type": "diazepam" } ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
         "items": [
@@ -113,15 +113,16 @@
     "description": "You came here from another country trying to gain access to secrets the United States had ripped from other worlds.  They probably had sent people to your homeland to do the same.  You were out performing recon when the Cataclysm struck and caught a ride with a stranger trying to find safety.  Sadly you lost your companion and vehicle, getting lost in the process and with now only a vague idea on how to get back to the safehouse, where you hope your hidden gear remains untouched.",
     "points": 4,
     "skills": [
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 2, "name": "speech" },
-      { "level": 2, "name": "unarmed" }
+      { "level": 4, "name": "dodge" },
+      { "level": 6, "name": "gun" },
+      { "level": 6, "name": "pistol" },
+      { "level": 5, "name": "speech" },
+      { "level": 4, "name": "unarmed" }
     ],
+    "proficiencies": [ "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [ "sneakers", "hoodie", "knit_scarf", "diving_watch", "backpack", "pants_cargo" ],
+        "items": [ "sneakers", "hoodie", "knit_scarf", "diving_watch", "backpack", "wristwatch", "pants_cargo" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
@@ -144,11 +145,11 @@
     "addictions": [ { "intensity": 20, "type": "nicotine" } ],
     "proficiencies": [ "prof_wp_cyborg" ],
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 2, "name": "launcher" },
-      { "level": 3, "name": "bashing" },
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "melee" }
+      { "level": 8, "name": "gun" },
+      { "level": 7, "name": "launcher" },
+      { "level": 6, "name": "bashing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "melee" }
     ],
     "items": {
       "both": {
@@ -161,6 +162,7 @@
           "gloves_tactical",
           "boots_combat",
           "holster",
+          "wristwatch",
           "tacvest",
           "socks",
           "badge_zebra",
@@ -185,13 +187,13 @@
     "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
     "CBMs": [ "bio_claws", "bio_ears", "bio_cable", "bio_tattoo_led", "bio_dex_enhancer", "bio_power_storage" ],
     "points": 7,
-    "proficiencies": [ "prof_wp_skeleton" ],
+    "proficiencies": [ "prof_wp_skeleton", "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar", "prof_bionics_pro" ],
     "skills": [
-      { "level": 1, "name": "cutting" },
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 3, "name": "unarmed" },
-      { "level": 2, "name": "survival" }
+      { "level": 6, "name": "cutting" },
+      { "level": 6, "name": "dodge" },
+      { "level": 6, "name": "melee" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 4, "name": "survival" }
     ],
     "items": {
       "both": {
@@ -204,6 +206,7 @@
           "gloves_tactical",
           "boots_combat",
           "holster",
+          "wristwatch",
           "legrig",
           "tacvest",
           "socks",
@@ -233,17 +236,17 @@
     "name": "Xedra Offworld Team: Specter",
     "description": "Part of Xedra's Offworld Aquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  You never found any with technology worth stealing and you aren't sure what that says about humanity.",
     "traits": [ "XEDRA_CYBORG" ],
-    "proficiencies": [ "prof_wp_syn_armored" ],
+    "proficiencies": [ "prof_wp_syn_armored", "prof_auto_pistols_familiar" ],
     "points": 6,
     "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_face_mask", "bio_power_storage" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "traps" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "deduction" },
-      { "level": 2, "name": "survival" }
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 4, "name": "traps" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 6, "name": "deduction" },
+      { "level": 6, "name": "survival" }
     ],
     "items": {
       "both": {
@@ -256,6 +259,7 @@
           "gloves_tactical",
           "boots_combat",
           "holster",
+          "wristwatch",
           "legrig",
           "tacvest",
           "socks",
@@ -280,12 +284,13 @@
     "description": "Being part of Upsilon 4, you were always at the front of your unit, protecting other operatives from danger ahead using your eater's abilities.  This one was no different, but something went really wrong.",
     "points": 7,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "shotgun" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 3, "name": "deduction" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 6, "name": "dodge" },
+      { "level": 6, "name": "melee" },
+      { "level": 7, "name": "deduction" }
     ],
+    "proficiencies": [ "prof_knives_familiar", "prof_auto_pistols_familiar" ],
     "spells": [
       { "id": "spring_heeled_leap", "level": 7 },
       { "id": "spell_dodge", "level": 7 },
@@ -303,11 +308,11 @@
           "armguard_hard",
           "legguard_hard",
           "mask_ski",
+          "wristwatch",
           "gloves_liner",
           "gloves_tactical",
           "socks",
           "boots_combat",
-          "wristwatch",
           "molle_pack",
           "hammer_sledge"
         ],
@@ -335,11 +340,12 @@
     "description": "Theta 1, also known as \"kindergarten\" between other task forces, is used when missions are expected to be too dangerous to send people or when reconnaissance can't obtain any important information about the target, which is why otherworldly creatures, summoned by dreamers, are sent.  It's not the best course of action, but the unit's nearly zero fatality rate makes it worth using.",
     "points": 7,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 4, "name": "deduction" }
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "dodge" },
+      { "level": 4, "name": "melee" },
+      { "level": 8, "name": "deduction" }
     ],
+    "proficiencies": [ "prof_auto_pistols_familiar" ],
     "spells": [
       { "id": "banish_nether_monsters", "level": 7 },
       { "id": "spell_dreamer_clairvoyance_eff", "level": 7 },
@@ -355,6 +361,7 @@
           "under_armor_shorts",
           "tac_helmet",
           "glasses_bal",
+          "wristwatch",
           "gloves_tactical",
           "boots_combat",
           "holster",
@@ -383,10 +390,10 @@
     "skills": [
       { "level": 1, "name": "gun" },
       { "level": 1, "name": "melee" },
-      { "level": 2, "name": "fabrication" },
-      { "level": 2, "name": "mechanics" },
-      { "level": 3, "name": "electronics" },
-      { "level": 4, "name": "deduction" }
+      { "level": 4, "name": "fabrication" },
+      { "level": 6, "name": "mechanics" },
+      { "level": 5, "name": "electronics" },
+      { "level": 8, "name": "deduction" }
     ],
     "spells": [ { "id": "firmament_driver", "level": 7 }, { "id": "cable_whip", "level": 7 } ],
     "traits": [ "INVENTOR" ],
@@ -400,6 +407,7 @@
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
+          "wristwatch",
           "boots_combat",
           "holster",
           "legrig",
@@ -425,7 +433,7 @@
     "description": "Sharing the same problem with Nu 3, dreamsmiths from Tau 8 are not called on the operation very often, and their main work looks really medieval.  Despite this, they are really popular among other branches, as their tools and armor have everything a modern soldier can dream of.",
     "//": "TODO: add some recipes they could know, if possible",
     "points": 7,
-    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 4, "name": "deduction" } ],
+    "skills": [ { "level": 8, "name": "fabrication" }, { "level": 3, "name": "deduction" } ],
     "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
     "traits": [ "DREAMSMITH" ],
     "proficiencies": [ "prof_metalworking", "prof_dreamsmithing" ],
@@ -438,6 +446,7 @@
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
+          "wristwatch",
           "boots_combat",
           "holster",
           "legrig",

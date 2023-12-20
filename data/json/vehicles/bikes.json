@@ -37,18 +37,6 @@
     ]
   },
   {
-    "id": "bicycle_folding",
-    "type": "vehicle",
-    "name": "Folding Bicycle",
-    "blueprint": [ "o#o" ],
-    "parts": [
-      { "x": 0, "y": 0, "parts": [ "folding_frame", "saddle#pedal", "horn_bicycle", "foot_pedals" ] },
-      { "x": 1, "y": 0, "parts": [ "folding_frame", "wheel_mount_light_steerable", "wheel_bicycle" ] },
-      { "x": -1, "y": 0, "parts": [ "folding_frame", "wheel_mount_light" ] },
-      { "x": -1, "y": 0, "parts": [ "wheel_bicycle#rear", "basketsm#bike_rear" ] }
-    ]
-  },
-  {
     "id": "motorcycle_cross",
     "type": "vehicle",
     "name": "Motocross Bike",
@@ -124,6 +112,41 @@
     ]
   },
   {
+    "abstract": "motorcycle_3wheel_abstract",
+    "type": "vehicle",
+    "name": "Three-Wheel Motorcycle",
+    "//": "Based on CanAm three-wheelers",
+    "blueprint": [
+      [ "   O" ],
+      [ "o#>o" ],
+      [ "   O" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "vehicle_alarm" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": 1, "y": 0, "parts": [ "motorcycle_headlight", "battery_motorbike" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#cover", "box" ] },
+      { "x": 2, "y": 0, "parts": [ "horn_car" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#horizontal", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#vertical", "wheel_mount_medium", "wheel" ] },
+      { "x": -1, "y": 0, "parts": [ "muffler", "box" ] }
+    ]
+  },
+  {
+    "id": "motorcycle_3wheel",
+    "type": "vehicle",
+    "copy-from": "motorcycle_3wheel_abstract",
+    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] } ]
+  },
+  {
+    "id": "motorcycle_3wheel_super",
+    "type": "vehicle",
+    "copy-from": "motorcycle_3wheel_abstract",
+    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_inline4", "alternator_motorbike" ] } ]
+  },
+  {
     "id": "quad_bike",
     "type": "vehicle",
     "name": "Quad Bike",
@@ -140,7 +163,7 @@
         "y": 0,
         "parts": [ "motorcycle_headlight", { "part": "tank_small", "fuel": "gasoline" }, "plating_steel" ]
       },
-      { "x": -1, "y": 0, "parts": [ "frame#horizontal", "muffler", "trunk" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#horizontal", "muffler", "box" ] },
       { "x": 1, "y": 1, "parts": [ "frame#horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
       { "x": 1, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
       { "x": -1, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_light", "wheel_motorbike_or#rear" ] },

@@ -54,6 +54,15 @@ creator::simple_property_widget::simple_property_widget( QWidget* parent, QStrin
             [=]( ) { change_notify_widget(); } );
         property_layout->addWidget( prop_number ) ;
         break;
+    
+    case property_type::BOOLEAN:
+        prop_bool = new QCheckBox;
+        prop_bool->setMinimumSize( QSize( 50, 24 ) );
+        prop_bool->setMaximumSize( QSize( 55, 24 ) );
+        prop_bool->setChecked( true );
+        connect( prop_bool, &QCheckBox::stateChanged, [&]() { change_notify_widget(); } );
+        property_layout->addWidget( prop_bool ) ;
+        break;
 
     case property_type::NUM_TYPES: break;
     }
@@ -108,6 +117,13 @@ void creator::simple_property_widget::get_json( JsonOut &jo ) {
                 jo.member( propertyName.toStdString() + "-max", max );
             }
             break;
+
+        case property_type::BOOLEAN:
+            if( !prop_bool->isChecked() ) {
+                jo.member( propertyName.toStdString(), false );
+            }
+            break;
+
         case property_type::NUM_TYPES: break;
     }
 }

@@ -48,7 +48,7 @@ Property                 | Description
 `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
 `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
 `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
-`aggro_character`        | (bool) If the monster will always attack characters when angry.
+`aggro_character`        | (bool) If true the monster will always attack characters when angry.
 `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -66,13 +66,13 @@ Property                 | Description
 `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
 `trap_avoids`            | (array of strings) trap_id of traps that are not triggered by this monster. Default behaviour is to trigger all traps.
-`luminance`              | (integer) Amount of light passively emitted by the monster, from `0-10`
+`luminance`              | (float) Amount of light passively emitted by the monster, must be >0 to have any effect
 `death_drops`            | (string or item group) Item group to spawn when the monster dies
 `death_function`         | (array of strings) How the monster behaves on death. See JSON_FLAGS
-`emit_field`             | (array of objects) What field the monster emits, and how frequently
+`emit_fields`            | (array of objects) What field the monster emits, and how frequently
 `regenerates`            | (integer) Number of hit points the monster regenerates per turn
 `regenerates_in_dark`    | (boolean) True if monster regenerates quickly in the dark
-`regeneration_modifiers` | (effect id, integer) When monster has this effect, modify regenerates by integer value (i.e. -5 reduces a regen value of 40hp/turn to 35hp/turn).
+`regeneration_modifiers` | (effect id, integer) When monster has this effect, modify regenerates by integer value (i.e. -5 reduces a regen value of 40hp/turn to 35hp/turn). Cannot reduce regeneration below 0.
 `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 `special_attacks`        | (array of objects) Special attacks the monster has
 `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
@@ -458,7 +458,7 @@ How the monster behaves on death.
 }
 ```
 
-## "emit_field"
+## "emit_fields"
 (array of objects of emit_id and time_duration, optional)
 "emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
 

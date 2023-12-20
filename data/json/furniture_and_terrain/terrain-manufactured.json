@@ -645,7 +645,7 @@
     "coverage": 50,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
-    "examine_action": "slot_machine",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "slot_machine_examine" ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -1223,25 +1223,14 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "wire", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_lump", "count": [ 1, 5 ] },
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] }
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] }
       ]
     },
-    "deconstruct": {
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "wire", "count": [ 2, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "pipe_fittings", "count": [ 1, 2 ] },
-        { "item": "steel_lump", "count": [ 1, 8 ] },
-        { "item": "sheet_metal", "count": [ 1, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 10 ] }
-      ]
-    },
-    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "55gal_drum" }, { "item": "water_faucet" } ] },
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "WALL" ]
   },
   {
     "id": "t_rockyobstacle",
@@ -1467,27 +1456,6 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_standing_pressure_tank",
-    "name": "standing propane tank",
-    "description": "A huge metal tank that can be used to safely store large amounts of propane.",
-    "symbol": "O",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
-    "examine_action": "gaspump",
-    "deconstruct": { "items": [ { "item": "large_propane_tank", "count": 3 } ] },
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 8, 32 ] } ]
-    }
   },
   {
     "type": "terrain",

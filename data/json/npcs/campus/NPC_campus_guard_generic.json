@@ -1,7 +1,7 @@
 [
   {
     "type": "npc",
-    "id": "guard",
+    "id": "great_library_guard",
     "//": "A generic guard for the campus faction.",
     "name_suffix": "Guard",
     "class": "NC_CAMPUS_GUARD",

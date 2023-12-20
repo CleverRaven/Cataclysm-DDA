@@ -136,12 +136,5 @@
       { "id": "brazing_rod_bronze", "description": " Craft: Brazing Rod" },
       { "id": "brazing_rod_alloy", "description": " Craft: Aluminum Brazing Rod" }
     ]
-  },
-  {
-    "type": "recipe_group",
-    "id": "fbbb_crafting_recipes_custom",
-    "//": "Intended for player addition of recipes companions should be able to use",
-    "building_type": "BASE",
-    "recipes": [  ]
   }
 ]

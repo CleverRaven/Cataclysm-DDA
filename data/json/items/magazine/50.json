@@ -7,7 +7,6 @@
     "name": { "str": ".50 BMG ammo belt" },
     "ammo_type": [ "50" ],
     "capacity": 100,
-    "count": 100,
     "linkage": "ammolink50",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "50": 100 } } ]
   },

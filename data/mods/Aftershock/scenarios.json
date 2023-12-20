@@ -178,6 +178,7 @@
     "allowed_locs": [ "sloc_crashing_ship" ],
     "professions": [ "afs_espatier", "afs_rating", "afs_ship_escape" ],
     "flags": [ "LONE_START", "HELI_CRASH" ],
-    "start_name": "Crashing Ship"
+    "start_name": "Crashing Ship",
+    "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   }
 ]

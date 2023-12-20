@@ -80,7 +80,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
-    return items_with( [at]( const item & it ) {
+    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item & it ) {
         return it.ammo_type() == at;
     } );
 }
@@ -118,7 +118,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
         skill_id sk = e.first.str() == "weapon" ? gun->gun_skill() : e.first;
-        chances += std::max( get_skill_level( sk ) - e.second, 0.0f );
+        chances += std::max( get_greater_skill_or_knowledge_level( sk )  - e.second, 0.0f );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
@@ -270,20 +270,22 @@ bool Character::gunmod_remove( item &gun, item &mod )
 
 bool Character::has_gun_for_ammo( const ammotype &at ) const
 {
-    return has_item_with( [at]( const item & it ) {
-        // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_types().count( at );
+    return cache_has_item_with( "is_gun", &item::is_gun, [&at]( const item & it ) {
+        return it.ammo_types().count( at );
     } );
 }
 
 bool Character::has_magazine_for_ammo( const ammotype &at ) const
 {
-    return has_item_with( [&at]( const item & it ) {
+    if( cache_has_item_with( "is_magazine", &item::is_magazine, [&at]( const item & it ) {
+    return !it.has_flag( flag_NO_RELOAD ) && it.ammo_types().count( at );
+    } ) ) {
+        return true;
+    }
+    return cache_has_item_with( "is_gun", &item::is_gun, [&at]( const item & it ) {
         return !it.has_flag( flag_NO_RELOAD ) &&
-               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
-                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
-                 ( it.is_gun() && it.magazine_current() != nullptr &&
-                   it.magazine_current()->ammo_types().count( at ) ) );
+               ( ( it.magazine_integral() && it.ammo_types().count( at ) ) ||
+                 ( it.magazine_current() != nullptr && it.magazine_current()->ammo_types().count( at ) ) );
     } );
 }
 

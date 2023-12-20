@@ -182,6 +182,7 @@ class SkillLevel
         bool rust( int rust_resist, float rust_multiplier = 1 );
         void practice();
         bool can_train() const;
+        void set_exercise( int value, bool raw = false );
 
         void readBook( int minimumGain, int maximumGain, int maximumLevel = -1 );
 
@@ -236,6 +237,8 @@ class SkillLevel
         int unadjustedKnowledgeLevel() const {
             return _knowledgeLevel;
         }
+
+        void on_exercise_change( bool allow_multilevel = false );
 };
 
 class SkillLevelMap : public std::map<skill_id, SkillLevel>
@@ -252,6 +255,8 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         void mod_knowledge_level( const skill_id &ident, int delta );
         int get_knowledge_level( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
+        float get_knowledge_progress_level( const skill_id &ident ) const;
+        float get_knowledge_progress_level( const skill_id &ident, const item &context ) const;
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
         bool meets_skill_requirements( const std::map<skill_id, int> &req,

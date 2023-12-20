@@ -487,9 +487,11 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "NONE", mattack::none );
     add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
     add_hardcoded_attack( "SPLIT", mattack::split );
+    add_hardcoded_attack( "BROWSE", mattack::browse );
     add_hardcoded_attack( "EAT_CARRION", mattack::eat_carrion );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
+    add_hardcoded_attack( "GRAZE", mattack::graze );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
@@ -1667,6 +1669,27 @@ void MonsterGenerator::check_monster_definitions() const
                           mon.biosig_item.c_str(), mon.id.c_str() );
             }
         }
+
+        for( const std::pair<const damage_type_id, float> &dt : mon.armor.resist_vals ) {
+            if( !dt.first.is_valid() ) {
+                debugmsg( "Invalid armor type \"%s\" for monster %s", dt.first.c_str(), mon.id.c_str() );
+            }
+        }
+
+        for( const std::pair<const std::string, mtype_special_attack> &spatk : mon.special_attacks ) {
+            const melee_actor *atk = dynamic_cast<const melee_actor *>( &*spatk.second );
+            if( !atk ) {
+                continue;
+            }
+            for( const damage_unit &dt : atk->damage_max_instance.damage_units ) {
+                if( !dt.type.is_valid() ) {
+                    debugmsg( "Invalid monster attack damage type \"%s\" for monster %s", dt.type.c_str(),
+                              mon.id.c_str() );
+                }
+            }
+        }
+
+        mon.weakpoints.check();
     }
 }
 

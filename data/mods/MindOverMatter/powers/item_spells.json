@@ -17,5 +17,17 @@
     "min_range": 0,
     "min_aoe": 6,
     "max_aoe": 9
+  },
+  {
+    "id": "pure_translocate_power",
+    "type": "SPELL",
+    "name": "Item Translocate",
+    "description": "A translocate power for items.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
+    "effect": "translocate",
+    "shape": "blast"
   }
 ]

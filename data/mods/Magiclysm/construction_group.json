@@ -3,5 +3,35 @@
     "type": "construction_group",
     "id": "build_translocator_gate",
     "name": "Build Translocator Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_everburning_torch_candelabra",
+    "name": "Set up Everburning Candelabra"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_magiclysm_magic_circle",
+    "name": "Inscribe Magic Circle"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_everburning_sconce",
+    "name": "Attach Everburning Sconce"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_magiclysm_magic_circle_2",
+    "name": "Enhance existing Magic Circle"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_standing_alembic",
+    "name": "Build Standing Alembic"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_orrery",
+    "name": "Place Orrery"
   }
 ]

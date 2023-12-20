@@ -5,6 +5,7 @@
     "name": { "str": "No style" },
     "description": "Not a martial art, this is just plain old punching and kicking.",
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
+    "priority": 0,
     "arm_block": 1,
     "leg_block": 99,
     "allow_all_weapons": true,
@@ -16,6 +17,7 @@
     "name": { "str": "Force unarmed" },
     "description": "Not a martial art, setting this style will prevent weapon attacks and force punches (with a free hand) or kicks.",
     "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
+    "priority": -1,
     "arm_block": 1,
     "leg_block": 99,
     "force_unarmed": true,
@@ -28,6 +30,7 @@
     "name": { "str": "Aikido" },
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
     "initiate": [ "You enter the hanmi stance.", "%s enters a relaxed combat posture." ],
+    "priority": 1,
     "learn_difficulty": 5,
     "arm_block": 0,
     "static_buffs": [
@@ -109,6 +112,7 @@
     "name": { "str": "Bōjutsu" },
     "description": "Bōjutsu, \"The Way of the Staff\", is the Japanese martial art of fighting with a staff.  Bōjutsu focuses on maintaining a good stance to effectively block and counterattack.",
     "initiate": [ "You position yourself into an agile stance.", "%s enters an agile stance." ],
+    "priority": 1,
     "learn_difficulty": 5,
     "primary_skill": "bashing",
     "strictly_melee": true,
@@ -159,6 +163,7 @@
       "You heft your weapon, stretch your shoulders, and slide into the Represa.",
       "%s rolls their shoulders and prepares to duel."
     ],
+    "priority": 1,
     "learn_difficulty": 8,
     "primary_skill": "bashing",
     "strictly_melee": true,
@@ -227,7 +232,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "FLAILS", "MACES", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
+    "weapon_category": [ "FLAILS", "MACES", "LONG_SWORDS", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -235,6 +240,7 @@
     "name": { "str": "Boxing" },
     "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase Dodging skill.",
     "initiate": [ "You lower your chin and raise your fists to eye level.", "%s prepares to fight with raised fists." ],
+    "priority": 1,
     "learn_difficulty": 1,
     "arm_block": 1,
     "static_buffs": [
@@ -281,6 +287,7 @@
     "name": { "str": "Brawling" },
     "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
+    "priority": 1,
     "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
     "nonstandard_block": 5,
@@ -294,6 +301,19 @@
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "bonus_blocks": 1
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_brawling_onpause",
+        "name": "Preparation to Hit",
+        "description": "You take a moment to prepare your stance before the enemy, allowing you to hit a little more accurately.\n\n+1 accuracy.  Lasts 2 turns.  Stacks 2 times",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "max_stacks": 2,
+        "buff_duration": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
     "techniques": [
@@ -313,6 +333,7 @@
     "name": { "str": "Capoeira" },
     "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving briefly enables stronger techniques.  Missing an attack grants bonus damage for a short time.",
     "initiate": [ "You begin performing the ginga.", "%s begins to rhythmically rock back and forth." ],
+    "priority": 1,
     "learn_difficulty": 4,
     "static_buffs": [
       {
@@ -365,6 +386,7 @@
     "name": { "str": "Crane Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you have a higher chance to dodge and dodging unlocks strong techniques for a limited time.",
     "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
+    "priority": 1,
     "learn_difficulty": 10,
     "arm_block": 3,
     "static_buffs": [
@@ -413,6 +435,7 @@
     "name": { "str": "Dragon Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
     "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
+    "priority": 1,
     "learn_difficulty": 10,
     "arm_block": 2,
     "static_buffs": [
@@ -482,6 +505,7 @@
     "name": { "str": "Eskrima" },
     "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
     "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
+    "priority": 1,
     "learn_difficulty": 8,
     "primary_skill": "bashing",
     "strictly_melee": true,
@@ -526,6 +550,7 @@
     "name": { "str": "Fencing" },
     "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of blocks and feints to deliver accurate strikes.",
     "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
+    "priority": 1,
     "learn_difficulty": 5,
     "primary_skill": "stabbing",
     "strictly_melee": true,
@@ -580,6 +605,7 @@
     "name": { "str": "Fior Di Battaglia" },
     "description": "Medieval Europe's martial techniques for fighting with hooked weapons.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow.",
     "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
+    "priority": 1,
     "learn_difficulty": 6,
     "primary_skill": "bashing",
     "strictly_melee": true,
@@ -650,6 +676,7 @@
     "name": { "str": "Judo" },
     "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with a strong judo throw.",
     "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
+    "priority": 1,
     "learn_difficulty": 4,
     "static_buffs": [
       {
@@ -687,6 +714,7 @@
     "name": { "str": "Karate" },
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and an extra block on the following round.",
     "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
+    "priority": 1,
     "learn_difficulty": 5,
     "arm_block": 2,
     "static_buffs": [
@@ -723,6 +751,7 @@
     "name": { "str": "Kickboxing" },
     "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.  American Kickboxing in particular focuses on high kicks without knee or elbow strikes.",
     "initiate": [ "You bring your fists up and stay light on your feet.", "%s brings their fists up and stays light on their feet." ],
+    "priority": 1,
     "learn_difficulty": 4,
     "arm_block": 2,
     "leg_block": 4,
@@ -749,6 +778,7 @@
     "name": { "str": "Krav Maga" },
     "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
     "initiate": [ "You assume a practical combat stance.", "%s assumes a practical combat stance." ],
+    "priority": 1,
     "learn_difficulty": 6,
     "arm_block": 2,
     "leg_block": 4,
@@ -770,12 +800,19 @@
         "description": "Like a fool, your opponent has left themselves wide open.\n\n+5% critical hit chance.\nLasts 1 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "buff_duration": 1,
         "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
       }
     ],
-    "techniques": [ "tec_krav_maga_rapid", "tec_krav_maga_crit", "tec_krav_maga_takedown", "tec_krav_maga_disarm", "tec_krav_maga_break" ],
+    "techniques": [
+      "tec_krav_maga_rapid",
+      "tec_krav_maga_disarm_simple",
+      "tec_krav_maga_crit",
+      "tec_krav_maga_takedown",
+      "tec_krav_maga_disarm",
+      "tec_krav_maga_break"
+    ],
     "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS", "SHIVS" ]
   },
   {
@@ -784,6 +821,7 @@
     "name": { "str": "Leopard Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically-planned strikes.  Dexterity determines your damage, rather than Strength and also increases your critical hit chance.",
     "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
+    "priority": 1,
     "learn_difficulty": 10,
     "static_buffs": [
       {
@@ -823,6 +861,7 @@
     "name": { "str": "Medieval Swordsmanship" },
     "description": "The art of the longsword and sword & buckler, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This style is a combination of the Italian and German traditions.",
     "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
+    "priority": 1,
     "strictly_melee": true,
     "learn_difficulty": 6,
     "primary_skill": "cutting",
@@ -875,7 +914,7 @@
       }
     ],
     "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "GREAT_SWORDS", "LONG_THRUSTING_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -883,6 +922,7 @@
     "name": { "str": "Muay Thai" },
     "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your Strength decreases blocked damage.  Blocking attacks or getting hit will increase your damage and blocked damage further.",
     "initiate": [ "You perform a short wai khru in honor of your teachers.", "%s performs a short war-dance." ],
+    "priority": 1,
     "learn_difficulty": 5,
     "arm_block": 2,
     "leg_block": 4,
@@ -909,7 +949,15 @@
         ]
       }
     ],
-    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee", "tec_muay_thai_break" ]
+    "techniques": [
+      "tec_muay_thai_rapid",
+      "tec_muay_thai_cross",
+      "tec_muay_thai_elbow",
+      "tec_muay_thai_push",
+      "tec_muay_thai_roundhouse",
+      "tec_muay_thai_knee",
+      "tec_muay_thai_break"
+    ]
   },
   {
     "type": "martial_art",
@@ -917,6 +965,7 @@
     "name": { "str": "Ninjutsu" },
     "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and you have a higher chance to critically hit on your first attack.  It also provides small combat bonuses every time you move.",
     "initiate": [ "You perform a kuji-in mantra with your hands.  Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
+    "priority": 1,
     "learn_difficulty": 6,
     "arm_block": 3,
     "static_buffs": [
@@ -976,7 +1025,15 @@
         "flat_bonuses": [ { "stat": "speed", "scale": 10.0 } ]
       }
     ],
-    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_swift_crit", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "techniques": [
+      "tec_ninjutsu_swift",
+      "tec_ninjutsu_swift_crit",
+      "tec_ninjutsu_takedown",
+      "tec_ninjutsu_takedown_melee",
+      "tec_ninjutsu_precise",
+      "tec_ninjutsu_staffdown",
+      "tec_ninjutsu_downkill"
+    ],
     "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "CLAWS" ]
   },
   {
@@ -985,6 +1042,7 @@
     "name": { "str": "Niten Ichi-Ryu" },
     "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  Perception increases damage and reduces blocked damage.  Moving and attacking reduces dodging and damage until you pause.  Pausing for a moment increases Dodging skill.",
     "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
+    "priority": 1,
     "learn_difficulty": 8,
     "primary_skill": "cutting",
     "strictly_melee": true,
@@ -1051,7 +1109,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -1059,6 +1117,7 @@
     "name": { "str": "Pankration" },
     "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though the modern revival of the art is more restrained and rules-based.",
     "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
+    "priority": 1,
     "learn_difficulty": 3,
     "arm_block": 2,
     "leg_block": 4,
@@ -1108,6 +1167,7 @@
     "name": { "str": "Silat" },
     "description": "Pencak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare for combat.", "%s gives a combat salute." ],
+    "priority": 1,
     "learn_difficulty": 7,
     "primary_skill": "cutting",
     "strictly_melee": true,
@@ -1152,6 +1212,7 @@
     "name": { "str": "Snake Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your accuracy and damage, rather than Dexterity and Strength.  Standing still increases the accuracy and critical hit chance of your next few attacks.",
     "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
+    "priority": 1,
     "learn_difficulty": 10,
     "arm_block": 2,
     "static_buffs": [
@@ -1223,6 +1284,7 @@
     "name": { "str": "Sōjutsu" },
     "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain the advantage in combat.  Standing still gives you an extra block attempt but moving will briefly increase your damage.",
     "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
+    "priority": 1,
     "learn_difficulty": 7,
     "primary_skill": "stabbing",
     "strictly_melee": true,
@@ -1251,7 +1313,7 @@
         ]
       }
     ],
-    "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
+    "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip", "tec_sojutsu_jab" ],
     "weapon_category": [ "POLEARMS" ]
   },
   {
@@ -1260,6 +1322,7 @@
     "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks, it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
     "initiate": [ "You adopt a narrow fighting stance.", "%s adopts a narrow fighting stance." ],
+    "priority": 1,
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
@@ -1301,6 +1364,7 @@
     "name": { "str": "Tai Chi" },
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.  Pausing for a moment enables powerful palm strike techniques.",
     "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
+    "priority": 1,
     "learn_difficulty": 4,
     "arm_block": 0,
     "static_buffs": [
@@ -1348,6 +1412,7 @@
     "name": { "str": "Tiger Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
     "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
+    "priority": 1,
     "learn_difficulty": 10,
     "static_buffs": [
       {
@@ -1386,6 +1451,7 @@
       "You take your stance and prepare to receive the gift of violence.",
       "%s patiently assumes a curiously pigeon-toed stance."
     ],
+    "priority": 1,
     "learn_difficulty": 8,
     "arm_block": 2,
     "leg_block": 3,
@@ -1435,6 +1501,7 @@
     "name": { "str": "Zui Quan" },
     "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive Dodging skill bonus based on Intelligence and dodge attempts.  Dodging increases your damage and accuracy based on Intelligence for a short time.  Moving gives you an additional dodging bonus.",
     "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
+    "priority": 1,
     "learn_difficulty": 8,
     "static_buffs": [
       {
@@ -1483,6 +1550,7 @@
     "name": { "str": "Debug Mastery" },
     "description": "A secret martial art used only by developers and cheaters.",
     "initiate": [ "You get ready pwn some zeds!", "%s prepares to cheat at martial arts!" ],
+    "priority": 1,
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [

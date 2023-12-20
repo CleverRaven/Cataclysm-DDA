@@ -147,5 +147,116 @@
     "city_distance": [ 40, -1 ],
     "occurrences": [ 100, 100 ],
     "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "s_gunstore_looted",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_looted_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "survivor_forest_camp",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "dm_survivor_forest_camp_north" } ],
+    "locations": [ "forest_center" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_north" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cave",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cave" }, { "point": [ 0, 0, -1 ], "overmap": "cave_underground" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Sugar House",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "sugar_house_parking_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "sugar_house_roof_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "motel-twd",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "motel_twd_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "motel_twd_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "motel_twd_1_f1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "motel_twd_2_f1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "motel_twd_1_f2_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "bank",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bank_north" }, { "point": [ 0, 0, 1 ], "overmap": "bank_roof_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pawn_shop",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pawn_north" }, { "point": [ 0, 0, 1 ], "overmap": "pawn_roof_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "restraunt",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
   }
 ]

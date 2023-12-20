@@ -91,29 +91,6 @@
   },
   {
     "type": "item_group",
-    "id": "defense_caravan_food",
-    "subtype": "collection",
-    "items": [
-      { "group": "full_1st_aid" },
-      { "item": "water" },
-      { "item": "energy_drink" },
-      { "item": "whiskey" },
-      { "group": "can_beans_can_medium_2" },
-      { "group": "MRE" },
-      { "group": "flour_bag_paper_powder_10" },
-      { "item": "inhaler" },
-      { "group": "codeine_bottle_plastic_pill_painkiller_10" },
-      { "group": "oxycodone_bottle_plastic_pill_prescription_10" },
-      { "group": "adderall_bottle_plastic_pill_prescription_10" },
-      { "group": "cig_box_cigarette_20" },
-      { "group": "meth_bag_zipper_6" },
-      { "item": "royal_jelly" },
-      { "item": "mutagen" },
-      { "item": "purifier" }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "defense_caravan_clothes",
     "subtype": "collection",
     "items": [

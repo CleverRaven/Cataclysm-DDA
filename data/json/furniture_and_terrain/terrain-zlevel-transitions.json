@@ -231,7 +231,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -243,7 +243,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -277,7 +277,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -289,7 +289,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -323,7 +323,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -335,7 +335,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -447,7 +447,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAIL", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAIL", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -459,7 +459,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -495,7 +495,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -507,7 +507,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",

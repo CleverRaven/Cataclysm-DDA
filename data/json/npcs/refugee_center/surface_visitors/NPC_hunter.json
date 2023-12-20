@@ -30,7 +30,7 @@
     "id": "TALK_EVAC_HUNTER_SMELL",
     "type": "talk_topic",
     "dynamic_line": "Oh, I didn't mean that in a bad way.  Been out in the wilderness so long, I find myself noticing things by scent before sight.",
-    "responses": [ { "text": "O..kay..?", "topic": "TALK_EVAC_HUNTER" } ]
+    "responses": [ { "text": "O…kay…?", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {
     "id": "TALK_EVAC_HUNTER_DO",

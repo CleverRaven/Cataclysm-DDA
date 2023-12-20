@@ -43,7 +43,7 @@
   {
     "id": "mom_fusion_ammo",
     "type": "AMMO",
-    "name": { "str_sp": "Ch47 power cartridges" },
+    "name": { "str": "Ch47 power cartridge" },
     "description": "Power cartridges for the Ch47.  You had better make every shot count, because there's no way you're finding any more of these.",
     "weight": "20 g",
     "volume": "192 ml",

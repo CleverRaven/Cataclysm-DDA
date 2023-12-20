@@ -43,21 +43,22 @@
         "id": "EOC_PRACTICE_TELEPORT_BLINK",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_blink')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: teleport_blink')", "<=", "(difficulty_one_contemplation(1))" ] }
+            { "math": [ "u_spell_level('teleport_blink')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_blink')", "<=", "(difficulty_one_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_blink')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_blink')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_BLINK_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_blink')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_blink')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -91,21 +92,22 @@
         "id": "EOC_PRACTICE_TELEPORT_SLOW",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_slow')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: teleport_slow')", "<=", "(difficulty_two_contemplation(1))" ] }
+            { "math": [ "u_spell_level('teleport_slow')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_slow')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_slow')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_slow')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_SLOW_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_slow')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_slow')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -139,21 +141,22 @@
         "id": "EOC_PRACTICE_TELEPORT_PHASE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_phase')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: teleport_phase')", "<=", "(difficulty_two_contemplation(1))" ] }
+            { "math": [ "u_spell_level('teleport_phase')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_phase')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_phase')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_phase')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_PHASE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_phase')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_phase')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -187,23 +190,22 @@
         "id": "EOC_PRACTICE_TELEPORT_STRIDE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_stride')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: teleport_stride')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('teleport_stride')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_stride')", "<=", "(difficulty_three_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_stride')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_stride')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_STRIDE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_stride')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_stride')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -237,23 +239,22 @@
         "id": "EOC_PRACTICE_TELEPORT_SWAP",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_transpose')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: teleport_transpose')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('teleport_transpose')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_transpose')", "<=", "(difficulty_four_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_transpose')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_transpose')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_SWAP_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_transpose')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -288,23 +289,22 @@
         "id": "EOC_PRACTICE_TELEPORT_COLLAPSE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_collapse')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: teleport_collapse')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('teleport_collapse')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_collapse')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_collapse')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_collapse')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_COLLAPSE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_collapse')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_collapse')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -339,23 +339,22 @@
         "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_displacement')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: teleport_displacement')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('teleport_displacement')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_displacement')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_displacement')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_displacement')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_displacement')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_displacement')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -390,21 +389,22 @@
         "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_farstep')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: teleport_farstep')", "<=", "(difficulty_six_contemplation(1))" ] }
+            { "math": [ "u_spell_level('teleport_farstep')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_farstep')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_farstep')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_farstep')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_FARSTEP_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_farstep')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_farstep')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -439,23 +439,22 @@
         "id": "EOC_PRACTICE_TELEPORT_BANISH",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_banish')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: teleport_banish')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('teleport_banish')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_banish')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_banish')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_banish')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_BANISH_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_banish')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_banish')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -490,23 +489,22 @@
         "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_gateway')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: teleport_gateway')", "<=", "(difficulty_eight_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('teleport_gateway')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_gateway')", "<=", "(difficulty_eight_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_gateway')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_gateway')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_GATEWAY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_gateway')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_gateway')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -541,21 +539,22 @@
         "id": "EOC_PRACTICE_TELEPORT_BREACH",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: teleport_summon')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: teleport_summon')", "<=", "(difficulty_nine_contemplation(1))" ] }
+            { "math": [ "u_spell_level('teleport_summon')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('teleport_summon')", "<=", "(difficulty_nine_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: teleport_summon')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('teleport_summon')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_BREACH_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: teleport_summon')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('teleport_summon')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

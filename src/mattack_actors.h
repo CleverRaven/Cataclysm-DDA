@@ -33,6 +33,12 @@ class leap_actor : public mattack_actor
         bool prefer_leap = false;
         // Leap completely randomly regardless of target distance/direction
         bool random_leap = false;
+        // Leap including terrains it doesn't usually move
+        // i.e. Aquatic monsters leap onto land
+        bool ignore_dest_terrain = false;
+        // Leap including tiles where there is something it would usually avoid,
+        // such as open air, fire, or traps
+        bool ignore_dest_danger = false;
         int move_cost = 0;
         // Range to target below which we don't consider jumping at all
         float min_consider_range = 0.0f;

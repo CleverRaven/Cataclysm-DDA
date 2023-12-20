@@ -84,6 +84,7 @@
       { "item": "bandages", "count": [ 1, 3 ], "prob": 30 },
       { "group": "adhesive_bandages_box_used", "prob": 30 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
+      { "group": "cotton_ball_bag_full", "prob": 50 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25 },
       { "item": "contacts", "prob": 10, "count": 6 },

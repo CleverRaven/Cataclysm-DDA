@@ -3,6 +3,7 @@
     "type": "recipe",
     "result": "faction_base_helipad_garage_0",
     "description": "Survey military helipad garage.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",

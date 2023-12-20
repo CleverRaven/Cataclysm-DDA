@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_EATING",
-    "dynamic_line": "The great eaters have returned, along with the false ones.  We must feed the eaters and destroy the pretenders child.",
+    "dynamic_line": "The great eaters have returned, along with the false ones.  We must feed the eaters and destroy the pretenders, child.",
     "responses": [
       { "text": "Who are you talking about?", "topic": "TALK_SWAMPER_EATING2" },
       { "text": "No thank you, I'd like to leave now.", "topic": "TALK_DONE" }
@@ -105,7 +105,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_EATING3",
-    "dynamic_line": "The great eaters are the ones that were lost, what we call dinosaurs whose meat we took and who are taking it back.  The pretenders are those others that have come to steal the meat of this world.  It does not belong to them and we will take it from their mouths.",
+    "dynamic_line": "The great eaters are the ones that were lost, what we call dinosaurs, whose meat we took and who are taking it back.  The pretenders are those others that have come to steal the meat of this world.  It does not belong to them and we will take it from their mouths.",
     "responses": [ { "text": "Okay, so you worship dinosaurs.  Understood.", "topic": "TALK_NONE" } ]
   },
   {

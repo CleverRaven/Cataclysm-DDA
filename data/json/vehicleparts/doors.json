@@ -128,17 +128,17 @@
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "60 m",
+        "time": "70 m",
         "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "15 m",
+        "time": "40 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "size": "37500 ml",
+    "size": "200 L",
     "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
     "type": "vehicle_part"
   },
@@ -171,11 +171,12 @@
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "30 m",
+        "time": "50 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
+    "size": "100 L",
     "type": "vehicle_part"
   },
   {

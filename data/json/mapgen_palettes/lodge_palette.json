@@ -160,7 +160,7 @@
       "A": { "item": "tools_hunting", "chance": 60, "repeat": [ 1, 8 ] },
       "B": { "item": "tools_hunting", "chance": 60 },
       "D": { "item": "hunting_lodge_weapons" },
-      "F": { "item": "lodge_archery_ammo", "chance": 30, "repeat": [ 1, 4 ] },
+      "F": { "item": "archery_ammo", "chance": 30, "repeat": [ 1, 4 ] },
       "h": { "item": "cannibal_weapons", "repeat": [ 1, 4 ] },
       "L": { "item": "cannibal_food", "repeat": [ 1, 4 ] },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },

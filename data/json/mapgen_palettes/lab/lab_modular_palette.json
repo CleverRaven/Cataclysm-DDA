@@ -108,7 +108,7 @@
       "8": "f_counter",
       "9": "f_shower",
       "@": "f_bed",
-      "∞": "f_foot_locker",
+      "∞": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "ɤ": "f_counter_gate_c"
     },
     "items": {
@@ -268,7 +268,7 @@
       "W": "f_generator_broken",
       "Z": "f_control_station",
       "₸": "f_machinery_electronic",
-      "≠": "f_foot_locker",
+      "≠": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "Ø": "f_server",
       "ɜ": "f_standing_tank",
       "Æ": "f_55gal_firebarrel",
@@ -307,7 +307,7 @@
       "W": "f_generator_broken",
       "Z": "f_control_station",
       "₸": "f_machinery_electronic",
-      "≠": "f_foot_locker",
+      "≠": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "L": "f_locker",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",

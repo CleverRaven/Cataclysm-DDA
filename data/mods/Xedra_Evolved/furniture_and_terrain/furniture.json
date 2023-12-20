@@ -181,5 +181,24 @@
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_barkfloor_no_roof",
+    "looks_like": "t_barkfloor",
+    "name": "bark",
+    "description": "A solid piece of bark covers the floor here, open to the sky.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_dirt",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+    }
   }
 ]

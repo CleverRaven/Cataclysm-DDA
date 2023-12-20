@@ -227,7 +227,7 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
         REQUIRE( dummy.has_trait( trait_MYOPIC ) );
 
         WHEN( "without glasses" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
             THEN( "impaired sight, with 12 tiles of range" ) {
@@ -265,10 +265,10 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
 // equivalent to being nearsighted, which can be corrected with glasses. However, they have a
 // nighttime vision range that exceeds that of normal characters.
 //
-// Contrary to its name, the range returned by unimpaired_range() represents maximum visibility WITH
-// IMPAIRMENTS (that is, affected by the same things that cause sight_impaired() to return true).
+// unimpaired_range() returns the range the character can see clearly once all impairments
+// have taken their effect.
 //
-// The sight_max computed by recalc_sight_limits does not include is the Beer-Lambert light
+// The sight_max computed by recalc_sight_limits does not include the Beer-Lambert light
 // attenuation of a given light level; this is handled by sight_range(), which returns a value from
 // [1 .. sight_max].
 //
@@ -291,7 +291,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
         dummy.toggle_trait( trait_URSINE_EYE );
         REQUIRE( dummy.has_trait( trait_URSINE_EYE ) );
 
-        dummy.worn.clear();
+        dummy.clear_worn();
         REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
         WHEN( "under a new moon" ) {

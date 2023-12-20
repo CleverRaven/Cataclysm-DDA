@@ -4,9 +4,9 @@
     "id": "generic_guns",
     "name": "Generic Guns",
     "authors": [ "Tonkatsu" ],
-    "maintainers": [ "Tonkatsu" ],
+    "maintainers": [ "CleverRaven" ],
     "description": "Replaces guns and ammo with generic types.  Warning: can cause issues with other gun mods.",
-    "category": "items",
+    "category": "accessibility",
     "dependencies": [ "dda" ]
   }
 ]

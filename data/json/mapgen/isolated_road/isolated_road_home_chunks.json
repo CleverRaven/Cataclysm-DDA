@@ -169,7 +169,7 @@
       "place_monster": [
         { "monster": "mon_turret_artisans", "x": 8, "y": 1, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 16, "y": 1, "chance": 100 },
-        { "monster": "mon_turret_artisans", "x": 23, "y": 23, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 20, "y": 23, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 2, "y": 23, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 23, "y": 2, "chance": 100 }
       ],

@@ -1,0 +1,48 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "everburning_torch_candelabra",
+    "name": { "str": "everburning torch candelabra" },
+    "description": "A tall, homemade candelabra that holds multiple everburning torches.  You could set it up somewhere to kindle the torches and provide light.",
+    "symbol": "Y",
+    "color": "brown",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": 0,
+    "price_postapoc": "1000 USD",
+    "longest_side": "150 cm",
+    "volume": "200 L",
+    "weight": "48 kg",
+    "material": [ "wood" ],
+    "to_hit": -3
+  },
+  {
+    "id": "everburning_sconce",
+    "type": "GENERIC",
+    "name": { "str": "everburning sconce" },
+    "description": "This is a high quality engraved wooden torch, placed into a wood and metal sconce and ready to be attached to a wall.  It will burn forever with a smokeless light.  Now you can light your wizard's ritual room in the traditional fashion.",
+    "weight": "1531 g",
+    "volume": "2250 ml",
+    "price": 0,
+    "price_postapoc": "150 USD",
+    "longest_side": "60 cm",
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "orrery_item",
+    "type": "GENERIC",
+    "name": { "str": "orrery", "str_pl": "orreries" },
+    "description": "This is a beautiful, non-scale model of the solar system.  A complex series of gears allows the relative motions of the planets to be studied at the turn of a crank.  You could set this up somewhere to decorate.",
+    "weight": "15000 g",
+    "volume": "20000 ml",
+    "longest_side": "80 cm",
+    "to_hit": 1,
+    "material": [ "steel", "wood" ],
+    "symbol": "@",
+    "color": "brown",
+    "melee_damage": { "bash": 8 }
+  }
+]

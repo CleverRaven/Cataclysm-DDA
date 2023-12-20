@@ -640,7 +640,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the unusual robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
+    "description": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -751,7 +751,7 @@
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder"
     ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope your found the prototype's performance to be satisfactory.\"",
+    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope you found the prototype's performance to be satisfactory.\"",
     "responses": [
       {
         "text": "Will this weapon work on other robots, as well?",
@@ -787,7 +787,7 @@
     "name": { "str": "Hazard Meteorology" },
     "//": "This mission is completed when you first sell any piece of portal storm data.",
     "goal": "MGOAL_NULL",
-    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need stay outside and carry the recorder for around 6 minutes to collect sufficient data.  Generate a printout and offer it to Hub 01 to finish the mission.",
+    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need to <color_yellow>stay outside and carry the recorder for around 6 minutes until you hear a sharp beep</color> to collect sufficient data.  Generate a printout by activating the NRE recorder and offer it to Hub 01 to finish the mission.",
     "difficulty": 5,
     "value": 0,
     "end": {

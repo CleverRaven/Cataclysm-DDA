@@ -13,5 +13,25 @@
     "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "elder_ginseng_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_magic_brambles",
+    "name": "brambles",
+    "looks_like": "f_brambles",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "description": "A thick wall of tangled brambles grows here.  Vicious thorns protrude from the stems.",
+    "move_cost_mod": 8,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 80,
+      "sound": "smash",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+    }
   }
 ]

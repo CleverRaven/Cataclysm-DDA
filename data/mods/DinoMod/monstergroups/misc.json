@@ -108,5 +108,65 @@
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "Can be overwritten by mods.",
+    "//2": "This group always has a chance of being the result, regardless of mission type.",
+    "monsters": [
+      { "monster": "mon_albertonykus", "weight": 10 },
+      { "monster": "mon_scutellosaurus", "weight": 5 },
+      { "monster": "mon_stegoceras", "weight": 3 },
+      { "monster": "mon_aquilops", "weight": 3 },
+      { "monster": "mon_leptoceratops", "weight": 3 },
+      { "monster": "mon_nanosaurus", "weight": 5 },
+      { "monster": "mon_thescelosaurus", "weight": 5 },
+      { "monster": "mon_dimorphodon", "weight": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_TRAPPING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "Can be overwritten by mods.",
+    "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_albertonykus", "weight": 10 },
+      { "monster": "mon_compsognathus", "weight": 5 },
+      { "monster": "mon_scutellosaurus", "weight": 5 },
+      { "monster": "mon_stegoceras", "weight": 3 },
+      { "monster": "mon_aquilops", "weight": 3 },
+      { "monster": "mon_leptoceratops", "weight": 3 },
+      { "monster": "mon_nanosaurus", "weight": 5 },
+      { "monster": "mon_pteranodon", "weight": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING_LARGE",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "Can be overwritten by mods.",
+    "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_gallimimus", "weight": 5 },
+      { "monster": "mon_struthiomimus", "weight": 5 },
+      { "monster": "mon_ornithomimus", "weight": 5 },
+      { "monster": "mon_pachycephalosaurus", "weight": 3 },
+      { "monster": "mon_tenontosaurus", "weight": 10 },
+      { "monster": "mon_dryosaurus", "weight": 10 },
+      { "monster": "mon_camptosaurus", "weight": 10 },
+      { "monster": "mon_hadrosaurus", "weight": 10 },
+      { "monster": "mon_maiasaura", "weight": 10 },
+      { "monster": "mon_gryposaurus", "weight": 10 },
+      { "monster": "mon_prosaurolophus", "weight": 10 },
+      { "monster": "mon_saurolophus", "weight": 10 },
+      { "monster": "mon_edmontosaurus", "weight": 10 },
+      { "monster": "mon_parasaurolophus", "weight": 10 },
+      { "monster": "mon_lambeosaurus", "weight": 10 },
+      { "monster": "mon_corythosaurus", "weight": 10 },
+      { "monster": "mon_hypacrosaurus", "weight": 10 }
+    ]
   }
 ]

@@ -1,50 +1,6 @@
 [
   {
     "type": "furniture",
-    "id": "f_robotic_assembler",
-    "name": "robotic assembler",
-    "looks_like": "f_robotic_arm",
-    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.  Despite its specialized purpose being all but lost now, it could provide a plethora of useful parts if disassembled.",
-    "symbol": "3",
-    "color": "magenta_cyan",
-    "move_cost_mod": -1,
-    "coverage": 35,
-    "required_str": -1,
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-        { "item": "e_scrap", "count": [ 5, 8 ] },
-        { "item": "circuit", "count": [ 3, 5 ] },
-        { "item": "power_supply", "count": [ 1, 2 ] },
-        { "item": "amplifier", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "processor", "count": [ 2, 4 ] },
-        { "item": "RAM", "count": [ 8, 16 ] },
-        { "item": "cable", "charges": [ 8, 12 ] },
-        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] },
-        { "item": "motor_small", "count": [ 0, 1 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_chemical_mixer",
     "looks_like": "f_machinery_light",
     "description": "A large vat with a motorized mixing device for combining large quantities of chemicals.",

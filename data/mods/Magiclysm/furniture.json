@@ -19,8 +19,22 @@
     "symbol": "O",
     "color": "red",
     "required_str": -1,
+    "crafting_pseudo_item": "magic_circle_rank_1",
     "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
     "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
+  },
+  {
+    "type": "furniture",
+    "id": "f_magic_circle_2",
+    "name": "Magic Circle",
+    "looks_like": "f_magic_circle",
+    "move_cost_mod": 0,
+    "symbol": "O",
+    "color": "red",
+    "required_str": -1,
+    "crafting_pseudo_item": "magic_circle_rank_2",
+    "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
+    "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks.  It has been enhanced with silver to channel more mana."
   },
   {
     "type": "furniture",
@@ -138,16 +152,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOITEM" ],
-    "deconstruct": {
-      "items": [
-        { "item": "clockworks", "count": [ 10, 30 ] },
-        { "item": "scrap", "count": [ 10, 20 ] },
-        { "item": "pipe", "count": 9 },
-        { "item": "wire", "count": [ 10, 20 ] },
-        { "item": "hinge", "count": [ 1, 3 ] }
-      ]
-    },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "orrery_item", "count": 1 } ] },
     "max_volume": "1750 L",
     "bash": {
       "str_min": 20,
@@ -325,5 +331,30 @@
     "flags": [ "TRANSPARENT", "MINEABLE", "FLAT_SURF", "MOUNTABLE", "PLACE_ITEM", "SHORT" ],
     "workbench": { "multiplier": 1.1, "mass": 300000, "volume": "100L" },
     "bash": { "str_min": 0, "str_max": 0, "sound": "The boulder recedes into the ground.", "sound_fail": "thump." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everburning_torch_candelabra",
+    "name": "everburning torch candelabra",
+    "description": "A candelabra made of a half-dozen everburning torches attached to a wooden support structure.  Plenty of light with no worries about power usage or smoke.  Plus, how can you be a real wizard unless your tower is lit by the flicking light of imperishable flames?",
+    "looks_like": "f_everburning_candelabra",
+    "symbol": "Y",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": 12,
+    "light_emitted": 120,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "everburning_torch_candelabra", "count": 1 } ] },
+    "bash": {
+      "sound": "SMASH!",
+      "str_min": 20,
+      "str_max": 40,
+      "items": [
+        { "item": "splinter", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 10 ] },
+        { "item": "nuts_bolts", "charges": [ 5, 20 ] },
+        { "item": "mtorch_everburning", "count": [ 1, 4 ] }
+      ]
+    }
   }
 ]

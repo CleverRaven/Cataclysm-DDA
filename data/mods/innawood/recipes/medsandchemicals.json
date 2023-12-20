@@ -95,7 +95,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
   },
   {

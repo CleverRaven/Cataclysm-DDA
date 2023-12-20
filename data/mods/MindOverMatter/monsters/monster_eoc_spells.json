@@ -33,7 +33,7 @@
     ],
     "false_effect": [
       { "u_cast_spell": { "id": "eater_drain_health" } },
-      { "u_message": "You feel your life draining away!.", "type": "bad" }
+      { "u_message": "You feel your life draining away!", "type": "bad" }
     ]
   },
   {

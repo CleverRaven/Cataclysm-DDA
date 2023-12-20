@@ -283,6 +283,7 @@
     "responses": [
       { "text": "Let's discuss contracts.", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" },
       { "text": "Let's trade.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
+      { "text": "Is there anything fancier you can sell?", "topic": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL" },
       {
         "text": "Let's discuss prototypes.",
         "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
@@ -331,6 +332,7 @@
         "text": "I have some portal storm recordings.",
         "condition": {
           "or": [
+            { "u_has_items": { "item": "nre_anomaly_printout_data", "count": 1 } },
             { "u_has_items": { "item": "small_printout_portal_storm_data", "count": 1 } },
             { "u_has_items": { "item": "medium_printout_portal_storm_data", "count": 1 } },
             { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } }
@@ -805,5 +807,14 @@
       "sentinel": "told_about_prototype"
     },
     "responses": [ { "text": "Right.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "We have no other disposable equipment right now.  You'll have to come back in <interval>.",
+      "No. Come back in <interval>."
+    ],
+    "responses": [ { "text": "Right…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   }
 ]

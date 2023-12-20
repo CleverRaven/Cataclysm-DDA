@@ -61,6 +61,11 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "Luna Park",
+    "new_id": "miniature railway park"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "trailerpark_city",
     "//": "Removed in 0.G - no new id"
   },

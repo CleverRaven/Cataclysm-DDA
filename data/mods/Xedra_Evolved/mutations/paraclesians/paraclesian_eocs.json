@@ -1,0 +1,67 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_ROLL_REMAINDER_GOSSAMER_RECIPE",
+    "effect": { "u_message": "These are all the ways you can weave gossamer into garb now." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESSFUL_ROLL_REMAINDER_GOSSAMER_RECIPE",
+    "effect": { "u_message": "You learn a recipe for gossamer raiment." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_GOSSAMER_RECIPES",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PARACLESIAN_LEARN_GOSSAMER_RECIPES" },
+        { "not": { "u_has_effect": "effect_paraclesian_learned_gossamer" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_paraclesian_learned_gossamer", "duration": 604800 },
+      {
+        "u_roll_remainder": [
+          "tunic_gossamer",
+          "sleeveless_tunic_gossamer",
+          "doublet_gossamer",
+          "dress_gossamer",
+          "gown_gossamer",
+          "cloak_gossamer",
+          "jacket_light_gossamer",
+          "robe_wizard_gossamer",
+          "gloves_light_gossamer",
+          "loincloth_gossamer",
+          "pants_gossamer",
+          "pants_no_pocket_gossamer",
+          "skirt_gossamer",
+          "skirt_long_gossamer",
+          "socks_gossamer",
+          "stockings_gossamer",
+          "sheet_gossamer_patchwork",
+          "gambeson_gossamer",
+          "gambeson_hood_gossamer",
+          "gambeson_pants_gossamer",
+          "gambeson_batting_gossamer"
+        ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESSFUL_ROLL_REMAINDER_GOSSAMER_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_GOSSAMER_RECIPE" ]
+      }
+    ],
+    "false_effect": { "u_message": "You need more time to devise a recipe for gossamer." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_TURN_COTTON_TO_GOSSAMER",
+    "condition": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "paraclesian_spell_make_gossamer_real" } },
+      {
+        "u_message": "The moonlight permeates the cotton and it begins to shimmer like an opal in the sunlight.",
+        "type": "good"
+      }
+    ],
+    "false_effect": { "u_message": "You must be outdoors under the moonlight to turn cotton into gossamer." }
+  }
+]

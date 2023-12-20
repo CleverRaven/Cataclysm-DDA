@@ -184,7 +184,7 @@ If the "apply_message" or "remove_message" fields exist, the respective message 
 displayed upon the addition or removal of the effect. Note: "apply_message" will only display
 if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
 
-### advanced apply_message
+### Advanced apply_message
 ```C++
     "apply_message": [
         ["Your effect is applied", "good"],
@@ -194,6 +194,24 @@ if the effect is being added, not if it is simply incrementing a current effect 
 You can instead of having a string for apply_message and including a [rating](#rating) can do advanced apply_message. This is an array of arrays with each inner array matching up with an intensity level and including the message and rating. This is useful for effects that too much of is a bad thing.
 
 When using an advanced apply_message you can not include a [rating: ""](#rating) entry.
+
+### Hiding the effect
+
+```C++
+    "show_in_info": true
+```
+
+Default false; If true, the effect is shown when you inspect another NPC or monster. It doesn't hide the effect from the player's @ menu, for this effect should have empty string as a name and description:
+
+```C++
+  {
+    "type": "effect_type",
+    "id": "secret_effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "You can't see this effect"
+  },
+```
 
 ### Memorial Log
 ```C++
@@ -207,11 +225,10 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 ### Resistances
 ```C++
     "resist_traits": "NOPAIN",
-    "resist_effect": "flumed"
+    "resist_effects": [ "flumed" ]
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
-Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
 ### Immunity Flags
 ```JSON
@@ -550,6 +567,11 @@ Valid arguments:
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
 "enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
+
+"dodge_mod"         - Effective dodge chance
+"hit_mod"           - Effective melee skill
+"bash_mod"          - Additional bash bonus/penalty
+
 ```
 Each argument can also take either one or two values.
 ```C++

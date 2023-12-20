@@ -30,7 +30,7 @@
     "type": "activity_type",
     "id": "ACT_EBOOKSAVE",
     "activity_level": "NO_EXERCISE",
-    "verb": "taking pictures of the book",
+    "verb": "taking pictures of books",
     "rooted": true,
     "based_on": "speed",
     "auto_needs": true
@@ -939,6 +939,16 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "communing with the trees",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MUTANT_TREE_COMMUNION",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "communing with the mutant tree",
     "rooted": true,
     "suspendable": false,
     "based_on": "time",

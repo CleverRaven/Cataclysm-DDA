@@ -1,0 +1,456 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_test",
+    "effect": [
+      { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" } },
+      { "set_string_var": "name_3", "target_var": { "context_val": "name" } },
+      { "set_string_var": "option 3", "target_var": { "context_val": "description" } },
+      {
+        "run_eoc_selector": [ "EOC_selector_test_1", "EOC_selector_test_2", "EOC_selector_test_3", "EOC_selector_test_4" ],
+        "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
+        "keys": [ "a", "b", "c", "d" ],
+        "descriptions": [ "option 1", "option 2", "<context_val:description>", "should not be available" ],
+        "variables": [ { "val": "8" } ],
+        "title": "<context_val:title>",
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_test_1",
+    "effect": [ { "math": [ "key1", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_test_2",
+    "effect": [ { "math": [ "key1", "=", "2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_test_3",
+    "effect": [ { "math": [ "key1", "=", "_val" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_test_4",
+    "condition": { "math": [ "1", "<", "0" ] },
+    "effect": [ { "math": [ "key1", "=", "_val" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_test_hidden",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_selector_test_1", "EOC_selector_test_2", "EOC_selector_test_3", "EOC_selector_test_4" ],
+        "names": [ "name_1", "name_2", "name_3", "should_fail" ],
+        "keys": [ "a", "b", "c", "d" ],
+        "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
+        "variables": [ { "val": "8" } ],
+        "hide_failing": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_transporter_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_item_transporter_test_1", "EOC_item_transporter_test_2" ],
+        "names": [ "Set coordinates", "Execute transport" ],
+        "keys": [ "a", "b" ],
+        "descriptions": [ "Target current coordinates.", "Transport items to target coordinates" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_transporter_test_1",
+    "effect": [
+      { "u_location_variable": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } },
+      { "u_add_var": "set_coordinates", "type": "eoc_sample", "context": "item_transporter", "value": "yes" },
+      { "u_message": "Set coordinates: <u_val:eoc_sample_item_transporter_loc>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_transporter_test_2",
+    "condition": { "u_has_var": "set_coordinates", "type": "eoc_sample", "context": "item_transporter", "value": "yes" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "title": "Transport what?",
+        "true_eocs": [
+          {
+            "id": "EOC_item_transporter_test_2_run",
+            "effect": [
+              { "u_message": "Transported: <npc_name>" },
+              { "npc_teleport": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_variable_test",
+    "effect": [
+      { "u_message": "[Skill experience test]" },
+      { "math": [ "u_skill_test", "=", "u_skill_exp('swimming')" ] },
+      { "u_message": "Swimming skill experience before: <u_val:skill_test>" },
+      { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
+      { "math": [ "u_skill_test", "=", "u_skill_exp('swimming')" ] },
+      { "u_message": "Swimming skill experience after: <u_val:skill_test>" },
+      { "u_message": "[Weight and volume test]" },
+      { "run_eocs": [ "EOC_variable_weight_volume_test1" ] },
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_variable_weight_volume_test2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_variable_weight_volume_test1",
+    "effect": [
+      { "math": [ "u_weight_test", "=", "u_val('weight')" ] },
+      { "math": [ "u_volume_test", "=", "u_val('volume')" ] },
+      { "u_message": "<u_name> weight: <u_val:weight_test> volume: <u_val:volume_test>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_variable_weight_volume_test2",
+    "effect": [
+      { "math": [ "u_weight_test", "=", "n_val('weight')" ] },
+      { "math": [ "u_volume_test", "=", "n_val('volume')" ] },
+      { "u_message": "<npc_name> weight: <u_val:weight_test> volume: <u_val:volume_test>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_if_else_test",
+    "effect": [
+      {
+        "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        "then": { "u_message": "You have variable." },
+        "else": [
+          { "u_message": "You don't have variable." },
+          {
+            "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
+            "then": [
+              { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+              { "u_message": "Vriable added." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_has_any_test",
+    "condition": { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" },
+    "effect": [ { "u_message": "You are hot or cold." } ],
+    "false_effect": [ { "u_message": "You are not hot or cold." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spawn_npc_test",
+    "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_event_NPC_DEATH_test",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ "u_prevent_death" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_event_character_dies_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_dies",
+    "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
+    "effect": [ "u_prevent_death" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_item_test1",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "u_map_run_item_eocs": "manual_mult",
+        "loc": { "context_val": "loc" },
+        "min_radius": 1,
+        "max_radius": 10,
+        "title": "Test: Item collection",
+        "true_eocs": [ { "id": "EOC_map_item_test_run", "effect": [ { "npc_teleport": { "context_val": "loc" } } ] } ]
+      },
+      { "u_message": "Items rolled at your feet." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_item_test2",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      { "map_spawn_item": "bottle_plastic", "loc": { "context_val": "loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_condition_test",
+    "effect": [
+      {
+        "if": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+        "then": { "u_message": "Inside city" },
+        "else": { "u_message": "Outside city" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(1,0,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "East terrain: TRANSPARENT" },
+        "else": { "u_message": "East terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "East furniture: TRANSPARENT" },
+        "else": { "u_message": "East furniture: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "South terrain: TRANSPARENT" },
+        "else": { "u_message": "South terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "South furniture: TRANSPARENT" },
+        "else": { "u_message": "South furniture: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(-1,0,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "West terrain: TRANSPARENT" },
+        "else": { "u_message": "West terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "West furniture: TRANSPARENT" },
+        "else": { "u_message": "West furniture: Not TRANSPARENT" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_foreach_test",
+    "effect": [
+      { "u_message": "[foreach_test]id of flags" },
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "flag",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]item group" },
+      {
+        "foreach": "item_group",
+        "var": { "context_val": "id" },
+        "target": "forest",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]monster group" },
+      {
+        "foreach": "monstergroup",
+        "var": { "context_val": "id" },
+        "target": "GROUP_ANIMALPOUND_DOGS",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]string array" },
+      {
+        "foreach": "array",
+        "var": { "context_val": "id" },
+        "target": [ "a", "b", "c", "d", "e" ],
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_info_test",
+    "effect": [
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [
+          { "u_message": "[<context_val:id>]" },
+          {
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "worn_only": true } ],
+            "true_eocs": [
+              {
+                "id": "EOC_armor_info_test_nested",
+                "effect": [
+                  { "math": [ "_coverage", "=", "n_coverage(_id)" ] },
+                  { "math": [ "_encumbrance", "=", "n_encumbrance(_id)" ] },
+                  {
+                    "if": { "math": [ "_coverage", ">", "0" ] },
+                    "then": [
+                      { "u_message": "  <npc_name>" },
+                      { "u_message": "  coverage:<context_val:coverage>" },
+                      { "u_message": "  encumbrance:<context_val:encumbrance>" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_query_tile_test_anywhere",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_query_tile_test_line_of_sight",
+    "effect": [
+      {
+        "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_query_tile_test_around",
+    "effect": [
+      {
+        "if": { "u_query_tile": "around", "target_var": { "context_val": "pos" }, "message": "Choose direction" },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_player_see_test",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_player_see_test_nest",
+            "condition": "player_see_u",
+            "effect": { "message": "You can see <u_name>." },
+            "false_effect": { "message": "You cant see <u_name>." }
+          }
+        ],
+        "local": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_can_see_location_test",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+        "then": [
+          {
+            "if": { "u_can_see_location": { "context_val": "pos" } },
+            "then": { "u_message": "You can see <context_val:pos>." },
+            "else": { "u_message": "You cant see <context_val:pos>." }
+          },
+          {
+            "u_run_npc_eocs": [
+              {
+                "id": "EOC_can_see_location_test_nest",
+                "condition": { "u_can_see_location": { "context_val": "pos" } },
+                "effect": { "message": "<u_name> can see <context_val:pos>." },
+                "false_effect": { "message": "<u_name> cant see <context_val:pos>." }
+              }
+            ],
+            "local": true
+          }
+        ],
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_teleport_test_setloc", "EOC_teleport_test_do", "EOC_teleport_test_other" ],
+        "names": [ "Set location", "Teleport", "Teleport other" ],
+        "keys": [ "a", "b", "c" ],
+        "descriptions": [ "Set location", "Teleport", "Teleport other" ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_setloc",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "teleport_test_pos" }, "message": "Select point" },
+        "then": { "u_message": "<global_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_do",
+    "effect": [ { "u_teleport": { "global_val": "teleport_test_pos" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_test_other",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+        "then": {
+          "run_eoc_with": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
+          "beta_loc": { "context_val": "loc" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+]

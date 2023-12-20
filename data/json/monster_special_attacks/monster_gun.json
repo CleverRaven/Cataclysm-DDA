@@ -153,7 +153,7 @@
     "type": "GUN",
     "name": { "str": "deterrent laser weapon" },
     "energy_drain": "0 kJ",
-    "ammo_effects": [ "DRAW_LASER_BEAM" ],
+    "ammo_effects": [ "LASER" ],
     "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },

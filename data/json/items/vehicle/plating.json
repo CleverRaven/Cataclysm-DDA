@@ -106,7 +106,7 @@
     "type": "GENERIC",
     "id": "hard_plate",
     "name": { "str": "hard plating" },
-    "description": "A piece of very thick vehicle armor plating made of tempered steel.",
+    "description": "A piece of very thick vehicle armor plating made of tempered steel.  Can be used as a makeshift anvil.",
     "weight": "32640 g",
     "to_hit": -1,
     "color": "light_cyan",
@@ -116,7 +116,7 @@
     "category": "veh_parts",
     "price": 16000,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ],
+    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -166,18 +166,18 @@
     "type": "GENERIC",
     "id": "counterweight",
     "name": { "str": "counterweight" },
-    "description": "A heavy block of steel used for balancing other heavy things.",
+    "description": "A heavy block of steel used for balancing other heavy things.  Can be used as a makeshift anvil.",
     "weight": "750000 g",
     "to_hit": -10,
     "color": "dark_gray",
     "symbol": "]",
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "volume": "330 L",
     "longest_side": "110 cm",
     "price": 12000,
     "price_postapoc": 250,
     "category": "veh_parts",
-    "qualities": [ [ "ANVIL", 1 ] ],
+    "qualities": [ [ "ANVIL", 2 ] ],
     "melee_damage": { "bash": 25 }
   }
 ]

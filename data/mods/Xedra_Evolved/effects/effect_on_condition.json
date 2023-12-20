@@ -28,8 +28,23 @@
   {
     "type": "effect_on_condition",
     "id": "xe_scraggy-boo_messages",
-    "recurrence": [ "72 hours", "168 hours" ],
+    "recurrence": [ "2 hours", "12 hours" ],
     "condition": { "u_has_items": { "item": "book_teens_deduction", "count": 1 } },
     "effect": [ { "u_message": "XE_SCRAGGY-BOO_MESSAGES_1", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATER_CHECK",
+    "global": true,
+    "recurrence": [ "12 hours", "72 hours" ],
+    "condition": { "math": [ "u_val('spell_count', 'school: EATER')", ">=", "6" ] },
+    "deactivate_condition": { "u_has_trait": "EATER_SIXTH_SENSE" },
+    "effect": [
+      {
+        "u_message": "You suddenly realize that your ability to sense the unnatural has expanded to a level beyond those of the normal five senses.",
+        "type": "good"
+      },
+      { "u_add_trait": "EATER_SIXTH_SENSE" }
+    ]
   }
 ]

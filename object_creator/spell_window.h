@@ -17,7 +17,7 @@
 
 namespace creator
 {
-class spell_window : public QMainWindow
+class spell_window : public QWidget
 {
     public:
         spell_window( QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags() );

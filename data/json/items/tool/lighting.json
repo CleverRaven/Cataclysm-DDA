@@ -93,12 +93,13 @@
     "type": "TOOL",
     "name": { "str": "candle" },
     "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
-    "weight": "225 g",
-    "volume": "250 ml",
+    "weight": "370 g",
+    "volume": "550 ml",
+    "longest_side": "12 cm",
     "price": 100,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": [ "beeswax" ],
+    "material": [ "paraffin_wax" ],
     "symbol": ",",
     "color": "white",
     "charges_per_use": 1,
@@ -119,7 +120,7 @@
     "copy-from": "candle",
     "name": { "str": "candle" },
     "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
-    "turns_per_charge": 1350,
+    "turns_per_charge": 1260,
     "use_action": [
       { "type": "firestarter", "moves": 100 },
       {
@@ -197,7 +198,7 @@
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -229,7 +230,239 @@
       "target": "flashlight",
       "ammo_scale": 0
     },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+  },
+  {
+    "id": "diving_flashlight_small",
+    "type": "TOOL",
+    "name": { "str": "mini diving flashlight (off)", "str_pl": "mini diving flashlights (off)" },
+    "description": "A small waterproof flashlight with an aluminum handle, powered by batteries.  Can be attached to some diving masks and hoods.",
+    "//": "Based on this: https://www.amazon.com/ORCATORCH-Underwater-Rotatable-Batteries-Included/dp/B07BDKRFJG?th=1",
+    "material": [ "plastic", "aluminum" ],
+    "looks_like": "flashlight",
+    "symbol": ";",
+    "color": "blue",
+    "weight": "48 g",
+    "volume": "45 ml",
+    "longest_side": "10 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the flashlight on.",
+      "target": "diving_flashlight_small_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The flashlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ]
+  },
+  {
+    "id": "diving_flashlight_small_on",
+    "copy-from": "diving_flashlight_small",
+    "type": "TOOL",
+    "name": { "str": "mini diving flashlight (on)", "str_pl": "mini diving flashlights (on)" },
+    "looks_like": "flashlight_on",
+    "power_draw": "1200 mW",
+    "revert_to": "diving_flashlight_small",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the flashlight off.",
+      "target": "diving_flashlight_small",
+      "ammo_scale": 0
+    },
+    "flags": [ "LIGHT_170", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+  },
+  {
+    "id": "diving_flashlight_small_hipower",
+    "type": "TOOL",
+    "name": { "str": "high-power mini diving flashlight (off)", "str_pl": "high-power mini diving flashlights (off)" },
+    "description": "A small waterproof high-power flashlight with an aluminum handle, powered by batteries.  Can be attached to some diving masks and hoods.",
+    "//": "Based on this: https://www.amazon.com/RAYVENGE-Headlamp-Underwater-Flashlight-Stainless/dp/B0BD6GVJH2",
+    "material": [ "plastic", "aluminum", "lc_steel" ],
+    "looks_like": "flashlight",
+    "symbol": ";",
+    "color": "blue",
+    "weight": "40 g",
+    "volume": "38 ml",
+    "longest_side": "10 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the flashlight on.",
+      "target": "diving_flashlight_small_hipower_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The flashlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ]
+  },
+  {
+    "id": "diving_flashlight_small_hipower_on",
+    "copy-from": "diving_flashlight_small_hipower",
+    "type": "TOOL",
+    "name": { "str": "high-power mini diving flashlight (on)", "str_pl": "high-power mini diving flashlights (on)" },
+    "looks_like": "flashlight_on",
+    "power_draw": "3 W",
+    "revert_to": "diving_flashlight_small_hipower",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the flashlight off.",
+      "target": "diving_flashlight_small_hipower",
+      "ammo_scale": 0
+    },
+    "flags": [ "LIGHT_450", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+  },
+  {
+    "id": "diving_flashlight_variable",
+    "type": "TOOL",
+    "name": { "str": "high-power mini diving flashlight (off)", "str_pl": "high-power mini diving flashlights (off)" },
+    "description": "A waterproof variable power flashlight with a plastic handle, powered by batteries.  Can be attached to some diving masks and hoods and onto a proprietary wrist mount.",
+    "//": "Based on this: https://www.amazon.com/Aqualite-Tauchlampe-schwarz-Lumen-12516/dp/B00DI5GMOM",
+    "material": [ "plastic" ],
+    "looks_like": "flashlight",
+    "symbol": ";",
+    "color": "blue",
+    "weight": "182 g",
+    "volume": "185 ml",
+    "longest_side": "13 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "WRIST_MOUNT_ATTACHMENT" ],
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn the flashlight on.",
+        "target": "diving_flashlight_variable_on_hi",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The flashlight's batteries are dead."
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "20 W"
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "diving_flashlight_variable_on_hi",
+    "copy-from": "diving_flashlight_variable",
+    "type": "TOOL",
+    "name": { "str": "variable power diving flashlight (on, high)", "str_pl": "variable power mini diving flashlights (on, high)" },
+    "looks_like": "flashlight_on",
+    "//": "Uses a 3.7 V battery at ~1.73 A at full power = 6.413 W draw.",
+    "power_draw": "6420 mW",
+    "revert_to": "diving_flashlight_variable",
+    "use_action": [
+      {
+        "menu_text": "Lower power",
+        "type": "transform",
+        "msg": "You decrease power of the flashlight.",
+        "target": "diving_flashlight_variable_on_med",
+        "ammo_scale": 0
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "20 W"
+      }
+    ],
+    "flags": [ "LIGHT_500", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+  },
+  {
+    "id": "diving_flashlight_variable_on_med",
+    "copy-from": "diving_flashlight_variable",
+    "type": "TOOL",
+    "name": {
+      "str": "variable power diving flashlight (on, medium)",
+      "str_pl": "variable power mini diving flashlights (on, medium)"
+    },
+    "looks_like": "flashlight_on",
+    "//": "Uses a 3.7 V battery at ~0.46 A at medium power = ~1.7 W draw.",
+    "power_draw": "1700 mW",
+    "revert_to": "diving_flashlight_variable",
+    "use_action": [
+      {
+        "menu_text": "Lower power",
+        "type": "transform",
+        "msg": "You decrease power of the flashlight.",
+        "target": "diving_flashlight_variable_on_low",
+        "ammo_scale": 0
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "20 W"
+      }
+    ],
+    "flags": [ "LIGHT_200", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+  },
+  {
+    "id": "diving_flashlight_variable_on_low",
+    "copy-from": "diving_flashlight_variable",
+    "type": "TOOL",
+    "name": { "str": "variable power diving flashlight (on, low)", "str_pl": "variable power mini diving flashlights (on, low)" },
+    "looks_like": "flashlight_on",
+    "//": "Uses a 3.7 V battery at ~0.289 A at low power = ~1.07 W draw.",
+    "power_draw": "1070 mW",
+    "revert_to": "diving_flashlight_variable",
+    "use_action": [
+      {
+        "menu_text": "Turn off",
+        "type": "transform",
+        "msg": "You turn the flashlight off.",
+        "target": "diving_flashlight_variable",
+        "ammo_scale": 0
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "20 W"
+      }
+    ],
+    "flags": [ "LIGHT_80", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
   },
   {
     "id": "gasoline_lantern",
