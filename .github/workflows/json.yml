@@ -1,6 +1,8 @@
 name: JSON Validation
 
-on: pull_request
+on:
+  pull_request:
+  merge_group:
 
 jobs:
   skip-duplicates:
