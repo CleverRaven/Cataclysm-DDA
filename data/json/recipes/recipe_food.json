@@ -9291,9 +9291,9 @@
     "tools": [ [ [ "food_processor", 450 ] ] ],
     "batch_time_factors": [ 33, 2 ],
     "charges": 18,
-    "components":[ 
-      [ [ "empty_corn_cob_processed_bulk", 1 ], [ "empty_corn_cob_processed", 192] ],
-      [ [ "corn_kernels", 50 ], ["kernels", 50], ["dry_corn", 50] ],
+    "components": [
+      [ [ "empty_corn_cob_processed_bulk", 1 ], [ "empty_corn_cob_processed", 192 ] ],
+      [ [ "corn_kernels", 50 ], [ "kernels", 50 ], [ "dry_corn", 50 ] ],
       [ [ "straw_pile", 200 ] ],
       [ [ "meal_bone", 50 ] ]
     ]
