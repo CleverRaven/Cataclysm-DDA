@@ -1342,15 +1342,9 @@
     "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
     "apply_message": "",
     "remove_message": "Nearby movement returns to normal.",
-    "decay_messages": [
-      [ "Nearby momentum has nearly returned to normal.", "bad" ],
-      [ "Your alterations to movement around you are fading.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 41,
-    "dur_add_perc": 20,
-    "int_dur_factor": "22 s",
     "enchantments": [
       {
         "values": [
