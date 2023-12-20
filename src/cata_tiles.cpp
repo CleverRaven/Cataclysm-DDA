@@ -1304,13 +1304,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     const int max_col = top_any_tile_range.p_max.x;
     const int min_row = bottom_any_tile_range.p_min.y;
     const int max_row = top_any_tile_range.p_max.y;
-    const int draw_min_z = std::max( center.z - fov_3d_z_range, -OVERMAP_DEPTH );
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
     const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
     const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
                              ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
+    const int draw_min_z = std::max( you.posz() - fov_3d_z_range, -OVERMAP_DEPTH );
 
     const level_cache &ch = here.access_cache( center.z );
 
@@ -1421,7 +1421,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         creature_tracker &creatures = get_creature_tracker();
         for( int row = min_row; row < max_row; row ++ ) {
             // Reserve columns on each row
-            for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
+            for( int zlevel = center.z; zlevel >= draw_min_z; zlevel -- ) {
                 here.draw_points_cache[zlevel][row].reserve( std::max( 0, max_col - min_col ) );
             }
             for( int col = min_col; col < max_col; col ++ ) {
@@ -1429,7 +1429,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( !temp.has_value() ) {
                     continue;
                 }
-                for( int zlevel = center.z; zlevel > draw_min_z; zlevel -- ) {
+                for( int zlevel = center.z; zlevel >= draw_min_z; zlevel -- ) {
                     const tripoint pos( temp.value(), zlevel );
                     const tripoint_abs_ms pos_global = here.getglobal( pos );
                     const int &x = pos.x;
