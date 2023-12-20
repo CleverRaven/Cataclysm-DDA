@@ -304,7 +304,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
                 add_msg( _( "Camera system disabled" ) );
             } else
             {
-                add_msg( _( "Camera system enabled" ) );find_pocket_for
+                add_msg( _( "Camera system enabled" ) );
             }
             camera_on = !camera_on;
         } );
