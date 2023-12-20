@@ -7970,7 +7970,7 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
         auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
-        for( auto &part : cargo_parts ) {
+        for( vehicle_part * &part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
@@ -10920,7 +10920,7 @@ void Character::process_effects()
             units::volume capacity = 0_ml;
             units::volume free_cargo = 0_ml;
             auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
-            for( auto &part : cargo_parts ) {
+            for( vehicle_part * &part : cargo_parts ) {
                 vehicle_stack contents = veh.get_items( *part );
                 const vpart_info &vpinfo = part->info();
                 const optional_vpart_position vp = here.veh_at( your_pos );

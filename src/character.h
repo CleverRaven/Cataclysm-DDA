@@ -1387,7 +1387,7 @@ class Character : public Creature, public visitable
         void forced_dismount();
 
         /** Attempt to enter a tile in a vehicle */
-        bool move_in_vehicle( Creature *source, const tripoint &dest_loc ) const;
+        bool move_in_vehicle( Creature *c, const tripoint &dest_loc ) const;
 
         bool is_deaf() const;
         bool is_mute() const;
