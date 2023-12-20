@@ -265,7 +265,7 @@ input_context game::get_player_input( std::string &action )
     const auto &visibility_cache = map_cache.visibility_cache;
 #if defined(TILES)
     // Mark cata_tiles draw caches as dirty
-    tilecontext->clear_draw_caches();
+    tilecontext->set_draw_cache_dirty();
 #endif
 
     user_turn current_turn;

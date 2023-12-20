@@ -1902,7 +1902,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                   "SDL_RenderSetClipRect failed" );
 }
 
-void cata_tiles::clear_draw_caches()
+void cata_tiles::set_draw_cache_dirty()
 {
     get_map().draw_points_cache_dirty = true;
 }

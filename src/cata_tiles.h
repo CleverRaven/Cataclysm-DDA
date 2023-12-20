@@ -805,8 +805,8 @@ class cata_tiles
         pimpl<pixel_minimap> minimap;
 
     public:
-        // Draw caches persist data between draws to avoid unnecessary recalculations
-        void clear_draw_caches();
+        // Draw caches persist data between draws and are only recalculated when dirty
+        void set_draw_cache_dirty();
 
         std::string memory_map_mode = "color_pixel_sepia";
 };
