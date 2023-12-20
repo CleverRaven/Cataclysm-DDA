@@ -56,7 +56,7 @@
     "material": [ "veggy", "wood" ],
     "volume": "240 ml",
     "fun": -8,
-    "vitamins": [ ["vitC", 4 ] ],
+    "vitamins": [ [ "vitC", 4 ] ],
     "flags": [ "RAW", "INEDIBLE" ]
   },
   {
