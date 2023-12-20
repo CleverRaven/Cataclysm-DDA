@@ -20,6 +20,8 @@ class item;
 class player_activity;
 struct tripoint;
 
+
+// Once more with feeling, triggering a build
 template<typename Point, typename Container>
 std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Container &tiles )
 {
