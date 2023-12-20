@@ -63,7 +63,7 @@
         "7": "t_bullettrailer_wwall",
         ".": "t_bullettrailer_brownfloor",
         ":": "t_bullettrailer_brownfloor",
-        "8": "t_bullettrailer_innerdoor",
+        "8": "t_bullettrailer_inner_door",
         "9": "t_bullettrailer_ewall",
         "0": "t_bullettrailer_wwall",
         "a": "t_bullettrailer_brownfloor",

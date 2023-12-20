@@ -114,8 +114,8 @@
     "move_cost": 2,
     "looks_like": "t_door_metal_o",
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
-    "close": "t_bullettrailer_swall_door",
-    "copy-from": "t_bullettrailer_swall_door"
+    "copy-from": "t_bullettrailer_swall_westcorner",
+    "close": "t_bullettrailer_swall_door"
   },
   {
     "type": "terrain",
@@ -165,11 +165,11 @@
     "type": "furniture",
     "id": "f_bullettrailer_cabinet",
     "name": "trailer cabinets",
-    "move_cost_mod": 0,
     "symbol": "n",
     "color": "yellow",
     "description": "Cramped trailer cabinets, with some inbuilt appliances taking up even more of the limited space.",
-    "copy-from": "f_cabinet"
+    "copy-from": "f_cabinet",
+    "move_cost_mod": 0
   },
   {
     "type": "furniture",
@@ -229,7 +229,6 @@
     "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE", "TRANSPARENT" ],
     "close": "t_bullettrailer_inner_door",
-    "copy-from": "t_bullettrailer_inner_door",
     "bash": {
       "str_min": 10,
       "str_max": 70,

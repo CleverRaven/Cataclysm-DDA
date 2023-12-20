@@ -20,7 +20,7 @@
   },
   {
     "type": "npc_class",
-    "id": "NC_BAKER_Dana",
+    "id": "NC_TACOMA_Dana",
     "name": { "str": "baker" },
     "job_description": "I'm just trying to survive.",
     "common": false,
@@ -58,7 +58,7 @@
       { "item": "socks" },
       { "item": "longshirt" },
       { "item": "jeans" },
-      { "item": "belt" },
+      { "item": "leather_belt" },
       { "item": "jacket_leather" },
       { "item": "apron_leather" },
       { "item": "boots" },

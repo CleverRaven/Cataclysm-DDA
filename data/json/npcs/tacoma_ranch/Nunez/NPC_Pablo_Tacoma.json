@@ -1,7 +1,7 @@
 [
   {
     "type": "npc",
-    "id": "refugee_PabloNunez",
+    "id": "tacoma_PabloNunez",
     "name_unique": "Pablo Nunez",
     "gender": "male",
     "name_suffix": "bookkeeper",
@@ -51,7 +51,7 @@
   },
   {
     "type": "item_group",
-    "id": "REFUGEE_Pablo_worn",
+    "id": "TACOMA_Pablo_worn",
     "subtype": "collection",
     "entries": [
       { "item": "boxer_briefs" },
@@ -66,13 +66,13 @@
   },
   {
     "type": "item_group",
-    "id": "REFUGEE_Pablo_carried",
+    "id": "TACOMA_Pablo_carried",
     "subtype": "collection",
     "entries": [ { "item": "knife_swissarmy" } ]
   },
   {
     "type": "item_group",
-    "id": "REFUGEE_Pablo_wield",
+    "id": "TACOMA_Pablo_wield",
     "subtype": "collection",
     "entries": [ { "item": "bat_metal" } ]
   },
