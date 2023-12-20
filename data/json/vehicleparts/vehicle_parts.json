@@ -2253,7 +2253,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK", "BED" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK", "BED", "BELTABLE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
