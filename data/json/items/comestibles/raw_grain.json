@@ -98,7 +98,7 @@
     "price": -1,
     "price_postapoc": 1,
     "material": [ "veggy", "wood" ],
-    "vitamins":  [ [ "vitC", 450 ], [ "calcium", 20 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitC", 450 ], [ "calcium", 20 ], [ "iron", 10 ] ],
     "volume": "48 L",
     "fun": -2,
     "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ]
