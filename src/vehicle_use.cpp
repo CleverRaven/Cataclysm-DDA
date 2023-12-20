@@ -1783,7 +1783,7 @@ int vehicle::prepare_tool( item &tool ) const
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
     }
-    str mag_type;
+    std::string mag_type;
     if( tool.can_link_up() ) {
         mag_type = "pseudo_magazine";
     } else {
