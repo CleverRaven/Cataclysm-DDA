@@ -1463,8 +1463,8 @@ void Character::update_heartrate_index()
     const float hr_bp_loss_mod = 0.0f;
 
     const int effect_mod = get_heartrate_effect_mod();
-    // heartrate effect is an integer.  Div by 100 currently.
-    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.01f;
+    // heartrate effect is an integer.  Div by 10000 currently.(HR mod of 200 in JSON becomes 2%).
+    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_activity_mods + hr_stim_mod + hr_nicotine_mod
@@ -1507,7 +1507,7 @@ int Character::get_bp_effect_mod() const
 void Character::update_circulation_resistance()
 {
     const int bp_effect_mod = get_bp_effect_mod();
-    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.01f;
+    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     const float bp_item_effect_mod = bp_effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
 
     // should also be affected by stance.
@@ -1560,7 +1560,7 @@ void Character::set_respiration_effect_mod( int mod )
 void Character::update_respiration_rate()
 {
     const int effect_mod = get_respiration_effect_mod();
-    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.05f;
+    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
 }
 
