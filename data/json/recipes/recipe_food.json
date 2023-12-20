@@ -9257,8 +9257,21 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "autolearn": true,
     "batch_time_factors": [ 20, 3 ],
-    "tools": [ [ [ "food_processor", 225 ] ], [ [ "metal_tank", -1 ], ["30gal_drum", -1], ["55gal_drum", -1], ["30gal_barrel", -1], ["wooden_barrel", -1] ] ],
-    "components": [ [ [ "empty_corn_cob", 200 ] ], [ [ "lye", 1 ], ["chem_washing_soda", 250] ], [ [ "water_clean", 71 ], [ "water", 71 ]] ]
+    "tools": [
+      [ [ "food_processor", 225 ] ],
+      [
+        [ "metal_tank", -1 ],
+        [ "30gal_drum", -1 ],
+        [ "55gal_drum", -1 ],
+        [ "30gal_barrel", -1 ],
+        [ "wooden_barrel", -1 ]
+      ]
+    ],
+    "components": [
+      [ [ "empty_corn_cob", 200 ] ],
+      [ [ "lye", 1 ], [ "chem_washing_soda", 250 ] ],
+      [ [ "water_clean", 71 ], [ "water", 71 ] ]
+    ]
   },
   {
     "result": "empty_corn_cob_processed",
