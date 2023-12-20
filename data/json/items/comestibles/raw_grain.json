@@ -75,7 +75,6 @@
     "volume": "60 L",
     "price_postapoc": 20,
     "fun": -12,
-    
     "use_action": {
       "target": "empty_corn_cob_processed_bulk",
       "msg": "Corn cobs are softened up enough to make them useful as a fodder.",
