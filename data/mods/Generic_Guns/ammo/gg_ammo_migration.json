@@ -238,7 +238,7 @@
     "replace": "reloaded_pistol_magnum_jhp"
   },
   {
-    "id": [ "bp_357mag_jhp", "bp_44magnum", "bp_454_Casull", "bp_460_rowland", "bp_500_Magnum", "bp_50ae_fmj" ],
+    "id": [ "bp_357mag_jhp", "bp_44magnum", "bp_454_Casull", "bp_460_rowland", "bp_500_Magnum", "bp_50ae_jhp" ],
     "type": "MIGRATION",
     "replace": "bp_pistol_magnum_jhp"
   },
