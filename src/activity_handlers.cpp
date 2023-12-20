@@ -2348,6 +2348,7 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
+        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) )
         item mag_mod( "pseudo_magazine_mod" );
         mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
