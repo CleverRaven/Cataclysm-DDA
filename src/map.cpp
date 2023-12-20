@@ -6695,7 +6695,7 @@ void map::update_visibility_cache( const int zlev )
     }
 
 #if defined(TILES)
-    // clear previously cached visibility variables from cata_tiles
+    // Mark cata_tiles draw caches as dirty
     tilecontext->clear_draw_caches();
 #endif
 
@@ -9393,6 +9393,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         player_prev_pos = p;
         player_prev_range = sr;
         camera_cache_dirty = true;
+#if defined(TILES)
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->clear_draw_caches();
+#endif
     }
     if( camera_cache_dirty ) {
         u.moncam_cache = mcache;
