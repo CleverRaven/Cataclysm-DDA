@@ -100,7 +100,7 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+        "clamp( (( (u_spell_level('teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 2, 4)"
       ]
     },
     "max_range": 4,
