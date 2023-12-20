@@ -1783,12 +1783,13 @@ int vehicle::prepare_tool( item &tool ) const
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
     }
-    item* mag;
+    str mag_type;
     if( tool.can_link_up() ) {
-        mag = item( "pseudo_magazine" );
+        mag_type = "pseudo_magazine";
     } else {
-        mag = item( tool.magazine_default() );
+        mag_type = tool.magazine_default();
     }
+    item mag( mag_type );
     mag.clear_items(); // no initial ammo
     if( !tool.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
         debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
