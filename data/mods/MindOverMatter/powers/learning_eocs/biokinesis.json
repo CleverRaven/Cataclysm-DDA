@@ -154,7 +154,7 @@
           "and": [
             {
               "or": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "9" ] },
                 { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
               ]
             },
@@ -274,7 +274,7 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "11" ] },
+        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
         { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
@@ -389,7 +389,11 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
-        { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
+        { "or": [
+          { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
+          { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] }
+          ] 
+        },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
         { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },

@@ -107,7 +107,7 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 10 : max((700 -(u_val('spell_level', 'spell: biokin_breathe_skin') * 6)), 25)"
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 10 : max((70 -(u_val('spell_level', 'spell: biokin_breathe_skin') * 6)), 25)"
       ]
     }
   },
@@ -354,7 +354,7 @@
     "id": "biokin_sealed_system",
     "type": "SPELL",
     "name": "[Ψ]Sealed System",
-    "description": "With a deep breath, you lock your body off from the outside world--nothing gets in, nothing gets out.\n\nSealed System <color_red>cannot be active</color> with either Temperature Adaptability or Oxygen Absorption.",
+    "description": "With a deep breath, you lock your body off from the outside world.  Gas, poison, blood, bile, electricity--nothing gets in, nothing gets out.\n\nSealed System <color_red>cannot be active</color> with either Temperature Adaptability or Oxygen Absorption.",
     "message": "You take a deep breath and seal your lips.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -378,7 +378,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_val('spell_level', 'spell: biokin_sealed_system') * 2500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -474,12 +474,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_val('spell_level', 'spell: biokin_combat_dance') * 500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_val('spell_level', 'spell: biokin_combat_dance') * 1100) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
