@@ -17,23 +17,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_physical_enhance') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_physical') > -1 ? 0 : max((3500 - (u_val('spell_level', 'spell: biokin_physical_enhance') * 175)), 1250)"
+        "u_effect_intensity('effect_biokin_physical') > -1 ? 0 : max((3500 - (u_spell_level('biokin_physical_enhance') * 175)), 1250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_physical') > -1 ? 10 : max((120 -(u_val('spell_level', 'spell: biokin_physical_enhance') * 5.5)), 75)"
+        "u_effect_intensity('effect_biokin_physical') > -1 ? 10 : max((120 -(u_spell_level('biokin_physical_enhance') * 5.5)), 75)"
       ]
     },
     "learn_spells": {
@@ -62,23 +62,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 0 : max((1750 - (u_val('spell_level', 'spell: biokin_overcome_pain') * 75)), 850)"
+        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 0 : max((1750 - (u_spell_level('biokin_overcome_pain') * 75)), 850)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 10 : max((125 -(u_val('spell_level', 'spell: biokin_overcome_pain') * 7)), 50)"
+        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 10 : max((125 -(u_spell_level('biokin_overcome_pain') * 7)), 50)"
       ]
     },
     "learn_spells": { "biokin_armor_skin": 9, "biokin_climate_control": 12, "biokin_sealed_system": 18 }
@@ -100,23 +100,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 3600) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_breathe_skin') * 3600) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_breathe_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_breathe_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 0 : max((2500 - (u_val('spell_level', 'spell: biokin_breathe_skin') * 85)), 1200)"
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_breathe_skin') * 85)), 1200)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 10 : max((700 -(u_val('spell_level', 'spell: biokin_breathe_skin') * 6)), 25)"
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 10 : max((700 -(u_spell_level('biokin_breathe_skin') * 6)), 25)"
       ]
     },
     "learn_spells": { "biokin_armor_skin": 6, "biokin_enhance_mobility": 9, "biokin_sealed_system": 15 }
@@ -194,12 +194,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_armor_skin') * 800) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_armor_skin') * 800) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_armor_skin') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_armor_skin') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -229,23 +229,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 0 : max((3500 - (u_val('spell_level', 'spell: biokin_climate_control') * 175)), 1250)"
+        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 0 : max((3500 - (u_spell_level('biokin_climate_control') * 175)), 1250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 10 : max((250 -(u_val('spell_level', 'spell: biokin_climate_control') * 8.5)), 150)"
+        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 10 : max((250 -(u_spell_level('biokin_climate_control') * 8.5)), 150)"
       ]
     },
     "learn_spells": { "biokin_sealed_system": 6, "biokin_metabolism_enhance": 9 }
@@ -268,23 +268,23 @@
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 4500 ) + 30000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('biokin_enhance_mobility') * 4500 ) + 30000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 9000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('biokin_enhance_mobility') * 9000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 0 : max((4500 - (u_val('spell_level', 'spell: biokin_enhance_mobility') * 150)), 2500)"
+        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 0 : max((4500 - (u_spell_level('biokin_enhance_mobility') * 150)), 2500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 10 : max((275 -(u_val('spell_level', 'spell: biokin_enhance_mobility') * 15)), 50)"
+        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 10 : max((275 -(u_spell_level('biokin_enhance_mobility') * 15)), 50)"
       ]
     },
     "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
@@ -307,23 +307,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 0 : max((4500 - (u_val('spell_level', 'spell: biokin_hammerhand') * 225)), 2250)"
+        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 0 : max((4500 - (u_spell_level('biokin_hammerhand') * 225)), 2250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 10 : max((350 -(u_val('spell_level', 'spell: biokin_hammerhand') * 12.5)), 150)"
+        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 10 : max((350 -(u_spell_level('biokin_hammerhand') * 12.5)), 150)"
       ]
     }
   },
@@ -345,23 +345,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_reflex') > -1 ? 0 : max((5500 - (u_val('spell_level', 'spell: biokin_reflex_enhance') * 205)), 2250)"
+        "u_effect_intensity('effect_biokin_reflex') > -1 ? 0 : max((5500 - (u_spell_level('biokin_reflex_enhance') * 205)), 2250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_reflex') > -1 ? 10 : max((175 -(u_val('spell_level', 'spell: biokin_reflex_enhance') * 5.5)), 100)"
+        "u_effect_intensity('effect_biokin_reflex') > -1 ? 10 : max((175 -(u_spell_level('biokin_reflex_enhance') * 5.5)), 100)"
       ]
     },
     "learn_spells": { "biokin_combat_dance": 8, "biokin_hammerhand": 12, "biokin_perfected_motion": 15 }
@@ -389,12 +389,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_sealed_system') * 800) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -452,23 +452,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 25000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_metabolism_enhance') * 25000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 50000) + 675000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_metabolism_enhance') * 50000) + 675000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 0 : max((8000 - (u_val('spell_level', 'spell: biokin_metabolism_enhance') * 250)), 4000)"
+        "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 0 : max((8000 - (u_spell_level('biokin_metabolism_enhance') * 250)), 4000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: biokin_metabolism_enhance') * 13)), 50)"
+        "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 10 : max((250 -(u_spell_level('biokin_metabolism_enhance') * 13)), 50)"
       ]
     },
     "learn_spells": { "biokin_perfected_motion": 8 }
@@ -492,12 +492,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -528,12 +528,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",

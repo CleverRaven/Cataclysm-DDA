@@ -37,8 +37,6 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
-static const item_group_id Item_spawn_data_field( "field" );
-
 static const oter_str_id oter_hellmouth( "hellmouth" );
 static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
@@ -94,9 +92,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
             { "null",             &mapgen_null },
-            { "field",            &mapgen_field },
             { "forest",           &mapgen_forest },
-            { "field",            &mapgen_field },
             { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
@@ -154,54 +150,6 @@ void mapgen_null( mapgendata &dat )
             dat.m.set_radiation( point( i, j ), 0 );
         }
     }
-}
-
-// TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-static void ter_or_furn_set( map *m, const point &p, const ter_furn_id &tfid )
-{
-    if( tfid.ter != t_null ) {
-        m->ter_set( p, tfid.ter );
-    } else if( tfid.furn != f_null ) {
-        m->furn_set( p, tfid.furn );
-    }
-}
-
-/*
- * Default above ground non forested 'blank' area; typically a grassy field with a scattering of shrubs,
- *  but changes according to dat->region
- */
-void mapgen_field( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    // random area of increased vegetation. Or lava / toxic sludge / etc
-    const bool boosted_vegetation = dat.region.field_coverage.boost_chance > rng( 0, 1000000 );
-    const int &mpercent_bush = boosted_vegetation ?
-                               dat.region.field_coverage.boosted_mpercent_coverage :
-                               dat.region.field_coverage.mpercent_coverage;
-
-    // one dominant plant type ( for boosted_vegetation == true )
-    ter_furn_id altbush = dat.region.field_coverage.pick( true );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            // default is
-            m->ter_set( point( i, j ), dat.groundcover() );
-            // yay, a shrub ( or tombstone )
-            if( mpercent_bush > rng( 0, 1000000 ) ) {
-                if( boosted_vegetation && dat.region.field_coverage.boosted_other_mpercent > rng( 0, 1000000 ) ) {
-                    // already chose the lucky terrain/furniture/plant/rock/etc
-                    ter_or_furn_set( m, point( i, j ), altbush );
-                } else {
-                    // pick from weighted list
-                    ter_or_furn_set( m, point( i, j ), dat.region.field_coverage.pick( false ) );
-                }
-            }
-        }
-    }
-
-    // FIXME: take 'rock' out and add as regional biome setting
-    m->place_items( Item_spawn_data_field, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                    true, dat.when() );
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array )

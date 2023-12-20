@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "desert" ],
+    "om_terrain": [ "field" ],
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -51,17 +51,5 @@
       },
       "items": { "3": { "item": "field", "chance": 1 } }
     }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "desert",
-    "copy-from": "generic_open_land",
-    "name": "desert",
-    "sym": ".",
-    "color": "yellow",
-    "see_cost": 2,
-    "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
   }
 ]

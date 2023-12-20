@@ -39,15 +39,6 @@
       "furniture": { "f_region_flower": { "f_rack_coat": 1, "f_sign_warning": 1, "f_sign": 1 } }
     },
     "river_scale": 0.0,
-    "field_coverage": {
-      "percent_coverage": 0.1333,
-      "default_ter": "t_carpet_red",
-      "other": { "f_mutpoppy": 1 },
-      "boost_chance": 0.833,
-      "boosted_percent_coverage": 2.5,
-      "boosted_other": { "f_dandelion": 5.0 },
-      "boosted_other_percent": 50.0
-    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 1.0,
       "lake_size_min": 0,

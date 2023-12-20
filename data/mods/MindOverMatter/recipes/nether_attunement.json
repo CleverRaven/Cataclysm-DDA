@@ -15,14 +15,14 @@
     "result_eocs": [
       {
         "id": "EOC_CENTERING_MEDITATION",
-        "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "10" ] },
-        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "10" ] } ],
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "10" ] },
+        "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] } ],
         "false_effect": [
           {
             "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
             "type": "good"
           },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] }
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "=", "0" ] }
         ]
       }
     ]
@@ -52,7 +52,7 @@
           {
             "u_message": "You channel all of your powers into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, the strange feelings caused by using your powers vanish."
           },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "=", "0" ] },
           { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 }
         ]
       }

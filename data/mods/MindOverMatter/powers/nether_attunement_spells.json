@@ -14,7 +14,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_NETHER_ATTUNEMENT",
-    "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "<", "15" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
     "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD" } ],
     "false_effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD" } ]
   },
@@ -24,11 +24,11 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
     ]
   },
   {
@@ -37,15 +37,11 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      {
-        "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 ) * u_nether_attunement_power_scaling" ]
-      }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,3 ) * u_nether_attunement_power_scaling" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      {
-        "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 ) * u_nether_attunement_power_scaling" ]
-      }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 2,6 ) * u_nether_attunement_power_scaling" ] }
     ]
   },
   {
@@ -286,7 +282,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE",
-    "condition": { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "<", "15" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
     "effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_BELOW_THRESHOLD" } ],
     "false_effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_ABOVE_THRESHOLD" } ]
   },
@@ -296,11 +292,11 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
     ]
   },
   {
@@ -309,15 +305,11 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      {
-        "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 ) * u_nether_attunement_power_scaling" ]
-      }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,3 ) * u_nether_attunement_power_scaling" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      {
-        "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 ) * u_nether_attunement_power_scaling" ]
-      }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 2,6 ) * u_nether_attunement_power_scaling" ] }
     ]
   },
   {
@@ -566,7 +558,7 @@
     "effect_str": "downed",
     "shape": "blast",
     "extra_effects": [ { "id": "nether_attunement_everyone_dazed", "hit_self": true } ],
-    "min_aoe": { "math": [ "(clamp( (( u_val('vitamin', 'name:vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] }
+    "min_aoe": { "math": [ "(clamp( (( u_vitamin('vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] }
   },
   {
     "id": "nether_attunement_everyone_dazed",
@@ -578,7 +570,7 @@
     "effect": "attack",
     "effect_str": "psi_dazed",
     "shape": "blast",
-    "min_aoe": { "math": [ "(clamp( (( u_val('vitamin', 'name:vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] },
+    "min_aoe": { "math": [ "(clamp( (( u_vitamin('vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] },
     "min_duration": 200,
     "max_duration": 1500
   }
