@@ -474,52 +474,6 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "Weighted list 'default_groundcover' required for 'default'" );
     }
 
-    if( !jo.has_object( "field_coverage" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"field_coverage\": { … } required for default" );
-        }
-    } else {
-        JsonObject pjo = jo.get_object( "field_coverage" );
-        double tmpval = 0.0f;
-        if( !pjo.read( "percent_coverage", tmpval ) ) {
-            pjo.throw_error( "field_coverage: percent_coverage required" );
-        }
-        new_region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-        if( !pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
-            pjo.throw_error( "field_coverage: default_ter required" );
-        }
-        tmpval = 0.0f;
-        if( pjo.has_object( "other" ) ) {
-            for( const JsonMember member : pjo.get_object( "other" ) ) {
-                if( member.is_comment() ) {
-                    continue;
-                }
-                new_region.field_coverage.percent_str[member.name()] = member.get_float();
-            }
-        }
-        if( pjo.read( "boost_chance", tmpval ) && tmpval != 0.0f ) {
-            new_region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
-            if( !pjo.read( "boosted_percent_coverage", tmpval ) ) {
-                pjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
-            }
-            new_region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-            if( !pjo.read( "boosted_other_percent", tmpval ) ) {
-                pjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
-            }
-            new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
-            if( pjo.has_object( "boosted_other" ) ) {
-                for( const JsonMember member : pjo.get_object( "boosted_other" ) ) {
-                    if( member.is_comment() ) {
-                        continue;
-                    }
-                    new_region.field_coverage.boosted_percent_str[member.name()] = member.get_float();
-                }
-            } else {
-                pjo.throw_error( "boost_chance > 0 requires boosted_other { … }" );
-            }
-        }
-    }
-
     load_forest_mapgen_settings( jo, new_region.forest_composition, strict, false );
 
     load_forest_trail_settings( jo, new_region.forest_trail, strict, false );
@@ -699,52 +653,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
                 jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
             }
         }
-    }
-
-    JsonObject fieldjo = jo.get_object( "field_coverage" );
-    double tmpval = 0.0f;
-    if( fieldjo.read( "percent_coverage", tmpval ) ) {
-        region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-    }
-
-    fieldjo.read( "default_ter", region.field_coverage.default_ter_str );
-
-    for( const JsonMember member : fieldjo.get_object( "other" ) ) {
-        if( member.is_comment() ) {
-            continue;
-        }
-        region.field_coverage.percent_str[member.name()] = member.get_float();
-    }
-
-    if( fieldjo.read( "boost_chance", tmpval ) ) {
-        region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
-    }
-    if( fieldjo.read( "boosted_percent_coverage", tmpval ) ) {
-        if( region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f ) {
-            fieldjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
-        }
-
-        region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-    }
-
-    if( fieldjo.read( "boosted_other_percent", tmpval ) ) {
-        if( region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f ) {
-            fieldjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
-        }
-
-        region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
-    }
-
-    for( const JsonMember member : fieldjo.get_object( "boosted_other" ) ) {
-        if( member.is_comment() ) {
-            continue;
-        }
-        region.field_coverage.boosted_percent_str[member.name()] = member.get_float();
-    }
-
-    if( region.field_coverage.boost_chance > 0.0f &&
-        region.field_coverage.boosted_percent_str.empty() ) {
-        fieldjo.throw_error( "boost_chance > 0 requires boosted_other { … }" );
     }
 
     load_forest_mapgen_settings( jo, region.forest_composition, false, true );
@@ -1095,7 +1003,6 @@ void regional_settings::finalize()
             default_groundcover.add( pr.obj.id(), pr.weight );
         }
 
-        field_coverage.finalize();
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();

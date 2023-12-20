@@ -34,15 +34,6 @@
       },
       "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
     },
-    "field_coverage": {
-      "percent_coverage": 1.9333,
-      "default_ter": "t_sand",
-      "other": { "t_shrub": 0.4166, "f_mutpoppy": 5.3333, "f_mutcactus_test": 10.3333 },
-      "boost_chance": 2.833,
-      "boosted_percent_coverage": 12.5,
-      "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50.0 },
-      "boosted_other_percent": 20.0
-    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
