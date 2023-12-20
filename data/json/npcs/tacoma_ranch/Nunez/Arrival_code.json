@@ -50,7 +50,7 @@
         "7.;:89",
         "0a_bcd",
         "efghij",
-        "       "
+        "      "
       ],
       "//": "The stuff in 'ABCDE' should potentially also be made into some new furniture such as piles of stored wood or a propane tank, but this works for the moment.  The purpose is just to stop players from easily getting up to the back wall and interacting through it.",
       "terrain": {
@@ -63,7 +63,7 @@
         "7": "t_bullettrailer_wwall",
         ".": "t_bullettrailer_brownfloor",
         ":": "t_bullettrailer_brownfloor",
-        "8": "t_bullettrailer_brownfloor",
+        "8": "t_bullettrailer_innerdoor",
         "9": "t_bullettrailer_ewall",
         "0": "t_bullettrailer_wwall",
         "a": "t_bullettrailer_brownfloor",
@@ -89,7 +89,6 @@
         ".": "f_bullettrailer_cabinet",
         ";": "f_bullettrailer_sink",
         ":": "f_bullettrailer_desk",
-        "8": "f_bullettrailer_inner_door",
         "0": "f_bullettrailer_table_bottom",
         "a": "f_bullettrailer_minisofa",
         "b": "f_bullettrailer_bed_foot",

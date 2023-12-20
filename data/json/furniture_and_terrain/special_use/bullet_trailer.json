@@ -75,6 +75,13 @@
   },
   {
     "type": "terrain",
+    "id": "t_bullettrailer_inner_eastcorner",
+    "copy-from": "t_bullettrailer_inner_T",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray"
+  },
+  {
+    "type": "terrain",
     "id": "t_bullettrailer_swall_westcorner",
     "name": "bullet trailer exterior wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
@@ -195,7 +202,7 @@
     "coverage": 100,
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
     "looks_like": "t_door_metal_c",
-    "open": "f_bullettrailer_inner_door_o",
+    "open": "t_bullettrailer_inner_door_o",
     "bash": {
       "str_min": 10,
       "str_max": 70,
@@ -215,15 +222,14 @@
     "id": "t_bullettrailer_inner_door_o",
     "name": "trailer bathroom door",
     "move_cost": 0,
-    "required_str": -1,
     "symbol": "/",
     "color": "light_gray",
     "coverage": 30,
     "looks_like": "t_door_metal_o",
     "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE", "TRANSPARENT" ],
-    "close": "f_bullettrailer_inner_door",
-    "copy-from": "f_bullettrailer_inner_door",
+    "close": "t_bullettrailer_inner_door",
+    "copy-from": "t_bullettrailer_inner_door",
     "bash": {
       "str_min": 10,
       "str_max": 70,
