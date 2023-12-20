@@ -1866,7 +1866,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     const bool w_river_bank = is_river_bank( dat.west() );
 
     // This is length we end up pushing things about by as a baseline.
-    const int sector_length = SEEX * 2 / 3;
+    const int sector_length = SEEX - 1;
 
     // Define the corners of the map. These won't change.
     static constexpr point nw_corner{};
@@ -1882,8 +1882,10 @@ void mapgen_ocean_shore( mapgendata &dat )
     point sw = sw_corner;
 
     std::vector<std::vector<point>> line_segments;
-
-    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
+    int ns_direction_adjust = 0;
+    int ew_direction_adjust = 0;
+    int sand_margin = dat.region.overmap_ocean.sandy_beach_width / 2;
+    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual ocean.
     if( n_ocean ) {
         nw.y += sector_length;
         ne.y += sector_length;
@@ -1960,13 +1962,18 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             if( w_river_bank ) {
                 line_segments.push_back( { sw, w } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust -= sand_margin;
             }
 
             if( n_river_bank ) {
                 line_segments.push_back( { n, ne } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust += sand_margin;
             }
-
             line_segments.push_back( { n, w } );
+            ns_direction_adjust -= sand_margin;
+            ew_direction_adjust -= sand_margin;
         }
     }
 
@@ -1986,13 +1993,19 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             if( e_river_bank ) {
                 line_segments.push_back( { se, e } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust += sand_margin;
             }
 
             if( n_river_bank ) {
                 line_segments.push_back( { n, nw } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust -= sand_margin;
             }
 
             line_segments.push_back( { n, e } );
+            ns_direction_adjust -= sand_margin;
+            ew_direction_adjust += sand_margin;
         }
     }
 
@@ -2012,13 +2025,18 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             if( w_river_bank ) {
                 line_segments.push_back( { nw, w } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust -= sand_margin;
             }
 
             if( s_river_bank ) {
                 line_segments.push_back( { s, se } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust += sand_margin;
             }
-
             line_segments.push_back( { s, w } );
+            ns_direction_adjust += sand_margin;
+            ew_direction_adjust -= sand_margin;
         }
     }
 
@@ -2038,13 +2056,19 @@ void mapgen_ocean_shore( mapgendata &dat )
 
             if( e_river_bank ) {
                 line_segments.push_back( { ne, e } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust += sand_margin;
             }
 
             if( s_river_bank ) {
                 line_segments.push_back( { s, sw } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust -= sand_margin;
             }
 
             line_segments.push_back( { s, e } );
+            ns_direction_adjust += sand_margin;
+            ew_direction_adjust += sand_margin;
         }
     }
 
@@ -2053,19 +2077,24 @@ void mapgen_ocean_shore( mapgendata &dat )
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
+
     if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+        ns_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { nw, ne } );
     }
 
     if( ne.x != ne_corner.x || se.x != se_corner.x ) {
+        ew_direction_adjust += sand_margin * 2;
         line_segments.push_back( { ne, se } );
     }
 
     if( se.y != se_corner.y || sw.y != sw_corner.y ) {
+        ns_direction_adjust += sand_margin * 2;
         line_segments.push_back( { se, sw } );
     }
 
     if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
+        ew_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { sw, nw } );
     }
 
@@ -2075,16 +2104,51 @@ void mapgen_ocean_shore( mapgendata &dat )
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
-        std::vector<point> points = line_to( from, to );
+        point from_mod = from;
+        point to_mod = to;
+        if( from.x != 0 && from.x != SEEX * 2 - 1 ) {
+            from_mod.x += ew_direction_adjust;
+        }
+        if( from.y != 0 && from.y != SEEX * 2 - 1 ) {
+            from_mod.y += ns_direction_adjust;
+        }
+        if( to.x != 0 && to.x != SEEX * 2 - 1 ) {
+            to_mod.x += ew_direction_adjust;
+        }
+        if( to.y != 0 && to.y != SEEX * 2 - 1 ) {
+            to_mod.y += ns_direction_adjust;
+        }
+        std::vector<point> points = line_to( from_mod, to_mod );
         for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, 1 ) ) {
+            for( const point &bp : closest_points_first( p, sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
-                // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
-                // has put down a t_water_sh, and we need to be able to flood-fill over that.
+                m->ter_set( bp, t_swater_sh );
+                m->furn_set( bp, f_null );
+            }
+        }
+    };
+    // This will draw our sandy beach coastline from the "from" point to the "to" point.
+    const auto draw_sand = [&]( const point & from, const point & to ) {
+        std::vector<point> points = line_to( from, to );
+        for( point &p : points ) {
+            for( const point &bp : closest_points_first( p, sand_margin ) ) {
+                if( !map_boundaries.contains( bp ) ) {
+                    continue;
+                }
+                // Use t_null for now instead of t_sand, because sometimes our extended terrain
+                // has put down a t_sand, and we need to be able to flood-fill over that.
                 m->ter_set( bp, t_null );
                 m->furn_set( bp, f_null );
+            }
+            for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
+                if( !map_boundaries.contains( bp ) ) {
+                    continue;
+                }
+                if( m->ter( bp ) == t_swater_sh ) {
+                    m->ter_set( bp, t_swater_surf );
+                }
             }
         }
     };
@@ -2092,7 +2156,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
     const auto jittered_midpoint = [&]( const point & from, const point & to ) {
-        const int jitter = rl_dist( from, to ) / 4;
+        const int jitter = rl_dist( from, to ) / 5;
         const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
                               ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
         return midpoint;
@@ -2100,7 +2164,9 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     // For each of our valid shoreline line segments, generate a slightly more interesting
     // set of line segments by splitting the line into four segments with jittered
-    // midpoints, and then draw shallow water for four each of those.
+    // midpoints.
+    // Draw water after the sand to make sure we don't get too much sand.  Everyone hates sand,
+    // it's coarse and - you know what, never mind.
     for( auto &ls : line_segments ) {
         const point mp1 = jittered_midpoint( ls[0], ls[1] );
         const point mp2 = jittered_midpoint( ls[0], mp1 );
@@ -2110,6 +2176,10 @@ void mapgen_ocean_shore( mapgendata &dat )
         draw_shallow_water( mp2, mp1 );
         draw_shallow_water( mp1, mp3 );
         draw_shallow_water( mp3, ls[1] );
+        draw_sand( ls[0], mp2 );
+        draw_sand( mp2, mp1 );
+        draw_sand( mp1, mp3 );
+        draw_sand( mp3, ls[1] );
     }
 
     // Now that we've done our ground mapgen and laid down a contiguous shoreline of shallow water,
@@ -2121,7 +2191,7 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != t_null;
+        return m->ter( p ) != t_null && m->ter( p ) != t_swater_sh  && m->ter( p ) != t_swater_surf;
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {
@@ -2151,9 +2221,9 @@ void mapgen_ocean_shore( mapgendata &dat )
         fill_deep_water( se_corner );
     }
 
-    // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
-    // pick up shallow water from our extended terrain. Now turn those nulls into t_swater_sh.
-    m->translate( t_null, t_swater_sh );
+    // We previously placed our sand but actually did a t_null instead to make sure that we didn't
+    // pick up sand from our extended terrain. Now turn those nulls into t_sand.
+    m->translate( t_null, t_sand );
 }
 
 void mapgen_ravine_edge( mapgendata &dat )

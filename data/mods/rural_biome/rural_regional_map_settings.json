@@ -194,7 +194,8 @@
       "ocean_start_north": 500,
       "ocean_start_east": 10,
       "ocean_start_west": 1000,
-      "ocean_start_south": 0
+      "ocean_start_south": 0,
+      "sandy_beach_width": 6
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
