@@ -59,6 +59,7 @@
 #include "iuse_actor.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -2364,7 +2365,7 @@ struct weldrig_hack {
         if( !pseudo.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
             debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
                       mag.typeId().str(), pseudo.typeId().str() );
-            return 0;
+            return null_item_reference();
         }
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
                          pseudo.ammo_capacity( ammo_battery ) ) );
