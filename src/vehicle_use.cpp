@@ -1785,7 +1785,7 @@ int vehicle::prepare_tool( item &tool ) const
     }
     itype_id mag_type;
     if( tool.can_link_up() ) {
-        mag_type = itype_id( "pseudo_magazine" );
+        mag_type = itype_pseudo_magazine;
     } else {
         mag_type = tool.magazine_default();
     }
