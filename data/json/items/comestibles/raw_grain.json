@@ -115,7 +115,7 @@
     "freezing_point": -274,
     "symbol": "%",
     "description": "An empty corn cob grinded and processed with alkaline solution, ready for consumption by cattle.",
-    "price": -1,
+    "price": 1,
     "price_postapoc": 1,
     "material": [ "veggy", "wood" ],
     "volume": "250 ml",
