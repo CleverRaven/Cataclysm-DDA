@@ -1580,8 +1580,8 @@ void basecamp::choose_new_leader()
     time_point next_succession_chance = last_succession_time + succession_cooldown;
     int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
     if( next_succession_chance >= calendar::turn ) {
-        popup( _( "It's too early for that.  A new leader can be chosen in %s days." ),
-               to_days<int>( next_succession_chance - calendar::turn ) );
+        popup( _( "It's too early for that.  A new leader can be chosen in %s." ),
+               to_string( next_succession_chance - calendar::turn ) );
         return;
     }
     std::vector<std::string> choices;
