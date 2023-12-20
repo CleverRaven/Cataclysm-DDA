@@ -205,7 +205,7 @@
       [ [ "checkpaper", 1 ] ],
       [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
       [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_mam", 12 ] ]
+      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
     ]
   },
   {
