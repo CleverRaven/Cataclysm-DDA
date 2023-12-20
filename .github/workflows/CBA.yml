@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+  merge_group:
   workflow_dispatch:
 
 # Mixing in event_name so that a master push and a workflow dispatch can run at the same time.
