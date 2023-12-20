@@ -3,6 +3,7 @@
 #define CATA_SRC_A_STAR_H
 
 #include <algorithm>
+#include <limits>
 #include <optional>
 #include <queue>
 #include <tuple>
@@ -126,7 +127,7 @@ std::optional<Node> AStarState<Node, Cost, VisitedSet, BestPathMap>::get_next( C
             return std::nullopt;
         }
 
-        if( const auto [_, inserted] = visited_.emplace( current ); !inserted ) {
+        if( const auto& [_, inserted] = visited_.emplace( current ); !inserted ) {
             continue;
         }
         return current;
