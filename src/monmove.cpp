@@ -177,7 +177,7 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
         auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
-        for( vehicle_part * &part : cargo_parts ) {
+        for( vehicle_part*&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
             if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
