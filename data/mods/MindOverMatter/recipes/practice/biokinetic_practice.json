@@ -38,6 +38,7 @@
     "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -86,6 +87,7 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -115,6 +117,7 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -145,7 +148,7 @@
     "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 6 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 6 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -174,6 +177,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -205,7 +209,7 @@
     "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 7 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 7 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -237,6 +241,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -270,7 +275,7 @@
     "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 8 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -299,6 +304,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -337,7 +343,7 @@
     "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 8 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -366,6 +372,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -400,7 +407,7 @@
     "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 9 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 9 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -429,6 +436,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -460,7 +468,7 @@
     "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 9 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 9 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -489,6 +497,7 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -522,7 +531,7 @@
     "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 10 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -551,6 +560,7 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -582,7 +592,7 @@
     "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 11 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -612,6 +622,7 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -643,7 +654,7 @@
     "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 11 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -672,6 +683,7 @@
     "difficulty": 7,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -703,7 +715,7 @@
     "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 12 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 12 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
@@ -733,6 +745,7 @@
     "difficulty": 8,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_biokinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -764,7 +777,7 @@
     "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 13 },
+        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 13 },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
