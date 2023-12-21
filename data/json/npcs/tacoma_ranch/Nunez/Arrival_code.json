@@ -7,7 +7,7 @@
       "and": [
         { "math": [ "nunez_travel_stage", "==", "1" ] },
         { "math": [ "nunez_travel_timer", "<", "u_val('time_since_cataclysm: days')" ] }
-        ]
+      ]
     },
     "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
     "effect": [

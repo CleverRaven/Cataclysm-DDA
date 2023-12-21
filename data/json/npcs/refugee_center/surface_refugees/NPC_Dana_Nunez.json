@@ -118,7 +118,12 @@
       {
         "text": "I spoke to the foreman over at Tacoma Ranch.  If you're willing to put in the work, they'll find some work for you over there.",
         "topic": "TALK_REFUGEE_Dana_Tacoma2",
-        "condition": { "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } ] },
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" }
+          ]
+        },
         "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Dana_Background" },
@@ -518,9 +523,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Tacoma2",
     "dynamic_line": "All right.  I've taken some time to think about it, and I'm willing to go.  I'm sure they'll have use for a baker over there, after all, and if I don't get out of this place there's a very real chance I'm going to snap.  You can go let Pablo know first hand, if you want; he's been pretty excited about the idea.",
-    "responses": [
-      { "text": "Sure, I'll go tell him.  Cool!", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Sure, I'll go tell him.  Cool!", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

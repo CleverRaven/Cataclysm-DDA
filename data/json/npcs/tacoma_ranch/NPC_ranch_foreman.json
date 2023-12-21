@@ -41,12 +41,17 @@
       {
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
-        "condition": { "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } ] }
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
+          ]
+        }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
-        "condition": { "not": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }}
+        "condition": { "not": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
