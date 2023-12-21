@@ -5090,14 +5090,20 @@ void Character::update_needs( int rate_multiplier )
 
     if( get_bp_effect_mod() > 0 ) {
         modify_bp_effect_mod( -std::min( get_bp_effect_mod(), rate_multiplier ) );
+    } else if( get_bp_effect_mod() < 0 ) {
+        modify_bp_effect_mod( std::min( -get_bp_effect_mod(), rate_multiplier ) );
     }
 
     if( get_heartrate_effect_mod() > 0 ) {
         modify_heartrate_effect_mod( -std::min( get_heartrate_effect_mod(), rate_multiplier ) );
+    } else if( get_heartrate_effect_mod() < 0 ) {
+        modify_heartrate_effect_mod( std::min( -get_heartrate_effect_mod(), rate_multiplier ) );
     }
 
     if( get_respiration_effect_mod() > 0 ) {
         modify_respiration_effect_mod( -std::min( get_respiration_effect_mod(), rate_multiplier ) );
+    } else if( get_respiration_effect_mod() < 0 ) {
+        modify_respiration_effect_mod( std::min( -get_respiration_effect_mod(), rate_multiplier ) );
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
