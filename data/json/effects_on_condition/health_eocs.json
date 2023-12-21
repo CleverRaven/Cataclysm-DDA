@@ -1,46 +1,38 @@
 [
-    {
-      "type": "effect_on_condition",
-      "id": "health_low_hr",
-      "recurrence": "1 minute",
-      "condition": { "math": [ "u_val('heart_rate')", "<", "40" ] },
-      "deactivate_condition": { "math": [ "u_val('heart_rate')", ">", "40" ] },
-      "effect": [
-      { "u_message": "You feel sleepy and tired.  Your heart beats very slowly.", "type": "info" }
-      ]
-    },
-    {
-        "type": "effect_on_condition",
-        "id": "health_high_hr",
-        "recurrence": "1 minute",
-        "condition": { "math": [ "u_val('heart_rate')", ">", "180" ] },
-        "deactivate_condition": { "math": [ "u_val('heart_rate')", "<", "180" ] },
-        "effect": [
-        { "u_message": "You can feel your heart thumping in your chest, and you feel dizzy.", "type": "info" }
-        ],
-        "false_effect": [
-        { "u_message": "Your heart feels normal again.", "type": "info" }
-        ]
-    },
-    {
-        "type": "effect_on_condition",
-        "id": "health_low_bp",
-        "recurrence": "1 minute",
-        "condition": { "math": [ "u_val('blood_pressure')", "<", "80" ] },
-        "deactivate_condition": { "math": [ "u_val('blood_pressure')", ">", "80" ] },
-        "effect": [
-        { "u_message": "You feel dizzy and your blood pressure is low.", "type": "info" }
-        ]
-    },
-    {
-        "type": "effect_on_condition",
-        "id": "health_high_bp",
-        "recurrence": "1 minute",
-        "condition": { "math": [ "u_val('blood_pressure')", ">", "120" ] },
-        "deactivate_condition": { "math": [ "u_val('blood_pressure')", "<", "120" ] },
-        "effect": [
-        { "u_message": "You feel dizzy and your blood pressure is high.", "type": "info" }
-        ]
-    }
-  ]
-  
+  {
+    "type": "effect_on_condition",
+    "id": "health_low_hr",
+    "recurrence": "1 minute",
+    "condition": { "math": [ "u_val('heart_rate')", "<", "40" ] },
+    "deactivate_condition": { "math": [ "u_val('heart_rate')", ">", "40" ] },
+    "effect": [ { "u_message": "You feel sleepy and weak.  Your heart is beating very slowly.", "type": "info" } ],
+    "false_effect": [ { "u_message": "Your heart feels normal again.", "type": "info" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "health_high_hr",
+    "recurrence": "1 minute",
+    "condition": { "math": [ "u_val('heart_rate')", ">", "140" ] },
+    "deactivate_condition": { "math": [ "u_val('heart_rate')", "<", "140" ] },
+    "effect": [ { "u_message": "You can feel your heart thumping in your chest. It feels tight.", "type": "info" } ],
+    "false_effect": [ { "u_message": "Your heart feels normal again.", "type": "info" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "health_low_bp",
+    "recurrence": "1 minute",
+    "condition": { "math": [ "u_val('blood_pressure')", "<", "80" ] },
+    "deactivate_condition": { "math": [ "u_val('blood_pressure')", ">", "80" ] },
+    "effect": [ { "u_message": "You feel dizzy and weak.", "type": "info" } ],
+    "false_effect": [ { "u_message": "You feel normal again.", "type": "info" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "health_high_bp",
+    "recurrence": "1 minute",
+    "condition": { "math": [ "u_val('blood_pressure')", ">", "120" ] },
+    "deactivate_condition": { "math": [ "u_val('blood_pressure')", "<", "120" ] },
+    "effect": [ { "u_message": "Your head hurts, and everything looks blurry.", "type": "info" } ],
+    "false_effect": [ { "u_message": "You feel normal again.", "type": "info" } ]
+  }
+]
