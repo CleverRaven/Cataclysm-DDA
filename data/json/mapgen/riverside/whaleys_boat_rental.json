@@ -76,7 +76,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "predecessor_mapgen": "lake_shore",
+      "fallback_predecessor_mapgen": "lake_shore",
       "rows": [
         "      ---s              ",
         "  |||||w|+||___________ ",
@@ -160,7 +160,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "predecessor_mapgen": "lake_shore",
+      "fallback_predecessor_mapgen": "lake_shore",
       "rows": [
         "         ssssssssssss   ",
         "         s--s----s--s   ",
@@ -244,7 +244,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "predecessor_mapgen": "lake_shore",
+      "fallback_predecessor_mapgen": "lake_shore",
       "rows": [
         "         sss            ",
         "         sss   ---      ",

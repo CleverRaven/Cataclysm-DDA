@@ -983,7 +983,7 @@
     "sym": "d",
     "color": "white",
     "see_cost": 1,
-    "flags": [ "LAKE" ]
+    "flags": [ "LAKE", "OCEAN", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -993,7 +993,7 @@
     "sym": "d",
     "color": "white",
     "see_cost": 1,
-    "flags": [ "LAKE_SHORE" ]
+    "flags": [ "LAKE_SHORE", "OCEAN_SHORE", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

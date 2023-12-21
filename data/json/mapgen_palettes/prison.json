@@ -25,7 +25,7 @@
       "w": "t_metal_grate_window_noglass",
       "|": "t_brick_wall",
       "│": "t_concrete_wall",
-      "`": "t_water_dp",
+      "`": "t_swater_dp",
       "/": "t_gutter_downspout"
     },
     "furniture": {
@@ -123,6 +123,9 @@
       "`": { "monster": "mon_zhark", "chance": 1 },
       ":": { "monster": "mon_dog_gshepherd", "chance": 1 },
       "U": { "monster": "mon_dog_gshepherd", "chance": 10 }
+    },
+    "nested": {
+      "`": { "chunks": [ "1x1_water_dp" ], "predecessors": [ { "om_terrain": "lake", "om_terrain_match_type": "PREFIX" } ] }
     }
   },
   {

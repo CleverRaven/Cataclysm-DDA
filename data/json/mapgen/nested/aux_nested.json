@@ -440,5 +440,17 @@
       "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 7, "y2": 7 } ],
       "terrain": { "o": "t_open_air", "?": [ [ "t_open_air", 1 ], [ "t_null", 2 ] ] }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_water_sh",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "~" ], "terrain": { "~": "t_water_sh" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_water_dp",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "`" ], "terrain": { "`": "t_water_dp" } }
   }
 ]

@@ -6753,14 +6753,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     }
 
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
-        // If this special has the LAKE flag and the overmap doesn't have any
-        // lake terrain, then remove this special from the candidates for this
+        // If this special has the LAKE or OCEAN flag and the overmap doesn't have any
+        // appropriate terrain, then remove this special from the candidates for this
         // overmap.
-        if( iter->special_details->has_flag( "LAKE" ) && !overmap_has_lake ) {
-            iter = enabled_specials.erase( iter );
-            continue;
-        }
-        if( iter->special_details->has_flag( "OCEAN" ) && !overmap_has_ocean ) {
+        if( ( iter->special_details->has_flag( "LAKE" ) && !overmap_has_lake ) || ( iter->special_details->has_flag( "OCEAN" ) && !overmap_has_ocean ) ) {
             iter = enabled_specials.erase( iter );
             continue;
         }

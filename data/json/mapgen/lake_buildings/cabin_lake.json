@@ -181,8 +181,8 @@
         "/": "t_region_soil",
         "M": "t_region_soil",
         "U": "t_region_soil",
-        "~": "t_water_dp",
-        "-": "t_water_sh",
+        "~": "t_swater_dp",
+        "-": "t_swater_sh",
         ".": [ [ "t_region_groundcover", 36 ], "t_region_shrub" ],
         "|": "t_wall_log",
         "0": "t_window_domestic",
@@ -197,6 +197,10 @@
         "t": "f_table",
         "x": "f_metal_butcher_rack",
         "J": "f_kiln_empty"
+      },
+      "nested": {
+        "-": { "chunks": [ "1x1_water_sh" ], "predecessors": [ { "om_terrain": "lake", "om_terrain_match_type": "PREFIX" } ] },
+        "~": { "chunks": [ "1x1_water_dp" ], "predecessors": [ { "om_terrain": "lake", "om_terrain_match_type": "PREFIX" } ] }
       },
       "items": {
         "r": { "item": "fishing_items", "chance": 90, "repeat": [ 2, 4 ] },
@@ -248,38 +252,25 @@
     "method": "json",
     "om_terrain": "lake_cabin_water",
     "object": {
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
+      "predecessor_mapgen": "lake_surface",
       "place_vehicles": [
         { "vehicle": "lake", "x": 17, "y": 5, "rotation": 180, "chance": 20, "status": 3 },
         { "vehicle": "lake", "x": 2, "y": 18, "rotation": 270, "chance": 20, "status": 3 },
         { "vehicle": "lake", "x": 18, "y": 18, "rotation": 270, "chance": 20, "status": 3 }
-      ],
-      "terrain": { "~": "t_water_dp" }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "ocean_cabin_water",
+    "object": {
+      "predecessor_mapgen": "ocean_surface",
+      "place_vehicles": [
+        { "vehicle": "lake", "x": 17, "y": 5, "rotation": 180, "chance": 20, "status": 3 },
+        { "vehicle": "lake", "x": 2, "y": 18, "rotation": 270, "chance": 20, "status": 3 },
+        { "vehicle": "lake", "x": 18, "y": 18, "rotation": 270, "chance": 20, "status": 3 }
+      ]
     }
   }
 ]

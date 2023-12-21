@@ -121,7 +121,7 @@
         "u": "t_linoleum_white",
         "f": "t_linoleum_white",
         "o": "t_linoleum_white",
-        "`": "t_water_dp",
+        "`": "t_swater_dp",
         "!": "t_dock",
         "#": "t_guardrail",
         "'": "t_concrete",
@@ -161,6 +161,9 @@
         "Q": "f_trashcan",
         "S": "f_sofa",
         "T": "f_table"
+      },
+      "nested": {
+        "`": { "chunks": [ "1x1_water_dp" ], "predecessors": [ { "om_terrain": "lake", "om_terrain_match_type": "PREFIX" } ] }
       },
       "toilets": { "&": {  } },
       "place_vendingmachines": [

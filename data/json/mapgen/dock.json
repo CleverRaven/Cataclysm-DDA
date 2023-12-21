@@ -10,7 +10,7 @@
     "om_terrain": [ "lake_dock_small" ],
     "weight": 1000,
     "object": {
-      "predecessor_mapgen": "lake_surface",
+      "fallback_predecessor_mapgen": "lake_surface",
       "rows": [
         "                        ",
         "                        ",
@@ -47,7 +47,7 @@
     "om_terrain": [ "lake_dock_small" ],
     "weight": 750,
     "object": {
-      "predecessor_mapgen": "lake_surface",
+      "fallback_predecessor_mapgen": "lake_surface",
       "rows": [
         "                        ",
         "                        ",
@@ -84,7 +84,7 @@
     "method": "json",
     "om_terrain": [ "lake_shore_dock_small" ],
     "object": {
-      "predecessor_mapgen": "lake_shore",
+      "fallback_predecessor_mapgen": "lake_shore",
       "rows": [
         "           dd           ",
         "           dd           ",
