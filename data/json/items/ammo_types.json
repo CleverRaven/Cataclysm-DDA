@@ -7,9 +7,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "700nx",
-    "name": ".700 Nitro Express",
-    "default": "700nx"
+    "id": "458wm",
+    "name": ".458 Winchester Magnum",
+    "default": "458wm"
   },
   {
     "type": "ammunition_type",
@@ -219,7 +219,7 @@
     "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
-    "default": "45colt_jhp"
+    "default": "45colt_cowboy"
   },
   {
     "type": "ammunition_type",
@@ -261,7 +261,7 @@
     "type": "ammunition_type",
     "id": "303",
     "name": ".303 British",
-    "default": "303_bthp"
+    "default": "303_fmjbt"
   },
   {
     "type": "ammunition_type",

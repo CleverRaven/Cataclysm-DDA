@@ -24,11 +24,11 @@
       { "value": "FOOTSTEP_NOISE", "multiply": 1 },
       {
         "value": "KNOCKBACK_RESIST",
-        "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
+        "add": { "math": [ "(( u_spell_level('stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
       },
       {
         "value": "KNOCKDOWN_RESIST",
-        "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
+        "add": { "math": [ "(( u_spell_level('stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
       }
     ]
   },

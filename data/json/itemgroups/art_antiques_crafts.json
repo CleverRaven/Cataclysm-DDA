@@ -204,7 +204,6 @@
     "id": "antique_rare",
     "subtype": "distribution",
     "entries": [
-      { "item": "trex_gun", "prob": 4 },
       { "item": "helmet_army_outdated", "prob": 5 },
       { "item": "spiral_stone", "prob": 2 },
       { "item": "kris", "prob": 2 },

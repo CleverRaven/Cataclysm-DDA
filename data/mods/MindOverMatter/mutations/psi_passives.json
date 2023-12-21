@@ -27,6 +27,7 @@
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
     "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 1.05 ], [ "vitB", 1.05 ], [ "vitC", 1.05 ], [ "calcium", 1.05 ], [ "iron", 1.05 ] ] ] ],
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
@@ -53,6 +54,7 @@
     "hearing_modifier": 1.2,
     "flags": [ "ENHANCED_VISION", "WATCH" ],
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
@@ -69,6 +71,7 @@
     "points": 0,
     "description": "Your powers help protect you from electrical damage and slightly reduce the intensity of pain you feel.",
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
@@ -87,6 +90,7 @@
     "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
     "player_display": true,
+    "valid": false,
     "purifiable": false
   },
   {
@@ -110,6 +114,7 @@
       { "part": "torso", "ignored": 10 }
     ],
     "player_display": true,
+    "valid": false,
     "purifiable": false
   },
   {

@@ -5,6 +5,21 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "artifact_teleportitis_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "artifact_slow_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "recipe_mil_augs",
+    "type": "MIGRATION",
+    "replace": "recipe_lab_elec"
+  },
+  {
     "id": "ar15_223long",
     "type": "MIGRATION",
     "replace": "modular_ar15"
@@ -450,5 +465,30 @@
     "id": "greasegun32mag",
     "type": "MIGRATION",
     "replace": "greasegun30mag"
+  },
+  {
+    "id": "700nx",
+    "type": "MIGRATION",
+    "replace": "458wm"
+  },
+  {
+    "id": "reloaded_700nx",
+    "type": "MIGRATION",
+    "replace": "reloaded_458wm"
+  },
+  {
+    "id": "bp_700nx",
+    "type": "MIGRATION",
+    "replace": "bp_458wm"
+  },
+  {
+    "id": "700nx_casing",
+    "type": "MIGRATION",
+    "replace": "458wm_casing"
+  },
+  {
+    "id": "trex_gun",
+    "type": "MIGRATION",
+    "replace": "win70_458"
   }
 ]

@@ -79,7 +79,7 @@
           "450": 16,
           "338lapua": 16,
           "50": 16,
-          "700nx": 16
+          "458wm": 16
         },
         "moves": 20,
         "volume_encumber_modifier": 0.3
@@ -207,7 +207,7 @@
           "450": 4,
           "338lapua": 4,
           "50": 4,
-          "700nx": 4
+          "458wm": 4
         },
         "moves": 20,
         "volume_encumber_modifier": 0.3

@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_val('vitamin', 'name:dreamer_vit')", ">=", "600" ] },
+    "condition": { "math": [ "u_vitamin('dreamer_vit')", ">=", "600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
-      { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "600" ] },
+      { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
       {
         "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
