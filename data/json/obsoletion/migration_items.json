@@ -5,6 +5,11 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "minispeargun",
+    "type": "MIGRATION",
+    "replace": "speargun"
+  },
+  {
     "id": "artifact_teleportitis_aura",
     "type": "MIGRATION",
     "replace": "oxygen"
