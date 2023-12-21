@@ -130,7 +130,7 @@ void kill_advanced_inv()
 
 void temp_hide_advanced_inv()
 {
-    if ( advinv ) {
+    if( advinv ) {
         advinv->temp_hide();
     }
 }
