@@ -35,7 +35,7 @@
       { "id": "biokin_flexibility", "level": 3 },
       { "id": "biokin_adrenaline", "level": 2 }
     ],
-    "recipes": [ "practice_biokin_breathe_skin", "practice_biokin_dash", "practice_biokin_flexibility", "practice_biokin_adrenaline"],
+    "recipes": [ "practice_biokin_overcome_pain", "practice_biokin_physical_enhance", "practice_biokin_breathe_skin", "practice_biokin_dash", "practice_biokin_flexibility", "practice_biokin_adrenaline"],
     "items": {
       "both": {
         "items": [ "jacket_light", "jeans", "socks", "cleats", "sports_drink", "matrix_crystal_drained" ],
