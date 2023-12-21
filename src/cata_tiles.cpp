@@ -1381,20 +1381,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
     const point half_tile( tile_width / 2, 0 );
     const point quarter_tile( tile_width / 4, tile_height / 4 );
-    if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
-        for( const wrapped_vehicle &elem : here.get_vehicles() ) {
-            const vehicle &veh = *elem.v;
-            const point veh_pos = veh.global_pos3().xy();
-            for( const auto &overlay_data : veh.get_debug_overlay_data() ) {
-                const point pt = veh_pos + std::get<0>( overlay_data );
-                const int color = std::get<1>( overlay_data );
-                const std::string &text = std::get<2>( overlay_data );
-                overlay_strings.emplace( player_to_screen( pt ),
-                                         formatted_text( text, color,
-                                                 text_alignment::left ) );
-            }
-        }
-    }
     const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {
         return np.y < min_visible.y || np.y > max_visible.y ||
                np.x < min_visible.x || np.x > max_visible.x ||
@@ -1416,6 +1402,21 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         here.draw_points_cache.clear();
         here.overlay_strings_cache.clear();
         here.color_blocks_cache = {};
+
+        if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
+            for( const wrapped_vehicle &elem : here.get_vehicles() ) {
+                const vehicle &veh = *elem.v;
+                const point veh_pos = veh.global_pos3().xy();
+                for( const auto &overlay_data : veh.get_debug_overlay_data() ) {
+                    const point pt = veh_pos + std::get<0>( overlay_data );
+                    const int color = std::get<1>( overlay_data );
+                    const std::string &text = std::get<2>( overlay_data );
+                    overlay_strings.emplace( player_to_screen( pt ),
+                                             formatted_text( text, color,
+                                                     text_alignment::left ) );
+                }
+            }
+        }
 
         // Generate new draw points
         creature_tracker &creatures = get_creature_tracker();
@@ -1451,11 +1452,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             ll = lit_level::DARK;
                             invisible[0] = true;
                         } else {
-                            if( is_center_z && would_apply_vision_effects( offscreen_type ) ) {
+                            if( would_apply_vision_effects( offscreen_type ) ) {
                                 here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
                                         tile_render_info::vision_effect{ offscreen_type } );
                             }
-                            continue;
+                            break;
                         }
                     } else {
                         ll = ch2.visibility_cache[x][y];
@@ -1632,11 +1633,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                     || you.sees_with_specials( *critter ) ) ) ) {
                                 invisible[0] = true;
                             } else {
-                                if( is_center_z ) {
-                                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
-                                            tile_render_info::vision_effect{ vis_type } );
-                                }
-                                continue;
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                                        tile_render_info::vision_effect{ vis_type } );
+                                break;
                             }
                         }
                     }
