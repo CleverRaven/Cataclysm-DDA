@@ -46,6 +46,7 @@
     "nested_mapgen_id": "nunez_trailer",
     "//": "Nunez bakery inside a silver bullet trailer.",
     "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
       "mapgensize": [ 6, 6 ],
       "rows": [
         "ABCDE ",
