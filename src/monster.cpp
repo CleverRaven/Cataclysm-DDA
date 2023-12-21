@@ -1530,8 +1530,8 @@ monster_attitude monster::attitude( const Character *u ) const
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
     }
-    
-   if( has_effect( effect_telepath_ignorance ) && u->is_avatar() ) {
+
+    if( has_effect( effect_telepath_ignorance ) && u->is_avatar() ) {
         return MATT_IGNORE;
     }
 
