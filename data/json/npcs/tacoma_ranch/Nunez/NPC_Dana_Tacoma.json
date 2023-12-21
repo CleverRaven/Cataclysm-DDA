@@ -33,7 +33,7 @@
       { "trait": "MYOPIC" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" },
-      { "trait": "hair_red_medium" },
+      { "trait": "hair_ponytail", "variant": "red" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "eye_color", "variant": "blue" }
     ],

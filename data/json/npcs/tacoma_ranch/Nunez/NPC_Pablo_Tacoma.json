@@ -33,7 +33,7 @@
       { "trait": "Exp_Bookkeeping1" },
       { "trait": "SKIN_MEDIUM" },
       { "trait": "eye_color", "variant": "brown" },
-      { "trait": "hair_black_short" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
