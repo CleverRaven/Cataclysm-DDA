@@ -260,6 +260,14 @@ This field will cause an effect to prevent the placement of the listed effects. 
 prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY ONGOING COLDS OR FLUS). Any effects present
 in "removes_effects" are automatically added to "blocks_effects", no need for manual duplication.
 
+### Modifies effect-on-hit durations
+```C++
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
+```
+This field will cause an effect to modify the effect-on-hit durations of "effect_id", as defined in body_parts.json.
+In the example above, this effect causes incoming bleeding duration to be increased by 5%.
+If an effect with effect_dur_scaling is applied to a bodypart and same_bp is "true", then it will affect effect-on-hit durations on only that bodypart. If false, it will affect all bodyparts.
+
 ### Effect limiters
 ```C++
     "max_duration": 100,    - Time duration string, defaults to 365 days
