@@ -41,9 +41,8 @@ class activity_type
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool interruptable_ = true;
         bool interruptable_with_kb_ = true;
-        bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
-        bool no_resume_ = false;
+        bool can_resume_ = true;
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
@@ -68,9 +67,6 @@ class activity_type
         bool interruptable_with_kb() const {
             return interruptable_with_kb_;
         }
-        bool suspendable() const {
-            return suspendable_;
-        }
         std::string stop_phrase() const;
         const translation &verb() const {
             return verb_;
@@ -78,8 +74,8 @@ class activity_type
         based_on_type based_on() const {
             return based_on_;
         }
-        bool no_resume() const {
-            return no_resume_;
+        bool can_resume() const {
+            return can_resume_;
         }
         bool multi_activity() const {
             return multi_activity_;

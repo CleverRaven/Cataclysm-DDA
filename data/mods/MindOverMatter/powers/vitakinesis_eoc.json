@@ -141,7 +141,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "meditating",
     "based_on": "time",
-    "no_resume": true,
+    "can_resume": false,
     "rooted": true,
     "do_turn_eoc": "EOC_VITAKIN_WAKEFUL_REST_MEDITATE"
   },
