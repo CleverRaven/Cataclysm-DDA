@@ -364,10 +364,10 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
             return _( "Choose New Leader" );
 
         case Camp_Hide_Mission:
-            return _( "Hide Mission" );
+            return _( "Hide Mission(s)" );
 
         case Camp_Reveal_Mission:
-            return _( "Reveal Hidden Mission" );
+            return _( "Reveal Hidden Mission(s)" );
 
         case Camp_Assign_Jobs:
             return _( "Assign Jobs" );
@@ -1267,7 +1267,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
               !hidden_missions[size_t( base_camps::all_directions.at( dir ).tab_order )].empty() ) ) {
             {
                 const mission_id miss_id = { Camp_Hide_Mission, "", {}, dir };
-                entry = string_format( _( "Hide a mission to clean up the UI." ) );
+                entry = string_format( _( "Hide one or more missions to clean up the UI." ) );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                                  entry );
             }
@@ -1278,7 +1278,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 }
 
                 const mission_id miss_id = { Camp_Reveal_Mission, "", {}, dir };
-                entry = string_format( _( "Reveal a mission previously hidden.\n"
+                entry = string_format( _( "Reveal one or more missions previously hidden.\n"
                                           "Current number of hidden missions: %d" ),
                                        count );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
@@ -5541,7 +5541,7 @@ void basecamp::handle_reveal_mission( const point &dir )
             pos_names.push_back( name_display_of( id.id ) );
         }
 
-        choice = uilist( _( "Select mission to reveal" ), pos_names );
+        choice = uilist( _( "Select mission(s) to reveal, escape when done" ), pos_names );
 
         if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
             popup( _( "You're done for now…" ) );
@@ -5585,7 +5585,7 @@ void basecamp::handle_hide_mission( const point &dir )
             }
         }
 
-        choice = uilist( _( "Select mission to hide" ), pos_names );
+        choice = uilist( _( "Select mission(s) to hide, escape when done" ), pos_names );
 
         if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
             popup( _( "You're done for now…" ) );
