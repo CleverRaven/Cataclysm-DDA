@@ -248,6 +248,7 @@
       { "prob": 3, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
       [ "recipe_augs", 3 ],
       { "group": "religious_books", "prob": 54 },
+      { "group": "loose_chess_pieces", "prob": 5 },
       [ "recipe_medicalmut", 1 ],
       [ "survnote", 1 ],
       [ "badge_doctor", 1 ],
@@ -958,7 +959,8 @@
       [ "tinder", 1 ],
       { "item": "hobo_stove", "prob": 1 },
       [ "eclipse_glasses", 1 ],
-      { "group": "writing_utensils", "prob": 5 }
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
   {
@@ -1467,6 +1469,7 @@
       [ "55gal_drum", 1 ],
       [ "flyer", 10 ],
       [ "one_year_old_newspaper", 2 ],
+      { "group": "loose_chess_pieces", "prob": 5 },
       { "group": "newspaper_recent", "prob": 15 },
       { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
       [ "survnote", 1 ]
@@ -1563,7 +1566,8 @@
       { "item": "switchblade", "prob": 15 },
       { "item": "bondage_mask", "prob": 1 },
       { "item": "survnote", "prob": 5 },
-      { "item": "thermos", "prob": 25 }
+      { "item": "thermos", "prob": 25 },
+      { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
   {
@@ -2011,6 +2015,7 @@
       [ "corset", 15 ],
       [ "corset_waist", 15 ],
       [ "tieclip", 3 ],
+      { "group": "loose_chess_pieces", "prob": 5 },
       { "group": "religious_books", "prob": 18 },
       [ "collarpin", 3 ],
       [ "survnote", 1 ],
@@ -2113,6 +2118,7 @@
       [ "balloon", 5 ],
       { "item": "scissors_wavy", "prob": 7 },
       { "group": "pencil_case_contents", "prob": 50 },
+      { "group": "loose_chess_pieces", "prob": 3 },
       { "group": "pencil_case_with_contents", "prob": 30 }
     ]
   },
@@ -2251,6 +2257,7 @@
       [ "magnifying_glass", 8 ],
       [ "camera_control", 2 ],
       [ "eclipse_glasses", 1 ],
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 }
     ]
   },
@@ -2604,6 +2611,7 @@
       [ "bottle_folding", 6 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 }
     ]
   },
@@ -2756,6 +2764,7 @@
     "entries": [
       { "item": "sleeping_bag", "prob": 100 },
       { "item": "blanket", "prob": 100 },
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "default_zombie_items_bags", "prob": 80, "count": [ 1, 3 ] }
     ]
   },
@@ -2806,6 +2815,7 @@
       [ "fetus", 5 ],
       { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
       [ "human_brain_embalmed", 5 ],
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "newspaper_old", "prob": 8 },
       [ "months_old_newspaper", 2 ]
     ]

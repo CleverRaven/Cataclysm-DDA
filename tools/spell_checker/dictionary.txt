@@ -107,6 +107,8 @@ androgynes
 androgyny
 anechoic
 angelfish
+angelologist
+angelologists
 anglerfish
 anglicized
 anhaltende
@@ -480,6 +482,8 @@ cattail
 cattails
 causer
 caustically
+cavewoman
+cavewomen
 cavitation
 cbm
 cdc
@@ -510,6 +514,8 @@ chasmosaurus
 chaturanga
 chausses
 cheapshot
+checkerboard
+checkerboards
 cheescutter
 chelator
 chested
@@ -648,6 +654,8 @@ craftwork
 crappie
 creasing
 creeply
+crenellation
+crenellations
 creped
 criniere
 cripplingly
@@ -746,6 +754,8 @@ demihuman
 demining
 demisexuality
 demoed
+demonologist
+demonologists
 denarius
 denatonium
 dentata
@@ -918,6 +928,8 @@ electrolyzer
 electromancy
 electrophoresis
 electroreceptors
+elementalist
+elementalists
 eles
 elete
 elongates
@@ -1363,6 +1375,8 @@ hemostatic
 hemostatics
 henge
 herbivorous
+herbologist
+herbologists
 hesperosaurus
 heterochromia
 hevel
@@ -1742,6 +1756,8 @@ ltd
 lucerne
 luddites
 lulo
+lumberjill
+lumberjills
 lumbermill
 lungfish
 lutefisk
@@ -1770,6 +1786,7 @@ manageably
 manball
 manca
 mancae
+mancala
 manfriendwich
 manhack
 manhacks
@@ -2343,6 +2360,8 @@ preminiscent
 premix
 preoptic
 prepper
+prequel
+prequels
 presaging
 prescriptures
 prev
@@ -2545,6 +2564,7 @@ revulses
 rhabdomyolysis
 rhizomes
 rhodonite
+rhombus
 rhytidome
 rhytidomes
 ribbonlike
@@ -2806,6 +2826,7 @@ spearcat
 spearfisher
 spearfishers
 spearhand
+spearman
 spearmen
 speciesism
 spectrographs
@@ -2989,6 +3010,8 @@ tambaqui
 tamina
 tamped
 tanbark
+tangram
+tangrams
 tankbot
 tannin
 tarket
@@ -3393,6 +3416,8 @@ winglike
 wireframe
 wirey
 wirings
+witchdoctor
+witchdoctors
 wist
 wizardy
 wk
@@ -3453,6 +3478,8 @@ z
 zahir
 zaibatsu
 zandcrawler
+zangbeto
+zangbetos
 zapback
 zaptor
 zbrojovka
