@@ -1372,7 +1372,7 @@ void Character::update_heartrate_index()
     const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier;
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     // The influence of stamina on heartrate seemeed excessive and was toned down.
-    const float hr_stamina_mod = 1.4f * ( 1.0f - stamina_level );
+    const float hr_stamina_mod = 1.6f * ( 1.0f - stamina_level );
 
     const int stim_level = get_stim();
     float hr_stim_mod = 0.0f;
