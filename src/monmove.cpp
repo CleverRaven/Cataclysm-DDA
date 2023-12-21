@@ -114,8 +114,8 @@ static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 static const mon_flag_str_id mon_flag_SEES( "SEES" );
 static const mon_flag_str_id mon_flag_SHORTACIDTRAIL( "SHORTACIDTRAIL" );
 static const mon_flag_str_id mon_flag_SLUDGETRAIL( "SLUDGETRAIL" );
-static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
 static const mon_flag_str_id mon_flag_SMALLSLUDGETRAIL( "SMALLSLUDGETRAIL" );
+static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
 static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
 static const mon_flag_str_id mon_flag_STUMBLES( "STUMBLES" );
 static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
@@ -190,7 +190,7 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
             if( !veh.enclosed_at( p ) ) {
                 free_cargo *= 1.2;
             }
-            if( ( !veh.enclosed_at( p ) && flies() ) ) {
+            if( !veh.enclosed_at( p ) && flies() ) {
                 return true; // No amount of cargo will block a flying monster if there's no roof.
             }
             const creature_size size = get_size();
