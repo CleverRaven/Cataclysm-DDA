@@ -240,15 +240,9 @@
     "speaker_effect": {
       "effect": [
         {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "nunez_travel", "type": "timer" },
-            "=",
-            { "time_since_cataclysm": "days" },
-            "+",
-            { "time": "2 days" }
-          ]
+          "math": [ "nunez_travel_timer", "=", "u_val('time_since_cataclysm: days') + 2" ]
         },
-        { "math": [ "nunez_arrived", "=", "0" ] }
+        { "math": [ "nunez_travel_stage", "=", "1" ] }
       ]
     }
   },

@@ -164,11 +164,11 @@
   {
     "type": "furniture",
     "id": "f_bullettrailer_cabinet",
+    "copy-from": "f_cupboard",
     "name": "trailer cabinets",
     "symbol": "n",
     "color": "yellow",
     "description": "Cramped trailer cabinets, with some inbuilt appliances taking up even more of the limited space.",
-    "copy-from": "f_cabinet",
     "move_cost_mod": 0
   },
   {

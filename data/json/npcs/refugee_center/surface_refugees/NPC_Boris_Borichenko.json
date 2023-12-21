@@ -599,7 +599,6 @@
         "search_range": 120
       },
       "update_mapgen": {
-        "om_terrain": "shelter_2_vandal",
         "place_item": [ { "item": "laptop_boris", "x": 15, "y": 12 }, { "item": "mbag", "x": 15, "y": 12 } ]
       }
     },

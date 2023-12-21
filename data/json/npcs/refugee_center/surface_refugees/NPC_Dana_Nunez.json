@@ -128,6 +128,16 @@
         "condition": { "u_has_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
       },
       {
+        "text": "You seem pretty unhappy about the quality of your bread.  Is there something I can do to help?",
+        "topic": "TALK_DANA_Sourdough",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } },
+            { "u_has_var": "Dana_Sourdough", "type": "knowledge", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "I've got your sourdough.",
         "topic": "TALK_DANA_Sourdough3",
         "condition": { "u_has_item": "landough_calrisean" }
@@ -408,11 +418,16 @@
       ],
       "no": "Great, here's a loaf of my locally-famous, not-very-mature sourdough.  It's not too bad honestly.  Everyone here seems to like it."
     },
-    "speaker_effect": { "effect": [ { "npc_add_effect": "dana_baking_sold", "duration": "18 h" } ] },
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_effect": "dana_baking_sold", "duration": "18 h" },
+        { "u_add_var": "Dana_Sourdough", "type": "knowledge", "value": "yes" }
+      ]
+    },
     "responses": [
       {
         "text": "You seem pretty unhappy about the quality of your bread.  Is there something I can do to help?",
-        "topic": "TALK_DANA_SOURDOUGH",
+        "topic": "TALK_DANA_Sourdough",
         "condition": { "not": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } }
       },
       { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
@@ -528,13 +543,13 @@
     "item": "landough_calrisean",
     "start": {
       "assign_mission_target": { "om_terrain": "bakery", "reveal_radius": 1, "random": true, "search_range": 120 },
-      "update_mapgen": { "om_terrain": "bakery", "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
+      "update_mapgen": { "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
       "effect": { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
       "effect": [
         { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_effect": "dana_sourdough_revival", "duration": "14 d" },
+        { "npc_add_effect": "dana_sourdough_revival", "duration": "7 d" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]
     },
@@ -571,6 +586,6 @@
     "copy-from": "sourdough_bread",
     "looks_like": "sourdough_bread",
     "description": "This round loaf of bread has a thick, dark crust, and smells very enticing.",
-    "proportional": { "fun": 2.0, "price": 2.0 }
+    "proportional": { "fun": 2, "price": 2 }
   }
 ]

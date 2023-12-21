@@ -4,14 +4,17 @@
     "type": "effect_on_condition",
     "recurrence": 1000,
     "condition": {
-      "compare_int": [ { "global_val": "var", "var_name": "nunez_travel", "type": "timer" }, "<", { "time_since_cataclysm": "days" } ]
+      "and": [
+        { "math": [ "nunez_travel_stage", "==", "1" ] },
+        { "math": [ "nunez_travel_timer", "<", "u_val('time_since_cataclysm: days')" ] }
+        ]
     },
-    "deactivate_condition": { "math": [ "nunez_arrived", "==", "1" ] },
+    "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
     "effect": [
       { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
       { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
       { "mapgen_update": "refcenter_nunez_departure", "om_terrain": "evac_center_7" },
-      { "math": [ "nunez_arrived", "=", "1" ] }
+      { "math": [ "nunez_travel_stage", "++" ] }
     ]
   },
   {
