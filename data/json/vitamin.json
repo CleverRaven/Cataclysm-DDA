@@ -84,6 +84,18 @@
     "disease_excess": [ [ 10, 432 ] ]
   },
   {
+    "id": "vit_hypertensive",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Vasoconstrictor" },
+    "excess": "vasoconstrict",
+    "min": 0,
+    "max": 432,
+    "//": "Takes 30 min to kick in, lasts 6 hours",
+    "rate": "100 s",
+    "disease_excess": [ [ 10, 432 ] ]
+  },
+  {
     "id": "mutant_toxin",
     "type": "vitamin",
     "vit_type": "toxin",
