@@ -449,7 +449,8 @@
       },
       { "group": "full_1st_aid", "prob": 40 },
       { "item": "handflare", "count-min": 1, "count-max": 3, "prob": 30, "charges": 300 },
-      { "item": "sm_extinguisher", "prob": 75 }
+      { "item": "sm_extinguisher", "prob": 75 },
+      { "item": "aeronautical_section_chart", "prob": 5 }
     ]
   },
   {

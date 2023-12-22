@@ -43,7 +43,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 1, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -90,7 +91,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "item_groups": [ "full_ifak" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "binoculars" ] },
-      { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 1, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -124,7 +126,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -160,7 +163,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -198,7 +202,8 @@
       { "x": -1, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "ampoule" ] }
+      { "x": -1, "y": 0, "chance": 100, "items": [ "ampoule" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -263,7 +268,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -328,7 +334,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -366,7 +373,8 @@
     "items": [
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] }
+      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -392,7 +400,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -422,7 +431,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 0, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -458,7 +468,8 @@
       { "x": 1, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 1, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 1, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 1, "y": 0, "chance": 100, "items": [ "ampoule" ] }
+      { "x": 1, "y": 0, "chance": 100, "items": [ "ampoule" ] },
+      { "x": 1, "y": 0, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -512,7 +523,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -577,7 +589,8 @@
       { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
       { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
-      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] }
+      { "x": 0, "y": 2, "chance": 100, "items": [ "roadmap" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -684,7 +697,8 @@
       { "x": 0, "y": -1, "chance": 5, "items": [ "screwdriver_set" ] },
       { "x": 0, "y": -1, "chance": 10, "items": [ "knife_combat" ] },
       { "x": 0, "y": -1, "chance": 5, "ammo": 90, "items": [ "ecig" ] },
-      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "items": [ "mp3" ] }
+      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "items": [ "mp3" ] },
+      { "x": -1, "y": -1, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -774,7 +788,8 @@
       { "x": 0, "y": -1, "chance": 20, "item_groups": [ "remains_pilot" ] },
       { "x": 0, "y": -1, "chance": 50, "items": [ "militarymap" ] },
       { "x": 2, "y": -1, "chance": 20, "item_groups": [ "remains_pilot" ] },
-      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "items": [ "mp3" ] }
+      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "items": [ "mp3" ] },
+      { "x": 0, "y": -1, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -855,7 +870,8 @@
       { "x": -1, "y": 1, "chance": 7, "items": [ "mag_fieldrepair" ] },
       { "x": -1, "y": 1, "chance": 15, "items": [ "e_scrap" ] },
       { "x": -1, "y": 1, "chance": 7, "items": [ "screwdriver" ] },
-      { "x": -1, "y": 1, "chance": 7, "items": [ "wrench" ] }
+      { "x": -1, "y": 1, "chance": 7, "items": [ "wrench" ] },
+      { "x": -1, "y": 1, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -1086,7 +1102,8 @@
       { "x": -2, "y": 1, "chance": 7, "items": [ "screwdriver" ] },
       { "x": -2, "y": 1, "chance": 10, "items": [ "mag_fieldrepair" ] },
       { "x": -2, "y": 1, "chance": 7, "items": [ "wrench" ] },
-      { "x": -2, "y": 1, "chance": 5, "items": [ "two_way_radio" ] }
+      { "x": -2, "y": 1, "chance": 5, "items": [ "two_way_radio" ] },
+      { "x": -7, "y": -2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -1296,7 +1313,8 @@
       { "x": -2, "y": 1, "chance": 5, "items": [ "two_way_radio" ] },
       { "x": 0, "y": -1, "chance": 5, "items": [ "advanced_ecig" ] },
       { "x": 0, "y": -1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": 0, "y": 1, "chance": 20, "item_groups": [ "remains_pilot" ] }
+      { "x": 0, "y": 1, "chance": 20, "item_groups": [ "remains_pilot" ] },
+      { "x": 0, "y": 1, "chance": 25, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -1468,7 +1486,8 @@
       { "x": -2, "y": 1, "chance": 10, "items": [ "mag_fieldrepair" ] },
       { "x": -2, "y": 1, "chance": 7, "items": [ "wrench" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "two_way_radio" ] },
-      { "x": 0, "y": 1, "chance": 20, "item_groups": [ "remains_pilot" ] }
+      { "x": 0, "y": 1, "chance": 20, "item_groups": [ "remains_pilot" ] },
+      { "x": 0, "y": 1, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -1588,7 +1607,8 @@
       { "x": -1, "y": 2, "chance": 5, "items": [ "two_way_radio" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "roadmap" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
-      { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
+      { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -1706,7 +1726,8 @@
       { "x": -1, "y": 2, "chance": 5, "items": [ "two_way_radio" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "roadmap" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
-      { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
+      { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   },
   {
@@ -1813,7 +1834,8 @@
       { "x": -1, "y": 2, "chance": 5, "items": [ "two_way_radio" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "roadmap" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
-      { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
+      { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] },
+      { "x": 0, "y": 2, "chance": 5, "items": [ "aeronautical_section_chart" ] }
     ]
   }
 ]
