@@ -589,31 +589,6 @@ Valid arguments:
 "respiratory_rate_chance_bot"
 "respiratory_rate_tick"    - Defaults to every tick
 
-"bleed_amount"      - Amount of bleeding it can give/take. Don't make it too high.
-"bleed_min"         - Minimal amount of bleeding, certain effect will give/take
-"bleed_max"         - if 0 or missing value will be exactly "bleed_min"
-"bleed_min_val"     - Defaults to 0, which means uncapped
-"bleed_max_val"     - Defaults to 0, which means uncapped
-"bleed_chance"      - Chance to cause bleeding
-"bleed_chance_bot"
-"bleed_tick"        - Defaults to every tick
-
-"bite_amount"       - Amount of bites it can give/take. Don't make it too high.
-"bite_min"          - Minimal amount of bites, certain effect will give/take
-"bite_max"          - if 0 or missing value will be exactly "bite_min"
-"bite_min_val"      - Defaults to 0, which means uncapped
-"bite_max_val"      - Defaults to 0, which means uncapped
-"bite_chance"       - Chance to cause biting
-"bite_chance_bot"
-"bite_tick"         - Defaults to every tick
-
-"scratch_amount"    - Amount of scratches it can give/take. Don't make it too high.
-"scratch_min"       - Minimal amount of scratches, certain effect will give/take
-"scratch_max"       - if 0 or missing value will be exactly "scratch_min"
-"scratch_min_val"   - Defaults to 0, which means uncapped
-"scratch_max_val"   - Defaults to 0, which means uncapped
-"
-
 "cough_chance"      - Chance to cause cough
 "cough_chance_bot"
 "cough_tick"        - Defaults to every tick
