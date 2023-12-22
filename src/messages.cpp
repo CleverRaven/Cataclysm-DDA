@@ -31,6 +31,8 @@
 
 #include "options.h"
 
+static const efftype_id effect_weed_high("weed_high");
+
 namespace
 {
 
@@ -176,6 +178,97 @@ class messages_impl
 
             if( type == m_debug && !debug_mode ) {
                 return;
+            }
+
+            Character *p_char = &get_player_character();
+            if( p_char->has_effect( effect_weed_high ) ) {
+
+                const time_duration weed_dur = p_char->get_effect_dur( effect_weed_high );
+                const float in_minutes = to_minutes<float>( weed_dur );
+                // we will now calculate how often smiley faces should appear in messages.
+                // Slowly rises. 0 at 0, 1 at 22.5, 2 at 45 mins. Asymptote at 3.
+                const float max_per_msg = 3 - 3 / ( 1 + 0.001 * in_minutes * in_minutes );
+                //possible values for smiles_for_this_msg are 0,1,2,3.
+                int smiles_for_this_msg = static_cast<int>( round( rng_normal( 0, max_per_msg ) ) );
+
+                // now insert the smiley face somewhere in the msg string. We want to avoid breaking up words, so we will only replace spaces.
+                // find all suitable locations for smiley. That is, end of message + all spaces (except after certain words)
+                std::vector<size_t> smiley_locations;
+                // we also need to track space locations to extract words properly. Annoying but necessary.
+                std::vector<size_t> space_locations;
+
+                // end of msg
+                smiley_locations.push_back( msg.size() );
+                // now all spaces
+                for( size_t j = 0; j < msg.size(); j++ ) {
+                    if( msg[j] == ' ' ) {
+                        bool wordskip = false;
+                        // fancy logic. It's weird if the smiley comes after "to" or "that" or "a". Let's try and skip words like those.
+                        // We skip all short words (<=3 letters), and all words in the forbidden_words array.
+                        if( !space_locations.empty() ) {
+                            const size_t prev_space = space_locations.back();
+                            // check that smiley_locations.back() did not return none
+                            if( prev_space != std::string::npos ) {
+                                const std::string word = msg.substr( prev_space, j - prev_space );
+                                const std::string forbidden_words[] = { " that", " with", " this", " over", " your",
+                                                                      };
+                                for( const std::string &forbidden_word : forbidden_words ) {
+                                    if( word == forbidden_word ) {
+                                        wordskip = true;
+                                        break;
+                                    }
+                                }
+                                if( word.size() > 1 && word.size() <= 4 ) {
+                                    wordskip = true;
+                                }
+                            }
+                        }
+                        space_locations.push_back( j );
+                        if( !wordskip ) {
+                            smiley_locations.push_back( j );
+                        }
+                    }
+                }
+                // then pick one at random
+                // first, check if smiles_for_this_msg == len(smiley_locations)
+                if( smiles_for_this_msg >= static_cast<int>( smiley_locations.size() ) ) {
+                    smiles_for_this_msg = static_cast<int>( smiley_locations.size() ) - 1;
+                }
+                for( int i = 0; i < smiles_for_this_msg; i++ ) {
+                    const size_t smiley_location = random_entry_removed( smiley_locations );
+                    msg.insert( smiley_location, " :)" );
+                    for( size_t j = 0; j < smiley_locations.size(); j++ ) {
+                        if( smiley_locations[j] > smiley_location ) {
+                            // we increment to account for the insertion of the smiley string
+                            smiley_locations[j] += 3;
+                        }
+                    }
+                }
+
+                // if we are *very* high, there will be a chance to finish a long message with an exclamation
+                if( smiles_for_this_msg > 1 ) {
+                    int woah_chance = static_cast<int>( 15 / smiles_for_this_msg );
+                    if( msg.size() > 16 && one_in( woah_chance ) ) {
+                        std::vector<std::string> exclamations = {
+                            "Woah.", "Dude."
+                        };
+                        std::vector<std::string> good_exclamations = {
+                            "Cool!", "Wicked!", "Awesome!"
+                        };
+                        std::vector<std::string> bad_exclamations = {
+                            "Not cool.", "Oof.", "Bummer."
+                        };
+                        if (type == m_good) {
+                            msg += " " + random_entry( good_exclamations );
+                        }
+                        else if (type == m_bad) {
+                            msg += " " + random_entry( bad_exclamations );
+                        }
+                        else {
+                            msg += " " + random_entry( exclamations );
+                        }
+                    }
+                }
             }
 
             game_message m = game_message( std::move( msg ), type );

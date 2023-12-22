@@ -2081,9 +2081,9 @@
   },
   {
     "type": "effect_type",
-    "id": "ndri_effect",
+    "id": "dnri_effect",
     "max_intensity": 3,
-    "//": "NDRI effect. Intensity 1 is short term side effects, Intensity 2 is milder short term side effects, Intensity 3 is antidepressant action.",
+    "//": "DNRI effect. Intensity 1 is short term side effects, Intensity 2 is milder short term side effects, Intensity 3 is antidepressant action.",
     "rating": "good",
     "//2": "Should vomit at most once every 3 days for Int 1, once every 6 for Int 2, never for Int 3.",
     "//3": "Compared to SSRI/SNRI we dont induce fatigue.",
