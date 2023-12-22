@@ -562,6 +562,58 @@ Valid arguments:
 "stamina_chance_bot"
 "stamina_tick"      - Defaults to every tick
 
+"heart_rate_amount"        - Amount of heart rate changes it can give/take.
+"heart_rate_min"           - Minimal amount of heart rate, certain effect will give/take
+"heart_rate_max"           - if 0 or missing value will be exactly "heart_rate_min"
+"heart_rate_min_val"       - Defaults to 0, which means uncapped
+"heart_rate_max_val"       - Defaults to 0, which means uncapped
+"heart_rate_chance"        - Chance to change heart rate
+"heart_rate_chance_bot"
+"heart_rate_tick"          - Defaults to every tick
+
+"blood_pressure_amount"    - Amount of blood pressure changes it can give/take.
+"blood_pressure_min"       - Minimal amount of blood pressure, certain effect will give/take
+"blood_pressure_max"       - if 0 or missing value will be exactly "blood_pressure_min"
+"blood_pressure_min_val"   - Defaults to 0, which means uncapped
+"blood_pressure_max_val"   - Defaults to 0, which means uncapped
+"blood_pressure_chance"    - Chance to change blood pressure
+"blood_pressure_chance_bot"
+"blood_pressure_tick"      - Defaults to every tick
+
+"respiratory_rate_amount"  - Amount of respiratory rate changes it can give/take.
+"respiratory_rate_min"     - Minimal amount of respiratory rate, certain effect will give/take
+"respiratory_rate_max"     - if 0 or missing value will be exactly "respiratory_rate_min"
+"respiratory_rate_min_val" - Defaults to 0, which means uncapped
+"respiratory_rate_max_val" - Defaults to 0, which means uncapped
+"respiratory_rate_chance"  - Chance to change respiratory rate
+"respiratory_rate_chance_bot"
+"respiratory_rate_tick"    - Defaults to every tick
+
+"bleed_amount"      - Amount of bleeding it can give/take. Don't make it too high.
+"bleed_min"         - Minimal amount of bleeding, certain effect will give/take
+"bleed_max"         - if 0 or missing value will be exactly "bleed_min"
+"bleed_min_val"     - Defaults to 0, which means uncapped
+"bleed_max_val"     - Defaults to 0, which means uncapped
+"bleed_chance"      - Chance to cause bleeding
+"bleed_chance_bot"
+"bleed_tick"        - Defaults to every tick
+
+"bite_amount"       - Amount of bites it can give/take. Don't make it too high.
+"bite_min"          - Minimal amount of bites, certain effect will give/take
+"bite_max"          - if 0 or missing value will be exactly "bite_min"
+"bite_min_val"      - Defaults to 0, which means uncapped
+"bite_max_val"      - Defaults to 0, which means uncapped
+"bite_chance"       - Chance to cause biting
+"bite_chance_bot"
+"bite_tick"         - Defaults to every tick
+
+"scratch_amount"    - Amount of scratches it can give/take. Don't make it too high.
+"scratch_min"       - Minimal amount of scratches, certain effect will give/take
+"scratch_max"       - if 0 or missing value will be exactly "scratch_min"
+"scratch_min_val"   - Defaults to 0, which means uncapped
+"scratch_max_val"   - Defaults to 0, which means uncapped
+"
+
 "cough_chance"      - Chance to cause cough
 "cough_chance_bot"
 "cough_tick"        - Defaults to every tick
