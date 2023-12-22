@@ -247,8 +247,8 @@ class messages_impl
 
                 // if we are *very* high, there will be a chance to finish a long message with an exclamation
                 if( smiles_for_this_msg > 1 ) {
-                    int woah_chance = static_cast<int>( 15 / smiles_for_this_msg );
-                    if( msg.size() > 16 && one_in( woah_chance ) ) {
+                    int woah_chance = static_cast<int>( 12 / smiles_for_this_msg );
+                    if (msg.size() > 16 && one_in(woah_chance)) {
                         std::vector<std::string> exclamations = {
                             "Woah.", "Dude."
                         };
@@ -258,10 +258,10 @@ class messages_impl
                         std::vector<std::string> bad_exclamations = {
                             "Not cool.", "Oof.", "Bummer."
                         };
-                        if (type == m_good) {
+                        if (type == m_good || type == m_critical || type == m_headshot) {
                             msg += " " + random_entry( good_exclamations );
                         }
-                        else if (type == m_bad) {
+                        else if (type == m_bad || type == m_grazing) {
                             msg += " " + random_entry( bad_exclamations );
                         }
                         else {
