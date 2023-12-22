@@ -3501,8 +3501,7 @@ static void draw_gender( ui_adaptor &ui, const catacurses::window &w_gender,
     wnoutrefresh( w_gender );
 }
 
-static void draw_outfit( ui_adaptor &ui, const catacurses::window &w_outfit,
-                         const avatar &you, const bool highlight )
+static void draw_outfit( ui_adaptor &ui, const catacurses::window &w_outfit, const bool highlight )
 {
     const point male_pos( 1 + utf8_width( _( "Outfit:" ) ), 0 );
     const point female_pos = male_pos + point( 2 + utf8_width( _( "Male" ) ), 0 );
@@ -3993,7 +3992,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         char_creation::draw_name( ui, w_name, you, current_selector == char_creation::NAME,
                                   no_name_entered );
         char_creation::draw_gender( ui, w_gender, you, current_selector == char_creation::GENDER );
-        char_creation::draw_outfit( ui, w_outfit, you, current_selector == char_creation::OUTFIT );
+        char_creation::draw_outfit( ui, w_outfit, current_selector == char_creation::OUTFIT );
         char_creation::draw_age( ui, w_age, you, current_selector == char_creation::AGE );
         char_creation::draw_height( ui, w_height, you, current_selector == char_creation::HEIGHT );
         char_creation::draw_blood( ui, w_blood, you, current_selector == char_creation::BLOOD );
