@@ -902,6 +902,11 @@ bool basecamp_action_components::choose_components()
     return true;
 }
 
+static bool is_empty_component( const item &it )
+{
+    return is_crafting_component( it ) && it.is_container_empty();
+}
+
 void basecamp_action_components::consume_components()
 {
     map &target_map = base_.get_camp_map();
@@ -912,7 +917,14 @@ void basecamp_action_components::consume_components()
         src.emplace_back( target_map.getlocal( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        player_character.consume_items( target_map, sel, batch_size_, is_crafting_component, src );
+        std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
+                                         is_empty_component, src );
+        if( empty_consumed.size() < static_cast<size_t>( sel.comp.count ) * batch_size_ ) {
+            comp_selection<item_comp> remainder = sel;
+            remainder.comp.count = 1;
+            player_character.consume_items( target_map, remainder,
+                                            batch_size_ * sel.comp.count - empty_consumed.size(), is_crafting_component, src );
+        }
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
