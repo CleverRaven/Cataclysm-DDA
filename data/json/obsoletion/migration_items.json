@@ -5,6 +5,21 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "bolt_explosive",
+    "type": "MIGRATION",
+    "replace": "bolt_cf"
+  },
+  {
+    "id": "arrow_exploding",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "exploding_arrow_warhead",
+    "type": "MIGRATION",
+    "replace": "exploding_arrow_warhead"
+  },
+  {
     "id": "minispeargun",
     "type": "MIGRATION",
     "replace": "speargun"
