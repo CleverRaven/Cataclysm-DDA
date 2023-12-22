@@ -599,7 +599,7 @@
       "activation_message": "You take a dab.  Wow, that's got some killer terpenes!",
       "effects": [
         { "id": "weed_high", "duration": "180 m" },
-        { "id": "pkill1", "duration": "120 m" },
+        { "id": "pkill1_generic", "duration": "120 m" },
         { "id": "pkill2", "duration": "5 m" },
         { "id": "high", "duration": "60 m" },
         { "id": "smoke", "duration": "2 m" }
