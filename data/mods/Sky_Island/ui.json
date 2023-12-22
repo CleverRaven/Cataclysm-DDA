@@ -50,7 +50,7 @@
       {
         "id": "eight_left",
         "text": "+-+-+-+-+-+-+-+",
-        "color": "_reen",
+        "color": "green",
         "condition": { "math": [ "timeawayfromhome", "<=", "1" ] }
       },
       {
