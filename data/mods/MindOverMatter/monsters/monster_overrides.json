@@ -93,19 +93,22 @@
     "id": "mon_strange_megafrog",
     "copy-from": "mon_strange_megafrog",
     "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ],
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_odd_megafrog",
     "copy-from": "mon_odd_megafrog",
     "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ],
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_foul_megafrog",
     "copy-from": "mon_foul_megafrog",
     "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ]
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ],
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_zombie_regenerating",

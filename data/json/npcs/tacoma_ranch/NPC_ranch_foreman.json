@@ -41,7 +41,17 @@
       {
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
-        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
+          ]
+        }
+      },
+      {
+        "text": "Hey, are you looking for workers here?",
+        "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
+        "condition": { "not": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -137,9 +147,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_Nunez",
-    "dynamic_line": "we're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
+    "dynamic_line": "We're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
     "speaker_effect": { "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
     "responses": [ { "text": "I'll tell them that, but they seemed good for a bit of hard labor.", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Nunez_Clue",
+    "dynamic_line": "we're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  I don't think we'd turn many people away, of course, but besides strong hands and willing labor, we could really use someone who could cook.  I can't tell you what it'd do for morale.  You could try asking some of the people staying on the surface in the refugee center maybe, I don't think they were part of most of the original discussions about the ranch.",
+    "responses": [ { "text": "I'll keep an eye out.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_1",

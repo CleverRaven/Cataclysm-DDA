@@ -1076,6 +1076,18 @@ struct islot_seed {
      */
     translation plant_name;
     /**
+     * What the plant sprouts into. Defaults to f_plant_seedling.
+     */
+    furn_str_id seedling_form;
+    /**
+     * What the plant grows into. Defaults to f_plant_mature.
+     */
+    furn_str_id mature_form;
+    /**
+     * The plant's final growth stage. Defaults to f_plant_harvest.
+     */
+    furn_str_id harvestable_form;
+    /**
      * Type id of the fruit item.
      */
     itype_id fruit_id;
