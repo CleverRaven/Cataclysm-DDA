@@ -2593,7 +2593,7 @@
   {
     "type": "profession",
     "id": "salesman",
-    "name": "Used Car Salesman",
+    "name": { "male": "Used Car Salesman", "female": "Used Car Saleswoman" },
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",
     "points": 1,
     "skills": [ { "level": 5, "name": "speech" } ],
@@ -2818,7 +2818,7 @@
   {
     "type": "profession",
     "id": "hillbilly",
-    "name": "Hillbilly",
+    "name": { "male": "Hillbilly", "female": "Hillbilly Girl" },
     "description": "You n' yer kin always figured shit would hit the fan some day, but never like this!  When they turned on you, you grabbed yer gun and a six pack, and hauled ass in the family truck.",
     "points": 4,
     "proficiencies": [ "prof_driver" ],
@@ -2964,7 +2964,7 @@
   {
     "id": "handymanservice",
     "type": "profession",
-    "name": "Serviceman",
+    "name": { "male": "Serviceman", "female": "Servicewoman" },
     "description": "Employed by a large company, you performed installation and troubleshooting services at the homes of ungrateful luddites.  Driving back from your last call, you were suddenly swarmed by what you believed to be angry rioters.  You veered off onto an old, neglected side road to escape, only to find yourself lost and low on gas.",
     "points": 3,
     "proficiencies": [ "prof_appliance_repair", "prof_driver" ],
@@ -3162,8 +3162,8 @@
   {
     "type": "profession",
     "id": "lumberjack",
-    "name": "Lumberjack",
-    "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
+    "name": { "male": "Lumberjack", "female": "Lumberjill" },
+    "description": "You have your trusty wood axe, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
     "points": 2,
     "proficiencies": [ "prof_great_axes_familiar", "prof_great_axes_pro", "prof_hand_axes_familiar", "prof_hand_axes_pro" ],
     "skills": [
@@ -3515,7 +3515,7 @@
   {
     "type": "profession",
     "id": "clown",
-    "name": "Clown",
+    "name": { "male": "Clown", "female": "Clowness" },
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There are precious few balloon animals in your future now.",
     "points": -1,
     "items": {
@@ -3935,6 +3935,22 @@
       },
       "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
       "female": [ "nun_wimple", "nun_habit", "dress_shirt", "purse", "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "asatru_priest",
+    "name": { "male": "Gode", "female": "Gydje" },
+    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But the Rapture has come, and your parish turned against you.  Now all you can do is pray to the Holy Virgin, and prepare to maintain your wellbeing.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "socks", "dress_shoes", "holybook_havamal" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "odin_necklace1" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
