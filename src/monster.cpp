@@ -64,6 +64,9 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
@@ -82,6 +85,7 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_critter_underfed( "critter_underfed" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
@@ -3334,6 +3338,57 @@ void monster::process_effects()
                                         name() );
             }
         }
+    }
+
+    // Apply or remove the cramped_space effect, which needs specific information about the monster's surroundings.
+    map &here = get_map();
+    const tripoint z_pos = pos();
+    const optional_vpart_position vp = here.veh_at( z_pos );
+    if( has_effect( effect_cramped_space ) && !vp.has_value() ) {
+        remove_effect( effect_cramped_space );
+    }
+    if( vp.has_value() ) {
+        vehicle &veh = vp->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( z_pos, "CARGO", part_status_flag::any );
+        for( vehicle_part *&part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                capacity += vpinfo.size;
+                free_cargo += contents.free_volume();
+            }
+        }
+        const creature_size size = get_size();
+        if( capacity > 0_ml ) {
+            // Open-topped vehicle parts have more room, and are always free space for fliers.
+            if( !veh.enclosed_at( z_pos ) ) {
+                free_cargo *= 1.2;
+                if( flies() ) {
+                    remove_effect( effect_cramped_space );
+                    return;
+                }
+            }
+            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
+                ( size == creature_size::small && free_cargo < 31250_ml ) ||
+                ( size == creature_size::medium && free_cargo < 62500_ml ) ||
+                ( size == creature_size::large && free_cargo < 125000_ml ) ||
+                ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
+                if( !has_effect( effect_cramped_space ) ) {
+                    add_effect( effect_cramped_space, 2_turns, true );
+                }
+                return;
+            }
+        }
+        if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+            !vp.part_with_feature( "HUGE_OK", true ) ) {
+            if( !has_effect( effect_cramped_space ) ) {
+                add_effect( effect_cramped_space, 2_turns, true );
+            }
+            return;
+        }
+        remove_effect( effect_cramped_space );
     }
 
     Creature::process_effects();
