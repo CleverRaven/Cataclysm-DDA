@@ -3950,10 +3950,10 @@
     "items": {
       "both": {
         "items": [ "silver_ring", "leather_belt", "socks", "boots", "holybook_asatru" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "odin_necklace1" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "odin_necklace1" }, { "item": "bronze_knife", "container-item": "sheath" } ]
       },
       "male": [ "cloak", "tunic", "pants_brown", "briefs" ],
-      "female": [ "bra", "panties" ]
+      "female": [ "silver_hairpin", "bra", "dress", "generic_apron_cotton", "panties" ]
     }
   },
   {
@@ -3965,8 +3965,8 @@
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "kariginu", "eboshi", "pants", "hakama", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "kariginu", "eboshi", "pants", "hakama", "tabi_dress", "geta", "holybook_kojiki" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "shinto_necklace" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3981,8 +3981,8 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "antarvasa", "uttarasanga", "samghati", "flip_flops", "holy_symbol", "holybook_sutras" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "antarvasa", "uttarasanga", "samghati", "flip_flops", "holybook_sutras" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "buddhist_necklace" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3999,7 +3999,7 @@
     "items": {
       "both": {
         "items": [ "pants", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" }, { "item": "holy_symbol", "variant": "muslim_necklace" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
