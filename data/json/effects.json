@@ -2045,8 +2045,15 @@
     "type": "effect_type",
     "id": "ibuprofen_eff",
     "//": "Blood pressure up.  Remember that this is divided by 10000, so maximum 5% increase.",
-    "rating": "bad",
+    "rating": "neutral",
     "base_mods": { "blood_pressure_tick": [ 100 ], "blood_pressure_min": [ 2 ], "blood_pressure_max_val": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vasoconstrict",
+    "//": "Blood pressure up.  Remember that this is divided by 10000, so maximum 20% increase.",
+    "rating": "neutral",
+    "base_mods": { "blood_pressure_tick": [ 100 ], "blood_pressure_min": [ 25 ], "blood_pressure_max_val": [ 2000 ] }
   },
   {
     "type": "effect_type",
