@@ -132,6 +132,7 @@
       { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
+      { "item": "wrapper_foil_roll", "prob": 2 },
       [ "bottle_glass", 50 ],
       [ "bottle_plastic", 70 ],
       [ "can_drink", 60 ],

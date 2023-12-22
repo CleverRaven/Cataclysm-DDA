@@ -2650,7 +2650,7 @@
     "material": [ "soil" ],
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "1500 g",
-    "volume": "750 ml",
+    "volume": "2250 ml",
     "to_hit": -2,
     "price": 2000,
     "price_postapoc": 10,

@@ -1286,8 +1286,8 @@
     "color": "brown",
     "description": "The result of an interrupted charcoal-making process.  Useless, except as fuel in a charcoal kiln.",
     "material": [ "wood" ],
-    "volume": "250 ml",
-    "weight": "300 g",
+    "volume": "300 ml",
+    "weight": "250 g",
     "ammo_type": "unfinished_char"
   },
   {
