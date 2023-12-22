@@ -13,12 +13,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 150) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_night_vision') * 200 ) + 150) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_night_vision') * 200 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -67,21 +67,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 150) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_night_vision') * 200 ) + 150) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_night_vision') * 200 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -104,12 +102,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -135,21 +133,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -171,12 +167,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_see_auras') * 90) + 650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_see_auras') * 90) + 650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_see_auras') * 190) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_see_auras') * 190) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -197,19 +193,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
-      { "math": [ "u_val('spell_exp', 'spell: clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_see_auras') * 90) + 650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_see_auras') * 90) + 650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_see_auras') * 190) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_see_auras') * 190) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -231,12 +227,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_danger_sense') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_danger_sense') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_danger_sense') * 75) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_danger_sense') * 75) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -257,21 +253,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_danger_sense') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_danger_sense') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_danger_sense') * 75) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_danger_sense') * 75) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -293,12 +287,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 8) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_ranged_enhance') * 8) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 25) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_ranged_enhance') * 25) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -319,21 +313,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 8) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_ranged_enhance') * 8) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 25) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_ranged_enhance') * 25) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -355,12 +347,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_dodge_power') * 10) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_dodge_power') * 10) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_dodge_power') * 20) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_dodge_power') * 20) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -381,21 +373,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_dodge_power') * 10) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_dodge_power') * 10) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_dodge_power') * 20) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_dodge_power') * 20) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -417,12 +407,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_craft_bonus') * 250) + 1215) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_craft_bonus') * 250) + 1215) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_craft_bonus') * 600) + 2700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_craft_bonus') * 600) + 2700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -467,21 +457,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_craft_bonus') * 250) + 1215) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_craft_bonus') * 250) + 1215) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_craft_bonus') * 600) + 2700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_craft_bonus') * 600) + 2700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -503,12 +491,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_clear_sight') * 12) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_clear_sight') * 12) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_clear_sight') * 25) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_clear_sight') * 25) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -529,21 +517,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_eight", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(8)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_clear_sight') * 12) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_clear_sight') * 12) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_clear_sight') * 25) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_clear_sight') * 25) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -568,12 +554,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_group_tactics') * 12) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_group_tactics') * 12) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_group_tactics') * 25) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_group_tactics') * 25) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -597,21 +583,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_nine", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(9)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_group_tactics') * 12) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_group_tactics') * 12) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: clair_group_tactics') * 25) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('clair_group_tactics') * 25) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

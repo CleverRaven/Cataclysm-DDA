@@ -497,14 +497,14 @@
     ]
   },
   {
-    "id": "on_hand_700nx",
+    "id": "on_hand_458wm",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "700nx", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "700nx", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "700nx", "prob": 30, "charges": [ 22, 40 ] }
+      { "item": "458wm", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "458wm", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "458wm", "prob": 30, "charges": [ 22, 40 ] }
     ]
   },
   {

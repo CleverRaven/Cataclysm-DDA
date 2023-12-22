@@ -84,6 +84,7 @@ enum class spell_flag : int {
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
+    RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
     LAST
 };
 
@@ -766,6 +767,7 @@ void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint &target );
+void recharge_vehicle( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
@@ -815,6 +817,7 @@ effect_map{
     { "recover_energy", spell_effect::recover_energy },
     { "summon", spell_effect::spawn_summoned_monster },
     { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
+    { "recharge_vehicle", spell_effect::recharge_vehicle },
     { "translocate", spell_effect::translocate },
     { "area_pull", spell_effect::area_pull },
     { "area_push", spell_effect::area_push },

@@ -87,6 +87,7 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -1783,7 +1784,13 @@ int vehicle::prepare_tool( item &tool ) const
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
     }
-    item mag( tool.magazine_default() );
+    itype_id mag_type;
+    if( tool.can_link_up() ) {
+        mag_type = itype_pseudo_magazine;
+    } else {
+        mag_type = tool.magazine_default();
+    }
+    item mag( mag_type );
     mag.clear_items(); // no initial ammo
     if( !tool.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
         debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",

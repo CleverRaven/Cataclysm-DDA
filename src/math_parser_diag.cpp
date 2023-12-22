@@ -732,7 +732,9 @@ std::function<double( dialogue & )> vitamin_eval( char scope,
 {
     return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
         if( d.actor( beta )->get_character() ) {
-            return d.actor( beta )->get_character()->vitamin_get( vitamin_id( id.str( d ) ) );
+            return static_cast<talker const *>( d.actor( beta ) )
+                   ->get_character()
+                   ->vitamin_get( vitamin_id( id.str( d ) ) );
         }
         return 0;
     };

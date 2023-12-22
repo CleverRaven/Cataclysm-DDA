@@ -50,6 +50,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
@@ -58,6 +59,7 @@ static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
@@ -103,6 +105,7 @@ static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1"
 static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
+static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
 static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
 static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
@@ -112,6 +115,7 @@ static const mon_flag_str_id mon_flag_SEES( "SEES" );
 static const mon_flag_str_id mon_flag_SHORTACIDTRAIL( "SHORTACIDTRAIL" );
 static const mon_flag_str_id mon_flag_SLUDGETRAIL( "SLUDGETRAIL" );
 static const mon_flag_str_id mon_flag_SMALLSLUDGETRAIL( "SMALLSLUDGETRAIL" );
+static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
 static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
 static const mon_flag_str_id mon_flag_STUMBLES( "STUMBLES" );
 static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
@@ -163,6 +167,64 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
+bool monster::monster_move_in_vehicle( const tripoint &p ) const
+{
+    map &m = get_map();
+    monster critter = *this;
+    const optional_vpart_position vp = m.veh_at( p );
+    if( vp.has_value() ) {
+        vehicle &veh = vp->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
+        for( vehicle_part *&part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                capacity += vpinfo.size;
+                free_cargo += contents.free_volume();
+            }
+        }
+        if( capacity > 0_ml ) {
+            // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
+            if( !veh.enclosed_at( p ) ) {
+                free_cargo *= 1.2;
+            }
+            if( !veh.enclosed_at( p ) && flies() ) {
+                return true; // No amount of cargo will block a flying monster if there's no roof.
+            }
+            const creature_size size = get_size();
+            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
+                ( size == creature_size::small && free_cargo < 31250_ml ) ||
+                ( size == creature_size::medium && free_cargo < 62500_ml ) ||
+                ( size == creature_size::large && free_cargo < 125000_ml ) ||
+                ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
+                if( ( size == creature_size::tiny && free_cargo < 11719_ml ) ||
+                    ( size == creature_size::small && free_cargo < 23438_ml ) ||
+                    ( size == creature_size::medium && free_cargo < 46875_ml ) ||
+                    ( size == creature_size::large && free_cargo < 93750_ml ) ||
+                    ( size == creature_size::huge && free_cargo < 187500_ml ) ||
+                    ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", true ) ) ) {
+                    return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
+                    // I'm sorry but you can't let a kaiju ride shotgun.
+                }
+                if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                      has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
+                    return true; // Return true if we're wiggly enough to be fine with cramped space.
+                }
+                critter.add_effect( effect_cramped_space, 2_turns, true );
+                return true; // Otherwise we add the effect and return true.
+            }
+            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+                !vp.part_with_feature( "HUGE_OK", true ) ) {
+                critter.add_effect( effect_cramped_space, 2_turns, true );
+                return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
+            }
+        }
+    }
+    return true;
+}
+
 bool monster::will_move_to( const tripoint &p ) const
 {
     map &here = get_map();
@@ -177,9 +239,13 @@ bool monster::will_move_to( const tripoint &p ) const
     }
 
     if( !here.has_vehicle_floor( p ) ) {
-        if( ( !can_submerge() && !flies() ) && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+        if( !can_submerge() && !flies() && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
             return false;
         }
+    }
+
+    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
+        return false;
     }
 
     if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&

@@ -646,6 +646,46 @@
   },
   {
     "type": "recipe",
+    "result": "reloaded_45colt_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_45colt_cowboy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_45colt_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_45colt_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_45colt_cowboy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_45colt_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_45colt_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_45colt_cowboy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_46mm",
     "obsolete": true
   },
@@ -1782,6 +1822,16 @@
   {
     "type": "recipe",
     "result": "bp_410shot_000_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_458wm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_458wm",
     "obsolete": true
   }
 ]

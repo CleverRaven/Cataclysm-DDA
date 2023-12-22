@@ -54,7 +54,6 @@
     "color": "brown",
     "range": 7,
     "ammo": [ "45colt" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 180,
     "durability": 7,
     "clip_size": 14,

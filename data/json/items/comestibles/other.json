@@ -1,22 +1,6 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "testcomest",
-    "name": { "str": "diet pill" },
-    "flags": [ "EDIBLE_FROZEN" ],
-    "weight": "100 g",
-    "color": "red",
-    "spoils_in": "4 days 4 hours",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 1000,
-    "description": "Not very nutritious.  Warning: contains calories, unsuitable for breatharians.",
-    "price": 100,
-    "volume": "250 ml"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "dry_bottle_gourd",
     "name": { "str": "dried bottle gourd" },
     "copy-from": "dry_lentils",

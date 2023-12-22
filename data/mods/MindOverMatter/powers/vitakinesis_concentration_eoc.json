@@ -13,12 +13,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -39,21 +39,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: vita_health_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('vita_health_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -75,12 +73,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -102,21 +100,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: vita_cure_disease')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('vita_cure_disease')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -138,12 +134,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -167,19 +163,19 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_nine", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(9)" ] },
-      { "math": [ "u_val('spell_exp', 'spell: vita_super_heal')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('vita_super_heal')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -202,12 +198,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -238,21 +234,19 @@
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_ten", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(10)" ] },
       { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_val('stored_kcal')" ] },
-      {
-        "math": [ "u_val('spell_exp', 'spell: vita_return_from_death')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
-      },
+      { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_val('spell_level', 'spell: vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

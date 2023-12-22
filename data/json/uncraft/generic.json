@@ -15,6 +15,95 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chess",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wchess_pawn", 8 ] ],
+      [ [ "bchess_pawn", 8 ] ],
+      [ [ "wchess_knight", 2 ] ],
+      [ [ "bchess_knight", 2 ] ],
+      [ [ "wchess_bishop", 2 ] ],
+      [ [ "bchess_bishop", 2 ] ],
+      [ [ "wchess_rook", 2 ] ],
+      [ [ "bchess_rook", 2 ] ],
+      [ [ "wchess_queen", 1 ] ],
+      [ [ "bchess_queen", 1 ] ],
+      [ [ "wchess_king", 1 ] ],
+      [ [ "bchess_king", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "small_chess",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "small_checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wchess_pawn", 8 ] ],
+      [ [ "bchess_pawn", 8 ] ],
+      [ [ "wchess_knight", 2 ] ],
+      [ [ "bchess_knight", 2 ] ],
+      [ [ "wchess_bishop", 2 ] ],
+      [ [ "bchess_bishop", 2 ] ],
+      [ [ "wchess_rook", 2 ] ],
+      [ [ "bchess_rook", 2 ] ],
+      [ [ "wchess_queen", 1 ] ],
+      [ [ "bchess_queen", 1 ] ],
+      [ [ "wchess_king", 1 ] ],
+      [ [ "bchess_king", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "checkpaper",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 s",
+    "components": [ [ [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "checkers",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
+      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "small_checkers",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "small_checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
+      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "handflare",
     "skill_used": "fabrication",
