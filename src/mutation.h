@@ -402,6 +402,8 @@ struct mutation_branch {
         std::set<json_character_flag> flags; // Mutation flags
         std::set<json_character_flag> active_flags; // Mutation flags only when active
         std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
+        std::vector<trait_id>
+        prevented_by; // Traits listed here will block this mutation from being acquired
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item

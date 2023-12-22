@@ -45,16 +45,14 @@
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_overcome_pain')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_overcome_pain')", "<=", "(difficulty_one_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_overcome_pain')", "<=", "(difficulty_one_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_overcome_pain')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -62,7 +60,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_overcome_pain')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -96,16 +94,14 @@
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_physical_enhance')", "<=", "(difficulty_two_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_physical_enhance')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_physical_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_physical_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -113,7 +109,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -147,16 +143,14 @@
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_breathe_skin')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "<=", "(difficulty_two_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_breathe_skin')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -164,7 +158,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_breathe_skin')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -198,16 +192,14 @@
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_flexibility')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_flexibility')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_flexibility')", "<=", "(difficulty_three_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_flexibility')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_flexibility')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -215,7 +207,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_flexibility')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -250,16 +242,14 @@
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_armor_skin')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_armor_skin')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_armor_skin')", "<=", "(difficulty_four_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_armor_skin')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -267,7 +257,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_armor_skin')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -302,16 +292,14 @@
         "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_climate_control')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_climate_control')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_climate_control')", "<=", "(difficulty_four_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_climate_control')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -319,7 +307,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_climate_control')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -354,16 +342,14 @@
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_enhance_mobility')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_enhance_mobility')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_enhance_mobility')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -371,7 +357,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -406,16 +392,14 @@
         "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_hammerhand')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "<=", "(difficulty_five_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_hammerhand')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -423,7 +407,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_hammerhand')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -458,16 +442,14 @@
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_reflex_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_reflex_enhance')", "<=", "(difficulty_six_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_reflex_enhance')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_reflex_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -475,7 +457,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_reflex_enhance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -510,16 +492,14 @@
         "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_sealed_system')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_sealed_system')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_sealed_system')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_sealed_system')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -527,7 +507,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_sealed_system')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -562,16 +542,14 @@
         "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_metabolism_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -579,7 +557,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_metabolism_enhance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -614,16 +592,14 @@
         "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_combat_dance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_combat_dance')", "<=", "(difficulty_eight_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_combat_dance')", "<=", "(difficulty_eight_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_combat_dance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -631,7 +607,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_combat_dance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -666,16 +642,14 @@
         "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_perfected_motion')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "<=", "(difficulty_nine_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('biokin_perfected_motion')", "<=", "(difficulty_nine_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -683,7 +657,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_perfected_motion')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

@@ -147,7 +147,6 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "UNPLUG" );
     ctxt.register_action( "MERGE" );
 }
 
