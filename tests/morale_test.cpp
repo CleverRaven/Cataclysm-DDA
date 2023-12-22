@@ -7,9 +7,9 @@
 #include "calendar.h"
 #include "type_id.h"
 
+static const efftype_id effect_antidepressants( "on_antidepressants" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
-static const efftype_id effect_took_prozac( "took_prozac" );
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -164,14 +164,14 @@ TEST_CASE( "player_morale_killed_innocent", "[player_morale]" )
     GIVEN( "killed an innocent" ) {
         m.add( MORALE_KILLED_INNOCENT, -100 );
 
-        WHEN( "took prozac" ) {
-            m.on_effect_int_change( effect_took_prozac, 1 );
+        WHEN( "took antidepressants" ) {
+            m.on_effect_int_change( effect_antidepressants, 1 );
 
             THEN( "it's not so bad" ) {
-                CHECK( m.get_level() == -25 );
+                CHECK( m.get_level() == -70 );
 
                 AND_WHEN( "the effect ends" ) {
-                    m.on_effect_int_change( effect_took_prozac, 0 );
+                    m.on_effect_int_change( effect_antidepressants, 0 );
 
                     THEN( "guilt returns" ) {
                         CHECK( m.get_level() == -100 );
@@ -339,8 +339,8 @@ TEST_CASE( "player_morale_cenobite", "[player_morale]" )
                 CHECK( m.has( MORALE_PERM_MASOCHIST ) == 120 );
             }
 
-            AND_WHEN( "took prozac" ) {
-                m.on_effect_int_change( effect_took_prozac, 1 );
+            AND_WHEN( "took antidepressants" ) {
+                m.on_effect_int_change( effect_antidepressants, 1 );
                 THEN( "it spoils all fun" ) {
                     CHECK( m.has( MORALE_PERM_MASOCHIST ) == 60 );
                 }

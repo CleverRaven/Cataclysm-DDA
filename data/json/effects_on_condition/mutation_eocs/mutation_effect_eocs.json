@@ -610,7 +610,11 @@
     "id": "seasonal_affective_fall",
     "recurrence": [ "5 days", "20 days" ],
     "condition": {
-      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "autumn" }, { "not": { "u_has_effect": "took_prozac" } } ]
+      "and": [
+        { "u_has_trait": "SEASONAL_AFFECTIVE" },
+        { "is_season": "autumn" },
+        { "not": { "u_has_effect": "on_antidepressants" } }
+      ]
     },
     "effect": [
       { "u_message": "It's only fall, but you already miss the summer sun.", "type": "bad" },
@@ -627,7 +631,11 @@
     "id": "seasonal_affective_winter",
     "recurrence": [ "3 days", "12 days" ],
     "condition": {
-      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "winter" }, { "not": { "u_has_effect": "took_prozac" } } ]
+      "and": [
+        { "u_has_trait": "SEASONAL_AFFECTIVE" },
+        { "is_season": "winter" },
+        { "not": { "u_has_effect": "on_antidepressants" } }
+      ]
     },
     "effect": [
       { "u_message": "The long, cold nights really get you feeling down.", "type": "bad" },

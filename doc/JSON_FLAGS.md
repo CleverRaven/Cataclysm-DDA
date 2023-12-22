@@ -504,7 +504,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
 - ```PLANTBLECH``` Activates `BLECH` iuse action if player does not have plant mutations.
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
-- ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant. Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes random number of negative mutations.
 - ```SEWAGE``` Causes vomiting.
 - ```SLEEP``` Greatly increases fatigue.

@@ -3,7 +3,7 @@
 #include "morale.h"
 #include "map_iterator.h"
 
-static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_antidepressant( "on_antidepressants" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
@@ -34,7 +34,7 @@ void Character::hoarder_morale_penalty()
     }
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
-    } else if( has_effect( effect_took_prozac ) ) {
+    } else if( has_effect( effect_antidepressant ) ) {
         pen = pen / 2;
     }
     if( pen > 0 ) {
