@@ -7636,5 +7636,13 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "splinter", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "aeronautical_section_chart",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "paper", 50 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

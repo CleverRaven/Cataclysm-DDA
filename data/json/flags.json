@@ -2371,5 +2371,10 @@
     "id": "TRANSPARENT",
     "type": "json_flag",
     "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
+  },
+  {
+    "id": "WORLD_MAP",
+    "type": "json_flag",
+    "info": "This map contains information about a significant chunk of the world, rather than a small corner of it."
   }
 ]

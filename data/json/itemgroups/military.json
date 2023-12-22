@@ -729,7 +729,7 @@
       { "item": "knife_trench", "prob": 14 },
       { "item": "flaregun", "prob": 20 },
       { "item": "signal_flare", "prob": 25 },
-      { "item": "militarymap", "prob": 4 },
+      { "group": "maps_milspec", "prob": 4 },
       { "item": "halligan", "prob": 10 },
       { "item": "fire_ax", "prob": 5 },
       { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_5" },
@@ -996,7 +996,7 @@
   {
     "id": "maps_milspec",
     "type": "item_group",
-    "items": [ [ "militarymap", 100 ], [ "satellitemap", 100 ] ]
+    "items": [ [ "militarymap", 45 ], [ "satellitemap", 45 ], [ "aeronautical_section_chart", 10 ] ]
   },
   {
     "id": "supplies_mechanics_milspec",

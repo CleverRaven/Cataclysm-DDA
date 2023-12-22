@@ -1404,7 +1404,7 @@ class item : public visitable
          * Marks the item as being used by this specific player, it remains unmarked
          * for other players. The player is identified by its id.
          */
-        void mark_as_used_by_player( const Character &p );
+        void mark_as_used_by_player( Character &p );
         /** Marks the item as filthy, so characters with squeamish trait can't wear it.
         */
         bool is_filthy() const;

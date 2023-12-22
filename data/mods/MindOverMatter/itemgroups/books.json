@@ -93,6 +93,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_maps",
-    "items": [ [ "satellitemap", 3 ], [ "roadmap", 2 ], [ "subwaystationmap", 1 ], [ "militarymap", 2 ], [ "sewermap", 1 ] ]
+    "items": [
+      [ "satellitemap", 3 ],
+      [ "roadmap", 2 ],
+      [ "subwaystationmap", 1 ],
+      [ "militarymap", 2 ],
+      [ "sewermap", 1 ],
+      [ "aeronautical_section_chart", 1 ]
+    ]
   }
 ]

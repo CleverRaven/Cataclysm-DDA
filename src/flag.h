@@ -373,6 +373,7 @@ extern const flag_id flag_ZERO_WEIGHT;
 extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_WONT_TRAIN_MARKSMANSHIP;
+extern const flag_id flag_WORLD_MAP;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NO_CLEAN;
 extern const flag_id flag_SOFT;

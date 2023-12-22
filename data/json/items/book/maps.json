@@ -560,5 +560,34 @@
       ],
       "message": "You add roads and local electronic and hardware stores as well as arcades and internet cafes to your map."
     }
+  },
+  {
+    "id": "aeronautical_section_chart",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "aeronautical section chart" },
+    "description": "A large map densely covered in information related to airports, regional flight routes, radio navigation beacons, and other arcana mostly of interest only to an airline pilot. Probably nobody cares about the airspace classifications or flight restriction zones any more.",
+    "flags": [ "PAPER_SHAPED", "WORLD_MAP" ],
+    "color": "light_green",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 2160,
+      "terrain": [
+        "ocean",
+        { "om_terrain": "runway", "om_terrain_match_type": "CONTAINS" },
+        { "om_terrain": "control_tower", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stadium", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "ws_fire_lookout_tower", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "radio_tower", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "wind_turbine", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "helipad", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "mil_base", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "s_air", "om_terrain_match_type": "PREFIX" }
+      ],
+      "//": "This map is intended to reveal anything taller than 200 feet (60 meters). The real maps do not necessarily reveal what type of structure is there, only that it is a tall obstacle. They also group multiple tall objects together into a single symbol. Stadiums are shown not as an obstacle but because they are a source of bright light.",
+      "//2": "It should also reveal at least the major highways and rail routes, major urban areas, as well as large–scale water features, but we don’t quite have any way to do that yet.",
+      "//3": "See https://aeronav.faa.gov/visual/11-30-2023/PDFs/New_York.pdf or https://aeronav.faa.gov/visual/11-30-2023/PDFs/Boston_TAC.pdf for examples",
+      "message": "You add a number of regional airports and other landmarks to your map."
+    }
   }
 ]

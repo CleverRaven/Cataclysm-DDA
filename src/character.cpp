@@ -13187,3 +13187,21 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
 
     return true;
 }
+
+bool Character::has_used_item_type( const item *it ) const
+{
+    const auto needle = string_format( ";%s;", it->type->get_id().str() );
+    auto previously_used = get_value( "ITEM_TYPES_USED" );
+    return previously_used.find( needle ) != std::string::npos;
+}
+
+void Character::mark_item_type_as_used( const item *it )
+{
+    std::string &previously_used = values[ "ITEM_TYPES_USED" ];
+    if( previously_used.empty() ) {
+        // *always* start with a ';'
+        previously_used = ";";
+    }
+    // and always end with a ';'
+    previously_used += string_format( "%s;", it->type->get_id().str() );
+}

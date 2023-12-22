@@ -363,6 +363,7 @@ const flag_id flag_WET( "WET" );
 const flag_id flag_WHIP( "WHIP" );
 const flag_id flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 const flag_id flag_WONT_TRAIN_MARKSMANSHIP( "WONT_TRAIN_MARKSMANSHIP" );
+const flag_id flag_WORLD_MAP( "WORLD_MAP" );
 const flag_id flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 const flag_id flag_ZERO_WEIGHT( "ZERO_WEIGHT" );
 const flag_id flag_ZOOM( "ZOOM" );

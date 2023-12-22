@@ -2113,7 +2113,7 @@
     "proficiencies": [ "prof_helicopter_pilot" ],
     "items": {
       "both": {
-        "items": [ "pants_cargo", "socks", "polo_shirt", "boots", "wristwatch", "fancy_sunglasses" ],
+        "items": [ "pants_cargo", "socks", "polo_shirt", "boots", "wristwatch", "fancy_sunglasses", "aeronautical_section_chart" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
       },
       "male": [ "boxer_shorts" ],
@@ -5792,7 +5792,8 @@
           "mil_flight_suit",
           "chestrig",
           "webbing_belt",
-          "legpouch_large"
+          "legpouch_large",
+          "aeronautical_section_chart"
         ],
         "entries": [
           { "group": "charged_matches" },

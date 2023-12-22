@@ -936,6 +936,14 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 See [Mapgen flags](MAPGEN.md#mapgen-flags).
 
+## Maps
+
+- ```WORLD_MAP``` Map is centered on overmap 0,0 rather than the
+  player’s location, and the name of the map item is built from the
+  name of the world rather than the name of the nearest city. This
+  type of map is intended to reveal sparse but global information
+  rather than detailed but local information. The player can only use
+  this type of item once, rather than using each instance once.
 
 ## Map Specials
 

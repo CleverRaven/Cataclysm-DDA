@@ -4022,6 +4022,17 @@ class Character : public Creature, public visitable
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchant_cache> enchantment_cache;
+
+        /**
+         * True if this character has already used this type of item. The
+         * item is identified by its id.
+         */
+        bool has_used_item_type( const item *it ) const;
+        /**
+         * Make this character remember that they have used this type of
+         * item. The item is identified by its id.
+         */
+        void mark_item_type_as_used( const item *it );
 };
 
 Character &get_player_character();

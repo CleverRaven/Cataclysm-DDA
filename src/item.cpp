@@ -113,6 +113,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
+#include "worldfactory.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -7075,11 +7076,19 @@ std::string item::display_name( unsigned int quantity ) const
         // TODO: fix point types
         tripoint map_pos_omt =
             get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
-        tripoint_abs_sm map_pos =
-            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
-        const city *c = overmap_buffer.closest_city( map_pos ).city;
-        if( c != nullptr ) {
-            name = string_format( "%s %s", c->name, name );
+        if( has_flag( flag_WORLD_MAP ) ) {
+            const WORLD *active_world = world_generator->active_world;
+            std::string const world_name = active_world->world_name;
+            if( !world_name.empty() ) {
+                name = string_format( "%s %s", world_name, name );
+            }
+        } else {
+            tripoint_abs_sm map_pos =
+                project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
+            const city *c = overmap_buffer.closest_city( map_pos ).city;
+            if( c != nullptr ) {
+                name = string_format( "%s %s", c->name, name );
+            }
         }
     }
 
@@ -12494,26 +12503,34 @@ bool item_compare_by_charges( const item &left, const item &right )
 static const std::string USED_BY_IDS( "USED_BY_IDS" );
 bool item::already_used_by_player( const Character &p ) const
 {
-    const auto it = item_vars.find( USED_BY_IDS );
-    if( it == item_vars.end() ) {
-        return false;
+    if( is_map() && has_flag( flag_WORLD_MAP ) ) {
+        return p.has_used_item_type( this );
+    } else {
+        const auto it = item_vars.find( USED_BY_IDS );
+        if( it == item_vars.end() ) {
+            return false;
+        }
+        // USED_BY_IDS always starts *and* ends with a ';', the search string
+        // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
+        // id has been added.
+        const std::string needle = string_format( ";%d;", p.getID().get_value() );
+        return it->second.find( needle ) != std::string::npos;
     }
-    // USED_BY_IDS always starts *and* ends with a ';', the search string
-    // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
-    // id has been added.
-    const std::string needle = string_format( ";%d;", p.getID().get_value() );
-    return it->second.find( needle ) != std::string::npos;
 }
 
-void item::mark_as_used_by_player( const Character &p )
+void item::mark_as_used_by_player( Character &p )
 {
-    std::string &used_by_ids = item_vars[ USED_BY_IDS ];
-    if( used_by_ids.empty() ) {
-        // *always* start with a ';'
-        used_by_ids = ";";
+    if( has_flag( flag_WORLD_MAP ) ) {
+        p.mark_item_type_as_used( this );
+    } else {
+        std::string &used_by_ids = item_vars[ USED_BY_IDS ];
+        if( used_by_ids.empty() ) {
+            // *always* start with a ';'
+            used_by_ids = ";";
+        }
+        // and always end with a ';'
+        used_by_ids += string_format( "%d;", p.getID().get_value() );
     }
-    // and always end with a ';'
-    used_by_ids += string_format( "%d;", p.getID().get_value() );
 }
 
 bool item::can_holster( const item &obj, bool ) const

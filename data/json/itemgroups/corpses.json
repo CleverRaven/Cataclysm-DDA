@@ -22,7 +22,10 @@
       { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ], "damage-min": 1, "damage-max": 4 },
       { "prob": 40, "group": "adderall_bottle_plastic_pill_prescription_10" },
       { "group": "wallets_military", "prob": 5 },
-      { "item": "militarymap", "prob": 5 },
+      {
+        "distribution": [ { "item": "militarymap", "prob": 1 }, { "item": "aeronautical_section_chart", "prob": 4 } ],
+        "prob": 5
+      },
       { "group": "mil_food", "prob": 15 },
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },

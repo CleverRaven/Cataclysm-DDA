@@ -167,9 +167,10 @@
         "f": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "C": { "item": "office_supplies", "chance": 60 },
         "t": { "item": "dining", "chance": 45 },
-        "b": { "item": "bunker_basement_books", "chance": 70, "repeat": 2 }
+        "b": { "item": "bunker_basement_books", "chance": 70, "repeat": 2 },
+        "T": { "item": "maps_milspec", "chance": 30 }
       },
-      "item": { "e": { "item": "microwave", "chance": 70 }, "T": { "item": "militarymap", "chance": 30 } },
+      "item": { "e": { "item": "microwave", "chance": 70 } },
       "toilets": { "&": {  } },
       "monster": { ".": { "monster": "mon_zombie_soldier", "chance": 10 } },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }

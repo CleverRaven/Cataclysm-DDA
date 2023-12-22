@@ -237,7 +237,7 @@
       },
       "monster": { "i": { "monster": "mon_zombie_soldier_blackops_1", "chance": 75 } },
       "place_loot": [
-        { "item": "militarymap", "x": 14, "y": 5 },
+        { "group": "maps_milspec", "x": 14, "y": 5 },
         { "group": "SUS_coffee_cupboard", "x": 1, "y": 2, "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "dinnerware", "x": 1, "y": 1, "chance": 2, "repeat": [ 5, 10 ] },
         { "group": "liquor_and_spirits", "x": 1, "y": 3, "chance": 50, "repeat": [ 3, 4 ] }

@@ -214,6 +214,8 @@
       ],
       "palettes": [ "airport_palette" ],
       "terrain": { " ": "t_open_air", "s": "t_grate" },
+      "//": "I count 21 desks in there. That gives a (1 − 0.05)²¹ = ~34% chance that any given airport fails to have a chart of the region.",
+      "item": { "d": [ { "item": "aeronautical_section_chart", "chance": 5 } ] },
       "place_monster": [
         { "group": "GROUP_CIVILIAN", "x": [ 4, 19 ], "y": [ 4, 19 ], "chance": 65, "repeat": [ 4, 8 ] },
         { "group": "GROUP_CIVILIAN", "x": [ 4, 19 ], "y": [ 52, 67 ], "chance": 50, "repeat": [ 1, 3 ] }

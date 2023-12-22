@@ -5239,7 +5239,11 @@ item &map::add_item( const tripoint &p, item new_item, int copies )
     }
 
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
+        if( new_item.has_flag( flag_WORLD_MAP ) ) {
+            new_item.set_var( "reveal_map_center_omt", tripoint( 0, 0, 0 ) );
+        } else {
+            new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
+        }
     }
 
     if( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
