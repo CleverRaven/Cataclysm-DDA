@@ -3715,8 +3715,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else {
             w = catacurses::newwin( TERMY, TERMX, point_zero );
             w_name = catacurses::newwin( 1, ncol_small, point( 2, 5 ) );
-            w_gender = catacurses::newwin( 1, ncol_small, point( 2, 7 ) );
-            w_outfit = catacurses::newwin( 1, ncol_small, point( 2, 6 ) );
+            w_gender = catacurses::newwin( 1, ncol_small, point( 2, 6 ) );
+            w_outfit = catacurses::newwin( 1, ncol_small, point( 2, 7 ) );
             w_height = catacurses::newwin( 1, ncol_small, point( 2, 8 ) );
             w_age = catacurses::newwin( 1, ncol_small, point( begin_sncol, 6 ) );
             w_blood = catacurses::newwin( 1, ncol_small, point( begin_sncol, 7 ) );
