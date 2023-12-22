@@ -164,7 +164,7 @@
     "symbol": "=",
     "color": "white",
     "description": " A handful of slaked lime, a white odorless powder with many uses.  Also known as calcium hydroxide.",
-    "material": [ "powder_nonflam" ],
+    "material": [ "slaked_lime" ],
     "volume": "250 ml",
     "weight": "2211 mg",
     "ammo_type": "components",
@@ -172,7 +172,7 @@
   },
   {
     "type": "AMMO",
-    "id": "material_sand",
+    "id": "sand",
     "category": "spare_parts",
     "price": 0,
     "price_postapoc": 0,
@@ -180,11 +180,11 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
-    "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "8 g",
+    "material": [ "sand" ],
+    "volume": "8 ml",
+    "weight": "5 g",
     "ammo_type": "components",
-    "count": 50
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -259,10 +259,9 @@
     "symbol": "*",
     "color": "red",
     "description": "A chunk of zincite.  Could be refined into zinc oxide, then into zinc by reduction with a source of carbon.",
-    "material": [ "stone" ],
+    "material": [ "zincite" ],
     "volume": "250 ml",
     "weight": "1412 g",
-    "//": "density: 5.64–5.68 g/cm3",
     "melee_damage": { "bash": 1 }
   },
   {

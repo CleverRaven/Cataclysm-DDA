@@ -2136,6 +2136,20 @@
   },
   {
     "type": "material",
+    "id": "zincite",
+    "name": "Zincite",
+    "copy-from": "stone",
+    "density": 5.68
+  },
+  {
+    "type": "material",
+    "id": "slaked_lime",
+    "name": "Slaked Lime",
+    "copy-from": "stone",
+    "density": 2.34
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2801,6 +2815,13 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "sand",
+    "name": "Sand",
+    "copy-from": "soil",
+    "density": 1.52
   },
   {
     "type": "material",

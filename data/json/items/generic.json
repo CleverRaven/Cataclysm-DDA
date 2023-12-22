@@ -1139,8 +1139,9 @@
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
     "material": [ "wood" ],
-    "weight": "751 g",
-    "volume": "750 ml",
+    "weight": "510 g",
+    "volume": "1042 ml",
+    "longest_side": "122 cm",
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 8 }
   },
