@@ -948,6 +948,19 @@ class container_inventory_selector : public inventory_pick_selector
         item_location loc;
 };
 
+class ammo_inventory_selector : public inventory_selector
+{
+    public:
+        explicit ammo_inventory_selector( Character &you, const item_location &reload_loc,
+                                          const inventory_selector_preset &preset = default_preset );
+
+        drop_location execute();
+        void set_all_entries_chosen_count();
+    private:
+        void mod_chosen_count( inventory_entry &entry, int val );
+        const item_location reload_loc;
+};
+
 class inventory_multiselector : public inventory_selector
 {
     public:

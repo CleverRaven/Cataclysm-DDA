@@ -157,6 +157,8 @@ item_location sterilize_cbm( Character &you );
 item_location change_sprite( Character &you );
 /** Unload item menu **/
 std::pair<item_location, bool> unload( Character &you );
+item::reload_option select_ammo( Character &you, const item_location &loc, bool prompt = false,
+                                 bool empty = true );
 /*@}*/
 
 } // namespace inv

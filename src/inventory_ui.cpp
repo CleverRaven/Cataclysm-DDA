@@ -3322,6 +3322,78 @@ inventory_selector::stats container_inventory_selector::get_raw_stats() const
             loc->get_used_holsters(), loc->get_total_holsters() );
 }
 
+ammo_inventory_selector::ammo_inventory_selector( Character &you,
+        const item_location &reload_loc, const inventory_selector_preset &preset ) :
+    inventory_selector( you, preset ), reload_loc( reload_loc )
+{
+    ctxt.register_action( "INCREASE_COUNT" );
+    ctxt.register_action( "DECREASE_COUNT" );
+
+    force_single_column = true;
+}
+
+// todo: this should happen when the entries are created, but that's a different refactoring
+void ammo_inventory_selector::set_all_entries_chosen_count()
+{
+    for( inventory_column *col : columns ) {
+        for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
+            item::reload_option tmp_opt( &u, reload_loc, entry->any_item() );
+            tmp_opt.qty( entry->get_available_count() );
+            entry->chosen_count = tmp_opt.qty();
+        }
+    }
+}
+
+void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int value )
+{
+    item::reload_option tmp_opt( &u, reload_loc, entry.any_item() );
+    tmp_opt.qty( entry.chosen_count + value );
+    entry.chosen_count = tmp_opt.qty();
+
+    entry.make_entry_cell_cache( preset );
+    on_change( entry );
+}
+
+drop_location ammo_inventory_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
+    while( true ) {
+        ui_manager::redraw();
+        const inventory_input input = get_input();
+
+        if( input.entry != nullptr ) {
+            if( input.action == "MOUSE_MOVE" ) {
+                if( highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+            } else if( input.action == "ANY_INPUT" || input.action == "SELECT" ) {
+                return { input.entry->any_item(), static_cast<int>( input.entry->chosen_count ) };
+            } else {
+                if( highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+                on_input( input );
+            }
+        } else if( input.action == "QUIT" ) {
+            return drop_location();
+        } else if( input.action == "CONFIRM" ) {
+            const inventory_entry &highlighted = get_active_column().get_highlighted();
+            if( highlighted && highlighted.is_selectable() ) {
+                return { highlighted.any_item(), static_cast<int>( highlighted.chosen_count ) };
+            }
+        } else if( input.action == "INCREASE_COUNT" ) {
+            inventory_entry &highlighted = get_active_column().get_highlighted();
+            mod_chosen_count( highlighted, 1 );
+        } else if( input.action == "DECREASE_COUNT" ) {
+            inventory_entry &highlighted = get_active_column().get_highlighted();
+            mod_chosen_count( highlighted, -1 );
+        } else {
+            on_input( input );
+        }
+    }
+}
+
 void inventory_selector::action_examine( const item_location &sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp
