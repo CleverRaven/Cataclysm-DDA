@@ -588,6 +588,7 @@
       [ "wheel_rim_motorbike", 5 ],
       [ "wheel_rim_bicycle", 5 ],
       [ "1cyl_combustion", 10 ],
+      [ "engine_1cyl_diesel_large", 10 ],
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
       [ "v6_combustion", 10 ],

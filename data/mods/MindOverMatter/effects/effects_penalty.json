@@ -294,11 +294,7 @@
     "apply_message": "",
     "remove_message": "The glow from your skin fades.",
     "rating": "bad",
-    "enchantments": [
-      {
-        "values": [ { "value": "LUMINATION", "add": { "math": [ "50 + ( u_val('vitamin', 'name:vitamin_psionic_drain'))" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "50 + ( u_vitamin('vitamin_psionic_drain'))" ] } } ] } ]
   },
   {
     "type": "effect_type",

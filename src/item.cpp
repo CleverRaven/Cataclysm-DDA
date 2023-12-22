@@ -6978,7 +6978,7 @@ std::string item::display_name( unsigned int quantity ) const
         } else {
             max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
         }
-        show_amt = !has_flag( flag_RELOAD_AND_SHOOT );
+        show_amt = ( !has_flag( flag_RELOAD_AND_SHOOT ) && !has_flag( flag_PSEUDO ) );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
@@ -13995,6 +13995,30 @@ std::string item::get_plant_name() const
         return std::string{};
     }
     return type->seed->plant_name.translated();
+}
+
+std::optional<furn_str_id> item::get_plant_seedling_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->seedling_form;
+}
+
+std::optional<furn_str_id> item::get_plant_mature_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->mature_form;
+}
+
+std::optional<furn_str_id> item::get_plant_harvestable_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const

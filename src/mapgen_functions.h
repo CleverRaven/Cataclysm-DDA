@@ -37,10 +37,8 @@ ter_id clay_or_sand();
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
 void mapgen_null( mapgendata &dat );
-void mapgen_field( mapgendata &dat );
 void mapgen_forest( mapgendata &dat );
 void mapgen_river_center( mapgendata &dat );
-//void mapgen_bridge( mapgendata &dat );
 void mapgen_river_curved_not( mapgendata &dat );
 void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );

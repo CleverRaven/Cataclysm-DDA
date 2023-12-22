@@ -426,6 +426,8 @@ class overmap
         void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
 
+        // code deduplication - calc ocean gradient
+        float calculate_ocean_gradient( const point_om_omt &p, point_abs_om this_omt );
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
@@ -555,6 +557,7 @@ class overmap
 bool is_river( const oter_id &ter );
 bool is_water_body( const oter_id &ter );
 bool is_lake_or_river( const oter_id &ter );
+bool is_ocean( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain

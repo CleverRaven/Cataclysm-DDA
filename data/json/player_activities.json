@@ -945,6 +945,16 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MUTANT_TREE_COMMUNION",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "communing with the mutant tree",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_EAT_MENU",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
