@@ -3504,8 +3504,8 @@ static void draw_gender( ui_adaptor &ui, const catacurses::window &w_gender,
 static void draw_outfit( ui_adaptor &ui, const catacurses::window &w_outfit,
                          const avatar &you, const bool highlight )
 {
-    const point male_pos( 1 + utf8_width( _( "Outfit:" ) ), 1 );
-    const point female_pos = male_pos + point( 2 + utf8_width( _( "Male" ) ), 1 );
+    const point male_pos( 1 + utf8_width( _( "Outfit:" ) ), 0 );
+    const point female_pos = male_pos + point( 2 + utf8_width( _( "Male" ) ), 0 );
 
     werase( w_outfit );
     mvwprintz( w_outfit, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Outfit:" ) );
