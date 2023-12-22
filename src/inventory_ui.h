@@ -783,6 +783,7 @@ class inventory_selector
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
         bool _categorize_map_items = false;
+        bool force_single_column = false;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor

@@ -2282,14 +2282,14 @@ void inventory_selector::rearrange_columns( size_t client_width )
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
     bool const front_only = prev_entry.is_collation_entry();
-    if( is_overflown( client_width ) && !own_gear_column.empty() ) {
+    if( ( is_overflown( client_width ) || force_single_column ) && !own_gear_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( own_gear_column.indent_entries() );
         }
         own_gear_column.move_entries_to( own_inv_column );
         own_inv_column.reset_width( {} );
     }
-    if( is_overflown( client_width ) && !map_column.empty() ) {
+    if( ( is_overflown( client_width ) || force_single_column ) && !map_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( map_column.indent_entries() );
         }
