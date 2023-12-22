@@ -59,7 +59,6 @@ std::optional<int> mycus( Character *, item *, const tripoint & );
 std::optional<int> petfood( Character *p, item *it, const tripoint & );
 std::optional<int> plantblech( Character *, item *, const tripoint & );
 std::optional<int> poison( Character *, item *, const tripoint & );
-std::optional<int> prozac( Character *, item *, const tripoint & );
 std::optional<int> purify_smart( Character *, item *, const tripoint & );
 std::optional<int> sewage( Character *, item *, const tripoint & );
 std::optional<int> smoking( Character *, item *, const tripoint & );

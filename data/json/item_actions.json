@@ -740,11 +740,6 @@
   },
   {
     "type": "item_action",
-    "id": "PROZAC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "ELECTRICSTORAGE",
     "name": { "str": "Manage external storage" }
   },

@@ -34,5 +34,26 @@
     "deactivate_condition": { "math": [ "u_val('blood_pressure')", "<", "120" ] },
     "effect": [ { "u_message": "Your head hurts, and everything looks blurry.", "type": "info" } ],
     "false_effect": [ { "u_message": "You feel normal again.", "type": "info" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "on_antidepressants",
+    "recurrence": "24 hours",
+    "//": "Condition is: u_effect_intensity('snri_effect') > 2 OR u_effect_intensity('ssri_effect') > 2 OR u_effect_intensity('ndri_effect') > 2",
+    "condition": {
+      "or": [
+        { "math": [ "u_effect_intensity('snri_effect')", ">", "2" ] },
+        { "math": [ "u_effect_intensity('ssri_effect')", ">", "2" ] },
+        { "math": [ "u_effect_intensity('ndri_effect')", ">", "2" ] }
+      ]
+    },
+    "//": "Deactive when all 3 are < 3",
+    "deactivate_condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('snri_effect')", "<", "3" ] },
+        { "math": [ "u_effect_intensity('ssri_effect')", "<", "3" ] },
+        { "math": [ "u_effect_intensity('ndri_effect')", "<", "3" ] }
+      ]
+    }
   }
 ]

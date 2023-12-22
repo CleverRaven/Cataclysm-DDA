@@ -228,9 +228,6 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 static const efftype_id effect_took_flumed( "took_flumed" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
 static const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
@@ -839,10 +836,12 @@ std::optional<int> iuse::anticonvulsant( Character *p, item *, const tripoint & 
     return 1;
 }
 
-std::optional<int> iuse::weed_cake( Character *p, item *, const tripoint & )
+std::optional<int> iuse::weed_cake( Character *p, item *it, const tripoint & )
 {
+    std::string item_name = it->tname();
     p->add_msg_if_player(
-        _( "You start scarfing down the delicious cake.  It tastes a little funny, though…" ) );
+        _( "You start scarfing down the delicious %s.  It tastes a little funny, though…" ),
+        item_name.c_str() );
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
@@ -999,21 +998,6 @@ std::optional<int> iuse::thorazine( Character *p, item *, const tripoint & )
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
     p->add_effect( effect_took_thorazine_visible, rng( 9_hours, 15_hours ) );
-    return 1;
-}
-
-std::optional<int> iuse::prozac( Character *p, item *, const tripoint & )
-{
-    if( !p->has_effect( effect_took_prozac ) ) {
-        p->add_effect( effect_took_prozac, 12_hours );
-    } else {
-        p->mod_stim( 3 );
-    }
-    if( one_in( 50 ) ) { // adverse reaction, same duration as prozac effect.
-        p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
-        p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
-    }
-    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return 1;
 }
 

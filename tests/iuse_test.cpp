@@ -33,8 +33,6 @@ static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
@@ -563,32 +561,6 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
                 CHECK( dummy.get_fatigue() >= 20 );
             }
         }
-    }
-}
-
-TEST_CASE( "prozac", "[iuse][prozac]" )
-{
-    avatar dummy;
-    dummy.normalize();
-
-    item prozac( "prozac", calendar::turn_zero, item::default_charges_tag{} );
-
-    SECTION( "prozac gives prozac and visible prozac effect" ) {
-        REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
-        REQUIRE_FALSE( dummy.has_effect( effect_took_prozac_visible ) );
-
-        dummy.consume( prozac );
-        CHECK( dummy.has_effect( effect_took_prozac ) );
-        CHECK( dummy.has_effect( effect_took_prozac_visible ) );
-    }
-
-    SECTION( "taking prozac twice gives a stimulant effect" ) {
-        dummy.set_stim( 0 );
-
-        dummy.consume( prozac );
-        CHECK( dummy.get_stim() == -5 ); // The iuse action gives +0 and item itself -5
-        dummy.consume( prozac );
-        CHECK( dummy.get_stim() == -7 ); // Second iuse gives +3
     }
 }
 

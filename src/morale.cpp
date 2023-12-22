@@ -28,10 +28,9 @@
 #include "translations.h"
 #include "ui_manager.h"
 
+static const efftype_id effect_antidepressants( "on_antidepressants" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -115,10 +114,8 @@ static const morale_mult optimist( 1.2, 0.8 );
 static const morale_mult badtemper( 0.8, 1.2 );
 // Numb characters have trouble feeling anything
 static const morale_mult numb( 0.25, 0.25 );
-// Prozac reduces overall negative morale by 75%.
-static const morale_mult prozac( 1.0, 0.25 );
-// The bad prozac effect reduces good morale by 75%.
-static const morale_mult prozac_bad( 0.25, 1.0 );
+// Characters on antidepressants have reduced morale penalties from bad events.
+static const morale_mult antidepressants( 1.0, 0.7 );
 } // namespace morale_mults
 
 std::string player_morale::morale_point::get_name() const
@@ -249,8 +246,6 @@ void player_morale::mutation_data::clear()
 player_morale::player_morale() :
     level( 0 ),
     level_is_valid( false ),
-    took_prozac( false ),
-    took_prozac_bad( false ),
     stylish( false ),
     perceived_pain( 0 ),
     radiation( 0 )
@@ -488,11 +483,9 @@ int player_morale::get_level() const
 
         level = std::sqrt( sum_of_positive_squares ) - std::sqrt( sum_of_negative_squares );
 
-        if( took_prozac ) {
-            level *= morale_mults::prozac;
-            if( took_prozac_bad ) {
-                level *= morale_mults::prozac_bad;
-            }
+        bool took_antidepressants = get_player_character().has_effect( effect_antidepressants );
+        if( took_antidepressants ) {
+            level *= morale_mults::antidepressants;
         }
 
         level_is_valid = true;
@@ -843,13 +836,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
         return true;
     };
 
-    if( took_prozac != morale.took_prozac ) {
-        debugmsg( "player_morale::took_prozac is inconsistent." );
-        return false;
-    } else if( took_prozac_bad != morale.took_prozac_bad ) {
-        debugmsg( "player_morale::took_prozac (bad) is inconsistent." );
-        return false;
-    } else if( stylish != morale.stylish ) {
+    if( stylish != morale.stylish ) {
         debugmsg( "player_morale::stylish is inconsistent." );
         return false;
     } else if( perceived_pain != morale.perceived_pain ) {
@@ -871,8 +858,7 @@ void player_morale::clear()
     for( auto &m : mutations ) {
         m.second.clear();
     }
-    took_prozac = false;
-    took_prozac_bad = false;
+
     stylish = false;
     super_fancy_items.clear();
 
@@ -966,11 +952,7 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
         const bodypart_id &bp )
 {
     const bodypart_id bp_null( "bp_null" );
-    if( eid == effect_took_prozac && bp == bp_null ) {
-        set_prozac( intensity != 0 );
-    } else if( eid == effect_took_prozac_bad && bp == bp_null ) {
-        set_prozac_bad( intensity != 0 );
-    } else if( eid == effect_cold && bp != bp_null ) {
+    if( eid == effect_cold && bp != bp_null ) {
         body_parts[bp].cold = intensity;
     } else if( eid == effect_hot && bp != bp_null ) {
         body_parts[bp].hot = intensity;
@@ -1034,23 +1016,6 @@ void player_morale::set_worn( const item &it, bool worn )
     update_constrained_penalty();
 }
 
-void player_morale::set_prozac( bool new_took_prozac )
-{
-    if( took_prozac != new_took_prozac ) {
-        took_prozac = new_took_prozac;
-        update_masochist_bonus();
-        invalidate();
-    }
-}
-
-void player_morale::set_prozac_bad( bool new_took_prozac_bad )
-{
-    if( took_prozac_bad != new_took_prozac_bad ) {
-        took_prozac_bad = new_took_prozac_bad;
-        invalidate();
-    }
-}
-
 void player_morale::set_stylish( bool new_stylish )
 {
     if( stylish != new_stylish ) {
@@ -1085,12 +1050,14 @@ void player_morale::update_masochist_bonus()
 
     int bonus = 0;
 
+    const bool took_antidepressants = get_player_character().has_effect( effect_antidepressants );
+
     if( any_masochist ) {
         bonus = perceived_pain;
         if( amateur_masochist ) {
             bonus = std::min( bonus, 20 );
         }
-        if( took_prozac ) {
+        if( took_antidepressants ) {
             bonus = bonus / 2;
         }
     }

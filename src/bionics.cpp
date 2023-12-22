@@ -78,6 +78,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -143,8 +144,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_took_flumed( "took_flumed" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_under_operation( "under_operation" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
@@ -977,15 +976,21 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 effect_pkill1_generic, effect_pkill1_acetaminophen, effect_pkill1_nsaid, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
-                effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
-                effect_took_flumed, effect_antifungal, effect_venom_weaken,
-                effect_venom_dmg, effect_paralyzepoison
+                effect_took_xanax, effect_took_flumed, effect_antifungal,
+                effect_venom_weaken, effect_venom_dmg, effect_paralyzepoison
             }
         };
 
         for( const string_id<effect_type> &eff : removable ) {
             remove_effect( eff );
         }
+        // purge vitamin_type::DRUGs from the blood
+        for( const auto &v : vitamin::all() ) {
+            if( v.first->type() == vitamin_type::DRUG ) {
+                vitamin_levels[v.first] = 0;
+            }
+        }
+
         // Purging the substance won't remove the fatigue it caused
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
