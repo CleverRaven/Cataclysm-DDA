@@ -2080,6 +2080,7 @@
         { "id": "stereo", "fg": 1251, "rotates": false, "multitile": false },
         { "id": "stethoscope", "fg": 1130, "rotates": false, "multitile": false },
         { "id": "steyr_aug", "fg": 1090, "rotates": false, "multitile": false },
+        { "id": "steyr_scout", "fg": 1057, "rotates": false, "multitile": false },
         { "id": "still", "fg": 1260, "rotates": false, "multitile": false },
         { "id": "storage_battery", "fg": 1381, "rotates": false, "multitile": false },
         { "id": "stout", "fg": 1444, "rotates": false, "multitile": false },
