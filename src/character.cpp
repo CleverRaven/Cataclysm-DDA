@@ -7505,13 +7505,12 @@ void Character::vomit()
     get_event_bus().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
-        stomach.empty();
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
-    } else {
-        // needed to ensure digesting vitamin_type::DRUGs are also emptied, even on an empty stomach.
-        stomach.empty();
     }
+    // needed to ensure digesting vitamin_type::DRUGs are also emptied, even on an empty stomach.
+    stomach.empty();
+
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
         const effect dummy_nausea( effect_source( this ), &effect_nausea.obj(), 0_turns,
