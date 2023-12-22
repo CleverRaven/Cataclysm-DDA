@@ -566,7 +566,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "aeronautical section chart" },
-    "description": "A large map densely covered in information related to airports, regional flight routes, radio navigation beacons, and other arcana mostly of interest only to an airline pilot. Probably nobody cares about the airspace classifications or flight restriction zones any more.",
+    "description": "A large map densely covered in information related to airports, regional flight routes, radio navigation beacons, and other arcana mostly of interest only to an airline pilot.  Probably nobody cares about the airspace classifications or flight restriction zones any more.",
     "flags": [ "PAPER_SHAPED", "WORLD_MAP" ],
     "color": "light_green",
     "use_action": {
