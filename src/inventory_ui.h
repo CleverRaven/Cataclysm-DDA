@@ -642,6 +642,8 @@ class inventory_selector
         bool empty() const;
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
+        uint64_t item_entry_count() const;
+        drop_location get_only_choice() const;
 
         /** Apply filter string to all columns */
         void set_filter( const std::string &str );

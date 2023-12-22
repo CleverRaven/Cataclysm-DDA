@@ -2873,6 +2873,33 @@ bool inventory_selector::has_available_choices() const
     } );
 }
 
+uint64_t inventory_selector::item_entry_count() const
+{
+    uint64_t count = 0;
+    for( const inventory_column *col : columns ) {
+        count += col->get_entries( return_item, true ).size();
+    }
+
+    return count;
+}
+
+drop_location inventory_selector::get_only_choice() const
+{
+    if( item_entry_count() != 1 ) {
+        debugmsg( "inventory_selector::get_only_choice called with more that one choice" );
+        return drop_location();
+    }
+
+    for( const inventory_column *col : columns ) {
+        const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
+        if( !ent.empty() ) {
+            return { ent.front()->any_item(), ent.front()->get_available_count() };
+        }
+    }
+
+    return drop_location();
+}
+
 inventory_input inventory_selector::get_input()
 {
     std::string const &action = ctxt.handle_input();
