@@ -7512,6 +7512,9 @@ void Character::vomit()
         stomach.empty();
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
+    } else {
+        // needed to ensure digesting vitamin_type::DRUGs are also emptied, even on an empty stomach.
+        stomach.empty();
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
