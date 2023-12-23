@@ -3972,10 +3972,7 @@
     "name": { "male": "Gode", "female": "Gydje" },
     "description": "As a spiritual leader of the Asatru Faith, you conducted your small community into ceremonies, rituals, sacrifices and feasts for the Norse Gods.  You can't say if Ragnarok has come, but you'll surely fight like a warrior until your encounter with the Valkyries.",
     "points": 0,
-    "skills": [ 
-           { "level": 2, "name": "speech" },
-           { "level": 1, "name": "melee" }
-              ],
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "melee" } ],
     "items": {
       "both": {
         "items": [ "silver_ring", "leather_belt", "socks", "boots", "holybook_asatru" ],
