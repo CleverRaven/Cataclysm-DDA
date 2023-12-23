@@ -35,7 +35,7 @@
       { "item": "file", "count": [ 1, 15 ], "prob": 95 },
       { "item": "paper", "count": [ 2, 30 ], "prob": 80 },
       { "item": "book_binder", "prob": 80 },
-      { "group": "loose_chess_pieces", "prob" 1 },
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
