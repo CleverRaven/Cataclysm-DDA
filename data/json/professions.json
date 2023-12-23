@@ -775,7 +775,7 @@
           { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
           { "item": "apron_cotton", "variant": "generic_apron_cotton" },
-          { "item": "pants", "variant": "pants_white" } ]
+          { "item": "pants", "variant": "pants_white" }
         ]
       },
       "male": [ "briefs" ],
