@@ -4962,7 +4962,7 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
-          { "item": "pants", "variant": "pants_black" } ]
+          { "item": "pants", "variant": "pants_black" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -4984,8 +4984,8 @@
     ],
     "items": {
       "both": {
-        "items": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "baseball", "bat", "whistle", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tank_top", "variant": "tank_top_generic" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -5091,7 +5091,7 @@
           { "group": "charged_smart_phone" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "pants", "variant": "pants_black" } ]
+          { "item": "pants", "variant": "pants_black" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -5360,7 +5360,7 @@
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "dress_shoes", "polo_shirt", "socks", "mag_dude" ],
-      "entries": { "item": "pants", "variant": "pants_black" } ],
+      "entries": [ { "item": "pants", "variant": "pants_black" } ],
       "female": [
         "polo_shirt",
         "bra",
@@ -6258,7 +6258,7 @@
         "items": [ "pom_poms", "socks_ankle", "sneakers" ],
         "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader" } ]
       },
-      "male": [ "briefs", "shorts", "tank_top" ],
+      "male": [ "briefs", "shorts" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
     "missions": [ "MISSION_SOCIAL_BUTTERFLY" ],
