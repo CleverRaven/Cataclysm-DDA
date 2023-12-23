@@ -3392,7 +3392,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch", "folded_wheelchair_generic" ],
-        "entries:" [ { "item": "pants", "variant": "pants_black" } ],
+        "entries": [ { "item": "pants", "variant": "pants_black" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
