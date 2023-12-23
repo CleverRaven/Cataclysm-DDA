@@ -215,7 +215,7 @@ class messages_impl
                             // check that smiley_locations.back() did not return none
                             if( prev_space != std::string::npos ) {
                                 const std::string word = msg.substr( prev_space, j - prev_space );
-                                const std::string forbidden_words[] = { " that", " with", " this", " over", " your", " onto" };
+                                const std::array<std::string, 6> forbidden_words = { " that", " with", " this", " over", " your", " onto" };
                                 for( const std::string &forbidden_word : forbidden_words ) {
                                     if( word == forbidden_word ) {
                                         wordskip = true;
@@ -250,10 +250,12 @@ class messages_impl
                         }
                     }
                     msg.insert( smiley_location, smiley_string );
-                    for( size_t j = 0; j < smiley_locations.size(); j++ ) {
-                        if( smiley_locations[j] > smiley_location ) {
+                    //for( size_t j = 0; j < smiley_locations.size(); j++ ) {
+                    // modernize-loop-convert. Use range-based for loop instead.
+                    for( size_t &smil_loc : smiley_locations ) {
+                        if( smil_loc > smiley_location ) {
                             // we increment to account for the insertion of the smiley string
-                            smiley_locations[j] += 3;
+                            smil_loc += 3;
                         }
                     }
                 }
