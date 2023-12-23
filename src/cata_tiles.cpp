@@ -1309,10 +1309,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         max_row != here.prev_max_row ) {
         set_draw_cache_dirty();
     }
-    here.prev_min_col = min_col
-    here.prev_max_col = max_col
-    here.prev_min_row = min_row
-    here.prev_max_row = max_row
+    here.prev_min_col = min_col;
+    here.prev_max_col = max_col;
+    here.prev_min_row = min_row;
+    here.prev_max_row = max_row;
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
