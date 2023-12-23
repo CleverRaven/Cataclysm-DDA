@@ -4009,7 +4009,12 @@
     "items": {
       "both": {
         "items": [ "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" }, { "item": "holy_symbol", "variant": "muslim_necklace" }, { "item": "pants", "variant": "pants_white" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "holy_symbol", "variant": "muslim_necklace" },
+          { "item": "pants", "variant": "pants_white" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
