@@ -1316,7 +1316,11 @@
     "items": {
       "both": {
         "items": [ "socks", "sneakers", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" }, { "item": "pants", "variant": "pants_black" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
