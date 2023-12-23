@@ -572,7 +572,7 @@
     "id": "biokin_perfected_motion",
     "type": "SPELL",
     "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
     "message": "The world around you slows down to a crawl.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -602,5 +602,32 @@
     "base_casting_time": 75,
     "final_casting_time": 15,
     "casting_time_increment": -4
-  }
+  },
+  {
+    "id": "biokin_hurricane_blows",
+    "type": "SPELL",
+    "name": "[Ψ]Hurricane Blows",
+    "description": "You can now strike so quickly that you don't even seem to move at all.  Before an opponent can even finish blinking, you can strike them multiple times, executing your final blow before they feel the pain of the first.\n\nHurricane Blows <color_red>cannot be active</color> with Perfected Motion.",
+    "message": "The world around you slows down to a stop.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_biokin_hurricane_blows",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": 100,
+    "max_duration": 100,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2500,
+    "energy_increment": -75,
+    "base_casting_time": 65,
+    "final_casting_time": 15,
+    "casting_time_increment": -3
+  } 
 ]
