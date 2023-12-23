@@ -17,7 +17,7 @@
   {
     "id": "exploding_arrow_warhead",
     "type": "MIGRATION",
-    "replace": "exploding_arrow_warhead"
+    "replace": "arrow_cf"
   },
   {
     "id": "minispeargun",

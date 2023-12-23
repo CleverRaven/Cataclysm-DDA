@@ -2805,6 +2805,7 @@ spasming
 spearcat
 spearfisher
 spearfishers
+spearguns
 spearhand
 spearmen
 speciesism
@@ -3406,6 +3407,7 @@ woodsmanship
 woom
 woosh
 workarounds
+workbenches
 workcycle
 workshifts
 worldgen

@@ -2057,7 +2057,6 @@
     "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
     "volume": "250 ml",
     "weight": "305 g",
-    "stack_size": 1,
     "container": "bottle_glass",
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
