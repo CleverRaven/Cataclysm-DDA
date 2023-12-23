@@ -1169,7 +1169,7 @@
     "color": "light_gray",
     "description": "A small, replaceable filter cartridge for an air filtration mask.",
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "200 mg",
     "ammo_type": "gasfilter_s",
     "count": 1
   },
@@ -1185,7 +1185,7 @@
     "color": "light_gray",
     "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
     "volume": "1 ml",
-    "weight": "1 g",
+    "weight": "200 mg",
     "ammo_type": "gasfilter_m",
     "count": 1
   },

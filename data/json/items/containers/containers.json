@@ -128,7 +128,7 @@
     "category": "container",
     "name": { "str": "reusable plastic sack" },
     "looks_like": "bag_plastic",
-    "description": "A large and sturdy sack, made out of some plastic material;  Popular choice to store sand, gravel, cement, or stop some local flood.",
+    "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
     "//": "durasack woven polypropylene bags",
     "weight": "750 g",
     "volume": "750 ml",

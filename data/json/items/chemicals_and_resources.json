@@ -704,7 +704,7 @@
     "color": "white",
     "description": "Acetone, best known as the primary constituent of most nail polish removers.  Flammable, and can be easily used for potent homemade explosives, as demonstrated by the terrorist attacks of 2016.",
     "volume": "250 ml",
-    "weight": "200 g",
+    "weight": "190 g",
     "material": [ "acetone" ],
     "ammo_type": "components",
     "phase": "liquid",
