@@ -342,13 +342,25 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
 static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter,
         int batch, const std::function<bool( const item & )> &filter )
 {
+    std::function<bool( const item & )> empty_container_filter = [&filter]( const item & it ) {
+        return it.is_container_empty() && filter( it );
+    };
     map &m = get_map();
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
     if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
     !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
     return p.type == pocket_type::CONTAINER && p.watertight;
 } ) ) {
-        return crafter->consume_items( it, batch, filter );
+        std::list<item> empty_consumed = crafter->consume_items( it, batch, empty_container_filter );
+
+        if( empty_consumed.size() < static_cast<size_t>( it.comp.count ) * batch ) {
+            comp_selection<item_comp> remainder = it;
+            remainder.comp.count = 1;
+            std::list<item>used_consumed = crafter->consume_items( remainder,
+                                           batch * it.comp.count - empty_consumed.size(), filter );
+            empty_consumed.splice( empty_consumed.end(), used_consumed );
+        }
+        return empty_consumed;
     }
 
     // Everything below only occurs for item components that are liquid containers
