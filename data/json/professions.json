@@ -3976,7 +3976,11 @@
     "items": {
       "both": {
         "items": [ "kariginu", "eboshi", "hakama", "tabi_dress", "geta", "holybook_kojiki" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "shinto_necklace" }, { "item": "pants", "variant": "pants_white" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "holy_symbol", "variant": "shinto_necklace" },
+          { "item": "pants", "variant": "pants_white" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
