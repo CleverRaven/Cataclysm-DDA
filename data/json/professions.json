@@ -792,7 +792,7 @@
     "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_intro_biology", "prof_wp_basic_bird", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [, "socks", "sneakers" ],
+        "items": [ "socks", "sneakers" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "knife_butcher", "container-item": "sheath" },
