@@ -3963,7 +3963,7 @@
       "male": [ "cloak", "tunic", "briefs" ], 
       "entries": [ { "item": "pants", "variant": "pants_brown" } ],
       "female": [ "silver_hairpin", "bra", "dress", "panties" ],
-      "entries": { "item": "altered_apron", "variant": "generic_apron_cotton" } ]
+      "entries": [ { "item": "altered_apron", "variant": "generic_apron_cotton" } ]
     }
   },
   {
