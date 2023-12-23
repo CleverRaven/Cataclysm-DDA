@@ -11,6 +11,8 @@
     "//": "Any basic shivs not explicity designed for combat, or low-quality things.",
     "tools": [
       [
+        [ "glass_shiv", -1 ],
+        [ "sharp_toothbrush", -1 ],
         [ "bone_knife", -1 ],
         [ "knuckle_katar", -1 ],
         [ "sharp_toothbrush", -1 ],
@@ -48,6 +50,9 @@
         [ "makeshift_scythe_war", -1 ],
         [ "battleaxe_fake", -1 ],
         [ "battleaxe_inferior", -1 ],
+        [ "ax_sheets_welded", -1 ],
+        [ "ax_sheets_bolted", -1 ],
+        [ "hockey_stick", -1 ],
         [ "lucern_hammerfake", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
@@ -533,7 +538,8 @@
         [ "lucern_hammer", -1 ],
         [ "2h_club_kanabo_studded", -1 ],
         [ "2h_club_kanabo_spiked", -1 ],
-        [ "lucern_hammer", -1 ]
+        [ "lucern_hammer", -1 ],
+        [ "mjolnir", -1 ]
       ]
     ]
   },
@@ -550,9 +556,12 @@
         [ "mace_simple", -1 ],
         [ "morningstar_fake", -1 ],
         [ "morningstar_inferior", -1 ],
+        [ "club_wooden", -1 ]
         [ "nailbat", -1 ],
+        [ "bwirebat", -1 ],
         [ "bat", -1 ],
-        [ "bat_metal", -1 ]
+        [ "bat_metal", -1 ],
+        [ "bat_nerf", -1 ]
       ]
     ]
   },

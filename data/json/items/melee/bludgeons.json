@@ -337,6 +337,7 @@
     "longest_side": "20 cm",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
     "category": "weapons",
+    "weapon_category": [ "BATONS" ],
     "melee_damage": { "bash": 13 }
   },
   {
@@ -1351,6 +1352,7 @@
     "material": [ "wood", "steel" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
     "volume": "2500 ml",
     "longest_side": "60 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
