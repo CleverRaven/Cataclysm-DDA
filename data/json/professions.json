@@ -3971,13 +3971,7 @@
           { "item": "bronze_knife", "container-item": "sheath" }
         ]
       },
-      
-      "male": {
-        "items": [ "cloak", "tunic", "briefs" ],
-        "entries": [
-          { "item": "pants", "variant": "pants_brown" }
-        ]
-      },
+      "male": { "items": [ "cloak", "tunic", "briefs" ], "entries": [ { "item": "pants", "variant": "pants_brown" } ] },
       "female": {
         "items": [ "silver_hairpin", "bra", "dress", "panties" ],
         "entries": [ { "item": "altered_apron", "variant": "generic_apron_cotton" } ]
