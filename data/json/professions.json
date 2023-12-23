@@ -3980,9 +3980,7 @@
       },
       "female": {
         "items": [ "silver_hairpin", "bra", "dress", "panties" ],
-        "entries": [
-          { "item": "altered_apron", "variant": "generic_apron_cotton" }
-        ]
+        "entries": [ { "item": "altered_apron", "variant": "generic_apron_cotton" } ]
       }
     }
   },
