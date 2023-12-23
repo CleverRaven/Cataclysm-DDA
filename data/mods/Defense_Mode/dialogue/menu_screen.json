@@ -357,7 +357,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "<color_yellow>The Call of Cthulu</color>: (Fend off hordes of eldritch horrors.)",
+        "text": "<color_yellow>The Call of Cthulhu</color>: (Fend off hordes of eldritch horrors.)",
         "effect": [
           { "math": [ "regular_zombies_allowed", "=", "0" ] },
           { "math": [ "special_zombies_allowed", "=", "0" ] },
