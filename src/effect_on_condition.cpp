@@ -296,6 +296,12 @@ bool effect_on_condition::activate( dialogue &d ) const
 {
     bool retval = false;
     d.amend_callstack( "EOC: " + id.str() );
+    if( d.get_callstack().size() > 5000 ) {
+        if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
+                                     id.str() ) ) ) {
+            return false;
+        }
+    }
     // each version needs a copy of the dialogue to pass down
     dialogue d_eoc( d );
     if( !has_condition || condition( d_eoc ) ) {

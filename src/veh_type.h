@@ -92,6 +92,7 @@ enum vpart_bitflags : int {
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
     VPFLAG_CARGO,
+    VPFLAG_CARGO_PASSABLE,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
     VPFLAG_WATER_WHEEL,
@@ -110,6 +111,7 @@ enum vpart_bitflags : int {
     VPFLAG_CABLE_PORTS,
     VPFLAG_BATTERY,
     VPFLAG_POWER_TRANSFER,
+    VPFLAG_HUGE_OK,
 
     NUM_VPFLAGS
 };

@@ -524,9 +524,7 @@
     "rating": "good",
     "//": "+0.2x smamina regen for each level",
     "enchantments": [
-      {
-        "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "u_val('spell_level', 'spell: spell_stamina_wonder') / 5" ] } } ]
-      }
+      { "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "u_spell_level('spell_stamina_wonder') / 5" ] } } ] }
     ]
   },
   {
@@ -539,11 +537,7 @@
     "rating": "good",
     "show_intensity": false,
     "//": "+1 dodge initially, +1 each 6 levels",
-    "enchantments": [
-      {
-        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "(u_val('spell_level', 'spell: spell_dodge') / 6 ) + 1" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "(u_spell_level('spell_dodge') / 6 ) + 1" ] } } ] } ]
   },
   {
     "id": "effect_endurance",
@@ -558,15 +552,15 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } }
+          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
+          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } }
         ]
       }
     ]
@@ -586,12 +580,9 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') * 2" ] } },
-          { "value": "BONUS_DODGE", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 10" ] } },
-          {
-            "value": "MELEE_DAMAGE",
-            "multiply": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 20" ] }
-          }
+          { "value": "ATTACK_SPEED", "add": { "math": [ "u_spell_level('spell_melee_damage') * 2" ] } },
+          { "value": "BONUS_DODGE", "add": { "math": [ "u_spell_level('spell_melee_damage') / 10" ] } },
+          { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_spell_level('spell_melee_damage') / 20" ] } }
         ]
       }
     ]
@@ -606,9 +597,7 @@
     "rating": "good",
     "show_intensity": false,
     "//": "+5 speed for each level",
-    "enchantments": [
-      { "values": [ { "value": "SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_speed_wonder') * 5" ] } } ] }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "u_spell_level('spell_speed_wonder') * 5" ] } } ] } ]
   },
   {
     "id": "effect_weakening",
@@ -895,9 +884,7 @@
           {
             "value": "SPEED",
             "add": {
-              "math": [
-                "( ( 5 + ( u_val('spell_level', 'spell: salamander_increase_speed_spell') * 1.5 ) ) ) * (scaling_factor(u_val('strength') ) )"
-              ]
+              "math": [ "( ( 5 + ( u_spell_level('salamander_increase_speed_spell') * 1.5 ) ) ) * (scaling_factor(u_val('strength') ) )" ]
             }
           }
         ]
@@ -965,9 +952,7 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [
-                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
-              ]
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
             }
           }
         ]
@@ -989,9 +974,7 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [
-                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
-              ]
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
             }
           }
         ]
@@ -1014,9 +997,7 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [
-                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
-              ]
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
             }
           }
         ]

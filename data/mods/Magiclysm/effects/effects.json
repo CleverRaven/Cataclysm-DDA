@@ -154,11 +154,7 @@
     "desc": [ "Light is distorting around you and making it easier for you to avoid attacks." ],
     "apply_message": "The edges of your vision ripple slightly.",
     "remove_message": "The aura of light distortion around you vanishes.",
-    "enchantments": [
-      {
-        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_val('spell_level', 'spell: obfuscated_body') / 7) + 1)" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_spell_level('obfuscated_body') / 7) + 1)" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -179,12 +175,7 @@
     "remove_message": "The tingling fades.",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "ARMOR_ACID",
-            "multiply": { "math": [ "((u_val('spell_level', 'spell: acid_resistance') * -0.02) - 0.2)" ] }
-          }
-        ]
+        "values": [ { "value": "ARMOR_ACID", "multiply": { "math": [ "((u_spell_level('acid_resistance') * -0.02) - 0.2)" ] } } ]
       }
     ]
   },
@@ -745,17 +736,14 @@
     "enchantments": [
       {
         "values": [
-          {
-            "value": "HUNGER",
-            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
-          },
+          { "value": "HUNGER", "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] } },
           {
             "value": "THIRST",
-            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] }
           },
           {
             "value": "METABOLISM",
-            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] }
           },
           { "value": "REGEN_HP", "multiply": -1.0 }
         ]
@@ -773,12 +761,7 @@
     "max_duration": "30 minutes",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "MOTION_VISION_RANGE",
-            "add": { "math": [ "( u_val('spell_level', 'spell: earthshaper_danger_sense') * 3)" ] }
-          }
-        ]
+        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] } } ]
       }
     ]
   },
@@ -792,12 +775,7 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "SIGHT_RANGE_NETHER",
-            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
-          }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_spell_level('animist_sense_outsiders') * 2.5) + 3)" ] } } ]
       }
     ]
   },
@@ -815,10 +793,7 @@
         "emitter": "emit_kelvinist_anti_cold",
         "values": [
           { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-          {
-            "value": "ARMOR_COLD",
-            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
-          }
+          { "value": "ARMOR_COLD", "add": { "math": [ "( u_spell_level('kelvinist_anti_cold') * -1)" ] } }
         ]
       }
     ]
@@ -837,10 +812,7 @@
         "emitter": "emit_kelvinist_anti_heat",
         "values": [
           { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
-          }
+          { "value": "ARMOR_HEAT", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } }
         ]
       }
     ]
@@ -854,12 +826,7 @@
     "remove_message": "You can feel gravity take hold of you again.",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "FALL_DAMAGE",
-            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
-          }
-        ]
+        "values": [ { "value": "FALL_DAMAGE", "multiply": { "math": [ "(( u_spell_level('magus_slowfall') * -0.01) - 0.9 )" ] } } ]
       }
     ]
   },

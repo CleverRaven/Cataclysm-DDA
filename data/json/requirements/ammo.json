@@ -17,6 +17,12 @@
     "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_303",
+    "type": "requirement",
+    "//": "Components required for 303 ammo",
+    "components": [ [ [ "303_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_308",
     "type": "requirement",
     "//": "Components required for 308 ammo",
@@ -45,6 +51,12 @@
     "type": "requirement",
     "//": "Components required for 380 ammo",
     "components": [ [ [ "380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_458wm",
+    "type": "requirement",
+    "//": "Components required for 458 WM ammo",
+    "components": [ [ [ "458wm_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_57",

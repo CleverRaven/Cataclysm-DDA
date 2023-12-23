@@ -302,7 +302,6 @@
       [ "SICP", 3 ],
       [ "recipe_serum", 2 ],
       [ "recipe_chimera", 1 ],
-      [ "recipe_mil_augs", 1 ],
       [ "recipe_labchem", 1 ],
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       [ "solder_wire", 70 ],
