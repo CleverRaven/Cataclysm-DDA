@@ -3958,7 +3958,11 @@
     "items": {
       "both": {
         "items": [ "silver_ring", "leather_belt", "socks", "boots", "holybook_asatru" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "odin_necklace1" }, { "item": "bronze_knife", "container-item": "sheath" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "holy_symbol", "variant": "odin_necklace1" },
+          { "item": "bronze_knife", "container-item": "sheath" }
+        ]
       },
       "male": [ "cloak", "tunic", "briefs" ],
       "entries": [ { "item": "pants", "variant": "pants_brown" } ],
