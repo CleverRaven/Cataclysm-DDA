@@ -123,6 +123,24 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "bag_durasack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reusable plastic sack" },
+    "looks_like": "bag_plastic",
+    "description": "A large and sturdy sack, made out of some plastic material;  Popular choise to store sand, gravel, cement, or stop some local flood.",
+    "//": "durasack woven polypropylene bags",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 85,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "bag_canvas",
     "type": "GENERIC",
     "category": "container",

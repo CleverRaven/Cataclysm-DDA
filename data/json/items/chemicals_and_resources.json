@@ -97,10 +97,10 @@
     "color": "dark_gray",
     "description": "A handful of gravel, smaller than pebbles but larger than sand.",
     "material": [ "stone" ],
-    "volume": "250 ml",
-    "weight": "6 g",
+    "volume": "5 ml",
+    "weight": "5 g",
     "ammo_type": "components",
-    "count": 50,
+    "count": 1,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -172,7 +172,7 @@
   },
   {
     "type": "AMMO",
-    "id": "sand",
+    "id": "material_sand",
     "category": "spare_parts",
     "price": 0,
     "price_postapoc": 0,
@@ -1696,21 +1696,6 @@
     "ammo_type": "components",
     "stack_size": 200,
     "looks_like": "bb"
-  },
-  {
-    "id": "sandbag",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "sandbag" },
-    "description": "A canvas sack filled with sand.  It can be used to construct simple barricades.",
-    "weight": "24415 g",
-    "volume": "16L",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "canvas", "powder" ],
-    "symbol": ")",
-    "color": "brown",
-    "looks_like": "bag_canvas"
   },
   {
     "id": "gravelbag",
