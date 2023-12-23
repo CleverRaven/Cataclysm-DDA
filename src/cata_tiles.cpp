@@ -1307,7 +1307,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //invalidate draw_points_cache if viewport dimensions have changed
     if( min_col != here.prev_min_col || max_col != here.prev_max_col || min_row != here.prev_min_row ||
         max_row != here.prev_max_row ) {
-        here.draw_points_cache_dirty = true;
+        set_draw_cache_dirty();
     }
     here.prev_min_col = min_col
     here.prev_max_col = max_col
