@@ -49,6 +49,7 @@
         [ "battleaxe_fake", -1 ],
         [ "battleaxe_inferior", -1 ],
         [ "lucern_hammerfake", -1 ],
+        [ "warhammer", -1 ]
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
