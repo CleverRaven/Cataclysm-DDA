@@ -878,7 +878,6 @@ void computer_session::action_complete_disable_external_power()
 void computer_session::action_repeater_mod()
 {
     avatar &pc = get_avatar();
-    std::vector<mission*> list = pc.get_active_missions();
     static const mission_type_id commo_3 = mission_MISSION_OLD_GUARD_NEC_COMMO_3;
     static const mission_type_id commo_4 = mission_MISSION_OLD_GUARD_NEC_COMMO_4;
     static const mission_type_id repeat = mission_MISSION_OLD_GUARD_REPEATER;
@@ -891,7 +890,7 @@ void computer_session::action_repeater_mod()
                             "for doing so." ) );
             query_any();
         }
-        for( mission *miss : list ) {
+        for( mission *miss : pc.get_active_missions() ) {
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_line( _( "Repeater mod installed…" ) );
@@ -912,7 +911,7 @@ void computer_session::action_repeater_mod()
                 break;
             }
         }
-        
+
     } else {
         print_error( _( "You do not have a repeater mod to install…" ) );
         query_any();
