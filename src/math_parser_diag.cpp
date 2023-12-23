@@ -627,7 +627,7 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
         std::string const format = fmt_val.str( d );
         if( format == "percent" ) {
-            return static_cast<double>( raw * 100  / prof->time_to_learn() );
+            return raw * 100.0  / prof->time_to_learn();
         } else if( format == "permille" ) {
             return static_cast<double>( raw * 1000  / prof->time_to_learn() );
         } else if( format == "total_time_required" ) {
