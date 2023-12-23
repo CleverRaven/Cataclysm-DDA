@@ -38,7 +38,7 @@
     "id": "real_shivs",
     "type": "requirement",
     "//": "Any real, small weapons that can be concealed and stab someone at close range, like pocket knives.",
-    "tools": [ [ [ "switchblade", -1 ], [ "knife_swissarmy", -1 ], [ "punch_dagger", -1 ] ] ]
+    "tools": [ [ [ "switchblade", -1 ], [ "knife_swissarmy", -1 ], [ "punch_dagger", -1 ], [ "knuckle_katar", -1 ] ] ]
   },
   {
     "id": "real_claws",
@@ -172,6 +172,8 @@
         [ "fencing_sabre_sharpened", -1 ],
         [ "shock_sabre", -1 ],
         [ "rapier_fake", -1 ],
+        [ "broadsword_fake", -1 ],
+        [ "broadsword_inferior", -1 ],
         [ "sharpened_pipe", -1 ]
       ]
     ]
@@ -237,6 +239,8 @@
         [ "sword_xiphos", -1 ],
         [ "sword_bronze", -1 ],
         [ "sword_bayonet", -1 ],
+        [ "butterfly_swords", -1 ],
+        [ "arisaka_bayonet", -1 ],
         [ "survivor_machete", -1 ],
         [ "survivor_machete_qt", -1 ]
       ]
@@ -262,8 +266,11 @@
         [ "cutlass_fake", -1 ],
         [ "cutlass_inferior", -1 ],
         [ "sword_wood", -1 ],
+        [ "sword_nail", -1 ],
         [ "sword_crude", -1 ],
-        [ "sword_sheets_welded", -1 ]
+        [ "sword_sheets_welded", -1 ],
+        [ "sword_sheets_bolted", -1 ],
+        [ "sword_metal", -1 ]
       ]
     ]
   },
@@ -370,7 +377,6 @@
         [ "hc_katana", -1 ],
         [ "ch_katana", -1 ],
         [ "qt_katana", -1 ],
-        [ "scimitar", -1 ],
         [ "longsword", -1 ],
         [ "lc_longsword", -1 ],
         [ "mc_longsword", -1 ],
@@ -480,6 +486,7 @@
         [ "PR24-extended", -1 ],
         [ "bowling_pin", -1 ],
         [ "cane", -1 ],
+        [ "hollow_cane", -1 ],
         [ "makeshift_cane", -1 ],
         [ "club_wooden", -1 ],
         [ "glass_macuahuitl", -1 ],
