@@ -540,7 +540,7 @@
       {
         "id": "steyr_scout",
         "name": { "str_sp": "Steyr Scout rifle" },
-        "description": "The Steyr Scout is Steyr's interpretation of US Marine Jeff Cooper's concept of a 'scout rifle', a versatile, all-purpose hunting rifle. To this end, it is exceedingly lightweight, contains an inbuilt polymer bipod, and fits a spare magazine inside the stock for fast reloading. While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world."
+        "description": "The Steyr Scout is Steyr's interpretation of Jeff Cooper's concept of a 'scout rifle', a versatile, all-purpose hunting rifle.  To this end, it is exceedingly lightweight, and contains a built-in polymer bipod, and fits a spare magazine inside the stock for fast reloading.  While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world."
       }
     ],
     "weight": "3000 g",
@@ -553,7 +553,7 @@
     "symbol": "(",
     "color": "blue",
     "ammo": [ "308" ],
-    "dispersion": 125,
+    "dispersion": 133,
     "//": "Has a MOA of ~1.33, while the M24 with 85 dispersion has a MOA of ~1.0. Basically like 50% more dispersion.",
     "durability": 7,
     "min_cycle_recoil": 2700,
@@ -571,7 +571,6 @@
       [ "stock accessory", 2 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "rail", 1 ],
       [ "underbarrel", 2 ]
     ],
     "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
