@@ -1,0 +1,50 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WINCH_INITIAL",
+    "effect": [
+      { "u_location_variable": { "u_val": "winch_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "u_message": "You draw a coordinates in constructed beam.", "type": "good" }
+    ]
+  },
+  {
+    "id": "EOC_WINCH_TELEPORT",
+    "type": "effect_on_condition",
+    "effect": [ { "u_teleport": { "u_val": "winch_teleport" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_LOCAL_FILES_XEDRA",
+    "condition": {
+      "and": [
+        { "math": [ "u_skill('computer')", ">=", "2" ] },
+        { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 }
+      ]
+    },
+    "effect": [ { "u_message": "local_files_xedra", "snippet": true, "same_snippet": true, "popup": true } ],
+    "false_effect": [ { "u_message": "You found nothing interesting." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WOLF_SLEDGE_TRHOW",
+    "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "mace_magic", "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_WOLF_SLEDGE_TRHOW_nested",
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "2 seconds" },
+              { "math": [ "u_val('stamina')", "-=", "400" ] },
+              { "u_cast_spell": { "id": "mace_pipe_magic_throw" } }
+            ]
+          }
+        ],
+        "false_eocs": [ { "id": "EOC_ITEM_WIELDED", "effect": [ { "u_message": "You aren't wielding it." } ] } ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
+  }
+]

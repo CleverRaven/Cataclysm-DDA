@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+#include "coordinates.h"
 #include "units_fwd.h"
 
 class Character;
@@ -13,10 +14,12 @@ class character_id;
 class JsonObject;
 class JsonOut;
 class item;
+class item_pocket;
 class map_cursor;
 class vehicle_cursor;
 class talker;
 struct tripoint;
+template<typename T> class ret_val;
 
 /**
  * A lightweight handle to an item independent of it's location
@@ -66,7 +69,9 @@ class item_location
         type where_recursive() const;
 
         /** Returns the position where the item is found */
+        // TODO: fix point types (remove position in favour of pos_bub)
         tripoint position() const;
+        tripoint_bub_ms pos_bub() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -93,6 +98,8 @@ class item_location
         /** Handles updates to the item location, mostly for caching. */
         void on_contents_changed();
 
+        void make_active();
+
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;
@@ -101,9 +108,13 @@ class item_location
 
         /** returns the parent item, or an invalid location if it has no parent */
         item_location parent_item() const;
+        item_pocket *parent_pocket() const;
+
+        /** returns the character whose inventory contains this item, nullptr if none **/
+        Character *carrier() const;
 
         /** returns true if the item is in the inventory of the given character **/
-        bool held_by( Character &who ) const;
+        bool held_by( Character const &who ) const;
 
         /**
          * true if this item location can and does have a parent
@@ -132,13 +143,18 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
-        bool parents_can_contain_recursive( item *it ) const;
-        int max_charges_by_parent_recursive( const item &it ) const;
+        ret_val<void> parents_can_contain_recursive( item *it ) const;
+        ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 
         /**
          * Returns whether another item is eventually contained by this item
          */
         bool eventually_contains( item_location loc ) const;
+
+        /**
+         * Overflow items into parent pockets recursively
+         */
+        void overflow();
 
     private:
         class impl;
@@ -146,5 +162,6 @@ class item_location
         std::shared_ptr<impl> ptr;
 };
 std::unique_ptr<talker> get_talker_for( item_location &it );
+std::unique_ptr<talker> get_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
 #endif // CATA_SRC_ITEM_LOCATION_H

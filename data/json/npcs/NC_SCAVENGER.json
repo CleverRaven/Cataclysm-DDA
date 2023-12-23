@@ -56,22 +56,22 @@
       { "item": "colamdew", "prob": 60 },
       { "item": "choc_drink", "prob": 30 },
       { "item": "jerky", "prob": 55 },
-      { "item": "cracklins", "prob": 25 },
+      { "prob": 25, "group": "cracklins_bag_plastic_4" },
       { "item": "salted_fish", "prob": 35 },
-      { "item": "porkstick", "prob": 55 },
-      { "item": "ravioli", "prob": 25 },
-      { "item": "can_beans", "prob": 40 },
-      { "item": "can_corn", "prob": 35 },
-      { "item": "can_spam", "prob": 30 },
-      { "item": "salt", "prob": 10 },
-      { "item": "seasoning_salt", "prob": 5 },
+      { "prob": 55, "group": "porkstick_bag_plastic_4" },
+      { "prob": 25, "group": "ravioli_can_medium_2" },
+      { "prob": 40, "group": "can_beans_can_medium_2" },
+      { "prob": 35, "group": "can_corn_can_medium_2" },
+      { "prob": 30, "group": "can_spam_can_medium_6" },
+      { "prob": 10, "group": "salt_bag_plastic_100" },
+      { "prob": 5, "group": "seasoning_salt_bag_plastic_100" },
       { "item": "vinegar", "prob": 10 },
-      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "item": "con_milk", "prob": 20 },
-      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 26, "group": "fish_pickled_jar_glass_sealed_2" },
       { "item": "lutefisk", "prob": 1 },
       { "item": "pemmican", "prob": 10 },
-      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
     ]
   }
 ]

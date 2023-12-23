@@ -1,0 +1,71 @@
+[
+  {
+    "type": "recipe",
+    "result": "dreamforged_hacksaw",
+    "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" } ],
+    "components": [ [ [ "dreamdross_lump", 5 ] ] ],
+    "time": "3 h",
+    "skill_used": "deduction",
+    "difficulty": 3,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_TOOLS"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_hammer",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "dreamdross_lump", 7 ] ] ],
+    "time": "2 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_halligan",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "dreamdross_lump", 11 ] ] ],
+    "time": "4 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_pliers_locking",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "dreamdross_lump", 5 ] ] ],
+    "time": "5 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_pickaxe",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
+    "time": "4 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_picklocks",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "dreamdross_lump", 2 ] ] ],
+    "time": "7 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_scalpel",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "scrap_dreamdross", 6 ] ] ],
+    "time": "5 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_e_tool",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "time": "4 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_ax",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "forged_dreamstuff_ingot", 4 ] ] ],
+    "time": "4 h"
+  }
+]

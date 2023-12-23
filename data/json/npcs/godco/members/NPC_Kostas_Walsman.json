@@ -1,0 +1,278 @@
+[
+  {
+    "type": "effect_type",
+    "id": "godco_kostas_tea"
+  },
+  {
+    "type": "effect_type",
+    "id": "failed_persuade"
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Kostas_2",
+      "TALK_GODCO_Kostas_Story",
+      "TALK_GODCO_Kostas_Mood",
+      "TALK_GODCO_Kostas_Task",
+      "TALK_GODCO_Kostas_Herbalism"
+    ],
+    "responses": [
+      {
+        "text": "I have the pine needles you asked me for.",
+        "topic": "TALK_GODCO_Kostas_Tea_2",
+        "condition": {
+          "and": [
+            { "npc_has_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "in-progress" },
+            { "u_has_items": { "item": "pine_bough", "count": 12 } }
+          ]
+        },
+        "effect": [
+          { "npc_add_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "yes" },
+          { "u_learn_recipe": "pine_tea" },
+          { "u_message": "You learn how to craft pine tea.", "popup": true },
+          { "u_spawn_item": "pine_tea", "container": "bottle_plastic" }
+        ]
+      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Kostas_Story" },
+      { "text": "How are things here?", "topic": "TALK_GODCO_Kostas_Mood" },
+      { "text": "What do you do around here?", "topic": "TALK_GODCO_Kostas_Task" },
+      { "text": "Care to trade?", "topic": "TALK_GODCO_Kostas_2", "effect": "start_trade" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_1",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "A sin against God, did you know that's what you are?  Get away from me.",
+      "no": {
+        "npc_has_var": "u_met_godco_kostas",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
+        "no": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist."
+      }
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you too, Kostas.",
+        "effect": { "npc_add_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Kostas_2"
+      },
+      {
+        "text": "Hey, good to see you again.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Kostas_2"
+      },
+      {
+        "text": "I heard Jeremiah wanted to learn a few things from you.",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "failed_persuade" } },
+            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "convince_kostas", "type": "general", "context": "mission", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Kostas_Jeremiah"
+      },
+      {
+        "text": "Hi, Kostas.  Care to trade?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+            { "npc_has_effect": "godco_kostas_trade" }
+          ]
+        },
+        "effect": "start_trade",
+        "topic": "TALK_GODCO_Kostas_2"
+      },
+      { "text": "Hey Kostas, find something interesting lately?", "topic": "TALK_GODCO_Kostas_Interval" },
+      {
+        "text": "Hey, Kostas.  I can't stay to talk.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What the hell are you talking about?",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_Kostas_You_Mutant"
+      },
+      {
+        "text": "Alright then.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Kostas_Interval",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I'm afraid I haven't gone out there for a while, maybe come back in <interval>.  These are all I have, care to take a look?",
+      "Sorry these are all I have.  However I'll be back from my next run in <interval>.  Care to take a look in the meanwhile?"
+    ],
+    "responses": [
+      { "text": "Alright, I'll take a look.", "effect": "start_trade", "topic": "TALK_GODCO_Kostas_1" },
+      { "text": "Alright, thanks for informing me. Bye!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_2",
+    "dynamic_line": "What can I do for you, <name_g>?",
+    "responses": [
+      { "text": "Are there any jobs I could do?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Story",
+    "dynamic_line": "My story?  I'm afraid it's not as gripping as the other tales around here.  My father was an herbalist, my grandfather was an herbalist and - as ancestral pressure would have it - I also became an herbalist.  I studied from the best teachers and, through the years, a generation's knowledge passed on to me.  I've spent a good portion of my life warning others of the fakery that is plastic medicine and helping them rediscover the forgotten beauty that lies in our surroundings.  I joined the New England Church Community to express my gratitude towards the benevolence of nature.  This is where it brought me.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Mood",
+    "dynamic_line": "It's been quiet and peaceful.  Nature is recovering, and so are we.  There's something bittersweet about <the_cataclysm>, isn't there?  Our species was on the path of destruction, but Mother Nature spared us.  A sign of mercy for a creature that did not deserve it.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Task",
+    "dynamic_line": "You must be new to herbalism, no?  In short, I scavenge the land for herbs to supply our humble community with medicine.  And that's just one part of my job.  Say, are you interested in buying campsite gear?  I came across an abandoned camp while foraging.  One can only wonder what happened to its poor inhabitants…",
+    "responses": [
+      { "text": "Care to share your knowledge about herbalism?", "topic": "TALK_GODCO_Kostas_Herbalism" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Herbalism",
+    "dynamic_line": {
+      "npc_has_var": "godco_kostas_tea",
+      "type": "knowledge",
+      "context": "completed",
+      "value": "yes",
+      "yes": [
+        "Nature can provide.  You can live off the land if you learn how.",
+        "Foraging is about recognising the abundance that is around us all the time, not seeking out rare species.",
+        "You'll need a good book to confidently identify edible and poisonous wild foods.  I'd recommend the book 'Autobiography of a Mountain Man' for detailed descriptions.",
+        "Never eat any wild food without first being sure of its identity.  It only takes one mistake.",
+        "The huge diversity of wild plants and fungi can be very daunting to the novice forager.  Don’t be too ambitious.  Try to enjoy the learning process without getting frustrated or taking risks around uncertain identifications."
+      ],
+      "no": "I can tell you this: pine needles make the best tea.  Perhaps I'll make you one someday."
+    },
+    "responses": [
+      {
+        "text": "Can I try your pine needle tea?",
+        "topic": "TALK_GODCO_Kostas_Tea",
+        "condition": { "not": { "npc_has_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "yes" } },
+        "effect": { "npc_add_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "in-progress" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Tea",
+    "dynamic_line": "Sure.  Bring me a dozen pine boughs and I'll boil you some.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'll be back soon.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Tea_2",
+    "dynamic_line": "This recipe is a gemstone of my family heritage.  Lucky for us that the most common evergreen tree in the U.S. is non-toxic.  Start by rinsing the needles, and separating any woody parts from them.  Then, cut the pine needles in half.  Add one bough's worth of chopped needles to a cup or mug and fill it with boiling water.  Let the needles steep for ten minutes, until they turn brownish and sink down to the bottom.  As a final step, you can strain the needles, but then you'd be wasting precious calories.  A drink like this is perfect for mid-winter colds.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thank you.  See you around, Kostas.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Jeremiah",
+    "dynamic_line": "Yeah, yeah…  I don't think he'd be a good fit for an herbalist.  He has a bad habit of wandering off someplace, could get him killed one of these days.",
+    "responses": [
+      {
+        "text": "Jeremiah's a bright kid.  I'll just tell him to not wander as a stipulation.",
+        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "trust", 2 ], [ "value", 2 ] ] },
+        "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      {
+        "text": "I know him pretty well, I'm sure he'll learn as he goes along.",
+        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "value", 3 ] ] },
+        "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      {
+        "text": "If you don't take him under your wings, I'll rip them off for you.  Capiche?",
+        "trial": { "type": "INTIMIDATE", "difficulty": -5, "mod": [ [ "fear", 2 ], [ "trust", -2 ], [ "value", -2 ] ] },
+        "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": -5, "value": -5 } },
+        "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": -10, "value": -10 } }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thank you.  See you around, Kostas.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Jeremiah_Persuade",
+    "dynamic_line": "Alright, you've convinced me.  I'll take Jeremiah on and show him the ropes.",
+    "responses": [
+      {
+        "text": "Thank you.  See you around, Kostas.",
+        "effect": [
+          { "u_add_var": "kostas_teach_jeremiah", "type": "general", "context": "mission", "value": "yes" },
+          { "u_lose_var": "convince_kostas", "type": "general", "context": "mission" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Jeremiah_FailPersuade",
+    "dynamic_line": "No, I'm still certain about this.  Jeremiah just isn't a good fit.",
+    "responses": [
+      {
+        "text": "Alright.  See you around, Kostas.",
+        "effect": { "npc_add_effect": "failed_persuade", "duration": "24 h" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_You_Mutant",
+    "dynamic_line": "I'm talking about you and your filthy, unnatural appearance.  I don't like your kind, and neither does anyone else.  Go repent before the Lord for your many sins, if he'll even listen to you.",
+    "responses": [ { "text": "Fuck you, I'm blowing this joint.", "topic": "TALK_DONE" } ]
+  }
+]

@@ -71,6 +71,14 @@
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
   },
   {
+    "id": "lcla_health_overmap_wrapper",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 5,
+    "widgets": [ "lcla_health_overmap" ]
+  },
+  {
     "id": "lcla_health_overmap",
     "type": "widget",
     "label": "Overmap",
@@ -89,7 +97,7 @@
     "arrange": "columns",
     "separator": " ",
     "height": 7,
-    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
+    "widgets": [ "lcla_health_overmap_wrapper", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
     "id": "lcla_health_sa_layout",
@@ -99,7 +107,7 @@
     "arrange": "columns",
     "separator": " ",
     "height": 7,
-    "widgets": [ "lcla_health_overmap", "lcla_health_sa_left_layout", "lcla_health_sa_mid_layout", "lcla_health_right_layout" ],
+    "widgets": [ "lcla_health_overmap_wrapper", "lcla_health_sa_left_layout", "lcla_health_sa_mid_layout", "lcla_health_right_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {

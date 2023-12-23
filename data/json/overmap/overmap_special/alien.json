@@ -16,6 +16,20 @@
   },
   {
     "type": "overmap_special",
+    "id": "Strange warehouse",
+    "//": "Exodii warehouse whose localisation was lost during the jump that should become globally unique after quest is fully implemented.",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "exo_warehouse_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "exo_warehouse_2_north" }
+    ],
+    "locations": [ "forest_without_trail", "land", "wilderness" ],
+    "city_distance": [ 40, 90 ],
+    "city_sizes": [ 0, 16 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "EXODII", "CBM" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "exodii_base",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "exodii_base_x0y0z0_north" },

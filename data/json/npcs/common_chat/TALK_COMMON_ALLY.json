@@ -1,0 +1,1170 @@
+[
+  {
+    "id": "TALK_WAKE_UP",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "sleep",
+      "yes": {
+        "npc_need": "fatigue",
+        "level": "EXHAUSTED",
+        "no": {
+          "npc_need": "fatigue",
+          "level": "DEAD_TIRED",
+          "no": {
+            "npc_need": "fatigue",
+            "level": "TIRED",
+            "no": "Just few minutes more…",
+            "yes": "Make it quick, I want to go back to sleep."
+          },
+          "yes": "Just let me sleep, <name_b>!"
+        },
+        "yes": "No, just <swear> no…"
+      },
+      "no": "Anything to do before I go to sleep?"
+    },
+    "responses": [
+      { "text": "Wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "Go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_REBOOT",
+    "type": "talk_topic",
+    "dynamic_line": "This character was previously put into a suspension state due to an AI bug.  If you have reason to believe the problem was fixed, you can wake them up.  Do you want to do that now?",
+    "responses": [
+      { "text": "yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "no, go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *pshhhttt* I'm reading you boss, over.",
+      "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
+    },
+    "responses": [
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND",
+        "effect": "reveal_stats"
+      },
+      { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
+      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "[HAS DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
+        "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
+        "topic": "TALK_ALLY_DEBUG"
+      },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_SOCIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *tshk* Are you serious?  This isn't a cell phone.  Can it wait until we're in the same place?",
+      "no": "Sure, what did you want to say?"
+    },
+    "responses": [
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            "at_safe_space",
+            {
+              "or": [
+                { "npc_has_flag": "BG_SURVIVAL_STORY" },
+                { "npc_has_flag": "BG_OTHER_SURVIVORS_STORY" },
+                { "npc_has_trait": "NPC_STATIC_NPC" }
+              ]
+            }
+          ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" },
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_RADIO",
+        "condition": { "not": "is_by_radio" },
+        "switch": true
+      },
+      {
+        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "I'm all ears, my friend.", "You gonna give me orders?", "What would you like?", "Just say the word." ],
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE" }
+      },
+      {
+        "text": "Can you host a training seminar?",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
+        "topic": "TALK_FRIEND",
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Let's trade items",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
+      },
+      {
+        "text": "I want you to use this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "Hold on to this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND",
+        "effect": "npc_gets_item"
+      },
+      {
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "and": [ { "not": "npc_is_riding" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
+      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_COMBAT_COMMANDS",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "npc_engagement_rule": "ENGAGE_NONE",
+          "no": {
+            "npc_engagement_rule": "ENGAGE_CLOSE",
+            "no": {
+              "npc_engagement_rule": "ENGAGE_WEAK",
+              "no": {
+                "npc_engagement_rule": "ENGAGE_HIT",
+                "no": {
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
+                },
+                "yes": "*will engage enemies you attack."
+              },
+              "yes": "*will engage weak enemies."
+            },
+            "yes": "*will engage nearby enemies."
+          },
+          "yes": "*will not engage enemies."
+        },
+        {
+          "concatenate": [
+            { "npc_override": "follow_close", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "follow_close",
+              "yes": "<ally_rule_follow_close_true_text>",
+              "no": "<ally_rule_follow_close_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "follow_distance_2", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "follow_distance_2",
+              "yes": "<ally_rule_follow_distance_2_true_text>",
+              "no": "<ally_rule_follow_distance_2_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "use_guns", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "use_guns",
+              "yes": {
+                "concatenate": [
+                  { "npc_override": "use_silent", "yes": "  OVERRIDE: ", "no": "" },
+                  {
+                    "npc_rule": "use_silent",
+                    "yes": "<ally_rule_use_silent_true_text>",
+                    "no": "<ally_rule_use_guns_true_text>"
+                  }
+                ]
+              },
+              "no": "<ally_rule_use_guns_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "use_grenades", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "use_grenades",
+              "yes": "<ally_rule_use_grenades_true_text>",
+              "no": "<ally_rule_use_grenades_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "avoid_friendly_fire", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_friendly_fire",
+              "yes": "<ally_rule_avoid_friendly_fire_true_text>",
+              "no": "<ally_rule_avoid_friendly_fire_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "hold_the_line", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "hold_the_line",
+              "yes": "<ally_rule_hold_the_line_true_text>",
+              "no": "<ally_rule_hold_the_line_false_text>"
+            }
+          ]
+        },
+        "  What should <mypronoun> do?"
+      ]
+    },
+    "responses": [
+      { "text": "Change your engagement rules…", "topic": "TALK_COMBAT_ENGAGEMENT" },
+      { "text": "Change your aiming rules…", "topic": "TALK_AIM_RULES" },
+      {
+        "text": "Change your bionic power reserve rules…",
+        "topic": "TALK_CBM_RESERVE_RULES",
+        "condition": { "npc_has_bionics": "ANY" }
+      },
+      {
+        "text": "Change your bionic power recharge rules…",
+        "topic": "TALK_CBM_RECHARGE_RULES",
+        "condition": { "npc_has_bionics": "ANY" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "follow_close" },
+          "true": "Move freely as you need to.",
+          "false": "Stick close to me, no matter what."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "follow_close" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "follow_distance_2" },
+          "false": "<ally_rule_follow_distance_request_2_text>",
+          "true": "<ally_rule_follow_distance_request_4_text>"
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "follow_distance_2" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "use_guns" },
+          "true": "Don't use ranged weapons anymore.",
+          "false": "You can use ranged weapons."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "use_guns" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "use_silent" }, "true": "Don't worry about noise.", "false": "Use only silent weapons." },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "use_silent" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "use_grenades" }, "true": "Don't use grenades anymore.", "false": "You can use grenades." },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "use_grenades" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_friendly_fire" },
+          "true": "Don't worry about shooting an ally.",
+          "false": "Don't shoot unless you're sure you won't hit an ally."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "avoid_friendly_fire" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "hold_the_line" },
+          "true": "Move wherever you need to go to fight an enemy.",
+          "false": "Hold the line: don't move onto obstacles adjacent to me."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "hold_the_line" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_COMBAT_ENGAGEMENT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "npc_engagement_rule": "ENGAGE_NONE",
+          "no": {
+            "npc_engagement_rule": "ENGAGE_CLOSE",
+            "no": {
+              "npc_engagement_rule": "ENGAGE_WEAK",
+              "no": {
+                "npc_engagement_rule": "ENGAGE_HIT",
+                "no": {
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
+                },
+                "yes": "*will engage enemies you attack."
+              },
+              "yes": "*will engage weak enemies."
+            },
+            "yes": "*will engage nearby enemies."
+          },
+          "yes": "*will not engage enemies."
+        },
+        "  What should <mypronoun> do?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Don't fight unless your life depends on it.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_NONE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_NONE" }
+      },
+      {
+        "text": "Attack enemies that get too close.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_CLOSE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_CLOSE" }
+      },
+      {
+        "text": "Attack enemies that you can kill easily.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_WEAK" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_WEAK" }
+      },
+      {
+        "text": "Attack only enemies that I attack first.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_HIT" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_HIT" }
+      },
+      {
+        "text": "Attack only enemies you can reach without moving.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_NO_MOVE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_NO_MOVE" }
+      },
+      {
+        "text": "Attack any enemy within range of your ranged weapon, but don't move.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_FREE_FIRE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_FREE_FIRE" }
+      },
+      {
+        "text": "Attack anything you want.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_ALL" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_ALL" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_CBM_RESERVE_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "npc_cbm_reserve_rule": "CBM_RESERVE_ALL",
+          "no": {
+            "npc_cbm_reserve_rule": "CBM_RESERVE_MOST",
+            "no": {
+              "npc_cbm_reserve_rule": "CBM_RESERVE_SOME",
+              "no": {
+                "npc_cbm_reserve_rule": "CBM_RESERVE_LITTLE",
+                "no": "*will not reserve any power for defense or utility CBMs.",
+                "yes": "*will reserve 25% of CBM power for defense or utility CBMs."
+              },
+              "yes": "*will reserve 50% of CBM power for defense or utility CBMs."
+            },
+            "yes": "*will reserve 75% of CBM power for defense or utility CBMs."
+          },
+          "yes": "*will reserve 100% of CBM power for defense or utility CBMs."
+        },
+        "  How should much power should <mypronoun> reserve for defense or utility CBMs?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Don't use any CBM weapons.  Save all power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_ALL" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_ALL" }
+      },
+      {
+        "text": "Use CBM weapons, but save 75% of total power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_MOST" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_MOST" }
+      },
+      {
+        "text": "Use CBM weapons, but save 50% of total power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_SOME" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_SOME" }
+      },
+      {
+        "text": "Use CBM weapons, but save 25% of total power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_LITTLE" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_LITTLE" }
+      },
+      {
+        "text": "Go wild with CBM weapons.  Don't reserve any power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_NONE" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_NONE" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_CBM_RECHARGE_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "npc_cbm_recharge_rule": "CBM_RECHARGE_ALL",
+          "no": {
+            "npc_cbm_recharge_rule": "CBM_RECHARGE_MOST",
+            "no": {
+              "npc_cbm_recharge_rule": "CBM_RECHARGE_SOME",
+              "no": {
+                "npc_cbm_recharge_rule": "CBM_RECHARGE_LITTLE",
+                "no": "*will recharge power CBMs until <mypronoun> has 10% of total power.",
+                "yes": "*will recharge power CBMs until <mypronoun> has 25% of total power."
+              },
+              "yes": "*will recharge power CBMs until <mypronoun> has 50% of total power."
+            },
+            "yes": "*will recharge power CBMs until <mypronoun> has 75% of total power."
+          },
+          "yes": "*will recharge power CBMs until <mypronoun> has 90% of total power."
+        },
+        "  When should <mypronoun> consume supplies to recharge power CBMs?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "We have plenty of supplies.  Recharge until you have 90% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_ALL" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_ALL" }
+      },
+      {
+        "text": "We have supplies.  Recharge until you have 75% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_MOST" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_MOST" }
+      },
+      {
+        "text": "We have some supplies.  Recharge until you have 50% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_SOME" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_SOME" }
+      },
+      {
+        "text": "We're running low on supplies.  Recharge until you have 25% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_LITTLE" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_LITTLE" }
+      },
+      {
+        "text": "We're almost out of supplies.  Recharge until you have 10% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_NONE" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_NONE" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_AIM_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "npc_aim_rule": "AIM_WHEN_CONVENIENT",
+          "no": {
+            "npc_aim_rule": "AIM_STRICTLY_PRECISE",
+            "no": { "npc_aim_rule": "AIM_PRECISE", "no": "*will not bother to aim at all.", "yes": "*will take time and aim carefully." },
+            "yes": "*will only shoot after taking a long time to aim."
+          },
+          "yes": "*will aim when it's convenient."
+        },
+        "  How should <mypronoun> aim?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Aim when it's convenient.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_WHEN_CONVENIENT" } },
+        "effect": { "set_npc_aim_rule": "AIM_WHEN_CONVENIENT" }
+      },
+      {
+        "text": "Go wild, you don't need to aim much.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_SPRAY" } },
+        "effect": { "set_npc_aim_rule": "AIM_SPRAY" }
+      },
+      {
+        "text": "Take your time, aim carefully.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_PRECISE" } },
+        "effect": { "set_npc_aim_rule": "AIM_PRECISE" }
+      },
+      {
+        "text": "Don't shoot if you can't aim really well.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_STRICTLY_PRECISE" } },
+        "effect": { "set_npc_aim_rule": "AIM_STRICTLY_PRECISE" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE",
+    "type": "talk_topic",
+    "dynamic_line": "Why should I teach you?",
+    "responses": [
+      {
+        "text": "Come on, we're friends.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE",
+    "type": "talk_topic",
+    "dynamic_line": "Why should I host a training seminar?",
+    "responses": [
+      {
+        "text": "Come on, we're friends.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MISC_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "concatenate": [
+            { "npc_override": "allow_pick_up", "yes": "OVERRIDE: " },
+            {
+              "npc_rule": "allow_pick_up",
+              "yes": { "has_pickup_list": "<ally_rule_allow_pick_up_true_list_text>", "no": "<ally_rule_allow_pick_up_true_text>" },
+              "no": "<ally_rule_allow_pick_up_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "allow_bash", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_bash",
+              "yes": "<ally_rule_allow_bash_true_text>",
+              "no": "<ally_rule_allow_bash_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "allow_sleep", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_sleep",
+              "yes": "<ally_rule_allow_sleep_true_text>",
+              "no": "<ally_rule_allow_sleep_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "allow_complain", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_complain",
+              "yes": "<ally_rule_allow_complain_true_text>",
+              "no": "<ally_rule_allow_complain_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "allow_pulp", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_pulp",
+              "yes": "<ally_rule_allow_pulp_true_text>",
+              "no": "<ally_rule_allow_pulp_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "close_doors", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "close_doors",
+              "yes": "<ally_rule_close_doors_true_text>",
+              "no": "<ally_rule_close_doors_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "lock_doors", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "lock_doors",
+              "yes": "<ally_rule_lock_doors_true_text>",
+              "no": "<ally_rule_lock_doors_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "ignore_noise", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "ignore_noise",
+              "yes": "<ally_rule_ignore_noise_true_text>",
+              "no": "<ally_rule_ignore_noise_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "avoid_doors", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_doors",
+              "yes": "<ally_rule_avoid_doors_true_text>",
+              "no": "<ally_rule_avoid_doors_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "avoid_locks", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_locks",
+              "yes": "<ally_rule_avoid_locks_true_text>",
+              "no": "<ally_rule_avoid_locks_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "forbid_engage", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "forbid_engage",
+              "yes": "<ally_rule_forbid_engage_true_text>",
+              "no": "<ally_rule_forbid_engage_false_text>"
+            }
+          ]
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "Follow same rules as this follower.",
+        "topic": "TALK_MISC_RULES",
+        "condition": { "npc_allies": 2 },
+        "effect": "copy_npc_rules"
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_pick_up" }, "true": "Don't pick up items.", "false": "You can pick up items now." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_pick_up" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_bash" }, "true": "Don't bash obstacles.", "false": "You can bash obstacles." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_bash" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_sleep" }, "true": "Stay awake.", "false": "Sleep when you feel tired." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_sleep" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_complain" }, "true": "Stay quiet.", "false": "Tell me when you need something." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_complain" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_pulp" }, "true": "Leave corpses alone.", "false": "Smash zombie corpses." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_pulp" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "close_doors" }, "true": "Leave doors open.", "false": "Close the doors." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "close_doors" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "lock_doors" },
+          "true": "Leave doors unlocked.",
+          "false": "Lock any doors that you close."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "lock_doors" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_doors" },
+          "true": "Open doors to get where you're going.",
+          "false": "Don't walk through closed doors."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "avoid_doors" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_locks" },
+          "true": "Unlock doors to get where you're going.",
+          "false": "Don't unlock locked doors."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "avoid_locks" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "ignore_noise" },
+          "true": "If you hear a noise but can't see the source, move to investigate it.",
+          "false": "Don't investigate noises that you can't see."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "ignore_noise" }
+      },
+      { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
+      { "text": "Clear all overrides.", "topic": "TALK_MISC_RULES", "effect": "clear_overrides" },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "You're really leaving?",
+    "responses": [
+      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave", "opinion": { "trust": -2, "anger": 1 } },
+      { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_RADIO",
+    "type": "talk_topic",
+    "responses": [
+      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ACTIVITIES",
+    "type": "talk_topic",
+    "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
+    "responses": [
+      { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
+      { "text": "Carry on.", "topic": "TALK_DONE" },
+      {
+        "text": "Please stop your current activity.",
+        "topic": "TALK_DONE",
+        "condition": "npc_has_activity",
+        "effect": "revert_activity"
+      },
+      {
+        "text": "Please sort out some of these items nearby.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "sort_loot"
+      },
+      {
+        "text": "Please do any construction work that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_construction"
+      },
+      {
+        "text": "Please do any mining work that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_mining"
+      },
+      {
+        "text": "Please go mop the area.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_mopping"
+      },
+      {
+        "text": "Please study from a book.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_read"
+      },
+      {
+        "text": "Please study from an e-book.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_eread"
+      },
+      {
+        "text": "Please study from books you have in order.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_read_repeatedly"
+      },
+      {
+        "text": "Please start deconstructing any vehicles in a deconstruction zone.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please start repairing any vehicles in a repair zone.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_vehicle_repair"
+      },
+      {
+        "text": "Please chop logs into planks.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_chop_plank"
+      },
+      {
+        "text": "Please butcher any corpses that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_butcher"
+      },
+      {
+        "text": "Please chop any trees in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_chop_trees"
+      },
+      {
+        "text": "Please go catch some fish.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_fishing"
+      },
+      {
+        "text": "Please do some farming work.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_farming"
+      },
+      {
+        "text": "Please disassemble anything in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_disassembly"
+      },
+      {
+        "text": "Can you craft this item?",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_craft"
+      }
+    ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION_RADIO",
+    "type": "talk_topic",
+    "dynamic_line": "*pssshht* ten-four, I'll make my way there, over.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION",
+    "type": "talk_topic",
+    "dynamic_line": "Sure thing, I'll make my way there.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TRADE_HALLU",
+    "type": "talk_topic",
+    "dynamic_line": "<hallu_dont_trade>",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "What about the camp?",
+    "responses": [
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
+      },
+      {
+        "text": "Please go to this location.",
+        "topic": "TALK_GOTO_LOCATION",
+        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "effect": "goto_location"
+      },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_DONE",
+        "effect": "start_camp",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Since we can't build a camp here, I want you to tell me where can we build a camp?",
+        "topic": "TALK_CAMP_SITES",
+        "condition": { "not": { "npc_at_om_location": "FACTION_CAMP_START" } },
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "We need to abandon this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_ABANDON"
+      },
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_ABANDON",
+    "type": "talk_topic",
+    "dynamic_line": "Are you sure?",
+    "responses": [
+      { "text": "Yes, I'm sure.", "topic": "TALK_DONE", "effect": "abandon_camp" },
+      { "text": "Actually, never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_DEBUG" ],
+    "type": "talk_topic",
+    "dynamic_line": { "is_by_radio": " *tshk* Not sure it works when i am that far.", "no": "Yes?" },
+    "responses": [
+      {
+        "text": "Trust me (+10 trust).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "trust": 10 } }
+      },
+      {
+        "text": "Do not trust me (-10 trust).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "trust": -10 } }
+      },
+      {
+        "text": "Fear me (+10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": 10 } }
+      },
+      {
+        "text": "Do not fear me (-10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": -10 } }
+      },
+      {
+        "text": "Fear me (+10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": 10 } }
+      },
+      {
+        "text": "Do not fear me (-10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": -10 } }
+      },
+      {
+        "text": "Value me (+10 value).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "value": 10 } }
+      },
+      {
+        "text": "Do not value me (-10 value).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "value": -10 } }
+      },
+      {
+        "text": "Be angry (+10 anger).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "anger": 10 } }
+      },
+      {
+        "text": "Do not be angry (-10 anger).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "anger": -10 } }
+      },
+      {
+        "text": "Owe me (+10 owed).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "owed": 10 } }
+      },
+      {
+        "text": "Do not owe me (-10 owed).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "owed": -10 } }
+      },
+      {
+        "text": "Favor me (+10 favors).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "favors": 10 } }
+      },
+      {
+        "text": "Do not favor me (-10 favors).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "favors": -10 } }
+      },
+      { "text": "Train me.", "topic": "TALK_TRAIN" },
+      { "text": "Do a seminar.", "topic": "TALK_TRAIN_SEMINAR" },
+      { "text": "Nevermind.", "topic": "TALK_NONE" }
+    ]
+  }
+]

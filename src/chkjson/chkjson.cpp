@@ -18,10 +18,17 @@
 #include <string>
 #include <vector>
 
+#if defined(_MSC_VER)
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
+
 #include "json.h"
 
 // copypasta: file_finder.cpp
-static std::vector<std::string> get_files_from_path( std::string extension, std::string root_path,
+static std::vector<std::string> get_files_from_path_( const std::string &extension,
+        std::string root_path,
         bool recursive_search, bool match_extension )
 {
     std::vector<std::string> files;
@@ -85,14 +92,14 @@ static std::vector<std::string> get_files_from_path( std::string extension, std:
 }
 
 // copypasta: init.cpp
-static void load_object( JsonObject &jo )
+static void load_object( TextJsonObject &jo )
 {
     std::string type = jo.get_string( "type" );
     if( !jo.has_string( "type" ) ) {
         jo.throw_error( "JSON object has no type" );
     }
 }
-static void load_all_from_json( JsonIn &jsin )
+static void load_all_from_json( TextJsonIn &jsin )
 {
     char ch;
     jsin.eat_whitespace();
@@ -100,7 +107,7 @@ static void load_all_from_json( JsonIn &jsin )
     ch = jsin.peek();
     if( ch == '{' ) {
         // find type and dispatch single object
-        JsonObject jo = jsin.get_object();
+        TextJsonObject jo = jsin.get_object();
         load_object( jo );
         jo.finish();
         // if there's anything else in the file, it's an error.
@@ -123,7 +130,7 @@ static void load_all_from_json( JsonIn &jsin )
                 err << ch << "', not '{'";
                 jsin.error( err.str() );
             }
-            JsonObject jo = jsin.get_object();
+            TextJsonObject jo = jsin.get_object();
             load_object( jo );
             jo.finish();
         }
@@ -139,7 +146,7 @@ static void load_json_dir( const std::string &dirname )
 {
     // get a list of all files in the directory
     std::vector<std::string> dir =
-        get_files_from_path( ".json", dirname, true, true );
+        get_files_from_path_( ".json", dirname, true, true );
     // iterate over each file
     std::vector<std::string>::iterator it;
     for( it = dir.begin(); it != dir.end(); it++ ) {
@@ -155,7 +162,7 @@ static void load_json_dir( const std::string &dirname )
         infile.close();
         // parse it
         try {
-            JsonIn jsin( iss );
+            TextJsonIn jsin( iss );
             load_all_from_json( jsin );
         } catch( const JsonError &err ) {
             throw std::runtime_error( *it + ": " + err.what() );
@@ -165,11 +172,28 @@ static void load_json_dir( const std::string &dirname )
 
 int main( int, char ** )
 {
-    setlocale( LC_ALL, "" );
+#if defined(_MSC_VER)
+    bool supports_color = _isatty( _fileno( stdout ) );
+#else
+    bool supports_color = isatty( STDOUT_FILENO );
+#endif
+    // formatter stdout in github actions is redirected but still able to handle ANSI colors
+    supports_color |= std::getenv( "CI" ) != nullptr;
+
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+    json_error_output_colors = supports_color
+                               ? json_error_output_colors_t::ansi_escapes
+                               : json_error_output_colors_t::no_colors;
+
+    char *result = setlocale( LC_ALL, "" );
+    if( !result ) {
+        std::cerr << "Failed to set locale\n";
+        return 1;
+    }
     try {
         load_json_dir( "data/json" );
     } catch( const std::exception &err ) {
-        printf( "Error: %s\n", err.what() );
+        std::cerr << "Error: " << err.what() << "\n";
         return 1;
     }
     return 0;

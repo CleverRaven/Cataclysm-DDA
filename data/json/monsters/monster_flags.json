@@ -1,0 +1,592 @@
+[
+  {
+    "id": "SEES",
+    "type": "monster_flag",
+    "//": "It can see you (and will run/follow)"
+  },
+  {
+    "id": "HEARS",
+    "type": "monster_flag",
+    "//": "It can hear you"
+  },
+  {
+    "id": "GOODHEARING",
+    "type": "monster_flag",
+    "//": "Pursues sounds more than most monsters"
+  },
+  {
+    "id": "SMELLS",
+    "type": "monster_flag",
+    "//": "It can smell you"
+  },
+  {
+    "id": "KEENNOSE",
+    "type": "monster_flag",
+    "//": "Keen sense of smell"
+  },
+  {
+    "id": "STUMBLES",
+    "type": "monster_flag",
+    "//": "Stumbles in its movement"
+  },
+  {
+    "id": "WARM",
+    "type": "monster_flag",
+    "//": "Warm blooded"
+  },
+  {
+    "id": "NEMESIS",
+    "type": "monster_flag",
+    "//": "Is a nemesis monster"
+  },
+  {
+    "id": "HAS_MIND",
+    "type": "monster_flag",
+    "//": "It's sapient and capable of reason (no matter how limited--ferals count)"
+  },
+  {
+    "id": "NOHEAD",
+    "type": "monster_flag",
+    "//": "Headshots not allowed!"
+  },
+  {
+    "id": "HARDTOSHOOT",
+    "type": "monster_flag",
+    "//": "It's one size smaller for ranged attacks, no less then creature_size::tiny"
+  },
+  {
+    "id": "GRABS",
+    "type": "monster_flag",
+    "//": "Its attacks may grab us!"
+  },
+  {
+    "id": "BASHES",
+    "type": "monster_flag",
+    "//": "Bashes down doors"
+  },
+  {
+    "id": "DESTROYS",
+    "type": "monster_flag",
+    "//": "Bashes down walls and more"
+  },
+  {
+    "id": "BORES",
+    "type": "monster_flag",
+    "//": "Tunnels through just about anything"
+  },
+  {
+    "id": "POISON",
+    "type": "monster_flag",
+    "//": "Poisonous to eat"
+  },
+  {
+    "id": "VENOM",
+    "type": "monster_flag",
+    "//": "Attack may poison the player"
+  },
+  {
+    "id": "BADVENOM",
+    "type": "monster_flag",
+    "//": "Attack may SEVERELY poison the player"
+  },
+  {
+    "id": "PARALYZEVENOM",
+    "type": "monster_flag",
+    "//": "Attack may paralyze the player with venom"
+  },
+  {
+    "id": "WEBWALK",
+    "type": "monster_flag",
+    "//": "Doesn't destroy webs"
+  },
+  {
+    "id": "DIGS",
+    "type": "monster_flag",
+    "//": "Digs through the ground"
+  },
+  {
+    "id": "CAN_DIG",
+    "type": "monster_flag",
+    "//": "Can dig and walk"
+  },
+  {
+    "id": "FLIES",
+    "type": "monster_flag",
+    "//": "Can fly (over water, etc)"
+  },
+  {
+    "id": "AQUATIC",
+    "type": "monster_flag",
+    "//": "Confined to water"
+  },
+  {
+    "id": "SWIMS",
+    "type": "monster_flag",
+    "//": "Treats water as 50 movement point terrain"
+  },
+  {
+    "id": "ATTACKMON",
+    "type": "monster_flag",
+    "//": "Attacks other monsters"
+  },
+  {
+    "id": "ANIMAL",
+    "type": "monster_flag",
+    "//": "Is an \"animal\" for purposes of the Animal Empath trait"
+  },
+  {
+    "id": "PLASTIC",
+    "type": "monster_flag",
+    "//": "Absorbs physical damage to a great degree"
+  },
+  {
+    "id": "SUNDEATH",
+    "type": "monster_flag",
+    "//": "Dies in full sunlight"
+  },
+  {
+    "id": "PHOTOPHOBIC",
+    "type": "monster_flag",
+    "//": "Severely weakened in sufficient light (applies photophobia effect)"
+  },
+  {
+    "id": "ELECTRIC",
+    "type": "monster_flag",
+    "//": "Shocks unarmed attackers"
+  },
+  {
+    "id": "ACIDPROOF",
+    "type": "monster_flag",
+    "//": "Immune to acid"
+  },
+  {
+    "id": "ACIDTRAIL",
+    "type": "monster_flag",
+    "//": "Leaves a trail of acid"
+  },
+  {
+    "id": "SHORTACIDTRAIL",
+    "type": "monster_flag",
+    "//": "Leaves an intermittent trail of acid"
+  },
+  {
+    "id": "FIREPROOF",
+    "type": "monster_flag",
+    "//": "Immune to fire"
+  },
+  {
+    "id": "IRONWROUGHT",
+    "type": "monster_flag",
+    "//": "Immune to cold iron and does cold iron damage instead of any cutting damage"
+  },
+  {
+    "id": "SLUDGEPROOF",
+    "type": "monster_flag",
+    "//": "Ignores the effect of sludge trails"
+  },
+  {
+    "id": "SLUDGETRAIL",
+    "type": "monster_flag",
+    "//": "Causes monster to leave a sludge trap trail when moving"
+  },
+  {
+    "id": "SMALLSLUDGETRAIL",
+    "type": "monster_flag",
+    "//": "Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving"
+  },
+  {
+    "id": "COLDPROOF",
+    "type": "monster_flag",
+    "//": "Immune to cold damage"
+  },
+  {
+    "id": "BIOLOGICALPROOF",
+    "type": "monster_flag",
+    "//": "Immune to biological damage"
+  },
+  {
+    "id": "COMBAT_MOUNT",
+    "type": "monster_flag",
+    "//": "Mount has better chance to ignore hostile monster fear"
+  },
+  {
+    "id": "FIREY",
+    "type": "monster_flag",
+    "//": "Burns stuff and is immune to fire"
+  },
+  {
+    "id": "QUEEN",
+    "type": "monster_flag",
+    "//": "When it dies, local populations start to die off too"
+  },
+  {
+    "id": "ELECTRONIC",
+    "type": "monster_flag",
+    "//": "e.g.  a robot; affected by EMP blasts, and other stuff"
+  },
+  {
+    "id": "CONSOLE_DESPAWN",
+    "type": "monster_flag",
+    "//": "Despawns when a nearby console is properly hacked"
+  },
+  {
+    "id": "IMMOBILE",
+    "type": "monster_flag",
+    "//": "Doesn't move (e.g.  turrets)"
+  },
+  {
+    "id": "ID_CARD_DESPAWN",
+    "type": "monster_flag",
+    "//": "Despawns when a science ID card is used on a nearby console"
+  },
+  {
+    "id": "RIDEABLE_MECH",
+    "type": "monster_flag",
+    "//": "A rideable mech that is immobile until ridden"
+  },
+  {
+    "id": "MILITARY_MECH",
+    "type": "monster_flag",
+    "//": "A rideable mech that was designed for military work"
+  },
+  {
+    "id": "MECH_RECON_VISION",
+    "type": "monster_flag",
+    "//": "This mech gives you IR night-vision"
+  },
+  {
+    "id": "MECH_DEFENSIVE",
+    "type": "monster_flag",
+    "//": "This mech gives you thorough protection"
+  },
+  {
+    "id": "HIT_AND_RUN",
+    "type": "monster_flag",
+    "//": "Flee for several turns after a melee attack"
+  },
+  {
+    "id": "PAY_BOT",
+    "type": "monster_flag",
+    "//": "You can pay this bot to be your friend for a time"
+  },
+  {
+    "id": "HUMAN",
+    "type": "monster_flag",
+    "//": "It's a live human, as long as it's alive"
+  },
+  {
+    "id": "NO_BREATHE",
+    "type": "monster_flag",
+    "//": "Creature can't drown and is unharmed by gas, smoke, or poison"
+  },
+  {
+    "id": "FLAMMABLE",
+    "type": "monster_flag",
+    "//": "Monster catches fire, burns, and spreads fire to nearby objects"
+  },
+  {
+    "id": "REVIVES",
+    "type": "monster_flag",
+    "//": "Monster corpse will revive after a short period of time"
+  },
+  {
+    "id": "VERMIN",
+    "type": "monster_flag",
+    "//": "Obsolete flag labeling \"nuisance\" or \"scenery\" monsters, now used to prevent loading the same"
+  },
+  {
+    "id": "NOGIB",
+    "type": "monster_flag",
+    "//": "Creature won't leave gibs / meat chunks when killed with huge damage"
+  },
+  {
+    "id": "ARTHROPOD_BLOOD",
+    "type": "monster_flag",
+    "//": "Forces monster to bleed hemolymph"
+  },
+  {
+    "id": "ACID_BLOOD",
+    "type": "monster_flag",
+    "//": "Makes monster bleed acid.  Fun stuff!  Does not automatically dissolve in a pool of acid on death."
+  },
+  {
+    "id": "BILE_BLOOD",
+    "type": "monster_flag",
+    "//": "Makes monster bleed bile"
+  },
+  {
+    "id": "FILTHY",
+    "type": "monster_flag",
+    "//": "Any clothing it drops will be filthy"
+  },
+  {
+    "id": "FISHABLE",
+    "type": "monster_flag",
+    "//": "It is fishable"
+  },
+  {
+    "id": "GROUP_BASH",
+    "type": "monster_flag",
+    "//": "Monsters that can pile up against obstacles and add their strength together to break them"
+  },
+  {
+    "id": "SWARMS",
+    "type": "monster_flag",
+    "//": "Monsters that like to group together and form loose packs"
+  },
+  {
+    "id": "GROUP_MORALE",
+    "type": "monster_flag",
+    "//": "Monsters that are more courageous when near friends"
+  },
+  {
+    "id": "INTERIOR_AMMO",
+    "type": "monster_flag",
+    "//": "Monster contain's its ammo inside itself, no need to load on launch.  Prevents ammo from being dropped on disable."
+  },
+  {
+    "id": "CLIMBS",
+    "type": "monster_flag",
+    "//": "Monsters that can climb certain terrain and furniture"
+  },
+  {
+    "id": "PACIFIST",
+    "type": "monster_flag",
+    "//": "Monsters that will never use melee attack, useful for having them use grab without attacking the player"
+  },
+  {
+    "id": "KEEP_DISTANCE",
+    "type": "monster_flag",
+    "//": "Attempts to keep a short distance (tracking_distance) from its current target.  The default tracking distance is 8 tiles"
+  },
+  {
+    "id": "PUSH_MON",
+    "type": "monster_flag",
+    "//": "Monsters that can push creatures out of their way"
+  },
+  {
+    "id": "PUSH_VEH",
+    "type": "monster_flag",
+    "//": "Monsters that can push vehicles out of their way"
+  },
+  {
+    "id": "NIGHT_INVISIBILITY",
+    "type": "monster_flag",
+    "//": "Monsters that are invisible in poor light conditions"
+  },
+  {
+    "id": "REVIVES_HEALTHY",
+    "type": "monster_flag",
+    "//": "When revived, this monster has full hitpoints and speed"
+  },
+  {
+    "id": "NO_NECRO",
+    "type": "monster_flag",
+    "//": "This monster can't be revived by necros.  It will still rise on its own."
+  },
+  {
+    "id": "PATH_AVOID_DANGER_1",
+    "type": "monster_flag",
+    "//": "This monster will path around some dangers instead of through them"
+  },
+  {
+    "id": "PATH_AVOID_DANGER_2",
+    "type": "monster_flag",
+    "//": "This monster will path around most dangers instead of through them"
+  },
+  {
+    "id": "PATH_AVOID_FIRE",
+    "type": "monster_flag",
+    "//": "This monster will path around heat-related dangers instead of through them"
+  },
+  {
+    "id": "PATH_AVOID_FALL",
+    "type": "monster_flag",
+    "//": "This monster will path around cliffs instead of off of them"
+  },
+  {
+    "id": "PRIORITIZE_TARGETS",
+    "type": "monster_flag",
+    "//": "This monster will prioritize targets depending on their danger levels"
+  },
+  {
+    "id": "NOT_HALLUCINATION",
+    "type": "monster_flag",
+    "//": "Monsters that will NOT appear when player's producing hallucinations"
+  },
+  {
+    "id": "CANPLAY",
+    "type": "monster_flag",
+    "//": "This monster can be played with if it's a pet"
+  },
+  {
+    "id": "CAN_BE_CULLED",
+    "type": "monster_flag",
+    "//": "This monster can be culled if it's a pet"
+  },
+  {
+    "id": "PET_MOUNTABLE",
+    "type": "monster_flag",
+    "//": "This monster can be mounted and ridden when tamed"
+  },
+  {
+    "id": "PET_HARNESSABLE",
+    "type": "monster_flag",
+    "//": "This monster can be harnessed when tamed"
+  },
+  {
+    "id": "DOGFOOD",
+    "type": "monster_flag",
+    "//": "This monster will respond to the dog whistle"
+  },
+  {
+    "id": "MILKABLE",
+    "type": "monster_flag",
+    "//": "This monster is milkable"
+  },
+  {
+    "id": "SHEARABLE",
+    "type": "monster_flag",
+    "//": "This monster is shearable"
+  },
+  {
+    "id": "NO_BREED",
+    "type": "monster_flag",
+    "//": "This monster doesn't breed, even though it has breed data"
+  },
+  {
+    "id": "NO_FUNG_DMG",
+    "type": "monster_flag",
+    "//": "This monster can't be damaged by fungal spores and can't be fungalized either"
+  },
+  {
+    "id": "PET_WONT_FOLLOW",
+    "type": "monster_flag",
+    "//": "This monster won't follow the player automatically when tamed"
+  },
+  {
+    "id": "DRIPS_NAPALM",
+    "type": "monster_flag",
+    "//": "This monster occasionally drips napalm on move"
+  },
+  {
+    "id": "DRIPS_GASOLINE",
+    "type": "monster_flag",
+    "//": "This monster occasionally drips gasoline on move"
+  },
+  {
+    "id": "ELECTRIC_FIELD",
+    "type": "monster_flag",
+    "//": "This monster is surrounded by an electrical field that ignites flammable liquids near it"
+  },
+  {
+    "id": "LOUDMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes move noises as if ~2 sizes louder, even if flying"
+  },
+  {
+    "id": "CAN_OPEN_DOORS",
+    "type": "monster_flag",
+    "//": "This monster can open doors"
+  },
+  {
+    "id": "STUN_IMMUNE",
+    "type": "monster_flag",
+    "//": "This monster is immune to the stun effect"
+  },
+  {
+    "id": "DROPS_AMMO",
+    "type": "monster_flag",
+    "//": "This monster drops ammo.  Should not be set for monsters that use pseudo ammo."
+  },
+  {
+    "id": "WIELDED_WEAPON",
+    "type": "monster_flag",
+    "//": "This monster wields a weapon.  Used for disarming techniques to trigger with this enemy."
+  },
+  {
+    "id": "INSECTICIDEPROOF",
+    "type": "monster_flag",
+    "//": "This monster is immune to insecticide, even though it's made of bug flesh"
+  },
+  {
+    "id": "RANGED_ATTACKER",
+    "type": "monster_flag",
+    "//": "This monster has any sort of ranged attack"
+  },
+  {
+    "id": "CAMOUFLAGE",
+    "type": "monster_flag",
+    "//": "This monster is hard to spot, even in broad daylight"
+  },
+  {
+    "id": "WATER_CAMOUFLAGE",
+    "type": "monster_flag",
+    "//": "This monster is hard to spot if it is underwater, especially if you aren't"
+  },
+  {
+    "id": "ATTACK_UPPER",
+    "type": "monster_flag",
+    "//": "This monster is capable of hitting upper limbs"
+  },
+  {
+    "id": "ATTACK_LOWER",
+    "type": "monster_flag",
+    "//": "This monster is incapable of hitting upper limbs regardless of other factors"
+  },
+  {
+    "id": "DEADLY_VIRUS",
+    "type": "monster_flag",
+    "//": "This monster can inflict the zombie_virus effect"
+  },
+  {
+    "id": "VAMP_VIRUS",
+    "type": "monster_flag",
+    "//": "This monster can inflict the vampire_virus effect"
+  },
+  {
+    "id": "ALWAYS_VISIBLE",
+    "type": "monster_flag",
+    "//": "This monster can always be seen regardless of los or light or anything"
+  },
+  {
+    "id": "ALWAYS_SEES_YOU",
+    "type": "monster_flag",
+    "//": "This monster always knows where the avatar is"
+  },
+  {
+    "id": "ALL_SEEING",
+    "type": "monster_flag",
+    "//": "This monster can see everything within its vision range regardless of light or obstacles"
+  },
+  {
+    "id": "NEVER_WANDER",
+    "type": "monster_flag",
+    "//": "This monster will never join wandering hordes"
+  },
+  {
+    "id": "CONVERSATION",
+    "type": "monster_flag",
+    "//": "This monster can engage in conversation.  Will need to have chat_topics as well."
+  },
+  {
+    "id": "SILENT_DISAPPEAR",
+    "type": "monster_flag",
+    "//": "This monster will disappear without printing any message"
+  },
+  {
+    "id": "EATS",
+    "type": "monster_flag",
+    "//": "If this monster eats via EAT_CARRION or EAT_FOOD, it can fill its stomach. Requires a stomach_size in its json."
+  },
+  {
+    "id": "CORNERED_FIGHTER",
+    "type": "monster_flag",
+    "//": "This monster will stop fleeing and fight back if pursued into spear range or closer."
+  },
+  {
+    "id": "SMALL_HIDER",
+    "type": "monster_flag",
+    "//": "This small monster can hide under or behind furniture such as beds, refrigerators, and underbrush"
+  }
+]

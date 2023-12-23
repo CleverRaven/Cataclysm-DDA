@@ -184,21 +184,21 @@
     "id": "armor_mercenary_bottom",
     "type": "ARMOR",
     "name": { "str_sp": "mercenary pants" },
-    "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from cargo pants padded with Kevlar panels.  It has a lot of storage space, but the added thickness makes it uncomfortable to wear any armor over it.",
+    "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from work pants padded with Kevlar panels.  It gives good protection and decent storage, but the added thickness makes it uncomfortable to wear any armor over it.",
     "//": "weight is currently an estimation could be better",
     "weight": "3000 g",
     "volume": "7500 ml",
     "price": 180000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar_layered", "canvas" ],
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "green",
     "armor": [
       {
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 4.4 }
         ],
         "volume_encumber_modifier": 0.3,
@@ -225,20 +225,6 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "19 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "19 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
         "max_contains_volume": "1080 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "165 mm",
@@ -252,7 +238,7 @@
         "moves": 100
       }
     ],
-    "warmth": 40,
+    "warmth": 25,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,

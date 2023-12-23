@@ -43,7 +43,12 @@
       "How are you here?  Are you one of them, somehow?  What's going on?"
     ],
     "responses": [
-      { "text": "Come with me, if you want to live.", "topic": "TALK_DONE", "effect": "follow" },
+      {
+        "text": "Come with me, if you want to live.",
+        "topic": "TALK_DONE",
+        "effect": "follow",
+        "opinion": { "trust": 4, "value": 4, "fear": -1, "anger": -1 }
+      },
       { "text": "I've no use for weaklings.  Run.  Now.", "topic": "TALK_DONE", "effect": "flee" }
     ]
   }

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "structured_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "structured",
+    "description": "A compact, structured sidebar. Ideal for playing with large font size or small resolution.\n\nFeatures compact body graphs for HP, encumbrance, status and temperature.\n\nHighly customizable in-game!\n\n(It is recommended to disable sidebar spacers under Options -> Interface.)",
+    "separator": " ",
+    "width": 48,
+    "padding": 1,
+    "widgets": [
+      "structured_time_moon_layout",
+      "structured_weather_layout",
+      "structured_place_sound_layout",
+      "separator",
+      "structured_health_all_layout",
+      "structured_health_all_side_layout",
+      "structured_health_encumb_layout",
+      "structured_health_hp_layout",
+      "structured_health_status_layout",
+      "structured_health_temp_layout",
+      "structured_health_overmap_layout",
+      "structured_health_sa_layout",
+      "structured_health_sa_side_layout",
+      "structured_all_body_graphs_layout",
+      "separator",
+      "structured_ma_wf_speed_weight_text_layout",
+      "structured_ma_wf_speed_weight_graph_layout",
+      "structured_mana_layout",
+      "separator",
+      "structured_style_ma_buffs_layout",
+      "structured_overmap_compass_9x9_layout",
+      "structured_overmap_compass_7x7_layout",
+      "structured_overmap_compass_5x5_layout",
+      "structured_weapon_compass_layout",
+      "separator_disabled",
+      "separator_disabled"
+    ]
+  }
+]

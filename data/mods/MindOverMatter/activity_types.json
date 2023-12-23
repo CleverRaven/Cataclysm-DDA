@@ -1,0 +1,10 @@
+[
+  {
+    "id": "ACT_VITAKIN_BANISH_FOLLOWER_ILLNESS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "interruptable": false,
+    "verb": "meditating",
+    "based_on": "time"
+  }
+]

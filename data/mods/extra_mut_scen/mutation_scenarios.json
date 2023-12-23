@@ -21,6 +21,7 @@
       "ALCMET",
       "ANIMALDISCORD2",
       "ANIMALEMPATH2",
+      "ANIMAL_FEET",
       "ANTENNAE",
       "ANTLERS",
       "ARM_FEATHERS",
@@ -36,6 +37,7 @@
       "BIOLUM0",
       "BIOLUM1",
       "BIOLUM2",
+      "CAMO1",
       "CANINE_EARS",
       "CARNIVORE",
       "CEPH_EYES",
@@ -56,6 +58,7 @@
       "DEFORMED",
       "DEFORMED2",
       "DEFORMED3",
+      "DENSE_BONES",
       "DEX_UP",
       "DEX_UP_2",
       "DEX_UP_3",
@@ -86,6 +89,7 @@
       "HAIRROOTS",
       "HAS_NEMESIS",
       "HATES_BOOKS",
+      "HATES_WATER",
       "HEADBUMPS",
       "HEAVYSLEEPER2",
       "HERBIVORE",
@@ -139,9 +143,11 @@
       "MUZZLE",
       "MUZZLE_BEAR",
       "MUZZLE_LONG",
+      "MUZZLE_RAPTOR",
       "MUZZLE_RAT",
       "NAILS",
       "NAUSEA",
+      "NIGHT_RAIDER",
       "NIGHTVISION2",
       "NIGHTVISION3",
       "NOMAD",
@@ -211,6 +217,7 @@
       "STR_UP",
       "STR_UP_2",
       "STR_UP_3",
+      "STRONG_LEGS",
       "STYLISH",
       "SUNBURN",
       "SUNLIGHT_DEPENDENT",
@@ -244,6 +251,7 @@
       "VINES2",
       "VOMITOUS",
       "WEBBED",
+      "WEBBED_FEET",
       "WEB_WALKER",
       "WHISKERS",
       "WHISKERS_RAT",
@@ -253,7 +261,8 @@
       "WINGS_STUB",
       "XS",
       "XXXL"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -266,12 +275,42 @@
   },
   {
     "type": "scenario",
+    "id": "extscenario_batrachian",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Batrachian Threshold",
+    "description": "Start as a post-threshold Batrachian Mutant",
+    "forced_traits": "THRESH_BATRACHIAN",
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "COLDBLOOD4",
+        "DIRTSLEEPER",
+        "EATPOISON",
+        "FRESHWATEROSMOSIS",
+        "FROG_EYES",
+        "GILLS",
+        "LEAPING_LEGS",
+        "LEAPING_LEGS2",
+        "LONG_TONGUE2",
+        "PHEROMONE_AMPHIBIAN",
+        "PRED1",
+        "STRONGER_RESISTWARM",
+        "THIRST3",
+        "VOMITSTOMACH",
+        "WAKEFUL2",
+        "WATERSLEEP",
+        "WATERSLEEPER"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
     "id": "extscenario_beast",
     "copy-from": "extscenario_prethresh",
     "name": "Mutant - Beast Threshold",
     "description": "Start as a post-threshold Beast Mutant",
     "forced_traits": "THRESH_BEAST",
-    "extend": { "traits": [ "MUT_TOUGH", "PRED1", "PRED2", "PRED3", "PRED4", "SAPIOVORE", "STR_UP_4" ] }
+    "extend": { "traits": [ "MUT_TOUGH", "PRED1", "PRED2", "PRED3", "PRED4", "SAPIOVORE", "STR_UP_4", "STRONGER_RESISTCHILL" ] }
   },
   {
     "type": "scenario",
@@ -289,7 +328,7 @@
     "name": "Mutant - Bovine Threshold",
     "description": "Start as a post-threshold Bovine Mutant",
     "forced_traits": "THRESH_CATTLE",
-    "extend": { "traits": [ "GRAZER", "HUGE_OK", "LARGE_OK", "MUT_TOUGH", "MUT_TOUGH2", "MUT_TOUGH3" ] }
+    "extend": { "traits": [ "GRAZER", "HUGE_OK", "LARGE_OK", "MUT_TOUGH", "MUT_TOUGH2", "MUT_TOUGH3", "STRONGER_RESISTCHILL" ] }
   },
   {
     "type": "scenario",
@@ -298,7 +337,9 @@
     "name": "Mutant - Cephalopod Threshold",
     "description": "Start as a post-threshold Cephalopod Mutant",
     "forced_traits": "THRESH_CEPHALOPOD",
-    "extend": { "traits": [ "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
+    "extend": {
+      "traits": [ "CAMO2", "CEPH_MIND", "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2", "STRONGER_RESISTWARM" ]
+    }
   },
   {
     "type": "scenario",
@@ -343,7 +384,7 @@
     "name": "Mutant - Feline Threshold",
     "description": "Start as a post-threshold Feline Mutant",
     "forced_traits": "THRESH_FELINE",
-    "extend": { "traits": [ "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
+    "extend": { "traits": [ "FELINE_FLEXIBILITY", "FELINE_LEAP", "PRED1", "PRED2", "PRED3", "SABER_TEETH", "STRONGER_RESISTCHILL" ] }
   },
   {
     "type": "scenario",
@@ -352,7 +393,18 @@
     "name": "Mutant - Aquatic Threshold",
     "description": "Start as a post-threshold Aquatic Mutant",
     "forced_traits": "THRESH_FISH",
-    "extend": { "traits": [ "AMPHIBIAN", "DEX_UP_4", "FRESHWATEROSMOSIS", "SEESLEEP", "SHARKTEETH", "TOXICFLESH", "WATERSLEEP" ] }
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "DEX_UP_4",
+        "FRESHWATEROSMOSIS",
+        "SEESLEEP",
+        "SHARKTEETH",
+        "STRONGER_RESISTWARM",
+        "TOXICFLESH",
+        "WATERSLEEP"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -371,7 +423,18 @@
     "description": "Start as a post-threshold Lizard Mutant",
     "forced_traits": "THRESH_LIZARD",
     "extend": {
-      "traits": [ "COLDBLOOD4", "LARGE_OK", "MUT_TOUGH", "PRED1", "PRED2", "PRED3", "REGEN_LIZ", "SAPIOVORE", "THICK_SCALES" ]
+      "traits": [
+        "COLDBLOOD4",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "REGEN_LIZ",
+        "SAPIOVORE",
+        "STRONGER_RESISTWARM",
+        "THICK_SCALES"
+      ]
     }
   },
   {
@@ -381,7 +444,7 @@
     "name": "Mutant - Wolf Threshold",
     "description": "Start as a post-threshold Wolf Mutant",
     "forced_traits": "THRESH_LUPINE",
-    "extend": { "traits": [ "BURROW", "PACK_HUNTER", "PERSISTENCE_HUNTER2", "PRED1", "PRED2", "PRED3" ] }
+    "extend": { "traits": [ "BURROWLARGE", "PACK_HUNTER", "PERSISTENCE_HUNTER2", "PRED1", "PRED2", "PRED3", "STRONGER_RESISTCHILL" ] }
   },
   {
     "type": "scenario",
@@ -410,7 +473,19 @@
     "name": "Mutant - Diminutive Threshold",
     "description": "Start as a post-threshold Diminutive Mutant",
     "forced_traits": "THRESH_MOUSE",
-    "extend": { "traits": [ "CRAFTY", "EASYSLEEPER2", "EATDEAD", "EATPOISON", "GOODCARDIO2", "NO_THIRST", "PROJUNK2", "SMALL_OK" ] }
+    "extend": {
+      "traits": [
+        "CRAFTY",
+        "EASYSLEEPER2",
+        "EATDEAD",
+        "EATPOISON",
+        "GOODCARDIO2",
+        "NO_THIRST",
+        "PROJUNK2",
+        "SMALL_OK",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -454,8 +529,10 @@
         "ROOTS3",
         "ROSEBUDS",
         "SAPROPHAGE",
+        "STRONGER_RESISTWARM",
         "TRANSPIRATION",
         "TREE_COMMUNION",
+        "STRONGER_RESISTCHILL",
         "VINES3"
       ]
     }
@@ -467,7 +544,7 @@
     "name": "Mutant - Lagomorph Threshold",
     "description": "Start as a post-threshold Lagomorph Mutant",
     "forced_traits": "THRESH_RABBIT",
-    "extend": { "traits": [ "BURROW", "EASYSLEEPER2", "GOODCARDIO2", "GRAZER", "INCISORS" ] }
+    "extend": { "traits": [ "BURROW", "EASYSLEEPER2", "GOODCARDIO2", "GRAZER", "INCISORS", "STRONGER_RESISTCHILL" ] }
   },
   {
     "type": "scenario",
@@ -555,7 +632,7 @@
     "forced_traits": "THRESH_URSINE",
     "extend": {
       "traits": [
-        "BURROW",
+        "BURROWLARGE",
         "HIBERNATE",
         "HUGE_OK",
         "LARGE_OK",
@@ -567,6 +644,7 @@
         "PRED3",
         "PRED4",
         "SAPIOVORE",
+        "STRONGER_RESISTCHILL",
         "STR_UP_4"
       ]
     }

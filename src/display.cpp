@@ -39,11 +39,13 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static disp_bodygraph_cache disp_bg_cache[] = {
-    disp_bodygraph_cache( bodygraph_var::hp ),
-    disp_bodygraph_cache( bodygraph_var::temp ),
-    disp_bodygraph_cache( bodygraph_var::encumb ),
-    disp_bodygraph_cache( bodygraph_var::status )
+static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
+        disp_bodygraph_cache( bodygraph_var::hp ),
+        disp_bodygraph_cache( bodygraph_var::temp ),
+        disp_bodygraph_cache( bodygraph_var::encumb ),
+        disp_bodygraph_cache( bodygraph_var::status ),
+        disp_bodygraph_cache( bodygraph_var::wet )
+    }
 };
 
 disp_overmap_cache::disp_overmap_cache()
@@ -57,10 +59,10 @@ disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
     _var = var;
     _bp_cur_max.clear();
-    _graph_id = "";
+    _graph_id.clear();
 }
 
-bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string graph_id ) const
+bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string &graph_id ) const
 {
     if( graph_id != _graph_id ) {
         return false;
@@ -86,7 +88,7 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
     return true;
 }
 
-void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id,
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string &graph_id,
                                     const std::string &bg_wgt_str )
 {
     _bp_cur_max.clear();
@@ -107,70 +109,10 @@ vehicle *display::vehicle_driven( const Character &u )
     return veh;
 }
 
-std::pair<std::string, nc_color> display::str_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_str() == p.get_str_base() ) {
-        clr = c_white;
-    } else if( p.get_str() > p.get_str_base() ) {
-        clr = c_green;
-    } else if( p.get_str() < p.get_str_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-            p.get_str() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::dex_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_dex() == p.get_dex_base() ) {
-        clr = c_white;
-    } else if( p.get_dex() > p.get_dex_base() ) {
-        clr = c_green;
-    } else if( p.get_dex() < p.get_dex_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-            p.get_dex() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::int_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_int() == p.get_int_base() ) {
-        clr = c_white;
-    } else if( p.get_int() > p.get_int_base() ) {
-        clr = c_green;
-    } else if( p.get_int() < p.get_int_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-            p.get_int() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::per_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_per() == p.get_per_base() ) {
-        clr = c_white;
-    } else if( p.get_per() > p.get_per_base() ) {
-        clr = c_green;
-    } else if( p.get_per() < p.get_per_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-            p.get_per() ) : "++" ), clr );
-}
-
 std::string display::get_temp( const Character &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+    if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
         u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
@@ -374,19 +316,19 @@ static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
     bodypart_id current_bp_extreme = u.get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u.get_all_body_parts() ) {
-        if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            units::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
             current_bp_extreme = bp;
         }
-        if( std::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            std::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            units::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
             conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-static int define_temp_level( const int lvl )
+static int define_temp_level( const units::temperature lvl )
 {
     if( lvl > BODYTEMP_SCORCHING ) {
         return 7;
@@ -541,7 +483,7 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
         } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
             c_pwr = c_yellow;
         } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
-            c_pwr = c_red;
+            c_pwr = c_light_red;
         }
 
         if( u.get_power_level() < 1_J ) {
@@ -555,6 +497,49 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
+    return std::make_pair( s_pwr, c_pwr );
+}
+
+std::pair<std::string, nc_color> display::power_balance_text_color( const avatar &u )
+{
+    nc_color c_pwr = c_red;
+    std::string s_pwr;
+
+    units::energy balance = u.power_balance;
+    units::energy abs_balance = units::from_millijoule( std::abs( balance.value() ) );
+
+    if( balance < -1_kJ ) {
+        c_pwr = c_red;
+    } else if( balance <= -10_J ) {
+        c_pwr = c_light_red;
+    } else if( balance <= -1_mJ ) {
+        c_pwr = c_yellow;
+    } else if( balance <= 1_mJ ) {
+        c_pwr = c_white;
+    } else if( balance < 10_J ) {
+        c_pwr = c_light_green;
+    } else if( balance < 1_kJ ) {
+        c_pwr = c_green;
+    } else {
+        c_pwr = c_light_blue;
+    }
+
+    std::string suffix;
+    if( balance > 0_kJ ) {
+        suffix = "+";
+    }
+
+    if( abs_balance < 1_J ) {
+        s_pwr = suffix + std::to_string( units::to_millijoule( balance ) ) +
+                pgettext( "energy unit: millijoule", "mJ" );
+    } else if( abs_balance < 1_kJ ) {
+        s_pwr = suffix + std::to_string( units::to_joule( balance ) ) +
+                pgettext( "energy unit: joule", "J" );
+    } else {
+        s_pwr = suffix + std::to_string( units::to_kilojoule( balance ) ) +
+                pgettext( "energy unit: kilojoule", "kJ" );
+    }
+
     return std::make_pair( s_pwr, c_pwr );
 }
 
@@ -748,7 +733,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
 {
-    const float bmi = u.get_bmi();
+    const float bmi = u.get_bmi_fat();
     std::string weight_string;
     nc_color weight_color = c_light_gray;
     if( get_option<bool>( "CRAZY" ) ) {
@@ -813,9 +798,40 @@ std::pair<std::string, nc_color> display::weight_text_color( const Character &u 
     return std::make_pair( _( weight_string ), weight_color );
 }
 
+std::pair<std::string, nc_color> display::health_text_color( const Character &u )
+{
+    const int health = u.get_lifestyle();
+    std::string health_string;
+    nc_color health_color = c_light_gray;
+
+    if( health > character_health_category::great ) {
+        health_string = translate_marker( "Feel Great" );
+        health_color = c_green;
+    } else if( health > character_health_category::very_good ) {
+        health_string = translate_marker( "Feel Very Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::good ) {
+        health_string = translate_marker( "Feel Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::fine ) {
+        health_string = translate_marker( "Feel Fine" );
+        health_color = c_light_gray;
+    } else if( health > character_health_category::bad ) {
+        health_string = translate_marker( "Feel Bad" );
+        health_color = c_red;
+    } else if( health > character_health_category::very_bad ) {
+        health_string = translate_marker( "Feel Very Bad" );
+        health_color = c_red;
+    } else {
+        health_string = translate_marker( "Feel Awful" );
+        health_color = c_red;
+    }
+    return std::make_pair( _( health_string ), health_color );
+}
+
 std::string display::weight_long_description( const Character &u )
 {
-    const float bmi = u.get_bmi();
+    const float bmi = u.get_bmi_fat();
     if( bmi > character_weight_category::morbidly_obese ) {
         return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
     } else if( bmi > character_weight_category::very_obese ) {
@@ -839,6 +855,12 @@ std::string display::weight_string( const Character &u )
 {
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::string display::health_string( const Character &u )
+{
+    std::pair<std::string, nc_color> health_pair = display::health_text_color( u );
+    return colorize( health_pair.first, health_pair.second );
 }
 
 std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
@@ -913,7 +935,7 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
 nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
 {
     nc_color color = c_light_gray; // default
-    const int temp_conv = u.get_part_temp_conv( bp );
+    const units::temperature temp_conv = u.get_part_temp_conv( bp );
     if( bp == body_part_eyes ) {
         color = c_light_gray;    // Eyes don't count towards warmth
     } else if( temp_conv  > BODYTEMP_SCORCHING ) {
@@ -1012,7 +1034,7 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     //     10 < 25 mph : decelerating toward 10
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
+    if( veh ) {
         int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
         int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
@@ -1039,14 +1061,16 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     nc_color fuel_color = c_light_gray;
 
     vehicle *veh = display::vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
+    if( veh ) {
         itype_id fuel_type = itype_id::NULL_ID();
         // FIXME: Move this to a vehicle helper function like get_active_engine
-        for( size_t e = 0; e < veh->engines.size(); e++ ) {
-            if( veh->is_engine_on( e ) &&
-                !( veh->is_perpetual_type( e ) || veh->is_engine_type( e, fuel_type_muscle ) ) ) {
+        for( const int p : veh->engines ) {
+            const vehicle_part &vp = veh->part( p );
+            if( veh->is_engine_on( vp )
+                && !veh->is_perpetual_type( vp )
+                && !veh->is_engine_type( vp, fuel_type_muscle ) ) {
                 // Get the fuel type of the first engine that is turned on
-                fuel_type = veh->engine_fuel_current( e );
+                fuel_type = vp.fuel_current();
             }
         }
         int max_fuel = veh->fuel_capacity( fuel_type );
@@ -1100,7 +1124,8 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
     return std::make_pair( weight_text, weight_color );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
+        note_text )
 {
     std::string ter_sym = "N";
     nc_color ter_color = c_yellow;
@@ -1151,7 +1176,7 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
             colorStart = symbolIndex + 1;
         }
 
-        std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
+        std::string_view sym = note_text.substr( colorStart, colorIndex - colorStart );
 
         if( sym.length() == 2 ) {
             if( sym == "br" ) {
@@ -1162,7 +1187,7 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
                 ter_color = c_dark_gray;
             }
         } else {
-            char colorID = sym.c_str()[0];
+            char colorID = sym[0];
             if( colorID == 'r' ) {
                 ter_color = c_light_red;
             } else if( colorID == 'R' ) {
@@ -1489,7 +1514,7 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
 nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
         const bodygraph_var var )
 {
-    if( !u.has_part( bid ) ) {
+    if( !u.has_part( bid, body_part_filter::equivalent ) ) {
         return c_black; // character is missing this part
     }
 
@@ -1519,6 +1544,21 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
         case bodygraph_var::status: {
             return display::limb_color( u, bid, true, true, true );
         }
+        case bodygraph_var::wet: {
+            const int cur_wet = u.get_part_wetness( bid );
+            if( cur_wet == 0 ) {
+                return c_light_gray; // dry
+            } else {
+                const float cur_wet = u.get_part_wetness_percentage( bid );
+                if( cur_wet < BODYWET_PERCENT_WET ) {
+                    return c_light_cyan;
+                } else if( cur_wet < BODYWET_PERCENT_SOAKED ) {
+                    return c_light_blue;
+                } else {
+                    return c_blue; // maximum wetness
+                }
+            }
+        }
         // Fall-through - invalid
         case bodygraph_var::last:
             break;
@@ -1526,7 +1566,7 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
     cata_fatal( "Invalid widget_var" );
 }
 
-std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
+std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
     int var_idx = int( var );
@@ -1547,7 +1587,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
             return sym;
         }
         std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
-        return colorize( sym_col.first, sym_col.second );
+        return colorize( sym, sym_col.second );
     };
 
     std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
@@ -1667,7 +1707,7 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
             }
         }
     }
-    std::vector<std::pair<const mtype *, int>> mons_at[9];
+    std::array<std::vector<std::pair<const mtype *, int>>, 9> mons_at;
     for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
         mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
     }
@@ -1744,7 +1784,7 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

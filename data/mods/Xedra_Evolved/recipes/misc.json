@@ -1,0 +1,44 @@
+[
+  {
+    "id": "dreamsmith_research",
+    "name": "inquire dreamdross",
+    "description": "You spend some time trying to understand what the dreamdross is capable of, and how you can utilize its power.  You probably need a lot of attempts to research the whole depth of this unusual metal.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result_eocs": [ "EOC_DREAMSMITHS_SCORE_TRAIN" ],
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
+    "time": "75 m",
+    "skill_used": "deduction",
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "dreamdross_lump",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 10 ] ] ],
+    "time": "10 m",
+    "skill_used": "deduction",
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "forged_dreamstuff_ingot",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 100 ], [ "dreamdross_lump", 10 ] ] ],
+    "time": "2 h",
+    "skill_used": "deduction",
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC"
+  }
+]

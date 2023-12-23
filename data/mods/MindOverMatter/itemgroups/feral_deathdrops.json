@@ -1,0 +1,252 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_bio",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_bio", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_clair",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_clair", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_electro",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_electro", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_photo",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "item": "heavy_flashlight", "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_photo", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_pyro",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "item": "lighter", "count": [ 1, 3 ], "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_pyro", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_telekin",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "item": "rock", "prob": 80, "count": [ 1, 3 ] },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_telekin", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_teep",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "tools_common_small", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_teep", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_porter",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "tools_common_small", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_porter", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_humans_death_drops_vita",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "group": "homebooks", "prob": 5 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_vita", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_bio",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_biokinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_clair",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_clairsentience", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_electro",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_electrokinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_photo",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_photokinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_pyro",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_pyrokinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_telekin",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_telekinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_teep",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_telepathy", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_porter",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_teleportation", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_vita",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_vitakinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_scientists_death_drops_psychic",
+    "entries": [
+      { "item": "scalpel", "prob": 100, "damage": [ 1, 3 ] },
+      { "item": "psionic_serum_base", "prob": 40, "container-item": "flask_glass" },
+      { "group": "lab_shoes", "damage": [ 1, 4 ] },
+      { "group": "lab_torso", "damage": [ 1, 4 ] },
+      { "group": "lab_pants", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "wallets", "damage": [ 1, 4 ] },
+      {
+        "collection": [
+          { "group": "harddrugs", "prob": 25 },
+          { "group": "psi_lab", "prob": 65 },
+          { "item": "lab_postit_psi", "prob": 15 },
+          { "group": "electronics", "prob": 40 },
+          { "group": "radio", "prob": 15 },
+          { "group": "textbooks", "prob": 25 },
+          { "group": "feral_humans_crystal_drops_telekin", "prob": 50 },
+          { "group": "feral_humans_crystal_drops_teep", "prob": 50 },
+          { "group": "collection_force_field_and_note", "prob": 2 }
+        ]
+      },
+      { "group": "wallets_phavian", "damage": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "feral_security_death_drops_psychic",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 20,
+    "entries": [
+      { "item": "heavy_flashlight", "prob": 75, "damage": [ 2, 4 ] },
+      { "item": "tazer", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "grenade_inferno", "prob": 20 },
+      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "security_pants", "damage": [ 1, 4 ] },
+      { "group": "security_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "wallets_phavian", "damage": [ 1, 4 ] },
+      { "group": "feral_humans_crystal_drops_bio", "prob": 25 },
+      { "group": "feral_humans_crystal_drops_clair", "prob": 25 },
+      { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
+      { "group": "dist_shield_belts", "prob": 25, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "feral_security_captain_death_drops_psychic",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "grenade_inferno", "prob": 20 },
+      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "security_pants", "damage": [ 1, 4 ] },
+      { "group": "security_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "wallets_phavian", "damage": [ 1, 4 ] },
+      { "group": "feral_humans_crystal_drops_bio", "prob": 40 },
+      { "group": "feral_humans_crystal_drops_clair", "prob": 40 },
+      { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
+      { "item": "phavian_psionic_martial_power_book", "prob": 8 },
+      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] }
+    ]
+  }
+]

@@ -16,7 +16,16 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_3",
-    "faction": "lobby_beggars"
+    "faction": "lobby_beggars",
+    "age": 31,
+    "height": 160,
+    "str": 6,
+    "dex": 7,
+    "int": 12,
+    "per": 10,
+    "personality": { "aggression": -10, "bravery": -10, "collector": 2, "altruism": 1 },
+    "talk_friend": "TALK_FRIEND_Luo",
+    "talk_friend_guard": "TALK_FRIEND_GUARD_Luo"
   },
   {
     "type": "npc_class",
@@ -25,10 +34,29 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
-    "bonus_str": { "rng": [ -4, -1 ] },
-    "bonus_dex": { "rng": [ -4, -1 ] },
-    "bonus_int": { "rng": [ 2, 5 ] },
-    "bonus_per": { "rng": [ 0, 3 ] },
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 0, 1 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "skills": [
+      { "skill": "computer", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 7, 8 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 4 ] } }
+    ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_biology",
+      "prof_organic_chemistry",
+      "prof_biochemistry",
+      "prof_intro_chem_synth",
+      "prof_mycology",
+      "prof_mycology_advanced"
+    ],
     "worn_override": "NC_BEGGAR_3_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
@@ -217,7 +245,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_INTRO",
     "//": "The player shouldn't get to this dialogue without sharing some food first",
-    "dynamic_line": "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my name and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
+    "dynamic_line": "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my face and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
     "responses": [
       { "text": "You think you were treated like that because of your race?", "topic": "TALK_REFUGEE_BEGGAR_3_RACISM" },
       {

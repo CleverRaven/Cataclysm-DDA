@@ -1,0 +1,173 @@
+[
+  {
+    "id": "tac338",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": ".338 bolt-action sniper rifle" },
+    "description": "A high-precision bolt-action sniper rifle, in service with special operations members of the US Navy prior to the cataclysm.  Firing the powerful .338 Lapua cartridge, the weapon feeds from detachable five round Accuracy International magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tac338",
+        "name": { "str_sp": "McMillan Tac-338" },
+        "description": "Chambering the .338 Lapua cartridge, the Tac-338 is a high-precision, bolt-action sniper rifle that, before the Cataclysm, complemented the arsenal of the US Navy Special Warfare unit.  Providing Navy SEAL marksmen with the capability to land effective shots on targets at a typical range of 1600 meters, a valuable capability for the long-distance engagements prevalent during the US army’s war on terror, the rifle comes kitted with an adjustable cheek pad, butt hook, and muzzle break."
+      }
+    ],
+    "weight": "5897 g",
+    "volume": "4000 ml",
+    "longest_side": "1295 mm",
+    "barrel_length": "686 mm",
+    "price": 642800,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "color": "black",
+    "ammo": [ "338lapua" ],
+    "dispersion": 50,
+    "durability": 10,
+    "blackpowder_tolerance": 24,
+    "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
+    "flags": [ "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "savage112",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "single-shot target rifle" },
+    "description": "A bolt-action precision rifle with the potential for impressive accuracy, this particular weapon makes use of the powerful .338 Lapua cartridge and is decked in a handsome set of wooden furniture, providing the rifle with a classical mystique.  Unfortunately, the weapon's single-round magazine and a lack of factory iron sights, which makes target acquisition an exercise in futility unless a gunsight is installed, make the rifle limited in its post-Cataclysm utility.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "savage112",
+        "name": { "str_sp": "Savage 112 Magnum Target" },
+        "description": "A highly-accurate precision rifle chambered for the powerful .338 Lapua cartridge, the Savage 112 Magnum Target is a classically designed bolt-action rifle in both its fit and finish, with a heavy barrel, a hardwood stock, and an attached muzzle brake.  Unfortunately for the weapon and its users, a traditional veneer, no matter how admittedly swanky, isn’t conducive to tactical effectiveness, as demonstrated by the 112 Magnum Target’s mighty magazine size of one entire cartridge and lack of any factory-attached sights."
+      }
+    ],
+    "weight": "5470 g",
+    "volume": "3000 ml",
+    "longest_side": "1264 mm",
+    "barrel_length": "660 mm",
+    "price": 110900,
+    "price_postapoc": 800,
+    "to_hit": -1,
+    "material": [ "steel", "wood" ],
+    "color": "black",
+    "ammo": [ "338lapua" ],
+    "dispersion": 50,
+    "sight_dispersion": 1000,
+    "//": "Giant amount of sight-dispersion in order to simulate that the rifle doesn’t come with factory installed sights.",
+    "durability": 8,
+    "blackpowder_tolerance": 24,
+    "clip_size": 1,
+    "default_mods": [ "match_trigger", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "mrad_smr",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "Barrett precision rifle" },
+    "description": "A box magazine-fed bolt-action precision rifle developed by the Barrett Arms Company, firing the .338 Lapua cartridge.  A civilian copy of more versatile military weapons, this rifle is a remarkably well-crafted piece of anti-personnel engineering despite lacking the sheer modularity of its Marshal sister, and is still capable of engaging targets at extreme distances.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mrad_smr",
+        "name": { "str_sp": "Barrett MRAD SMR" },
+        "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD’s caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-Cataclysmic precision shooter, didn’t require a second mortgage to purchase."
+      }
+    ],
+    "weight": "6305 g",
+    "volume": "5500 ml",
+    "longest_side": "1204 mm",
+    "barrel_length": "660 mm",
+    "price": 406098,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "color": "black",
+    "ammo": [ "338lapua" ],
+    "dispersion": 50,
+    "durability": 10,
+    "blackpowder_tolerance": 24,
+    "built_in_mods": [ "cheek_pad" ],
+    "flags": [ "EASY_CLEAN" ],
+    "//": "Cheek pad required for holding the buttstock in place and keep it from folding.",
+    "default_mods": [ "match_trigger", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mrad_338lapua_mag" ] } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "axmc",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "modular sniper rifle" },
+    "description": "A weapon platform that prides itself on modularity and customizability, this highly accurate precision rifle may be configured with various caliber conversion kits that can allow it to fire either the .338 Lapua, .300 Win Mag, or .308 Winchester cartridges.  The rifle's size prevents it from being a particularly mobile piece of equipment, but the weapon's folding buttstock aids in portability.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "axmc",
+        "name": { "str_sp": "Accuracy International AXMC" },
+        "description": "Produced by the British precision rifle company Accuracy International, the AX Modular Caliber Weapon System is a highly-accurate combat sniper rifle offered to military, law enforcement, and civilian precision marksmen.  The rifle is compatible with a wide range of aftermarket components, including caliber conversion kits, and is built upon a base aluminum chassis, into which the weapon's parts may be installed or removed at the user's discretion."
+      }
+    ],
+    "weight": "5420 g",
+    "//": "Weight of gun plus muzzle break and empty 10-round magazine is 6.8 kg. Weights of these latter two have been deducted, as has the weight of a standard barrel.",
+    "volume": "6050 ml",
+    "longest_side": "564 mm",
+    "//2": "Length and volume calculations have been adjusted to represent just the base chassis, without an installed barrel.",
+    "price": 675000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "color": "black",
+    "ammo": [ "NULL" ],
+    "dispersion": 50,
+    "durability": 10,
+    "blackpowder_tolerance": 24,
+    "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "bore", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
+    "flags": [ "NO_TURRET", "EASY_CLEAN" ],
+    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
+    "melee_damage": { "bash": 12 }
+  }
+]

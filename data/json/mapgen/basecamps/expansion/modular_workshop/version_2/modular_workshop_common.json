@@ -74,7 +74,7 @@
         { "point": "furniture", "id": "f_table", "x": 17, "y": 17 },
         { "point": "furniture", "id": "f_dresser", "x": 18, "y": 17 }
       ],
-      "place_loot": [ { "item": "hammer", "x": 17, "y": 17, "chance": 100 } ]
+      "place_loot": [ { "item": "makeshift_hammer", "x": 17, "y": 17, "chance": 100 } ]
     }
   },
   {
@@ -116,7 +116,7 @@
         { "point": "furniture", "id": "f_stool", "x": 13, "y": 18 }
       ],
       "place_loot": [
-        { "item": "tongs", "x": 18, "y": 18, "chance": 100 },
+        { "item": "metalworking_tongs", "x": 18, "y": 18, "chance": 100 },
         { "item": "chisel", "x": 18, "y": 18, "chance": 100 },
         { "item": "hammer", "x": 18, "y": 18, "chance": 100 },
         { "item": "swage", "x": 18, "y": 18, "chance": 100 }
@@ -131,7 +131,7 @@
       "set": [ { "point": "furniture", "id": "f_bellows", "x": 15, "y": 17 } ],
       "place_loot": [
         { "item": "hammer_sledge", "x": 18, "y": 19, "chance": 100 },
-        { "item": "knife_combat", "x": 18, "y": 19, "chance": 100 }
+        { "item": "copper_knife", "x": 18, "y": 19, "chance": 100 }
       ]
     }
   },
@@ -154,6 +154,12 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_common_pottery",
     "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_pottery_1",
+    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_rack", "x": 1, "y": 17 },
@@ -162,7 +168,6 @@
         { "point": "furniture", "id": "f_rack", "x": 5, "y": 17 },
         { "point": "furniture", "id": "f_rack", "x": 6, "y": 17 },
         { "point": "furniture", "id": "f_rack", "x": 7, "y": 17 },
-        { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18 },
         { "point": "furniture", "id": "f_workbench", "x": 3, "y": 19 },
         { "point": "furniture", "id": "f_workbench", "x": 4, "y": 19 },
         { "point": "furniture", "id": "f_workbench", "x": 5, "y": 19 },

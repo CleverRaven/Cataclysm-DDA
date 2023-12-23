@@ -1,6 +1,8 @@
 #pragma once
 #ifndef CATA_SRC_GLOBAL_VARS_H
 #define CATA_SRC_GLOBAL_VARS_H
+#include <utility>
+
 #include "json.h"
 
 enum class var_type : int {
@@ -9,6 +11,8 @@ enum class var_type : int {
     global,
     faction,
     party,
+    context,
+    var,
     last
 };
 
@@ -38,10 +42,14 @@ class global_variables
         }
 
         void set_global_values( std::unordered_map<std::string, std::string> input ) {
-            global_values = input;
+            global_values = std::move( input );
         }
         void unserialize( JsonObject &jo );
         void serialize( JsonOut &jsout ) const;
+
+        std::map<std::string, std::string> migrations; // NOLINT(cata-serialize)
+        static void load_migrations( const JsonObject &jo, const std::string_view &src );
+
     private:
         std::unordered_map<std::string, std::string> global_values;
 };

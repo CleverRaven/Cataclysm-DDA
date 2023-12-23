@@ -1,0 +1,268 @@
+[
+  {
+    "id": "mon_pattern_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_bigfrog",
+    "name": { "str": "staticskin frog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pattern_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_giganfrog",
+    "name": { "str": "stuntongue" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_bigfrog",
+    "name": { "str": "mutant bullfrog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_giganfrog",
+    "name": { "str": "giant bullfrog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_megafrog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_megafrog",
+    "name": { "str": "colossal croaker" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_foul_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_bigfrog",
+    "name": { "str": "greasy stinktoad" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_giganfrog",
+    "name": { "str": "foul hogtoad" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_megafrog",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_megafrog",
+    "name": { "str": "great beaked toad" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_odd_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_bigfrog",
+    "name": { "str": "oversized toad" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_giganfrog",
+    "name": { "str": "giant toad" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_megafrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_megafrog",
+    "name": { "str": "gargantuan toad" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_leo_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_leo_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pattern_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_bullfrog_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_bullfrog_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_fowler_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_fowler_toad",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_toad",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_freedom_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_freedom_toad",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_toad",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_peeper_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_peeper_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_vocal_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_vocal_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_gray_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_gray_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_shift_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_shift_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_s",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_s",
+    "name": { "str": "rattlesnake snakelet" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s slithers around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_big_s",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_big_s",
+    "name": { "str": "mutant rattlesnake snakelet" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s slithers around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake",
+    "name": { "str": "rattlesnake" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s slithers around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_big",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_big",
+    "name": { "str": "mutant rattlesnake" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_giant",
+    "name": { "str": "giant rattlesnake" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_rattlesnake_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_mega",
+    "name": { "str": "deathrattle serpent" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  }
+]

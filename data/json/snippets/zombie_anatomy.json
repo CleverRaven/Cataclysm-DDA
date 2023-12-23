@@ -1,0 +1,522 @@
+[
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_harvest_general>",
+    "text": [
+      "As you make your first cut into its skin, a pressurized jet of decaying blood almost hits your face.",
+      "The overbearing sweet smell of decay emanating from the carcass forces you to take short breaks during your work to not puke.",
+      "As you cut through the muscle, it tenses up in reaction.",
+      "You spot a few flies and maggots in the corpse, their chosen carcass not seeming to be very good for them, as most seem moribund.",
+      "Random cavities in its body make you think it was at least partially feeding on its own tissues to keep functioning.",
+      "The corpse twitches as you begin.  It didn't feel like rigor mortis.",
+      "The body stirs as you open it up, suggesting it's still trying to attack, and reminding you to be cautious.",
+      "You begin your dissection - though, vivisection would be more appropriate, as you find the corpse not as still as you once thought."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_general>",
+    "text": [
+      "As you make your first cut into its skin, a pressurized jet of decaying blood almost hits your face.",
+      "The overbearing sweet smell of decay emanating from the carcass forces you to take short breaks during your work to not puke.",
+      "As you cut through the muscle, it tenses up in reaction.",
+      "You spot a few flies and maggots in the corpse, their chosen carcass not seeming to be very good for them, as most seem moribund.",
+      "Random cavities in its body make you think it was at least partially feeding on its own tissues to keep functioning.",
+      "The corpse twitches as you begin.  It didn't feel like rigor mortis.",
+      "The body stirs as you open it up, suggesting it's still trying to attack, and reminding you to be cautious.",
+      "You begin your dissection - though, vivisection would be more appropriate, as you find the corpse not as still as you once thought."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_harvest_general_deeper>",
+    "text": [
+      "The majority of the digestive tract seems to have reshaped into a singular stomach.",
+      "Some organs have atrophied or outright dissolved entirely.",
+      "The heart is overtaken by a mass of fistulas and other growths.",
+      "The thing's innards resemble one giant tumor more than the body of a human being.",
+      "The thing's feet are entirely calloused and the smaller toes are completely vestigal, simply a bump with a dead nail on them.",
+      "This person had a tattoo on their arm - said tattoo has reappeared in multiple spots along the inner tissues and the walls of organs.",
+      "The front part of the brain is completely missing, with spongy, half-formed bone in its place.",
+      "While its individual fingers appear to be losing their dexterity, the zombie's flexor muscles are tense and swollen.",
+      "This person had an artificial hip, but it's completely overgrown with bone now.",
+      "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
+      "The heart makes an odd, swallowing sound on occasion as you work around it.",
+      "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
+      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
+      "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
+      "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
+      "While some parts of the blackened brain have lost their wrinkles, in others the wrinkles are surprisingly uniform.",
+      "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
+      "Its tissue has significant trouble separating from the bone in some spots.",
+      "The skin is loose on the muscle in some places and melded with it in others.",
+      "The thing's innards churn slightly even as you dig through them.",
+      "As you finish up, you notice your earliest cuts seem to be the tiniest bit smaller.",
+      "To your \"delight,\" you find a tapeworm in its gut, turgid but seemingly dead.",
+      "As you cut into its stomach, the insane fragmentary remains of some creature it devoured, which appears to have melded with its own tissues, attempt to claw at your hand before you bludgeon them until they cease moving."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_general_deeper>",
+    "text": [
+      "The majority of the digestive tract seems to have reshaped into a singular stomach.",
+      "Some organs have atrophied or outright dissolved entirely.",
+      "The heart is overtaken by a mass of fistulas and other growths.",
+      "The thing's innards resemble one giant tumor more than the body of a living being.",
+      "The thing has extra teeth leading all the way down into the stomach.",
+      "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
+      "The heart makes an odd, swallowing sound on occasion as you work around it.",
+      "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
+      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
+      "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
+      "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
+      "While some parts of the blackened brain have lost their wrinkles, in others the wrinkles are surprisingly uniform.",
+      "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
+      "Its tissue has significant trouble separating from the bone in some spots.",
+      "The skin is loose on the muscle in some places and melded with it in others.",
+      "The thing's innards churn slightly even as you dig through them.",
+      "As you finish up, you notice your earliest cuts seem to be the tiniest bit smaller.",
+      "To your \"delight,\" you find a tapeworm in its gut, turgid but seemingly dead.",
+      "As you cut into its stomach, the insane fragmentary remains of some creature it devoured, which appears to have melded with its own tissues, attempt to claw at your hand before you bludgeon them until they cease moving."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_screamer_general>",
+    "text": [
+      "The lungs of this creature are cavernous, seemingly having been repurposed from their respiratory function to house an impressive volume of air.",
+      "Its massive diaphragm seems to have been the only correctly sustained muscle of this starved corpse.",
+      "A careless move dislodges some remaining air causing the throat of the undead monster to emit one more choked scream.",
+      "The slack jaws and starved body of this creature make you think that it would have struggled to seriously harm anything on its own.",
+      "Its distended lungs seem to be partially lined with a black and sticky mucus membrane."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie__humanoid_harvest_bone_general>",
+    "text": [
+      "Removing its bone plates proves more arduous than you would have thought, requiring you to almost put your entire weight on your tool to pry them off.",
+      "Black liquid bubbles in the places where you managed to remove its skeletal growths.",
+      "This one's armor falls off surprisingly easily, almost as if whatever puppets it wishes for it to lose the extra weight.",
+      "The layout and segmentation of its bony carapace disturbingly resembles what you want to call plate mail, but it's closer to the armor of an arthropod.",
+      "These plates are almost impossible to remove until you realize they are linked to the internal skeleton with calcified pillars you must break before removing its armor."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_bone_general>",
+    "text": [
+      "Removing its bone plates proves more arduous than you would have thought, requiring you to almost put your entire weight on your tool to pry them off.",
+      "Black liquid bubbles in the places where you managed to remove its skeletal growths.",
+      "This one's armor falls off surprisingly easily, almost as if whatever puppets it wishes for it to lose the extra weight.",
+      "The layout and segmentation of its bony carapace disturbingly resembles what you want to call plate mail, but it's closer to the armor of an arthropod.",
+      "These plates are almost impossible to remove until you realize they are linked to the internal skeleton with calcified pillars you must break before removing its armor."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_harvest_acid_general>",
+    "text": [
+      "The sheer pungent acrid odor of the carcass makes you temporarily recoil and reconsider the safety of delving into its entrails.",
+      "The sputters of acid on your gear you earned by digging into this corpse could maybe warrant the use of some water to douse.",
+      "Pressed against the liver is a swollen gland the size of a golfball, still somewhat functioning, pumping out acrid fluids.",
+      "Most cavities in its anatomy seem to have been filled with an acidic solution mixed with a foul black liquid and pieces of its slowly melting tissues.",
+      "You are almost certain that its flesh should not be able to contain such a virulently aggressive liquid, yet, it does.",
+      "You have to step back as a gland you inadvertently cut into seems to perform a neutralization reaction between its contents and the rest of its fluids."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_acid_general>",
+    "text": [
+      "The sheer pungent acrid odor of the carcass makes you temporarily recoil and reconsider the safety of delving into its entrails.",
+      "The sputters of acid on your gear you earned by digging into this corpse could maybe warrant the use of some water to douse.",
+      "Most cavities in its anatomy seem to have been filled with an acidic solution mixed with a foul black liquid and pieces of its slowly melting tissues.",
+      "You are almost certain that its flesh should not be able to contain such a virulently aggressive liquid, yet, it does.",
+      "Pressed against the liver is a swollen gland the size of a golfball, still somewhat functioning, pumping out acrid fluids.",
+      "You have to step back as a gland you inadvertently cut into seems to perform a neutralization reaction between its contents and the rest of its fluids."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_harvest_shadow_general>",
+    "text": [
+      "This corpse seems completely ordinary now, and dissection brings you no further to asserting what gave the creature its peculiar properties.",
+      "The lingering shadows surrounding it make your work quite a lot harder as they seem to deliberately grow more opaque around your tool as if they wished to hide the monster's secrets.",
+      "You spot a few pores still weakly sputtering thin puffs of black smoke, investigating them further reveals glands full of fuming black liquid linked to the pores with long tubes.",
+      "You make one incision and the resulting cloud of black smoke forces you to take a short break as it becomes impossible to see anything.",
+      "Despite it not being very evident from the outside, it seems the entire digestive tract of the abomination was bloated with its obscuring smoke."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_shadow_general>",
+    "text": [
+      "This corpse seems completely ordinary now, and dissection brings you no further to asserting what gave the creature its peculiar properties.",
+      "The black camouflage evaporates off the body where you put your tool through, completely odorless.",
+      "The lingering shadows surrounding it make your work quite a lot harder as they seem to deliberately grow more opaque around your tool as if they wished to hide the monster's secrets.",
+      "You spot a few pores still weakly sputtering thin puffs of black smoke, investigating them further reveals glands full of fuming black liquid linked to the pores with long tubes.",
+      "You make one incision and the resulting cloud of black smoke forces you to take a short break as it becomes impossible to see anything.",
+      "Despite it not being very evident from the outside, it seems the entire digestive tract of the abomination was bloated with its obscuring smoke."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_kevlar_general>",
+    "text": [
+      "The inner tissues are a mosaic of somewhat normal flesh and flesh interlaced with fibers of the armor.",
+      "Separating what is flesh and what is synthetic is difficult, as some parts appear to be between the two.",
+      "Fibers of kevlar-like material spread through the body like a cobweb, originating from a tiny entry wound in the abdomen.",
+      "You cut off some scraps of the uniform that were still adhered to the body, finding tendrils of flesh anchored into them.",
+      "Upon closer examination, some of the kevlar isn't kevlar - its off color and composition suggest it's the creature's flesh reformed to imitate it.",
+      "Some strands of the bulletproof material snake deep into the body like roots of an invading organism.",
+      "Strong fibers run alongside the muscles in a way that you want to compare to marbling.",
+      "Under the skin, crushing against the ribcage, you find a thick growth of flesh and kevlar formed from a mutated diaphragm."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_hulk_general>",
+    "text": [
+      "The sheer scale of the carcass leaves you only with a luxury of choice on where to start your work.",
+      "Its legs seem to have been reinforced with a strange lattice of skeletal bracing and muscle fibers to support its immense bulk.",
+      "Along joints in the limbs and torso you find strange new muscly organs filled with fluid, suggesting this behemoth moved with some form of organic hydraulics.",
+      "Portions of the spine and surrounding bones have grown and fused into a single piece, presumably to hold up the creature's bulk - but even then, it still shows signs of strain.",
+      "The ropey muscles are still unbelievably tense along the corpse's back, your own back aches just looking at them.",
+      "You find that shoulder and upper arm bones are supported by smaller, similar bone growths.",
+      "The more delicate joints in the body such as the wrists and neck have fused with surrounding tissue.",
+      "Your search for the source of the creature's size has you discover a cluster of glandular organs deep in the body, most of which you are unable to identify.",
+      "It seems most of the creature was grown as some sort of suit looking as if it was piloted by the still normal sized human corpse found in a fetal position in its torso.",
+      "The overall anatomy of this enormous monstrosity leaves you only to wonder how it possibly could achieve the range of motion you witnessed while it was still standing.",
+      "You cut into its abdomen, and discover its utter lack of internal organs, the expected cavity replaced by nothing but more flesh and muscle."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_grabber_general>",
+    "text": [
+      "The sheer remaining tension in each of the muscles of its arms and shoulders makes them unwind with a sonorous thwang each time you cut one off the supporting bones.",
+      "The tremendous growth of its upper body's muscle mass must have rendered the creature almost incapable of efficiently surveying its surroundings.",
+      "You realize the muscles of the zombie's arms are hollow, their marrow replaced by a thick oily black liquid.  You wonder if the ridiculous muscle mass surrounding them is the other half of a strange hydraulic system.",
+      "You cut into the arms of the creature and realize that instead of what you would expect from what you know of normal human anatomy, its muscles wind around the bones in what looks like a tight spring.",
+      "While you are cutting into it, the creature suddenly moves and grabs one of your limbs.  Despite considerable effort, you are unable to pry open the creature's iron grip and resign yourself to chop off the hand instead."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_dog_general>",
+    "text": [
+      "Opening its jaw wide, you notice the presence of multiple additional tongues deeper it in its throat.",
+      "You notice cysts in its fur, you cut into them and alternatively find acrid fluids, flakes of bone or twitching strands of muscle.",
+      "The rear of this greying zombified dog shows strange reinforcements, as if a previous pathology was being remediated.",
+      "Inside its muzzle you notice strange glands and fibrous growths, almost as if the creature's sense of smell was in the process of being overhauled.",
+      "Lodged into the neck area of the creature and grown over you find a corroded tag reading the following \"Max my best friend forever\"."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_electric_general>",
+    "text": [
+      "You find strange tubular glands across the creature contained alternating layers of two alien tissue types soaked in a black liquid, its smell putrid but saltier than usual for a zombie.",
+      "Uncomfortable static forces you to ground yourself multiple times during your work.",
+      "A roaming insect attracted by the carcass gets fried after landing on an organ glowing a faint blue, making you decide to avoid it with the utmost care.",
+      "The creature's heart seems to still be beating, but rather than pumping blood, it strangely reminds you of some sort of biological dynamo.",
+      "There are bundles of nerves snaking all throughout the tissues, still channeling small amounts of electricity.",
+      "The blackened veins of the creature seem strangely rigid, and you see faint crackles of electricity course across them."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_harvest_mushroom_general>",
+    "text": [
+      "Despite the carcass lying still, you still notice churning while investigating its entrails, as if whatever was originally animating this corpse is wrestling with the mycelium fibers to retake control.",
+      "Under the stomach you notice a wrinkled fruit that you can't help but think somewhat appetizing despite where you found it.",
+      "The skin feels absolutely turgid, oozing water mixed in with traces of a black liquid where you make your incisions.",
+      "Fungal stalks still sway gently despite the lack of movement of the formerly shambling corpse.",
+      "The putrefied blood that leaks from your incisions is visibly saturated with spores."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_mushroom_general>",
+    "text": [
+      "Despite the carcass lying still, you still notice churning while investigating its entrails, as if whatever was originally animating this corpse is wrestling with the mycelium fibers to retake control.",
+      "Under the stomach you notice a wrinkled fruit that you can't help but think somewhat appetizing despite where you found it.",
+      "The skin feels absolutely turgid, oozing water mixed in with traces of a black liquid where you make your incisions.",
+      "Fungal stalks still sway gently despite the lack of movement of the formerly shambling corpse.",
+      "The putrefied blood that leaks from your incisions is visibly saturated with spores."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_pupating_general>",
+    "text": [
+      "The cavities of this creature are filled with lethargic winged creatures hanging off tubes oozing a greyish milky substance.",
+      "The corpse is inundated with smaller forms, increasing in complexity and size as you near its central cavity where they wait for their release in neat clusters.",
+      "The inside of this carcass ressembles more an industrial production line than anything vaguely natural.",
+      "You find several unfinished creatures inside the main cavity, you have a vague feeling something greater discarded them, founding them wanting.",
+      "You are almost certain this zombie was pregnant before its undeath, the fetus within the womb having been twisted into the abomination it was carrying."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_generic_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_generic_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_screamer_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_screamer_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_screamer_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_bone_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_bone_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_bone_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_bone_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_acid_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_acid_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_acid_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_acid_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_acid_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_shadow_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_shadow_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_shadow_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_shadow_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_shadow_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_shadow_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_hulk_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_hulk_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_bone_hulk_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_hulk_general>",
+      "<zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_bone_general>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_kevlar_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general_deeper> <zombie_harvest_kevlar_general>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_kevlar_hulk_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_kevlar_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_grabber_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_grabber_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_grabber_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_dog_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_harvest_dog_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_bone_dog_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_bone_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_acid_dog_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_acid_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_electric_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_electric_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_electric_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_harvest_electric_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_electric_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_mushroom_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_mushroom_general>",
+      "<zombie_humanoid_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_mushroom_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_mushroom_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_animal_harvest_mushroom_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_mushroom_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_moldy_bone_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_mushroom_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_pupating_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_pupating_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_pupating_shadow_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>",
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_shadow_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_pupating_hulk_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_pupating_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_humanoid_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>"
+    ]
+  }
+]

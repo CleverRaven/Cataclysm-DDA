@@ -1,0 +1,95 @@
+[
+  {
+    "id": "matrix_dust_refined",
+    "type": "requirement",
+    "components": [
+      [
+        [ "matrix_crystal_biokin_dust_refined", 1 ],
+        [ "matrix_crystal_clair_dust_refined", 1 ],
+        [ "matrix_crystal_pyrokin_dust_refined", 1 ],
+        [ "matrix_crystal_telekin_dust_refined", 1 ],
+        [ "matrix_crystal_telepath_dust_refined", 1 ],
+        [ "matrix_crystal_teleport_dust_refined", 1 ],
+        [ "matrix_crystal_vitakin_dust_refined", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "bullet_forming",
+    "type": "requirement",
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "fire", -1 ], [ "pyrokinetic_fire_tool", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
+    ]
+  },
+  {
+    "id": "earthenware_firing",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "shot_forming",
+    "type": "requirement",
+    "//": "Forming of shot from raw materials",
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
+      [ [ "water", 1 ], [ "water_clean", -1 ], [ "salt_water", -1 ], [ "water_sewage", -1 ] ],
+      [
+        [ "ladle", -1 ],
+        [ "ceramic_mug", -1 ],
+        [ "ceramic_cup", -1 ],
+        [ "teapot", -1 ],
+        [ "clay_teapot", -1 ],
+        [ "can_food", -1 ]
+      ],
+      [ [ "fire", -1 ], [ "pyrokinetic_fire_tool", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
+    ]
+  },
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "//": "All of the different bird eggs. Extended from the original, requirements don't support \"copy-from\" without throwing a minor error on game loading.",
+    "components": [
+      [
+        [ "egg_bird", 1 ],
+        [ "egg_bird_unfert", 1 ],
+        [ "egg_chicken", 1 ],
+        [ "egg_grouse", 1 ],
+        [ "egg_crow", 1 ],
+        [ "egg_raven", 1 ],
+        [ "egg_bluejay", 1 ],
+        [ "egg_cardinal", 1 ],
+        [ "egg_robin", 1 ],
+        [ "egg_sparrow", 2 ],
+        [ "egg_duck", 1 ],
+        [ "egg_goose_canadian", 1 ],
+        [ "egg_turkey", 1 ],
+        [ "egg_pheasant", 1 ],
+        [ "egg_cockatrice", 1 ],
+        [ "egg_goose", 1 ],
+        [ "egg_goose_golden", 1 ],
+        [ "egg_hummingbird", 5 ],
+        [ "egg_woodpecker", 5 ],
+        [ "egg_coot", 1 ],
+        [ "egg_cormorant", 1 ],
+        [ "egg_moorhen", 1 ],
+        [ "egg_grebe", 1 ]
+      ]
+    ]
+  }
+]

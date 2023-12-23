@@ -16,7 +16,7 @@ jobs:
         cancel_others: 'true'
         paths: '["**.json", ".github/workflows/json.yml"]'
     - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3.1.2
       with:
         name: pull_request_id
         path: pull_request_id
@@ -28,17 +28,9 @@ jobs:
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
     - name: JSON style check
       run: make style-all-json-parallel RELEASE=1
     - name: Display Corrections
       if: failure()
       run: git diff --color
-
-    - name: 'suggester / JSON'
-      uses: reviewdog/action-suggester@v1
-      if: failure()
-      with:
-        tool_name: 'JSON formatter'

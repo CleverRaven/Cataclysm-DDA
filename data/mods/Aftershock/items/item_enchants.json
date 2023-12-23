@@ -1,0 +1,110 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ench_cold_armor",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "name": { "str": "Cold Barrier" },
+    "description": "Reduces incoming cold damage by 25%.",
+    "values": [ { "value": "ARMOR_COLD", "multiply": -0.25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_motion_sensor_wield",
+    "has": "WIELD",
+    "name": { "str": "Active Motion Detector" },
+    "description": "Actively detects nearby movement.",
+    "condition": { "u_compare_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "op": ">=", "value": 1 },
+    "values": [ { "value": "MOTION_VISION_RANGE", "add": 24 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_esab",
+    "has": "WIELD",
+    "condition": "ACTIVE",
+    "name": { "str": "Super Heated Blade" },
+    "description": "The energy radiating from this weapon cuts and burns with ease.",
+    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 18 }, { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_exo_big_carry",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "name": { "str": "Load Support Module" },
+    "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ],
+    "description": "Provides 20kg of additional storage."
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_exo_small_carry",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "name": { "str": "Small Load Support Module" },
+    "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ],
+    "description": "Provides 10kg of additional storage."
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_exo_recoil",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "name": { "str": "Recoil Mitigation System" },
+    "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.3 } ],
+    "description": "Reduces weapon dispersion."
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_exo_forcefield_bash_cut",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "name": { "str": "Low Energy Forcefield" },
+    "values": [ { "value": "ARMOR_BASH", "add": -25 }, { "value": "ARMOR_CUT", "add": -25 } ],
+    "description": "Reduces incoming bash and cut damage by 25."
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_exo_forcefield_ballistic_pierce",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "name": { "str": "High Energy Forcefield" },
+    "values": [ { "value": "ARMOR_BULLET", "add": -40 }, { "value": "ARMOR_STAB", "add": -40 } ],
+    "description": "Reduces incoming pierce and bullet damage by 40."
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_exo_AR_module",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "name": { "str": "Education Assist" },
+    "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ],
+    "description": "Assists with learning and study."
+  },
+  {
+    "id": "afs_ench_climate_control_warm",
+    "type": "enchantment",
+    "name": { "str": "Cold Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_exo_underlayer",
+    "type": "enchantment",
+    "name": { "str": "Cold Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": { "u_is_wearing": "modular_exosuit_on" },
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 150 } ]
+  },
+  {
+    "id": "ench_smart_gun",
+    "name": { "str": "Smart Gun" },
+    "description": "Your gun aims itself, reducing your dispersion by 90%.",
+    "type": "enchantment",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.9 } ]
+  }
+]

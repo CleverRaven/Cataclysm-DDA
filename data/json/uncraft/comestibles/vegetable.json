@@ -1,0 +1,95 @@
+[
+  {
+    "result": "pumpkin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "pumpkin_cut", 4 ] ], [ [ "seed_pumpkin", 6 ] ] ]
+  },
+  {
+    "result": "tomato",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_tomato", 1 ] ], [ [ "tomato_cut", 1 ] ] ]
+  },
+  {
+    "result": "mayapple",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_mayapple", 1 ] ] ]
+  },
+  {
+    "result": "zucchini",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_zucchini", 2 ] ], [ [ "zucchini_cut", 1 ] ] ]
+  },
+  {
+    "result": "cucumber",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_cucumber", 2 ] ], [ [ "cucumber_cut", 1 ] ] ]
+  },
+  {
+    "result": "chili_pepper",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_chili_pepper", 2 ] ], [ [ "chili_pepper_cut", 1 ] ] ]
+  },
+  {
+    "result": "bell_pepper",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_bell_pepper", 2 ] ], [ [ "bell_pepper_cut", 1 ] ] ]
+  },
+  {
+    "result": "raw_bottle_gourd",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_bottle_gourd", 3 ] ] ]
+  },
+  {
+    "result": "raw_edamame",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "soybean", 1 ] ] ]
+  },
+  {
+    "result": "eggplant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_eggplant", 1 ], [ "eggplant_cut", 1 ] ] ]
+  },
+  {
+    "result": "cattlefodder_medium",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cattlefodder", 7 ] ] ]
+  },
+  {
+    "result": "cattlefodder_large",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cattlefodder", 36 ] ] ]
+  }
+]

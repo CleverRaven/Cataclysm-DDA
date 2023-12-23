@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_GOBLIN_FRUIT",
+    "condition": { "and": [ "u_is_outside", { "math": [ "weather('windpower')", ">=", "12" ] } ] },
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "false_effect": [ { "u_message": "You must have a strong enough wind to call forth a goblin fruit.", "type": "bad" } ]
+  }
+]

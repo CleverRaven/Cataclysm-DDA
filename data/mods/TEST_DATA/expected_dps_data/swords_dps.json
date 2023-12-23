@@ -1,0 +1,22 @@
+[
+  {
+    "type": "test_data",
+    "//": "expected value 24, does not include shortswords",
+    "//2": "arming_sword: heavier than a broadsword",
+    "expected_dps": {
+      "mc_arming_sword": 24.648,
+      "arming_sword_inferior": 24.156,
+      "arming_sword_fake": 12.19,
+      "blade_scythe": 5.25,
+      "mc_broadsword": 24.605,
+      "broadsword_inferior": 19.178,
+      "broadsword_fake": 9.828,
+      "glass_macuahuitl": 11.0,
+      "mc_jian": 25.208,
+      "jian_inferior": 18.5,
+      "jian_fake": 8.792,
+      "mc_rapier": 25.302,
+      "rapier_fake": 9.034
+    }
+  }
+]

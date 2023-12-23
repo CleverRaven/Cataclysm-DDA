@@ -1,0 +1,31 @@
+[
+  {
+    "id": "BGSS_RURAL_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I lived pretty well out in the middle of nowhere.  We heard about the shit goin' down, but we didn't see much of it until those men with spears came blazing through and tried to set up a camp there.  They wanted to bottle us all up, and I wasn't having with that, so my dog Buck and I, we headed out while they were all sniffin' their own farts.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_2_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Buck and I slipped out and went East, headin' out to see my friend Angel.  Cute little dope thought we were just goin' for a real long walk.  We made it out to the forest, camped out under the stars.  Packed up and kept heading out.  At first we walked along the swamp, but saw too many giant <swear> insects and such.",
+    "responses": [
+      { "text": "Where's Buck now?", "topic": "BGSS_RURAL_2_STORY3" },
+      { "text": "I see where this is headed.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I see where this is headed.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "We got to my buddy's place, but the <swear> spearmen had been there first.  It was all boarded up and there was a wooden barricade out front.  One of those <swear> giant insects… <swear> got Buck.  Almost got me too.  I managed to get my pup… get him outta there, that… it wasn't easy, had to use a dead bug as a shield.  And then, well, while I was still cryin', Buck came back.  I had to… <swear!>.  I… I can't say it.  You know.",
+    "responses": [
+      { "text": "I'm sorry about Buck.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I'm sorry about Buck.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

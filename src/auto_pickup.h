@@ -12,7 +12,7 @@
 #include "item_location.h"
 #include "item_stack.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 class item;
@@ -67,7 +67,7 @@ class rule_list : public std::vector<rule>
 {
     public:
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 
         void refresh_map_items( cache &map_items ) const;
 
@@ -90,7 +90,6 @@ class user_interface
 
         std::string title;
         std::vector<tab> tabs;
-        bool is_autopickup = false;
 
         void show();
 
@@ -157,7 +156,7 @@ class npc_settings : public base_settings
         void show( const std::string &name );
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 
         bool empty() const;
 };

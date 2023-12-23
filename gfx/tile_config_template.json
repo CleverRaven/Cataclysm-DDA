@@ -1585,6 +1585,7 @@
     { "id": "jar_meat_pickled", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "jar_human_pickled", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "cordless_drill", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
+    { "id": "corded_powerdrill", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "vac_sealer", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "plastic_bag_vac", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "medical_gauze", "fg": -1, "bg": -1, "rotates": false, "multitile": false },

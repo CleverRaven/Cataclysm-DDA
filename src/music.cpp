@@ -56,7 +56,7 @@ void activate_music_id( music_id data )
     music_id_list[data].second = true;
 }
 
-void activate_music_id( std::string data )
+void activate_music_id( const std::string &data )
 {
     activate_music_id( io::string_to_enum<music_id>( data ) );
 }
@@ -66,7 +66,7 @@ void deactivate_music_id( music_id data )
     music_id_list[data].second = false;
 }
 
-void deactivate_music_id( std::string data )
+void deactivate_music_id( const std::string &data )
 {
     deactivate_music_id( io::string_to_enum<music_id>( data ) );
 }
@@ -85,7 +85,7 @@ void update_music_id_is_empty_flag( music_id data, bool update )
     music_id_list[data].first = update;
 }
 
-void update_music_id_is_empty_flag( std::string data, bool update )
+void update_music_id_is_empty_flag( const std::string &data, bool update )
 {
     music_id_list[io::string_to_enum<music_id>( data )].first = update;
 }

@@ -1,0 +1,272 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_1_controls_room_construction",
+    "description": "We need some shelter, so wall over the windows in the radio control room.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_controls_room_construction",
+    "blueprint_name": "barricade radio control room",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_controls_room" }, { "id": "fbmc_radio_tower" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_controls_room" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_0",
+    "description": "We need some shelter, so build a shack inside the radio tower.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_0",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_0" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower" } ],
+    "blueprint_name": "shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_1",
+    "description": "We need some shelter, so build a shack on the northeast side of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_1",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_1" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_0" } ],
+    "blueprint_name": "northeast shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_2",
+    "description": "We need some shelter, so build a shack on the southwest corner of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_2",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_2" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_2" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_1" }, { "id": "fbmc_radio_tower_0" } ],
+    "blueprint_name": "southwest shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_3",
+    "description": "We need some shelter, so build a shack on the southwest side of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_3",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_3" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_3" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_2" } ],
+    "blueprint_name": "southwest shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_4",
+    "description": "We need some shelter, so build a shack on the southeast side of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_4",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_4" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_4" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_3" } ],
+    "blueprint_name": "southeast shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_5",
+    "description": "We need some shelter, so build a shack on the southeast corner of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_5",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_5" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_5" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_4" } ],
+    "blueprint_name": "southeast shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_6",
+    "description": "We need some shelter, so build a shack on the southeast corner of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_6",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_6" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_6" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_1" }, { "id": "fbmc_radio_tower_1" } ],
+    "blueprint_name": "southeast shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_7",
+    "description": "We need some shelter, so build a shack on the southwest corner of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_7",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_7" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_7" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_6" } ],
+    "blueprint_name": "southwest shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_construction_shack_8",
+    "description": "We need some shelter, so build a shack roof on the south side of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_construction_shack_8",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_shack_8" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_shack_8" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_7" } ],
+    "blueprint_name": "south shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  }
+]

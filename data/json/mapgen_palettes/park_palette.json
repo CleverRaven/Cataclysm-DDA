@@ -41,13 +41,14 @@
       "w": "t_water_dp"
     },
     "furniture": {
+      "N": "f_bulletin",
       "!": "f_street_light",
       "z": "f_hedge_short",
       "&": "f_trashcan",
       " ": [ [ "f_null", 40 ], "f_region_flower" ],
       "f": "f_region_flower_decorative",
       "A": "f_statue",
-      "B": "f_bench",
+      "B": "f_bench_park",
       "b": "f_bench",
       "I": "f_region_water_plant",
       "i": "f_region_water_plant",

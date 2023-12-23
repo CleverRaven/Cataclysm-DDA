@@ -1,0 +1,61 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_XEDRA_MERC_MAIN",
+    "dynamic_line": "As you approach you feel compelled to touch the creature encased in glass.  The corpse inside is screaming, it needs your help.",
+    "responses": [
+      { "text": "Say: \"Is someone there?\"", "topic": "TALK_XEDRA_MERC_SCREEM" },
+      { "text": "Touch it.", "topic": "TALK_XEDRA_MERC_HAUNTING" },
+      { "text": "Back away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_XEDRA_MERC_SCREEM",
+    "dynamic_line": "An almost human voice erupts in your mind:\n\"FREE ME!\"",
+    "responses": [ { "text": "Touch it.", "topic": "TALK_XEDRA_MERC_HAUNTING" }, { "text": "Back away.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_XEDRA_MERC_HAUNTING",
+    "dynamic_line": "With a terrible shriek the mercenary falls off the spike and begins to move.  It stares right at you before vanishing.  In the distance you can hear a radio squelch:\n\"Target acquired.  Falling back, regroup and prepare to attack the intruder.\"",
+    "responses": [
+      {
+        "text": "You can here the rushing of boots all around you, and the chattering of radios.  It must still be close and you are their target.",
+        "effect": [
+          { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "20 seconds", "30 seconds" ] },
+          { "run_eocs": "EOC_HAUNTING_SPAWN" },
+          { "u_transform_radius": 5, "ter_furn_transform": "merc_spike_transform" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "xedra_officer_set",
+    "//": "equipment dropped by the XEDRA officer boss",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_tactical_leg" },
+      { "group": "clothing_watch" },
+      { "item": "phase_immersion_suit" },
+      { "item": "id_science_security_black" },
+      { "item": "survivor_machete_qt", "variant": "xedra_machete", "container-item": "scabbard" },
+      {
+        "collection": [
+          { "item": "rm103a_pistol", "prob": 100, "charges": 6, "container-item": "holster" },
+          { "group": "field_xedra_officer" }
+        ]
+      }
+    ]
+  }
+]

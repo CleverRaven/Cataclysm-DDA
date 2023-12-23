@@ -7,12 +7,13 @@
     "sym": "R",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "RIVER", "NO_ROTATE", "SOURCE_DRINK" ]
+    "flags": [ "RIVER", "NO_ROTATE", "SOURCE_DRINK", "WATER" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_river_bank",
     "copy-from": "generic_river",
+    "travel_cost_type": "shore",
     "name": "river bank",
     "color": "light_blue"
   },
@@ -20,6 +21,7 @@
     "type": "overmap_terrain",
     "id": "river_center",
     "copy-from": "generic_river",
+    "travel_cost_type": "water",
     "mapgen": [ { "method": "builtin", "name": "river_center" } ]
   },
   {

@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -18,9 +19,9 @@
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -41,10 +42,10 @@ struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
 
-static const overmap_land_use_code_id land_use_code_forest( "forest" );
-static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
-static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
-static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
+inline const overmap_land_use_code_id land_use_code_forest( "forest" );
+inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+inline const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+inline const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -105,6 +106,8 @@ type random();
 
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
+
+type from_cube( cube_direction, const std::string &error_msg );
 
 } // namespace om_direction
 
@@ -171,6 +174,7 @@ enum class oter_flags : int {
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     should_not_spawn,
+    water,
     river_tile,
     has_sidewalk,
     ignore_rotation_for_adjacency,
@@ -179,6 +183,8 @@ enum class oter_flags : int {
     requires_predecessor,
     lake,
     lake_shore,
+    ocean,
+    ocean_shore,
     ravine,
     ravine_edge,
     generic_loot,
@@ -214,6 +220,26 @@ struct enum_traits<oter_flags> {
     static constexpr oter_flags last = oter_flags::num_oter_flags;
 };
 
+enum class oter_travel_cost_type : int {
+    other,
+    impassable,
+    road,
+    field,
+    dirt_road,
+    trail,
+    forest,
+    shore,
+    swamp,
+    water,
+    air,
+    last
+};
+
+template<>
+struct enum_traits<oter_travel_cost_type> {
+    static constexpr oter_travel_cost_type last = oter_travel_cost_type::last;
+};
+
 struct oter_type_t {
     public:
         static const oter_type_t null_type;
@@ -226,9 +252,12 @@ struct oter_type_t {
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
-        unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
+        oter_travel_cost_type travel_cost_type =
+            oter_travel_cost_type::other;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
+        effect_on_condition_id entry_EOC;
+        effect_on_condition_id exit_EOC;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
@@ -329,8 +358,8 @@ struct oter_t {
         unsigned char get_see_cost() const {
             return type->see_cost;
         }
-        unsigned char get_travel_cost() const {
-            return type->travel_cost;
+        oter_travel_cost_type get_travel_cost_type() const {
+            return type->travel_cost_type;
         }
 
         const std::string &get_extras() const {
@@ -339,6 +368,14 @@ struct oter_t {
 
         int get_mondensity() const {
             return type->mondensity;
+        }
+
+        effect_on_condition_id get_entry_EOC() const {
+            return type->entry_EOC;
+        }
+
+        effect_on_condition_id get_exit_EOC() const {
+            return type->exit_EOC;
         }
 
         const overmap_static_spawns &get_static_spawns() const {
@@ -379,12 +416,23 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland_saltwater;
         }
 
+        bool is_water() const {
+            return type->has_flag( oter_flags::water );
+        }
         bool is_lake() const {
             return type->has_flag( oter_flags::lake );
         }
 
         bool is_lake_shore() const {
             return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ocean() const {
+            return type->has_flag( oter_flags::ocean );
+        }
+
+        bool is_ocean_shore() const {
+            return type->has_flag( oter_flags::ocean_shore );
         }
 
         bool is_ravine() const {
@@ -413,7 +461,7 @@ struct oter_t {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-static constexpr int OMSPEC_FREQ = 15;
+constexpr int OMSPEC_FREQ = 15;
 
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
@@ -440,7 +488,7 @@ struct overmap_special_locations {
      * It's true if oter meets any of locations.
      */
     bool can_be_placed_on( const oter_id &oter ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &ja );
 };
 
 struct overmap_special_terrain : overmap_special_locations {
@@ -451,13 +499,13 @@ struct overmap_special_terrain : overmap_special_locations {
     oter_str_id terrain;
     std::set<std::string> flags;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &om );
 };
 
 struct overmap_special_connection {
     tripoint p;
-    cata::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid; // NOLINT(cata-serialize)
+    std::optional<tripoint> from;
+    cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
@@ -524,6 +572,9 @@ class overmap_special
             return flags_;
         }
         bool has_flag( const std::string & ) const;
+        int get_priority() const {
+            return priority_;
+        }
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
@@ -565,6 +616,7 @@ class overmap_special
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;
+        int priority_ = 0;
 
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<string_id<overmap_location>> default_locations_;
@@ -575,7 +627,7 @@ struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void check();
         // Check if the given overmap special should be migrated
         static bool migrated( const overmap_special_id &os_id );

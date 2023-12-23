@@ -4,13 +4,13 @@
     "id": "cestus",
     "symbol": "3",
     "color": "light_gray",
-    "name": { "str": "cestus", "str_pl": "cestuses" },
+    "name": { "str": "cestus", "str_pl": "cesti" },
     "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defence.",
     "material": [ "leather", "steel" ],
     "volume": "100 ml",
     "weight": "300 g",
-    "bashing": 2,
     "price_postapoc": 250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "material_thickness": 1,
     "armor": [
@@ -41,7 +41,24 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "xl_cestus",
+    "type": "ARMOR",
+    "name": { "str": "XL cestus", "str_pl": "XL cesti" },
+    "copy-from": "cestus",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_cestus",
+    "type": "ARMOR",
+    "name": { "str": "XS cestus", "str_pl": "XS cesti" },
+    "copy-from": "cestus",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "type": "ARMOR",
@@ -49,12 +66,12 @@
     "symbol": "3",
     "color": "yellow",
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
-    "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
+    "description": "A metal weapon made of brass, designed to be gripped in the palm to cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": [ "brass" ],
     "weight": "320 g",
     "volume": "250 ml",
-    "bashing": 4,
     "price_postapoc": 250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE" ],
     "material_thickness": 2,
     "armor": [
@@ -64,7 +81,24 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "xl_knuckle_brass",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL brass knuckles", "str_pl": "pairs of XL brass knuckles" },
+    "copy-from": "knuckle_brass",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_knuckle_brass",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS brass knuckles", "str_pl": "pairs of XS brass knuckles" },
+    "copy-from": "knuckle_brass",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "type": "ARMOR",
@@ -72,14 +106,13 @@
     "symbol": "]",
     "color": "brown",
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
-    "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
+    "description": "A pair of knuckles consisting of two small squares of wood with several nails sticking through them.  Useful in nasty street fights.",
     "material": [ "wood" ],
     "volume": "250 ml",
-    "weight": "430 g",
-    "bashing": 2,
-    "cutting": 3,
+    "weight": "200 g",
     "price_postapoc": 50,
-    "flags": [ "STAB" ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
+    "flags": [  ],
     "material_thickness": 1,
     "armor": [
       {
@@ -88,7 +121,24 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4, "stab": 4 }
+  },
+  {
+    "id": "xl_knuckle_nail",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL nail knuckles", "str_pl": "pairs of XL nail knuckles" },
+    "copy-from": "knuckle_nail",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_knuckle_nail",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS nail knuckles", "str_pl": "pairs of XS nail knuckles" },
+    "copy-from": "knuckle_nail",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "type": "ARMOR",
@@ -96,14 +146,13 @@
     "symbol": "3",
     "color": "dark_gray",
     "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
-    "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearers knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
+    "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearer's knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": [ "steel" ],
     "volume": "250 ml",
     "weight": "430 g",
-    "bashing": 4,
     "price_postapoc": 50,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "UNARMED_WEAPON" ],
     "material_thickness": 1,
     "armor": [
       {
@@ -112,7 +161,24 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5, "cut": 1 }
+  },
+  {
+    "id": "xl_knuckle_steel",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL scrap knuckles", "str_pl": "pairs of XL scrap knuckles" },
+    "copy-from": "knuckle_steel",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_knuckle_steel",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS scrap knuckles", "str_pl": "pairs of XS scrap knuckles" },
+    "copy-from": "knuckle_steel",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "type": "ARMOR",
@@ -121,12 +187,12 @@
     "color": "light_gray",
     "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
     "looks_like": "knuckle_brass",
-    "description": "A pair of knuckles forged from steel, designed to be gripped in the palm and cause punches to do more damage.  A good, quick weapon - but you have to get within punching range to use it.",
+    "description": "A pair of knuckles forged from steel, designed to be gripped in the palm to cause punches to do more damage.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": [ "steel" ],
     "volume": "250 ml",
     "weight": "240 g",
-    "bashing": 4,
     "price_postapoc": 180,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
     "material_thickness": 2,
@@ -137,7 +203,24 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "xl_knuckle_steel_forged",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL steel knuckles", "str_pl": "pairs of XL steel knuckles" },
+    "copy-from": "knuckle_steel_forged",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_knuckle_steel_forged",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS steel knuckles", "str_pl": "pairs of XS steel knuckles" },
+    "copy-from": "knuckle_steel_forged",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_studded",
@@ -148,16 +231,32 @@
     "volume": "250 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 2,
-    "cutting": 1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STAB", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 2, "stab": 4 }
+  },
+  {
+    "id": "xl_gloves_studded",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL studded gloves", "str_pl": "pairs of XL studded gloves" },
+    "copy-from": "gloves_studded",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gloves_studded",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS studded gloves", "str_pl": "pairs of XS studded gloves" },
+    "copy-from": "gloves_studded",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "knuckle_impact",
@@ -168,7 +267,7 @@
     "volume": "300 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 5,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
@@ -182,26 +281,58 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "xl_knuckle_impact",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL impact knuckles" },
+    "copy-from": "knuckle_impact",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_knuckle_impact",
+    "type": "ARMOR",
+    "name": { "str_sp": "XS impact knuckles" },
+    "copy-from": "knuckle_impact",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "knuckle_skewer",
     "type": "ARMOR",
     "name": { "str_sp": "skewer knuckles" },
-    "description": "A single sturdy spike protrudes 5cm from the back of your hand.  They are strapped to your hands with metal braces.",
+    "description": "A pair of metal braces, each with a single sturdy spike attached.  When strapped to your hands, the spikes protrude 5 centimeters past your clenched fists.",
     "weight": "250 g",
     "volume": "300 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 2,
-    "cutting": 10,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "STAB", "OUTER" ],
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 3, "stab": 6 }
+  },
+  {
+    "id": "xl_knuckle_skewer",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL skewer knuckles" },
+    "copy-from": "knuckle_skewer",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_knuckle_skewer",
+    "type": "ARMOR",
+    "name": { "str_sp": "XS skewer knuckles" },
+    "copy-from": "knuckle_skewer",
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

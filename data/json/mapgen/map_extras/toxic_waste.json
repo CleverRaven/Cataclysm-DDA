@@ -1,0 +1,224 @@
+[
+  {
+    "id": "toxic_waste_mx",
+    "type": "item_group",
+    "items": [
+      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
+      { "item": "water_sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
+      { "item": "fetid_goop", "entry-wrapper": "55gal_drum", "count-min": 26, "count-max": 200, "prob": 30 },
+      { "prob": 1, "group": "meat_mutant_tainted_55gal_drum_3_15" },
+      { "prob": 2, "group": "veggy_tainted_55gal_drum_3_50" },
+      { "group": "toxic_waste_mx_chems", "prob": 35 },
+      { "item": "55gal_drum", "prob": 50 },
+      { "item": "canister_goo", "prob": 5 },
+      { "item": "slime_scrap", "prob": 10 }
+    ]
+  },
+  {
+    "id": "toxic_waste_mx_chems",
+    "type": "item_group",
+    "items": [
+      { "item": "chem_acetone", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 32, "prob": 10 },
+      { "item": "chem_toluene", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 16, "prob": 5 },
+      { "item": "chem_glycerol", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 32, "prob": 5 },
+      { "item": "chem_ethanol", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 100, "prob": 20 },
+      { "item": "methed_alcohol", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 32, "prob": 10 },
+      { "item": "chem_methanol", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 16, "prob": 10 },
+      { "item": "diesel", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 52, "prob": 15 },
+      { "item": "motor_oil", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 52, "prob": 15 },
+      { "item": "chem_turpentine", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 100, "prob": 15 },
+      { "item": "camphine", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 32, "prob": 5 },
+      { "item": "gasoline", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 52, "prob": 5 },
+      { "item": "bleach", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 52, "prob": 10 },
+      { "item": "lye", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 52, "prob": 10 },
+      {
+        "item": "chem_sulphuric_acid",
+        "container-item": "55gal_drum",
+        "charges-min": 1,
+        "charges-max": 16,
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "toxic_waste_mx_radioactive",
+    "type": "item_group",
+    "items": [
+      { "item": "cobalt_60", "entry-wrapper": "55gal_drum", "count-min": 1, "count-max": 12, "prob": 5 },
+      { "item": "plutonium", "entry-wrapper": "55gal_drum", "count-min": 1, "count-max": 3, "prob": 1 },
+      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 50 },
+      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 30 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "toxic_gas_vent",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 3, "age": 0 } ],
+      "//": "Random chemicals mixed together is bound to create toxic gas, also makes it harder to get to any loot.",
+      "place_loot": [ { "group": "toxic_waste_mx_chems", "x": 0, "y": 0, "repeat": [ 2, 3 ] } ],
+      "set": [ { "point": "terrain", "id": "t_pit", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "toxic_waste_fence_radioactive",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|---------|",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|---------|",
+        "           "
+      ],
+      "set": [ { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 10, "y2": 10 } ],
+      "place_loot": [ { "group": "toxic_waste_mx_radioactive", "x": [ 2, 7 ], "y": [ 2, 7 ], "repeat": 2 } ],
+      "//": "Try to make it either fence or nothing - a lot of fence posts without fence next to each other may look weird.",
+      "terrain": {
+        "|": [ [ "t_chainfence", 5 ], "t_chainfence_posts", [ "t_grass_dead", 4 ] ],
+        "-": [ [ "t_chainfence", 5 ], "t_chainfence_posts", [ "t_grass_dead", 4 ] ]
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "toxic_waste_lab_corpses",
+    "//": "Lore. Lab folks may dump their now dead, useless and perhaps incriminating experiments there to get rid of them.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_corpses": [ { "group": "GROUP_TOXIC_WASTE_CORPSES", "x": [ 0, 2 ], "y": [ 0, 2 ] } ],
+      "place_item": [ { "item": "toxic_waste_labnote", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40 } ]
+    }
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOXIC_WASTE",
+    "monsters": [
+      { "monster": "mon_sewer_rat", "weight": 60 },
+      { "monster": "mon_blob", "weight": 30 },
+      { "monster": "mon_zombie_hazmat", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOXIC_WASTE_CORPSES",
+    "monsters": [
+      { "monster": "mon_mutant_experimental", "weight": 60 },
+      { "monster": "mon_mutant_antler", "weight": 30 },
+      { "monster": "mon_mutant_arthropod", "weight": 10 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_toxic_waste",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      #                 ",
+        "         ---! --        ",
+        "       - -%^~-          ",
+        "       --~-~---^        ",
+        "       -~~~~~~--        ",
+        "     ! ---~~---         ",
+        "        -~-%-- -        ",
+        "       --^-~-~-         ",
+        "        ---~ !          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt", "t_grass_dead" ], "%": [ "t_dirt", "t_grass_dead" ] },
+      "furniture": {
+        "~": [ "f_rubble_landfill", "f_rubble", "f_wreckage", [ "f_null", 3 ] ],
+        "-": [ "f_rubble_landfill", "f_rubble", "f_wreckage", [ "f_null", 3 ] ]
+      },
+      "//": "Three spawning spots, 90% chance to have at least one toxic gas vent.",
+      "//2": "Make radiation sort-of rare since in real life atomic compounds are strictly regulated. However, this is the Cataclysm where atomic stuff is more widely used so do not make it unobtanium.",
+      "//3": "Since there are two potential corpse spawning spots, make the overall chance to encounter at least one corpse 10%. Obtaining the lore note is thus at 4% per map extra.",
+      "nested": {
+        "^": { "chunks": [ [ "null", 70 ], [ "toxic_gas_vent", 30 ] ] },
+        "#": { "chunks": [ [ "null", 80 ], [ "toxic_waste_fence_radioactive", 20 ] ] },
+        "%": { "chunks": [ [ "null", 95 ], [ "toxic_waste_lab_corpses", 5 ] ] }
+      },
+      "//4": "These liquids are cosmetic only because you can not pick them up. Can contain rare chemicals because of this.",
+      "liquids": {
+        "-": [
+          { "liquid": "chem_acetic_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "acetic_anhydride", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_acetone", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_formaldehyde", "amount": [ 1, 4 ], "chance": 140 },
+          { "liquid": "chem_muriatic_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_hydrogen_peroxide", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_hydrogen_peroxide_conc", "amount": [ 1, 2 ], "chance": 100 },
+          { "liquid": "chem_nitric_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_sulphuric_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "ammonia_liquid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "ammonia_hydroxide", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "bleach", "amount": [ 1, 4 ], "chance": 80 },
+          { "liquid": "lye", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "lye_potassium", "amount": [ 1, 2 ], "chance": 150 },
+          { "liquid": "ether", "amount": [ 1, 2 ], "chance": 120 },
+          { "liquid": "chem_DMSO", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_chloroform", "amount": [ 1, 2 ], "chance": 130 },
+          { "liquid": "chem_phenol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_benzene", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_toluene", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_glycerol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_ethanol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "methed_alcohol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "denat_alcohol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_methanol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "diesel", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "motor_oil", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_turpentine", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "camphine", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "soapy_water", "amount": [ 1, 4 ], "chance": 150 },
+          { "liquid": "gasoline", "amount": [ 1, 4 ], "chance": 100 }
+        ]
+      },
+      "monsters": { "!": { "monster": "GROUP_TOXIC_WASTE", "density": 0.1, "chance": 40 } },
+      "place_loot": [ { "group": "toxic_waste_mx", "x": [ 10, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "meat_mutant_tainted_55gal_drum_3_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "55gal_drum",
+    "entries": [ { "item": "meat_mutant_tainted", "count-min": 3, "count-max": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_tainted_55gal_drum_3_50",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "55gal_drum",
+    "entries": [ { "item": "veggy_tainted", "count-min": 3, "count-max": 50 } ]
+  }
+]

@@ -1,0 +1,147 @@
+[
+  {
+    "id": "manual_meditation",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Meditation and You", "str_pl": "copies of Meditation and You" },
+    "description": "A description of simple meditation and breathing techniques, intended for a beginner.",
+    "weight": "1454 g",
+    "volume": "1250 ml",
+    "price": 2500,
+    "price_postapoc": 150,
+    "melee_damage": { "bash": 3 },
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "book_nonf_hard_psych_moodalm",
+    "color": "white",
+    "skill": "metaphysics",
+    "required_level": 0,
+    "max_level": 0,
+    "intelligence": 8,
+    "time": "15 m",
+    "fun": 1,
+    "variants": [
+      {
+        "id": "manual_meditation_1",
+        "name": { "str": "Zen Mind, Beginner's Mind", "str_pl": "copies of Zen Mind, Beginner's Mind" },
+        "description": "This is a transcription of lectures given by Suzuki Shunryū, a Buddhist monk who founded the first Zen Buddhist monastery in the United States, containing discussion about Zen meditation and practice.",
+        "weight": 1
+      },
+      {
+        "id": "manual_meditation_2",
+        "name": {
+          "str": "How to Meditate: A Practical Guide to Making Friends with Your Mind",
+          "str_pl": "copies of How to Meditate: A Practical Guide to Making Friends with Your Mind"
+        },
+        "description": "A book on meditation written for a general audience, containing simple techniques on breathing and mindfulness.",
+        "weight": 1
+      },
+      {
+        "id": "manual_meditation_3",
+        "name": {
+          "str": "The Wandering Mind: What Medieval Monks Tell Us about Distraction",
+          "str_pl": "copies of The Wandering Mind: What Medieval Monks Tell Us about Distraction"
+        },
+        "description": "A history of monastic attempts at finding calm and peace in the midst of a profane world.  There are far fewer daily distractions now than pre-Cataclysm but there's still some useful techniques you could gain here.",
+        "weight": 1
+      },
+      {
+        "id": "manual_meditation_4",
+        "name": {
+          "str": "The Miracle of Mindfulness: An Introduction to the Practice of Meditation",
+          "str_pl": "copies of The Miracle of Mindfulness: An Introduction to the Practice of Meditation"
+        },
+        "description": "A translation of a letter written by Thich Nhat Hanh to colleagues in Viet Nam, this book focuses on mindfulness and breathwork.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "manual_meditation_int",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Secrets of the Zen Masters", "str_pl": "copies of Secrets of the Zen Masters" },
+    "description": "This book purports to contain hidden tips that will make you serene and calm in the face of the most grievous calamities.  Cataclysms, one might say.",
+    "copy-from": "manual_meditation",
+    "//": "Advanced meditation is controversial but I have to make the distinction somewhere.",
+    "required_level": 3,
+    "max_level": 3,
+    "intelligence": 9,
+    "time": "20 m",
+    "fun": 0,
+    "variants": [
+      {
+        "id": "manual_meditation_int_1",
+        "name": {
+          "str": "The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness",
+          "str_pl": "copies of The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness"
+        },
+        "description": "Written by a neuroscientist and meditator pratitioner, this book offers a ten-step meditation program that combines science with traditional meditation techniques.",
+        "weight": 1
+      },
+      {
+        "id": "manual_meditation_int_2",
+        "name": {
+          "str": "Mastering the Core Teachings of the Buddha: An Unusually Hardcore Dharma Book",
+          "str_pl": "copies of Mastering the Core Teachings of the Buddha: An Unusually Hardcore Dharma Book"
+        },
+        "description": "This book argues that meditation is not an eternal progression but can be mastered just like any other skill, and it will tell you how to do it.",
+        "weight": 1
+      },
+      {
+        "id": "manual_meditation_int_3",
+        "name": {
+          "str": "Not Always So: Practicing the True Spirit of Zen",
+          "str_pl": "copies of Not Always So: Practicing the True Spirit of Zen"
+        },
+        "description": "A continuation of the lessons expounded on in \"Zen Mind, Beginner's Mind\", this book contains a myriad of parables and koans to help the student grasp the nature of meditation.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "manual_psionics_advan",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Lab Journal-Otomo", "str_pl": "copies of Lab Journal-Otomo" },
+    "description": "This notebook is mostly a series of fanciful speculations about something the author alternately calls \"Matrix Mechanics,\", \"Dimensional Metaphysics,\" or \"Netherium Mathematics,\" sometimes using more than one in the same sentence.  Most of it is incoherent, but there is some experimental data about \"Conscious redirection of nether energy\" that catches your eye.",
+    "copy-from": "recipe_lab_cvd",
+    "skill": "metaphysics",
+    "required_level": 4,
+    "max_level": 4,
+    "intelligence": 12,
+    "time": "35 m",
+    "fun": -1
+  },
+  {
+    "id": "phavian_report_psionic_drain",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Report: Channeling Protocol PGS38", "str_pl": "copies of Report: Channeling Protocol PGS38" },
+    "description": "A formal report on a process to reduce the unpredictable effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
+    "copy-from": "recipe_lab_elec",
+    "skill": "metaphysics",
+    "required_level": 6,
+    "max_level": 6,
+    "intelligence": 12,
+    "time": "35 m",
+    "fun": -2
+  },
+  {
+    "id": "phavian_psionic_martial_power_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Training Manual: VERDANT HAND Combat Protocol",
+      "str_pl": "copies of Training Manual: VERDANT HAND Combat Protocol"
+    },
+    "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"VERDANT HAND - EYES ONLY\" centered underneath.  Contrary to your initial assumption, it is not a martial arts training manual.  Instead, it describes a series of meditations and visualization exercises designed to \"increase the subject's unarmed combat prowess fivefold\".  There are several charts showing the results of a VERDANT HAND combatant against training opponents armed with weapons or firearms at various engagement distances.  It's clearly still not as good as just having a rifle, but the data look pretty promising if you can get these exercises down.",
+    "copy-from": "recipe_lab_elec",
+    "skill": "unarmed",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 8,
+    "time": "12 m",
+    "fun": 1
+  }
+]

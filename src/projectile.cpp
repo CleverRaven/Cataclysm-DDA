@@ -138,12 +138,16 @@ static void foamcrete_build( const tripoint &p )
     }
 }
 
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
+void apply_ammo_effects( const Creature *source, const tripoint &p,
+                         const std::set<std::string> &effects )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
 
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
+        if( !one_in( ae.trigger_chance ) ) {
+            continue;
+        }
         if( effects.count( ae.id.str() ) > 0 ) {
             for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
@@ -168,7 +172,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
                 }
             }
             if( ae.aoe_explosion_data.power > 0 ) {
-                explosion_handler::explosion( p, ae.aoe_explosion_data );
+                explosion_handler::explosion( source, p, ae.aoe_explosion_data );
             }
             if( ae.do_flashbang ) {
                 explosion_handler::flashbang( p );
@@ -195,7 +199,7 @@ int max_aoe_size( const std::set<std::string> &tags )
 }
 
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
-                                   std::string projectile_name )
+                                   const std::string &projectile_name )
 {
     if( hit_count > 0 && get_player_character().sees( *critter ) ) {
         // Building a phrase to summarize the fragment effects.

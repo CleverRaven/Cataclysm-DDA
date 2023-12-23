@@ -1,0 +1,92 @@
+[
+  {
+    "result": "helmet_scrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 30 ] ] ]
+  },
+  {
+    "result": "xl_helmet_scrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 45 ] ] ]
+  },
+  {
+    "result": "boots_scrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 50 ] ] ]
+  },
+  {
+    "result": "xl_boots_scrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 60 ] ] ]
+  },
+  {
+    "result": "armguard_scrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 60 ] ] ]
+  },
+  {
+    "result": "xl_armguard_scrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 80 ] ] ]
+  },
+  {
+    "result": "armor_scrapsuit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 170 ] ] ]
+  },
+  {
+    "result": "armor_scrapsuit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 80 ] ] ]
+  },
+  {
+    "result": "armor_scrapsuit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap", 120 ] ] ]
+  }
+]

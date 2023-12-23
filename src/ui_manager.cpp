@@ -2,14 +2,15 @@
 
 #include <functional>
 #include <iterator>
+#include <optional>
 #include <vector>
 
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "game_ui.h"
-#include "optional.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
 
@@ -19,7 +20,7 @@ static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
-static cata::optional<SDL_Rect> prev_clip_rect;
+static std::optional<SDL_Rect> prev_clip_rect;
 #endif
 static ui_stack_t ui_stack;
 
@@ -57,7 +58,7 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
         SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
         SDL_RenderSetClipRect( renderer.get(), nullptr );
     } else {
-        prev_clip_rect = cata::nullopt;
+        prev_clip_rect = std::nullopt;
     }
 #endif
     // The debug message might be shown during a normal UI's redraw callback,
@@ -133,6 +134,66 @@ void ui_adaptor::on_redraw( const redraw_callback_t &fun )
 void ui_adaptor::on_screen_resize( const screen_resize_callback_t &fun )
 {
     screen_resized_cb = fun;
+}
+
+void ui_adaptor::set_cursor( const catacurses::window &w, const point &pos )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ), getbegy( w ) ) + pos;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+    static_cast<void>( pos );
+#endif
+}
+
+void ui_adaptor::record_cursor( const catacurses::window &w )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ) + getcurx( w ), getbegy( w ) + getcury( w ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+#endif
+}
+
+void ui_adaptor::record_term_cursor()
+{
+#if !defined( TILES ) && !defined(_MSC_VER)
+    cursor_type = cursor::custom;
+    cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::default_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::last;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::disable_cursor()
+{
+    cursor_type = cursor::disabled;
+}
+
+static void restore_cursor( const point &p )
+{
+#if !defined( TILES ) && !defined(_MSC_VER)
+    wmove( catacurses::newscr, p );
+#else
+    static_cast<void>( p );
+#endif
 }
 
 void ui_adaptor::mark_resize() const
@@ -341,16 +402,28 @@ void ui_adaptor::redraw_invalidated()
                 first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
                 ui_stack_orig = &*ui_stack_copy;
             }
+            std::optional<point> cursor_pos;
             for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
-                const ui_adaptor &ui = *it;
+                ui_adaptor &ui = *it;
                 if( ui.invalidated ) {
                     if( ui.redraw_cb ) {
+                        ui.default_cursor();
                         ui.redraw_cb( ui );
+                        if( ui.cursor_type == cursor::last ) {
+                            ui.record_term_cursor();
+                            cata_assert( ui.cursor_type != cursor::last );
+                        }
+                        if( ui.cursor_type == cursor::custom ) {
+                            cursor_pos = ui.cursor_pos;
+                        }
                     }
                     if( !restart_redrawing ) {
                         ui.invalidated = false;
                     }
                 }
+            }
+            if( !restart_redrawing && cursor_pos.has_value() ) {
+                restore_cursor( cursor_pos.value() );
             }
         }
     } while( restart_redrawing );
@@ -401,5 +474,10 @@ void screen_resized()
 {
     ui_adaptor::screen_resized();
 }
-
+void invalidate_all_ui_adaptors()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.invalidate_ui();
+    }
+}
 } // namespace ui_manager

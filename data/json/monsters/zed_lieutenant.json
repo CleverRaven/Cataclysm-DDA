@@ -1,0 +1,435 @@
+[
+  {
+    "id": "mon_lieutenant_shadow",
+    "type": "MONSTER",
+    "name": { "str_sp": "A shadow?" },
+    "description": "Something is there!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  Now you will know why you fear the night.",
+    "default_faction": "attack_player_only",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 500,
+    "volume": "100 L",
+    "weight": "100 kg",
+    "phase": "GAS",
+    "hp": 250,
+    "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
+    "speed": 200,
+    "attack_cost": 200,
+    "regenerates": 1,
+    "symbol": "L",
+    "color": "red_white",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 100,
+    "morale": 300,
+    "melee_skill": 10,
+    "//00": "Unfortunately, we do need some melee damage so that it can bash through terrain and the like.",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "//0": "Blob bullshit laughs at concepts like armor. This is basically just here as anti-cheese. It should rarely if ever directly attack you.",
+    "melee_damage": [ { "damage_type": "pure", "amount": 1, "armor_penetration": 999 } ],
+    "dodge": 10,
+    "bleed_rate": 0,
+    "vision_day": 50,
+    "vision_night": 50,
+    "melee_training_cap": 0,
+    "//1": "Try to stay this far away from the player with your regular moves, very important",
+    "tracking_distance": 10,
+    "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "//2": "TODO? Upgrade doesn't actually work because amalgamations do not have evolutions. Ideally this would upgrade them one step *and also remove their timed lifespan*. If this is added/resolved the spell cooldowns probably need to be nerfed.",
+    "special_attacks": [
+      [ "UPGRADE", 20 ],
+      {
+        "type": "melee",
+        "id": "LTNT_ILLUMINATE_YOU",
+        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
+        "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, { "or": [ "npc_male", "npc_female" ] } ] },
+        "range": 30,
+        "dodgeable": false,
+        "blockable": false,
+        "effects_require_dmg": false,
+        "effects": [ { "id": "Shadow_Reveal", "duration": 60, "chance": 100 } ],
+        "damage_max_instance": [ { "damage_type": "pure", "amount": 0.0 } ],
+        "no_dmg_msg_u": "The shadows recede, leaving you with nowhere to hide!",
+        "no_dmg_msg_npc": "The shadows recede from <npcname>, and now they stand out like a floodlight!",
+        "cooldown": 10
+      },
+      {
+        "type": "spell",
+        "id": "LTNT_LIFE_DRAIN",
+        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
+        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "PLOWABLE" }, { "or": [ "npc_male", "npc_female" ] } ] },
+        "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
+        "monster_message": "The ground blackens before you.",
+        "cooldown": 20
+      },
+      {
+        "type": "spell",
+        "id": "LTNT_attract_nearby",
+        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
+        "condition": { "or": [ "npc_male", "npc_female" ] },
+        "spell_data": { "id": "LTNT_attract_nearby", "min_level": 1 },
+        "monster_message": "Your hearing is overwhelmed by a booming sound!",
+        "cooldown": 30
+      }
+    ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "death_function": { "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "NO_BREATHE",
+      "HARDTOSHOOT",
+      "CAN_OPEN_DOORS",
+      "SUNDEATH",
+      "CLIMBS",
+      "BORES",
+      "DESTROYS",
+      "FIREPROOF",
+      "ALL_SEEING",
+      "ALWAYS_SEES_YOU",
+      "HAS_MIND",
+      "NIGHT_INVISIBILITY",
+      "CAMOUFLAGE",
+      "NO_FUNG_DMG",
+      "FILTHY",
+      "STUN_IMMUNE",
+      "KEEP_DISTANCE",
+      "PHOTOPHOBIC",
+      "PATH_AVOID_DANGER_2"
+    ],
+    "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
+    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
+  },
+  {
+    "id": "LTNT_LIFE_DRAIN",
+    "type": "SPELL",
+    "name": { "str": "Life Drain" },
+    "description": "When even the grass rises against you, what hope do you have?",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "shape": "blast",
+    "min_accuracy": 20,
+    "max_accuracy": 20,
+    "min_range": 30,
+    "max_range": 30,
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
+  },
+  {
+    "id": "LTNT_attract_nearby",
+    "type": "SPELL",
+    "name": { "str": "Visual Sundering" },
+    "description": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "shape": "blast",
+    "min_accuracy": 20,
+    "max_accuracy": 20,
+    "min_range": 30,
+    "max_range": 30,
+    "max_level": 1,
+    "min_damage": 120,
+    "max_damage": 120,
+    "effect": "noise"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN",
+    "eoc_type": "ACTIVATION",
+    "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations for the dead terrain.",
+    "//4": "TODO long-term: Set location var based on grass OR forest floor. In forests, grass almost never works! Needs eoc infrastructure to support arrays",
+    "effect": [
+      {
+        "npc_location_variable": { "global_val": "drain_terrain" },
+        "terrain": "t_grass",
+        "target_min_radius": 5,
+        "target_max_radius": 10,
+        "min_radius": 5,
+        "max_radius": 10
+      },
+      { "math": [ "ltnt_transform_radius", "=", "10" ] },
+      {
+        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 10 },
+        "ter_furn_transform": "ltnt_grass_drain",
+        "target_var": { "global_val": "drain_terrain" }
+      },
+      {
+        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 10 },
+        "ter_furn_transform": "ltnt_tree_drain",
+        "target_var": { "global_val": "drain_terrain" }
+      },
+      {
+        "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
+        "group": true,
+        "//": "This always spawns 6 of the same type, which is not ideal (6 soldiers is way too deadly). Consider revising the weights if/when talk_effect_fun_t::set_spawn_monster can pick each individual spawn from the group.",
+        "real_count": 6,
+        "//2": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
+        "lifespan": [ "15 seconds", "30 seconds" ],
+        "target_var": { "global_val": "drain_terrain" }
+      },
+      { "u_message": "The air rings out with a piercing shriek!", "type": "warning" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ltnt_grass_drain",
+    "//": "Yes this is a giant list of terrain.",
+    "terrain": [
+      {
+        "result": [ "t_dirt" ],
+        "valid_terrain": [
+          "t_grass",
+          "t_grass_alien",
+          "t_grass_dead",
+          "t_bamboo_long",
+          "t_grass_long",
+          "t_bamboo_tall",
+          "t_grass_tall",
+          "t_bamboo",
+          "t_bamboo_harvested",
+          "t_shrub",
+          "t_shrub_rose",
+          "t_shrub_lilac",
+          "t_shrub_grape",
+          "t_shrub_peanut",
+          "t_shrub_blueberry",
+          "t_shrub_hydrangea",
+          "t_shrub_raspberry",
+          "t_shrub_strawberry",
+          "t_shrub_blackberry",
+          "t_shrub_huckleberry",
+          "t_shrub_rose_harvested",
+          "t_shrub_grape_harvested",
+          "t_shrub_lilac_harvested",
+          "t_shrub_peanut_harvested",
+          "t_shrub_raspberry_harvested",
+          "t_shrub_blueberry_harvested",
+          "t_shrub_hydrangea_harvested",
+          "t_shrub_blackberry_harvested",
+          "t_shrub_strawberry_harvested",
+          "t_shrub_huckleberry_harvested",
+          "t_forestfloor",
+          "t_moss",
+          "t_underbrush",
+          "t_underbrush_harvested_spring",
+          "t_underbrush_harvested_summer",
+          "t_underbrush_harvested_autumn",
+          "t_underbrush_harvested_winter",
+          "t_fern",
+          "t_fern_harvested",
+          "t_tree_young"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ltnt_tree_drain",
+    "terrain": [
+      {
+        "result": [ "t_tree_very_dead" ],
+        "valid_terrain": [
+          "t_tree",
+          "t_tree_elm",
+          "t_tree_harvested",
+          "t_tree_plum_harvested",
+          "t_tree_pine_harvested",
+          "t_tree_dead",
+          "t_tree_pear",
+          "t_tree_plum",
+          "t_tree_pear_harvested",
+          "t_tree_pine",
+          "t_tree_maple",
+          "t_tree_apple",
+          "t_tree_beech",
+          "t_tree_alder_harvested",
+          "t_tree_peach_harvested",
+          "t_tree_peach",
+          "t_tree_birch",
+          "t_tree_birch_harvested",
+          "t_tree_maple_tapped",
+          "t_tree_pecan_harvested",
+          "t_tree_beech_harvested",
+          "t_tree_apple_harvested",
+          "t_tree_pecan",
+          "t_tree_alder",
+          "t_tree_walnut",
+          "t_tree_almond_harvested",
+          "t_tree_willow_harvested",
+          "t_tree_willow",
+          "t_tree_walnut_harvested",
+          "t_tree_fungal",
+          "t_tree_cherry_harvested",
+          "t_tree_cherry",
+          "t_tree_coffee_harvested",
+          "t_tree_coffee",
+          "t_tree_almond",
+          "t_tree_hickory_harvested",
+          "t_tree_hickory",
+          "t_tree_apricot_harvested",
+          "t_tree_apricot",
+          "t_tree_juniper_harvested",
+          "t_tree_juniper",
+          "t_marloss_tree",
+          "t_tree_chestnut_harvested",
+          "t_tree_chestnut",
+          "t_tree_mulberry_harvested",
+          "t_tree_mulberry",
+          "t_tree_basswood",
+          "t_tree_hazelnut_harvested",
+          "t_tree_hazelnut",
+          "t_tree_basswood_harvested",
+          "t_tree_pistachio_harvested",
+          "t_tree_pistachio",
+          "t_tree_deadpine",
+          "t_tree_butternut",
+          "t_tree_butternut_harvested",
+          "t_tree_sassafras_harvested",
+          "t_tree_sassafras",
+          "t_tree_cottonwood_harvested",
+          "t_tree_elderberry",
+          "t_tree_elderberry_harvested",
+          "t_tree_cottonwood",
+          "t_tree_blackjack",
+          "t_tree_dead_warped",
+          "t_tree_hickory_dead",
+          "t_tree_deadpine_warped",
+          "t_tree_blackjack_harvested"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_AMALGAMATIONS_SPAWNED",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_amalgamation_swarmer", "weight": 20 },
+      { "monster": "mon_amalgamation_corroder", "weight": 4 },
+      { "monster": "mon_amalgamation_soldier", "weight": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "Lieutenants_active", "<", "1" ] } ] },
+    "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
+    "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
+    "deactivate_condition": { "math": [ "Lieutenants_active", ">=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "recurrence": [ "3 hours", "6 hours" ],
+    "global": true,
+    "run_for_npcs": false,
+    "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
+    "condition": {
+      "and": [
+        { "one_in_chance": 6 },
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "Lieutenants_active", ">", "0" ] },
+        { "math": [ "Shadow_Lurking", ">", "0" ] },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Shadow_Lurking", "-=", "1" ] },
+      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
+      {
+        "u_message": "You shiver as the night closes in…",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "//": "This is a hack because npc_die is not working(?!) for EOC_KILL_SHADOW",
+    "id": "BEGONE_SHADOW",
+    "name": { "str": "BEGONE_SHADOW" },
+    "description": "BEGONE_SHADOW.",
+    "valid_targets": [ "ground", "self" ],
+    "base_casting_time": 0,
+    "min_damage": 1000,
+    "max_damage": 3000,
+    "shape": "blast",
+    "effect": "banishment"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KILL_SHADOW",
+    "eoc_type": "ACTIVATION",
+    "//": "This is a hack because npc_die is not working(?!) for EOC_KILL_SHADOW",
+    "effect": [ { "npc_cast_spell": { "id": "BEGONE_SHADOW" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
+    "condition": {
+      "and": [
+        { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
+        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
+      ]
+    },
+    "//2": "Despawn shadow, adjust var for later to bring him back",
+    "effect": [
+      { "math": [ "Shadow_Lurking", "=", "1" ] },
+      { "u_message": "The wind laughs through the night", "type": "bad" },
+      {
+        "u_location_variable": { "global_val": "Shadow_monster" },
+        "monster": "mon_lieutenant_shadow",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
+      { "u_message": "…but it grows more distant for now.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_CHECK_POS",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "Shadow_monster" },
+        "monster": "mon_lieutenant_shadow",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eoc_with": "EOC_LIEUTENANT_SHADOW_CATCHUP", "beta_loc": { "global_val": "Shadow_monster" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_CATCHUP",
+    "eoc_type": "ACTIVATION",
+    "condition": { "compare_num": [ { "distance": [ "u", { "global_val": "Shadow_monster" } ] }, ">=", { "const": 30 } ] },
+    "effect": [
+      { "u_location_variable": { "global_val": "Shadow_Catchup_Pos" }, "min_radius": 3, "max_radius": 10 },
+      {
+        "npc_teleport": { "global_val": "Shadow_Catchup_Pos" },
+        "success_message": "You can't outrun your own shadow!",
+        "force": true
+      }
+    ]
+  }
+]

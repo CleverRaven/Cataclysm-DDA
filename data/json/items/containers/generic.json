@@ -1,0 +1,76 @@
+[
+  {
+    "id": "shrink_wrap",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "shrink wrapping" },
+    "looks_like": "bag_plastic",
+    "description": "Polymer plastic material, that shrinks tightly over whatever it is covering.  Disposable.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "//": "this one should allow unloading, but not reloading, but nothing, including NO_RELOAD flag or forbidden boolean doesn't work here.",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "50 kg", "moves": 400 } ],
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "trashcan",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "trash can" },
+    "looks_like": "f_trashcan",
+    "description": "A big trashcan in which you can store, you guessed it, trash.  Made out of plastic, so it's watertight but fragile and won't survive if you try to carry something really heavy in it.",
+    "weight": "1021 g",
+    "//1": "Weight taken from https://www.amazon.com/dp/B08PDQDBFL - roughly the same size but actually has specified weight in the listing.",
+    "volume": "56228 ml",
+    "longest_side": "51 cm",
+    "price": "12 USD",
+    "//2": "Based on https://www.amazon.com/dp/B00030L5HY.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "38 L",
+        "max_contains_weight": "50 kg",
+        "open_container": true,
+        "rigid": true,
+        "watertight": true
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "material": [ "plastic" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" },
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "trashcan_large",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "industrial trash can" },
+    "looks_like": "f_recycle_bin",
+    "description": "A really big trashcan in which you can store, you guessed it, trash, ready for the garbage truck to pick up.  Made out of thick plastic, this can was meant for household or industrial use, something you roll up to the curb once a week.",
+    "weight": "15 kg",
+    "//1": "Weight taken from https://www.uline.com/Product/Detail/H-7938BL/Trash-Cans-with-Wheels/Uline-Trash-Can-with-Wheels-95-Gallon-Black?pricode=WB3072&utm_source=Bing&utm_medium=pla&utm_term=H-7938BL&utm_campaign=Facilities%2BMaintenance&utm_source=Bing&utm_medium=pla&utm_term=H-7938BL&utm_campaign=Facilities%2BMaintenance&msclkid=d3c8827d02691eb87066e72c65ff5790",
+    "volume": "400 L",
+    "longest_side": "114 cm",
+    "price": "150 USD",
+    "price_postapoc": 7500,
+    "//2": "Based on above link.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "360 L",
+        "max_contains_weight": "149 kg",
+        "open_container": true,
+        "rigid": true,
+        "watertight": true
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 2 ] ],
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray"
+  }
+]

@@ -1,0 +1,244 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_ll_01",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " .~ ",
+        "..~ ",
+        "...~",
+        " ..~"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_ll_02",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " .~ ",
+        "...~",
+        " ..~",
+        ". ~~"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_ll_03",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ",i~ ",
+        "iii~",
+        "iii~",
+        ",i~ "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
+      "furniture": { "i": "f_cattails" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_ll_04",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ",i~ ",
+        ",,i~",
+        " ,i~",
+        ",i~~"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
+      "furniture": { "i": "f_cattails" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_ll_05",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "  ~ ",
+        "  ~ ",
+        " # ~",
+        "   ~"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "#": "t_dirtmound", "~": "t_water_moving_sh" },
+      "place_monster": [ { "monster": "mon_squirrel_red", "x": 2, "y": 3 } ],
+      "place_loot": [ { "item": "hazelnut", "x": 1, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_ll_06",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ",i~ ",
+        ",ii~",
+        ",,i~",
+        ",i~ "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
+      "furniture": { "i": "f_cattails" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_lr_01",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " ~. ",
+        "~.. ",
+        "~.. ",
+        " ~  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_lr_02",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " ~. ",
+        " ~..",
+        "~.. ",
+        "~.  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_lr_03",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " ~i,",
+        "~ii,",
+        "~ii,",
+        " ~i,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
+      "furniture": { "i": "f_cattails" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_lr_04",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " ~i,",
+        "~ii,",
+        "~i, ",
+        " ~,,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
+      "furniture": { "i": "f_cattails" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_lr_05",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " ~~ ",
+        "~~~~",
+        "~~~ ",
+        " ~ ~"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "#": "t_dirtmound", "~": "t_water_moving_sh" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_4x4_lr_06",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "~i, ",
+        "~i, ",
+        "~~i,",
+        "~~i,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
+      "furniture": { "i": "f_cattails" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_8x8_ll_01",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ----^ ",
+        "^-------",
+        " -------",
+        "-------^",
+        "------- ",
+        "  ####  ",
+        "   ~  ^ ",
+        "^  ~^  ^"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "-": "t_water_sh", "~": "t_water_moving_sh", ",": "t_grass_long", "^": "t_stump" },
+      "furniture": { "#": "f_beaver_dam" },
+      "place_monster": [ { "monster": "mon_beaver", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stream_8x8_ll_02",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ,~~,, ",
+        " ,,~,,~,",
+        " ,~~,,, ",
+        ",~,,,,, ",
+        ",~~,,,~,",
+        " ,~,,~, ",
+        "  ,~~~, ",
+        ", ,~~,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "~": "t_water_moving_sh", ",": "t_grass_long" }
+    }
+  }
+]

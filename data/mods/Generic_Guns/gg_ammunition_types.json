@@ -70,6 +70,13 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_rifle_pellet",
+    "//": "small airgun pellets for hunting",
+    "name": "air rifle pellet",
+    "default": "rifle_pellet_target"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_shot",
     "//": "any ammunition for smoothbore projectiles, typically using wads and plastic hulls.",
     "name": "shotgun ammo",

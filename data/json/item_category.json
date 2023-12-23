@@ -134,6 +134,20 @@
     "sort_rank": -7
   },
   {
+    "id": "ma_manuals",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "MARTIAL ARTS MANUALS" },
+    "zone": "LOOT_MA_MANUALS",
+    "sort_rank": -6
+  },
+  {
+    "id": "traps",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "TRAPS" },
+    "zone": "LOOT_TRAPS",
+    "sort_rank": -5
+  },
+  {
     "id": "chems",
     "type": "ITEM_CATEGORY",
     "name": { "str": "CHEMICAL STUFF" },
@@ -169,6 +183,20 @@
     "sort_rank": 11
   },
   {
+    "id": "corpses",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "CORPSES" },
+    "zone": "LOOT_CORPSES",
+    "sort_rank": 12
+  },
+  {
+    "id": "tool_magazine",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "TOOL MAGAZINES" },
+    "zone": "LOOT_TOOL_MAGAZINE",
+    "sort_rank": -15
+  },
+  {
     "id": "armor",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ARMOR" },
@@ -188,6 +216,18 @@
     "type": "ITEM_CATEGORY",
     "name": { "str": "ITEMS WORN" },
     "sort_rank": -100
+  },
+  {
+    "id": "INTEGRATED",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "INTEGRATED" },
+    "sort_rank": -99
+  },
+  {
+    "id": "BIONIC_FUEL_SOURCE",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "BIONIC FUEL SOURCE" },
+    "sort_rank": -98
   },
   {
     "id": "WEAPON_HELD",

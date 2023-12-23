@@ -47,6 +47,18 @@ template <typename W, typename T> struct weighted_list {
             return nullptr;
         }
 
+        void remove( const T &obj ) {
+            auto itr_end = std::remove_if( objects.begin(),
+            objects.end(), [&obj]( typename decltype( objects )::value_type const & itr ) {
+                return itr.obj == obj;
+            } );
+            for( decltype( itr_end ) removed = itr_end; removed != objects.end(); ++removed ) {
+                total_weight -= removed->weight;
+            }
+            objects.erase( itr_end, objects.end() );
+            invalidate_precalc();
+        }
+
         /**
          * This will check to see if the given object is already in the weighted
            list. If it is, we update its weight with the new weight value. If it
@@ -254,7 +266,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
         std::vector<int> precalc_array;
 };
 
-static_assert( std::is_nothrow_move_constructible<weighted_int_list<int>>::value, "" );
+static_assert( std::is_nothrow_move_constructible_v<weighted_int_list<int>> );
 
 template <typename T> struct weighted_float_list : public weighted_list<double, T> {
 

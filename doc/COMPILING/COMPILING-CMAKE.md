@@ -1,3 +1,4 @@
+# Compiling CMAKE
 # Disclaimer
 
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
@@ -35,12 +36,24 @@ You'll need to have these libraries and their development headers installed in o
   * `ncurses`
 * Tiles
   * `SDL`                       >= 2.0.0
-  * `SDL_image`                 >= 2.0.0 (with PNG and JPEG support)
-  * `SDL_mixer`                 >= 2.0.0 (with Ogg Vorbis support)
+  * `SDL_image`                 >= 2.0.0
+    * `jpeg`
+    * `png`
+    * `tiff`
+    * `jbig`
+    * `LZMA`
+    * `zstd`
   * `SDL_ttf`                   >= 2.0.0
-  * `freetype`
+    * `freetype`
+    * `harfbuzz`
 * Sound
-  * `vorbis`
+  * `SDL_mixer`                 >= 2.0.0
+    * `modplug`
+    * `fluidsynth`
+    * `vorbisfile`      
+    * `FLAC`
+    * `mpg123`
+    * `opusfile`
   * `libbz2`
   * `libz`
   * `libintl`
@@ -281,7 +294,8 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
  * `CURSES=<boolean>`: Build curses version.
  * `TILES=<boolean>`: Build graphical tileset version.
  * `SOUND=<boolean>`: Support for in-game sounds & music.
- * `USE_HOME_DIR=<boolean>`: Use user's home directory for save files.
+ * `USE_XDG_DIR=<boolean>`: Use user's XDG directories for save and config files.
+ * `USE_HOME_DIR=<boolean>`: Use user's home directory for save and config files.
  * `USE_PREFIX_DATA_DIR=<boolean>`: Use UNIX system directories for game data in release build.
  * `LOCALIZE=<boolean>`: Support for language localizations. Also enable UTF support.
  * `LANGUAGES=<str>`: Compile localization files for specified languages. Example:
@@ -290,9 +304,8 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
    -DLANGUAGES="cs;de;el;es_AR;es_ES"
    ```
 
-   Note that language files are only compiled automatically when building the `RELEASE` build type. For other build types, you need to add the `translations_compile` target to the `make` command: for example `make all translations_compile`.
+   Note that language files are only compiled automatically when building the `RELEASE` build type. For other build types, you need to add the `locale` target to the `make` command: for example `make all locale`.
 
-   Special note for MinGW: Due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file causes significant slowdown on MinGW targets.  Make sure `en` is in the list provided to `-DLANGUAGES` (it is by default), in order to generate a `.mo` file for English.
  * `DYNAMIC_LINKING=<boolean>`: Use dynamic linking. Or use static to remove MinGW dependency instead.
  * `GIT_BINARY=<str>` Override the default Git binary name or path.
 

@@ -1,0 +1,153 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_empath",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "and": [ { "u_has_trait": "perk_empath" } ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_empath_zombie", "EOC_empath_animal", "EOC_empath_nether", "EOC_empath_fungus", "EOC_empath_insect" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_empath_zombie",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_empath" },
+        { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_zombie", "duration": "30 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_empath_animal",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_empath" },
+        { "compare_string": [ "animal", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_animal", "duration": "30 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_empath_nether",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_empath" },
+        { "compare_string": [ "nether", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_nether", "duration": "30 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_empath_fungus",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_empath" },
+        { "compare_string": [ "fungus", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_fungus", "duration": "30 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_empath_insect",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_empath" },
+        { "compare_string": [ "insect", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_insect", "duration": "30 seconds" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_zombie",
+    "name": [ "Zombie Empathy" ],
+    "desc": [
+      "You are really feeling for the last zombie you killed.  That must have been really hard for it to die again.  Though you aren't really feeling pain right now."
+    ],
+    "apply_message": "You feel a bit hungry for brains.",
+    "decay_messages": [ [ "Brains are overrated anyways.", "bad" ] ],
+    "rating": "good",
+    "max_intensity": 1,
+    "int_dur_factor": "30 s",
+    "blood_analysis_description": "Zombie?",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.99 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_animal",
+    "name": [ "Animal Empathy" ],
+    "desc": [
+      "You are really feeling for the last animal you killed.  Reminds you of that scene in the movie where they kill the pet, really sad stuff.  Though you are feeling ready to learn to fight right now."
+    ],
+    "apply_message": "You are ready for a fight.",
+    "decay_messages": [ [ "Your animal instincts dissipate.", "bad" ] ],
+    "rating": "good",
+    "max_intensity": 1,
+    "int_dur_factor": "30 s",
+    "blood_analysis_description": "Animal?",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 4.0 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether",
+    "name": [ "Nether Empathy" ],
+    "desc": [
+      "You are really feeling for the last demon you killed.  Must be hard to die when you don't truly exist.  Though you are feeling rejuvenated."
+    ],
+    "apply_message": "You feel your wounds begin to seal.",
+    "decay_messages": [ [ "Your regeneration ceases.", "bad" ] ],
+    "rating": "good",
+    "max_intensity": 1,
+    "int_dur_factor": "30 s",
+    "blood_analysis_description": "Nothing?",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_fungus",
+    "name": [ "Fungal Empathy" ],
+    "desc": [
+      "You are really feeling for the last mushroom you killed.  You always hated mushrooms on food, too earthy for your taste.  Though you feel like your illness is gone."
+    ],
+    "apply_message": "You feel like something eats all the sickness inside you.",
+    "rating": "good",
+    "max_intensity": 1,
+    "int_dur_factor": "30 s",
+    "blood_analysis_description": "Mushroom?",
+    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded", "poison", "badpoison", "venom_dmg", "venom_weaken" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_insect",
+    "name": [ "Bug Empathy" ],
+    "desc": [
+      "You are really feeling for the last bug you killed.  You always hated squishing bugs, what did they ever do to you.  Though you feel like your skin has hardened."
+    ],
+    "apply_message": "Your skin hardens significantly.",
+    "decay_messages": [ [ "Your skin softens again.", "bad" ] ],
+    "rating": "good",
+    "max_intensity": 1,
+    "int_dur_factor": "30 s",
+    "blood_analysis_description": "Bug?",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ARMOR_BASH", "add": 8.0 },
+          { "value": "ARMOR_CUT", "add": 8.0 },
+          { "value": "ARMOR_BULLET", "add": 8.0 },
+          { "value": "ARMOR_ACID", "multiply": 0.0 }
+        ]
+      }
+    ]
+  }
+]

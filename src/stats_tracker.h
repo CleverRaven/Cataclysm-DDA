@@ -1,8 +1,10 @@
+#pragma once
 #ifndef CATA_SRC_STATS_TRACKER_H
 #define CATA_SRC_STATS_TRACKER_H
 
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <type_traits>
 #include <unordered_map>
@@ -13,7 +15,6 @@
 #include "cata_variant.h"
 #include "event.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "string_id.h"
 
 class JsonObject;
@@ -90,8 +91,8 @@ class event_multiset
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
         int minimum( const std::string &field ) const;
         int maximum( const std::string &field ) const;
-        cata::optional<summaries_type::value_type> first() const;
-        cata::optional<summaries_type::value_type> last() const;
+        std::optional<summaries_type::value_type> first() const;
+        std::optional<summaries_type::value_type> last() const;
 
         void add( const cata::event & );
         void add( const summaries_type::value_type & );
@@ -134,7 +135,7 @@ class event_multiset_watcher : public base_watcher
 template<typename Watcher>
 class watcher_set
 {
-        static_assert( std::is_base_of<base_watcher, Watcher>::value,
+        static_assert( std::is_base_of_v<base_watcher, Watcher>,
                        "Watcher must be derived from base_watcher" );
     public:
         void insert( Watcher *watcher ) {
@@ -211,6 +212,7 @@ class stats_tracker : public event_subscriber
         std::vector<const score *> valid_scores() const;
 
         void clear();
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;

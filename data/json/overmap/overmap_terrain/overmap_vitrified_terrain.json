@@ -1,0 +1,20 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "unvitrified_farm_1", "unvitrified_farm_2", "unvitrified_farm_neg_1", "unvitrified_farm_0" ],
+    "name": "quiet farmstead",
+    "sym": "G",
+    "color": "i_light_gray",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "unvitrified_orchard" ],
+    "name": "quiet orchard",
+    "sym": "G",
+    "color": "i_light_gray",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  }
+]

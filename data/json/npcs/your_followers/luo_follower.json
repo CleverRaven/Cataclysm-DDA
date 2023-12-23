@@ -1,0 +1,252 @@
+[
+  {
+    "id": [ "TALK_FRIEND_Luo", "TALK_FRIEND_Luo_Abilities" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *pshhhttt* Hey stinkyface.  It's your favorite mushroom girl.  Over.",
+      "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
+    },
+    "responses": [
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND_Luo_Abilities",
+        "effect": "reveal_stats"
+      },
+      { "text": "There's something I want you to do.", "topic": "TALK_LUO_ORDERS" },
+      {
+        "text": "I just wanted to talk for a bit.",
+        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
+        "topic": "TALK_LUO_SOCIAL"
+      },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_GUARD_Luo",
+    "type": "talk_topic",
+    "dynamic_line": "I love just standing around, it's what I was made for.",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Luo", "effect": "stop_guard" },
+      { "text": "See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_Luo_Abilities",
+    "type": "talk_topic",
+    "dynamic_line": "My 'abilities'?  I can shapeshift, and teleport, but I can't do it on command.  Also, I have unique powers of thyroid failure."
+  },
+  {
+    "id": [ "TALK_LUO_SOCIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": "Sure.  Here we are, talking.",
+    "responses": [
+      { "text": "What's your story, anyway?", "topic": "BGSS_Luo1" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
+      {
+        "text": "I just wanted to chat, you know.  To relax.",
+        "topic": "TALK_FRIEND_LUO_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_LUO_CHAT",
+    "dynamic_line": "Seen any good movies lately?",
+    "//": "TK: custom chat topics here that actually include small talk that expands her character, while still giving the socialize bonus.",
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_LUO_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "Seriously?  You figure you're the boss of me now?  Fine, whatever, what do you want me to do." ],
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE_Luo" }
+      },
+      {
+        "text": "Can you host a training seminar?",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE_Luo" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
+        "topic": "TALK_FRIEND_Luo",
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "I want you to use this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_Luo",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "Hold on to this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_Luo",
+        "effect": "npc_gets_item"
+      },
+      {
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD_Luo",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "and": [ { "not": "npc_is_riding" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
+      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE_Luo",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, sure, why not.  I love hearing myself talk.  What did you want to know about?",
+    "responses": [
+      {
+        "text": "You mean you'll talk about more than just mushrooms?  What've you got?",
+        "topic": "TALK_TRAIN",
+        "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE_Luo",
+    "type": "talk_topic",
+    "dynamic_line": "What?  You're not content with me being a personal tutor, now you want to start a post-apocalyptic university?",
+    "responses": [
+      {
+        "text": "Come on, you love hearing yourself talk.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Luo1",
+    "dynamic_line": "You kind of already know, don't you?  I used to be a post-doc researcher in mycology, then I wound up stuck in the lobby at that stupid refugee center, then you came and yeeted us all out of there.  What more is there?",
+    "responses": [
+      { "text": "I don't remember, did you tell me how you wound up in that place?", "topic": "BGSS_Luo2" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Luo2",
+    "dynamic_line": "Pretty sure I did, but I do love hearing the sound of my own voice.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out to that shithole.  We heard the place was getting more people than they could fit, and the few who'd got there first had set up some sort of self-appointed processing lineup.  The chick processing me to get in saw my Chinese name and conveniently 'lost' my paperwork.  I was sent out to the lobby to wait for 'further processing', while I watched busloads of people get processed and taken in.  By the time they 'found' my paperwork, wouldn't you know it, the place was too full for me.  They oh-so-kindly let me camp out in the front since I'd been on one of the first buses.",
+    "responses": [
+      { "text": "You think you were treated like that because of your race?", "topic": "BGSS_Luo2_Racism" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Luo2_Racism",
+    "dynamic_line": "I can read the newspapers as well as anyone, I know how people who look like me get smeared.  My grandparents were from China.  That means I'm obviously personally responsible for all this.  I don't know any other reason they let hundreds of other educated people in and left me sitting out there to rot.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Luo_Expertise",
+    "dynamic_line": "Well, before <the_cataclysm> I was working at a university bookstore, remember?  But that was just an in-between after finishing my PhD, while I looked for a post-doc placement I was interested in.  Which, I suppose, I've got now?  You didn't recruit my for my fragile body, intractable obesity, or sunny disposition.",
+    "responses": [
+      { "text": "How do you know I didn't recruit you for your sass, though?", "topic": "BGSS_Luo_Expertise_Sass" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Luo_Expertise_Sass",
+    "dynamic_line": "*gives a single rough laugh.  \"Fair call, sass like mine is what will get us through these trying times.\"",
+    "responses": [ { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

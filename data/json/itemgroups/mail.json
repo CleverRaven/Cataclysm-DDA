@@ -1,0 +1,84 @@
+[
+  {
+    "id": "mail",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "greeting-cards_with_gifts", "prob": 10 },
+      { "item": "letter", "container-item": "envelope", "prob": 20 },
+      { "item": "postcard", "prob": 20 },
+      { "group": "magazines", "prob": 10 },
+      { "group": "newspaper_recent", "prob": 60 },
+      { "group": "brochures", "prob": 15 },
+      { "group": "pamphlets", "prob": 5 },
+      { "item": "flyer", "prob": 30, "count-max": 2 },
+      { "item": "survnote", "prob": 3 }
+    ]
+  },
+  {
+    "id": "mail_postal",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "greeting-cards_with_gifts", "prob": 25 },
+      { "item": "letter", "container-item": "envelope", "prob": 50 },
+      { "item": "postcard", "prob": 50 }
+    ]
+  },
+  {
+    "id": "packaging_postal",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "duct_tape", "prob": 25 },
+      { "item": "bubblewrap", "prob": 33 },
+      { "item": "cardboard", "count": [ 10, 40 ], "prob": 33 },
+      { "item": "box_small", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "postcard", "count": [ 1, 5 ], "prob": 85 },
+      { "item": "envelope", "count": [ 2, 6 ], "prob": 85 }
+    ]
+  },
+  {
+    "id": "greeting-cards_with_gifts",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "envelope",
+    "items": [
+      { "item": "greeting_card", "variant": "generic_greeting_card", "prob": 4 },
+      { "item": "greeting_card", "variant": "baby_shower_greeting_card", "prob": 1 },
+      { "item": "greeting_card", "variant": "farewell_greeting_card", "prob": 1 },
+      { "item": "greeting_card", "variant": "get_well_greeting_card", "prob": 1 },
+      { "item": "greeting_card", "variant": "sympathy_greeting_card", "prob": 1 },
+      {
+        "collection": [ { "item": "greeting_card", "variant": "thank_you_greeting_card", "prob": 100 }, { "item": "gift_card", "prob": 33 } ],
+        "prob": 1
+      },
+      {
+        "collection": [ { "item": "greeting_card", "variant": "retirement_greeting_card", "prob": 100 }, { "item": "gift_card", "prob": 50 } ],
+        "prob": 1
+      },
+      {
+        "collection": [
+          { "item": "greeting_card", "variant": "congratulations_greeting_card", "prob": 100 },
+          { "group": "banknotes", "prob": 66, "count": [ 1, 10 ] }
+        ],
+        "prob": 1
+      },
+      {
+        "collection": [
+          { "item": "greeting_card", "variant": "birthday_greeting_card", "prob": 100 },
+          { "group": "banknotes", "prob": 66, "count": [ 1, 5 ] },
+          { "item": "gift_card", "prob": 50 }
+        ],
+        "prob": 1
+      },
+      {
+        "collection": [
+          { "item": "greeting_card", "variant": "friendship_greeting_card", "prob": 100 },
+          { "item": "bracelet_friendship", "prob": 50 }
+        ],
+        "prob": 1
+      }
+    ]
+  }
+]

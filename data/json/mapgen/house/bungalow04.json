@@ -1,0 +1,110 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow04",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........p.,,,.........",
+        "............,,,.........",
+        "......%.....,,,......X..",
+        "............,,,...%.....",
+        "............,,,.........",
+        "....&&&=====---&&&......",
+        "....&#####oo#*#oo#......",
+        ".%..&#R~~l!!$~T!!#......",
+        ".&&&&#s~~H~~~~~~~#...%..",
+        ".##o##x~~H~~RRR~~#......",
+        ".#@@C|s~~H~~|||++#......",
+        ".#@@ |R~~l~~+L|zz#///...",
+        ".o   +~~~~~~|||||#///...",
+        ".o   |b~~~~~+____o///...",
+        ".#D  ||+||~~|98St#///...",
+        ".#d y|Z_W|~~|||||#///...",
+        ".#######||~~+U|qq#####..",
+        "...jjj^#y   |||++|662#..",
+        ".......#         J___o..",
+        "......-*         J__Fo..",
+        ".000..Go     ff  ___3o..",
+        ".000..K#y   hffh O5J1#..",
+        ".000..G######oo###oo##..",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_adobe_brick_wall",
+        "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
+        "=": "t_shrub_lilac",
+        "_": "t_linoleum_gray",
+        ",": "t_dirt",
+        "%": [ [ "t_region_tree_nut", 5 ], [ "t_region_tree_shade", 4 ], [ "t_region_tree_fruit", 2 ] ],
+        "W": "t_linoleum_gray",
+        "Z": "t_linoleum_gray",
+        "~": "t_carpet_red",
+        "R": "t_carpet_red",
+        "!": "t_carpet_red",
+        "$": "t_carpet_red",
+        "T": "t_carpet_red",
+        "l": "t_carpet_red",
+        "H": "t_carpet_red",
+        "s": "t_carpet_red",
+        "x": "t_carpet_red",
+        "/": "t_dirtmound",
+        "K": "t_region_groundcover_urban",
+        "G": "t_region_groundcover_urban",
+        "b": "t_carpet_red",
+        "&": "t_dirtmound"
+      },
+      "furniture": { "!": [ "f_indoor_plant", "f_indoor_plant_y" ], "$": "f_table", "&": "f_region_flower" },
+      "items": { "$": { "item": "table_foyer", "chance": 50 }, "/": { "item": "hydro", "chance": 40 } },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 7, "y": 1, "chance": 80, "status": 0 } ],
+      "place_loot": [
+        { "item": "television", "x": 6, "y": 9 },
+        { "group": "tools_earthworking", "x": [ 18, 20 ], "y": [ 10, 10 ], "chance": 50, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow04_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     -------------      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        " -----...........-      ",
+        " -...............-      ",
+        " -...............-      ",
+        " -...............-      ",
+        " -...............-      ",
+        " -...=.........N.-      ",
+        " -...............-      ",
+        " -------.........-----  ",
+        "       5.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       ---------------  ",
+        "                        "
+      ]
+    }
+  }
+]

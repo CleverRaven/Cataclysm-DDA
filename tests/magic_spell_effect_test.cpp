@@ -6,6 +6,7 @@
 #include "cata_catch.h"
 #include "field.h"
 #include "json.h"
+#include "json_loader.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
@@ -36,24 +37,22 @@ static std::set<tripoint_abs_ms> count_fields_near(
 TEST_CASE( "line_attack", "[magic]" )
 {
     // manually construct a testable spell
-    std::istringstream str(
-        "  {\n"
-        "    \"id\": \"test_line_spell\",\n"
-        "    \"name\": { \"str\": \"Test Line Spell\" },\n"
-        "    \"description\": \"Spews a line of magic\",\n"
-        "    \"valid_targets\": [ \"ground\" ],\n"
-        "    \"damage_type\": \"none\",\n"
-        "    \"min_range\": 5,\n"
-        "    \"max_range\": 5,\n"
-        "    \"effect\": \"attack\",\n"
-        "    \"shape\": \"line\","
-        "    \"min_aoe\": 0,\n"
-        "    \"max_aoe\": 0,\n"
-        "    \"flags\": [ \"VERBAL\", \"NO_HANDS\", \"NO_LEGS\" ]\n"
-        "  }\n" );
+    JsonObject obj = json_loader::from_string(
+                         "  {\n"
+                         "    \"id\": \"test_line_spell\",\n"
+                         "    \"name\": { \"str\": \"Test Line Spell\" },\n"
+                         "    \"description\": \"Spews a line of magic\",\n"
+                         "    \"valid_targets\": [ \"ground\" ],\n"
+                         "    \"damage_type\": \"none\",\n"
+                         "    \"min_range\": 5,\n"
+                         "    \"max_range\": 5,\n"
+                         "    \"effect\": \"attack\",\n"
+                         "    \"shape\": \"line\","
+                         "    \"min_aoe\": 0,\n"
+                         "    \"max_aoe\": 0,\n"
+                         "    \"flags\": [ \"VERBAL\", \"NO_HANDS\", \"NO_LEGS\" ]\n"
+                         "  }\n" );
 
-    JsonIn in( str );
-    JsonObject obj( in );
     spell_type::load_spell( obj, "" );
 
     spell sp( spell_test_line_spell );
@@ -88,18 +87,17 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
 
     avatar &dummy = get_avatar();
     clear_avatar();
-    tripoint player_initial_pos = dummy.pos();
+    tripoint_abs_ms player_initial_pos = dummy.get_location();
 
     const auto setup_and_remove_fields = [&]( const bool & with_light ) {
         CAPTURE( with_light );
-        CHECK( dummy.pos() == player_initial_pos );
-        tripoint_abs_ms player_global_pos = m.getglobal( player_initial_pos );
+        CHECK( dummy.get_location() == player_initial_pos );
 
         // create fd_fatigue of each intensity near player
-        tripoint_abs_ms p1 = player_global_pos + tripoint_east * 10;
-        tripoint_abs_ms p2 = player_global_pos + tripoint_east * 11;
-        tripoint_abs_ms p3 = player_global_pos + tripoint_east * 12;
-        tripoint_abs_ms p4 = player_global_pos + tripoint_east * 13;
+        tripoint_abs_ms p1 = player_initial_pos + tripoint_east * 10;
+        tripoint_abs_ms p2 = player_initial_pos + tripoint_east * 11;
+        tripoint_abs_ms p3 = player_initial_pos + tripoint_east * 12;
+        tripoint_abs_ms p4 = player_initial_pos + tripoint_east * 13;
         m.add_field( m.getlocal( p1 ), fd_fatigue, 1, 1_hours );
         m.add_field( m.getlocal( p2 ), fd_fatigue, 2, 1_hours );
         m.add_field( m.getlocal( p3 ), fd_fatigue, 3, 1_hours );
@@ -109,33 +107,34 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
             player_add_headlamp();
         }
 
+        m.invalidate_visibility_cache();
         m.update_visibility_cache( 0 );
         m.invalidate_map_cache( 0 );
         m.build_map_cache( 0 );
         dummy.recalc_sight_limits();
 
-        CHECK( m.getglobal( dummy.pos() ) == player_global_pos );
+        CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, player_initial_pos );
+        spell_effect::remove_field( sp, dummy, m.getlocal( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( m.getglobal( dummy.pos() ) == player_global_pos );
+        CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, player_initial_pos );
+        spell_effect::remove_field( sp, dummy, m.getlocal( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( m.getglobal( dummy.pos() ) == player_global_pos );
+        CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, player_initial_pos );
+        spell_effect::remove_field( sp, dummy, m.getlocal( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
@@ -181,13 +180,14 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
            "The tear in reality pulls you in as it closes and ejects you violently!" );
 
     // check that the player got teleported
-    CHECK( dummy.pos() != player_initial_pos );
+    CHECK( dummy.get_location() != player_initial_pos );
 
     // remove 3 fields again but without lighting this time
     clear_avatar();
     clear_map();
     Messages::clear_messages();
 
+    player_initial_pos = dummy.get_location();
     setup_and_remove_fields( false );
     capture_removal_messages();
 

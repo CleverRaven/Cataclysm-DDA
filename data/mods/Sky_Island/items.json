@@ -1,0 +1,71 @@
+[
+  {
+    "id": "quickheal",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "consumption_effect_on_conditions": [ "EOC_healall" ],
+    "name": { "str": "quickheal pill" },
+    "description": "This pseudomagical pill will heal all your damaged parts, but only if swallowed while on your sanctuary island.  No reason to bring this into the field.",
+    "weight": "15 g",
+    "volume": "5 ml",
+    "looks_like": "panacea",
+    "material": [ "water" ],
+    "symbol": "!",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "freezing_point": -1000,
+    "spoils_in": "24 hours",
+    "color": "red"
+  },
+  {
+    "id": "starterkit_items",
+    "type": "item_group",
+    "//": "What you'll find in your starter kit.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "warp_portalstorm_ender", "count": 1 },
+      { "item": "warpstat_stone", "count": 1 },
+      { "item": "warpdifficulty_stone", "count": 1 },
+      { "item": "warpheal_stone", "count": 1 },
+      { "item": "tent_kit", "count": 1 }
+    ]
+  },
+  {
+    "id": "si_trash_heap",
+    "type": "item_group",
+    "//": "What you'll find in your starter kit.",
+    "subtype": "collection",
+    "entries": [ { "group": "trash", "count": [ 25, 75 ] }, { "group": "trash_forest", "count": [ 50, 150 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "random_artifact_pool",
+    "subtype": "distribution",
+    "//": "A random artifact, preferring weak, but sometimes powerful.",
+    "items": [
+      { "group": "ps_artifact_weak", "prob": 80, "count": 1 },
+      { "group": "ps_artifact_medium", "prob": 15, "count": 1 },
+      { "group": "ps_artifact_strong", "prob": 5, "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "warp_mission_goal",
+    "subtype": "distribution",
+    "//": "A range of tokens for the wildcard grab missions.",
+    "items": [ { "item": "warptoken", "prob": 100, "count": [ 1, 6 ] } ]
+  },
+  {
+    "id": "bundle_splinter",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of splinters", "str_pl": "bundles of splinters" },
+    "description": "A hundred shards of wood roughly tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is equal to 10 planks, assuming uniformity and tight stacking",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "wood" ],
+    "symbol": "H",
+    "color": "brown"
+  }
+]

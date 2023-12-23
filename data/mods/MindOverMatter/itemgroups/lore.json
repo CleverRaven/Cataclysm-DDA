@@ -1,0 +1,49 @@
+[
+  {
+    "id": "lab_files_psi",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "lab_postit_portal", "prob": 3 }, { "item": "lab_postit_psi", "prob": 3 } ]
+  },
+  {
+    "id": "dist_lab_file_phavian_memo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "lab_file_phavian_memo_item", "prob": 1 } ]
+  },
+  {
+    "id": "dist_lab_file_matrix_research",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "lab_file_matrix_research_item", "prob": 1 } ]
+  },
+  {
+    "id": "dist_lab_file_phavian_skyscraper_lab",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "lab_file_clairsentience_item", "prob": 1 }, { "item": "lab_file_telepathy_item", "prob": 1 } ]
+  },
+  {
+    "id": "dist_lab_file_phavian_internal",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "lab_file_phavian_memo_item", "prob": 4 },
+      { "item": "lab_file_private_correspondence", "prob": 1 },
+      { "item": "lab_file_matrix_research_item", "prob": 6 }
+    ]
+  },
+  {
+    "id": "dist_lab_file_phavian_psi_research_any",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "lab_file_biokinesis_item", "prob": 1 },
+      { "item": "lab_file_clairsentience_item", "prob": 1 },
+      { "item": "lab_file_telekinesis_item", "prob": 1 },
+      { "item": "lab_file_telepathy_item", "prob": 1 },
+      { "item": "lab_file_vitakinesis_item", "prob": 1 },
+      { "item": "lab_file_matrix_research_item", "prob": 1 }
+    ]
+  }
+]

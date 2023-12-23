@@ -1,0 +1,120 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "teleport_touch",
+    "move_cost": 80,
+    "cooldown": 15,
+    "accuracy": 5,
+    "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
+    "blockable": false,
+    "hit_dmg_u": "%1$s touches you and the world warps around you!",
+    "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
+    "miss_msg_u": "%s reaches for you but you avoid their touch!",
+    "miss_msg_npc": "%s reaches for <npcname> but they dodge!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "mind_blast_monster",
+    "move_cost": 80,
+    "cooldown": 15,
+    "accuracy": 5,
+    "range": 10,
+    "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 15, "armor_penetration": 0 } ],
+    "dodgeable": false,
+    "blockable": false,
+    "hit_dmg_u": "%1$s looks at you and your mind reels!",
+    "hit_dmg_npc": "%1$s looks at <npcname> and they flinch as if struck!",
+    "miss_msg_u": "%s looks at you but nothing happens!",
+    "miss_msg_npc": "%s looks at <npcname> but nothing happens!"
+  },
+  {
+    "id": "feral_clair_thrown_rock",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "hurled rubble" },
+    "description": "Stone at the ready to crush that which isn't part of the blob.",
+    "//": "Buffed stats account for the feral clairsentient using Marksman's Eye.",
+    "material": [ "stone" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "NO_TURRET"
+    ],
+    "skill": "throw",
+    "ammo": [ "rock" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ranged_damage": { "damage_type": "bash", "amount": -1 },
+    "clip_size": 1,
+    "weight": "540 g",
+    "volume": "210 ml",
+    "longest_side": "75 mm",
+    "to_hit": 2,
+    "loudness": 2,
+    "range": 8,
+    "dispersion": 15,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "rock": 5 }
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "pattern_screamer_thrown_rock",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "hurled rubble" },
+    "description": "Stone at the ready to crush that which isn't part of the blob.",
+    "//": "Buffed stats account for the pattern screamer using One Perfect Shot / Marksman's Eye.",
+    "material": [ "stone" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "NO_TURRET"
+    ],
+    "skill": "throw",
+    "ammo": [ "rock" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ranged_damage": { "damage_type": "bash", "amount": 8 },
+    "clip_size": 1,
+    "weight": "540 g",
+    "volume": "210 ml",
+    "longest_side": "75 mm",
+    "to_hit": 5,
+    "loudness": 2,
+    "range": 8,
+    "dispersion": 10,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "rock": 5 }
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  }
+]

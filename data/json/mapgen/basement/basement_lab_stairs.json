@@ -67,7 +67,7 @@
         "|&...|7..D...>=         ",
         "|....|...=....=         ",
         "|--+---DD6=====---------",
-        "|............fffrrrrrrc|",
+        "|...........éfffrrrrrrc|",
         "|......................|",
         "|...........ccccccccccc|",
         "|......................|",
@@ -94,7 +94,8 @@
         "D": "t_door_metal_locked",
         ">": "t_stairs_down",
         "6": "t_card_science",
-        "X": "t_thconc_floor"
+        "X": "t_thconc_floor",
+        "é": "t_thconc_floor"
       },
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 6, "chance": 96 },

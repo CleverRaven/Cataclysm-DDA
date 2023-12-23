@@ -7,6 +7,13 @@
     "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
   },
   {
+    "id": "LOOT_DEFAULT",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Default",
+    "can_be_personal": true,
+    "description": "Destination for any loot without a more specific zone defined."
+  },
+  {
     "id": "LOOT_FOOD",
     "type": "LOOT_ZONE",
     "name": "Loot: Food",
@@ -77,6 +84,13 @@
     "description": "Destination for tools."
   },
   {
+    "id": "LOOT_TOOL_MAGAZINE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tool Magazines",
+    "can_be_personal": true,
+    "description": "Destination for tool magazines."
+  },
+  {
     "id": "LOOT_CLOTHING",
     "type": "LOOT_ZONE",
     "name": "Loot: Clothing",
@@ -110,6 +124,20 @@
     "name": "Loot: Manuals",
     "can_be_personal": true,
     "description": "Destination for instructional books and magazines."
+  },
+  {
+    "id": "LOOT_MA_MANUALS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Martial arts manuals",
+    "can_be_personal": true,
+    "description": "Destination for manuals for martial arts."
+  },
+  {
+    "id": "LOOT_TRAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Traps",
+    "can_be_personal": true,
+    "description": "Destination for traps."
   },
   {
     "id": "LOOT_MODS",
@@ -256,6 +284,7 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Item Group",
     "can_be_personal": false,
+    "hidden": true,
     "description": "Destination for items from an item group."
   },
   {

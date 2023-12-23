@@ -176,7 +176,7 @@ Divided by sections for clarity.
 * `environment thunder_near|thunder_far`
 * `environment daytime|nighttime`
 * `environment indoors|indoors_rain|underground`
-* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY|WEATHER_PORTAL_STORM`
+* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_RAINSTORM|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY|WEATHER_PORTAL_STORM`
 * `environment alarm|church_bells|police_siren`
 * `environment deafness_shock|deafness_tone_start|deafness_tone_light|deafness_tone_medium|deafness_tone_heavy`
 
@@ -189,10 +189,10 @@ Divided by sections for clarity.
 
 Triggered by seeing large numbers of zombies.
 
-* `danger_low`
-* `danger_medium`
-* `danger_high`
-* `danger_extreme`
+* `danger_low` when seeing 5-9 enemies.
+* `danger_medium` when seeing 10-14 enemies.
+* `danger_high` when seeing 15-19 enemies.
+* `danger_extreme` when seeing ≥ 20 enemies.
 
 ### Chainsaw pack
 

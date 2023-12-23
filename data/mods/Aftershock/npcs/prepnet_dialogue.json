@@ -69,7 +69,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_food",
-    "dynamic_line": "This food has to go back to our core communities.  But maybe we can trade some food for services",
+    "dynamic_line": "This food has to go back to our core communities.  But maybe we can trade some food for services.",
     "responses": [
       { "text": "I can pay.", "topic": "TALK_PrepNet_gardener_ask_food_bribe" },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
@@ -79,7 +79,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_food_bribe",
-    "dynamic_line": "You have to earn the right to trade with us.  Plus we created our own currency before the Cataclysm",
+    "dynamic_line": "You have to earn the right to trade with us.  Plus we created our own currency before the Cataclysm.",
     "responses": [
       { "text": "It was worth a try.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What kind of currency?", "topic": "TALK_PrepNet_gardener_currency" }
@@ -94,7 +94,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_goods",
-    "dynamic_line": "Here?  Fruits and berries.  Maybe the occasional piece of farm equipment, but you need crypto coins",
+    "dynamic_line": "Here?  Fruits and berries.  Maybe the occasional piece of farm equipment, but you'll need crypto coins.",
     "responses": [
       { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
       {

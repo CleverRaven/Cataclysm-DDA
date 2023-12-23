@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow06",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "..........---p..........",
+        "....,,,,,,,,,####oo###..",
+        ".%%%,iiiii,,,#z+ II b#..",
+        ".%####oo###o*#v+    ¤#..",
+        ".## h h  y|L |||   @@o..",
+        ".:y fff  V|& |D+   @@o..",
+        ".: hfffh V|  |D+    ¤#..",
+        ".:  h h      |||+||||#..",
+        ".:               |t_S#..",
+        ".##1J5J32__      +__8o..",
+        ".%#________ |+|++|BB8#..",
+        ".%#7FOJ466| |z|ZW||||#^.",
+        "..##||||||| ||||||$ D#..",
+        "..##sHHHsT  yRR|     o..",
+        "..%#~~~~~E     +    ¤o..",
+        "..%#~lll~     y|dd @@#..",
+        "..%#~~~~~    ||||||||#..",
+        "...#yxxxy    +  yRRRR#..",
+        "...#####oo*oo#U     yo..",
+        "...)₸K₸,,,,,,#q  h  Po..",
+        "...),,,,,,,,,#q Trr P#..",
+        ".X.),,,,,,,,,####oo###..",
+        "...))))))...))%%%%%%%%.[",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_rock_wall",
+        "_": "t_linoleum_gray",
+        ",": "t_floor_noroof",
+        ")": "t_railing_v",
+        "~": "t_carpet_green",
+        "i": "t_floor_noroof",
+        "l": "t_carpet_green",
+        "W": "t_linoleum_gray",
+        "Z": "t_linoleum_gray",
+        "K": "t_floor_noroof",
+        "₸": "t_floor_noroof"
+      },
+      "furniture": { "$": "f_exercise", "&": "f_table" },
+      "items": { "&": { "item": "table_foyer", "chance": 50 } },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
+      "place_loot": [ { "item": "television", "x": 6, "y": 17 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow06_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "             ---------  ",
+        "             -.......-  ",
+        "  ------------.......-  ",
+        " --..................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " --...=..............-  ",
+        "  -..................-  ",
+        "  -..................5  ",
+        "  -..................-  ",
+        "  --...X.......A.....-  ",
+        "   -.................-  ",
+        "   -.................-  ",
+        "   -.................-  ",
+        "   -.................-  ",
+        "   -----------.......-  ",
+        "             -.......-  ",
+        "             -.......-  ",
+        "             ---------  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

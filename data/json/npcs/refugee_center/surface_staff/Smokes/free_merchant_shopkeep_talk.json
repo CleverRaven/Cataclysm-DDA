@@ -47,7 +47,20 @@
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
       { "text": "That's all for now.  Take care.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Next shipment should arrive in around <interval>.",
+      "Stick around for <interval>, there will surely be something you'd like."
+    ],
+    "responses": [
+      { "text": "Actually, I wanted to ask…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "Thanks, I will make sure to check back.  Farewell.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -149,6 +162,11 @@
         "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
         "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
       },
+      {
+        "text": "Are you interested in any household goods?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
+        "condition": { "u_has_mission": "MISSION_VALHALLISTS_SET_TRADE_ROUTE" }
+      },
       { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -165,7 +183,7 @@
       {
         "text": "[SOCIAL 1+] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
-        "condition": { "u_has_skill": { "skill": "speech", "level": 1 } },
+        "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
         "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
@@ -275,7 +293,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1",
     "type": "talk_topic",
-    "dynamic_line": "We've had some issues with scavengers.  Apparently a big part of the marketing for these shelters was high-end radio equipment that they could use to keep in touch with each other, and a lot of the people we've traded with have asked about it.  Not that we don't have any radios, mind you, but they're all absolutely awful.  Even if we *could* spare any, they'd be useless to anyone that actually needed it - not much point in lugging around a ham radio that can't pick hear anything more than a mile away."
+    "dynamic_line": "We've had some issues with scavengers.  Apparently a big part of the marketing for these shelters was high-end radio equipment that they could use to keep in touch with each other, and a lot of the people we've traded with have asked about it.  Not that we don't have any radios, mind you, but they're all absolutely awful.  Even if we *could* spare any, they'd be useless to anyone that actually needed it - not much point in lugging around a ham radio that can't pick up anything more than a mile away."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_TroubleWithFood",
@@ -310,6 +328,18 @@
     "responses": [
       {
         "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
+    "type": "talk_topic",
+    "dynamic_line": [ "We are running a bit short on toilet paper, soap, toothpaste…  What's the offer?" ],
+    "responses": [
+      {
+        "text": "Well, how about 200 merch for 75 pounds of…",
         "effect": { "u_spawn_item": "trade_writ" },
         "topic": "TALK_DONE"
       }

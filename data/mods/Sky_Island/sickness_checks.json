@@ -1,0 +1,129 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_constantticking",
+    "//": "This EOC triggers randomly once every x amount of minutes where x is determined by your difficulty.  This happens only while you're away from base, otherwise it's dormant.  All it does is increase your sickness counter by 1 every time it triggers and then calls the more detailed sickness check EOC.",
+    "recurrence": { "global_val": "var", "var_name": "sicknessintervals", "default": "30 m" },
+    "condition": { "u_has_trait": "awayfromhome" },
+    "deactivate_condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "effect": [
+      { "math": [ "timeawayfromhome", "++" ] },
+      { "math": [ "readablepulsesleft", "=", "9 - timeawayfromhome" ] },
+      { "math": [ "readablesicknessintervals", "=", "sicknessintervals / 60" ] },
+      { "run_eocs": [ "EOC_sicknesscheck" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck",
+    "//": "This EOC gets called by the above EOC, after your sickness counter goes up.  If you're below a dangerous threshold, you just get a satisfactory message.  Otherwise it runs a chain of else-if EOCs down below.",
+    "condition": { "math": [ "timeawayfromhome", "<=", "7" ] },
+    "effect": [
+      { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
+      { "u_lose_effect": "warpdisintegration" },
+      {
+        "u_message": "Your body shivers slightly as a warp pulse passes through it.  Another pulse will hit in <global_val:readablesicknessintervals> minutes.  Warp sickness won't set in for another <global_val:readablepulsesleft> pulses."
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_sicknesscheck1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck1",
+    "//": "If your threshold is between 80 and 100 percent of your safe time, this warning will play that you're running out of time.  Otherwise it runs a chain of else-if EOCs down below.",
+    "condition": { "math": [ "timeawayfromhome", "<=", "8" ] },
+    "effect": [
+      { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
+      { "u_lose_effect": "warpdisintegration" },
+      {
+        "u_message": "Goosebumps cover your skin as a warp pulse passes through you.  You're only one warp pulse from your deadline.",
+        "popup": true
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_sicknesscheck2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck2",
+    "//": "Like the above EOC this checks to see if you're exactly at a given counter.  On reaching this point instead of a warning it give you Intensity 4 warp sickness, meaning actual stat penalties.  At this point staying out longer will be very difficult and it only gets worse from here.",
+    "condition": { "math": [ "timeawayfromhome", "<=", "9" ] },
+    "effect": [
+      { "u_lose_effect": "warpdisintegration" },
+      { "u_add_effect": "warpsickness", "intensity": 5, "duration": "PERMANENT" },
+      {
+        "u_message": "A warp pulse passing through you twists your blood inside your veins and your eyes pulse in pain.  You've overstayed your welcome and need to get home.",
+        "popup": true,
+        "type": "bad"
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_sicknesscheck3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck3",
+    "//": "Like the above EOCs this checks to see if you're exactly at a given counter and if so makes your warp sickness even worse.",
+    "condition": { "math": [ "timeawayfromhome", "<=", "10" ] },
+    "effect": [
+      { "u_lose_effect": "warpdisintegration" },
+      { "u_add_effect": "warpsickness", "intensity": 4, "duration": "PERMANENT" },
+      {
+        "u_message": "A warp pulse shudders through your head like a localized earthquake and your extremities surge with pain like they're peeling open.  You need to get home as soon as possible.",
+        "popup": true,
+        "type": "bad"
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_sicknesscheck4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck4",
+    "//": "Like the above EOCs this checks to see if you're exactly at a given counter and if so makes your warp sickness worse yet.",
+    "condition": { "math": [ "timeawayfromhome", "<=", "11" ] },
+    "effect": [
+      { "u_lose_effect": "warpdisintegration" },
+      { "u_add_effect": "warpsickness", "intensity": 3, "duration": "PERMANENT" },
+      {
+        "u_message": "Another warp pulse rocks through you and your organs wrench themselves over.  Existence is fracturing.  You need to get home immediately.",
+        "popup": true,
+        "type": "mixed"
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_sicknesscheck5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck5",
+    "//": "This is the penultimate EOC to check your counter.  Any further and you start disintegrating.",
+    "condition": { "math": [ "timeawayfromhome", "<=", "12" ] },
+    "effect": [
+      { "u_add_effect": "warpsickness", "intensity": 2, "duration": "PERMANENT" },
+      { "u_lose_effect": "warpdisintegration" },
+      {
+        "u_message": "A sickening wet sound rips through you as another warp pulse hits.  You can feel your whole body trying to pull itself apart, and if you wait any longer, it just might.  If you want to live, you need to get home NOW!",
+        "popup": true,
+        "type": "mixed"
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_sicknesscheck6" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sicknesscheck6",
+    "//": "This is the final EOC to check your counter, anything higher than this doesn't matter.  On reaching this point you will get the worst stage of warp sickness and also contract warp disintegration, which will just outright start killing you, making it a hard limit on how long you can stay out.",
+    "effect": [
+      { "u_add_effect": "warpsickness", "intensity": 1, "duration": "PERMANENT" },
+      { "u_add_effect": "warpdisintegration", "intensity": 1, "duration": "PERMANENT" },
+      {
+        "u_message": "As the warp pulse hits, you realize there are no words to describe how much trouble you're in.  Your body is crumbling to wet paste and your blood is twisting into a viny tangle.  All you know is pain.  \nYou're not just dying, you're dying horribly.  \nIf escape is already near you may survive against all odds, but oblivion is only moments away.",
+        "popup": true,
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warpextender",
+    "//": "Triggers when you eat a warp extender.  Reduces your warp buildup.",
+    "effect": [ { "math": [ "timeawayfromhome", "-=", "5" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
+  }
+]

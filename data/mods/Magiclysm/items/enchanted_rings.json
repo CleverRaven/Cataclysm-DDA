@@ -11,10 +11,19 @@
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
+    "looks_like": "copper_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "abstract": "mring_silver",
@@ -28,10 +37,19 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "looks_like": "silver_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "abstract": "mring_gold",
@@ -45,10 +63,19 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "looks_like": "gold_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "abstract": "mring_platinum",
@@ -62,10 +89,19 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "light_gray",
+    "looks_like": "platinum_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "rigid_layer_only": true } ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "copy-from": "mring_copper",
@@ -420,7 +456,8 @@
         "moves": 1,
         "holster": true,
         "weight_multiplier": 0.0,
-        "volume_multiplier": 0.0
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0.0
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
@@ -443,7 +480,8 @@
         "moves": 1,
         "holster": true,
         "weight_multiplier": 0.0,
-        "volume_multiplier": 0.0
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0.0
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }

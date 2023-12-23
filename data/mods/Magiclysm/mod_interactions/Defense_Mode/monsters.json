@@ -1,0 +1,132 @@
+[
+  {
+    "id": "mon_lizardfolk_warrior_dm",
+    "copy-from": "mon_lizardfolk_warrior",
+    "type": "MONSTER",
+    "species": [ "LIZARDFOLK_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_lizardfolk_hunter_dm",
+    "copy-from": "mon_lizardfolk_hunter",
+    "type": "MONSTER",
+    "species": [ "LIZARDFOLK_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_lizardfolk_shaman_dm",
+    "copy-from": "mon_lizardfolk_shaman",
+    "type": "MONSTER",
+    "species": [ "LIZARDFOLK_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_lizardfolk_chieftan_dm",
+    "copy-from": "mon_lizardfolk_chieftan",
+    "type": "MONSTER",
+    "species": [ "LIZARDFOLK_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_plasticgolem_dm",
+    "copy-from": "mon_plasticgolem",
+    "type": "MONSTER",
+    "species": [ "GOLEM_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_claygolem_dm",
+    "copy-from": "mon_claygolem",
+    "type": "MONSTER",
+    "species": [ "GOLEM_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_stonegolem_dm",
+    "copy-from": "mon_stonegolem",
+    "type": "MONSTER",
+    "species": [ "GOLEM_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_irongolem_dm",
+    "copy-from": "mon_irongolem",
+    "type": "MONSTER",
+    "species": [ "GOLEM_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_goblin_warrior_dm",
+    "copy-from": "mon_goblin_warrior",
+    "type": "MONSTER",
+    "species": [ "GOBLIN_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_goblin_slinger_dm",
+    "copy-from": "mon_goblin_slinger",
+    "type": "MONSTER",
+    "species": [ "GOBLIN_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_orc_warrior_dm",
+    "copy-from": "mon_orc_warrior",
+    "type": "MONSTER",
+    "species": [ "ORC_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_orc_archer_dm",
+    "copy-from": "mon_orc_archer",
+    "type": "MONSTER",
+    "species": [ "ORC_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_orc_blood_warrior_dm",
+    "copy-from": "mon_orc_blood_warrior",
+    "type": "MONSTER",
+    "species": [ "ORC_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]

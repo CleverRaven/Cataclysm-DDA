@@ -7,13 +7,13 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
-TEST_CASE( "ammo_set items with MAGAZINE pockets", "[ammo_set][magazine][ammo]" )
+TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "empty 9mm CZ 75 20-round magazine" ) {
         item cz75mag_20rd( "cz75mag_20rd" );
@@ -180,7 +180,7 @@ TEST_CASE( "ammo_set items with MAGAZINE pockets", "[ammo_set][magazine][ammo]" 
     }
 }
 
-TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets with magazine",
+TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_with_magazine",
            "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "CZ 75 B 9mm gun with empty 9mm CZ 75 20-round magazine" ) {
@@ -198,7 +198,7 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets with magazine",
         REQUIRE( ammo_default_id.str() == ammo9mm_id.str() );
         const ammotype &amtype = ammo9mm_id->ammo->type;
         REQUIRE( cz75mag_20rd.ammo_capacity( amtype ) == 20 );
-        cz75.put_in( cz75mag_20rd, item_pocket::pocket_type::MAGAZINE_WELL );
+        cz75.put_in( cz75mag_20rd, pocket_type::MAGAZINE_WELL );
         REQUIRE( cz75.magazine_current()->typeId().str() == cz75mag_20rd.typeId().str() );
         REQUIRE( cz75.ammo_capacity( amtype ) == 20 );
         WHEN( "set 9mm ammo in the gun with magazine w/o quantity" ) {
@@ -290,7 +290,7 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets with magazine",
     }
 }
 
-TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets without magazine",
+TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
            "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "CZ 75 B 9mm gun w/o magazine" ) {
@@ -373,7 +373,7 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets without magazine",
     }
 }
 
-TEST_CASE( "ammo_set items with CONTAINER pockets", "[ammo_set][magazine][ammo]" )
+TEST_CASE( "ammo_set_items_with_CONTAINER_pockets", "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "small box" ) {
         item box( "box_small" );

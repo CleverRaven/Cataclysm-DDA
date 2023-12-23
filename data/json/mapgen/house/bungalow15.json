@@ -1,0 +1,109 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow15",
+    "weight": 125,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "_____...................",
+        "_____.................[.",
+        "_____................^..",
+        "_____.##oo########oo###.",
+        "_____p#L  $|RR|66?0007#.",
+        "_____-o== /|  |0000J05#.",
+        "_____-*==      0h00J0Oo.",
+        "_____-oiiii|  |ff00002o.",
+        "_____.#|||||  |ffh0YF1#.",
+        "_____.#  &x&  ||||||||#.",
+        "_____.#a      RR|ydd @#.",
+        "......#  lll    +    @#.",
+        "......o         |I   ¤o.",
+        "......o lHHH   y|I{ RR#.",
+        ".[....o        s||||||#.",
+        "......o lETy   s|IIbdd#^",
+        "......#+||||    + {   #.",
+        "......# z|}+   R|     o.",
+        "..--..#|||||   R|D @@¤#.",
+        ".||*|.#BBwQ|   y||||||#.",
+        ".|q~|.#0000+  ===//y|zo.",
+        ".|U~|.#tS88|  ===   +z#.",
+        ".||||.########o*o######.",
+        "..............---......."
+      ],
+      "terrain": {
+        "0": "t_linoleum_gray",
+        "=": "t_carpet_red",
+        "~": "t_thconc_floor",
+        "f": "t_linoleum_gray",
+        "Y": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "?": "t_linoleum_gray",
+        "U": "t_thconc_floor",
+        "q": "t_thconc_floor"
+      },
+      "furniture": {
+        "$": "f_rack",
+        "&": "f_table",
+        "?": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "{": "f_chair",
+        "/": "f_table",
+        "}": "f_clothing_rail"
+      },
+      "items": {
+        "/": { "item": "table_foyer", "chance": 50, "repeat": [ 1, 2 ] },
+        "}": { "item": "jackets", "chance": 50, "repeat": [ 2, 3 ] },
+        "$": { "item": "clothing_outdoor_shoes", "chance": 100, "repeat": [ 1, 3 ] }
+      },
+      "place_loot": [ { "item": "lawnmower", "x": 3, "y": 21, "chance": 25 }, { "item": "television", "x": 10, "y": 9, "chance": 100 } ],
+      "place_vehicles": [
+        { "vehicle": "car", "x": 3, "y": 4, "chance": 30, "fuel": 80, "rotation": 90 },
+        { "vehicle": "rolling_trash_can", "x": 17, "y": 1, "chance": 80, "status": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow15_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ---------------5- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -~..............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............5 ",
+        "      -...............- ",
+        "      -...............- ",
+        "      -...............- ",
+        " .... -...........=...- ",
+        " .... -...............- ",
+        " .... -...............- ",
+        " .... ----------------- ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

@@ -1,0 +1,63 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "NETHER_EMANATION",
+    "description": "a reflection of another dimension",
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "LEECH_PLANT",
+    "description": "a leech plant",
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WORM",
+    "description": "a worm",
+    "footsteps": "rustle.",
+    "fear_triggers": [ "HURT" ],
+    "bleeds": "fd_blood_invertebrate",
+    "flags": [ "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ZOMBIE",
+    "description": "a zombie",
+    "footsteps": "shuffling.",
+    "bleeds": "fd_blood",
+    "flags": [ "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ROBOT",
+    "description": "a robot",
+    "footsteps": "mechanical whirring.",
+    "bleeds": "fd_mechanical_fluid",
+    "flags": [ "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "FUNGUS",
+    "description": "a fungus",
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "HIVE_MIND" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "MIGO",
+    "description": "a creature from the mi-go homeworld",
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "HIVE_MIND" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SLIME",
+    "description": "a slime",
+    "footsteps": "plop.",
+    "bleeds": "fd_slime",
+    "flags": [ "TEEP_IMMUNE" ]
+  }
+]

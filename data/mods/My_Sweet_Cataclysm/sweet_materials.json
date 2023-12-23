@@ -8,17 +8,12 @@
     "specific_heat_solid": 2.03,
     "latent_heat": 57,
     "edible": true,
-    "bash_resist": 0,
-    "cut_resist": 0,
-    "bullet_resist": 0,
-    "acid_resist": 1,
-    "fire_resist": 1,
-    "elec_resist": 1,
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ],
+    "resist": { "bash": 0, "cut": 0, "acid": 1, "heat": 1, "bullet": 0, "electric": 1 }
   },
   {
     "type": "material",
@@ -28,17 +23,12 @@
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
-    "bash_resist": 6,
-    "cut_resist": 6,
-    "bullet_resist": 3,
-    "acid_resist": 8,
-    "fire_resist": 3,
-    "elec_resist": 2,
     "chip_resist": 20,
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "burn_products": [ [ "sugar", 1 ] ],
-    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ],
+    "resist": { "bash": 6, "cut": 6, "acid": 8, "heat": 3, "bullet": 3, "electric": 2 }
   }
 ]

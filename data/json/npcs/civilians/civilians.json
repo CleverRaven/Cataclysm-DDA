@@ -1,0 +1,67 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PANIC",
+    "dynamic_line": "&You see this crazed fellows eyes darting around anxiously, always anticipating impending doom.  Every now and then you can even hear them whimper in fear.  Although they do not seem aggressive, they definitely are out of their mind.",
+    "responses": [
+      { "text": "You need to get to safety!", "topic": "TALK_CIVILIAN_PANIC_EVAC" },
+      { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PANIC_EVAC",
+    "dynamic_line": "&They shriek and stumble backwards, as if you just became a threat.",
+    "responses": [ { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_FIGHTER",
+    "dynamic_line": [
+      "I'm gonna kill all these <swear> things!",
+      "&They let out a bellowing warcry and wave their stick.",
+      "I'M INVINCIBLE!"
+    ],
+    "responses": [
+      { "text": "Are you crazy?  Get out of here!", "topic": "TALK_CIVILIAN_FIGHTER_EVAC" },
+      { "text": "[Leave them to their futile fight.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_FIGHTER_EVAC",
+    "dynamic_line": [ "Like hell I will!", "Fuck that, I'm not going out like a coward!" ],
+    "responses": [ { "text": "[Leave them to their futile fight]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_OFFICER",
+    "dynamic_line": [
+      "Stand aside citizen, I'll handle this!",
+      "Don't worry, I'm with the police<punc>",
+      "&The officer scans the area, looking for trouble.  They have a dangerous glint in their eyes."
+    ],
+    "responses": [ { "text": "[Back away.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_ICU",
+    "dynamic_line": "&They are still breathing but unable to move and speak.  You are unsure if they are even fully conscious and yet shudder at the thought of being trapped inside your body.",
+    "responses": [ { "text": "[Leave them to their ultimate fate.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PARENT_EVAC",
+    "dynamic_line": "No!  I just know it, they are still alive!",
+    "responses": [ { "text": "[Let them keep on searching.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PARENT",
+    "dynamic_line": [ "Have you seen my child?", "I am not leaving without my little one!", "Where is my kid?" ],
+    "responses": [
+      { "text": "Your child is likely dead by now and you should get to safety!", "topic": "TALK_CIVILIAN_PARENT_EVAC" },
+      { "text": "[Let them keep on searching.]", "topic": "TALK_DONE" }
+    ]
+  }
+]

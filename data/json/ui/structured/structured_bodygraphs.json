@@ -1,0 +1,67 @@
+[
+  {
+    "id": "structured_body_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 8,
+    "arrange": "columns",
+    "widgets": [ "compact_body_graph" ]
+  },
+  {
+    "id": "structured_body_graph_encumb_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_encumb" ]
+  },
+  {
+    "id": "structured_body_graph_temp_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_temp" ]
+  },
+  {
+    "id": "structured_body_graph_status_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_status" ]
+  },
+  {
+    "id": "structured_space",
+    "type": "widget",
+    "style": "text",
+    "width": 1,
+    "string": " "
+  },
+  {
+    "id": "structured_tiny_body_graphs_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph", "structured_space", "tiny_body_graph_encumb" ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph_status", "structured_space", "tiny_body_graph_temp" ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_side_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph_side", "structured_space", "tiny_body_graph_side_encumb" ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_side_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph_side_status", "structured_space", "tiny_body_graph_side_temp" ]
+  }
+]

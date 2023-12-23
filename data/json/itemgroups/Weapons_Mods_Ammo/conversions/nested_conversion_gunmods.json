@@ -1,0 +1,353 @@
+[
+  {
+    "type": "item_group",
+    "id": "nested_retool_extras",
+    "//": "Miscellaneous items assigned to spawn within conversion kits, including some tools and the instructions.",
+    "subtype": "collection",
+    "entries": [ { "item": "retool_instructions" }, { "item": "bubblewrap" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_ar15kit_long",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_huge",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_223rem_extended" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_ar15kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_223rem" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_ar15kit_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_223rem_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_ar15kit_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_223rem_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_ar15kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_ar15kit_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_300blk_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_ar15kit_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr_micro",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_300blk_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_ar15kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "retool_ar15_50beowulf" },
+      { "item": "50beowulf_ar15mag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_ar15kit_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "retool_ar15_50beowulf_medium" },
+      { "item": "50beowulf_ar15mag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_ar15kit_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr_micro",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "retool_ar15_50beowulf_short" },
+      { "item": "50beowulf_ar15mag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_450bushmaster_ar15kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_450" }, { "item": "450_ar15mag", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_450bushmaster_ar15kit_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_450_medium" }, { "item": "450_ar15mag", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_450bushmaster_ar15kit_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr_micro",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_450_short" }, { "item": "450_ar15mag", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762_ar15kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_762" }, { "item": "762_ar15mag_30rd", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_mdrxkit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_mdrx_223rem" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_mdrxkit_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "entries": [ { "item": "retool_mdrx_223rem_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_mdrxkit_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_sbr",
+    "entries": [ { "item": "retool_mdrx_223rem_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_mdrxkit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_mdrx_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308win_mdrxkit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_mdrx_308win" }, { "item": "ar10mag_20rd", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308win_mdrxkit_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "retool_mdrx_308win_medium" },
+      { "item": "ar10mag_20rd", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300win_axmckit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_huge",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_axmc_300win" }, { "item": "ai_338mag_10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308win_axmckit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_huge",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_axmc_308win" }, { "item": "ai_308mag_10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_cz600kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_cz600_223rem" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762_cz600kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "entries": [ { "item": "retool_cz600_762" }, { "item": "bren2_762mag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15kits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "boxed_223rem_ar15kit_long", "prob": 25 },
+          { "group": "boxed_223rem_ar15kit", "prob": 30 },
+          { "group": "boxed_223rem_ar15kit_medium", "prob": 25 },
+          { "group": "boxed_223rem_ar15kit_short", "prob": 15 },
+          { "group": "boxed_300blk_ar15kit", "prob": 25 },
+          { "group": "boxed_300blk_ar15kit_medium", "prob": 20 },
+          { "group": "boxed_300blk_ar15kit_short", "prob": 15 },
+          { "group": "boxed_50beowulf_ar15kit", "prob": 20 },
+          { "group": "boxed_50beowulf_ar15kit_medium", "prob": 15 },
+          { "group": "boxed_50beowulf_ar15kit_short", "prob": 10 },
+          { "group": "boxed_450bushmaster_ar15kit", "prob": 20 },
+          { "group": "boxed_450bushmaster_ar15kit_medium", "prob": 15 },
+          { "group": "boxed_450bushmaster_ar15kit_short", "prob": 10 },
+          { "group": "boxed_762_ar15kit", "prob": 30 }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mdrxkits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "boxed_223rem_mdrxkit", "prob": 30 },
+          { "group": "boxed_223rem_mdrxkit_medium", "prob": 25 },
+          { "group": "boxed_223rem_mdrxkit_short", "prob": 15 },
+          { "group": "boxed_300blk_mdrxkit", "prob": 10 },
+          { "group": "boxed_308win_mdrxkit", "prob": 25 },
+          { "group": "boxed_308win_mdrxkit_medium", "prob": 20 }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_axmckits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [ { "group": "boxed_300win_axmckit", "prob": 30 }, { "group": "boxed_308win_axmckit", "prob": 30 } ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_cz600kits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [ { "group": "boxed_223rem_cz600kit", "prob": 30 }, { "group": "boxed_762_cz600kit", "prob": 25 } ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_ar15_with_kits",
+    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_ar15kits" }, { "group": "modular_ar15" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_mdrx_with_kits",
+    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_mdrxkits" }, { "group": "mdrx" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_axmc_with_kits",
+    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_axmckits" }, { "group": "axmc" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_cz600_with_kits",
+    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_cz600kits" }, { "group": "cz600" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "conversion_kits",
+    "//": "An item group for a randomly selected conversion kit to spawn, regardless of type. Intended for use in gun stores and other sensible locations.",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "boxed_ar15kits", "prob": 30 },
+          { "group": "boxed_mdrxkits", "prob": 15 },
+          { "group": "boxed_axmckits", "prob": 5 },
+          { "group": "boxed_cz600kits", "prob": 15 }
+        ],
+        "prob": 100
+      }
+    ]
+  }
+]

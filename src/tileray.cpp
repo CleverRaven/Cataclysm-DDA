@@ -8,8 +8,8 @@
 #include "units.h"
 #include "units_utility.h"
 
-static const int sx[4] = { 1, -1, -1, 1 };
-static const int sy[4] = { 1, 1, -1, -1 };
+static constexpr std::array<int, 4> sx = { 1, -1, -1, 1 };
+static constexpr std::array<int, 4> sy = { 1, 1, -1, -1 };
 
 tileray::tileray() = default;
 
@@ -78,94 +78,6 @@ units::angle tileray::dir() const
 int tileray::quadrant() const
 {
     return static_cast<int>( std::floor( direction / 90_degrees ) ) % 4;
-}
-
-int tileray::dir4() const
-{
-    if( direction >= 45_degrees && direction <= 135_degrees ) {
-        return 1;
-    } else if( direction > 135_degrees && direction < 225_degrees ) {
-        return 2;
-    } else if( direction >= 225_degrees && direction <= 315_degrees ) {
-        return 3;
-    } else {
-        return 0;
-    }
-}
-
-int tileray::dir8() const
-{
-    int oct = 0;
-    units::angle dir = direction;
-    if( dir < 23_degrees || dir > 337_degrees ) {
-        return 0;
-    }
-    while( dir > 22_degrees ) {
-        dir -= 45_degrees;
-        oct += 1;
-    }
-    return oct;
-}
-
-// This function assumes a vehicle is being drawn.
-// It assumes horizontal lines are never skewed, vertical lines often skewed.
-int tileray::dir_symbol( int sym ) const
-{
-    switch( sym ) {
-        // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
-        case 'j':
-            // vertical line
-            return "h\\j/h\\j/"[dir8()];
-        case 'h':
-            // horizontal line
-            return "jhjh"[dir4()];
-        case 'y':
-            // top left corner
-            return "unby"[dir4()];
-        case 'u':
-            // top right corner
-            return "nbyu"[dir4()];
-        case 'n':
-            // bottom right corner
-            return "byun"[dir4()];
-        case 'b':
-            // bottom left corner
-            return "yunb"[dir4()];
-        case '^':
-            return ">v<^"[dir4()];
-        case '>':
-            return "v<^>"[dir4()];
-        case 'v':
-            return "<^>v"[dir4()];
-        case '<':
-            return "^>v<"[dir4()];
-        case 'c':
-            // +
-            return "cXcXcXcX"[dir8()];
-        case 'X':
-            return "XcXcXcXc"[dir8()];
-
-        case '[':
-            // [ not rotated to ] because they might represent different items
-            return "-\\[/-\\[/"[dir8()];
-        case ']':
-            return "-\\]/-\\]/"[dir8()];
-        case '|':
-            return "-\\|/-\\|/"[dir8()];
-        case '-':
-            return "|/-\\|/-\\"[dir8()];
-        case '=':
-            return "H=H="[dir4()];
-        case 'H':
-            return "=H=H"[dir4()];
-        case '\\':
-            return "/-\\|/-\\|"[dir8()];
-        case '/':
-            return "\\|/-\\|/-"[dir8()];
-        default:
-            ;
-    }
-    return sym;
 }
 
 std::string tileray::to_string_azimuth_from_north() const

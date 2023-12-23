@@ -1,8 +1,15 @@
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "try_parse_integer.h"
 
-TEMPLATE_TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]", int, long, long long )
+template<typename TestType>
+void try_parse_int_simple_parsing()
 {
+    CAPTURE( demangle( typeid( TestType ).name() ) );
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
     try {
         std::locale::global( std::locale( "en_US.UTF-8" ) );
     } catch( std::runtime_error & ) {
@@ -63,13 +70,26 @@ TEMPLATE_TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]", int, 
     }
 }
 
-TEMPLATE_TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]", int, long, long long )
+TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]" )
 {
+    try_parse_int_simple_parsing<int>();
+    try_parse_int_simple_parsing<long>();
+    try_parse_int_simple_parsing<long long>();
+}
+
+template<typename TestType>
+void try_parse_int_locale_parsing()
+{
+    CAPTURE( demangle( typeid( TestType ).name() ) );
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
     SECTION( "de_DE" ) {
         try {
             std::locale::global( std::locale( "de_DE.UTF-8" ) );
-        } catch( std::runtime_error & ) {
-            // On platforms where we can't set the locale, ignore this test
+        } catch( std::runtime_error &e ) {
+            WARN( "couldn't set locale for try_parse_integer test: " << e.what() );
             return;
         }
         CAPTURE( setlocale( LC_ALL, nullptr ) );
@@ -93,8 +113,8 @@ TEMPLATE_TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]", int, 
     SECTION( "en_US" ) {
         try {
             std::locale::global( std::locale( "en_US.UTF-8" ) );
-        } catch( std::runtime_error & ) {
-            // On platforms where we can't set the locale, ignore this test
+        } catch( std::runtime_error &e ) {
+            WARN( "couldn't set locale for try_parse_integer test: " << e.what() );
             return;
         }
         CAPTURE( setlocale( LC_ALL, nullptr ) );
@@ -112,4 +132,11 @@ TEMPLATE_TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]", int, 
             CHECK( result.str() == "Stray characters after integer in '1,234'" );
         }
     }
+}
+
+TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]" )
+{
+    try_parse_int_locale_parsing<int>();
+    try_parse_int_locale_parsing<long>();
+    try_parse_int_locale_parsing<long long>();
 }

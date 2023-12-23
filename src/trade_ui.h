@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_TRADE_UI_H
 #define CATA_SRC_TRADE_UI_H
 

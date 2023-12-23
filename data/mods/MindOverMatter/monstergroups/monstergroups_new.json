@@ -1,0 +1,238 @@
+[
+  {
+    "name": "GROUP_FERAL_PSYCHIC",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_clair", "weight": 1 },
+      { "monster": "mon_feral_human_electrokin", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_photokin", "weight": 1 },
+      { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
+      { "monster": "mon_feral_human_telekin", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_teep", "weight": 1 },
+      { "monster": "mon_feral_human_porter", "weight": 1 },
+      { "monster": "mon_feral_human_vita", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FERAL_BIOKINETIC",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_bio", "weight": 25 },
+      { "monster": "mon_feral_human_bio2", "weight": 8 },
+      { "monster": "mon_feral_human_bio3", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FERAL_CLAIRSENTIENT",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_clair", "weight": 25 },
+      { "monster": "mon_feral_human_clair2", "weight": 8 },
+      { "monster": "mon_feral_human_clair3", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_clair", "weight": 25 },
+      { "monster": "mon_feral_human_teep", "weight": 25 },
+      { "monster": "mon_feral_human_clair2", "weight": 8 },
+      { "monster": "mon_feral_human_teep2", "weight": 8 },
+      { "monster": "mon_feral_human_clair3", "weight": 1 },
+      { "monster": "mon_feral_human_teep3", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FERAL_TELEPATH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_feral_human_teep", "weight": 25 }, { "monster": "mon_feral_human_teep2", "weight": 8 } ]
+  },
+  {
+    "name": "GROUP_FERAL_TELEPORTER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_clair", "weight": 25 },
+      { "monster": "mon_feral_human_clair2", "weight": 8 },
+      { "monster": "mon_feral_human_clair3", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_CRYSTAL_FIELD",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_bio", "weight": 60, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_clair", "weight": 60 },
+      { "monster": "mon_feral_human_electrokin", "weight": 60, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_photokin", "weight": 60 },
+      { "monster": "mon_feral_human_pyrokin", "weight": 60, "cost_multiplier": 3 },
+      { "monster": "mon_feral_human_telekin", "weight": 60, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_teep", "weight": 60 },
+      { "monster": "mon_feral_human_porter", "weight": 60 },
+      { "monster": "mon_feral_human_vita", "weight": 60 },
+      { "monster": "mon_gelatin", "weight": 40 },
+      { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 60, "cost_multiplier": 2 },
+      { "monster": "mon_star_vampire", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 25, "cost_multiplier": 10 },
+      { "monster": "mon_kreck", "weight": 60, "cost_multiplier": 5 },
+      { "monster": "mon_gracke", "weight": 100 },
+      { "monster": "mon_mi_go", "weight": 60 },
+      { "monster": "mon_mi_go_slaver", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_myrmidon", "weight": 10, "cost_multiplier": 4, "starts": "210 hours" },
+      { "monster": "mon_mi_go_telepath", "weight": 7, "cost_multiplier": 4, "starts": "210 hours" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 2, "cost_multiplier": 8, "starts": "210 hours" },
+      { "monster": "mon_nether_eater", "weight": 60 }
+    ]
+  },
+  {
+    "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_swarm_structure", "weight": 60, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_RESEARCH",
+    "default": "mon_zombie_scientist_phavian",
+    "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "weight": 18, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "weight": 18, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_feral_scientist_psychic", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_security_captain_psychic", "weight": 8, "cost_multiplier": 10 },
+      { "monster": "mon_feral_security_psychic", "weight": 25, "cost_multiplier": 5 },
+      { "group": "GROUP_FERAL_PSYCHIC", "weight": 25, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_labsecurity", "weight": 400, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_scientist", "weight": 100 },
+      { "monster": "mon_zombie_scientist", "weight": 40, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_scientist_phavian", "weight": 300 },
+      { "monster": "mon_zombie_scientist_phavian", "weight": 150, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_tool", "weight": 25 },
+      { "monster": "mon_zombie_hazmat", "weight": 200 },
+      { "monster": "mon_zombie_necro", "weight": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_electric", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_science_bot", "weight": 80, "cost_multiplier": 5 },
+      { "monster": "mon_secubot", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_zombie", "weight": 100, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_fat", "weight": 20, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_tough", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_brute", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_crawler", "weight": 50 },
+      { "monster": "mon_manhack", "weight": 200 },
+      { "monster": "mon_manhack", "weight": 45, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mutant_experimental", "weight": 3 },
+      { "monster": "mon_skitterbot", "weight": 85 },
+      { "monster": "mon_skitterbot", "weight": 85, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_skitterbot", "weight": 10, "pack_size": [ 8, 12 ] },
+      { "monster": "mon_blob_small", "weight": 10, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_armored", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_brute_shocker", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_lab_rat", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PHAVIAN_OFFICE",
+    "default": "mon_zombie_scientist_phavian",
+    "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "weight": 18, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "weight": 18, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_feral_scientist_psychic", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_security_captain_psychic", "weight": 8, "cost_multiplier": 8 },
+      { "monster": "mon_feral_security_psychic", "weight": 25, "cost_multiplier": 5 },
+      { "group": "GROUP_FERAL_PSYCHIC", "weight": 25, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_labsecurity", "weight": 400, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_scientist_phavian", "weight": 300 },
+      { "monster": "mon_zombie_scientist_phavian", "weight": 150, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hazmat", "weight": 50 },
+      { "monster": "mon_zombie_necro", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_electric", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_zombie", "weight": 100, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_fat", "weight": 20, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_tough", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_brute", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_crawler", "weight": 50 },
+      { "monster": "mon_lab_rat", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PHAVIAN_SKYSCRAPER_LAB",
+    "default": "mon_zombie_scientist_phavian",
+    "monsters": [
+      { "monster": "mon_feral_labsecurity_9mm", "weight": 25, "cost_multiplier": 8 },
+      { "monster": "mon_feral_labsecurity_flashlight", "weight": 25, "cost_multiplier": 2 },
+      { "monster": "mon_feral_scientist_scalpel", "weight": 35, "cost_multiplier": 0 },
+      { "monster": "mon_feral_scientist_psychic", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_security_captain_psychic", "weight": 12, "cost_multiplier": 8 },
+      { "monster": "mon_feral_security_psychic", "weight": 30, "cost_multiplier": 5 },
+      { "group": "GROUP_FERAL_CLAIRSENTIENT_TELEPATH", "weight": 20, "cost_multiplier": 3 },
+      { "group": "GROUP_FERAL_PSYCHIC", "weight": 1, "cost_multiplier": 8 },
+      { "monster": "mon_zombie_labsecurity", "weight": 400, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_scientist_phavian", "weight": 350 },
+      { "monster": "mon_zombie_scientist_phavian", "weight": 175, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_technician", "weight": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hazmat", "weight": 25 },
+      { "monster": "mon_zombie_necro", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_electric", "weight": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie", "weight": 100, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_fat", "weight": 20, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_tough", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_brute", "weight": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_crawler", "weight": 50 }
+    ]
+  },
+  {
+    "name": "GROUP_CIVILIANS_PSYCHIC_FERAL",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_civilian_biokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_clairsentient", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_electrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_photokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_pyrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_telekinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_telepath", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_teleporter", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_vitakinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" }
+    ]
+  },
+  {
+    "name": "GROUP_NETHER_BREACH",
+    "type": "monstergroup",
+    "//": "Weights slightly adjusted from base Nether group, additional things added",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_breather_hub", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_nether_leech", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_hanging_roper", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_COCKATRICE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 1 } ]
+  }
+]

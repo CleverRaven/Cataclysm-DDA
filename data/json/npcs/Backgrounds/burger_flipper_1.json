@@ -14,7 +14,7 @@
     "type": "talk_topic",
     "dynamic_line": "I didn't evacuate.  I went home… saw some freaky shit on the way, but at the time I just thought it was riots or drugs.  By the time I got there, my parents were gone.  No sign of them.  There was a big mess, stuff scattered everywhere like there'd been a struggle, and a little blood on the floor.",
     "responses": [
-      { "text": "So, did you evacuate?", "topic": "BGSS_BURGER_FLIPPER_1_STORY3" },
+      { "text": "So, did you evacuate then?", "topic": "BGSS_BURGER_FLIPPER_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -23,10 +23,6 @@
     "id": "BGSS_BURGER_FLIPPER_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": "I haven't found them yet.  Whenever I see a <zombie>, a little part of me is afraid it's going to be one of them.  But then, maybe not.  Maybe they were evacuated, maybe they fought and tried to wait for me but the military took them anyway?  I've heard that sort of thing happened.  I don't know if I'll ever know.",
-    "responses": [
-      { "text": "So, did you evacuate?", "topic": "BGSS_BURGER_FLIPPER_1_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

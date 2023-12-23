@@ -1,0 +1,94 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow09",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........-----p........",
+        "...[....???```???.[...[.",
+        "..!!!!!!?```````?!!!!!..",
+        "..###o###````₸K₸##o###..",
+        "..#Db  ¤####*oo##r  R#..",
+        "..o   @@|Ly))HHH|rh R#..",
+        "..#d  @@|x ))))H|P  R#..",
+        "..#d    |x ))l)H|||¶|#..",
+        "..#||||+|V ))l)HT   y#..",
+        "..#8BB|    ))))s   h o..",
+        "..#8((+           ffh#..",
+        "..oS(Q|     h    hff #..",
+        "..#t(w|b   rrrRR   h o..",
+        "..#|||||+|+||||||(JJJ#..",
+        ".^#IIID  | ddD|Z+(((3#^.",
+        "..#      |    |W+(((O#..",
+        "..o     d|  @@|||F((1o..",
+        "..# @@  d|  @@|6+(((5#..",
+        "..#¤@@¤ y|y  ¤|6+((42#..",
+        "..##o##o###o######*o##..",
+        "........jjj....`````₸?..",
+        "................?``₸K?..",
+        "........[.......??????..",
+        "........................"
+      ],
+      "terrain": {
+        "?": "t_railing_v",
+        "K": "t_concrete",
+        "₸": "t_concrete",
+        "(": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "Z": "t_linoleum_gray",
+        ")": "t_carpet_yellow",
+        "H": "t_carpet_yellow",
+        "l": "t_carpet_yellow",
+        "s": "t_carpet_yellow"
+      },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 9, "y": 1, "chance": 80, "status": 0 } ],
+      "place_loot": [ { "item": "laptop", "x": 17, "y": 5, "chance": 100 }, { "item": "television", "x": 9, "y": 7, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow09_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  -------       ------  ",
+        "  -.....---------....-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -...N..............-  ",
+        "  -..................-  ",
+        "  -.............MMMM.-  ",
+        "  -.............MMMM.-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  5..................5  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  --------------------  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

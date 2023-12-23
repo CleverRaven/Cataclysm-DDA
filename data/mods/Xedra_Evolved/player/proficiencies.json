@@ -1,0 +1,67 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_aelfen_tailoring",
+    "category": "prof_tailoring",
+    "name": { "str": "Aelfen Tailoring Techniques" },
+    "description": "Working with materials from other dimensions is never easy.  But this definitely improves your ability to work on fabrics and furs from the lands under the hill.",
+    "//": "I don't know if I'll make any advanced proficiencies for changeling recipes but I'd like to at least have some base level ones.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 1.15,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_dreamsmithing",
+    "name": "Dreamsmithing",
+    "description": "Proficiencies for using your magic abilities to cast items with thaumaturgical abilities."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_dreamsmithing",
+    "category": "prof_dreamsmithing",
+    "name": { "str": "Basics of Dreamsmithing" },
+    "description": "You know how you use your mind to transform dreamdross into basic shapes.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0,
+    "time_to_learn": "2 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_dreamsmithing_weapon",
+    "category": "prof_dreamsmithing",
+    "name": { "str": "Dreamsmithing of Weapons" },
+    "description": "Your knowledge has grown, and you know how to shape dreamdross into a weapon of terrible power.",
+    "required_proficiencies": [ "prof_dreamsmithing" ],
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_dreamsmithing_armor",
+    "category": "prof_dreamsmithing",
+    "name": { "str": "Dreamsmithing of Armor" },
+    "description": "Your knowledge has grown, and you know how to shape dreamdross into an indestructible armor.",
+    "required_proficiencies": [ "prof_dreamsmithing" ],
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_dreamsmithing_peak",
+    "category": "prof_dreamsmithing",
+    "name": { "str": "Dreamsmithing" },
+    "description": "Your mind and feeling are the one.  Your items are impossible.  Your dreamdross could be everything.",
+    "required_proficiencies": [ "prof_dreamsmithing" ],
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0,
+    "time_to_learn": "8 h"
+  }
+]

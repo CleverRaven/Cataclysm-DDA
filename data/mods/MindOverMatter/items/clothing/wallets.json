@@ -1,0 +1,65 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "wallet_phavian_leather_full",
+    "//": "copy-from: wallet_leather_full ",
+    "container-item": "wallet_leather",
+    "on_overflow": "discard",
+    "items": [
+      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
+      { "item": "id_science", "prob": 100 },
+      { "item": "id_science_visitor_phavian", "prob": 100 },
+      { "item": "id_science_visitor_1", "prob": 15 },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "condom", "prob": 10 },
+      { "item": "labmap", "prob": 30 },
+      { "item": "wallet_photo", "prob": 20 },
+      [ "scorecard", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "wallet_phavian_full",
+    "//": "copy-from: wallet_full ",
+    "container-item": "wallet",
+    "on_overflow": "discard",
+    "items": [
+      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "id_science", "prob": 100 },
+      { "item": "id_science_visitor_phavian", "prob": 100 },
+      { "item": "id_science_visitor_1", "prob": 15 },
+      { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "condom", "prob": 10 },
+      { "item": "labmap", "prob": 20 },
+      { "item": "wallet_photo", "prob": 20 },
+      [ "scorecard", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "wallet_phavian_stylish_full",
+    "//": "copy-from: wallet_stylish_full ",
+    "container-item": "wallet_stylish",
+    "on_overflow": "discard",
+    "items": [
+      { "item": "id_science", "prob": 100 },
+      { "item": "id_science_visitor_phavian", "prob": 100 },
+      { "item": "id_science_visitor_1", "prob": 15 },
+      { "item": "cash_card", "prob": 100, "charges-min": 10000, "charges-max": 50000 },
+      { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
+      { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
+      { "item": "condom", "prob": 10 },
+      { "item": "labmap", "prob": 20 },
+      { "item": "wallet_photo", "prob": 20 },
+      [ "scorecard", 5 ]
+    ]
+  }
+]

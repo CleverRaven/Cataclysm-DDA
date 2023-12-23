@@ -39,7 +39,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
@@ -49,6 +49,10 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="..\msvc-full-features\Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -58,6 +62,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
+    <OutDir>$(ProjectDir)..\</OutDir>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -75,6 +80,21 @@
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">.\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\debug\plugins\platforms;.\vcpkg_installed\$(VcpkgTriplet)\debug\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">.\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\plugins\platforms;.\vcpkg_installed\$(VcpkgTriplet)\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Link Condition="$(_CDDA_USE_LLD_LINK)">
+      <AdditionalDependencies>
+        double-conversion.lib;
+        harfbuzz.lib;
+        pcre2-16$(VcpkgLibSuffix).lib;
+        Qt5Core$(VcpkgLibSuffix).lib;
+        Qt5EventDispatcherSupport$(VcpkgLibSuffix).lib;
+        Qt5FontDatabaseSupport$(VcpkgLibSuffix).lib;
+        Qt5ThemeSupport$(VcpkgLibSuffix).lib;
+        Qt5Widgets$(VcpkgLibSuffix).lib;
+        Qt5WindowsUIAutomationSupport$(VcpkgLibSuffix).lib;
+        zstd.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">

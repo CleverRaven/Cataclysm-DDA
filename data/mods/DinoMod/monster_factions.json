@@ -44,6 +44,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "hadrosaur",
+    "base_faction": "herbivore_dino",
+    "friendly": [ "herbivore_young" ],
+    "hate": [ "fungus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "insectivore_young",
     "base_faction": "small_animal",
     "neutral": [ "small_animal" ],
@@ -195,6 +202,25 @@
     "name": "acrocanthosaurus_hatchling",
     "base_faction": "very_small_predator",
     "friendly": [ "acrocanthosaurus", "acrocanthosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "giganotosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "giganotosaurus_juvenile", "giganotosaurus_hatchling" ],
+    "by_mood": [ "giganotosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "giganotosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "giganotosaurus", "giganotosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "giganotosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "giganotosaurus", "giganotosaurus_juvenile" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -497,15 +523,27 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "tawa",
+    "base_faction": "small_predator",
+    "friendly": [ "tawa", "tawa_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tawa_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "tawa", "tawa_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "coelophysis",
     "base_faction": "small_predator",
-    "friendly": [ "coelophysis_hatchling" ]
+    "friendly": [ "coelophysis", "coelophysis_hatchling" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "coelophysis_hatchling",
     "base_faction": "very_small_predator",
-    "friendly": [ "coelophysis" ]
+    "friendly": [ "coelophysis", "coelophysis_hatchling" ]
   },
   {
     "type": "MONSTER_FACTION",

@@ -1,0 +1,186 @@
+[
+  {
+    "id": "xe_art_clock",
+    "type": "GENERIC",
+    "name": { "str": "intricate and opulent clock" },
+    "description": "An incredibly intricate clock where every visible surface appears to be gilded or chrome.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "1 L",
+    "weight": "1 kg",
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "xe_art_rod",
+    "type": "GENERIC",
+    "name": { "str": "crystalline rod" },
+    "description": "This crystal rod changes hue at random.\nIt may have unknown powers; try activating them.",
+    "symbol": "|",
+    "volume": "235 ml",
+    "weight": "300 g",
+    "longest_side": "75 cm",
+    "to_hit": 1,
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "xe_art_monitor",
+    "type": "GENERIC",
+    "name": { "str": "baroque monitor" },
+    "description": "A strange monitor with a variety of knobs and dials.  When you turn it on, it crackles and then begins tracking things that either aren't there or aren't visible to the naked eye.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "35 ml",
+    "weight": "50 g",
+    "to_hit": -2
+  },
+  {
+    "id": "xe_art_mess",
+    "type": "GENERIC",
+    "name": { "str": "a mess of tubes and wires", "str_pl": "several messes of tubes and wires" },
+    "description": "What is it for?  What could it do?\nIt may have unknown powers; try activating them.",
+    "symbol": "[",
+    "volume": "1 L",
+    "weight": "80 g",
+    "to_hit": -2
+  },
+  {
+    "id": "xe_art_sculpture",
+    "type": "GENERIC",
+    "name": { "str": "abstract sculpture" },
+    "description": "It's a sculpture but you can't identify what it is of.\nIt may have unknown powers; try activating them.",
+    "symbol": "S",
+    "volume": "215 ml",
+    "weight": "300 g",
+    "longest_side": "65 cm",
+    "to_hit": 1,
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "xe_art_disc",
+    "type": "GENERIC",
+    "name": { "str": "humming disc" },
+    "description": "It hums louder when you touch it.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "340 ml",
+    "weight": "575 g",
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "xe_art_instrument",
+    "type": "GENERIC",
+    "name": { "str": "an instrument", "str_pl": "instruments" },
+    "description": "This looks like a musical instrument.  But how would you play it?\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "76 ml",
+    "weight": "125 g",
+    "to_hit": -2
+  },
+  {
+    "id": "xe_art_napkin",
+    "type": "GENERIC",
+    "name": { "str": "very thin sheet" },
+    "description": "A sheet so light and thin that viewing it horizontally makes it almost invisible.\nIt may have unknown powers; try activating them.",
+    "symbol": "[",
+    "volume": "2 ml",
+    "weight": "1 g",
+    "to_hit": -3
+  },
+  {
+    "id": "xe_art_urchin",
+    "type": "GENERIC",
+    "name": { "str": "spiked sphere" },
+    "description": "A prickly ball that, no matter the force you apply, somehow never feels as if it could cut.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "1 L",
+    "weight": "800 g",
+    "to_hit": -2,
+    "melee_damage": { "cut": 3 }
+  },
+  {
+    "id": "xe_art_jelly",
+    "type": "GENERIC",
+    "name": { "str": "malleable blob" },
+    "description": "Despite its looseness, this mass of goo keeps its shape as you fold it in your hands.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "1 L",
+    "weight": "800 g",
+    "to_hit": -1
+  },
+  {
+    "id": "xe_art_spiral",
+    "type": "GENERIC",
+    "name": { "str": "spiraling rod" },
+    "description": "A rod with a bulbous, spiralling knob on the end that seems to spin as you look.\nIt may have unknown powers; try activating them.",
+    "symbol": "@",
+    "volume": "3400 ml",
+    "weight": "300 g",
+    "longest_side": "30 cm",
+    "to_hit": -4,
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "xe_art_pin",
+    "type": "GENERIC",
+    "name": { "str": "small pin" },
+    "description": "One of those pins you wear on your shirt, but this one has indecipherable symbols in place of a witty slogan.\nIt may have unknown powers; try activating them.",
+    "symbol": "|",
+    "volume": "1 ml",
+    "weight": "50 mg",
+    "longest_side": "2 cm",
+    "to_hit": -5,
+    "melee_damage": { "cut": 1 }
+  },
+  {
+    "id": "xe_art_tube",
+    "type": "GENERIC",
+    "name": { "str": "hollow tube" },
+    "description": "A tube of unknown material.  A strange noise from nowhere can be heard when you place it next to your ear, as if something's inside.\nIt may have unknown powers; try activating them.",
+    "symbol": "|",
+    "volume": "188 ml",
+    "weight": "50 mg",
+    "longest_side": "15 cm",
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "xe_art_pyramid",
+    "type": "GENERIC",
+    "name": { "str": "regular tetrahedron" },
+    "description": "A triangular pyramid, inconspicuous in every way.\nIt may have unknown powers; try activating them.",
+    "symbol": "A",
+    "volume": "1 L",
+    "weight": "1 kg",
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "xe_art_crystal",
+    "type": "GENERIC",
+    "name": { "str": "translucent crystal" },
+    "description": "A beautiful crystal, which seems to suck in detail rather than merely obscuring it as light passes through.\nIt may have unknown powers; try activating them.",
+    "symbol": "A",
+    "volume": "500 ml",
+    "weight": "400 g",
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "xe_art_knot",
+    "type": "GENERIC",
+    "name": { "str": "twisted, knotted cord" },
+    "description": "A bit of spiralling rope, disorienting you as your eyes vainly try to complete following the loop.\nIt may have unknown powers; try activating them.",
+    "symbol": "b",
+    "volume": "400 ml",
+    "weight": "400 g",
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "xe_art_crescent",
+    "type": "GENERIC",
+    "name": { "str": "crescent-shaped stone" },
+    "description": "The sound of the tide can be heard from this stone, as if it were a miniature moon moving the oceans.\nIt may have unknown powers; try activating them.",
+    "symbol": "C",
+    "volume": "35 ml",
+    "weight": "50 g",
+    "to_hit": -2
+  }
+]

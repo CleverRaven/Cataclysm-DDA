@@ -18,6 +18,7 @@
 enum class widget_var : int {
     focus,          // Current focus, integer
     move,           // Current move counter, integer
+    move_remainder, // Current remaining moves, integer
     move_cost,      // Modified base movement cost, integer (from run_cost)
     pain,           // Current perceived pain, integer
     sound,          // Current sound level, integer
@@ -27,6 +28,8 @@ enum class widget_var : int {
     health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
     max_mana,       // Current maximum mana, integer
+    power_percentage, // Bionic power, relative to capacity
+    log_power_balance, // Logarithm of bionic power balance
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
     weary_transition_level, // Current weariness level, integer
@@ -48,6 +51,7 @@ enum class widget_var : int {
     body_graph_temp,     // Body graph showing color-coded body part temperature
     body_graph_encumb,     // Body graph showing color-coded body part encumbrance
     body_graph_status,     // Body graph showing color-coded body part status (bite, bleeding, ...)
+    body_graph_wet,        // Body graph showing color-coded body part wetness
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
     carry_weight_text,   // Weight carried, relative to capacity, in %
     compass_text,   // Compass / visible threats by cardinal direction
@@ -61,6 +65,7 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
+    power_balance_text, // Power balance during the last turn
     safe_mode_text, // Safe mode text, color string
     safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
@@ -74,6 +79,9 @@ enum class widget_var : int {
     weary_malus_text, // Weariness malus or penalty
     weather_text,   // Weather/sky conditions (if visible), color string
     wielding_text,  // Currently wielded weapon or item name
+    wielding_simple_text,  // Currently wielded weapon or item name, without mode and ammo
+    wielding_mode_text,  // Currently wielded weapon's firing mode
+    wielding_ammo_text,  // Currently wielded weapon's ammo
     wind_text,      // Wind level and direction, color string
     last // END OF ENUMS
 };
@@ -158,7 +166,7 @@ struct widget_clause {
 
         // Condition for using this clause
         bool has_condition = false;
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;
 
@@ -237,6 +245,8 @@ class widget
         bool explicit_separator;
         // True if this widget has an explicitly defined padding. False if it is inherited.
         bool explicit_padding;
+        // Pad labels to match label length of child or sibling widgets
+        bool _pad_labels;
 
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
@@ -279,7 +289,7 @@ class widget
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         // Finalize anything that must wait until all widgets are loaded
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget
@@ -306,7 +316,7 @@ class widget
         // Return a colorized string for a _var associated with a description function
         std::string color_text_function_string( const avatar &ava, unsigned int max_width );
         // Return true if the current _var is one which uses a description function
-        bool uses_text_function();
+        bool uses_text_function() const;
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;

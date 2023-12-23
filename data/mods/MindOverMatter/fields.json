@@ -1,0 +1,189 @@
+[
+  {
+    "id": "fd_pyrokinetic_summon_heat_1",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 2 },
+      { "color": "yellow", "convection_temperature_mod": 3 },
+      { "color": "red", "convection_temperature_mod": 6 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_summon_heat_2",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 4 },
+      { "color": "yellow", "convection_temperature_mod": 8 },
+      { "color": "red", "convection_temperature_mod": 16 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_summon_heat_3",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 10 },
+      { "color": "yellow", "convection_temperature_mod": 20 },
+      { "color": "red", "convection_temperature_mod": 40 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_summon_heat_4",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 16 },
+      { "color": "yellow", "convection_temperature_mod": 38 },
+      { "color": "red", "convection_temperature_mod": 75 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_heat",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "overheated air", "sym": "&", "convection_temperature_mod": 12 },
+      { "color": "yellow", "convection_temperature_mod": 22 },
+      { "color": "red", "convection_temperature_mod": 45 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_warmth",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 7 },
+      { "color": "yellow", "convection_temperature_mod": 13 },
+      { "color": "red", "convection_temperature_mod": 26 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "2 minutes",
+    "priority": -1,
+    "half_life": "1 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_cold_air_nether_deep",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "chill air", "sym": "&", "convection_temperature_mod": -12 },
+      { "color": "blue", "convection_temperature_mod": -28 },
+      { "color": "cyan", "convection_temperature_mod": -40 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "100 minutes",
+    "priority": -1,
+    "half_life": "50 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_cold_air_nether_chill",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "chill air", "sym": "&", "convection_temperature_mod": -12 },
+      { "color": "blue", "convection_temperature_mod": -28 },
+      { "color": "cyan", "convection_temperature_mod": -40 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "priority": -1,
+    "half_life": "50 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_nullifying_field",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "droning hum",
+        "effects": [
+          {
+            "effect_id": "effect_psi_null",
+            "intensity": 10,
+            "min_duration": "100 seconds",
+            "max_duration": "350 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 5,
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_photokin_light_1",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "*", "color": "yellow", "light_emitted": 30 },
+      { "name": "glow", "color": "yellow", "light_emitted": 60 },
+      { "name": "shine", "color": "yellow", "light_emitted": 90 }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "5 minutes",
+    "phase": "plasma",
+    "display_field": true
+  },
+  {
+    "id": "fd_photokin_light_2",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "*", "color": "yellow", "light_emitted": 50 },
+      { "name": "glow", "color": "yellow", "light_emitted": 100 },
+      { "name": "shine", "color": "yellow", "light_emitted": 150 }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "15 minutes",
+    "phase": "plasma",
+    "display_field": true
+  },
+  {
+    "id": "fd_photokin_light_3",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glimmer", "sym": "*", "color": "yellow", "light_emitted": 80 },
+      { "name": "glow", "color": "yellow", "light_emitted": 160 },
+      { "name": "shine", "color": "yellow", "light_emitted": 240 }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "30 minutes",
+    "phase": "plasma",
+    "display_field": true
+  }
+]

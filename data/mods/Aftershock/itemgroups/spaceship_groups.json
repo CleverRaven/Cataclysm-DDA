@@ -11,7 +11,7 @@
       { "item": "flint_steel" },
       { "item": "whistle_multitool" },
       { "item": "water_clean", "container-item": "bottle_twoliter", "count": 3 },
-      { "item": "afs_escapepod_ration", "count": 3 },
+      { "count": 3, "group": "afs_escapepod_ration_bag_plastic_4" },
       { "item": "cream_prot_cold", "count": 3 },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "water_purifier" },
@@ -23,5 +23,13 @@
       { "item": "afs_7.50mm_rp", "charges": 18 },
       { "item": "afs_landfall_kit_2_instructions" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_escapepod_ration_bag_plastic_4",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "afs_escapepod_ration", "container-item": "null", "count": 4 } ]
   }
 ]

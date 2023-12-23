@@ -1,0 +1,70 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_BEM_DRUGRUNNER",
+    "name": { "str": "Mercenary" },
+    "job_description": "Drug running for the name of Hub 01 and money, mostly money.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 2, 1 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "worn_override": "BEM_DRUGRUNNER_worn",
+    "carry_override": "BEM_DRUGRUNNER_stock",
+    "weapon_override": "NC_ANCILLA_GRUNT_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "shopkeeper_price_rules": [ { "group": "BEM_DRUGRUNNER_STOCK", "markup": 4.5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_DRUGRUNNER_worn",
+    "subtype": "collection",
+    "items": [
+      { "group": "military_ballistic_vest_pristine" },
+      { "group": "NC_BOUNTY_HUNTER_pants" },
+      { "item": "pants_army" },
+      { "group": "NC_BOUNTY_HUNTER_coat" },
+      { "item": "boots_combat" },
+      { "item": "molle_pack" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "holster" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_DRUGRUNNER_stock",
+    "subtype": "collection",
+    "entries": [
+      { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
+      { "prob": 30, "group": "coke_bag_zipper_1_8" },
+      { "prob": 30, "group": "pure_meth_bag_zipper_1_6" },
+      { "prob": 100, "group": "heroin_bag_zipper_1_4" },
+      { "prob": 100, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
+      { "group": "harddrugs", "prob": 100, "count": [ 6, 12 ] }
+    ]
+  },
+  {
+    "id": [ "BEM_DRUGRUNNER_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&This visitor seems way more watchful than normal.  You notice zip bags peeking out from <mypossesivepronoun> overcoat, they are clearly pushing something.  It doesn't take much longer for them to notice you in kind.\n\"You want something?  Or just gawking?\"",
+    "responses": [
+      { "text": "Sure, let see what you offer.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "Not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pure_meth_bag_zipper_1_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "pure_meth", "container-item": "null", "count": [ 1, 6 ] } ]
+  }
+]

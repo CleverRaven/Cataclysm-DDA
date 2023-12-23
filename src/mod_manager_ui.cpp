@@ -40,7 +40,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->dependencies.empty() ) {
         const auto &deps = mod->dependencies;
-        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
+        std::string str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
             if( e.is_valid() ) {
                 return string_format( "[%s]", e->name() );
             } else {
@@ -177,7 +177,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     int selshift = 0;
 
     // shift up (towards 0)
-    if( direction == '+' && can_shift_up( selection, active_list ) ) {
+    if( direction == '-' && can_shift_up( selection, active_list ) ) {
         // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
         newsel = selection - 1;
         oldsel = selection;
@@ -185,7 +185,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         selshift = -1;
     }
     // shift down (towards active_list.size()-1)
-    else if( direction == '-' && can_shift_down( selection, active_list ) ) {
+    else if( direction == '+' && can_shift_down( selection, active_list ) ) {
         newsel = selection;
         oldsel = selection + 1;
 

@@ -23,7 +23,8 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_DISTORTED_MICROLAB", "chance": 80, "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -43,7 +44,8 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_DISTORTED_MICROLAB", "chance": 80, "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -62,7 +64,8 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_DISTORTED_MICROLAB", "chance": 80, "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -81,7 +84,8 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_DISTORTED_MICROLAB", "chance": 80, "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
     }
   },
   {
@@ -100,7 +104,8 @@
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_DISTORTED_MICROLAB", "chance": 80, "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
     }
   }
 ]

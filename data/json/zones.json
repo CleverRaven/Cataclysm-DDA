@@ -1,19 +1,25 @@
 [
   {
-    "id": "zone_disassemble",
+    "id": "DISASSEMBLE",
     "type": "LOOT_ZONE",
     "name": "Disassembly Work",
     "description": "Items in this zone are marked for disassembly"
   },
   {
-    "id": "zone_strip",
+    "id": "STRIP_CORPSES",
     "type": "LOOT_ZONE",
     "name": "Loot: Strip Corpses",
     "can_be_personal": true,
     "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
   },
   {
-    "id": "zone_unload_all",
+    "id": "ZONE_START_POINT",
+    "type": "LOOT_ZONE",
+    "name": "Start Point",
+    "description": "A prioritized spawn point."
+  },
+  {
+    "id": "UNLOAD_ALL",
     "type": "LOOT_ZONE",
     "name": "Loot: Unload Everything",
     "can_be_personal": true,

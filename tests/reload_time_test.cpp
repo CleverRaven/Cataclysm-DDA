@@ -10,8 +10,8 @@
 
 #include <string>
 
-static void check_reload_time( std::string weapon, std::string ammo,
-                               std::string container, int expected_moves )
+static void check_reload_time( const std::string &weapon, const std::string &ammo,
+                               const std::string &container, int expected_moves )
 {
     const tripoint test_origin( 60, 60, 0 );
     avatar &shooter = get_avatar();
@@ -86,13 +86,13 @@ TEST_CASE( "reload_from_inventory_times", "[reload],[inventory],[balance]" )
     }
     SECTION( "reloading a bow" ) {
         SECTION( "from a duffel bag" ) {
-            check_reload_time( "longbow", "arrow_wood", "long_duffelbag", 350 );
+            check_reload_time( "longbow", "arrow_wood", "long_duffelbag", 360 );
         }
         SECTION( "from a quiver" ) {
-            check_reload_time( "longbow", "arrow_wood", "quiver", 70 );
+            check_reload_time( "longbow", "arrow_wood", "quiver", 80 );
         }
         SECTION( "from the ground" ) {
-            check_reload_time( "longbow", "arrow_wood", "", 130 );
+            check_reload_time( "longbow", "arrow_wood", "", 140 );
         }
     }
 }

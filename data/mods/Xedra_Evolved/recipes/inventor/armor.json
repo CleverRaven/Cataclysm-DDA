@@ -1,0 +1,282 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "helmet_inventor",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_elec_circuits", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [
+      [
+        [ "headgear", 1 ],
+        [ "helmet_army", 1 ],
+        [ "tac_fullhelmet", 1 ],
+        [ "tac_helmet", 1 ],
+        [ "firehelmet", 1 ],
+        [ "helmet_ball", 1 ],
+        [ "helmet_football", 1 ]
+      ],
+      [ [ "magnetron", 1 ] ],
+      [ [ "copper_wire", 5 ] ],
+      [ [ "power_supply", 1 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 4 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "inventor_backpack",
+    "using": [ [ "welding_standard", 60 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "tools": [ [ [ "vac_pump", 300 ] ] ],
+    "components": [ [ [ "molle_medium_rucksack", 1 ], [ "molle_large_rucksack", 1 ] ], [ [ "scrap_aluminum", 30 ] ] ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 5 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "inventor_leg_weight",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 60 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [
+      [ [ "pipe", 12 ] ],
+      [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "seatbelt", 1 ] ],
+      [ [ "magnetron", 2 ] ],
+      [ [ "power_supply", 4 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "electronics", 4 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "inventor_jump_boots",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [
+      [ [ "boots_combat", 1 ], [ "boots_hiking", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "spring_plate", 2 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "power_supply", 4 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aura_force",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [
+      [ [ "scrap_aluminum", 35 ] ],
+      [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "seatbelt", 1 ] ],
+      [ [ "fuse", 4 ] ],
+      [ [ "cable", 150 ] ],
+      [ [ "e_scrap", 1 ] ],
+      [ [ "antenna", 3 ] ],
+      [ [ "power_supply", 1 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 7,
+    "skills_required": [ "electronics", 7 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "vision_halo",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_elec_circuits", "time_multiplier": 2, "skill_penalty": -100 },
+      { "proficiency": "prof_elec_semiconductors", "time_multiplier": 2, "skill_penalty": -100 },
+      { "proficiency": "prof_elec_integrated_circuits", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [
+      [ [ "scrap_aluminum", 30 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "camera_pro", 3 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 8,
+    "skills_required": [ "electronics", 7 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "inventor_fists",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 220 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [ [ [ "pipe", 7 ] ], [ [ "scrap_aluminum", 100 ] ], [ [ "scrap", 20 ] ], [ [ "sheet_metal_small", 10 ] ] ],
+    "time": "15 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "inventor_fists_plus",
+    "using": [ [ "welding_standard", 80 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [ [ [ "inventor_fists", 1 ] ], [ [ "compressor", 1 ] ], [ [ "scrap", 22 ] ], [ [ "sheet_metal_small", 9 ] ] ],
+    "time": "5 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "inventor_electric_fist",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [ [ [ "cable", 10 ] ], [ [ "scrap_aluminum", 50 ] ], [ [ "e_scrap", 2 ] ], [ [ "power_supply", 4 ] ] ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wolf_mask",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [ [ [ "cable", 10 ] ], [ [ "scrap_aluminum", 10 ] ], [ [ "e_scrap", 5 ] ], [ [ "power_supply", 4 ] ] ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "magnetic_holster",
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 },
+      { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "components": [
+      [ [ "cable", 120 ] ],
+      [ [ "scrap_aluminum", 20 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "magnetron", 1 ] ],
+      [ [ "inventor_light_cell", 1 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  }
+]

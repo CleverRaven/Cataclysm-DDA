@@ -62,7 +62,17 @@
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+          "name": "Living Shadow",
+          "description": "You are wearing equipment that gives 1 bonus dodge."
+        }
+      ]
+    },
     "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -70,7 +80,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "IX-2110 computer" },
-    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers and colonists that first tamed the stars during the early Hyperspace Era.  By now more than 400 years old, making it boot successfully would be a small adventure all of its own.",
+    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  By now more than 400 years old, making it boot successfully would be a small adventure all of its own.",
     "weight": "315 g",
     "volume": "1200 ml",
     "price": "20 USD",
@@ -98,7 +108,6 @@
   },
   {
     "id": "xl_technician_pants_gray",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
     "description": "A pair of gray work pants.",
@@ -116,7 +125,6 @@
   },
   {
     "id": "xl_technician_shirt_gray",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "XL work t-shirt" },
     "description": "A gray XL work t-shirt with a small front pocket.",
@@ -138,7 +146,6 @@
     "weight": "7500 g",
     "volume": "5 L",
     "price": 1500000,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -146,7 +153,8 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
-    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "q_solarpack_on",
@@ -157,7 +165,6 @@
     "weight": "7500 g",
     "volume": "15 L",
     "price": 1500000,
-    "bashing": 4,
     "to_hit": -2,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -166,11 +173,11 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
-    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xlswat_armor",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Uplifted SWAT armor" },
@@ -180,7 +187,6 @@
     "price": 585000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -194,7 +200,8 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
-    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xlballistic_vest_empty",
@@ -233,7 +240,6 @@
   },
   {
     "id": "xlboots_combat",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL combat boots", "str_pl": "pairs of XL combat boots" },
@@ -243,7 +249,6 @@
     "price": 7000,
     "price_postapoc": 14000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -252,11 +257,11 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL tactical gloves", "str_pl": "pairs of XL tactical gloves" },
@@ -276,7 +281,6 @@
   },
   {
     "id": "tripaw_xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
@@ -316,7 +320,6 @@
   },
   {
     "id": "xltac_fullhelmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL tactical full helmet" },
@@ -335,90 +338,6 @@
     "volume": "250 ml",
     "copy-from": "legpouch_large",
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
-  },
-  {
-    "id": "spacer_jumpsuit",
-    "repairs_like": "jumpsuit",
-    "type": "ARMOR",
-    "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
-    "name": { "str": "crew jumpsuit" },
-    "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
-    "color": "brown"
-  },
-  {
-    "id": "spacer_cap",
-    "repairs_like": "hat_cotton",
-    "type": "ARMOR",
-    "copy-from": "hat_cotton",
-    "material": [ "plastic", "cotton" ],
-    "looks_like": "powered_earmuffs",
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
-    "name": { "str": "communications cap" },
-    "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 33, "encumbrance": 0 },
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
-    ],
-    "color": "brown"
-  },
-  {
-    "id": "afs_herc_rig",
-    "type": "ARMOR",
-    "name": { "str": "HERC rig" },
-    "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
-    "weight": "600 g",
-    "volume": "10 L",
-    "looks_like": "tacvest",
-    "price": 7400,
-    "price_postapoc": 5000,
-    "material": [ "steel", "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "material_thickness": 2,
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "pocket_data": [
-      {
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "90 cm",
-        "moves": 40,
-        "flag_restriction": [ "BELT_CLIP" ],
-        "rigid": true,
-        "holster": true
-      },
-      {
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "90 cm",
-        "moves": 40,
-        "flag_restriction": [ "BELT_CLIP" ],
-        "rigid": true,
-        "holster": true
-      },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "5 kg", "moves": 150 },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
-        "moves": 60
-      }
-    ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "wetsuit_cecalia",
@@ -473,7 +392,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       {
         "pocket_type": "CONTAINER",
@@ -496,34 +416,111 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
+    ]
   },
   {
     "id": "nanomesh_vest",
-    "repairs_like": "chainmail_vest",
     "type": "ARMOR",
-    "copy-from": "chainmail_vest",
-    "looks_like": "chainmail_vest",
-    "material": [ "nanoprinted_alloy" ],
+    "category": "armor",
     "name": { "str": "nanomesh vest" },
     "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers.",
-    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "torso" ] } ],
-    "price": 40000,
-    "price_postapoc": 40000,
-    "color": "brown"
+    "weight": "6953 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "nanoprinted_alloy" ],
+    "symbol": "[",
+    "looks_like": "mt_chainmail_vest",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
+  },
+  {
+    "id": "xl_nanomesh_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL nanomesh_vest" },
+    "copy-from": "nanomesh_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "carbide_cuirass",
-    "repairs_like": "cuirass_lightplate",
     "type": "ARMOR",
-    "copy-from": "cuirass_lightplate",
+    "category": "armor",
     "looks_like": "cuirass_lightplate",
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
-    "material": [ "vacuum_carbide" ],
-    "armor": [ { "encumbrance": 23, "coverage": 95, "covers": [ "torso" ] } ],
+    "weight": "4200 g",
+    "volume": "6 L",
     "price": 300000,
     "price_postapoc": 300000,
-    "color": "brown"
+    "to_hit": -1,
+    "material": [ "vacuum_carbide" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_carbide_cuirass",
+    "type": "ARMOR",
+    "name": { "str": "XL vacuum cast cuirass", "str_pl": "XL vacuum cast cuirasses" },
+    "copy-from": "carbide_cuirass",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_carbide_cuirass",
+    "type": "ARMOR",
+    "copy-from": "carbide_cuirass",
+    "looks_like": "carbide_cuirass",
+    "material_thickness": 3,
+    "name": { "str": "XS vacuum cast cuirass", "str_pl": "XS vacuum cast cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

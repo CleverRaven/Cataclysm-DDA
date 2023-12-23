@@ -1,0 +1,122 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "int_to_level",
+    "num_args": 1,
+    "return": "(u_val('intelligence') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "scaling_factor",
+    "num_args": 1,
+    "return": "( ( _0 + 10) / 20 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "maintenance_exp_factor",
+    "num_args": 1,
+    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "nether_attune_difficulty_scaler",
+    "num_args": 1,
+    "return": "_0 * _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionics_kcal_cost",
+    "num_args": 1,
+    "return": "( (5 * _0) * rng( 0.3, 1.7) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionics_contemplation_kcal_cost",
+    "num_args": 1,
+    "return": "( (25 * _0) * rng( 0.3, 1.7) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "matrix_awakening_odds",
+    "num_args": 1,
+    "return": "(100 - (100 * (e ^ (_0 / -1.7) ) ) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "portal_storm_awakening_odds",
+    "num_args": 1,
+    "return": "(100 - (100 * (e ^ (_0 / -3) ) ) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "concentration_trait_bonuses",
+    "num_args": 0,
+    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master')) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "contemplation_factor",
+    "num_args": 1,
+    "return": "(u_val('focus') * 5.8) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_one_contemplation",
+    "num_args": 1,
+    "return": "_0 * 49417"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_two_contemplation",
+    "num_args": 1,
+    "return": "_0 * 49417"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_three_contemplation",
+    "num_args": 1,
+    "return": "_0 * 49417"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_four_contemplation",
+    "num_args": 1,
+    "return": "_0 * 35278"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_five_contemplation",
+    "num_args": 1,
+    "return": "_0 * 35278"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_six_contemplation",
+    "num_args": 1,
+    "return": "_0 * 20513"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_seven_contemplation",
+    "num_args": 1,
+    "return": "_0 * 20513"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_eight_contemplation",
+    "num_args": 1,
+    "return": "_0 * 13722"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_nine_contemplation",
+    "num_args": 1,
+    "return": "_0 * 13722"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_ten_contemplation",
+    "num_args": 1,
+    "return": "_0 * 13722"
+  }
+]

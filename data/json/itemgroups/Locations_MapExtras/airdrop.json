@@ -1,0 +1,131 @@
+[
+  {
+    "id": "airdrop_humanitarian_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "protein_bar_wrapped_box", "prob": 100, "count": [ 3, 8 ] },
+      {
+        "distribution": [ { "group": "bottle_pur_tablets" }, { "group": "twoliter_water_batch", "count": [ 3, 8 ] } ]
+      },
+      { "group": "disinfectant_bottle", "prob": 25 },
+      { "group": "toilet_paper_packed", "count": [ 3, 4 ], "prob": 50 },
+      { "group": "soap_packed", "count": [ 1, 4 ], "prob": 50 },
+      { "group": "toothbrush_packed", "prob": 25 },
+      { "group": "airdrop_tent", "prob": 25 },
+      { "group": "emer_blanket_box", "prob": 50 },
+      { "group": "bandages_box", "prob": 25 },
+      { "item": "cardboard", "count": [ 1200, 1700 ] }
+    ]
+  },
+  {
+    "id": "airdrop_humanitarian_looted",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "protein_bar_evac", "prob": 60, "count": [ 2, 100 ] },
+      { "item": "toilet_paper", "count": [ 0, 10 ], "prob": 50 },
+      { "group": "soap_packed", "count": [ 0, 1 ], "prob": 50 },
+      { "item": "large_tent_kit", "count": [ 0, 3 ], "prob": 50 },
+      { "item": "emer_blanket", "count": [ 0, 7 ], "prob": 75 },
+      { "item": "cardboard", "count": [ 1200, 1700 ] }
+    ]
+  },
+  {
+    "id": "protein_bar_wrapped_box",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_medium",
+    "entries": [ { "item": "protein_bar_evac", "count": 100 } ]
+  },
+  {
+    "id": "bottle_pur_tablets",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "count": 8, "group": "pur_tablets_bottle_plastic_small_15" } ]
+  },
+  {
+    "id": "twoliter_water_batch",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "shrink_wrap",
+    "entries": [ { "item": "water_clean", "container-item": "bottle_twoliter", "charges": 8, "count": 6 } ]
+  },
+  {
+    "id": "disinfectant_bottle",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "disinfectant", "charges": 10, "container-item": "bottle_plastic_small", "count": 8 } ]
+  },
+  {
+    "id": "toilet_paper_packed",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "toilet_paper", "container-item": "bag_plastic", "count": 24 } ]
+  },
+  {
+    "id": "soap_packed",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "soap", "count": 5 } ]
+  },
+  {
+    "id": "toothbrush_packed",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "toothbrush_plain", "count": 10 }, { "item": "plastic_chunk", "count": 10 } ]
+  },
+  {
+    "id": "airdrop_tent",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_large",
+    "entries": [ { "item": "large_tent_kit", "count": 15 }, { "item": "cardboard", "count": 504 } ]
+  },
+  {
+    "id": "emer_blanket_box",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_medium",
+    "entries": [ { "item": "emer_blanket", "count": 40 } ]
+  },
+  {
+    "id": "bandages_box",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_medium",
+    "entries": [ { "item": "bandages", "count": [ 250, 270 ] } ]
+  },
+  {
+    "id": "airdrop_generator",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "This is a small diesel generator, outputting ~1.3kW. It is not military spec, but it is the only generator we have. Should be replaced with milspec 5kW generator item in the future",
+    "//2": "yes, they should be 50-75% full, according to FM 10-535.",
+    "entries": [
+      { "item": "jp8", "charges": [ 10000, 15000 ], "container-item": "active_backup_generator" },
+      { "item": "standing_directed_floodlight" },
+      { "item": "jp8", "charges": [ 19000, 20000 ], "container-item": "jerrycan_big", "count": 5 },
+      { "item": "cardboard", "count": [ 1200, 1700 ] }
+    ]
+  },
+  {
+    "id": "airdrop_trash",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_medium",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "paper", "count": [ 5, 15 ], "custom-flags": [ "FILTHY" ] },
+      { "item": "cardboard", "count": [ 100, 210 ] },
+      { "item": "shrink_wrap", "count": [ 2, 8 ] },
+      { "item": "bottle_twoliter", "count": [ 3, 11 ] },
+      { "item": "plastic_chunk", "count": [ 10, 30 ] },
+      { "item": "bottle_plastic_small", "count": [ 0, 4 ], "prob": 50 }
+    ]
+  }
+]

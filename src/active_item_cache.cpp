@@ -6,44 +6,59 @@
 #include "item.h"
 #include "safe_reference.h"
 
-void active_item_cache::remove( const item *it )
+float item_reference::spoil_multiplier()
 {
-    active_items[it->processing_speed()].remove_if( [it]( const item_reference & active_item ) {
-        item *const target = active_item.item_ref.get();
-        return !target || target == it;
+    return std::accumulate(
+               pocket_chain.begin(), pocket_chain.end(), 1.0F,
+    []( float a, item_pocket const * pk ) {
+        return a * pk->spoil_multiplier();
     } );
-    if( it->can_revive() ) {
-        special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
-            item *const target = active_item.item_ref.get();
-            return !target || target == it;
-        } );
-    }
-    if( it->get_use( "explosion" ) ) {
-        special_items[ special_item_type::explosive ].remove_if( [it]( const item_reference &
-        active_item ) {
-            item *const target = active_item.item_ref.get();
-            return !target || target == it;
-        } );
-    }
 }
 
-void active_item_cache::add( item &it, point location )
+bool active_item_cache::add( item &it, point location, item *parent,
+                             std::vector<item_pocket const *> const &pocket_chain )
 {
-    // If the item is already in the cache for some reason, don't add a second reference
-    std::list<item_reference> &target_list = active_items[it.processing_speed()];
-    if( std::find_if( target_list.begin(),
-    target_list.end(), [&it]( const item_reference & active_item_ref ) {
-    return &it == active_item_ref.item_ref.get();
-    } ) != target_list.end() ) {
-        return;
+    std::vector<item_pocket const *> pockets = pocket_chain;
+    bool ret = false;
+    for( item_pocket *pk : it.get_all_standard_pockets() ) {
+        pockets.emplace_back( pk );
+        for( item *pkit : pk->all_items_top() ) {
+            ret |= add( *pkit, location, &it, pockets );
+        }
     }
+    int speed = it.processing_speed();
+    if( speed == item::NO_PROCESSING ) {
+        return ret;
+    }
+    std::unordered_map<item *, safe_reference<item>> &target_index = active_items_index[speed];
+    std::list<item_reference> &target_list = active_items[speed];
+    if( target_index.empty() && !target_index.empty() ) {
+        // If the index has been cleared, rebuild it first.
+        for( item_reference &iter : target_list ) {
+            // Omit those expired references
+            if( iter.item_ref ) {
+                target_index.emplace( iter.item_ref.get(), iter.item_ref );
+            }
+        }
+    }
+    // If the item is already in the cache for some reason, don't add a second reference
+    auto iter = target_index.find( &it );
+    if( iter != target_index.end() ) {
+        // Ensure it's really what we want, and hasn't expired
+        if( iter->second && iter->second.get() == &it ) {
+            return true;
+        }
+    }
+    item_reference ref{ location, it.get_safe_reference(), parent, pocket_chain };
     if( it.can_revive() ) {
-        special_items[ special_item_type::corpse ].push_back( item_reference{ location, it.get_safe_reference() } );
+        special_items[special_item_type::corpse].emplace_back( ref );
     }
     if( it.get_use( "explosion" ) ) {
-        special_items[ special_item_type::explosive ].push_back( item_reference{ location, it.get_safe_reference() } );
+        special_items[special_item_type::explosive].emplace_back( ref );
     }
-    target_list.push_back( item_reference{ location, it.get_safe_reference() } );
+    target_list.emplace_back( std::move( ref ) );
+    target_index.emplace( &it, it.get_safe_reference() );
+    return true;
 }
 
 bool active_item_cache::empty() const
@@ -62,6 +77,7 @@ std::vector<item_reference> active_item_cache::get()
                 all_cached_items.emplace_back( *it );
                 ++it;
             } else {
+                active_items_index[kv.first].clear();
                 it = kv.second.erase( it );
             }
         }
@@ -87,6 +103,7 @@ std::vector<item_reference> active_item_cache::get_for_processing()
                 ++it;
             } else {
                 // The item has been destroyed, so remove the reference from the cache
+                active_items_index[kv.first].clear();
                 it = kv.second.erase( it );
             }
         }
@@ -100,8 +117,14 @@ std::vector<item_reference> active_item_cache::get_for_processing()
 std::vector<item_reference> active_item_cache::get_special( special_item_type type )
 {
     std::vector<item_reference> matching_items;
-    for( const item_reference &it : special_items[type] ) {
-        matching_items.push_back( it );
+    std::list<item_reference> &items = special_items[type];
+    for( auto it = items.begin(); it != items.end(); ) {
+        if( it->item_ref ) {
+            matching_items.push_back( *it );
+            ++it;
+        } else {
+            it = items.erase( it );
+        }
     }
     return matching_items;
 }

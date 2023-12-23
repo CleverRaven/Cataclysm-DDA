@@ -1,0 +1,218 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_pyrokin3", "mon_feral_human_pyrokin2", "mon_civilian_pyrokinetic" ],
+    "sound": "the crackle of flames.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_pyrokin3", "mon_feral_human_pyrokin2" ],
+    "sound": "\"Must… burn…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_teep2" ],
+    "sound": "a low droning hum inside your head.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_teep2" ],
+    "sound": "a tuneless whistling inside your head.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_teep2", "mon_civilian_telepath" ],
+    "sound": "an inarticulate cry inside your head.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_teep2" ],
+    "sound": "quiet laughter inside your head.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_bio3", "mon_feral_security_captain_psychic" ],
+    "sound": "\"Kill…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_clair2", "mon_feral_human_clair3" ],
+    "sound": "\"I… see…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_clair3" ],
+    "sound": "\"You… see…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_clair3" ],
+    "sound": "\"Can you see?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"I told you they were coming.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"You didn't listen!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"Just like the dreams.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"This is the end.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"I knew it.  I knew it.  I knew it.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"Doom.  DOOM!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"You didn't listen!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_pyrokinetic" ],
+    "sound": "\"Burn them all!  Burn them to ash!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_telepath" ],
+    "sound": "a voice inside your head mutter, \"No no no no.\".",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_telepath" ],
+    "sound": "a voice inside your head whisper, \"No escape…\".",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_telepath" ],
+    "sound": "a voice inside your head say, \"Why?  Why?  Why?\".",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_porter3" ],
+    "sound": "\"Lost between…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_porter3", "mon_civilian_teleporter" ],
+    "sound": "\"So… cold…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_human_porter3", "mon_civilian_teleporter" ],
+    "sound": "\"So… dark…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"I have to live!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"Have to escape.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"Must survive.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"I need a way out!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_psychic" ],
+    "sound": "quiet laughter.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_psychic" ],
+    "sound": "\"Yes…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_psychic" ],
+    "sound": "\"A test subject…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_psychic" ],
+    "sound": "\"Ah, yes…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_security_captain_psychic", "mon_feral_security_psychic" ],
+    "sound": "\"Stop!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_security_captain_psychic", "mon_feral_security_psychic" ],
+    "sound": "\"This is a restricted area!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_security_captain_psychic", "mon_feral_security_psychic" ],
+    "sound": "\"Authorized personnel only!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_security_captain_psychic", "mon_feral_security_psychic" ],
+    "sound": "\"Leave!\"",
+    "volume": 15
+  }
+]

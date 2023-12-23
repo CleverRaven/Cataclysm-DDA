@@ -1,13 +1,35 @@
 [
   {
+    "type": "npc_class",
+    "id": "NC_FM_DOCTOR",
+    "name": { "str": "Doctor" },
+    "job_description": "I'm looking for wounded to help.",
+    "traits": [
+      { "group": "BG_survival_story_MEDICAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_DOCTOR_misc",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -1, -3 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } }
+    ]
+  },
+  {
     "type": "npc",
     "id": "science_rep",
     "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
     "name_suffix": "Doctor",
-    "class": "NC_DOCTOR",
+    "class": "NC_FM_DOCTOR",
     "attitude": 0,
     "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",
     "mission_offered": "MISSION_SCIENCE_REP_1"
@@ -159,16 +181,26 @@
   {
     "id": "MISSION_SCIENCE_REP_5",
     "type": "mission_definition",
-    "name": { "str": "Find Lab Tunnels" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "name": "Find Lab Tunnels",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_train_data",
-    "start": "reveal_lab_train_depot",
+    "item": "train_data",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "underground_lab_cargo_stationA",
+        "om_special": "Lab_CORE_2x1x3",
+        "reveal_radius": 1,
+        "random": false,
+        "search_range": 200,
+        "z": -4
+      },
+      "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help…",
-      "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",

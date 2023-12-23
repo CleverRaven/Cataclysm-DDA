@@ -1,0 +1,24 @@
+[
+  {
+    "type": "AMMO",
+    "id": "afs_82mm_flashbulb",
+    "price": 70000,
+    "price_postapoc": 12000,
+    "name": { "str": "82x225mm flashbulb" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "Pyrotechnic flash lamps designed to emit and focus a millisecond pulse laser through controlled detonation.",
+    "material": [ "steel", "powder" ],
+    "volume": "1250 ml",
+    "longest_side": "246 mm",
+    "weight": "3200 g",
+    "ammo_type": "afs_82mm_flashbulb",
+    "damage": [ { "damage_type": "pure", "amount": 15 }, { "damage_type": "heat", "amount": 220 } ],
+    "range": 120,
+    "dispersion": 15,
+    "recoil": 45,
+    "count": 4,
+    "stack_size": 1,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "LASER", "INCENDIARY", "DAZZLE_BEAM", "PUMP_LASER", "PLASMA_BUBBLE" ]
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "IRONSWORN",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>cold iron damage</info>."
+  },
+  {
+    "id": "INVENTOR_CRAFTED",
+    "type": "json_flag",
+    "info": "This thing was crafted by a mad inventor.  It is very unstable and will rapidly degrade without an inventor's presence."
+  }
+]

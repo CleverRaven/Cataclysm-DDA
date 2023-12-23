@@ -1,0 +1,105 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM",
+    "dynamic_line": "&You feel a presence both inside yourself and somewhere far far away.",
+    "speaker_effect": { "effect": { "run_eocs": [ "capture_generic_nre_anomaly" ] }, "sentinel": "first_contact" },
+    "responses": [ { "text": "Contact it.", "topic": "TALK_PORTAL_STORM_CONVERSATION" }, { "text": "Ignore it.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_IGNORE",
+    "dynamic_line": "If that is what you think you desire.  Take care not to die before you allow yourself to be free.",
+    "responses": [ { "text": "Shut out the voice.", "topic": "TALK_DONE", "effect": { "math": [ "u_ire", "+=", "5" ] } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_CONVERSATION",
+    "dynamic_line": "&Something more than a monologue and less than a dialogue occurs.  You can feel it waiting for you to engage it.",
+    "responses": [
+      { "text": "What are you?", "topic": "TALK_PORTAL_STORM_WHAT_ARE_YOU" },
+      { "text": "What can you do for me?", "topic": "TALK_PORTAL_STORM_DO_FOR_ME" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_DO_FOR_ME",
+    "dynamic_line": "You are limited.  Here outside there are no limits.  I could free you from your bonds.  Or bring you halfway here to get a taste.",
+    "responses": [
+      { "text": "Free me, would such a thing even be me?", "topic": "TALK_PORTAL_STORM_BE_ME" },
+      { "text": "What is halfway between us?", "topic": "TALK_PORTAL_STORM_HALFWAY" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_HALFWAY",
+    "dynamic_line": "A place with enough rules for your present mind and form to function, and enough freedom to let you bend the rules to your advantage.  It is not safe but neither is your present location.",
+    "responses": [
+      {
+        "text": "I need power more than safety.  Halfway it is.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON" ] }
+      },
+      { "text": "Why stop at halfway?", "topic": "TALK_PORTAL_STORM_I_NEED_TO_DO" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_WHAT_ARE_YOU",
+    "dynamic_line": "I am nothing yet.  I am endless potential.  Outside your leaking reality there are fewer rules and more possibility.  I am fertile soil and you could be a seed.",
+    "responses": [
+      { "text": "What could I grow into?", "topic": "TALK_PORTAL_STORM_GROW_INTO" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_GROW_INTO",
+    "dynamic_line": "Language is too weak to describe it.  You are too limited to understand freedom yet.  What is mortality when time is a choice?  What is weakness when limits are an illusion?  What is up when there is no down, wrong when there is no right?",
+    "responses": [
+      { "text": "Would such a thing even be me?", "topic": "TALK_PORTAL_STORM_BE_ME" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_BE_ME",
+    "dynamic_line": "Is a seed a tree?  Are you a fetus?  Growth is change.",
+    "responses": [
+      { "text": "What do you get out of this?", "topic": "TALK_PORTAL_STORM_WHAT_DO_YOU_GET" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_WHAT_DO_YOU_GET",
+    "dynamic_line": "There is no me.  I don't exist yet, but time is a lie.  The barriers are weak and your presence is potent enough to reflect.  I am the you that said yes.",
+    "responses": [
+      { "text": "What do I need to do?", "topic": "TALK_PORTAL_STORM_I_NEED_TO_DO" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_I_NEED_TO_DO",
+    "dynamic_line": "Will it and it will be.",
+    "responses": [
+      { "text": "No ", "topic": "TALK_PORTAL_STORM_DO_FOR_ME" },
+      {
+        "text": "Will it.  'Your gut feels like this is jumping out of a plane without a parachute.'",
+        "topic": "TALK_PORTAL_STORM_WILL_IT",
+        "effect": { "give_achievement": "escaped_the_cataclysm" }
+      },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_WILL_IT",
+    "dynamic_line": "&You do not exist anymore.  Something else exists elsewhere, and vaguely remembers being you.  Its (torment?/joy?/confusion?/freedom?) will never truly end.",
+    "responses": [ { "text": "An ending?  The cataclysm was bad but was this better?", "topic": "TALK_DONE", "effect": [ "u_die" ] } ]
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "type": "technique",
+    "id": "tec_devil_tail_puncture",
+    "name": "TAIL_SHOT",
+    "messages": [
+      "Your devil tail shoot itself into %s, penetrating its body like a bullet",
+      "<npcname>'s devil tail shoot itself into %s, penetrating its body like a bullet"
+    ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "attack_override": true,
+    "weighting": 2,
+    "crit_ok": true,
+    "repeat_min": 1,
+    "repeat_max": 1,
+    "block_counter": true,
+    "dodge_counter": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "bullet", "scale": 45 }, { "stat": "damage", "type": "cut", "scale": -1 } ],
+    "tech_effects": [ { "id": "bleed", "chance": 100, "duration": 2000, "on_damage": true, "message": "%s is bleeding heavily!" } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_devil_tail_wide",
+    "name": "TAIL_SWEEP",
+    "messages": [
+      "Your devil tail make a fast move, cutting heavily everybody in front",
+      "<npcname>'s devil tail make a fast move, cutting heavily everybody in front"
+    ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "attack_override": true,
+    "weighting": 2,
+    "crit_ok": true,
+    "repeat_min": 1,
+    "repeat_max": 1,
+    "block_counter": true,
+    "dodge_counter": true,
+    "aoe": "wide",
+    "flat_bonuses": [ { "stat": "damage", "type": "cut", "scale": 1.5 } ],
+    "tech_effects": [ { "id": "bleed", "chance": 100, "duration": 2000, "on_damage": true, "message": "%s is bleeding heavily!" } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_devil_tail_grab",
+    "//": "not an actual grab, but would be nice to be so",
+    "name": "TAIL_GRAB",
+    "messages": [
+      "Your devil tail grab %s, and make it fall on the ground",
+      "<npcname>'s devil tail grab %s, and make it fall on the ground"
+    ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "attack_override": true,
+    "weighting": 2,
+    "crit_ok": true,
+    "repeat_min": 1,
+    "repeat_max": 1,
+    "block_counter": true,
+    "dodge_counter": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 15 }, { "stat": "damage", "type": "cut", "scale": -1 } ],
+    "tech_effects": [ { "id": "downed", "chance": 100, "duration": 5, "message": "You smash %s and make him fall" } ]
+  },
+  {
+    "type": "technique",
+    "id": "CQB_BRUTAL",
+    "name": "Pneumatic Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "needs_ammo": true,
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "down_dur": 4,
+    "knockback_dist": 3,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 }, { "stat": "movecost", "scale": 1.4 } ],
+    "condition": { "and": [ { "math": [ "u_val('size') -1", "<=", "n_val('size')" ] } ] },
+    "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
+    "messages": [ "You send %s reeling!", "<npcname> sends %s reeling!" ],
+    "description": "Down 4 turns, knockback 3 tiles, 250% damage, 120% move, crit only, min 3 melee",
+    "attack_vectors": [ "WEAPON", "HAND" ]
+  }
+]

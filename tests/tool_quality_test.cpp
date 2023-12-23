@@ -53,7 +53,7 @@ TEST_CASE( "get_quality", "[tool][quality]" )
         }
         SECTION( "get_quality returns INT_MIN for BOIL quality if container is not empty" ) {
             item broth( "test_liquid" );
-            tin_can.put_in( broth, item_pocket::pocket_type::CONTAINER );
+            tin_can.put_in( broth, pocket_type::CONTAINER );
             REQUIRE_FALSE( tin_can.empty_container() );
 
             CHECK( tin_can.get_quality( qual_BOIL ) == INT_MIN );
@@ -65,7 +65,7 @@ TEST_CASE( "get_quality", "[tool][quality]" )
 
 // Tools that run on battery power (or are otherwise "charged") may have "charged_qualities"
 // that are only available when the item is charged with at least "charges_per_use" charges.
-TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
+TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
 {
     item drill( "test_cordless_drill" );
     item battery( "medium_battery_cell" );
@@ -101,7 +101,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         battery.ammo_set( battery.ammo_default(), 0 );
         REQUIRE( battery.ammo_remaining() == 0 );
         // Install the battery in the drill
-        drill.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.magazine_current() );
         REQUIRE( drill.ammo_remaining() == 0 );
 
@@ -120,7 +120,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         battery.ammo_set( battery.ammo_default(), bat_charges );
         REQUIRE( battery.ammo_remaining() == bat_charges );
         // Install the battery in the drill
-        drill.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.magazine_current() );
         REQUIRE( drill.ammo_remaining() == bat_charges );
 
@@ -140,7 +140,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         battery.ammo_set( battery.ammo_default(), bat_charges );
         REQUIRE( battery.ammo_remaining() == bat_charges );
         // Install the battery in the drill
-        drill.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.magazine_current() );
         REQUIRE( drill.ammo_remaining() == bat_charges );
 
@@ -167,7 +167,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         item_location drill = they.i_add( item( "test_cordless_drill" ) );
         item_location bat_cell = they.i_add( item( "heavy_battery_cell" ) );
         item_location ups_mod = they.i_add( item( "battery_ups" ) );
-        item_location ups = they.i_add( item( "UPS_off" ) );
+        item_location ups = they.i_add( item( "UPS_ON" ) );
 
         GIVEN( "UPS has battery with enough charge, equal to drill's charges_per_use" ) {
             // Charge the battery
@@ -176,7 +176,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
             bat_cell->ammo_set( bat_cell->ammo_default(), bat_charges );
             REQUIRE( bat_cell->ammo_remaining() == bat_charges );
             // Install heavy battery into UPS
-            REQUIRE( ups->put_in( *bat_cell, item_pocket::pocket_type::MAGAZINE_WELL ).success() );
+            REQUIRE( ups->put_in( *bat_cell, pocket_type::MAGAZINE_WELL ).success() );
             REQUIRE( ups->ammo_remaining( &they ) == bat_charges );
 
             WHEN( "UPS battery mod is installed into the drill" ) {
@@ -184,7 +184,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
                 REQUIRE( drill->toolmods().empty() );
                 REQUIRE( drill->tname() == "test cordless drill" );
                 // Install the UPS mod and ensure it worked
-                drill->put_in( *ups_mod, item_pocket::pocket_type::MOD );
+                drill->put_in( *ups_mod, pocket_type::MOD );
                 REQUIRE_FALSE( drill->toolmods().empty() );
                 REQUIRE( drill->tname() == "test cordless drill+1 (UPS)" );
                 // Ensure avatar actually has the drill and UPS in possession

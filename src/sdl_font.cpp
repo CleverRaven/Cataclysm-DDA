@@ -1,6 +1,9 @@
 #if defined(TILES)
 #include "sdl_font.h"
+
+#include "font_loader.h"
 #include "output.h"
+#include "sdl_utils.h"
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -288,24 +291,10 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return nullptr;
     }
-    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
-       on the endianness (byte order) of the machine */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    static const Uint32 rmask = 0xff000000;
-    static const Uint32 gmask = 0x00ff0000;
-    static const Uint32 bmask = 0x0000ff00;
-    static const Uint32 amask = 0x000000ff;
-#else
-    static const Uint32 rmask = 0x000000ff;
-    static const Uint32 gmask = 0x0000ff00;
-    static const Uint32 bmask = 0x00ff0000;
-    static const Uint32 amask = 0xff000000;
-#endif
     const int wf = utf8_width( ch );
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = CreateRGBSurface( 0, width * wf, height, 32, rmask, gmask, bmask,
-                              amask );
+    SDL_Surface_Ptr surface = create_surface_32( width * wf, height );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, width * wf, height };
     if( src_rect.w < dst_rect.w ) {
@@ -323,10 +312,13 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         src_rect.h = dst_rect.h;
     }
 
+    // Copy without altering the source
+    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_NONE );
     if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0,
                        "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
+    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_BLEND );
 
     return CreateTextureFromSurface( renderer, sglyph );
 }
@@ -389,7 +381,7 @@ BitmapFont::BitmapFont(
     }
     Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
     SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
-    SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
+    std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
     SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();

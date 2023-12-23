@@ -1,0 +1,79 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_alien_biology",
+    "weakpoints": [
+      {
+        "id": "vital_gap",
+        "name": "this small gap leads to something vital",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.25 }
+      },
+      {
+        "id": "alien_joint",
+        "name": "where a limb derives motion from",
+        "coverage": 8,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.25 },
+        "armor_mult": { "all": 0.5 }
+      },
+      {
+        "id": "hard_point",
+        "name": "a particularly strong part of the body",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 12
+      },
+      {
+        "id": "grasping_appendage",
+        "name": "the arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 8
+      },
+      {
+        "id": "part_grasping_appendage",
+        "name": "the grasping appendage",
+        "//": "Gives you a higher chance of hitting the arm if the enemy is grabbing you.",
+        "crit_mult": { "all": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "required_effects": [ "grabbing" ],
+        "coverage": 8
+      },
+      {
+        "id": "alien_leg",
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "downed", "chance": 3, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 8, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 16, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
+        "coverage": 15
+      }
+    ]
+  }
+]

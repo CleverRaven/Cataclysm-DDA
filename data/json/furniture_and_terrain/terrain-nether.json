@@ -1,0 +1,53 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_nether_glass_floor",
+    "name": "black glass",
+    "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_glass_floor_clairvoyance",
+    "name": "black glass",
+    "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "emissions": [ "emit_clairvoyant" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_glass_floor_basalt",
+    "name": "black glass",
+    "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_glass_wall",
+    "name": "black glass",
+    "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_basalt",
+    "name": "perfect basalt wall",
+    "description": "Hexagonal columns of basalt spring from the dark floor.  Each a perfect copy of the next.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "WALL" ]
+  }
+]

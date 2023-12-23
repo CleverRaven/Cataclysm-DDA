@@ -1,0 +1,14 @@
+[
+  {
+    "type": "profession_group",
+    "id": "adult_basic_background",
+    "professions": [
+      "driving_license",
+      "simple_home_cooking",
+      "computer_literate",
+      "social_skills",
+      "high_school_graduate",
+      "mundane_survival"
+    ]
+  }
+]

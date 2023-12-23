@@ -1,0 +1,78 @@
+[
+  {
+    "type": "enchantment",
+    "id": "BOREAL_MAGE",
+    "name": { "str": "Boreal Wind" },
+    "description": "Your Boreal Mage abilities grant you good resistance to temperature conditions.  Also your hands emit a small amount of cold, increasing your damage in melee.",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ITEM_DAMAGE_COLD", "add": 9 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+    ]
+  },
+  {
+    "id": "boreal_mage_cold_damage",
+    "type": "SPELL",
+    "name": "Boreal Mage Cold Damage",
+    "description": "AoE cold attack around the player.  If you are seeing this spell, you have debugged it in.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 5,
+    "max_damage": 5,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "damage_type": "cold"
+  },
+  {
+    "type": "enchantment",
+    "id": "BOREAL_MAGE_AURA",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "boreal_mage_cold_damage" } ] } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_COLD_AURA_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BOREAL_MAGE" },
+        {
+          "not": { "u_has_var": "u_got_boreal_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "BOREAL_MAGE" } },
+    "effect": [
+      { "u_add_trait": "COLD_AURA_OFF" },
+      { "u_add_var": "u_got_boreal_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "COLD_AURA_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Cold Aura" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous you can freeze everything around yourself.  You are currently suppressing this power.",
+    "transform": { "target": "COLD_AURA_ON", "msg_transform": "Everything around you is covered in frost!", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "COLD_AURA_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Cold Aura (on)" },
+    "points": -1,
+    "description": "Your presence is so dangerous you can freeze everything around yourself.",
+    "enchantments": [ "BOREAL_MAGE_AURA" ],
+    "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 }
+  }
+]

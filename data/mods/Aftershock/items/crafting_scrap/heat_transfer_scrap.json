@@ -20,6 +20,7 @@
     "color": "black",
     "weight": "283 g",
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "price": 5000,
     "price_postapoc": 10000,

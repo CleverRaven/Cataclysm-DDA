@@ -1,0 +1,299 @@
+[
+  {
+    "type": "profession",
+    "id": "psi_new_psychic",
+    "name": "Awakening Psion",
+    "description": "You survived a portal storm and hid inside while reality broke around you, and when you left to examine the damage you found a strange crystal the storm had left behind.  It was captivating, and you took it with you.  Sometimes, at night, you look into it before you sleep, and you almost feel like something in you is responding to the glow within the crystal.",
+    "points": 1,
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "water_clean", "wristwatch", "matrix_crystal_coruscating" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_biokinetic_athlete",
+    "name": "Star Athlete",
+    "description": "You were always good at athletics.  People praised your effort and hard work, but the truth was you barely needed to practice.  It all just came naturally to you, as naturally as breathing.  That kept you safe during the Cataclysm--you outran the dead and worse things that chased you and made it out of the cities, and they're certainly the thing that will keep you going, especially since now, you're stronger and faster than you've ever been.",
+    "points": 4,
+    "skills": [
+      { "level": 3, "name": "throw" },
+      { "level": 7, "name": "swimming" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 4, "name": "dodge" }
+    ],
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
+    "spells": [
+      { "id": "biokin_physical_enhance", "level": 4 },
+      { "id": "biokin_overcome_pain", "level": 2 },
+      { "id": "biokin_flexibility", "level": 3 },
+      { "id": "biokin_reflex_enhance", "level": 1 }
+    ],
+    "items": {
+      "both": {
+        "items": [ "jacket_light", "jeans", "socks", "cleats", "sports_drink" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_clairsentient_doomseer",
+    "name": "Doomseer",
+    "description": "You knew the world was going to end, but they never listened.  They never listened!  They couldn't see the things that walked among them!  They didn't know what you had seen, what you knew was coming, and where are they now?  In a zombie's stomach or walking with those corpses themselves, but you're still alive.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 3, "name": "metaphysics" }, { "level": 3, "name": "survival" } ],
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES", "SCHIZOPHRENIC" ],
+    "spells": [
+      { "id": "clair_night_vision", "level": 4 },
+      { "id": "clair_danger_sense", "level": 3 },
+      { "id": "clair_spot_weakness", "level": 3 },
+      { "id": "clair_voyance", "level": 2 }
+    ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "socks", "robe", "lowtops", "newest_newspaper", "weeks_old_newspaper", "months_old_newspaper" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_electrokinetic_engineer",
+    "name": "Electrical Engineer",
+    "description": "You followed your parents' wishes and became an engineer, and to your surprise you were extremely good at it.  It was like the electronics you built just spoke to you, like you could see inside the wires and circuits, and then when the sky broke that literally came true.",
+    "points": 8,
+    "skills": [
+      { "level": 4, "name": "mechanics" },
+      { "level": 8, "name": "electronics" },
+      { "level": 3, "name": "traps" },
+      { "level": 6, "name": "computer" },
+      { "level": 1, "name": "metaphysics" }
+    ],
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "spells": [
+      { "id": "electrokinetic_see_electric", "level": 6 },
+      { "id": "electrokinetic_shock_touch", "level": 2 },
+      { "id": "electrokinetic_zap_enemies", "level": 4 },
+      { "id": "electrokinetic_personal_battery", "level": 4 }
+    ],
+    "proficiencies": [ "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
+    "items": {
+      "both": {
+        "items": [ "socks", "technician_coveralls", "boots", "wristwatch", "mbag", "water_clean" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_electrical_measuring" },
+          { "group": "charged_laptop" },
+          { "group": "charged_cigs" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_photokinetic_magician",
+    "name": "Magician",
+    "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "cooking" },
+      { "level": 1, "name": "driving" },
+      { "level": 2, "name": "metaphysics" },
+      { "level": 4, "name": "speech" }
+    ],
+    "traits": [ "FAST_REFLEXES", "PHOTOKINETIC", "PHOTO_EYES" ],
+    "spells": [
+      { "id": "photokinetic_snuff_light", "level": 4 },
+      { "id": "photokinetic_light_dodge", "level": 3 },
+      { "id": "photokinetic_light_beam", "level": 4 },
+      { "id": "photokinetic_light_arms", "level": 2 }
+    ],
+    "items": {
+      "both": {
+        "items": [ "socks", "jeans", "sneakers" ],
+        "entries": [
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "deck_of_cards" },
+          { "item": "tophat" },
+          { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_pyrokinetic_firestarter",
+    "name": "Firestarter",
+    "description": "Fire always fascinated you.  The fires you set almost got you arrested a few times, but the urge was just too powerful.  It was like they were calling to you, urging you to create them.  And ever since the sky broke, you can create fire with merely a thought.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "metaphysics" } ],
+    "traits": [ "PYROMANIA", "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "spells": [
+      { "id": "pyrokinetic_eruption", "level": 4 },
+      { "id": "pyrokinetic_quell_flames", "level": 2 },
+      { "id": "pyrokinetic_flamethrower", "level": 3 },
+      { "id": "pyrokinetic_flash", "level": 3 }
+    ],
+    "items": {
+      "both": {
+        "items": [ "socks", "jeans", "sneakers" ],
+        "entries": [
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "lighter", "charges": 100 },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_telekinetic_testsubject",
+    "name": "Test Subject, Project ONYX LIGHTNING",
+    "description": "Before the Cataclysm, you were 'volunteered' for a top-secret military project.  They never told you what all the injections and EEGs and hours of staring at a quarter on the table were supposed to accomplish, but now that you can move things with your mind you have a pretty good idea what they were aiming at.",
+    "points": 5,
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "driving" },
+      { "level": 2, "name": "metaphysics" }
+    ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
+    "spells": [
+      { "id": "telekinetic_push", "level": 4 },
+      { "id": "telekinetic_pull", "level": 3 },
+      { "id": "telekinetic_momentum", "level": 2 },
+      { "id": "telekinetic_wave", "level": 2 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "gloves_tactical", "army_top", "boots_combat", "socks" ],
+        "entries": [ { "item": "water_clean", "container-item": "canteen" }, { "item": "knife_combat", "container-item": "sheath" } ]
+      },
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_telepath_interrogater",
+    "name": "Government Interrogater (DECEASED)",
+    "description": "You did not die in the Cataclysm because on paper, you are already dead.  You assumed a new identity as part of an experimental program designed to produce psychic interrogators.  They told you that you were serving your country, that your gifts would be the key to winning the new Cold War that was surely developing, but they didn't consider the ramifications of having a telepath on the base.  You knew right away that things were much worse than the brass was telling you, and your gifts let you \"persuade\" the guards to let you out even in the face of the lockdown.  You had thought to go somewhere else, to get away from New England, but the end came much faster than even you thought it would.",
+    "points": 3,
+    "skills": [ { "level": 6, "name": "speech" }, { "level": 3, "name": "metaphysics" } ],
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "spells": [
+      { "id": "telepathic_concentration", "level": 4 },
+      { "id": "telepathic_shield", "level": 2 },
+      { "id": "telepathic_morale", "level": 4 },
+      { "id": "telepathic_confusion", "level": 2 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "items": [ "pants", "dress_shirt", "socks", "dress_shoes" ],
+        "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
+          { "group": "charged_smart_phone" },
+          { "item": "lighter", "charges": 100 }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_teleporter_slider",
+    "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
+    "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
+    "points": 6,
+    "skills": [
+      { "level": 3, "name": "computer" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 5, "name": "metaphysics" }
+    ],
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "spells": [
+      { "id": "teleport_blink", "level": 8 },
+      { "id": "teleport_slow", "level": 1 },
+      { "id": "teleport_transpose", "level": 4 },
+      { "id": "teleport_phase", "level": 5 },
+      { "id": "teleport_farstep", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "items": [ "wristwatch", "pants", "dress_shirt", "socks", "dress_shoes", "officer_uniform", "beret", "holster" ],
+        "entries": [
+          { "item": "mom_fusion_pistol", "ammo-item": "mom_fusion_ammo", "charges": 40, "contents-item": [ "mom_fusion_mag" ] },
+          { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "psi_vitakinetic_healer",
+    "name": "Faith Healer",
+    "description": "People came to you for diseases that modern medicine told them were incurable, and you made them well.  At least, they felt well, and that was what mattered.  Now the dead walk and do not respond to your exhortations, but your healing works better on yourself than it ever has on anyone else.",
+    "points": 4,
+    "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
+    "spells": [
+      { "id": "vita_stop_bleeding", "level": 2 },
+      { "id": "vita_health_power", "level": 5 },
+      { "id": "vita_hurt_touch", "level": 2 },
+      { "id": "vita_sleeping_trance", "level": 1 }
+    ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "flyer", "flyer", "flyer", "holy_symbol" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "paranormal_investigator",
+    "copy-from": "paranormal_investigator",
+    "description": "You were dismissed from your position as a parapsychology professor at the local university and started your own business as a paranormal investigator.  Your former colleagues didn't approve of your research, but it looks like it's paying off now.",
+    "extend": { "skills": [ { "level": 2, "name": "metaphysics" } ] }
+  },
+  {
+    "type": "profession",
+    "id": "guru",
+    "copy-from": "guru",
+    "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
+    "extend": { "skills": [ { "level": 3, "name": "metaphysics" } ] }
+  },
+  {
+    "type": "profession",
+    "id": "naturalist",
+    "copy-from": "naturalist",
+    "description": "Over long years of self-imposed exile in the wilderness, you have come to an understanding with Mother Nature.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
+    "extend": { "skills": [ { "level": 1, "name": "metaphysics" } ] }
+  }
+]

@@ -13,7 +13,7 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_3_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, you're telling me.  The rioters… they weren't even like humans, let alone protestors.  Nothing like any protest I'd ever been in before.  That didn't stop me.  I joined them, and I was as bad as a bunch of them.  Smashed windows, beat up bystanders, burnt cars.  I remember ripping riot gear off a cop and… nevermind.  I don't want to remember that.",
+    "dynamic_line": "Yeah, you're telling me.  The rioters… they weren't even like humans, let alone protesters.  Nothing like any protest I'd ever been in before.  That didn't stop me.  I joined them, and I was as bad as a bunch of them.  Smashed windows, beat up bystanders, burnt cars.  I remember ripping riot gear off a cop and… nevermind.  I don't want to remember that.",
     "responses": [
       { "text": "How did you survive?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY3" },
       { "text": "What made you come back?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY4" },

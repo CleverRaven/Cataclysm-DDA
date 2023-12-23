@@ -6,6 +6,7 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -21,11 +22,11 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
@@ -113,10 +114,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
+        // FIXME: Hardcoded damage types
         embed = embed &&
-                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( damage_type::STAB ) >
-                attack.dealt_dam.type_damage( damage_type::BASH ) +
+                ( attack.dealt_dam.type_damage( STATIC( damage_type_id( "cut" ) ) ) / 2 ) +
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "stab" ) ) ) >
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "bash" ) ) ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 
@@ -293,12 +295,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                      sfx::get_heard_angle( target ) );
         }
         // TODO: Z dispersion
-        // If we missed, just draw a straight line.
-        trajectory = line_to( source, target );
-    } else {
-        // Go around obstacles a little if we're on target.
-        trajectory = here.find_clear_path( source, target );
     }
+
+    //Use find clear path to draw the trajectory with optimal initial tile offsets.
+    trajectory = here.find_clear_path( source, target );
 
     add_msg_debug( debugmode::DF_BALLISTIC,
                    "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
@@ -353,7 +353,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.
-            if( here.has_floor( floor1 ) && here.has_floor( floor2 ) ) {
+            if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
                 // Currently strictly no shooting through floor
                 // TODO: Bash the floor
                 tp = prev_point;
@@ -424,6 +424,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
             }
+            // avoid friendly fire
+            if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
+                origin->check_avoid_friendly_fire() ) {
+                continue;
+            }
             attack.missed_by = cur_missed_by;
             bool print_messages = true;
             // If the attack is shot, once we're past point-blank,
@@ -442,13 +447,20 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
-                if( bt_len > 0 ) {
-                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
-                    here.add_splatter_trail( critter->bloodType(), tp, dest );
+                const field_type_id blood_type = critter->bloodType();
+                if( blood_type ) {
+                    const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                    if( bt_len > 0 ) {
+                        const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                        here.add_splatter_trail( blood_type, tp, dest );
+                    }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
+                // on-hit effects for inflicted damage types
+                for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
+                    dt.first->onhit_effects( origin, attack.hit_critter );
+                }
             } else {
                 attack.missed_by = aim.missed_by;
             }
@@ -480,10 +492,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.proj_effects );
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

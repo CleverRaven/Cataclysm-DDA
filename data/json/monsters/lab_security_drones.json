@@ -5,7 +5,7 @@
     "name": { "str": "Green Maintenance Badge Trait" },
     "description": "Adds trait for badge check.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -50,9 +50,6 @@
     "speed": 190,
     "color": "light_green",
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -65,7 +62,8 @@
     "revert_to_itype": "bot_lab_security_drone_GM",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "yellow_maintenance_check",
@@ -74,7 +72,7 @@
     "//": "renamed player facing name to ocher.",
     "description": "Adds trait for badge check.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -113,9 +111,6 @@
     "speed": 190,
     "color": "yellow",
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -128,7 +123,8 @@
     "revert_to_itype": "bot_manhack",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "blue_maintenance_check",
@@ -136,7 +132,7 @@
     "name": { "str": "Blue Maintenance Badge Trait" },
     "description": "Adds trait for badge check.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -175,9 +171,6 @@
     "speed": 190,
     "color": "blue",
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -190,7 +183,8 @@
     "revert_to_itype": "bot_manhack",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "blue_maintenance_check2",
@@ -198,7 +192,7 @@
     "name": { "str": "Blue Maintenance Badge Trait" },
     "description": "Adds trait for badge check.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -263,9 +257,6 @@
     "speed": 190,
     "color": "cyan",
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -278,7 +269,8 @@
     "revert_to_itype": "bot_manhack",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "green_researcher_check",
@@ -286,7 +278,7 @@
     "name": { "str": "Light Green Researcher Badge Trait" },
     "description": "Adds trait for badge check.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -340,9 +332,6 @@
     "speed": 190,
     "color": "light_green",
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -355,7 +344,8 @@
     "revert_to_itype": "bot_lab_security_drone_GR",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "black_security_check",
@@ -363,7 +353,7 @@
     "name": { "str": "Black Security Badge Trait" },
     "description": "Adds trait for badge check.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -443,9 +433,6 @@
     "speed": 190,
     "color": "dark_gray",
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -458,6 +445,7 @@
     "revert_to_itype": "bot_lab_security_drone_BS",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" }
+    "death_function": { "corpse_type": "BROKEN" },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   }
 ]

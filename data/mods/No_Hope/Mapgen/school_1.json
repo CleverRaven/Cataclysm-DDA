@@ -20,12 +20,12 @@
         "sLLLLLLL_______LLLLLLLss  $|hddha^hddh| $ ss $ |......................w ",
         "s_____________________ss  $whddh..hddh|   ss   |B.....dh.dh.dh.dh.dh..w ",
         "s_____________________ss  $whddh..hddh|$$$ss$$$|......dh.dh.dh.dh.dh..w ",
-        "s_____________________ss  $w..........||w|++|w||..d..................nw ",
+        "s_____________________§s  $w..........||w|++|w||..d..................nw ",
         "sLLLLLLL_______LLLLLLLss  $|cccc..cccc|^....|6D|.hd...dh.dh.dh.dh.dh.n| ",
         "s_____________________sssss+................whD|..d...dh.dh.dh.dh.dh.n| ",
         "s_____________________sssss+................w.D|.dd..................nw ",
         "s_____________________ss  $|.#####...Y|.....|.F|......dh.dh.dh.dh.dh..w ",
-        "sLLLLLLL_______LLLLLLLss  ||||||||||+|||w|++|+||x.....dh.dh.dh.dh.dh..w ",
+        "sLLLLLLL_______LLLLLLL§s  ||||||||||+|||w|++|+||x.....dh.dh.dh.dh.dh..w ",
         "s_____________________ss  |^.D..oo|...|.......n|x.....................w ",
         "s_____________________ss $w.MD....|..#|l......n|.......Y####...ll....^| ",
         "s_____________________ss $w..D.M..+..#|l......n||||+++||||||||||||||||| ",
@@ -67,7 +67,7 @@
         "w,::::,,,,,,,,,,,,::::,w       $$  sss  $$     $            /  /   $ f  ",
         "w,:,,,,,,,,,,,,,,,,,,:,w      $$  sssss  $$   $$            /  /    ;f  ",
         "w,:,,,,,,,,::,,,,,,,,:,w     $$  sssssss  $$  ;             /  /     f  ",
-        "|,:,,,,,,,:,,:,,,,,,,:,|$$$  $$  sssIsss  $$          mmm      /     f  ",
+        "|,:,,,,,,,:,,:,,,,,,,:,|$$$  $$  sss§sss  $$          mmm      /     f  ",
         "|,::::::::::::::::::::,|$;$  $$  sssssss  $$          mmm            f  ",
         "|,:,,,,,,,:,,:,,,,,,,:,|$$$  $$  sssssss  $$          mmm  ====      f  ",
         "|,:,,,,,,,,::,,,,,,,,:,|||    $$  sssss  $$                ====   b  f  ",
@@ -86,7 +86,7 @@
       ],
       "palettes": [ "school_palette" ],
       "place_items": [  ],
-      "place_item": [ { "item": "american_flag", "x": 36, "y": 58, "amount": 1 } ],
+      "place_item": [ { "item": "american_flag", "x": 36, "y": 56, "amount": 1 } ],
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 1 ], "density": 0.1 },
         { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
@@ -106,7 +106,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_2_3", "school_2_2", "school_2_1" ],
+      [ "null", "school_2_2", "school_2_1" ],
       [ "school_2_6", "school_2_5", "school_2_4" ],
       [ "school_2_9", "school_2_8", "school_2_7" ]
     ],
@@ -203,7 +203,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_3_3", "school_3_2", "school_3_1" ],
+      [ "null", "school_3_2", "school_3_1" ],
       [ "school_3_6", "school_3_5", "school_3_4" ],
       [ "school_3_9", "school_3_8", "school_3_7" ]
     ],
@@ -300,7 +300,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_4_3", "school_4_2", "school_4_1" ],
+      [ "null", "school_4_2", "school_4_1" ],
       [ "school_4_6", "school_4_5", "school_4_4" ],
       [ "school_4_9", "school_4_8", "school_4_7" ]
     ],
@@ -427,6 +427,7 @@
       "_": "t_pavement",
       "f": "t_chainfence_h",
       "s": "t_sidewalk",
+      "§": "t_sidewalk",
       "w": "t_window",
       "P": "t_curtains",
       "|": "t_wall_y",
@@ -489,12 +490,13 @@
       "A": "f_glass_cabinet",
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "[": "f_home_furnace",
-      "]": "f_water_heater",
+      "]": [ "f_water_heater", "f_water_heater_family" ],
       "0": "f_standing_tank",
       "!": "f_server",
       "{": "f_small_satelitte_dish",
       "K": "f_TV_antenna",
-      "E": "f_air_conditioner"
+      "E": "f_air_conditioner",
+      "§": "f_flagpole"
     },
     "toilets": { "T": {  } },
     "items": {

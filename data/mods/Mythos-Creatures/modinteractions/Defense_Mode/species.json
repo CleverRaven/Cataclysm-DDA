@@ -1,0 +1,8 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "MYTHOS_DM",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "description": "a mythos creature"
+  }
+]

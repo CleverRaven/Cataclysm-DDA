@@ -12,8 +12,13 @@
     "batch_time_factors": [ 99, 2 ],
     "autolearn": true,
     "charges": 1,
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "feces_bird", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -22,14 +27,19 @@
     "id_suffix": "from_oxalic_acid",
     "byproducts": [ [ "chem_glycerol", 20 ] ],
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 5,
     "time": "1 h",
     "batch_time_factors": [ 80, 2 ],
     "autolearn": true,
     "charges": 75,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_distilling" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
     "components": [
@@ -52,6 +62,12 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
@@ -71,9 +87,60 @@
     "batch_time_factors": [ 99, 1 ],
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "charges": 105,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "chem_citric_acid", -1 ] ] ],
     "components": [ [ [ "chem_benzene", 90 ] ], [ [ "chem_methanol", 32 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_caco3",
+    "byproducts": [ [ "water_clean", 1 ] ],
+    "charges": 516,
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "45 m",
+    "//": "14 mol(1037g) slaked lime + 14 mol(616g) co2 ~= 14 mol(1400g) caco3 + 14mol(250g) h2o",
+    "//2": "assumption just over 3g of co2 per ml of coal or 205 g per 150g wood splinter, which is fed into the slaked lime to produce caco3",
+    "batch_time_factors": [ 25, 2 ],
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
+    "components": [ [ [ "splinter", 3 ], [ "coal_lump", 200 ] ], [ [ "chem_slaked_lime", 470 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_caco3",
+    "id_suffix": "from_washing_soda",
+    "byproduct_group": [ { "item": "salt", "container-item": "null", "count": 33 } ],
+    "charges": 37,
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "5 m",
+    "batch_time_factors": [ 15, 2 ],
+    "//": "1 mol(106g) calcchloride + 1 mol(111g) washingsoda ~= 1 mol(100g) caco3 + 2mol(116g) salt",
+    "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ], [ "basic_chemistry", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "chem_washing_soda", 49 ] ], [ [ "chem_calcium_chloride", 48 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -87,6 +154,11 @@
     "time": "10 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SEPARATE", "level": 1 } ],
     "components": [ [ [ "chem_acetone", 1 ] ], [ [ "bleach", 6 ] ] ]
   },
@@ -96,29 +168,28 @@
     "charges": 18,
     "byproducts": [ [ "juice_pulp", 8 ] ],
     "activity_level": "NO_EXERCISE",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 5,
     "time": "12 h",
     "batch_time_factors": [ 99, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "HAMMER", "level": 1 },
       { "id": "CONTAIN", "level": 1 },
-      { "id": "SEPARATE", "level": 1 }
+      { "id": "SEPARATE", "level": 1 },
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [
-        [ "lemon", 8 ],
-        [ "irradiated_lemon", 8 ],
-        [ "orange", 8 ],
-        [ "irradiated_orange", 8 ],
-        [ "grapefruit", 8 ],
-        [ "irradiated_grapefruit", 8 ]
-      ],
+      [ [ "lemon", 8 ], [ "orange", 8 ], [ "grapefruit", 8 ] ],
       [ [ "lye_powder", 4 ] ],
       [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "paper", 10 ] ],
@@ -136,6 +207,11 @@
     "difficulty": 5,
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "charges": 49,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "electrolysis_kit", 50 ] ] ],
@@ -153,6 +229,11 @@
     "time": "30 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "material_limestone", 45 ], [ "material_quicklime", 24 ] ] ]
   },
@@ -160,7 +241,10 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_washing_soda",
-    "byproducts": [ [ "ammonia_liquid", 4 ], [ "chem_calcium_chloride", 51 ] ],
+    "byproduct_group": [
+      { "item": "ammonia_liquid", "container-item": "null", "charges": 4 },
+      { "item": "chem_calcium_chloride", "container-item": "null", "charges": 51 }
+    ],
     "charges": 41,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -169,6 +253,11 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "salt_water", 3 ] ], [ [ "material_limestone", 8 ] ], [ [ "ammonia_liquid", 4 ] ] ]
@@ -186,6 +275,11 @@
     "time": "30 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "chem_baking_soda", 76 ] ] ]
@@ -194,7 +288,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_baking_soda",
-    "byproducts": [ [ "material_quicklime", 8 ] ],
+    "byproduct_group": [ { "item": "material_quicklime", "charges": 8 } ],
     "charges": 76,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -203,6 +297,11 @@
     "time": "30 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "surface_heat", 25, "LIST" ] ],
@@ -216,13 +315,20 @@
     "activity_level": "NO_EXERCISE",
     "result": "acetic_anhydride",
     "charges": 2,
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 8,
     "time": "2 h",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "ketene_lamp", 50 ] ] ],
     "components": [ [ [ "chem_acetic_acid", 1 ] ], [ [ "chem_acetone", 1 ] ] ]
@@ -238,6 +344,12 @@
     "time": "1 h",
     "batch_time_factors": [ 99, 2 ],
     "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "charges": 958,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -254,6 +366,11 @@
     "time": "90 m",
     "batch_time_factors": [ 99, 2 ],
     "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "charges": 1168,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
@@ -261,7 +378,7 @@
       [ [ "chem_sodium", 142 ] ],
       [ [ "ammonia_liquid", 1 ] ],
       [ [ "chem_ammonium_nitrate", 238 ] ],
-      [ [ "lead", 103 ] ],
+      [ [ "lead", 62 ] ],
       [ [ "chem_nitric_acid", 1 ] ]
     ]
   },
@@ -277,6 +394,11 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "tools": [
       [ [ "electrolyzer_makeshift", 10500 ] ],
       [ [ "ammonia_machine_reactor", 50000 ] ],

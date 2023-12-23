@@ -1,0 +1,836 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_MAIN",
+    "dynamic_line": "Lifestyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_STR_UP" } },
+        "text": "Gain [<trait_name:perk_STR_UP>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_STR_UP>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_STR_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_STR_UP", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_DEX_UP" } },
+        "text": "Gain [<trait_name:perk_DEX_UP>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_DEX_UP>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_DEX_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_DEX_UP", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_INT_UP" } },
+        "text": "Gain [<trait_name:perk_INT_UP>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_INT_UP>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_INT_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_INT_UP", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_PER_UP" } },
+        "text": "Gain [<trait_name:perk_PER_UP>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_PER_UP>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_PER_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_PER_UP", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_holdout_pocket" } },
+        "text": "Gain [<trait_name:perk_holdout_pocket>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_holdout_pocket>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_holdout_pocket>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_holdout_pocket", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_built_tough" } },
+        "text": "Gain [<trait_name:perk_built_tough>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_built_tough>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_built_tough>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_built_tough", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_hauler" } },
+        "text": "Gain [<trait_name:perk_hauler>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_hauler>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_hauler>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_hauler", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_vacationer" } },
+        "text": "Gain [<trait_name:perk_vacationer>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_vacationer>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_vacationer>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_vacationer", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_gymrat" } },
+        "text": "Gain [<trait_name:perk_gymrat>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_gymrat>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_gymrat>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_gymrat", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires athletics 3",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming')", ">=", "3" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_safety_net" } },
+        "text": "Gain [<trait_name:perk_safety_net>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_safety_net>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_safety_net>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_safety_net", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_lucky_dodge" } },
+        "text": "Gain [<trait_name:perk_lucky_dodge>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_lucky_dodge>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_lucky_dodge>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_lucky_dodge", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_thick_skull" } },
+        "text": "Gain [<trait_name:perk_thick_skull>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_thick_skull>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_thick_skull>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_thick_skull", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_way_openpalm" } },
+        "text": "Gain [<trait_name:perk_way_openpalm>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_way_openpalm>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_way_openpalm>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_way_openpalm", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_way_closedfist>, <trait_name:perk_way_pinchedfingers>.  Requires unarmed 2 and cutting 1",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "not": { "or": [ { "u_has_trait": "perk_way_closedfist" }, { "u_has_trait": "perk_way_pinchedfingers" } ] } },
+                {
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('cutting')", ">=", "1" ] } ]
+                }
+              ]
+            }
+          },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_way_closedfist> or <trait_name:perk_way_pinchedfingers>",
+            "target_var": { "context_val": "trait_additional_details" }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_way_closedfist" } },
+        "text": "Gain [<trait_name:perk_way_closedfist>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_way_closedfist>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_way_closedfist>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_way_closedfist", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_way_openpalm>, <trait_name:perk_way_pinchedfingers>.  Requires unarmed 2 and bashing 1",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "not": { "or": [ { "u_has_trait": "perk_way_openpalm" }, { "u_has_trait": "perk_way_pinchedfingers" } ] } },
+                {
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('bashing')", ">=", "1" ] } ]
+                }
+              ]
+            }
+          },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_way_openpalm> or <trait_name:perk_way_pinchedfingers>",
+            "target_var": { "context_val": "trait_additional_details" }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_way_pinchedfingers" } },
+        "text": "Gain [<trait_name:perk_way_pinchedfingers>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_way_pinchedfingers>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_way_pinchedfingers>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_way_pinchedfingers", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_way_closedfist>, <trait_name:perk_way_openpalm>.  Requires unarmed 2 and piercing 1",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "not": { "or": [ { "u_has_trait": "perk_way_closedfist" }, { "u_has_trait": "perk_way_openpalm" } ] } },
+                {
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('stabbing')", ">=", "1" ] } ]
+                }
+              ]
+            }
+          },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_way_closedfist> or <trait_name:perk_way_openpalm>",
+            "target_var": { "context_val": "trait_additional_details" }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
+        "text": "Gain [<trait_name:perk_bloody_mess>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_bloody_mess>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_bloody_mess>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_bloody_mess", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } } },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_additional_details" }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } },
+        "text": "Gain [<trait_name:perk_surgical_strikes>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_surgical_strikes>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_surgical_strikes", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_bloody_mess>.  Melee or guns 2",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "not": { "u_has_trait": "perk_bloody_mess" } },
+                {
+                  "or": [ { "math": [ "u_skill('melee')", ">=", "2" ] }, { "math": [ "u_skill('gun')", ">=", "2" ] } ]
+                }
+              ]
+            }
+          },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_bloody_mess>",
+            "target_var": { "context_val": "trait_additional_details" }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_quickdraw" } },
+        "text": "Gain [<trait_name:perk_quickdraw>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_quickdraw>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_quickdraw>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_quickdraw", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires handguns 2",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('pistol')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_tuck_and_roll" } },
+        "text": "Gain [<trait_name:perk_tuck_and_roll>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_tuck_and_roll>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_tuck_and_roll>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_tuck_and_roll", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_recycler" } },
+        "text": "Gain [<trait_name:perk_recycler>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_recycler>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_recycler>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_recycler", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires survival 4",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('survival')", ">=", "4" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_tingly" } },
+        "text": "Gain [<trait_name:perk_tingly>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_tingly>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_tingly>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_tingly", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_jumpy" } },
+        "text": "Gain [<trait_name:perk_jumpy>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_jumpy>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_description:perk_jumpy>", "target_var": { "context_val": "trait_description" } },
+          { "set_string_var": "perk_jumpy", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_hobbyist" } },
+        "text": "Gain [<trait_name:perk_hobbyist>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_hobbyist>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_hobbyist>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_hobbyist", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_troubleseeker" } },
+        "text": "Gain [<trait_name:perk_troubleseeker>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_troubleseeker>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_troubleseeker>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_troubleseeker", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_long_shot" } },
+        "text": "Gain [<trait_name:perk_long_shot>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_long_shot>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_long_shot>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_long_shot", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires perception 10",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_val('perception_base')", ">=", "10" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_popeye" } },
+        "text": "Gain [<trait_name:perk_popeye>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_popeye>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_popeye>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_popeye", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_crafty_hands" } },
+        "text": "Gain [<trait_name:perk_crafty_hands>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_crafty_hands>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_crafty_hands>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_crafty_hands", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_chainsmoker" } },
+        "text": "Gain [<trait_name:perk_chainsmoker>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_chainsmoker>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_chainsmoker>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_chainsmoker", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "math": [ "u_no_playstyle", "==", "0" ] },
+        "text": "Playstyle Perks",
+        "topic": "TALK_PERK_MENU_PLAYSTYLE"
+      },
+      {
+        "condition": {
+          "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "mindovermatter" }, { "mod_is_loaded": "xedra_evolved" } ]
+        },
+        "text": "Metamagic Perks",
+        "topic": "TALK_PERK_MENU_METAMAGIC"
+      },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_PLAYSTYLE",
+    "dynamic_line": "Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_frakenstein" } },
+        "text": "Gain [<trait_name:perk_frakenstein>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_frakenstein>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_frakenstein>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_frakenstein", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires electronics 4, and health care 4",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('electronics')", ">=", "4" ] }, { "math": [ "u_skill('firstaid')", ">=", "4" ] } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_jugg" } },
+        "text": "Gain [<trait_name:perk_jugg>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_jugg>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_description:perk_jugg>", "target_var": { "context_val": "trait_description" } },
+          { "set_string_var": "perk_jugg", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_olde_guns" } },
+        "text": "Gain [<trait_name:perk_olde_guns>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_olde_guns>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_olde_guns>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_olde_guns", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_empath" } },
+        "text": "Gain [<trait_name:perk_empath>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_empath>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_empath>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_empath", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_chainsaw" } },
+        "text": "Gain [<trait_name:perk_chainsaw>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_chainsaw>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_chainsaw>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_chainsaw", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_skeleton" } },
+        "text": "Gain [<trait_name:perk_skeleton>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_skeleton>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_skeleton>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_skeleton", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      { "text": "Lifestyle Perks", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_METAMAGIC",
+    "dynamic_line": "Metamagic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_quicken" } },
+        "text": "Gain [<trait_name:perk_metamagic_quicken>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_quicken>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_quicken>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_quicken", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_widen" } },
+        "text": "Gain [<trait_name:perk_metamagic_widen>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_widen>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_widen>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_widen", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_reach" } },
+        "text": "Gain [<trait_name:perk_metamagic_reach>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_reach>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_reach>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_reach", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "perk_metamagic_silent" } },
+            { "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "xedra_evolved" } ] }
+          ]
+        },
+        "//": "Not relevant to MoM, so won't be available if that is the only magic mod.",
+        "text": "Gain [<trait_name:perk_metamagic_silent>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_silent>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_silent>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_silent", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "perk_metamagic_still" } },
+            { "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "xedra_evolved" } ] }
+          ]
+        },
+        "//": "Not relevant to MoM, so won't be available if that is the only magic mod.",
+        "text": "Gain [<trait_name:perk_metamagic_still>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_still>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_still>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_still", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 2 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "2" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_careful" } },
+        "text": "Gain [<trait_name:perk_metamagic_careful>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_careful>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_careful>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_careful", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_intuitive" } },
+        "text": "Gain [<trait_name:perk_metamagic_intuitive>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_intuitive>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_intuitive>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_intuitive", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 8 or above",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_spell_level('null')", ">=", "8" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_FAIL",
+    "dynamic_line": "You don't have a perk point, or meet the prerequisites for this perk.",
+    "responses": [ { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_SELECT",
+    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\n<context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            { "or": [ { "math": [ "u_no_prerecs", ">", "0" ] }, { "get_condition": "perk_condition" } ] },
+            { "math": [ "u_num_perks", ">", "0" ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [ { "u_add_trait": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "--" ] } ]
+      },
+      {
+        "text": "Go Back.",
+        "effect": [ { "set_string_var": "", "target_var": { "context_val": "trait_additional_details" } } ],
+        "topic": "TALK_PERK_MENU_MAIN"
+      },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_SELECT_PLAYSTYLE",
+    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts <u_val:playstyle_cost> + 1 perk points, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            { "or": [ { "math": [ "u_no_prerecs", ">", "0" ] }, { "get_condition": "perk_condition" } ] },
+            { "math": [ "u_num_perks", ">=", "u_playstyle_cost + 1" ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [ { "u_add_trait": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] } ]
+      },
+      {
+        "text": "Go Back.",
+        "effect": [ { "set_string_var": "", "target_var": { "context_val": "trait_additional_details" } } ],
+        "topic": "TALK_PERK_MENU_PLAYSTYLE"
+      },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]

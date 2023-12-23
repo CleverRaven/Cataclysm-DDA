@@ -71,11 +71,11 @@
       { "item": "water_clean", "prob": 90 },
       { "item": "knife_butcher", "prob": 100 },
       { "item": "joint", "prob": 50 },
-      { "item": "coke", "prob": 5 },
-      { "item": "cig", "prob": 60 },
+      { "prob": 5, "group": "coke_bag_zipper_8" },
+      { "prob": 60, "group": "cig_box_cigarette_20" },
       { "item": "lighter", "prob": 60, "charges-min": 10 },
-      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
     ]
   }
 ]

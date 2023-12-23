@@ -1,0 +1,355 @@
+[
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_biokinesis",
+    "name": { "str_sp": "strange crystal, pink" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
+    "color": "pink",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "art_crystal",
+    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The pink glow calls to you.",
+      "effect_on_conditions": [ "EOC_BIOKIN_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_biokin_dust",
+    "name": { "str_sp": "crystalline dust, pink" },
+    "description": "A bit of crystalline dust with a faint pink shimmer.",
+    "color": "pink",
+    "symbol": "=",
+    "volume": "1 ml",
+    "weight": "15 g",
+    "material": [ "powder_nonflam" ],
+    "looks_like": "material_quicklime"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_biokin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, pink" },
+    "description": "Concentrated matrix crystal dust.  It glitters pink even in complete darkness.",
+    "color": "pink",
+    "symbol": "=",
+    "volume": "1 ml",
+    "weight": "5 g",
+    "material": [ "powder_nonflam" ],
+    "looks_like": "material_quicklime"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_clairsentience",
+    "name": { "str_sp": "strange crystal, gray" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
+    "color": "dark_gray",
+    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The gray glow calls to you.",
+      "effect_on_conditions": [ "EOC_CLAIR_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_clair_dust",
+    "name": { "str_sp": "crystalline dust, gray" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint gray shimmer.",
+    "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_clair_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, gray" },
+    "description": "Concentrated matrix crystal dust.  It glitters gray even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "dark_gray"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_electrokinesis",
+    "name": { "str_sp": "strange crystal, cyan" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing cyan light in its depths.  Holding it, you feel more energetic.",
+    "color": "cyan",
+    "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The cyan glow calls to you.",
+      "effect_on_conditions": [ "EOC_ELECTRO_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_electrokin_dust",
+    "name": { "str_sp": "crystalline dust, cyan" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint cyan shimmer.",
+    "color": "cyan"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_electrokin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, cyan" },
+    "description": "Concentrated matrix crystal dust.  It glitters cyan even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "cyan"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_photokinesis",
+    "name": { "str_sp": "strange crystal, golden" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing golden light in its depths.  Holding it, you feel radiant.",
+    "color": "yellow",
+    "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The golden glow calls to you.",
+      "effect_on_conditions": [ "EOC_PHOTOKIN_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_photokin_dust",
+    "name": { "str_sp": "crystalline dust, golden" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint golden shimmer.",
+    "color": "yellow"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_photokin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, golden" },
+    "description": "Concentrated matrix crystal dust.  It glitters gold even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "yellow"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_pyrokinesis",
+    "name": { "str_sp": "strange crystal, red" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
+    "color": "red",
+    "flags": [ "MATRIX_CRYSTAL_PYROKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The red glow calls to you.",
+      "effect_on_conditions": [ "EOC_PYROKIN_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_pyrokin_dust",
+    "name": { "str_sp": "crystalline dust, red" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint red shimmer.",
+    "color": "red"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_pyrokin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, red" },
+    "description": "Concentrated matrix crystal dust.  It glitters red even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "red"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_telekinesis",
+    "name": { "str_sp": "strange crystal, yellow" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing yellow light in its depths.  Holding it, you feel lighter.",
+    "color": "yellow",
+    "flags": [ "MATRIX_CRYSTAL_TELEKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The yellow glow calls to you.",
+      "effect_on_conditions": [ "EOC_TELEKIN_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_telekin_dust",
+    "name": { "str_sp": "crystalline dust, yellow" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint yellow shimmer.",
+    "color": "yellow"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_telekin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, yellow" },
+    "description": "Concentrated matrix crystal dust.  It glitters yellow even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "yellow"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_telepathy",
+    "name": { "str_sp": "strange crystal, white" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing white light in its depths.  Holding it, you feel pensive.",
+    "color": "white",
+    "flags": [ "MATRIX_CRYSTAL_TELEPATHY" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The white glow calls to you.",
+      "effect_on_conditions": [ "EOC_TEEP_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_telepath_dust",
+    "name": { "str_sp": "crystalline dust, white" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint white shimmer.",
+    "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_telepath_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, white" },
+    "description": "Concentrated matrix crystal dust.  It glitters white even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "white"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_teleportation",
+    "name": { "str_sp": "strange crystal, blue" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
+    "color": "blue",
+    "flags": [ "MATRIX_CRYSTAL_TELEPORTATION" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The blue glow calls to you.",
+      "effect_on_conditions": [ "EOC_TELEPORT_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_teleport_dust",
+    "name": { "str_sp": "crystalline dust, blue" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint blue shimmer.",
+    "color": "blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_teleport_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, blue" },
+    "description": "Concentrated matrix crystal dust.  It glitters blue even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "blue"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_vitakinesis",
+    "name": { "str_sp": "strange crystal, green" },
+    "copy-from": "matrix_crystal_biokinesis",
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
+    "color": "green",
+    "flags": [ "MATRIX_CRYSTAL_VITAKINESIS" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The green glow calls to you.",
+      "effect_on_conditions": [ "EOC_VITAKIN_MATRIX_AWAKENING" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_vitakin_dust",
+    "name": { "str_sp": "crystalline dust, green" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust with a faint green shimmer.",
+    "color": "green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_vitakin_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, green" },
+    "description": "Concentrated matrix crystal dust.  It glitters green even in complete darkness.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "green"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_drained",
+    "name": { "str_sp": "strange crystal, black" },
+    "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, there is a faint light visible in its depths.",
+    "color": "black",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "art_crystal",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The faint light calls to you.",
+      "effect_on_conditions": [ "EOC_DRAINED_MATRIX" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_drained_dust",
+    "name": { "str_sp": "crystalline dust, black" },
+    "copy-from": "matrix_crystal_biokin_dust",
+    "description": "A bit of crystalline dust that seems to absorb light.",
+    "color": "black"
+  },
+  {
+    "type": "GENERIC",
+    "id": "matrix_crystal_drained_dust_refined",
+    "name": { "str_sp": "refined matrix crystal powder, black" },
+    "description": "Concentrated matrix crystal dust.  It seems to completely absorb any light that falls on it.",
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "black"
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_crystal_coruscating",
+    "name": { "str_sp": "strange crystal, coruscating" },
+    "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, multicolored lights churn and swirl within its depths.",
+    "copy-from": "matrix_crystal_biokinesis",
+    "color": "brown",
+    "flags": [ "MATRIX_CRYSTAL_CORUSCATING" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The coruscating light calls to you.",
+      "effect_on_conditions": [ "EOC_CORUSCATING_MATRIX" ]
+    }
+  },
+  {
+    "type": "TOOL",
+    "id": "matrix_shard",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "strange crystal shard" },
+    "category": "other",
+    "description": "A very heavy chunk of a strange crystalline outcropping.  You could use it as a weapon, but you might want to wear gloves.",
+    "material": [ "nether_crystal" ],
+    "weight": "450 g",
+    "volume": "30 ml",
+    "melee_damage": { "cut": 6 },
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
+    },
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
+    "to_hit": -1
+  }
+]

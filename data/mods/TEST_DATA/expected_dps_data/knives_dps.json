@@ -1,0 +1,33 @@
+[
+  {
+    "type": "test_data",
+    "//": "expected value 19",
+    "//2": "bio_blade_weapon: much better than any other knife",
+    "expected_dps": {
+      "knife_baselard": 14.872,
+      "bio_blade_weapon": 24.5,
+      "bone_knife": 7.11,
+      "knife_butcher": 10,
+      "knife_combat": 16.489,
+      "copper_knife": 8.0,
+      "diveknife": 8.0,
+      "knife_hunting": 8.83,
+      "kirpan": 11.385,
+      "kirpan_cheap": 2.809,
+      "kris": 13.5,
+      "kris_fake": 1.811,
+      "knife_meat_cleaver": 13.97,
+      "pockknife": 4.5,
+      "primitive_knife": 2.5,
+      "mc_knife_rambo": 9.415,
+      "knife_rm42": 17.58,
+      "spike": 4.0,
+      "switchblade": 10.5,
+      "tanto": 14.954,
+      "tanto_inferior": 13.063,
+      "tanto_fake": 6.93,
+      "throwing_knife": 7.0,
+      "mc_knife_trench": 12.29
+    }
+  }
+]

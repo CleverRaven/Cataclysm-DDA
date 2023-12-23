@@ -1,0 +1,255 @@
+[
+  {
+    "type": "GENERIC",
+    "abstract": "skull_abstract",
+    "name": { "str": "abstract skull" },
+    "description": "This is a dummy item.  If you see it something went wrong.",
+    "flags": [ "TRADER_AVOID" ],
+    "category": "spare_parts",
+    "weight": "1 kg",
+    "volume": "1400 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_human",
+    "name": { "str": "human skull" },
+    "description": "The skull of a human being.  Carrying this around probably isn't going to win you any friends.",
+    "copy-from": "skull_abstract",
+    "extend": { "flags": [ "CANNIBALISM" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_canis_small",
+    "name": { "str": "tiny canine skull" },
+    "description": "The skull of a tiny canine, likely a Chihuahua or another similarly sized dog breed.",
+    "copy-from": "skull_abstract",
+    "weight": "35 g",
+    "volume": "270 ml",
+    "longest_side": "7 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_canis_medium",
+    "name": { "str": "small canine skull" },
+    "description": "The skull of a small canine, likely a small dog breed.",
+    "copy-from": "skull_abstract",
+    "weight": "65 g",
+    "volume": "500 ml",
+    "longest_side": "12 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_canis",
+    "name": { "str": "large canine skull" },
+    "description": "The skull of a wolf or a dog.  Essential material for building an articulated wolf skeleton.",
+    "copy-from": "skull_abstract",
+    "weight": "500 g",
+    "volume": "4 L",
+    "longest_side": "29 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_canis_triclopean",
+    "name": { "str": "triclopean canine skull" },
+    "description": "The skull of a what looks like a dog, although it has an extra eye socket.",
+    "copy-from": "skull_abstract",
+    "weight": "65 g",
+    "volume": "500 ml",
+    "longest_side": "12 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_feline_small",
+    "name": { "str": "small feline skull" },
+    "description": "The skull of a small feline, likely a house cat.",
+    "copy-from": "skull_abstract",
+    "weight": "40 g",
+    "volume": "300 ml",
+    "longest_side": "10 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_feline_medium",
+    "name": { "str": "medium feline skull" },
+    "description": "The skull of a medium-sized feline, likely a bobcat.",
+    "copy-from": "skull_abstract",
+    "weight": "65 g",
+    "volume": "500 ml",
+    "longest_side": "13 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_cougar",
+    "name": { "str": "cougar skull" },
+    "description": "The skull of a cougar.",
+    "copy-from": "skull_abstract",
+    "weight": "450 g",
+    "volume": "3 L",
+    "longest_side": "21 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_raccoon",
+    "name": { "str": "raccoon skull" },
+    "description": "The skull of a raccoon.",
+    "copy-from": "skull_abstract",
+    "weight": "75 g",
+    "volume": "575 ml",
+    "longest_side": "12 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_bear",
+    "name": { "str": "bear skull" },
+    "description": "The skull of a bear.",
+    "copy-from": "skull_abstract",
+    "weight": "1500 g",
+    "volume": "10500 ml",
+    "longest_side": "30 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_opossum",
+    "name": { "str": "opossum skull" },
+    "description": "The skull of an opossum.",
+    "copy-from": "skull_abstract",
+    "weight": "45 g",
+    "volume": "275 ml",
+    "longest_side": "11 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_rodent",
+    "name": { "str": "rodent skull" },
+    "description": "The skull of a small rodent, most likely a rat.",
+    "copy-from": "skull_abstract",
+    "weight": "3 g",
+    "volume": "20 ml",
+    "longest_side": "5 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_rabbit",
+    "name": { "str": "rabbit skull" },
+    "description": "The skull of a rabbit or a hare.",
+    "copy-from": "skull_abstract",
+    "weight": "90 g",
+    "volume": "450 ml",
+    "longest_side": "10 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_beaver",
+    "name": { "str": "beaver skull" },
+    "description": "The skull of a beaver.",
+    "copy-from": "skull_abstract",
+    "weight": "280 g",
+    "volume": "2 L",
+    "longest_side": "16 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_pig",
+    "name": { "str": "pig skull" },
+    "description": "The skull of a pig, either a domestic or a wild one.",
+    "copy-from": "skull_abstract",
+    "weight": "650 g",
+    "volume": "6 L",
+    "longest_side": "30 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_sheep",
+    "name": { "str": "sheep skull" },
+    "description": "The skull of a domestic sheep.",
+    "copy-from": "skull_abstract",
+    "weight": "500 g",
+    "volume": "4 L",
+    "longest_side": "25 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_goat",
+    "name": { "str": "goat skull" },
+    "description": "The skull of a goat with the horns still attached.",
+    "copy-from": "skull_abstract",
+    "weight": "800 g",
+    "volume": "4500 ml",
+    "longest_side": "25 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_bovine",
+    "name": { "str": "cow skull" },
+    "description": "The skull of a bovine, likely a domestic cow, with the horns still attached.",
+    "copy-from": "skull_abstract",
+    "weight": "10 kg",
+    "volume": "58500 ml",
+    "longest_side": "35 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_equine",
+    "name": { "str": "horse skull" },
+    "description": "The skull of a horse.  Given the circumstances you can be pretty sure it was a domestic horse.",
+    "copy-from": "skull_abstract",
+    "weight": "10 kg",
+    "volume": "45 L",
+    "longest_side": "55 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_cervine",
+    "name": { "str": "deer skull" },
+    "description": "The skull of a cervine, either a deer or a reindeer, with the antlers still attached.",
+    "copy-from": "skull_abstract",
+    "weight": "2500 g",
+    "volume": "78 L",
+    "longest_side": "50 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_cervine_spideer",
+    "name": { "str": "deer skull" },
+    "description": "The skull of a cervine, with the antlers still attached…  But why does it have eight eye sockets?",
+    "copy-from": "skull_abstract",
+    "weight": "2250 g",
+    "volume": "72 L",
+    "longest_side": "40 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_moose",
+    "name": { "str": "moose skull" },
+    "description": "The skull of a moose, unmistakable thanks to the antler shape.",
+    "copy-from": "skull_abstract",
+    "weight": "12 kg",
+    "volume": "85 L",
+    "longest_side": "65 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_moose_tusked",
+    "name": { "str": "tusked moose skull" },
+    "description": "The skull of a moose, unmistakable thanks to the antler shape and… tusks?  Okay, maybe this did not belong to a normal moose after all.",
+    "copy-from": "skull_abstract",
+    "weight": "20 kg",
+    "volume": "125 L",
+    "longest_side": "120 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_llama",
+    "name": { "str": "llama skull" },
+    "description": "The skull of a llama.",
+    "copy-from": "skull_abstract",
+    "weight": "8 kg",
+    "volume": "35 L",
+    "longest_side": "30 cm"
+  }
+]

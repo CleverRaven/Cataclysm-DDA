@@ -1,0 +1,140 @@
+[
+  {
+    "id": "fd_mirrored",
+    "type": "field_type",
+    "//": "Similar effect to Angle Dog Fog.",
+    "intensity_levels": [
+      {
+        "name": "rainbow glimmer",
+        "color": "light_green_yellow",
+        "sym": "^",
+        "dangerous": true,
+        "intensity_upgrade_chance": 10,
+        "intensity_upgrade_duration": "6 hours"
+      },
+      {
+        "name": "nauseating tension",
+        "color": "cyan",
+        "monster_spawn_chance": 34000,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
+      },
+      {
+        "name": "broken reflections",
+        "color": "magenta_yellow",
+        "transparent": false,
+        "monster_spawn_chance": 46000,
+        "monster_spawn_count": 3,
+        "monster_spawn_radius": 6,
+        "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_blood_karma",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "karma splatter", "color": "cyan" }, { "name": "karma stain" }, { "name": "puddle of karma" } ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "2 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true
+  },
+  {
+    "id": "fd_acidic_mist",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "greenish mist",
+        "sym": "~",
+        "dangerous": true,
+        "transparent": false,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "acidic_mist",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": true,
+            "message": "The mist hisses as it touches you!",
+            "message_npc": "The mist hisses around <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": " green tinged fog",
+        "translucency": 3,
+        "effects": [
+          {
+            "effect_id": "acidic_mist",
+            "intensity": 2,
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": true,
+            "message": "The mist hisses and pops as it touches you!",
+            "message_npc": "The mist hisses and pops around <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "dense dark green fog",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "acidic_mist",
+            "intensity": 3,
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": true,
+            "message": "The mist sizzles and pits your gear as it touches you!",
+            "message_npc": "The mist sizzles and pits <npcname>'s gear!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 30,
+    "has_acid": true,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "immunity_data": { "flags": [ "ACID_IMMUNE" ] },
+    "priority": 8,
+    "half_life": "7 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_salamander_heat",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 12 },
+      { "color": "yellow", "convection_temperature_mod": 22 },
+      { "color": "red", "convection_temperature_mod": 45 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  }
+]

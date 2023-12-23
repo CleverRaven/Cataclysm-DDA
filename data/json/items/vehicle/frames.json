@@ -2,8 +2,8 @@
   {
     "type": "GENERIC",
     "id": "foldframe",
-    "name": { "str": "foldable-light frame" },
-    "description": "A small foldable lightweight frame made from pipework.",
+    "name": { "str": "foldable light frame" },
+    "description": "A small, foldable lightweight frame made from pipework.",
     "weight": "5000 g",
     "to_hit": -3,
     "color": "light_gray",
@@ -11,19 +11,26 @@
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM" ],
     "volume": "10 L",
-    "bashing": 15,
     "category": "veh_parts",
     "price": 4000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "GENERIC",
     "id": "xlframe",
     "name": { "str": "extra-light frame" },
-    "description": "A small lightweight frame made from pipework.  Useful for crafting.",
+    "description": "A small, lightweight frame made from pipework.  Useful for crafting.",
     "material": [ "aluminum" ],
     "weight": "1677 g",
     "copy-from": "foldframe"
+  },
+  {
+    "type": "GENERIC",
+    "id": "foldxlframe",
+    "name": { "str": "foldable extra-light frame" },
+    "description": "A small, foldable lightweight frame made from aluminum.",
+    "copy-from": "xlframe"
   },
   {
     "type": "GENERIC",
@@ -34,10 +41,10 @@
     "to_hit": -5,
     "color": "cyan",
     "volume": "15 L",
-    "bashing": 20,
     "price": 5500,
     "price_postapoc": 100,
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 20 }
   },
   {
     "type": "GENERIC",
@@ -49,11 +56,11 @@
     "color": "green",
     "material": [ "qt_steel", "steel" ],
     "volume": "20 L",
-    "bashing": 25,
     "price": 12000,
     "price_postapoc": 250,
     "qualities": [ [ "ANVIL", 1 ] ],
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 25 }
   },
   {
     "type": "GENERIC",
@@ -65,17 +72,16 @@
     "color": "brown",
     "material": [ "wood" ],
     "volume": "15 L",
-    "bashing": 16,
-    "cutting": 4,
     "price": 3500,
     "price_postapoc": 100,
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 16, "cut": 4 }
   },
   {
     "type": "GENERIC",
     "id": "foldwoodframe",
     "name": { "str": "foldable wooden frame" },
-    "description": "A small foldable frame made from scrap wood.",
+    "description": "A small, foldable frame made from scrap wood.",
     "weight": "4000 g",
     "color": "brown",
     "material": [ "wood" ],
@@ -86,14 +92,29 @@
     "type": "GENERIC",
     "id": "frame_wood_light",
     "name": { "str": "light wooden frame" },
-    "description": "A small frame made of few pieces of wood, held together by rope.  Useful for crafting.",
+    "description": "A small frame made of a few pieces of wood, held together by rope.  Useful for crafting.",
     "weight": "4000 g",
     "to_hit": -5,
     "color": "brown",
     "material": [ "wood" ],
     "volume": "8750 ml",
-    "bashing": 8,
-    "cutting": 1,
+    "price": 1000,
+    "price_postapoc": 50,
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 8, "cut": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "frame_wood_deck",
+    "name": { "str": "skateboard deck" },
+    "description": "A small skateboard frame made of thin layers of wood glued together.",
+    "weight": "1500 g",
+    "to_hit": -5,
+    "color": "brown",
+    "material": [ "wood" ],
+    "volume": "8750 ml",
+    "longest_side": "75 cm",
+    "melee_damage": { "bash": 8, "cut": 1 },
     "price": 1000,
     "price_postapoc": 50,
     "copy-from": "foldframe"

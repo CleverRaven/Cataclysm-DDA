@@ -1,0 +1,271 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_bandits_block",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [ "24x24_bandits_block_horizontal" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ],
+            "east": [ { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" } ],
+            "south": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ],
+            "west": [ { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" } ]
+          }
+        },
+        {
+          "chunks": [ "24x24_bandits_block_vertical" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [ { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" } ],
+            "east": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ],
+            "south": [ { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" } ],
+            "west": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bandits_block_horizontal",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_bandits_block_horizontal_felled_trees", "24x24_bandits_block_horizontal_traps" ],
+          "x": 0,
+          "y": [ 3, 14 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bandits_block_vertical",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_bandits_block_vertical_felled_trees", "24x24_bandits_block_vertical_traps" ],
+          "x": [ 3, 14 ],
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bandits_block_horizontal_felled_trees",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        ---             ",
+        " n------                ",
+        "                 -----n ",
+        "           ------     / ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "-": "t_trunk", "n": "t_stump", "/": "t_improvised_shelter" },
+      "npcs": { "/": { "class": "bandit" } },
+      "place_nested": [ { "chunks": [ "1x1_bandit", "null" ], "x": 1, "y": 2 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bandits_block_vertical_felled_trees",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "  n/                    ",
+        "  |                     ",
+        "  |                     ",
+        "  |                     ",
+        "  |                     ",
+        "  |                     ",
+        "   |                    ",
+        "   |                    ",
+        "   |                    ",
+        "   |                    ",
+        "   |                    ",
+        "   |                    ",
+        "|                       ",
+        "|                       ",
+        "|                       ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " n                      ",
+        "                        "
+      ],
+      "terrain": { "|": "t_trunk", "n": "t_stump", "/": "t_improvised_shelter" },
+      "npcs": { "/": { "class": "bandit" } },
+      "place_nested": [ { "chunks": [ "1x1_bandit", "null" ], "x": 0, "y": 22 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bandits_block_horizontal_traps",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " ss                     ",
+        "ssss                    ",
+        "ssss                    ",
+        " ss                     ",
+        "X X X X X X  X X X X X X",
+        "X X X X X X  X X X X X X",
+        "                     ss ",
+        "                    ssss",
+        "                    ssss",
+        "                     ss ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "parameters": { "trap_type": { "type": "string", "default": { "distribution": [ "tr_nailboard", "tr_caltrops" ] }, "scope": "nest" } },
+      "terrain": { "s": [ "t_underbrush", [ "t_null", 2 ] ] },
+      "nested": {
+        "X": {
+          "chunks": [
+            {
+              "switch": { "param": "trap_type", "fallback": "tr_caltrops" },
+              "cases": { "tr_nailboard": "1x1_nailboard", "tr_caltrops": "1x1_caltrops" }
+            },
+            [ "null", 4 ]
+          ]
+        }
+      },
+      "place_nested": [
+        { "chunks": [ "1x1_bandit_dirt" ], "x": [ 1, 2 ], "y": [ 1, 2 ] },
+        { "chunks": [ "1x1_bandit_dirt" ], "x": [ 21, 22 ], "y": [ 7, 8 ] }
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bandits_block_vertical_traps",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "    XX ss               ",
+        "      ssss              ",
+        "    XXssss              ",
+        "       ss               ",
+        "    XX                  ",
+        "                        ",
+        "    XX                  ",
+        "                        ",
+        "    XX                  ",
+        "                        ",
+        "    XX                  ",
+        "                        ",
+        "                        ",
+        "    XX                  ",
+        "                        ",
+        "    XX                  ",
+        "                        ",
+        "    XX                  ",
+        "                        ",
+        "    XX                  ",
+        " ss                     ",
+        "ssssXX                  ",
+        "ssss                    ",
+        " ss XX                  "
+      ],
+      "parameters": { "trap_type": { "type": "string", "default": { "distribution": [ "tr_nailboard", "tr_caltrops" ] }, "scope": "nest" } },
+      "terrain": { "s": [ "t_underbrush", [ "t_null", 2 ] ] },
+      "nested": {
+        "X": {
+          "chunks": [
+            {
+              "switch": { "param": "trap_type", "fallback": "tr_caltrops" },
+              "cases": { "tr_nailboard": "1x1_nailboard", "tr_caltrops": "1x1_caltrops" }
+            },
+            [ "null", 4 ]
+          ]
+        }
+      },
+      "place_nested": [
+        { "chunks": [ "1x1_bandit_dirt" ], "x": [ 7, 8 ], "y": [ 1, 2 ] },
+        { "chunks": [ "1x1_bandit_dirt" ], "x": [ 1, 2 ], "y": [ 21, 22 ] }
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_bandit",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "bandit", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_bandit_dirt",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
+      "place_npcs": [ { "class": "bandit", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_nailboard",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "trap", "id": "tr_nailboard", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_caltrops",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "trap", "id": "tr_caltrops", "x": 0, "y": 0 } ] }
+  }
+]

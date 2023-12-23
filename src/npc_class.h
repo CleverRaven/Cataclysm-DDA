@@ -16,6 +16,7 @@ class JsonObject;
 class Trait_group;
 
 struct dialogue;
+struct faction_price_rule;
 
 namespace trait_group
 {
@@ -51,7 +52,7 @@ struct shopkeeper_item_group {
     int trust = 0;
     bool strict = false;
     std::string refusal;
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -80,12 +81,18 @@ class npc_class
         distribution bonus_int;
         distribution bonus_per;
 
+        distribution bonus_aggression;
+        distribution bonus_bravery;
+        distribution bonus_collector;
+        distribution bonus_altruism;
+
         std::map<skill_id, distribution> skills;
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
 
         // first -> item group, second -> trust
         std::vector<shopkeeper_item_group> shop_item_groups;
+        std::vector<faction_price_rule> shop_price_rules;
         shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
         shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
         time_duration restock_interval = 6_days;
@@ -118,14 +125,20 @@ class npc_class
         int roll_intelligence() const;
         int roll_perception() const;
 
+        int roll_aggression() const;
+        int roll_bravery() const;
+        int roll_collector() const;
+        int roll_altruism() const;
+
         int roll_skill( const skill_id & ) const;
 
         const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
         const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
         const time_duration &get_shop_restock_interval() const;
+        faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const npc_class_id &from_legacy_int( int i );
 

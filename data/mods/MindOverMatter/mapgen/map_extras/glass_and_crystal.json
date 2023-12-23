@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_glass_and_crystal",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "glass_and_crystal_chunk" ], "x": [ 2, 15 ], "y": [ 2, 15 ] } ],
+      "monsters": { " ": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0001 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_and_crystal_chunk",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   GGG   ",
+        " GGGCGGG ",
+        " GGCCCGG ",
+        "GGCCCCCGG",
+        "GCCCNCCCG",
+        "GGCCCCCGG",
+        " GGCCCGG ",
+        " GGGCGGG ",
+        "   GGG   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "c": "t_nether_stone", "C": "t_nether_stone", "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ], " ": "t_null" },
+      "furniture": { "C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "nested": { "N": { "chunks": [ "glass_and_crystal_chunk_center" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_and_crystal_chunk_center",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "X": "t_nether_stone" },
+      "items": { "X": { "item": "dist_matrix_crystals", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_and_crystal_chunk_center",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "X": "t_nether_stone" },
+      "furniture": { "X": "f_nether_crystal_structure" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_and_crystal_chunk_center",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "X": "t_nether_stone" },
+      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 } ]
+    }
+  }
+]

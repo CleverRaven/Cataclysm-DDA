@@ -23,10 +23,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140000 g",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -40,10 +39,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -57,10 +55,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -194,10 +191,9 @@
     "material": [ "superalloy", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -253,10 +249,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -272,10 +267,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -291,9 +285,59 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_eyebot",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken eyebot" },
+    "category": "other",
+    "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "31520 g",
+    "volume": "15 L",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_copbot",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken police bot" },
+    "category": "other",
+    "description": "A broken police bot.  Much less threatening now that it's quiet and still.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_riotbot",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken riot control bot" },
+    "category": "other",
+    "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   }
 ]

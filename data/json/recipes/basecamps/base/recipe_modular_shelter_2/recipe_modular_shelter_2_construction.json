@@ -1,0 +1,242 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom1",
+    "description": "Let's build some living quarters so we can expand.  We will start in the northwest corner.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_NW",
+    "blueprint_name": "build NW bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_fire" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom1" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom2",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the west wall.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_W1",
+    "blueprint_name": "build W bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom1" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom2" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom2" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom3",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the same wall.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_W2",
+    "blueprint_name": "build W bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom2" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom3" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom3" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom4",
+    "description": "Let's build some living quarters so we can expand.  We will enclose the west side of the stairs.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_W3",
+    "blueprint_name": "build W bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom3" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom4" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom4" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom5",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the southwest corner.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_SW",
+    "blueprint_name": "build SW bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom4" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom5" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom5" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom6",
+    "description": "Let's build two living quarters so we can expand.  We will continue along the south wall.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_S",
+    "blueprint_name": "build S bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom5" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom6" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom6" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom7",
+    "description": "Let's build another bedroom so we can expand.  We will continue to enclose the stairwell and add new doors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_E1",
+    "blueprint_name": "build central E bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom6" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom7" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom7" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom8",
+    "description": "Let's build another bedroom on the east wall.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_E2",
+    "blueprint_name": "build E bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom7" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom8" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom8" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom9",
+    "description": "Let's build another bedroom on the east wall.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_E3",
+    "blueprint_name": "build E bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom8" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom9" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom9" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shelter_2_bedroom10",
+    "description": "Let's build another bedroom on the east wall.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_2_bedroom_E4",
+    "blueprint_name": "build E bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_2_palette_log": "Log walls",
+        "fbmc_shelter_2_palette_rock": "Rock walls",
+        "fbmc_shelter_2_palette_standard": "Standard walls",
+        "fbmc_shelter_2_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_2_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom9" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom10" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom10" } ]
+  }
+]

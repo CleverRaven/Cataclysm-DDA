@@ -1,0 +1,1322 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_godco_helena",
+    "name": { "str": "Leader" },
+    "job_description": "I am the leader of the New England Church Community.",
+    "common": false,
+    "bonus_str": 1,
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": 2,
+    "worn_override": "GODCO_helena_worn",
+    "carry_override": "GODCO_helena_carried",
+    "weapon_override": "GODCO_helena_wield",
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "trait": "EAGLEEYED" },
+      { "trait": "hair_long", "variant": "brown" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "bonus": 5, "skill": "gun" },
+      { "bonus": 3, "skill": "speech" },
+      { "bonus": 2, "skill": "rifle" },
+      { "bonus": 2, "skill": "survival" },
+      { "bonus": 2, "skill": "fabrication" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_guard",
+    "name": { "str": "Guard" },
+    "job_description": "I'm protecting stuff.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 2 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ 1, 3 ] },
+    "worn_override": "GODCO_guard_worn",
+    "carry_override": "GODCO_guard_carried",
+    "weapon_override": "GODCO_guard_wield",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_chloe_taylor",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -3, -2 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, -2 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "GODCO_chloe_taylor_worn",
+    "carry_override": "GODCO_chloe_taylor_carried",
+    "weapon_override": "GODCO_chloe_taylor_wield",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Skin_Any" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "melee", "bonus": 1 },
+      { "skill": "stabbing", "bonus": 1 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_sonia",
+    "name": { "str": "Joinee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "bonus_str": { "rng": [ -3, -1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "worn_override": "GODCO_sonia_worn",
+    "carry_override": "GODCO_sonia_carried",
+    "weapon_override": "GODCO_sonia_wield",
+    "traits": [
+      { "trait": "PRETTY" },
+      { "trait": "PACIFIST" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "hair_long", "variant": "blond" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }, { "bonus": 1, "skill": "bashing" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_zachary_montes",
+    "name": { "str": "Joinee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_zachary_montes_worn",
+    "carry_override": "GODCO_zachary_montes_carried",
+    "weapon_override": "GODCO_zachary_montes_wield",
+    "proficiencies": [ "prof_carpentry_basic", "prof_carving" ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "FACIAL_HAIR_BEARD" },
+      { "trait": "NO_BASH" }
+    ],
+    "skills": [
+      { "bonus": 1, "skill": "melee" },
+      { "bonus": 2, "skill": "cutting" },
+      { "bonus": 2, "skill": "survival" },
+      { "bonus": 3, "skill": "bashing" },
+      { "bonus": 4, "skill": "fabrication" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_darryl",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -1, 0 ] },
+    "bonus_per": { "rng": [ -1, 0 ] },
+    "worn_override": "GODCO_darryl_worn",
+    "carry_override": "GODCO_darryl_carried",
+    "weapon_override": "GODCO_darryl_wield",
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "group": "Appearance_demographics" },
+      { "trait": "ANIMALEMPATH" },
+      { "trait": "OUTDOORSMAN" },
+      { "group": "Exp_Agriculture_Nofake" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "bonus": 3, "skill": "survival" },
+      { "bonus": 3, "skill": "fabrication" },
+      { "bonus": 2, "skill": "melee" },
+      { "bonus": 2, "skill": "bashing" },
+      { "bonus": 2, "skill": "cutting" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_katherine",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -1, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_katherine_worn",
+    "carry_override": "GODCO_katherine_carried",
+    "weapon_override": "GODCO_katherine_wield",
+    "proficiencies": [ "prof_knitting" ],
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "SPIRITUAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_Caucasian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "bonus": 2, "skill": "cooking" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_julian",
+    "name": { "str": "Dorm leader" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": 2,
+    "worn_override": "GODCO_julian_worn",
+    "carry_override": "GODCO_julian_carried",
+    "weapon_override": "GODCO_julian_wield",
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "SPIRITUAL" },
+      { "trait": "INSOMNIA" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "gun", "bonus": 3 },
+      { "skill": "pistol", "bonus": 2 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_gemma",
+    "name": { "str": "Dorm leader" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_gemma_worn",
+    "carry_override": "GODCO_gemma_carried",
+    "weapon_override": "GODCO_gemma_wield",
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "trait": "NIGHTVISION" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_russell",
+    "name": { "str": "Hunter" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -1, 0 ] },
+    "bonus_per": 4,
+    "worn_override": "GODCO_russell_worn",
+    "carry_override": "GODCO_russell_carried",
+    "weapon_override": "GODCO_russell_wield",
+    "proficiencies": [ "prof_traps", "prof_trapsetting", "prof_tanning_basic" ],
+    "shopkeeper_item_group": [
+      { "group": "GODCO_russell_sell", "rigid": true },
+      {
+        "group": "GODCO_russell_carried",
+        "rigid": true,
+        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "refusal": "<npcname> will never sell this"
+      }
+    ],
+    "traits": [
+      { "trait": "NIGHTVISION" },
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "EAGLEEYED" },
+      { "group": "Appearance_demographics" },
+      { "trait": "FACIAL_HAIR_BEARD" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "bonus": 3, "skill": "survival" },
+      { "bonus": 2, "skill": "fabrication" },
+      { "bonus": 2, "skill": "melee" },
+      { "bonus": 2, "skill": "cutting" },
+      { "bonus": 5, "skill": "gun" },
+      { "bonus": 4, "skill": "rifle" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_tom",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ -2, 1 ] },
+    "worn_override": "GODCO_tom_worn",
+    "carry_override": "GODCO_tom_carried",
+    "weapon_override": "GODCO_tom_wield",
+    "traits": [
+      { "trait": "FASTREADER" },
+      { "trait": "SLOWRUNNER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [ { "bonus": 2, "skill": "survival" }, { "bonus": 1, "skill": "fabrication" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_kostas",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "GODCO_kostas_worn",
+    "carry_override": "GODCO_kostas_carried",
+    "shopkeeper_item_group": "GODCO_kostas_carried",
+    "weapon_override": "GODCO_kostas_wield",
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping" ],
+    "traits": [
+      { "trait": "ANIMALEMPATH" },
+      { "trait": "SPIRITUAL" },
+      { "trait": "OUTDOORSMAN" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "bonus": 7, "skill": "survival" },
+      { "bonus": 3, "skill": "melee" },
+      { "bonus": 2, "skill": "fabrication" },
+      { "bonus": 1, "skill": "cutting" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_greenwood",
+    "name": { "str": "Clergyman" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 4 ] },
+    "bonus_per": { "rng": [ -2, 0 ] },
+    "worn_override": "GODCO_greenwood_worn",
+    "carry_override": "GODCO_greenwood_carried",
+    "weapon_override": "GODCO_greenwood_wield",
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [ { "bonus": 4, "skill": "speech" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_jane",
+    "name": { "str": "Doctor" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_jane_worn",
+    "carry_override": "GODCO_jane_carried",
+    "weapon_override": "GODCO_jane_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
+    "skills": [ { "bonus": { "rng": [ 4, 5 ] }, "skill": "firstaid" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_corrie",
+    "name": { "str": "joinee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_corrie_worn",
+    "carry_override": "GODCO_corrie_carried",
+    "weapon_override": "GODCO_corrie_wield",
+    "proficiencies": [ "prof_plasticworking", "prof_elec_soldering", "prof_welding_basic" ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [ { "skill": "mechanics", "bonus": 4 }, { "skill": "fabrication", "bonus": 2 }, { "skill": "electronics", "bonus": 4 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_felicity",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -1, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_felicity_worn",
+    "carry_override": "GODCO_felicity_carried",
+    "weapon_override": "GODCO_felicity_wield",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "trait": "SPIRITUAL" },
+      { "group": "Appearance_Mixed" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "bonus": 1, "skill": "speech" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_theresa",
+    "name": "Member",
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -3, -2 ] },
+    "bonus_dex": { "rng": [ -3, -2 ] },
+    "bonus_int": { "rng": [ -1, 2 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "GODCO_theresa_worn",
+    "carry_override": "GODCO_theresa_carried",
+    "weapon_override": "GODCO_theresa_wield",
+    "proficiencies": [ "prof_knitting", "prof_knitting_speed" ],
+    "traits": [
+      { "trait": "SLOWRUNNER" },
+      { "trait": "BADHEARING" },
+      { "trait": "BADKNEES" },
+      { "trait": "FLIMSY" },
+      { "trait": "ANIMALEMPATH" },
+      { "trait": "HYPEROPIC" },
+      { "trait": "hair_long", "variant": "white" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [ { "skill": "tailor", "bonus": 6 }, { "skill": "cooking", "bonus": 6 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_jeremiah",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 0, 1 ] },
+    "bonus_per": { "rng": [ -2, 0 ] },
+    "worn_override": "GODCO_jeremiah_worn",
+    "carry_override": "GODCO_jeremiah_carried",
+    "weapon_override": "GODCO_jeremiah_wield",
+    "traits": [
+      { "trait": "MYOPIC" },
+      { "trait": "PROF_DICEMASTER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Hair_Brown" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "bonus": 2, "skill": "speech" },
+      { "bonus": 1, "skill": "survival" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_olwen",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_olwen_worn",
+    "carry_override": "GODCO_olwen_carried",
+    "weapon_override": "GODCO_olwen_wield",
+    "traits": [
+      { "trait": "WAKEFUL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "bonus": 6, "skill": "computer" },
+      { "bonus": 1, "skill": "electronics" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_maria",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_maria_worn",
+    "carry_override": "GODCO_maria_carried",
+    "weapon_override": "GODCO_maria_wield",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "bonus": 5, "skill": "tailor" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_arturo",
+    "name": { "str": "Member" },
+    "job_description": "I am a member of the New England Church Community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -1, 2 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "worn_override": "GODCO_arturo_worn",
+    "carry_override": "naked_prisoner",
+    "weapon_override": "naked_prisoner",
+    "traits": [
+      { "trait": "SCHIZOPHRENIC" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, -5 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EVAC_GODCO_TRADER",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm a local shopkeeper.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_GODCO_MERCHANT_sell",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TRADER_PREDATORY",
+    "name": { "str": "Trader" },
+    "job_description": "I'm collecting gear and selling it at a high interest.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "shopkeeper_item_group": [ { "group": "NC_EVAC_SHOPKEEP_misc", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "item": "icon", "price": 100 },
+      {
+        "group": "NC_EVAC_SHOPKEEP_misc",
+        "condition": { "not": { "npc_has_var": "u_paidoff", "type": "general", "context": "meeting", "value": "yes" } },
+        "markup": 3
+      }
+    ],
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 }
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_helena_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "longshirt" },
+      { "item": "pants_cargo" },
+      { "item": "jacket_army" },
+      { "item": "holy_symbol_wood" },
+      { "item": "quiver", "ammo-item": "bolt_wood_bodkin", "charges": 20 },
+      { "item": "hat_boonie" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_guard_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boots" },
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "sweater" },
+      { "item": "pants" },
+      { "item": "hoodie" },
+      { "item": "mbag" },
+      { "item": "hat_ball" },
+      { "item": "sunglasses", "prob": 50 },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_taylor_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sports_bra" },
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "tshirt_text" },
+      { "item": "skirt" },
+      { "item": "sneakers" },
+      { "item": "gloves_light" },
+      { "item": "knit_scarf" },
+      { "item": "holy_symbol_wood" },
+      { "item": "hat_knit", "prob": 50 },
+      { "item": "coat_rain" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "briefs" },
+      { "item": "bra" },
+      { "item": "tshirt_tour" },
+      { "item": "pants_cargo" },
+      { "item": "leather_belt" },
+      { "item": "trenchcoat_leather" },
+      { "item": "wristwatch" },
+      { "item": "bead_bracelet" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_montes_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "undershirt" },
+      { "item": "leather_belt" },
+      { "item": "gloves_work" },
+      { "item": "gold_ear" },
+      { "item": "hat_hard_hooded" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_darryl_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots_rubber" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "technician_shirt_gray" },
+      { "item": "knit_scarf" },
+      { "item": "wristwatch" },
+      { "item": "jacket_evac" },
+      { "item": "backpack" },
+      { "item": "silver_ring" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_katherine_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "panties" },
+      { "item": "bra" },
+      { "item": "skirt" },
+      { "item": "sweatshirt" },
+      { "item": "knit_scarf" },
+      { "item": "gold_ring" },
+      { "item": "gold_ear" },
+      { "item": "holy_symbol_wood" },
+      { "item": "glasses_reading" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_julian_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks_wool" },
+      { "item": "boots_steel" },
+      { "item": "boxer_shorts" },
+      { "item": "pants_cargo" },
+      { "item": "longshirt" },
+      { "item": "leather_pouch" },
+      { "item": "holy_symbol_wood" },
+      { "item": "wristwatch" },
+      { "item": "badge_deputy" },
+      { "item": "hat_hunting" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_gemma_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots_western" },
+      { "item": "panties" },
+      { "item": "bra" },
+      { "item": "jeans" },
+      { "item": "dress_shirt" },
+      { "item": "fanny" },
+      { "item": "jacket_leather" },
+      { "item": "hat_knit" },
+      { "item": "silver_ring" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots_steel" },
+      { "item": "pants_cargo" },
+      { "item": "tank_top", "variant": "tank_top_camo" },
+      { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
+      { "item": "jacket_army" },
+      { "item": "knit_scarf" },
+      { "item": "backpack_hiking" },
+      { "item": "duffelbag" },
+      { "item": "sheath", "contents-item": "knife_hunting" },
+      { "item": "hat_fur" },
+      { "item": "wristwatch" },
+      { "item": "binoculars" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_tom_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "jacket_flannel" },
+      { "item": "fanny" },
+      { "item": "silver_watch" },
+      { "item": "holy_symbol_wood" },
+      { "item": "mask_gas", "charges": 75 },
+      { "item": "gold_ring" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_kostas_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots_hiking" },
+      { "item": "briefs" },
+      { "item": "pants_cargo" },
+      { "item": "sweatshirt" },
+      { "item": "bow_sling" },
+      { "item": "trenchcoat_leather" },
+      { "item": "holy_symbol_wood" },
+      { "item": "scabbard" },
+      { "item": "scarf_fur" },
+      { "item": "backpack_hiking" },
+      { "item": "duffelbag" },
+      { "item": "hat_fur" },
+      { "item": "rope_makeshift_6" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_greenwood_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "dress_shoes" },
+      { "item": "briefs" },
+      { "item": "pants" },
+      { "item": "longshirt" },
+      { "item": "cassock" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_jane_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "dress_shoes" },
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "pants" },
+      { "item": "dress_shirt" },
+      { "item": "coat_lab" },
+      { "item": "purse" },
+      { "item": "stethoscope" },
+      { "item": "mask_dust" },
+      { "item": "diamond_gold_earring" },
+      { "item": "gloves_medical" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_corrie_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots_steel" },
+      { "item": "boy_shorts" },
+      { "item": "jeans" },
+      { "item": "bra" },
+      { "item": "technician_shirt_gray" },
+      { "item": "slingpack" },
+      { "item": "wristwatch" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_felicity_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "sundress" },
+      { "item": "jacket_leather_red" },
+      { "item": "holy_symbol_wood" },
+      { "item": "purse" },
+      { "item": "gold_ring" },
+      { "item": "garnet_silver_earring" },
+      { "item": "straw_hat", "prob": 33 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_theresa_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "jeans" },
+      { "item": "sweater" },
+      { "item": "blazer" },
+      { "item": "knit_scarf" },
+      { "item": "silver_ring" },
+      { "item": "gold_necklace" },
+      { "item": "holy_symbol_wood" },
+      { "item": "glasses_reading" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_jeremiah_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "tshirt" },
+      { "item": "wristwatch" },
+      { "item": "glasses_eye" },
+      { "item": "holy_symbol_wood" },
+      { "item": "mbag" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_olwen_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots_hiking" },
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "leggings" },
+      { "item": "skirt" },
+      { "item": "wool_hoodie" },
+      { "item": "holy_symbol_wood" },
+      { "item": "sunglasses" },
+      { "item": "backpack_leather" },
+      { "item": "beret" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_maria_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "panties" },
+      { "item": "jeans" },
+      { "item": "tshirt" },
+      { "item": "silver_watch" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_arturo_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "leathersandals" },
+      { "item": "boxer_shorts" },
+      { "item": "robe" },
+      { "item": "rope_6" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_helena_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "icon", "count": 13 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_guard_carried",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shot_00", "count": [ 2, 3 ] },
+      { "item": "flashlight", "ammo-item": "battery", "charges": 120 },
+      { "group": "snacks", "prob": 75, "count": [ 1, 2 ] },
+      { "group": "cannedfood", "prob": 50, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_taylor_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "portable_game" }, { "item": "lemonlime" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 }, { "group": "snacks", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_montes_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "nail" }, { "item": "hammer" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_darryl_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "multitool" }, { "group": "farming_seeds", "count": [ 15, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_katherine_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "photo_album" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_julian_carried",
+    "subtype": "collection",
+    "entries": [
+      { "item": "glock17_17", "charges-min": 15, "charges-max": 17 },
+      { "item": "glock_17", "charges-min": 25, "charges-max": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_gemma_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "seed_rose", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "ear_plugs" }, { "item": "meat_smoked", "count": [ 4, 6 ] }, { "item": "270win_jsp", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_tom_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "full_survival_kit" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_kostas_carried",
+    "subtype": "collection",
+    "//": "camping itemgroup modified to remove junk/common/lengthy items.",
+    "items": [
+      { "item": "rebreather", "prob": 3, "ammo-item": "rebreather_cartridge_o2" },
+      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "misc_repairkit", "prob": 20, "charges-min": 25 },
+      { "item": "bbgun", "prob": 15, "charges-min": 100 },
+      { "item": "bb", "prob": 10, "charges-min": 100 },
+      { "item": "tailors_kit", "prob": 15, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 20, "charges": [ 100, 300 ] },
+      { "item": "glowstick", "prob": 50, "charges": 1400 },
+      { "item": "handflare", "prob": 50, "charges": 300 },
+      { "item": "gasoline_lantern", "prob": 7, "charges-min": 100 },
+      { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
+      { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
+      { "item": "pur_tablets", "prob": 10, "count": [ 5, 15 ] },
+      { "item": "mess_kit", "prob": 33 },
+      { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
+      {
+        "distribution": [ { "group": "premium_contents" }, { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ],
+        "prob": 66
+      },
+      [ "hatchet", 15 ],
+      [ "folded_inflatable_boat", 25 ],
+      [ "hand_pump", 5 ],
+      [ "binoculars", 33 ],
+      [ "firecracker_pack", 5 ],
+      [ "knife_hunting", 18 ],
+      [ "knife_rambo", 20 ],
+      [ "machete", 5 ],
+      [ "kukri", 5 ],
+      [ "daypack", 20 ],
+      [ "backpack_hiking", 12 ],
+      [ "bigback", 3 ],
+      [ "travelpack", 6 ],
+      [ "mag_survival", 40 ],
+      [ "textbook_survival", 20 ],
+      [ "modern_tanner", 8 ],
+      [ "recipe_bows", 8 ],
+      [ "recipe_arrows", 8 ],
+      [ "mag_rifle", 30 ],
+      [ "mag_shotgun", 20 ],
+      [ "mag_traps", 20 ],
+      [ "manual_cutting", 12 ],
+      [ "manual_knives", 8 ],
+      [ "manual_swords", 8 ],
+      [ "manual_gun", 8 ],
+      [ "manual_shotgun", 6 ],
+      [ "manual_pistol", 4 ],
+      [ "manual_smg", 2 ],
+      [ "manual_survival", 20 ],
+      [ "manual_first_aid", 40 ],
+      [ "manual_traps", 12 ],
+      [ "trappers_companion", 2 ],
+      [ "textbook_traps", 8 ],
+      [ "beartrap", 25 ],
+      { "group": "crossbow_bolts", "prob": 10 },
+      [ "hand_crossbow", 1 ],
+      [ "crossbow", 2 ],
+      [ "compcrossbow", 3 ],
+      [ "longbow", 3 ],
+      [ "compbow", 7 ],
+      [ "bow_sight", 10 ],
+      [ "bow_stabilizer", 10 ],
+      [ "arrowrest", 10 ],
+      [ "recurbow", 2 ],
+      [ "reflexbow", 2 ],
+      [ "quiver", 7 ],
+      [ "vambrace_larmor", 1 ],
+      [ "tent_kit", 15 ],
+      [ "large_tent_kit", 15 ],
+      [ "camelbak", 5 ],
+      [ "sleeping_bag", 10 ],
+      { "group": "tools_fishingrods_portable", "prob": 20 },
+      [ "fishing_waders", 12 ],
+      [ "boots_hiking", 20 ],
+      [ "e_tool", 10 ],
+      [ "flaregun", 20 ],
+      [ "signal_flare", 25 ],
+      [ "bullwhip", 1 ],
+      [ "sheath", 5 ],
+      [ "bootsheath", 5 ],
+      [ "thermometer", 7 ],
+      [ "hygrometer", 5 ],
+      [ "barometer", 5 ],
+      [ "trailmap", 100 ],
+      [ "canteen_wood", 5 ],
+      [ "whistle_multitool", 5 ],
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "esbit_stove", 10 ],
+      { "item": "wild_herbs", "prob": 100, "count": [ 20, 200 ] },
+      { "item": "thyme", "prob": 75, "count": [ 1, 10 ] },
+      { "item": "hickory_nut", "prob": 66, "count": [ 1, 10 ] },
+      { "prob": 80, "group": "poppy_pain_jar_glass_sealed_2" },
+      { "prob": 80, "group": "poppy_sleep_jar_glass_sealed_2" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_greenwood_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "icon", "count": 5 }, { "item": "candle" }, { "item": "small_relic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_jane_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "full_1st_aid" }, { "item": "bandages", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_corrie_carried",
+    "subtype": "collection",
+    "entries": [
+      { "item": "screwdriver" },
+      { "item": "duct_tape" },
+      { "item": "welder" },
+      { "item": "goggles_welding" },
+      { "item": "solar_cell" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_felicity_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_folding" }, { "item": "survivor_hairtrimmer" }, { "item": "mask_gas", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_theresa_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "knitting_needles" }, { "item": "thread", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_jeremiah_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "charged_cell_phone" }, { "item": "cola" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_olwen_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "laptop" }, { "item": "duct_tape" }, { "item": "lemonlime" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_maria_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "tailors_kit", "charges": 400 }, { "item": "thread", "count": 1000 }, { "item": "cell_phone" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_helena_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "compcrossbow", "ammo-item": "bolt_wood_bodkin", "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_guard_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "remington_870_express", "charges": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_taylor_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_combat" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "acoustic_guitar", "damage": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_montes_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "fire_ax" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_darryl_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "hoe" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_katherine_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_steak" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_julian_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_gemma_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "g_shovel" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_tom_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_folding" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_kostas_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "machete" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_greenwood_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "holybook_bible1" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_jane_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "scalpel" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_corrie_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "wrench" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_felicity_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_theresa_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "cane" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_jeremiah_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "dnd_handbook" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_olwen_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "spear_knife" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_maria_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "scots_tailor" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_sell",
+    "subtype": "collection",
+    "entries": [ { "item": "tanned_hide", "count": [ 10, 12 ] }, { "item": "tanned_pelt", "count": [ 8, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_GODCO_MERCHANT_sell",
+    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "poppy_pain_jar_glass_sealed_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "poppy_pain", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "poppy_sleep_jar_glass_sealed_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "poppy_sleep", "count": 2 } ]
+  }
+]

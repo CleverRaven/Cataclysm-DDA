@@ -16,8 +16,8 @@
       ";": {  }
     },
     "terrain": {
-      ".": "t_strconc_floor",
-      ",": [ "t_strconc_floor", "t_strconc_floor_glimmer" ],
+      ".": [ "t_strconc_floor", "t_nether_glass_floor" ],
+      ",": [ "t_nether_glass_floor", "t_strconc_floor_glimmer" ],
       "!": "t_door_locked_interior",
       "-": "t_wall_metal",
       "|": "t_concrete_wall",

@@ -17,7 +17,15 @@
   },
   {
     "type": "mutation_type",
+    "id": "ACCLIMATIZATION"
+  },
+  {
+    "type": "mutation_type",
     "id": "ATTRACTIVENESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BLOOD"
   },
   {
     "type": "mutation_type",
@@ -58,6 +66,10 @@
   {
     "type": "mutation_type",
     "id": "TORSO_ARMOR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BODY_ARMOR"
   },
   {
     "type": "mutation_type",
@@ -173,6 +185,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "TUSKS"
+  },
+  {
+    "type": "mutation_type",
     "id": "EARS"
   },
   {
@@ -193,6 +209,42 @@
   },
   {
     "type": "mutation_type",
+    "id": "SLEEPINESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MASOCHISM"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MEMORY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TONGUE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "GRAZING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ECTOTHERMIC"
+  },
+  {
+    "type": "mutation_type",
+    "id": "VOICE_TONE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WANDERLUST"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HAIR"
+  },
+  {
+    "type": "mutation_type",
     "id": "skin_tone"
   },
   {
@@ -206,5 +258,9 @@
   {
     "type": "mutation_type",
     "id": "facial_hair"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BODY_ARMOR_MOD"
   }
 ]

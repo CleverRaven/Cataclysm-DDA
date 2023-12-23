@@ -95,7 +95,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "emissions": [ "emit_smoke_plume", "afs_emit_geovent" ],
     "bash": {
       "str_min": 65,
@@ -121,7 +121,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "emissions": [ "emit_smoke_plume", "afs_emit_geovent" ],
     "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump.", "ter_set": "t_fumarole" }
   },
@@ -145,7 +145,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 10,
-    "flags": [ "TRANSPARENT", "FLAT", "ROUGH", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROUGH" ],
     "emissions": [ "emit_smoke_plume", "afs_emit_geovent" ]
   },
   {
@@ -237,7 +237,6 @@
     "coverage": 100,
     "roof": "t_basaltfloor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 80,
       "str_max": 300,
@@ -258,7 +257,6 @@
     "coverage": 100,
     "roof": "t_ice",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": { "str_min": 50, "str_max": 100, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_ice" }
   },
   {
@@ -272,7 +270,6 @@
     "coverage": 100,
     "roof": "t_snow_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": { "str_min": 50, "str_max": 100, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
   },
   {

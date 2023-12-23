@@ -1,0 +1,153 @@
+[
+  {
+    "//": "This file contains *personality* traits, intended to give players an idea an NPC's decision making via TALK_ASSESS_PERSON and other dialogue.",
+    "//1": "None of them should provide gameplay effects (e.g. more HP or more damage).",
+    "//2": "All of them are reset when the game is loaded, and otherwise applied to any newly generated NPCs at the time of generation.",
+    "id": "personality_ultra_selfish",
+    "type": "mutation",
+    "name": { "str": "Survivor at any cost" },
+    "description": "<npc_name> is certainly a survivor.  You can only wonder how many they've abandoned to save themself.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "//3": "No support for this right now, but maybe in the future? These traits are descriptory, so there's no real problem if the player describes themself however they want.",
+    "vanity": false,
+    "personality_score": { "max_aggression": -3, "max_bravery": -2, "max_altruism": -4 }
+  },
+  {
+    "id": "personality_neg_aggressive",
+    "type": "mutation",
+    "name": { "str": "Timid" },
+    "description": "<npc_name> tries to avoid conflict, even when they have good reason not to.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "max_aggression": -3 }
+  },
+  {
+    "id": "personality_aggressive_mixed",
+    "type": "mutation",
+    "name": { "str": "Hardass" },
+    "description": "<npc_name> loves to fight a good fight, but only for themself.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_bravery": 3, "min_aggression": 3, "max_altruism": -2 }
+  },
+  {
+    "id": "personality_aggressive_plus_mixed",
+    "type": "mutation",
+    "name": { "str": "Freedom fighter" },
+    "description": "<npc_name> believes in fighting… mostly for others, even at risk to their own wellbeing.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_bravery": 1, "min_aggression": 5, "min_altruism": 2 }
+  },
+  {
+    "id": "personality_aggressive_plus",
+    "type": "mutation",
+    "name": { "str": "Volatile" },
+    "description": "<npc_name> is just looking for an excuse.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_aggression": 7 }
+  },
+  {
+    "//": "A straightforward tell for the NPC's bravery, since it has a huge impact on how they engage in combat.",
+    "id": "personality_neg_bravery",
+    "type": "mutation",
+    "name": { "str": "Coward" },
+    "description": "<npc_name> flinches at the thought of fighting, whether it be other people or the undead.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "max_bravery": -4 }
+  },
+  {
+    "//": "A straightforward tell for the NPC's bravery, since it has a huge impact on how they engage in combat.",
+    "id": "personality_neg_bravery_plus",
+    "type": "mutation",
+    "name": { "str": "Craven" },
+    "description": "<npc_name> is afraid of the dark, spiders, and unexplained sounds.  So are you, but only because you've lived through the apocalypse.  <npc_name> has always been like this.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "max_bravery": -7 }
+  },
+  {
+    "//": "A straightforward tell for the NPC's bravery, since it has a huge impact on how they engage in combat.",
+    "id": "personality_brave",
+    "type": "mutation",
+    "name": { "str": "Brave" },
+    "description": "<npc_name> knows the name of fear, but only as a long-defeated foe.  Little can shake them.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_bravery": 4 }
+  },
+  {
+    "id": "personality_brave_plus",
+    "type": "mutation",
+    "name": { "str": "Hero" },
+    "description": "<npc_name> is an ideal ally to those they call friend, always willing to help others.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_bravery": 5, "min_altruism": 2 }
+  },
+  {
+    "id": "personality_collector",
+    "type": "mutation",
+    "name": { "str": "Miser" },
+    "description": "<npc_name> loves their trinkets, and hates giving them away.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_collector": 3, "max_altruism": -1 }
+  },
+  {
+    "id": "personality_collector_plus",
+    "type": "mutation",
+    "name": { "str": "Scrooge" },
+    "description": "<npc_name> collects trash like a RPG protagonist collects potions.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_collector": 6 }
+  },
+  {
+    "id": "personality_altruist",
+    "type": "mutation",
+    "name": { "str": "Kind" },
+    "description": "<npc_name> just wants to help.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "min_altruism": 4 }
+  },
+  {
+    "id": "personality_neg_altruist",
+    "type": "mutation",
+    "name": { "str": "Self-centered" },
+    "description": "<npc_name> steers every interaction into discussing how it will help them.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "personality_score": { "max_altruism": -3 }
+  }
+]

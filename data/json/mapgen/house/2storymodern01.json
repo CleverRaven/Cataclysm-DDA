@@ -184,7 +184,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -229,7 +229,10 @@
       "furniture": { "!": "f_region_flower_decorative", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
       "place_loot": [ { "item": "television", "x": 11, "y": 10, "chance": 100 } ],
-      "place_vehicles": [ { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 } ],
+      "place_vehicles": [
+        { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 },
+        { "vehicle": "rolling_trash_can", "x": 5, "y": 4, "chance": 80, "status": 0 }
+      ],
       "rotation": [ 2 ]
     }
   },
@@ -240,7 +243,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -287,7 +290,10 @@
       },
       "furniture": { "$": "f_table", ",": "f_chair" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
-      "place_vehicles": [ { "vehicle": "bicycle", "x": 21, "y": 3, "chance": 30, "status": 100, "rotation": 180 } ],
+      "place_vehicles": [
+        { "vehicle": "bicycle", "x": 21, "y": 3, "chance": 30, "status": 100, "rotation": 180 },
+        { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 }
+      ],
       "rotation": [ 2 ]
     }
   },
@@ -298,7 +304,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -340,6 +346,7 @@
       },
       "furniture": { "$": "f_table", ",": "f_chair", "(": "f_piano", "[": "f_region_flower_decorative" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 } ],
       "rotation": [ 2 ]
     }
   },
@@ -350,7 +357,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -400,7 +407,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -460,7 +467,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -535,34 +542,34 @@
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
         "                        ",
         "                        ",
         "                        ",
-        "    2222222222222222223 ",
-        "    |.................3 ",
-        "    |...N.............3 ",
-        "    |.................3 ",
-        "    ----|.............3 ",
-        "        |............33 ",
-        "        |............5  ",
-        "        |.......~....3  ",
-        "        |.......~....3  ",
-        "        |............33 ",
-        "        --............3 ",
-        "         ---|.........3 ",
-        "            |.........3 ",
-        "            |......3--3 ",
-        "            |.....33    ",
-        "           ||.....3     ",
-        "           |......3     ",
-        "           -------3     ",
+        "    ------------------- ",
+        "    -.................- ",
+        "    -...N.............- ",
+        "    -.................- ",
+        "    -----.............- ",
+        "        -............-- ",
+        "        -............5  ",
+        "        -.......~....-  ",
+        "        -.......~....-  ",
+        "        -............-- ",
+        "        --............- ",
+        "         ----.........- ",
+        "            -.........- ",
+        "            -......---- ",
+        "            -.....--    ",
+        "           --.....-     ",
+        "           -......-     ",
+        "           --------     ",
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "~": "t_shingle_flat_roof", "N": "t_shingle_flat_roof" },
+      "terrain": { ".": "t_shingle_flat_roof" },
       "rotation": [ 2 ]
     }
   }

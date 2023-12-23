@@ -29,7 +29,7 @@ jobs:
           name: spell_check_retcode
       - name: set-spell-check-retcode
         id: set-spell-check-retcode
-        run: echo "::set-output name=spell-check-retcode::$( cat spell_check_retcode )"
+        run: echo "spell-check-retcode=$( cat spell_check_retcode )" >> $GITHUB_OUTPUT
       - name: Download spell check output artifact
         if: steps.set-spell-check-retcode.outputs.spell-check-retcode >= 1
         uses: dawidd6/action-download-artifact@v2
@@ -39,7 +39,7 @@ jobs:
           name: spell_check_output
       - name: 'Comment on PR'
         if: steps.set-spell-check-retcode.outputs.spell-check-retcode >= 1
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

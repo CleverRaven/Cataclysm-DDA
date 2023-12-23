@@ -5,8 +5,11 @@
     "subtype": "distribution",
     "entries": [
       {
-        "group": "amigara_items",
-        "artifact": { "procgen_id": "netherum_tunnels", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
+        "group": "ps_artifacts",
+        "artifact": {
+          "procgen_id": "netherum_tunnels",
+          "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
         "prob": 100
       }
     ]
@@ -18,7 +21,10 @@
     "entries": [
       {
         "group": "altered_item",
-        "artifact": { "procgen_id": "altered_object", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
+        "artifact": {
+          "procgen_id": "altered_object",
+          "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
         "prob": 100
       }
     ]
@@ -31,6 +37,21 @@
       {
         "group": "portalmancy",
         "artifact": { "procgen_id": "portalmancy", "rules": { "power_level": 1000, "max_attributes": 1, "max_negative_power": -1000 } },
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "strange_temple_artifacts",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "amigara_items",
+        "artifact": {
+          "procgen_id": "cult",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
         "prob": 100
       }
     ]

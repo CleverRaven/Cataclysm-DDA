@@ -1,0 +1,173 @@
+[
+  {
+    "id": "mon_civilian_panic",
+    "type": "MONSTER",
+    "name": { "str": "panicked person" },
+    "description": "This hysterical individual has a faint, yet fading, glint of intelligence in their bloodshot eyes.  They sometimes scream in fear and behave clearly irrationally.  This will quite likely cause their demise at the hands of the undead horde rather quickly.",
+    "looks_like": "mon_dementia",
+    "default_faction": "human",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "material": [ "flesh" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "chat_topics": [ "TALK_CIVILIAN_PANIC" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 75,
+    "speed": 90,
+    "symbol": "@",
+    "color": "white",
+    "diff": 2,
+    "aggression": -50,
+    "morale": -50,
+    "vision_day": 10,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ] ],
+    "//": "They are human after all",
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
+    "dodge": 1,
+    "death_drops": "default_zombie_death_drops",
+    "zombify_into": "mon_zombie",
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION" ]
+  },
+  {
+    "id": "mon_civilian_stationary",
+    "type": "MONSTER",
+    "name": { "str": "petrified person" },
+    "description": "They just stand there, staring into the void, with a vacant expression on their face.  Barely moving, they will probably fall to the undead horde soon.",
+    "//": "Will not be able to do this in their current mental state:",
+    "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
+    "speed": 20,
+    "diff": 0,
+    "copy-from": "mon_civilian_panic"
+  },
+  {
+    "id": "mon_civilian_police",
+    "type": "MONSTER",
+    "name": { "str": "overconfident officer" },
+    "description": "Gun in hand, this police officer is determined to make a last stand against the horde.",
+    "copy-from": "mon_civilian_panic",
+    "diff": 5,
+    "aggro_character": false,
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 50,
+    "vision_night": 3,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
+    "chat_topics": [ "TALK_CIVILIAN_OFFICER" ],
+    "//": "Copied from zombie cop",
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "//2": "Uses a baton for melee attacks",
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
+    },
+    "zombify_into": "mon_zombie_cop",
+    "extend": { "flags": [ "DROPS_AMMO", "WIELDED_WEAPON" ] },
+    "starting_ammo": { "40fmj": 10 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "civilian_cop_glock22",
+        "ammo_type": "40fmj",
+        "fake_skills": [ [ "gun", 2 ], [ "pistol", 3 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "require_targeting_player": false,
+        "description": "The officer fires their Glock 22!"
+      }
+    ],
+    "armor": { "bash": 6, "cut": 6, "stab": 6, "bullet": 6, "electric": 2 }
+  },
+  {
+    "id": "mon_civilian_zombiefighter",
+    "type": "MONSTER",
+    "name": { "str": "futile fighter" },
+    "description": "Obviously, this aggravated yet rallied human has lost their wits and tries to fight the undead with just a stick in their hands.",
+    "copy-from": "mon_civilian_panic",
+    "chat_topics": [ "TALK_CIVILIAN_FIGHTER" ],
+    "diff": 3,
+    "aggro_character": false,
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "bash", "amount": 4 } ]
+  },
+  {
+    "id": "mon_civilian_icu",
+    "type": "MONSTER",
+    "name": { "str": "hospitalized human" },
+    "description": "This being is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
+    "chat_topics": [ "TALK_CIVILIAN_ICU" ],
+    "speed": 0,
+    "//": "So they are not perpetually fleeing despite lying in a hospital bed",
+    "morale": 0,
+    "upgrades": { "into": "mon_zombie_crawler", "into_group": "GROUP_NULL" },
+    "delete": { "flags": [ "SEES", "HEARS" ] },
+    "copy-from": "mon_civilian_stationary"
+  },
+  {
+    "id": "mon_civilian_parent",
+    "type": "MONSTER",
+    "name": { "str": "gawky guardian" },
+    "special_attacks": [ [ "PARROT", 0 ] ],
+    "description": "Obsessed with finding their offspring, they scour the environment for certain death.",
+    "chat_topics": [ "TALK_CIVILIAN_PARENT" ],
+    "copy-from": "mon_civilian_panic"
+  },
+  {
+    "name": "GROUP_CIVILIANS_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_crawler", "weight": 66, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 180, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_CIVILIANS_STANDARD",
+    "//": "Used for deduplication only, so one does not have to repeat the same standard ratio over and over again",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
+      {
+        "monster": "mon_civilian_parent",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "ends": "2 days",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days", "ends": "4 days" },
+      { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
+      {
+        "monster": "mon_civilian_panic",
+        "weight": 60,
+        "cost_multiplier": 0,
+        "starts": "2 days",
+        "ends": "4 days",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "starts": "4 days", "ends": "6 days" }
+    ]
+  }
+]

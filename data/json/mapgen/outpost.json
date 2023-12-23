@@ -56,7 +56,7 @@
         "L": "f_locker",
         "b": "f_bunkbed",
         "T": "f_trashcan",
-        "p": "f_compact_ASRG_containment"
+        "p": "f_active_backup_generator"
       },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
@@ -85,8 +85,7 @@
           { "monster": "mon_zombie_bio_op", "chance": 1 },
           { "monster": "mon_dispatch", "chance": 1 },
           { "monster": "mon_dispatch_military", "chance": 1 },
-          { "monster": "mon_secubot", "chance": 5 },
-          { "monster": "mon_zombie_flamer", "chance": 1 }
+          { "monster": "mon_secubot", "chance": 5 }
         ]
       }
     }
@@ -187,7 +186,7 @@
         "d": "f_desk",
         "f": "f_fridge",
         "T": "f_trashcan",
-        "p": "f_compact_ASRG_containment"
+        "p": "f_active_backup_generator"
       },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
@@ -218,8 +217,7 @@
           { "monster": "mon_zombie_bio_op", "chance": 1 },
           { "monster": "mon_dispatch", "chance": 1 },
           { "monster": "mon_dispatch_military", "chance": 1 },
-          { "monster": "mon_secubot", "chance": 5 },
-          { "monster": "mon_zombie_flamer", "chance": 1 }
+          { "monster": "mon_secubot", "chance": 5 }
         ]
       }
     }

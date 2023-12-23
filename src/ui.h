@@ -8,21 +8,23 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
 
+class scrollbar;
 class translation;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -60,9 +62,9 @@ struct uilist_entry {
     int retval;                 // return this int
     bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
     bool force_color = false;   // Never darken this option
-    // cata::nullopt: automatically assign an unassigned hotkey
+    // std::nullopt: automatically assign an unassigned hotkey
     // input_event(): disable hotkey
-    cata::optional<input_event> hotkey;
+    std::optional<input_event> hotkey;
     std::string txt;            // what it says on the tin
     std::string desc;           // optional, possibly longer, description
     std::string ctxt;           // second column text
@@ -93,7 +95,7 @@ struct uilist_entry {
     * @param txt string that will be displayed on the entry first column
     * @param key hotkey character that when pressed will return this entry return value
     */
-    uilist_entry( const std::string &txt, const cata::optional<input_event> &key );
+    uilist_entry( const std::string &txt, const std::optional<input_event> &key );
     /**
     * @param retval return value of this option when selected during menu query
     * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
@@ -107,7 +109,7 @@ struct uilist_entry {
     * @param key hotkey character that when pressed will return this entry return value
     * @param txt string that will be displayed on the entry first column
     */
-    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+    uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
                   const std::string &txt );
     /**
     * @param retval return value of this option when selected during menu query
@@ -126,7 +128,7 @@ struct uilist_entry {
     * @param desc entry description if menu desc_enabled is true
     * @see uilist::desc_enabled
     */
-    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+    uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
                   const std::string &txt, const std::string &desc );
     /**
     * @param retval return value of this option when selected during menu query
@@ -148,7 +150,7 @@ struct uilist_entry {
     * @param column string that will be displayed on the entry second column
     * @see uilist::desc_enabled
     */
-    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+    uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
                   const std::string &txt, const std::string &desc,
                   const std::string &column );
     /**
@@ -162,12 +164,12 @@ struct uilist_entry {
     uilist_entry( int retval, bool enabled, int key, const std::string &txt,
                   const nc_color &keycolor, const nc_color &txtcolor );
     template<typename Enum, typename... Args,
-             typename = std::enable_if_t<std::is_enum<Enum>::value>>
-    explicit uilist_entry( Enum e, Args && ... args ) :
-        uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+             typename = std::enable_if_t<std::is_enum_v<Enum>>>
+                                         explicit uilist_entry( Enum e, Args && ... args ) :
+                                             uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
-    cata::optional<inclusive_rectangle<point>> drawn_rect;
+    std::optional<inclusive_rectangle<point>> drawn_rect;
 };
 
 /**
@@ -285,7 +287,7 @@ class uilist // NOLINT(cata-xy)
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );
-        void show();
+        void show( ui_adaptor &ui );
         bool scrollby( int scrollby );
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
@@ -310,7 +312,7 @@ class uilist // NOLINT(cata-xy)
         * @param key hotkey character that when pressed will return this entry return value
         * @param txt string that will be displayed on the entry first column
         */
-        void addentry( int retval, bool enabled, const cata::optional<input_event> &key,
+        void addentry( int retval, bool enabled, const std::optional<input_event> &key,
                        const std::string &txt );
         /**
         * @param retval return value of this option when selected during menu query
@@ -349,7 +351,7 @@ class uilist // NOLINT(cata-xy)
         * @param desc entry description if menu desc_enabled is true
         * @see uilist::desc_enabled
         */
-        void addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+        void addentry_desc( int retval, bool enabled, const std::optional<input_event> &key,
                             const std::string &txt,
                             const std::string &desc );
         /**
@@ -373,10 +375,15 @@ class uilist // NOLINT(cata-xy)
         * @param desc entry description if menu desc_enabled is true
         * @see uilist::desc_enabled
         */
-        void addentry_col( int retval, bool enabled, const cata::optional<input_event> &key,
+        void addentry_col( int retval, bool enabled, const std::optional<input_event> &key,
                            const std::string &txt, const std::string &column,
                            const std::string &desc = std::string() );
         void settext( const std::string &str );
+
+        void add_category( const std::string &key, const std::string &name );
+        void set_category( const std::string &key );
+        void set_category_filter( const std::function<bool( const uilist_entry &, const std::string & )>
+                                  &fun );
 
         void reset();
 
@@ -395,6 +402,7 @@ class uilist // NOLINT(cata-xy)
 
     private:
         int scroll_amount_from_action( const std::string &action );
+        std::unique_ptr<scrollbar> uilist_scrollbar;
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.
@@ -481,7 +489,7 @@ class uilist // NOLINT(cata-xy)
 
         int vshift = 0;
 
-        int fselected = 0;
+        int fselected = 0; // -1 as sentinel value for no filtered entries to select from
 
     private:
         std::vector<int> fentries;
@@ -499,10 +507,15 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         int desc_lines = 0;
+        int category_lines = 0;
 
         bool started = false;
 
         bool recalc_start = false;
+
+        std::vector<std::pair<std::string, std::string>> categories;
+        std::function<bool( const uilist_entry &, const std::string & )> category_filter;
+        int current_category = 0;
 
         int find_entry_by_coordinate( const point &p ) const;
 
@@ -513,6 +526,48 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
+
+        void set_selected( int index );
+};
+
+/**
+ *  Hack ui list to behave as a multi column menu
+ */
+class uimenu
+{
+    public:
+        explicit uimenu( int columns ) {
+            cata_assert( columns >= 1 );
+            col_count = columns;
+        }
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param col_content each string will be displayed on the entry's respective column
+        */
+        void addentry( int retval, bool enabled, const std::vector<std::string> &col_content );
+        void set_selected( int index );
+        void set_title( const std::string &title );
+        int query();
+
+    private:
+        /**
+         * Called in query to calculate sizes for multiple columns.
+         */
+        void finalize_addentries();
+        struct col {
+            col( int i_retval, bool i_enabled, const std::vector<std::string> &i_col_content ) :
+                retval( i_retval ), enabled( i_enabled ), col_content( i_col_content )
+            {};
+            int retval;
+            bool enabled;
+            const std::vector<std::string> col_content;
+        };
+        std::vector<col> cols;
+        uilist menu;
+        int col_count;
+
+        int suggest_width = 74;  // 80 (for min size) - 6 (for edges)
 };
 
 /**
@@ -530,5 +585,143 @@ class pointmenu_cb : public uilist_callback
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };
+
+void kill_advanced_inv();
+void temp_hide_advanced_inv();
+
+/**
+ * Helper for typical UI list navigation with wrap-around
+ * Add delta to val. If on bounds, wrap to other bound, otherwise clamp to the range [0,size)
+ */
+template<typename V, typename S>
+inline std::enable_if_t < !std::is_enum_v<V>, V >
+inc_clamp_wrap( V val, int delta, S size )
+{
+    if( size == 0 ) {
+        return 0;
+    }
+    // wrap to last
+    if( val <= 0 && delta < 0 ) {
+        return size - 1;
+    }
+    // wrap to first
+    // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
+    // NOLINTNEXTLINE(cata-no-long)
+    if( val >= static_cast<V>( size ) - 1 && delta > 0 ) {
+        return 0;
+    }
+    return std::clamp<V>( val + delta, 0, size - 1 );
+}
+
+/**
+ * Helper for typical arrow key UI list navigation with wrap-around
+ * Add 1/-1 to val, then wrap to the range [0,size)
+ */
+template<typename V, typename S>
+inline std::enable_if_t < !std::is_enum_v<V>, V >
+inc_clamp_wrap( V val, bool inc, S size )
+{
+    return inc_clamp_wrap( val, static_cast<int>( inc ? 1 : -1 ), size );
+}
+
+/**
+ * Helper for typical arrow key UI list navigation with wrap-around
+ * Specialized for enum values
+ * Add 1/-1 to val, then wrap to the range [0,size)
+ */
+template<typename T, typename I>
+inline std::enable_if_t<std::is_enum_v<T>, T>
+inc_clamp_wrap( T val, I inc, T size )
+{
+    return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
+}
+
+/**
+ * Helper for typical UI list navigation without wrap-around
+ * Add delta to val, then clamp to the range [min,max]
+ */
+template<typename V, typename S>
+inline std::enable_if_t < !std::is_enum_v<V>, V >
+inc_clamp( V val, int delta, S min, S max )
+{
+    // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
+    if constexpr( std::is_unsigned_v<V> ) {
+        // NOLINTNEXTLINE(cata-no-long)
+        if( delta < 0 && val <= static_cast<V>( -delta ) ) {
+            return min;
+        }
+    }
+    return std::clamp<V>( val + delta, min, max );
+}
+
+/**
+ * Helper for typical arrow key UI list navigation without wrap-around
+ * Add 1/-1 to val, then clamp to the range [0,max]
+ */
+template<typename V, typename S>
+inline std::enable_if_t < !std::is_enum_v<V>, V >
+inc_clamp( V val, bool inc, S max )
+{
+    // NOLINTNEXTLINE(cata-no-long)
+    return inc_clamp( val, inc ? 1 : -1, static_cast<S>( 0 ), max );
+}
+
+/**
+ * Helper for typical UI list navigation without wrap-around
+ * Add delta to val, then clamp to the range [0,max]
+ */
+template<typename V, typename S>
+inline std::enable_if_t < !std::is_enum_v<V>, V >
+inc_clamp( V val, int delta, S max )
+{
+    // NOLINTNEXTLINE(cata-no-long)
+    return inc_clamp( val, delta, static_cast<S>( 0 ), max );
+}
+
+/**
+ * Helper for typical arrow key UI list navigation without wrap-around
+ * Add 1/-1 to val, then clamp to the range [min,max]
+ */
+template<typename V, typename S>
+inline std::enable_if_t < !std::is_enum_v<V>, V >
+inc_clamp( V val, bool inc, S min, S max )
+{
+    return inc_clamp( val, inc ? 1 : -1, min, max );
+}
+
+/**
+ * Helper for typical arrow key UI list navigation without wrap-around
+ * Specialized for enum values
+ * Add 1/-1 to val, then clamp to the range [0,max]
+ */
+template<typename T, typename I>
+inline std::enable_if_t<std::is_enum_v<T>, T>
+inc_clamp( T val, I inc, T size )
+{
+    return static_cast<T>( inc_clamp( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
+}
+
+/**
+ * Helper for typical UI list navigation with wrap-around
+ * Handles up, down, scroll_up and _down, page_up and _down, home, and end
+ * Returns true if an action/input was handled
+ */
+template<typename V, typename S>
+bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size, bool wrap );
+
+/**
+ * Return indexes [start, end) that should be displayed from list long `num_entries`,
+ * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
+ *
+ * @param focused: if false, behave as if cursor_pos = 0,
+ * useful when other menu is displayed and this should show the beggining
+ *
+ * Example:
+ * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
+ * return {1, 4}
+ */
+std::pair<int, int> subindex_around_cursor( int num_entries, int available_space, int cursor_pos,
+        bool focused = true );
 
 #endif // CATA_SRC_UI_H

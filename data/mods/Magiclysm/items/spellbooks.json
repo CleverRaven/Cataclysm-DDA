@@ -7,6 +7,7 @@
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "magenta",
     "use_action": {
@@ -33,15 +34,19 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
-    "//": "2 Magus, 1 classless spell",
+    "//": "2 Magus, 3 classless spell",
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least one interesting spell you can use.",
     "weight": "585 g",
     "volume": "250 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
+    }
   },
   {
     "id": "novice_stormshaper_book",
@@ -54,6 +59,7 @@
     "volume": "1200 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
@@ -63,17 +69,27 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
-    "//": "2 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
+    "//": "2 Magus, 1 Biomancer, 1 Kelvinist, 1 Druid, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
     "price": 35000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "magus_force_jar" ]
+      "spells": [
+        "phase_door",
+        "create_lighter",
+        "create_electric_lighter",
+        "pain_split",
+        "protection_aura",
+        "magus_force_jar",
+        "druid_healing_herb",
+        "air_bubble"
+      ]
     }
   },
   {
@@ -87,6 +103,7 @@
     "volume": "1 L",
     "price": 1904,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
     "use_action": {
@@ -98,16 +115,20 @@
     "id": "wizard_advanced",
     "type": "BOOK",
     "category": "manuals",
-    "//": "1 Magus, 1 biomancer, 2 kelvinist spells",
+    "//": "1 Magus, 1 biomancer, 2 kelvinist, 1 classless spells",
     "name": { "str": "A Treatise on Magical Elements", "str_pl": "copies of A Treatise on Magical Elements" },
     "description": "This details complex diagrams, rituals, and choreography that describes various spells.",
     "weight": "920 g",
     "volume": "750 ml",
     "price": 30000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split", "classless_dispel_magic" ]
+    }
   },
   {
     "id": "priest_beginner",
@@ -120,6 +141,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_green",
     "use_action": { "type": "learn_spell", "spells": [ "light_healing", "blinding_flash", "bless" ] }
@@ -138,6 +160,7 @@
     "volume": "750 ml",
     "price": 30000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
@@ -153,6 +176,7 @@
     "volume": "1 L",
     "price": 1904,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "cone_cold", "ice_spike", "hoary_blast", "chilling_touch", "frost_spray" ] }
@@ -161,18 +185,103 @@
     "id": "tome_of_storms",
     "type": "BOOK",
     "category": "manuals",
-    "//": "6 Stormshaper spells",
+    "//": "7 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
     "description": "A large book embossed with crossed lightning bolts and storm clouds, it tingles to the touch.",
     "weight": "430 g",
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast" ]
+      "spells": [
+        "electric_arts",
+        "jolt",
+        "windstrike",
+        "windrun",
+        "storm_hammer",
+        "stormfist",
+        "lightning_bolt",
+        "lightning_blast",
+        "shocking_dash",
+        "toxtricity"
+      ]
+    }
+  },
+  {
+    "id": "bioelectricity",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "6 Stormshaper spells",
+    "name": { "str": "Bioelectricity, An Arcane Approach", "str_pl": "copies of Bioelectricity, An Arcane Approach" },
+    "description": "Small, but thick book, that covers the most recent developments in the field, including real examples.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "electric_arts", "storm_superconductor", "shocking_dash", "toxtricity", "electric_eye", "electric_waves" ]
+    }
+  },
+  {
+    "id": "tome_of_wind",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "5 Stormshaper wind spells",
+    "name": { "str": "Blow You Away", "str_pl": "copies of Blow You Away" },
+    "description": "Big, illustrated book, that describe the unpopular side of stormshaping - the wind control.  Despite being less \"cool\", it has more control, and can be as devastating as lightning.",
+    "weight": "473 g",
+    "volume": "825 ml",
+    "price": 7000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "windstrike",
+        "windrun",
+        "stormshaper_wall_of_fog",
+        "explosive_decompression",
+        "air_bubble",
+        "stormshaper_heart_of_hurricane"
+      ]
+    }
+  },
+  {
+    "id": "tome_electric",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "5 Stormshaper electric spells",
+    "name": { "str": "How Electromancy Changed the Vietnam War", "str_pl": "copies of How Electromancy Changed the Vietnam War" },
+    "description": "Deep work, that tells about the electromancy boom in the 60's, and how the mass military draft of fresh, inexperienced scholars changed the war, with examples of using tactics and spells.  Summary says \"it changed nothing\".",
+    "weight": "378 g",
+    "volume": "660 ml",
+    "price": 11700,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "storm_superconductor",
+        "summon_teravolt",
+        "storm_hammer",
+        "stormfist",
+        "electric_waves",
+        "electric_eye",
+        "toxtricity",
+        "shocking_dash"
+      ]
     }
   },
   {
@@ -185,6 +294,7 @@
     "weight": "355 g",
     "volume": "500 ml",
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "magenta",
     "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
@@ -200,6 +310,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -227,6 +338,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
     "use_action": {
@@ -245,11 +357,20 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1", "druid_natures_commune" ]
+      "spells": [
+        "druid_woodshaft",
+        "druid_veggrasp",
+        "druid_rootstrike",
+        "druid_naturebow1",
+        "druid_natures_commune",
+        "druid_healing_herb",
+        "druid_healing"
+      ]
     }
   },
   {
@@ -263,11 +384,47 @@
     "volume": "3 L",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
+      "spells": [
+        "recover_mana",
+        "recover_bionic_power",
+        "recover_pain",
+        "recover_fatigue",
+        "recover_stamina",
+        "druid_healing",
+        "convert"
+      ]
+    }
+  },
+  {
+    "id": "farmer_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Farm-Wizard's Almanac", "str_pl": "copies of The Farm-Wizard's Almanac" },
+    "//": "2 earthshaper spells, 4 druid spells, 1 stormshaper spell",
+    "description": "While no longer popular in the age of nitrogen fertilizer and industrial farm equipment, copies of this tome continued to be published for years for a small audience of back-to-nature, do-it-yourself organic mage-farmers.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "green",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "earthshaper_turning_of_earth",
+        "move_earth",
+        "druid_growth",
+        "druid_natures_commune",
+        "druidic_regrowth",
+        "purify_seed",
+        "electric_eye"
+      ]
     }
   },
   {
@@ -281,6 +438,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -293,33 +451,73 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
-    "//": "4 earthshaper spells",
-    "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
+    "//": "5 earthshaper spells",
+    "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains a considerable amount of earthly power.",
     "weight": "483 g",
     "volume": "825 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm" ]
+      "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm", "eshaper_impalement" ]
     }
+  },
+  {
+    "id": "eshaper_spellbook_melee",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Memoirs of the Champion of Earth", "str_pl": "copies of Memoirs of the Champion of Earth" },
+    "//": "5 earthshaper spells",
+    "description": "A book written by someone obviously very self-absorbed who describes himself as \"Chosen of Gaia, the Only Champion of Terra\".  Despite his arrogance, his mastery in combining different earthshaper's abilities as described in the book make him an accomplished sorcerer worth learning from.",
+    "weight": "247 g",
+    "volume": "398 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "pertifying_touch", "earthshaper_stoneskin", "reactive_armor", "eshaper_melee_damage", "eshaper_crystal_wrap" ]
+    }
+  },
+  {
+    "id": "eshaper_spellbook_tool",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "One Spell is All You Need!", "str_pl": "copies of One Spell is All You Need!" },
+    "//": "1 earthshaper spell. yes, the whole book is only for one, that's the idea",
+    "description": "This advertising booklet promotes one spell that allows you to create a different tool for different purposes.  Surprisingly, it works as the book says - you can change the shape of your tool, depending on your needs.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": 1000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
   },
   {
     "id": "magus_spellbook_move",
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
-    "//": "3 Magus spells",
+    "//": "5 Magus spells",
     "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
     "weight": "231 g",
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "phase_door", "magus_escape", "magus_haste", "magus_slowfall", "magus_spiderclimb" ]
+    }
   },
   {
     "id": "summon_scroll_smudged",
@@ -332,6 +530,7 @@
     "volume": "100 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
@@ -347,9 +546,13 @@
     "volume": "2250 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "summon_undead", "summon_undead_swarm", "convert", "dominate", "life_detonation" ]
+    }
   },
   {
     "id": "techno_fundamentals",
@@ -362,6 +565,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -380,6 +584,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] }
@@ -398,6 +603,7 @@
     "volume": "1 L",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "technomancer_knifeshot" ] }
@@ -413,6 +619,7 @@
     "volume": "750 ml",
     "price": 30000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
     "use_action": { "type": "learn_spell", "spells": [ "wrathful_spirits", "spirit_walk", "ethereal_grasp" ] }
@@ -428,6 +635,7 @@
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "stone" ],
+    "looks_like": "material_shrd_limestone",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "soulrend", "wrathful_spirits" ] }
@@ -443,6 +651,7 @@
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
@@ -457,9 +666,10 @@
     "volume": "5000 ml",
     "price": 7500,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot", "devour" ] }
   },
   {
     "id": "stat_up_spellbook",
@@ -472,8 +682,57 @@
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
     "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
+  },
+  {
+    "id": "magic_movement_book",
+    "type": "BOOK",
+    "name": { "str": "Wherever You've Gone, There You Can Be", "str_pl": "copies of Wherever You've Gone, There You Can Be" },
+    "//": "3 Magus spells, 1 Technomancer spell",
+    "description": "A very sarcastically-written guide to using magic to get into and out of places you absolutely are not supposed to be.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": 7500,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magus_teleport_mark", "magus_word_of_recall", "magus_spiderclimb", "quantum_tunnel_lesser" ]
+    }
+  },
+  {
+    "id": "prepper_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "It's the End of the World, But You'll Feel Fine",
+      "str_pl": "copies of It's the End of the World, But You'll Feel Fine"
+    },
+    "//": "3 Druid spells, 1 Earthshaper spell, 1 Biomancer spell, 2 Kelvinist spells",
+    "description": "This thick paperback book is a collection of the proper magical preparations to survive various disasters.  Unfortunately, the zombie apocalypse section doesn't account for everything that's gone wrong in the Cataclysm, but there's still a lot of useful knowledge here.",
+    "weight": "473 g",
+    "volume": "825 ml",
+    "price": 3500,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "yellow",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_harvest_hunter",
+        "druid_naturebow1",
+        "biomancer_carrion_feast",
+        "purify_seed",
+        "earthshaper_turning_of_earth",
+        "create_lighter",
+        "kelvinist_anti_cold"
+      ]
+    }
   }
 ]

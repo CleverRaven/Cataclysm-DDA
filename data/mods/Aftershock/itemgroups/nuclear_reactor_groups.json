@@ -3,7 +3,7 @@
     "id": "nuclear_waste",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "nuclear_waste", "container-item": "hazardous_waste_drum", "charges": 10 } ]
+    "entries": [ { "item": "nuclear_waste", "entry-wrapper": "hazardous_waste_drum", "count": 10 } ]
   },
   {
     "id": "nuclear_reactor",

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "debug_lux_meter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "debug lux meter" },
+    "description": "This debug tool will tell you about light",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "DBG_LUX_METER" ]
+  }
+]

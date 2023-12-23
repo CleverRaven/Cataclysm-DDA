@@ -104,11 +104,52 @@
     "extend": { "widgets": [ "current_max_mana_nums_layout", "mana_graph_layout", "mana_pool_layout" ] }
   },
   {
-    "//": "Extend the custom sidebar with Magiclysm-specific sections",
+    "//": "spacebar Wide bar-graph of current mana level, using the default 'bucket' fill.",
+    "id": "spacebar_mana_graph",
+    "type": "widget",
+    "copy-from": "mana_base",
+    "label": "Mana",
+    "style": "graph",
+    "width": 36,
+    "symbols": ".oO",
+    "fill": "bucket"
+  },
+  {
+    "//": "spacebar Current number of mana points, with color.",
+    "id": "spacebar_mana_num",
+    "type": "widget",
+    "copy-from": "mana_base",
+    "label": "Mana",
+    "width": 28,
+    "style": "number",
+    "colors": [ "c_light_blue" ]
+  },
+  {
+    "//": "spacebar Maximum mana points, in light blue color.",
+    "id": "spacebar_max_mana_num",
+    "type": "widget",
+    "label": "Max Mana",
+    "style": "number",
+    "var": "max_mana",
+    "width": 28,
+    "colors": [ "c_light_blue" ]
+  },
+  {
+    "//": "spacebar Both current and maximum mana numbers, side by side",
+    "id": "spacebar_current_max_mana_nums_layout",
+    "type": "widget",
+    "label": "Current/Max Mana",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 56,
+    "widgets": [ "spacebar_mana_num", "spacebar_max_mana_num" ]
+  },
+  {
+    "//": "spacebar Extend the custom sidebar with Magiclysm-specific sections",
     "copy-from": "spacebar",
     "type": "widget",
     "id": "spacebar",
-    "extend": { "widgets": [ "current_max_mana_nums_layout", "mana_graph_layout", "mana_pool_layout" ] }
+    "extend": { "widgets": [ "spacebar_mana_numbers_block", "spacebar_mana_bar_block" ] }
   },
   {
     "//": "Extend the custom sidebar with Magiclysm-specific sections",

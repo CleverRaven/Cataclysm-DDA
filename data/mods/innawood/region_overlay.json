@@ -1,0 +1,69 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "region_terrain_and_furniture": {
+      "terrain": { "t_region_groundcover": { "t_sand": 1 }, "t_region_groundcover_swamp": { "t_bog_iron": 10 } },
+      "furniture": {
+        "f_region_weed": { "f_wildcotton": 10, "f_wildsbeet": 10, "f_wildweed": 10, "f_wildpumpkin": 10, "f_wildcorn": 10, "f_wildbeans": 10 },
+        "f_region_plain": { "f_wildcotton": 30, "f_wildsbeet": 30, "f_wildpumpkin": 30, "f_wildcorn": 30, "f_wildweed": 10, "f_wildbeans": 10 },
+        "f_region_forest": { "f_wildweed": 40, "f_wildcorn": 40, "f_wildbeans": 40 },
+        "f_region_forest_dense": { "f_wildweed": 30, "f_wildcorn": 30, "f_wildbeans": 30 }
+      }
+    },
+    "forest_mapgen_settings": {
+      "forest_thick": {
+        "terrains": [
+          "forest_thick",
+          "forest_trail_isolated",
+          "forest_trail_end_north",
+          "forest_trail_end_east",
+          "forest_trail_end_south",
+          "forest_trail_end_west",
+          "forest_trail_ns",
+          "forest_trail_ew",
+          "forest_trail_ne",
+          "forest_trail_es",
+          "forest_trail_sw",
+          "forest_trail_wn",
+          "forest_trail_new",
+          "forest_trail_nsw",
+          "forest_trail_esw",
+          "forest_trail_nes",
+          "forest_trail_nesw",
+          "spider_pit_north",
+          "spider_pit_south",
+          "spider_pit_east",
+          "spider_pit_west",
+          "standing_stones",
+          "natural_spring_north",
+          "natural_spring_south",
+          "natural_spring_east",
+          "natural_spring_west",
+          "cave_innawood",
+          "special_forest",
+          "stream_north",
+          "stream_east",
+          "stream_south",
+          "stream_west",
+          "stream_corner_north",
+          "stream_corner_east",
+          "stream_corner_south",
+          "stream_corner_west",
+          "stream_end_north",
+          "stream_end_east",
+          "stream_end_south",
+          "stream_end_west"
+        ]
+      },
+      "forest_water": { "terrains": [ "forest_water" ] }
+    },
+    "forest_trail_settings": { "trailheads": { "trailhead_basic": 1 } },
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ],
+      "clear_whitelist": false,
+      "whitelist": [  ]
+    }
+  }
+]

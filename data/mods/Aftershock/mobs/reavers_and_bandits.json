@@ -1,0 +1,65 @@
+[
+  {
+    "id": "afs_mon_reaver",
+    "type": "MONSTER",
+    "name": "skittish scavenger",
+    "description": "A scavenger willing to engage in violence to scavenge your remains.  Will run after a reasonable show of force from their would be victims.",
+    "copy-from": "afs_mon_reaver_abstract",
+    "aggression": 20,
+    "morale": 60,
+    "starting_ammo": { "afs_10mm_caseless_JHP": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "afs_seyfert_84K",
+        "ammo_type": "afs_10mm_caseless_JHP",
+        "fake_skills": [ [ "gun", 1 ], [ "pistol", 1 ] ],
+        "fake_dex": 3,
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 400,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"Let's see what loot you are carrying!\"",
+        "targeting_volume": 20,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  },
+  {
+    "id": "afs_mon_reaver_rifle",
+    "type": "MONSTER",
+    "name": "opportunistic bandit",
+    "description": "Armed with a rifle, this bandit seems to feel quite sure of their impending victory.",
+    "copy-from": "afs_mon_reaver_abstract",
+    "aggression": 30,
+    "morale": 60,
+    "starting_ammo": { "afs_7.50mm_caseless": 30 },
+    "color": "green_yellow",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "afs_Accipitermg",
+        "ammo_type": "afs_7.50mm_caseless",
+        "fake_skills": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+        "fake_dex": 3,
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 400,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"I bet you're worth a pretty penny!\"",
+        "targeting_volume": 20,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  }
+]

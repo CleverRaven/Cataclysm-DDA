@@ -87,7 +87,7 @@
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_LORD_DOING" },
-      { "text": "Do you have any stories for me?", "topic": "TALK_FORGE_LORD_BOOKS_DELIVER" },
+      { "text": "I have some stories for you.", "topic": "TALK_FORGE_LORD_BOOKS_DELIVER" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },

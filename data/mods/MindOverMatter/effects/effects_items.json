@@ -1,0 +1,43 @@
+[
+  {
+    "id": "instability_remover",
+    "type": "effect_type",
+    "name": [ "Severe Itching" ],
+    "desc": [ "You rubbed the cream all over your skin.  Hopefully it was a good idea." ],
+    "apply_message": "Your entire body itches terribly!",
+    "remove_message": "The itching finally fades away.",
+    "rating": "mixed",
+    "max_duration": "24 hours",
+    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "3 m" ] } ],
+    "base_mods": {
+      "speed_mod": [ -10 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 5 ],
+      "h_mod_tick": [ 3600 ]
+    }
+  },
+  {
+    "id": "force_field_generated",
+    "type": "effect_type",
+    "name": [ "Rippling Air" ],
+    "desc": [ "The air around you is wavering strangely." ],
+    "apply_message": "The world takes on a slightly bent look, as though you're a straw inserted into a glass of water.",
+    "remove_message": "The world snaps back into focus.",
+    "rating": "good",
+    "max_duration": "1 minutes",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.94 } ] } ]
+  },
+  {
+    "id": "effect_psyshield_protection",
+    "type": "effect_type",
+    "//": "Blank to create uncertainty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "psi_blind", "psi_deaf", "effect_telepathic_primal_terror", "psi_dazed" ],
+    "flags": [ "PSYSHIELD_PROTECT" ]
+  }
+]

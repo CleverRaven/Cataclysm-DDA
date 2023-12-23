@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -11,7 +12,6 @@
 #include <vector>
 
 #include "item.h"
-#include "optional.h"
 #include "relic.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -149,6 +149,11 @@ class Item_spawn_data
          */
         virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                                     spawn_flags = spawn_flags::none ) const = 0;
+        /**
+        * Instead of calculating at run-time, give a step to finalize those item_groups that has count-min but not count-max.
+        * The reason is
+        */
+        virtual void finalize( const itype_id & ) = 0;
         std::size_t create( ItemList &list, const time_point &birthday,
                             spawn_flags = spawn_flags::none ) const;
         /**
@@ -188,7 +193,7 @@ class Item_spawn_data
         /**
          * The group spawns contained in this item
          */
-        cata::optional<itype_id> container_item;
+        std::optional<itype_id> container_item;
         overflow_behaviour on_overflow = overflow_behaviour::none;
         bool sealed = true;
 
@@ -279,7 +284,7 @@ class Item_modifier
         void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
-        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) const;
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -320,13 +325,15 @@ class Single_item_creator : public Item_spawn_data
          */
         std::string id;
         Type type;
-        cata::optional<Item_modifier> modifier;
+        std::optional<Item_modifier> modifier;
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
+        void finalize( const itype_id &container = itype_id::NULL_ID() ) override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
+        item create_single_without_container( const time_point &birthday, RecursionList &rec ) const;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
         void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
@@ -372,7 +379,7 @@ class Item_group : public Item_spawn_data
          * a Single_item_creator or Item_group to @ref items.
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
-
+        void finalize( const itype_id &container = itype_id::NULL_ID() )override;
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;

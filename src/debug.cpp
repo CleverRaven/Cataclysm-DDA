@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <regex>
 #include <set>
 #include <sstream>
@@ -27,6 +28,7 @@
 
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -34,7 +36,6 @@
 #include "get_version.h"
 #include "input.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -82,8 +83,8 @@
 #include <sys/system_properties.h>
 #endif
 
-#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
-#define BSD
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(CATA_IS_ON_BSD)
+#define CATA_IS_ON_BSD
 #endif
 
 // Static defines                                                   {{{1
@@ -111,8 +112,8 @@ static std::string captured;
 // Get the image base of a module from its PE header
 static uintptr_t get_image_base( const char *const path )
 {
-    HANDLE file = CreateFile( path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                              FILE_ATTRIBUTE_NORMAL, NULL );
+    HANDLE file = CreateFile( path, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr );
     if( file == INVALID_HANDLE_VALUE ) {
         return 0;
     }
@@ -120,8 +121,8 @@ static uintptr_t get_image_base( const char *const path )
         CloseHandle( file );
     } );
 
-    HANDLE mapping = CreateFileMapping( file, NULL, PAGE_READONLY, 0, 0, NULL );
-    if( mapping == NULL ) {
+    HANDLE mapping = CreateFileMapping( file, nullptr, PAGE_READONLY, 0, 0, nullptr );
+    if( mapping == nullptr ) {
         return 0;
     }
     on_out_of_scope close_mapping( [mapping]() {
@@ -131,7 +132,7 @@ static uintptr_t get_image_base( const char *const path )
     LONG nt_header_offset = 0;
     {
         LPVOID dos_header_view = MapViewOfFile( mapping, FILE_MAP_READ, 0, 0, sizeof( IMAGE_DOS_HEADER ) );
-        if( dos_header_view == NULL ) {
+        if( dos_header_view == nullptr ) {
             return 0;
         }
         on_out_of_scope close_dos_header_view( [dos_header_view]() {
@@ -147,7 +148,7 @@ static uintptr_t get_image_base( const char *const path )
 
     LPVOID pe_header_view = MapViewOfFile( mapping, FILE_MAP_READ, 0, 0,
                                            nt_header_offset + sizeof( IMAGE_NT_HEADERS ) );
-    if( pe_header_view == NULL ) {
+    if( pe_header_view == nullptr ) {
         return 0;
     }
     on_out_of_scope close_pe_header_view( [pe_header_view]() {
@@ -230,6 +231,7 @@ std::string filter_name( debug_filter value )
         case DF_CHARACTER: return "DF_CHARACTER";
         case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
         case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CRAFTING: return "DF_CRAFTING";
         case DF_CREATURE: return "DF_CREATURE";
         case DF_EFFECT: return "DF_EFFECT";
         case DF_EXPLOSION: return "DF_EXPLOSION";
@@ -240,9 +242,15 @@ std::string filter_name( debug_filter value )
         case DF_MAP: return "DF_MAP";
         case DF_MATTACK: return "DF_MATTACK";
         case DF_MELEE: return "DF_MELEE";
+        case DF_MONMOVE: return "DF_MONMOVE";
         case DF_MONSTER: return "DF_MONSTER";
+        case DF_MUTATION: return "DF_MUTATION";
         case DF_NPC: return "DF_NPC";
+        case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
+        case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
+        case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
         case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
         case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
         case DF_SOUND: return "DF_SOUND";
@@ -415,7 +423,7 @@ struct time_info {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert( std::is_base_of<base, Stream>::value, "" );
+        static_assert( std::is_base_of_v<base, Stream> );
 
         out << std::setfill( '0' );
         out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
@@ -439,7 +447,8 @@ struct repetition_folder {
 
     int repeat_count = 0;
 
-    bool test( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+    bool test( const char *filename, const char *line, const char *funcname,
+               const std::string &text ) const {
         return m_filename == filename &&
                m_line == line &&
                m_funcname == funcname &&
@@ -473,7 +482,7 @@ struct repetition_folder {
         repeat_count = 0;
     }
 
-    bool timed_out() {
+    bool timed_out() const {
         const time_info now = get_time();
 
         const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
@@ -679,7 +688,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                     rename_failed = !rename_file( filename, oldfile );
                 }
             }
-            file = std::make_shared<cata::ofstream>(
+            file = std::make_shared<std::ofstream>(
                        fs::u8path( filename ), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
@@ -814,6 +823,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
                                          "01234567890_./-+";
@@ -861,7 +871,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -881,19 +891,19 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
 
     // We need to try calling nm in two different ways, because one
     // works for executables and the other for libraries.
-    const char *nm_variants[] = { "nm", "nm -D" };
+    std::array<const char *, 2> nm_variants = { "nm", "nm -D" };
     for( const char *nm_variant : nm_variants ) {
         std::ostringstream cmd;
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), nm ) ) {
-            std::string line( buf );
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), nm ) ) {
+            std::string line( buf.data() );
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
@@ -912,7 +922,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
@@ -1031,6 +1041,7 @@ static std::map<DWORD64, backtrace_module_info_t> bt_module_info_map;
 #endif
 #elif !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static constexpr int bt_cnt = 20;
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 static void *bt[bt_cnt];
 #endif
 
@@ -1065,7 +1076,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     } else {
         out << "\n    " << frame;
     }
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
     static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
@@ -1249,16 +1260,16 @@ void debug_write_backtrace( std::ostream &out )
             out << "    backtrace: popen(addr2line) failed\n";
             return false;
         }
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), addr2line ) ) {
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), addr2line ) ) {
             out.write( "    ", 4 );
             // Strip leading directories for source file path
-            char search_for[] = "/src/";
-            char *buf_end = buf + strlen( buf );
-            char *src = std::find_end( buf, buf_end,
+            const char *search_for = "/src/";
+            char *buf_end = buf.data() + strlen( buf.data() );
+            char *src = std::find_end( buf.data(), buf_end,
                                        search_for, search_for + strlen( search_for ) );
             if( src == buf_end ) {
-                src = buf;
+                src = buf.data();
             } else {
                 out << "…";
             }
@@ -1312,7 +1323,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {
@@ -1478,7 +1489,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
     return "BSD";
 #else
     return "Unix";
@@ -1488,7 +1499,7 @@ std::string game_info::operating_system()
 #endif
 }
 
-#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
+#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(CATA_IS_ON_BSD) ) // linux; unix; MacOs; BSD
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
  * @note The output buffer is limited to 512 characters.
@@ -1552,7 +1563,7 @@ static std::string android_version()
     return output;
 }
 
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
 
 /** Get a precise version number for BSD systems.
  * @note The code shells-out to call `uname -a`.
@@ -1596,7 +1607,7 @@ static std::string linux_version()
     return output;
 }
 
-#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(CATA_IS_ON_BSD)
 
 /** Get a precise version number for MacOs systems.
  * @note The code shells-out to call `sw_vers` with various options.
@@ -1702,7 +1713,6 @@ static std::string windows_version()
             }
         }
 
-
         RegCloseKey( handle_key );
     }
 
@@ -1740,11 +1750,11 @@ std::string game_info::operating_system_version()
 {
 #if defined(__ANDROID__)
     return android_version();
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
     return bsd_version();
 #elif defined(__linux__)
     return linux_version();
-#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(CATA_IS_ON_BSD)
     return mac_os_version();
 #elif defined(_WIN32)
     return windows_version();
@@ -1799,7 +1809,7 @@ std::string game_info::mods_loaded()
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
 
-    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+    return string_join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
 std::string game_info::game_report()

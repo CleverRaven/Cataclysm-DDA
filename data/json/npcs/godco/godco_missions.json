@@ -1,0 +1,1346 @@
+[
+  {
+    "id": "MISSION_GODCO_COOK_FOOD_1",
+    "type": "mission_definition",
+    "name": { "str": "Picky Meals" },
+    "description": "Find 20 pounds of salt.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "salt",
+    "count": 2000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_COOK_FOOD_2",
+    "dialogue": {
+      "describe": "I need a supply of salt.",
+      "offer": "I know this doesn't sound important, but I am running low on salt.  We don't just need it as a seasoning, it's also vital for food preservation.  Could you find about 20 pounds of salt for me?",
+      "accepted": "Don't forget to tell me when you have them.",
+      "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
+      "advice": "There's a lot of places to look.  They are common in house kitchens, restaurants or grocery stores.",
+      "inquire": "How is the search going?  Have you found 'em?",
+      "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Don't worry about it, it's not that important."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_COOK_FOOD_2",
+    "type": "mission_definition",
+    "name": { "str": "Pickled Meals" },
+    "description": "Find 5 glass jars.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "jar_glass_sealed",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_COOK_FOOD_3",
+    "dialogue": {
+      "describe": "I need several glass jars.",
+      "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars.  I could get by with 5 for now.",
+      "accepted": "Thanks for accepting this task.  It'll take a load off my shoulders.  I finally won't have to worry about this problem anymore.",
+      "rejected": "Just let me know if you change your mind.",
+      "advice": "Glass jars are not that hard to find.  I'd look for them in residential areas.",
+      "inquire": "Have you found the jars?",
+      "success": "Thank you for your help.  Here's your reward.  I have one more task to do.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "It's not a big deal, it isn't that urgent."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_COOK_FOOD_3",
+    "type": "mission_definition",
+    "name": { "str": "Prickled Meals" },
+    "description": "Find a butcher knife.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "knife_butcher",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need something sharper.",
+      "offer": "I don't have any butcher knives in here.  It's difficult to cut anything hard without it.  It's good to have one, even though I won't use it that often.  Could you get me one?",
+      "accepted": "Thank you for accepting.  I can't cut anything with this dull knife.",
+      "rejected": "I guess I have to cut them with my steak knife.",
+      "advice": "Butcher knives are not that rare to find.  They are commonly found in kitchens.",
+      "inquire": "Do you have that knife now?",
+      "success": "I am grateful for the help you've done.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Don't worry about it, it's not that important."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_BOOK",
+    "type": "mission_definition",
+    "name": { "str": "Busy While Working" },
+    "description": "Find 3 mystery novels.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "novel_mystery",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to read some mystery novels.",
+      "offer": "Sometimes it gets a little bit boring up here, and I like to read something to take my mind off of things.  Problem is, I've run out of books.  I've been wanting to read some mystery novels as of late, so could you get me three of them?",
+      "accepted": "Just bring them to me when you have it.",
+      "rejected": "Nevermind then.  I hope you'll change your mind.",
+      "advice": "I'd loot libraries and bookstores.",
+      "inquire": "So, have you found the books?",
+      "success": "Thank you.  This will keep me busy for a while.  Please take this as a token of my gratitude.",
+      "success_lie": "Could you give them to me?",
+      "failure": "Fine.  I can read something else."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ], "opinion": { "trust": 2 } }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP",
+    "type": "mission_definition",
+    "name": { "str": "Canning Startup" },
+    "description": "Find 100 medium tin cans to can with.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "can_medium",
+    "count": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_FOOD_GUARD_GET_TRAP_BOOK",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to have some cans to store food in.",
+      "offer": "Now that we have some canning pots from Helena, we can start storing foodstuffs more easily around here.  Recycling our old tin cans is great and all, but if we get a big influx of new foods, then we can't properly store it all.  As such, if you could find about 100 more empty tin cans for me, I'd really appreciate it.",
+      "accepted": "Just bring it to me when you have it.",
+      "rejected": "Nevermind then.  I hope you'll change your mind.",
+      "advice": "I'd look anywhere there's food waste or scrap piles.  We can wash out the cans when we get them.",
+      "inquire": "So, have you found the cans?",
+      "success": "Thank you, now we won't have to worry about running out of food in the winter.",
+      "success_lie": "Could you give them to me?",
+      "failure": "Fine.  I'll get them myself."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 2 } }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_GET_TRAP_BOOK",
+    "type": "mission_definition",
+    "name": { "str": "Find a copy of The Modern Trapper" },
+    "description": "Find a copy of The Modern Trapper so Eddie can learn how to lay traps.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "manual_traps",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_FOOD_GUARD_BETTER_FOOD_STORAGE",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to read some trapping guides.",
+      "offer": "Since we've got all the stuff to store away food, I figure that it's time we get some more.  I've been talking it over with Russell, and I think setting out animal traps is a good way to go.  The problem is, nobody here knows how to do it.  I've heard that The Modern Trapper is a good place to start, so if you could get me a copy, I'd really appreciate it.",
+      "accepted": "Just bring it to me when you have it.",
+      "rejected": "Too trivial for you?",
+      "advice": "I'd loot libraries and bookstores.",
+      "inquire": "So, have you found it?",
+      "success": "Thank you, me and Russell will start studying it soon.",
+      "success_lie": "Where is it?",
+      "failure": "Fine.  I can read something else."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 7 } ], "opinion": { "trust": 1 } }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_BETTER_FOOD_STORAGE",
+    "type": "mission_definition",
+    "name": { "str": "Store Up Your Grain" },
+    "description": "Find 5,398 pounds of sheet metal (408 units) to help Eddie build a warehouse.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 0,
+    "item": "sheet_metal",
+    "count": 408,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to have better food storage.",
+      "offer": "I've been drawing up some plans to expand our food storage around here.  Now that we won't starve to death anytime soon, our old crates just aren't cutting it, so we're going to build a small warehouse to store everything, and I've gathered a crew to build it.  We've got most of the materials covered, but we don't have enough sheet metal to make the shelves.  If you could get us about 5,000 pounds of the stuff, I'll pay you handsomely with what we have.  How does that sound?",
+      "accepted": "Just bring it to me when you have it.",
+      "rejected": "Alright, I'll find someone else.",
+      "advice": "If you can find a steel mill, I'd look there.",
+      "inquire": "Do you have the sheet metal?",
+      "success": "I can't thank you enough, here's the pay for it.  Here in a while, we'll have a spot to put all of our food.",
+      "success_lie": "Alright, where's it all at?",
+      "failure": "Sorry, I had to find someone else since you didn't come through."
+    },
+    "end": {
+      "effect": [
+        { "math": [ "godco_warehouse_in_progress", "=", "1" ] },
+        { "npc_add_var": "warehouse_started_building", "type": "timer", "context": "trade", "time": true },
+        { "u_spawn_item": "icon", "count": 137 }
+      ],
+      "opinion": { "trust": 7, "value": 6, "anger": -3 }
+    }
+  },
+  {
+    "id": "MISSION_GODCO_GET_GUITAR_STRING",
+    "type": "mission_definition",
+    "name": { "str": "Obtain a guitar string" },
+    "description": "Find a wire to be used as a guitar string.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "wire",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need a new guitar string.",
+      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a wire, I can rig it to work as a substitute.",
+      "accepted": "Thanks.  I'll give you a performance when you get back with it.",
+      "rejected": "I guess I'll just skip that note.",
+      "advice": "Any old wire should do.",
+      "inquire": "Do you have it?",
+      "success": "Thank you so much!  This should last for a while.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Don't worry about it, I'll do it myself."
+    },
+    "end": {
+      "effect": [
+        { "npc_add_var": "sonia_guitar_fixed", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_spawn_item": "icon", "count": 1 }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_DARRYL_WELL1",
+    "type": "mission_definition",
+    "name": { "str": "Well Construction" },
+    "description": "Find eight pipes for Darryl Johnson.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "pipe",
+    "count": 8,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_GODCO_DARRYL_WELL2",
+    "dialogue": {
+      "describe": "I need eight pipes to start construction.",
+      "offer": "Now that's some enthusiasm, pal.  Ever since our water supply shut off, we've been using the nearby river for most of our water needs.  Who knows how many bloated corpses have decayed in that.  I want to construct a well, but I'm missing some building materials - eight pipes to be exact.",
+      "accepted": "I wish you the best, pal.  I appreciate it.",
+      "rejected": "Come back when you get a chance.",
+      "advice": "Try disassembling some lockers.  Just don't destroy our furniture, we'll be needing it.",
+      "inquire": "Well, do you have them?",
+      "success": "Great, I can finally start constructing this thing.",
+      "success_lie": "What good does this do us?",
+      "failure": "I guess it was just a pipe dream."
+    },
+    "end": {
+      "effect": [
+        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "u_spawn_item": "icon", "count": 3 }
+      ],
+      "update_mapgen": {
+        "om_terrain": "godco_5",
+        "set": [
+          { "point": "furniture", "id": "f_null", "x": 15, "y": 23 },
+          { "point": "terrain", "id": "t_covered_well", "x": 15, "y": 23 }
+        ]
+      }
+    }
+  },
+  {
+    "id": "MISSION_GODCO_DARRYL_WELL2",
+    "type": "mission_definition",
+    "name": { "str": "Water Pump Construction" },
+    "description": "Find a mechanical pump for Darryl Johnson.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "well_pump",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_GODCO_DARRYL_COOP1",
+    "dialogue": {
+      "describe": "I need a mechanical pump to finish construction.",
+      "offer": "It's less like a well, and more like a covered pit currently.  I'll need you to find a mechanical pump, one that will make this <swear> thing work.",
+      "accepted": "Take care of yourself out there.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Try disassembling another well.",
+      "inquire": "Managed to find that pump?",
+      "success": "Much obliged, survivor.  Thanks to you, we don't need to worry about where our water's gonna come from.  Here, take this as a token of our gratitude.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "effect": [
+        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_spawn_item": "icon", "count": 6 }
+      ],
+      "update_mapgen": { "om_terrain": "godco_5", "set": [ { "point": "terrain", "id": "t_water_pump", "x": 15, "y": 23 } ] }
+    }
+  },
+  {
+    "id": "MISSION_GODCO_DARRYL_COOP1",
+    "type": "mission_definition",
+    "name": { "str": "Chicken Coop Construction" },
+    "description": "Get 150 nails for Darryl.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "nail",
+    "count": 150,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I need nails to build a chicken coop",
+      "offer": "Now that we've got a steady supply of water, I've been thinking about raising some livestock.  I'm starting with some chickens I found on a farm the other day, but I don't have a coop for them.  If you can get me 150 nails, I can start building one.",
+      "accepted": "Take care of yourself out there.",
+      "rejected": "Its a simple job.",
+      "advice": "You could take apart some furniture in town, or make them yourself.",
+      "inquire": "Got the nails?",
+      "success": "Thank you.  I should have some eggs in a week, once I finish the coop.  Come back and buy some!",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "effect": [
+        { "math": [ "darryl_building_coop", "=", "1" ] },
+        { "npc_add_var": "coop_in_progress", "type": "timer", "context": "trade", "time": true },
+        { "u_spawn_item": "icon", "count": 6 }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_RUSSELL_TROPHY1",
+    "type": "mission_definition",
+    "name": { "str": "Trophy Hunt I" },
+    "description": "Help Russell Connelly expand his trophy collection by gathering three hunks of slime glob.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "slimepit_down", "om_special": "Slime Pit", "reveal_radius": 3, "search_range": 280 }
+    },
+    "item": "slime_scrap",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_GODCO_RUSSELL_TROPHY2",
+    "dialogue": {
+      "describe": "I need your help…",
+      "offer": "I have the location for an alien crash site.  I want you to investigate and bring me anything you'd find interesting.",
+      "accepted": "Good luck out there!",
+      "rejected": "That's all right.  Not everyone is cut out for this.",
+      "advice": "Worst case scenario you'll be covered in slime.  There's nothing to fear, I hope.",
+      "inquire": "Any luck, survivor?",
+      "success": "Good one!  Survivor, you have just passed my test.  I knew you could do it.  Your work shall be rewarded!",
+      "success_lie": "You liar!",
+      "failure": "You give up?  This country fell apart because no one could find a good man to rely on… might as well give up, I guess."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_RUSSELL_TROPHY2",
+    "type": "mission_definition",
+    "name": { "str": "Trophy Hunt II" },
+    "description": "Continue the quest for trophies by finding an unhatched spider egg.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 1,
+    "value": 0,
+    "count": 1,
+    "goal_condition": {
+      "or": [
+        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_GODCO_RUSSELL_TROPHY3",
+    "dialogue": {
+      "describe": "I need your help…",
+      "offer": "<the_cataclysm> didn't spare us humans.  Our former selves would look at us in disgust at the things we do for survival.  At least, that's what I was told.  I heard reports of arachnids deep in the woods.  I can't exactly pinpoint where their webs are, but I'm sure you'll figure it out once you're stuck in them.  I'd like me a spider egg!",
+      "accepted": "Thanks, make sure you're ready for whatever beast is waiting for you.",
+      "rejected": "That's all right.  Not everyone is cut out for this.",
+      "advice": "Don't worry <name_g>, I wouldn't send you on a suicide mission, would I?",
+      "inquire": "Managed to succeed, survivor?",
+      "success": "Nice catch!  Friend, you've proven yourself to be an extraordinary survivor.  Maybe there's still hope for humanity.  I'll take that egg, thank you very much.  Here's your reward and some bullets for your effort.",
+      "success_lie": "You liar!",
+      "failure": "You give up?  This country fell apart because no one could find a good man to rely on… might as well give up, I guess."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "270win_jsp", "count": 4 },
+        { "u_spawn_item": "icon", "count": 5 },
+        { "run_eocs": "EOC_MISSION_GODCO_TROPHY2_done" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_RUSSELL_TROPHY3",
+    "type": "mission_definition",
+    "name": { "str": "Trophy Hunt III" },
+    "description": "Bring one last trophy to Russell Connelly.  Harvest a sting from a bee.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "hive", "om_special": "Bee Hive", "reveal_radius": 3, "search_range": 280 } },
+    "item": "bee_sting",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I need your help…",
+      "offer": "It feels like I'm doing this for revenge.  I have one last mission for you.  Ever seen those ginormous bee hives?  Well, I can tell you where the closest one is.  Just kill off one stray bee, harvest its stinger and bring it to me.",
+      "accepted": "I wish you the best of luck, may God guide your path.",
+      "rejected": "This passion of mine may just be getting to me…",
+      "advice": "If I were you, I'd bring a gun and a butcher knife.  I don't think bug spray work anymore.",
+      "inquire": "How is the hunt going, survivor?  Any luck?",
+      "success": "Well, partner, this might just be the end of the road.  I hope you enjoyed it as much as I have.  In the meantime… here's your reward, a handful of icons, that's all I have left.  Spend them all, I think you've deserved it.",
+      "success_lie": "You liar!",
+      "failure": "You give up now?  This country fell apart because no one could find a good man to rely on… might as well give up, I guess."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "270win_jsp", "count": 8 },
+        { "u_spawn_item": "icon", "count": 8 },
+        { "npc_add_effect": "hunt_godco_russell", "duration": "PERMANENT" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
+    "type": "mission_definition",
+    "name": { "str": "End The Nightmare" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "description": "Kill whatever's keeping Zachary up at night.",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 1, "random": false, "search_range": 20, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_zombie_screecher", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 12 },
+        { "u_add_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "//": "Quest handled via external dialogue, player will never see this text.",
+    "dialogue": {
+      "describe": "Kill whatever's keeping Zachary up at night.",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": "Any luck with that horror?",
+      "success": "Oh thank you!  Now I can finally get a nights sleep.  Here, I've got some icons saved up, I want you to have them.",
+      "success_lie": "I can still hear it, crying out in the night.",
+      "failure": "I'm not gonna go and fix this <swear> mess."
+    }
+  },
+  {
+    "id": "MISSION_GODCO_GREENWOOD_1",
+    "type": "mission_definition",
+    "name": { "str": "Fungus Among Us" },
+    "description": "Purge the cultists in exchange for <reward_count:icon> icons.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 60, "min_distance": 20 },
+      "update_mapgen": {
+        "rows": [
+          "     ..............     ",
+          "  .........&&.........  ",
+          " ......,,,&,,,,,,...... ",
+          " ....,,,,,&,&,,,,,,.... ",
+          " ...,,,,,&&__&,,,,,,... ",
+          "...,,,,&&&___&___,,,,...",
+          "...,,,&&____&_____,,&...",
+          "..,,,,_&&&&&___&__&&,,..",
+          "..&&,_&__&__&&&_&&_,,,..",
+          "..,,&_&_&_______&__,,,..",
+          "..,,_&_&&_______&__&&,..",
+          "..,&&&_&___XX_&&&&&&,,..",
+          ".&&,&__&___XX_&_&___,,..",
+          "..&,&__&&_____&_&_&_,,..",
+          "..&&&&__&&&&&&___&&,,,..",
+          "..,&,&&_______&____,,,..",
+          "..,&,,&____&&&___&&&,,..",
+          "...&,,&&__&____&&_,,,...",
+          "..&,,,,&&&_&&&&__,,,,...",
+          " ...,,,,,&__&_,,,,,,... ",
+          " ....,,,&&,,,&,,,,,.... ",
+          " ......&,,,,,,&&,...... ",
+          "  ..............&&....  ",
+          "     ..............     "
+        ],
+        "terrain": {
+          " ": [ [ "t_grass_dead", 4 ], "t_dirtmound", "t_grass", "t_fungus" ],
+          ".": [ [ "t_grass_dead", 2 ], "t_fungus" ],
+          ",": [ [ "t_grass_dead", 3 ], [ "t_fungus", 7 ], "t_fungus_mound" ],
+          "_": [ [ "t_fungus", 25 ], "t_fungus_mound", [ "t_tree_fungal", 3 ], [ "t_tree_fungal_young", 2 ] ],
+          "&": "t_fungus_mound",
+          "X": "t_marloss"
+        },
+        "furniture": {
+          " ": [
+            [ "f_null", 18 ],
+            [ "f_boulder_small", 3 ],
+            [ "f_boulder_medium", 2 ],
+            "f_boulder_large",
+            [ "f_flower_fungal", 2 ],
+            "f_fungal_mass"
+          ],
+          ".": [ [ "f_null", 18 ], [ "f_flower_fungal", 4 ], [ "f_fungal_mass", 3 ], "f_fungal_clump" ],
+          ",": [ [ "f_null", 12 ], [ "f_fungal_mass", 2 ], "f_flower_fungal", "f_fungal_clump" ],
+          "_": [ [ "f_null", 10 ], [ "f_fungal_mass", 2 ], "f_fungal_clump" ],
+          "&": [ [ "f_fungal_tangle", 8 ], "f_fungal_clump", "f_fungal_mass" ]
+        },
+        "place_monster": [
+          { "monster": "mon_marloss_zealot_m", "x": 10, "y": 10, "target": true },
+          { "monster": "mon_marloss_zealot_f", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_marloss_zealot_m", "x": 12, "y": 12, "target": true },
+          { "monster": "mon_marloss_zealot_f", "x": 13, "y": 13, "target": true }
+        ]
+      }
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_GREENWOOD_2",
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "There's a weird fungus that started to invade ever since <the_cataclysm>, and several individuals in strange robes are cultivating it.  I've seen what it can do, so I need you to execute them and destroy all traces of these strange mushrooms.",
+      "accepted": "God bless you!",
+      "rejected": "That fungus is going to kill us all if it isn't stopped.",
+      "advice": "Despite how fast it grows, it's highly vulnerable to fire.",
+      "inquire": "Have you dealt with them?",
+      "success": "Thank you.  I don't like killing people, but this time we had too.  Here, take this; its some of our internal money that we've started using.  You know those religious pamphlets shaped like bills people would leave?  These are some of those, couldn't stand 'em myself.",
+      "success_lie": "What good does this do us?",
+      "failure": "We'll have to try again, I suppose."
+    }
+  },
+  {
+    "id": "MISSION_GODCO_GREENWOOD_2",
+    "type": "mission_definition",
+    "name": { "str": "Relic Recovery" },
+    "description": "Retrieve a religious relic for Greenwood in exchange for <reward_count:icon> icons.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "small_relic",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cathedral_1_SE", "om_special": "cathedral", "reveal_radius": 1, "random": false, "search_range": 100 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_GREENWOOD_3",
+    "dialogue": {
+      "describe": "I need your help…",
+      "offer": "I've been looking to spruce up this place with some iconography, and a small relic would do just that.  It'd help tremendously with morale around here, so I need you to find one for me.",
+      "accepted": "Please bring it back as soon as possible.",
+      "rejected": "It'd really help us…",
+      "advice": "I know most cathedrals keep small relics, that's a good place to look.",
+      "inquire": "Any luck?",
+      "success": "Thank you, <name_g>.  Take these for your trouble.",
+      "success_lie": "What good does this do us?",
+      "failure": "I'll have to make my own, I guess…"
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_GREENWOOD_3",
+    "type": "mission_definition",
+    "name": { "str": "Bible Belt" },
+    "description": "Find twenty King James Bibles for Greenwood in exchange for <reward_count:icon> icons.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "holybook_bible1",
+    "count": 20,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_bookstore", "om_special": "s_bookstore", "reveal_radius": 1, "random": false, "search_range": 100 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need your help…",
+      "offer": "When we skipped town during <the_cataclysm>, most of us left our possessions behind.  We only have a few Bibles here for all of us, and they're starting to fall apart.  If you could get 20 more, in the King James version, I'd pay well for them.",
+      "accepted": "May God bless you.",
+      "rejected": "It'd really help us…",
+      "advice": "A book store should have enough, I'll mark one for you.",
+      "inquire": "Any luck?",
+      "success": "May God bless you, <name_g>.",
+      "success_lie": "What good does this do us?",
+      "failure": "I'll have to make my own, I guess…"
+    },
+    "//": "5.50 (price of bibles) x 20 (count), with a 10% upcharge as a delivery fee. Divide by 2.50 to convert to icons.",
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 48 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_JULIAN_PAPER",
+    "type": "mission_definition",
+    "name": { "str": "Remnants of Civilization" },
+    "description": "Find ten rolls of toilet paper for Julian Ray.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "toilet_paper",
+    "count": 10,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_JULIAN_RINGS",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I have a job for you…",
+      "offer": "As a matter of fact, yes you can.  You see, we're running low on toilet paper.  It's not something we can't live without, but it's luxury we can afford.  I can pay you handsomely if you find us ten rolls of toilet paper.",
+      "accepted": "Well, that's great.  Good luck.",
+      "rejected": "Changed your mind already?",
+      "advice": "You remember what toilet paper is, right?",
+      "inquire": "How's the search going?  Any luck?",
+      "success": "Thank you.  Maybe you people aren't so bad after all.",
+      "success_lie": "Could you give it to me then?",
+      "failure": "It was a lost cause anyways…"
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_JULIAN_RINGS",
+    "type": "mission_definition",
+    "name": { "str": "The Honeymooners" },
+    "description": "Get two wedding rings for Julian.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "ring_wedding",
+    "difficulty": 7,
+    "count": 2,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 100 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get two wedding rings.",
+      "offer": "Olwen and I have been dating for a while now, and I was planning on asking her to marry me.  I never got the chance to buy our rings before <the_cataclysm>, but I think I'll surprise her with some in a few days.  If you could get me two of them, I'll pay a fair price: $250 in icons.",
+      "accepted": "Thanks <name_g>, I'm counting on you.",
+      "rejected": "I'd mean so much to the both of us, and there's a lot of money involved.",
+      "advice": "A jewelry store should have a pair.  If not, I'd check a wedding venue.",
+      "inquire": "Have you found the rings?",
+      "success": "Here's the money, as per our terms.  I really do appreciate this.",
+      "success_lie": "What good is this?",
+      "failure": "I'll have to look for them myself…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_GEMMA_SUPPLEMENTS",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve the fertility supplements" },
+    "description": "Get Gemmas fertility supplements.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "fert_supplement",
+    "count": 25,
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_pharm",
+        "om_special": "s_pharm",
+        "reveal_radius": 1,
+        "random": false,
+        "search_range": 1000,
+        "min_distance": 3
+      },
+      "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 10 },
+        { "npc_add_var": "gemma_got_supplements", "type": "mission", "context": "meeting", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some supplements.",
+      "offer": "To be honest, I'm not alright.  Have you met Darryl?  He's my husband, and we had a go at getting a baby recently.  The thing is, its not happening.  Now that we're in a safe spot, on our feet again, I want to try.  I'm trying to find some fertility supplements.  I ordered some before <the_cataclysm>, but I never got to pick them up.  If you'd go over and get them for me, I'd pay you.",
+      "accepted": "Thank you.",
+      "rejected": "This means so much to me.",
+      "advice": "They should be near the counter, or on a shelf.",
+      "inquire": "Have you found my pills?",
+      "success": "Oh thank you!  Darryl will be so happy to hear about this!  Take there for your payment, it must've been hard for you.",
+      "success_lie": "What good is this?",
+      "failure": "How unfortunate…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_GEMMA_SEEDS",
+    "type": "mission_definition",
+    "name": { "str": "Find cactus seeds" },
+    "description": "Find ten cactus seeds for Gemma.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "seed_cactus",
+    "count": 10,
+    "difficulty": 1,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some cactus seeds.",
+      "offer": "I'm wanting to try growing some new plants.  I've never tried growing cactus; if you could find some seeds for me, I'd pay you.",
+      "accepted": "Thank you.",
+      "rejected": "I suppose more local fauna could work.",
+      "advice": "I'd try a gardening store or a home supply store would have some.",
+      "inquire": "Have you found any cactus seeds?",
+      "success": "I appreciate that, here's your money.  Parts of the cactus, such as the fruit, are edible.  I'll have to ask Simon if he can experiment with some of them.",
+      "success_lie": "What good is this?",
+      "failure": "How unfortunate…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_JANE_PILLS",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve Thorazine" },
+    "description": "Get 75 anti-psychotics for Jane.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "thorazine",
+    "count": 75,
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 155 },
+        { "npc_add_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some antipsychotics.",
+      "offer": "I'm running out of antipsychotics, and Arturo is starting to see things again.  I'd pay for seventy-five antipsychotic pills, and be eternally grateful.",
+      "accepted": "Thank you.  Arturo will be happy to get these.",
+      "rejected": "Would you please reconsider?  Arturo's had some bad hallucinations before, he'll go crazy without them.",
+      "advice": "The storage room of a pharmacy should have them.",
+      "inquire": "Have you found the antipsychotics?",
+      "success": "God bless you, <name_g>.  Arturo shouldn't have to worry about his hallucinations for a long time.",
+      "success_lie": "What good is this?",
+      "failure": "How unfortunate…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_CORRIE_MACHINE1",
+    "type": "mission_definition",
+    "name": { "str": "Renewable Energy" },
+    "description": "Find a solar panel for Corrie.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "solar_panel",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I have a plan…",
+      "offer": "Okay, great.  We're gonna create a charger and a generator all in one.  Here's the battle plan.  Zack could create the framework, you'll get me a solar panel, the rest I can craft or repurpose from the bus.  Helena's promised us a reward if this thing lives up to her standards.",
+      "accepted": "With my brains and your brawn we'll make an excellent team.  A regular solar panel will do just fine.",
+      "rejected": "No electricity for us then.",
+      "advice": "All you need is a good wrench and a solar car.",
+      "inquire": "Do you have the solar panel?",
+      "success": "The great work is now complete.  Are you good with words, by the way?  I was thinking, maybe you should be the one to negotiate with Helena.  But whatever you do, don't accept their icons.  Our work is worth a lot more than their valueless currency.",
+      "success_lie": "Thanks for trying…  I guess.",
+      "failure": "No electricity for us then."
+    },
+    "end": {
+      "effect": [
+        { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_GODCO_FELICITY_1",
+    "type": "mission_definition",
+    "name": { "str": "Writers' Will" },
+    "description": "Get 800 sheets of paper for Felicity Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "paper",
+    "count": 800,
+    "difficulty": 3,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_FELICITY_2",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some paper.",
+      "offer": "Since <the_cataclysm> happened, I've had a surprising amount of free time.  I want to start writing, but there's very little paper around here.  For the time being, eight hundred sheets should do; I'll pay if you can get it for me.",
+      "accepted": "Thanks, you'll be the first to see my writing.",
+      "rejected": "I can understand that.  The offer's still available if you reconsider.",
+      "advice": "A bookstore or office supply should have tons of it.",
+      "inquire": "Have you found the paper?",
+      "success": "I appreciate it.  I'll get to work on my manuscript.",
+      "success_lie": "What good is this?",
+      "failure": "How unfortunate…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_FELICITY_2",
+    "type": "mission_definition",
+    "name": { "str": "Writers' Will II" },
+    "description": "Get 30 pencils for Felicity Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "pencil",
+    "count": 30,
+    "difficulty": 1,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 4 },
+        { "npc_add_var": "writing_manuscript", "type": "timer", "context": "trade", "time": true }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some pencils.",
+      "offer": "I've been writing for a bit, and I've used up my pencils.  If you could get me thirty more, I'll give you some money.",
+      "accepted": "I do appreciate it.",
+      "rejected": "I can understand that.  The offer's available if you reconsider.",
+      "advice": "An office building should have tons.",
+      "inquire": "Have you found the pencils?",
+      "success": "Thank you so much!  I'll get back to work on my manuscript, I should have it ready in a month or so.",
+      "success_lie": "What good is this?",
+      "failure": "How unfortunate…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_THERESA_1",
+    "type": "mission_definition",
+    "name": { "str": "Get some oxycodone" },
+    "description": "Find seven oxycodone pills for Theresa.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "oxycodone",
+    "count": 7,
+    "difficulty": 1,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 25 },
+        { "u_spawn_item": "cane" },
+        { "u_spawn_item": "silver_ring" },
+        { "u_spawn_item": "gold_necklace" },
+        { "u_spawn_item": "glasses_reading" },
+        { "u_spawn_item": "knitting_needles" },
+        { "u_add_var": "theresa_going_away", "type": "general", "context": "completed", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some pills.",
+      "offer": "I've got an idea to solve my problem.  I'll pay you if you can find seven oxycodone pills for me; the ones they used to prescribe after a surgery.",
+      "accepted": "Thank you, <granny_name_g>.  I'm glad the youngsters still help the elderly.",
+      "rejected": "I can understand your hesitation <granny_name_g>.  I wouldn't worry about it too much.",
+      "advice": "An old doctors office should have some.  They have those fancy autodocs upstairs.",
+      "inquire": "Have you found my painkillers?",
+      "success": "I want you to have these few things of mine, I won't be needing them anymore.  I think I'll take a walk in the woods, get some fresh air for these old bones…",
+      "success_lie": "Deceitful rogue, you…",
+      "failure": "How unfortunate…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_JEREMIAH_1",
+    "type": "mission_definition",
+    "name": { "str": "Dinner for Two" },
+    "description": "Get a candle for Jeremiah.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "candle",
+    "difficulty": 1,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get a candle.",
+      "offer": "Have you met Chloe?  She's the girl with the butcher knife, came here with Sonia.  This may sound silly, but I want to ask her out on a date, have a picnic some time.  The only thing I need to get this plan to come together is a candle.  If you happen to find one, I'll pay you for it.",
+      "accepted": "Thanks, <name_g>.",
+      "rejected": "Please?  The dating scene isn't that big around here.",
+      "advice": "Someone's house might have one.",
+      "inquire": "Have you found the candle?",
+      "success": "I appreciate it.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_KATHERINE_1",
+    "type": "mission_definition",
+    "name": { "str": "Fishy Business" },
+    "description": "Find three cans of tuna for Katherine.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "can_tuna",
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get some tuna.",
+      "offer": "I've had a craving for fish recently.  Could you find three cans of tuna for me?  I'll pay you for them.",
+      "accepted": "Thank you.",
+      "rejected": "Alright.  I'll do it myself.",
+      "advice": "A house or grocery store should have some.",
+      "inquire": "Have you found the fish?",
+      "success": "Thank you, here's your payment.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_KOSTAS_1",
+    "type": "mission_definition",
+    "name": { "str": "Natural Chemistry" },
+    "description": "Get a chemistry set for Kostas.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "chemistry_set",
+    "difficulty": 3,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 20 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_KOSTAS_2",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get a chemistry set.",
+      "offer": "I've decided to start making more concentrated remedies for more serious cases, but I don't have a way of refining any herbs to that degree.  I'd pay for a chemistry set.",
+      "accepted": "Thanks, <name_g>.",
+      "rejected": "We could all use the medicine, including you.",
+      "advice": "A laboratory or pharmaceutical factory should have one.",
+      "inquire": "Have you found the chemistry set?",
+      "success": "Blessings be unto you.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_KOSTAS_2",
+    "type": "mission_definition",
+    "name": { "str": "Pebble Pusher" },
+    "description": "Get 814 pounds of gravel (5,600 pebbles) for Kostas.",
+    "//": "Enough pebbles for 28 planters.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "pebble",
+    "count": 5600,
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 90 },
+        { "math": [ "kostas_building_garden", "=", "1" ] },
+        { "npc_add_var": "herb_garden_in_progress", "type": "timer", "context": "trade", "time": true }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_KOSTAS_3",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get 5,600 pebbles.",
+      "offer": "Demand for my herbal medicine has gone up recently, and I'm struggling to get all of my ingredients sustainably.  I'm going to build some planters on the rooftop, but I lack the material to do so in full.  I'd compensate you fairly for 814 pounds of gravel.",
+      "accepted": "Thanks, <name_g>.",
+      "rejected": "I understand that it seems formidable, but there is a good deal of money for you.",
+      "advice": "An outdoor emporium should have some.  Of course, you could always dig them up from a lakeshore or driveway.",
+      "inquire": "Do you have the rocks?",
+      "success": "Blessings be unto you.  I'll start on the garden right away.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_KOSTAS_3",
+    "type": "mission_definition",
+    "name": { "str": "Out Of This World Cures" },
+    "description": "Find a marloss berry for Kostas.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "marloss_berry",
+    "difficulty": 6,
+    "value": 10000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "Get a marloss berry.",
+      "offer": "I'm wanting to experiment with some of the more…  otherworldly fauna that have appeared recently.  I saw these pink berries inside a fungal infestation the other day before I burned it with a Molotov.  If you could get me one, I can pay you with a discount on my medicine.",
+      "accepted": "Thanks, <name_g>.",
+      "rejected": "I understand that it seems formidable, but there is a good deal of money for you.",
+      "advice": "I'd wear a hazmat suit while I'm in there.  Those spores are absolutely nasty for your health, if my observations of <zombies> nearby are any indication.",
+      "inquire": "Do you have the berry?",
+      "success": "I'll have to be careful with this thing, thanks for getting it for me.  Let's see what this can do…",
+      "success_lie": "Did you eat the thing?  Please tell me your joking.",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_TOM_1",
+    "type": "mission_definition",
+    "name": { "str": "Digital Revolution" },
+    "description": "Get a e-ink tablet PC for Tom Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "eink_tablet_pc",
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_TOM_2",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get an e-ink tablet PC.",
+      "offer": "I've assembled quite a collection of evidence in my research, and I want an easier way to organize it.  If you could get me one of those e-ink tablets, I could scan all my documents into an easily-preserved digital format.  There's some money for you, too.",
+      "accepted": "Thank you, <name_g>.  The truth is ever closer!",
+      "rejected": "Don't you want to know the truth behind <the_cataclysm>?",
+      "advice": "I'd check an electronics store for one.",
+      "inquire": "Have you found the tablet?",
+      "success": "Here's the money I promised you.  I'll start organizing my collection.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_TOM_2",
+    "type": "mission_definition",
+    "name": { "str": "Missing Persons" },
+    "description": "Find 25 missing person posters for Tom Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "missing_poster_adult",
+    "count": 25,
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_TOM_3",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get 25 missing posters.",
+      "offer": "I want to take a look at some of the missing posters for any links.  If you could get me twenty-five of them, I could start my analysis.  Make sure to get posters for adults, I don't think any children could provide links.",
+      "accepted": "Thank you, <name_g>.  The truth is ever closer!",
+      "rejected": "Don't you want to know the truth behind <the_cataclysm>?",
+      "advice": "There should be plenty on poster-boards around town.  A police station should have a lot.",
+      "inquire": "Have you found the posters?",
+      "success": "I wonder what the link could be.  Too much information?  Government conspiracy?  Aliens?  I'll have to find out.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_TOM_3",
+    "type": "mission_definition",
+    "name": { "str": "Finding Files" },
+    "description": "Find 200 files for Tom Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "file",
+    "count": 200,
+    "difficulty": 8,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 30 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get 200 files.",
+      "offer": "I've decided to broaden my horizons with my research, now I need more general documents for examination, get the big picture.  If you could get me two hundred files, on anything, I'll pay you for them.",
+      "accepted": "Thank you, <name_g>.  The truth is ever closer!",
+      "rejected": "Don't you want to know the truth behind <the_cataclysm>?",
+      "advice": "Office buildings, police stations, any high-profile place should have what we want.",
+      "inquire": "Have you found the files?",
+      "success": "This should occupy my work for a while.  Thanks <name_g>, we'll discover the truth one of these days.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_OLWEN_1",
+    "type": "mission_definition",
+    "name": { "str": "Mathematical Measures" },
+    "description": "Find some MatheMAX for Olwen Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "software_math",
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_OLWEN_2",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get MatheMAX software.",
+      "offer": "I've started working on a small project of mine which requires a great deal of computational input.  A piece of MatheMAX software would be a great help.",
+      "accepted": "Thank you.",
+      "rejected": "Doing this many calculations by hand isn't very fun, you know.",
+      "advice": "I'd check one of the local schools for a USB stick with it.",
+      "inquire": "Have you found the software?",
+      "success": "This'll be quite useful in the future.  Thank you, <name_g>.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_OLWEN_2",
+    "type": "mission_definition",
+    "name": { "str": "Radio-active" },
+    "description": "Get six antennae for Olwen Powell.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "antenna",
+    "count": 6,
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 6 },
+        { "mapgen_update": "olwen_radio_adapter", "om_terrain": "godco_1_2" },
+        { "u_add_var": "godco_has_radio", "type": "general", "context": "mission", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get six antennae.",
+      "offer": "Corrie and I have been working on a way to get in touch with anyone who's still out there, and we've started rigging up an internet-to-radio broadcast.  The only thing we need are antennae, six of them specifically.",
+      "accepted": "This could give us a prosperous future, <name_g>.",
+      "rejected": "We've got to see how many people are out there.",
+      "advice": "A radio tower should have some lying around in storage.",
+      "inquire": "Have you found the antennae?",
+      "success": "Now we can get in touch with a lot more people, see what's out there.  Thank you, <name_g>.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_MARIA_1",
+    "type": "mission_definition",
+    "name": { "str": "Cotton Conundrum" },
+    "description": "Find 300 cotton patches for Maria Serrano.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "cotton_patchwork",
+    "count": 300,
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_MARIA_2",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get 300 cotton patchworks.",
+      "offer": "I'm starting to run low on cotton for my sewing.  I think three hundred cotton patches should hold me for a while; I'll pay you for them if you get me some.",
+      "accepted": "Great stuff!",
+      "rejected": "How am I supposed to tailor if I have nothing to tailor with?",
+      "advice": "You could try cutting up some unneeded sweaters from a clothing store, or you could make some yourself.",
+      "inquire": "Have you found the cotton?",
+      "success": "Thank you, <name_g>.  This should do me for a while.",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_MARIA_2",
+    "type": "mission_definition",
+    "name": { "str": "Spinning Wheels" },
+    "description": "Find an electric spinning wheel for Maria Serrano.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "electric_spinwheel",
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get an electric spinning wheel.",
+      "offer": "I want to try making my own cloth, it's getting harder to find the quantities I need.  I'll buy an electric spinning wheel if you can find one, it'd vastly expedite the process.",
+      "accepted": "Great stuff!",
+      "rejected": "It'd really help me in getting your stuff to you faster.",
+      "advice": "A textile museum should have one lying around.",
+      "inquire": "Have you found the spinning wheel?",
+      "success": "This is wonderful!  I'll really be able to put the pedal to the metal!",
+      "success_lie": "What good is this?",
+      "failure": "That's too bad…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_HELENA_1",
+    "type": "mission_definition",
+    "name": { "str": "Plumbing Maintenance" },
+    "description": "Find 200 pipes for Helena Misinter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "pipe",
+    "count": 200,
+    "difficulty": 6,
+    "value": 0,
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 20 } ] },
+    "followup": "MISSION_GODCO_HELENA_2",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get 200 pipes.",
+      "offer": "We were in the process of refurbishing the retreat when <the_cataclysm> interrupted us.  Some of the plumbing around here was troublesome, and we need to fix that.  200 pipes should be all we need to finish it.",
+      "accepted": "May God protect you.",
+      "rejected": "I'll find someone else, then.",
+      "advice": "A public works or a craft shop should have some lying around.  If not, try a steel mill.",
+      "inquire": "Have you found the pipes?",
+      "success": "Thank you.",
+      "success_lie": "What good is this?",
+      "failure": "As expected of such a person…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_HELENA_2",
+    "type": "mission_definition",
+    "name": { "str": "Planning Planers" },
+    "description": "Find two planers for Helena Misinter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "planer",
+    "count": 2,
+    "difficulty": 12,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
+        { "math": [ "wall_in_progress", "=", "1" ] },
+        { "npc_add_var": "wall_started_building", "type": "timer", "context": "trade", "time": true },
+        { "u_spawn_item": "icon", "count": 40 }
+      ]
+    },
+    "followup": "MISSION_GODCO_HELENA_3",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get two planers.",
+      "offer": "I'm looking to construct some fortifications around the church, should any of Satan's devils decide to run amok.  We have most of the material needed for such an undertaking, but processing our raw lumber is taking far too long.  I've heard a planer could do such in a fraction of the time; I'll pay for two of them.",
+      "accepted": "May God protect you.",
+      "rejected": "I'll find someone else, then.",
+      "advice": "I'd poke around any industrial sites for some.",
+      "inquire": "Have you found the planers?",
+      "success": "Thank you.",
+      "success_lie": "What good is this?",
+      "failure": "As expected of such a person…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_HELENA_3",
+    "type": "mission_definition",
+    "name": { "str": "Purging Heresy" },
+    "description": "Kill some bandits for Helena Misinter.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 13,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "church", "om_special": "church", "reveal_radius": 1, "random": true, "search_range": 50 },
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "bandit", "x": 15, "y": 8, "target": true },
+          { "class": "thug", "x": 12, "y": 10, "target": true },
+          { "class": "bandit", "x": 9, "y": 13, "target": true },
+          { "class": "bandit", "x": 8, "y": 15, "target": true },
+          { "class": "thug", "x": 17, "y": 15, "target": true }
+        ]
+      }
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 35 } ] },
+    "followup": "MISSION_GODCO_HELENA_4",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Purge the heretics.",
+      "offer": "Blasphemy, heresy, the righteous judgement of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
+      "accepted": "Righteous judgement shall come!",
+      "rejected": "Are you standing with them?",
+      "advice": "Attack at night to surprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",
+      "inquire": "Are the heretics purged?",
+      "success": "Thank you.",
+      "success_lie": "Why have you failed us?!",
+      "failure": "As expected of such a person…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_HELENA_4",
+    "type": "mission_definition",
+    "name": { "str": "Preservation of Substenance" },
+    "description": "Find five canning pots for Helena Misinter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "pot_canning",
+    "count": 5,
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "math": [ "godco_has_canningpots", "=", "1" ] },
+        { "u_spawn_item": "icon", "count": 80 },
+        { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Get five canning pots.",
+      "offer": "While we are blessed with a bountiful stock, we need a way to preserve our newer food, mainly those potatoes Darryl's growing.  Fortunately, he brought a book on canning things.  We need five canning pots to get the setup going in full fashion.",
+      "accepted": "May the Lord bless you.",
+      "rejected": "I'll find someone else, then.",
+      "advice": "An old factory might have one, or a hobby shop.",
+      "inquire": "Have you found the canning pots?",
+      "success": "Thank you.  You're welcome to some of our first batch, if you're interested.",
+      "success_lie": "What good is this?",
+      "failure": "As expected of such a person…"
+    }
+  },
+  {
+    "id": "MISSION_GODCO_HELENA_VISIT_MERCHANTS",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the Center" },
+    "description": "Go to the location Helena told you about and see who's there.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 1,
+    "goal_condition": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" },
+    "value": 0,
+    "start": "reveal_refugee_center",
+    "end": {
+      "effect": [
+        { "math": [ "godco_met_merchants", "=", "0" ] },
+        { "u_spawn_item": "icon", "count": 5 },
+        { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "See who's over there.",
+      "offer": "If you see this, it's a bug.",
+      "accepted": "If you see this, it's a bug.",
+      "rejected": "If you see this, it's a bug.",
+      "advice": "If you see this, it's a bug.",
+      "inquire": "What have you found out?",
+      "success": "This should be very useful to us.  Now we can truly begin our march of righteousness.",
+      "success_lie": "If you see this, it's a bug.",
+      "failure": "As expected of such a person…"
+    }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_TRADER",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the Trader" },
+    "description": "Find some proof that the representative near the New England Community Church is crooked.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 1,
+    "goal_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Find some proof about that merchant.",
+      "offer": "If you see this, it's a bug.",
+      "accepted": "If you see this, it's a bug.",
+      "rejected": "If you see this, it's a bug.",
+      "advice": "If you see this, it's a bug.",
+      "inquire": "What have you found out?",
+      "success": "Thanks, we'll take the needed initiative.",
+      "success_lie": "If you see this, it's a bug.",
+      "failure": "Of course, you have no evidence."
+    }
+  }
+]

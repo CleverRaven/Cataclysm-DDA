@@ -1,0 +1,292 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY",
+    "dynamic_line": "*looks up at you in uninterested fashion.  \"What do you want?  I'm working.",
+    "responses": [
+      { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },
+      {
+        "text": "I'm here to pick up a delivery.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            {
+              "not": { "npc_has_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP"
+      },
+      {
+        "text": "I'm back for the records, and I have the money.",
+        "condition": { "npc_has_var": "u_owe_20", "type": "general", "context": "trade", "value": "yes" },
+        "effect": {
+          "u_buy_item": "godcotrader_accounting_records_dirty",
+          "cost": 2000,
+          "true_eocs": "EOC_BRIBE_LATER_TRUE_EFFECT",
+          "false_eocs": "EOC_BRIBE_20_FALSE_EFFECT"
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'm back for the records, and I have the money.",
+        "condition": { "npc_has_var": "u_owe_50", "type": "general", "context": "trade", "value": "yes" },
+        "effect": {
+          "u_buy_item": "godcotrader_accounting_records_dirty",
+          "cost": 5000,
+          "true_eocs": "EOC_BRIBE_LATER_TRUE_EFFECT",
+          "false_eocs": "EOC_BRIBE_50_FALSE_EFFECT"
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'm back for the records, and I have the money.",
+        "condition": { "npc_has_var": "u_owe_150", "type": "general", "context": "trade", "value": "yes" },
+        "effect": {
+          "u_buy_item": "godcotrader_accounting_records_dirty",
+          "cost": 15000,
+          "true_eocs": "EOC_BRIBE_LATER_TRUE_EFFECT",
+          "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT"
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'm back for your records.",
+        "condition": { "npc_compare_time_since_var": "fixing_records", "type": "timer", "context": "trade", "op": ">=", "time": "2 d" },
+        "effect": [
+          { "u_spawn_item": "godcotrader_accounting_records_clean" },
+          { "npc_lose_var": "fixing_records", "type": "timer", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP",
+    "dynamic_line": "Really, I haven't heard anything about it.  What's it you need?",
+    "responses": [
+      { "text": "The boss wants your accounting papers, I need them.", "topic": "TALK_CARAVAN_GUARD_PREDATORY_ACCRECORDS" },
+      { "text": "Oh nothing, I must have the wrong person.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_ACCRECORDS",
+    "dynamic_line": "They're not ready yet, you'll have to come back later.",
+    "responses": [
+      {
+        "text": "I'll just take them as is, thanks.  Everything can be finalized later.",
+        "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_NOW"
+      },
+      {
+        "text": "We both know that's a lie.  Hand them over, or else.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      { "text": "Could I get them for a price?", "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_BRIBE" },
+      { "text": "When will they be ready?", "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TIME" },
+      { "text": "Okay, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_NOW",
+    "dynamic_line": "I told you already, I'm not finished with them, come back later.",
+    "responses": [
+      {
+        "text": "We both know that's a lie.  Hand them over, or else.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      { "text": "Could I get them for a price?", "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_BRIBE" },
+      { "text": "When will they be ready?", "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TIME" },
+      { "text": "Okay, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TIME",
+    "dynamic_line": "Just two more days is all I need with them, then the boss can do whatever.  Is that good?",
+    "responses": [
+      {
+        "text": "Alright, I'll be back then.",
+        "effect": [
+          { "npc_add_var": "fixing_records", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No, I need them now.", "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_NOW" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS",
+    "dynamic_line": "I don't know what the hell you want them for, but I sure don't care.  Take 'em, <name_b>.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_DONE" } },
+    "responses": [
+      {
+        "text": "Thanks, <name_b>.",
+        "effect": [
+          { "u_spawn_item": "godcotrader_accounting_records_dirty" },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_BRIBE",
+    "dynamic_line": "How much are you thinking?",
+    "responses": [
+      { "text": "Does $5 sound good?", "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIVE" },
+      {
+        "text": "How about $20?",
+        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", -3 ], [ "VALUE", -3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TWENTY_WIN" },
+        "failure": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TWENTY_FAIL" }
+      },
+      {
+        "text": "I'll give you $50, my best offer.",
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "TRUST", -3 ], [ "VALUE", -3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIFTY_WIN" },
+        "failure": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIFTY_FAIL" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIVE",
+    "dynamic_line": "*holds their abdomen as they nearly keel over from laughter.  \"You better be glad that I think you're funny, anyone else would find it an insult.  $150 is more like it to me.",
+    "responses": [
+      {
+        "text": "Alright, here it is.",
+        "effect": [
+          { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 15000, "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT" },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't take kindly to your jokes, <name_b>.  Hand 'em over or else.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TWENTY_WIN",
+    "dynamic_line": "*seems to get lost in thought for a moment, before looking back at you.  \"Alright, you have a deal.",
+    "responses": [
+      {
+        "text": "Pleasure doing business.",
+        "effect": [
+          { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 2000, "false_eocs": "EOC_BRIBE_20_FALSE_EFFECT" },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_TWENTY_FAIL",
+    "dynamic_line": "*seems to get lost in thought for a moment, before looking back at you.  \"Nah, I think $150 would be a better price.",
+    "responses": [
+      {
+        "text": "Alright, here it is.",
+        "effect": [
+          { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 15000, "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT" },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about I don't give you any money instead?  Hand 'em over or else.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIFTY_WIN",
+    "dynamic_line": "Ah, a rich man I see.  I think you have yourself a deal.",
+    "responses": [
+      {
+        "text": "Sounds great to me.",
+        "effect": [
+          { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 5000, "false_eocs": "EOC_BRIBE_50_FALSE_EFFECT" },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIFTY_FAIL",
+    "dynamic_line": "I think you can go a bit higher, $150 and the records are yours.",
+    "responses": [
+      {
+        "text": "Sounds great to me.",
+        "effect": [
+          { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 15000, "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT" },
+          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about I don't give you any money instead?  Hand 'em over or else.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", 3 ], [ "FEAR", -3 ] ] },
+        "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_20_FALSE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_var": "u_owe_20", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_50_FALSE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_var": "u_owe_50", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_150_FALSE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_var": "u_owe_150", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_LATER_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_lose_var": "u_owe_20", "type": "general", "context": "trade" },
+      { "npc_lose_var": "u_owe_50", "type": "general", "context": "trade" },
+      { "npc_lose_var": "u_owe_150", "type": "general", "context": "trade" },
+      { "npc_make_sound": "A pleasure doin' business with you.", "volume": 1, "type": "speech" }
+    ]
+  }
+]

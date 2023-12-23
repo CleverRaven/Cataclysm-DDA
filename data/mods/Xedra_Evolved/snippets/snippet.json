@@ -1,0 +1,60 @@
+[
+  {
+    "type": "snippet",
+    "category": "fae_organs_desc",
+    "text": [
+      {
+        "id": "fae_organs_1",
+        "text": "These organs came from a glittering nether beast, and you really aren't sure what to make of them.  There are things you've possibly seen in an anatomy book, but in colors and shapes that leave you doubtful."
+      },
+      { "id": "fae_organs_2", "text": "These might be a kidney equivalent but they smell of rosemary at your touch." },
+      { "id": "fae_organs_3", "text": "The lung looking organs are oozing a shimmering green substance." }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "spy_note",
+    "text": [
+      {
+        "id": "spy_note_1",
+        "text": "I've tracked down rumors an intradimensional contact unit based out a local government building.  I'm going to go recon it, see you in a few days."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      {
+        "id": "xe_survnote_1",
+        "text": "The weird creatures that seem to come out of peoples nightmares don't seem to be able to track by smell like so many of the other monsters.  I wonder if that's because smell isn't a strong sense in dreams?"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "inventor_success",
+    "text": [
+      "After some work, you came to the solution that satisfies you.",
+      "You spent a lot of time, and the result looks good now.",
+      "Huge amount of time transferred into a knowledge you will utilize well.",
+      "Finally, your work came to something good.",
+      "yes, Yes, YES!",
+      "That was stupid, but it did work.",
+      "The job is done."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "inventor_fail",
+    "text": [
+      "You did a lot of research and calculations, but the result do not satisfy you.",
+      "Nope.",
+      "That's bad.",
+      "It won't work.",
+      "It was a good idea, but you picked a wrong approach.",
+      "Why did you start it?  It is obviously not possible.",
+      "How did I…?  Ugh, nevermind."
+    ]
+  }
+]

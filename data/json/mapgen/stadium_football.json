@@ -42,7 +42,7 @@
         "                     ~                            ~                                                                  ~                            ~                     ",
         "                                                                                                                                                                        ",
         "                                                                                                                                                                        ",
-        "sssssssssssssssssssssssssossossossossossossossosssss       ~      ~      ~      ~      ~      ~      ~      ~       sssssossossossossossossossosssss       ~      ~     ",
+        "sssssssssssssssssssssssss/ssossossossossossoss/sssss       ~      ~      ~      ~      ~      ~      ~      ~       sssss/ssossossossossossoss/sssss       ~      ~     ",
         "_____s______s_____sss*ssssssssssssssssssssssssssss*ss      ~      ~      ~      ~      ~      ~      ~      ~      ss*ssssssssssssssssssssssssssss*ss      ~      ~     ",
         "_sss___ssss___sss__s*f*ssssssssssssssssssssssssss*f*s      ~      ~      ~      ~      ~      ~      ~      ~      s*f*ssssssssssssssssssssssssss*f*s      ~      ~     ",
         "sBnBs_ssssss_sBnBs_s*i*ssssssssssssssssssssssssss*i*s   5  ~   5  ~  5   ~   5  ~   5  ~   5  ~     5~    5 ~   5  s*i*ssssssssssssssssssssssssss*i*s   5  ~   5  ~  5  ",
@@ -52,7 +52,7 @@
         "sssssssssssssssssss&sssss____s_s_s_ss_s_s_s____ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss____s_s_s_ss_s_s_s____sssssssssssssssssssssssss",
         "ssssssssss       ssssssssss       sssssssssssssssssssssssssssssssssssssss____s_s_s_ss_s_s_s____sssssssssssssssssssssssssssssssssssssss       ssssssssss       ssssssssss",
         "sssssssss         ssssssss         sssssssssss*sssssssssssssss!sssssssssssss____s_s__s_s____sssssssssssss!sssssssssssss!ssssssss*ssss~       ~ssssssss~       ~sssssssss",
-        "                  ~                ~~~     ss*f*ss     ~      ~      ~~~~osssss__________ssssso~~~~      ~      ~      ~     ss*f*ss~~       ~~~~~~~~~~       ~~sss     ",
+        "                  ~                ~~~     ss*f*ss     ~      ~      ~~~~/sssss__________sssss/~~~~      ~      ~      ~     ss*f*ss~~       ~~~~~~~~~~       ~~sss     ",
         "                  ~                ~ ~      s*f*s      ~      ~      ~~ ~  sossssssssssssssos  ~~ ~      ~      ~      ~      s*f*ss~~       ~~  ~  ~ ~       ~~ss      ",
         "                 ~                ~ ~       s*i*s  4   ~  4   ~  4   ~ ~~     sossossossos     ~ ~~  4   ~  4   ~  4   ~  4   s*i*ss~~       ~ ~  ~  ~~       ~~ss      ",
         "                 ~                ~ ~       s*f*s      ~      ~      ~~ ~                      ~~ ~      ~      ~      ~      s*f*ss~~       ~  ~  ~  ~       ~~ss      ",
@@ -209,7 +209,7 @@
         ".ss                  ssssss~~~~~        ~~~~~ss.",
         "..sssss          ssssssssssssss          sssss..",
         ".*****ss        sss___ssss___sss        ss*****.",
-        "*fffff*s        os_***_ss_***_so        s*fffff*",
+        "*fffff*s        /s_***_ss_***_s/        s*fffff*",
         "*f***f*s        ss_*i*_ss_*i*_ss        s*f***f*",
         "*f*i*f*s        ss_***_ss_***_ss        s*f*i*f*",
         "*f***f*s        oss___ssss___sso        s*f***f*",
@@ -221,7 +221,7 @@
         "*f***f*s        oss___ssss___sso        s*f***f*",
         "*f*i*f*s        ss_***_ss_***_ss        s*f*i*f*",
         "*f***f*s        ss_*i*_ss_*i*_ss        s*f***f*",
-        "*fffff*s        os_***_ss_***_so        s*fffff*",
+        "*fffff*s        /s_***_ss_***_s/        s*fffff*",
         ".*****ss        sss___ssss___sss        ss*****.",
         "..sssss          ssssssssssssss          sssss..",
         ".ss                  ssssss                  ss.",
@@ -1209,7 +1209,7 @@
         "***R_______b_b_b_b_b_b_RR_b_b_b_b_b_b_______R***"
       ],
       "palettes": [ "stadium_palette" ],
-      "terrain": { "*": "t_open_air", "1": "t_concrete", "2": "t_concrete" },
+      "terrain": { "*": "t_open_air", "1": "t_concrete", "2": "t_concrete", ">": "t_stairs_down_no_roof" },
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 3, 23 ], "y": [ 0, 23 ], "density": 0.2 },
         { "monster": "GROUP_HOUSE", "x": [ 3, 23 ], "y": [ 24, 47 ], "density": 0.2 },
@@ -1381,7 +1381,7 @@
         "**********RRRRR****************************RRRRR************************RRRRR****************************RRRRR**********"
       ],
       "palettes": [ "stadium_palette" ],
-      "terrain": { "*": "t_open_air", "H": "t_thconc_floor", ")": "t_thconc_floor" },
+      "terrain": { "*": "t_open_air", "H": "t_thconc_floor", ")": "t_thconc_floor", ">": "t_stairs_down_no_roof" },
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 7, 23 ], "y": [ 3, 19 ], "density": 0.2 },
         { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 3, 19 ], "density": 0.2 },

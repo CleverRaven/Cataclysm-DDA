@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_TRANSLATION_H
 #define CATA_SRC_TRANSLATION_H
 
+#include <optional>
 #include <string>
 
-#include "optional.h"
 #include "translation_cache.h"
 #include "value_ptr.h"
 
-class JsonIn;
+class JsonValue;
 
 /**
  * Class for storing translation context and raw string for deferred translation
@@ -61,7 +61,7 @@ class translation
          * of this class is constructed with `plural_tag` or `pl_translation()`,
          * or converted using `make_plural()`.
          **/
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns
@@ -131,7 +131,7 @@ class translation
         /**
          * Only used for migrating old snippet hashes into snippet ids.
          */
-        cata::optional<int> legacy_hash() const;
+        std::optional<int> legacy_hash() const;
     private:
         translation( const std::string &ctxt, const std::string &raw );
         explicit translation( const std::string &raw );

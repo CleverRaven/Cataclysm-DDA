@@ -1,0 +1,113 @@
+[
+  {
+    "id": "nested_black_dragon_scale_armor_all",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ARMOR",
+    "name": "black dragon scale armors",
+    "description": "Recipes related to constructing black dragon scale armor.",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 5 ],
+    "nested_category_data": [ "nested_black_dragon_scale_armor", "nested_xl_black_dragon_scale_armor" ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_black_dragon_scale_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "black dragon scale armors",
+    "description": "Recipes related to constructing black dragon scale armor.",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 5 ],
+    "nested_category_data": [ "suit_black_dragon_scale", "helmet_black_dragon_scale", "gauntlets_black_dragon_scale", "boots_black_dragon_scale" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_xl_black_dragon_scale_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "XL black dragon scale armors",
+    "description": "Recipes related to constructing black dragon scale armor in XL sizes.",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 6 ],
+    "nested_category_data": [
+      "suit_xlblack_dragon_scale",
+      "helmet_xlblack_dragon_scale",
+      "gauntlets_xlblack_dragon_scale",
+      "boots_xlblack_dragon_scale"
+    ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_black_dragon_hide_armor_all",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ARMOR",
+    "name": "black dragon hide armors",
+    "description": "Recipes related to constructing hide dragon hide armor.",
+    "skill_used": "tailor",
+    "skills_required": [ "spellcraft", 4 ],
+    "nested_category_data": [ "nested_black_dragon_hide_armor", "nested_xl_black_dragon_hide_armor" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_black_dragon_hide_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "black dragon hide armors",
+    "description": "Recipes related to constructing black dragon hide armor.",
+    "skill_used": "tailor",
+    "skills_required": [ "spellcraft", 3 ],
+    "nested_category_data": [ "suit_black_dragon_hide", "helmet_black_dragon_hide", "gloves_black_dragon_hide", "boots_black_dragon_hide" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_xl_black_dragon_hide_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "XL black dragon hide armors",
+    "description": "Recipes related to constructing black dragon hide armor in XL sizes.",
+    "skill_used": "tailor",
+    "skills_required": [ "spellcraft", 4 ],
+    "nested_category_data": [ "suit_xlblack_dragon_hide", "helmet_xlblack_dragon_hide", "gloves_xlblack_dragon_hide", "boots_xlblack_dragon_hide" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_potion_fruits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "name": "potion fruits",
+    "description": "Recipes related to enchanting fruits with pure mana.",
+    "skill_used": "spellcraft",
+    "nested_category_data": [
+      "potion_fruit_apple",
+      "potion_fruit_peach",
+      "potion_fruit_pear",
+      "potion_fruit_blackberries",
+      "potion_fruit_raspberries",
+      "potion_fruit_strawberries",
+      "potion_fruit_elderberries",
+      "potion_fruit_blueberries",
+      "potion_fruit_cranberries",
+      "potion_fruit_huckleberries",
+      "potion_fruit_wintergreen",
+      "potion_fruit_cherry",
+      "potion_fruit_apricot",
+      "potion_fruit_mayapple",
+      "potion_fruit_grapes"
+    ],
+    "difficulty": 4
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is the 'base' airdrop, and doesn't actually contain anything. Variants are generated via the place_nested field.",
+    "update_mapgen_id": "mx_airdrop",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [ [ "mx_airdrop_humanitarian_full", 5 ], [ "mx_airdrop_humanitarian_looted", 93 ], [ "mx_airdrop_mil", 2 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_airdrop_humanitarian_full",
+    "//": "untouched version of drop, rare",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ [ "supply_humanitarian", 100 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_humanitarian", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_humanitarian", 20 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_bottles_full", 100 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_bottles_full", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_bottles_full", 20 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_generatos", 30 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_humanitarian",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [ { "item": "airdrop_humanitarian_full", "x": 0, "y": 0, "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_water_bottles_full",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [
+        { "item": "twoliter_water_batch", "x": 0, "y": 0, "chance": 100, "repeat": 15 },
+        { "item": "twoliter_water_batch", "x": 0, "y": 0, "chance": 50, "repeat": 15 },
+        { "item": "twoliter_water_batch", "x": 0, "y": 0, "chance": 25, "repeat": 15 }
+      ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_generatos",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [ { "item": "airdrop_generator", "x": 0, "y": 0, "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_airdrop_humanitarian_looted",
+    "//": "versions with a few tents here and there, and some occupants",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_item": [
+        { "item": "shrink_wrap", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 0, 12 ] },
+        { "item": "bottle_twoliter", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 12 ] },
+        { "item": "bottle_plastic_small", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 0, 6 ] },
+        { "item": "cardboard", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 3, 12 ] }
+      ],
+      "place_nested": [
+        { "chunks": [ [ "supply_humanitarian_used", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "supply_humanitarian_used", 10 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "supply_water_bottles_open", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "supply_water_bottles_open", 50 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "supply_water_bottles_open", 20 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "supply_trash", 50 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "supply_generator_active", 30 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "density": 0.3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_humanitarian_used",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_items": [ { "item": "airdrop_humanitarian_looted", "x": 0, "y": 0, "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted_open", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_water_bottles_open",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_items": [ { "item": "twoliter_water_batch", "x": 0, "y": 0, "repeat": [ 0, 11 ], "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted_open", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_trash",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_items": [ { "item": "airdrop_trash", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_generator_active",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [
+        { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] },
+        { "item": "smart_phone", "x": 0, "y": 0, "repeat": [ 2, 7 ] }
+      ],
+      "place_furniture": [ { "furn": "f_active_backup_generator", "x": 0, "y": 0 } ]
+    }
+  }
+]

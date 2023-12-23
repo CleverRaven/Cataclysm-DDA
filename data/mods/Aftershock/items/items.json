@@ -17,18 +17,18 @@
   {
     "type": "GENERIC",
     "id": "afs_radiobeacon",
-    "name": { "str": "orbital distress beacon" },
-    "description": "A distress radio beacon that automatically engages in the event of a crash.  You could plant it outside of the pod to attempt to attract rescuers, or more likely, bandits.  Alternatively, you could disassemble it for scrap.",
+    "name": { "str": "broken distress beacon" },
+    "description": "Truly putting the 'distress' in 'distress beacon,' this one has a huge hole in the front.  It will not be alerting anyone today.  Perhaps you could disassemble it for scrap.",
     "weight": "340 g",
     "volume": "1 L",
     "category": "spare_parts",
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -59,8 +59,8 @@
     "looks_like": "scrap",
     "weight": "450 g",
     "volume": "100 ml",
-    "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "nuclear_waste",
@@ -127,10 +127,10 @@
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_atomic_butter_churn" },
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "plastic", "steel" ],
     "//": "I figured bionic preppers would have a sci-fi solution to some low tech problems.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "atomic_pseudo_churn",
@@ -141,12 +141,12 @@
     "volume": "11356 ml",
     "price": 20000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "plastic", "steel" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 2 ] ],
     "symbol": "H",
     "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "afs_titanium_small",
@@ -222,6 +222,20 @@
     "price": 700,
     "price_postapoc": 500,
     "material": [ "titanium" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "STURDY" ]
+  },
+  {
+    "id": "afs_glass_device",
+    "type": "ARMOR",
+    "name": { "str": "glass device" },
+    "description": "This transparent slate of computation glass was once an incredibly versatile hypercloud access point.  With all its functions dependent on a now broken FTL communications network, it's not really useful for anything.",
+    "weight": "80 g",
+    "volume": "80 ml",
+    "price": 700,
+    "price_postapoc": 500,
+    "material": [ "glass" ],
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "STURDY" ]

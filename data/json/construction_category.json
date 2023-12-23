@@ -47,8 +47,18 @@
   },
   {
     "type": "construction_category",
+    "id": "TOOL",
+    "name": "Tools"
+  },
+  {
+    "type": "construction_category",
     "id": "WINDOWS",
     "name": "Windows"
+  },
+  {
+    "type": "construction_category",
+    "id": "BULK",
+    "name": "Stacks and Piles"
   },
   {
     "type": "construction_category",

@@ -1,0 +1,130 @@
+[
+  {
+    "type": "connect_group",
+    "id": "WALL",
+    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
+    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
+  },
+  {
+    "type": "connect_group",
+    "id": "CHAINFENCE"
+  },
+  {
+    "type": "connect_group",
+    "id": "WOODFENCE"
+  },
+  {
+    "type": "connect_group",
+    "id": "RAILING"
+  },
+  {
+    "type": "connect_group",
+    "id": "POOLWATER"
+  },
+  {
+    "type": "connect_group",
+    "id": "WATER"
+  },
+  {
+    "type": "connect_group",
+    "id": "PAVEMENT"
+  },
+  {
+    "type": "connect_group",
+    "id": "PAVEMENT_MARKING"
+  },
+  {
+    "type": "connect_group",
+    "id": "PAVEMENT_ZEBRA"
+  },
+  {
+    "type": "connect_group",
+    "id": "RAIL"
+  },
+  {
+    "type": "connect_group",
+    "id": "COUNTER"
+  },
+  {
+    "type": "connect_group",
+    "id": "CANVAS_WALL"
+  },
+  {
+    "type": "connect_group",
+    "id": "SAND"
+  },
+  {
+    "type": "connect_group",
+    "id": "SANDMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "SANDGLASS"
+  },
+  {
+    "type": "connect_group",
+    "id": "PIT_DEEP"
+  },
+  {
+    "type": "connect_group",
+    "id": "LINOLEUM"
+  },
+  {
+    "type": "connect_group",
+    "id": "CARPET"
+  },
+  {
+    "type": "connect_group",
+    "id": "CONCRETE"
+  },
+  {
+    "type": "connect_group",
+    "id": "BRICKFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "MARBLEFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "CLAY"
+  },
+  {
+    "type": "connect_group",
+    "id": "CLAYMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "DIRT"
+  },
+  {
+    "type": "connect_group",
+    "id": "DIRTMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "MUD"
+  },
+  {
+    "type": "connect_group",
+    "id": "ROCKFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "MULCHFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "METALFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "WOODFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "INDOORFLOOR",
+    "group_flags": [ "INDOORS" ],
+    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+  }
+]

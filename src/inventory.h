@@ -27,8 +27,9 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
+class JsonArray;
 class JsonOut;
+class JsonValue;
 class item_stack;
 class map;
 class npc;
@@ -123,11 +124,13 @@ class inventory : public visitable
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
+        inventory &operator+= ( const item_components &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
+        inventory  operator+ ( const item_components &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
@@ -138,8 +141,12 @@ class inventory : public visitable
         void add_item_keep_invlet( const item &newit );
         void push_back( const item &newit );
 
-        // used by form_from_map, if tool was already provisioned returns nullptr
-        item *provide_pseudo_item( const itype_id &id, int battery );
+        // provides pseudo tools (e.g. from terrain, furniture or vehicle parts )
+        // @returns pointer to tool or nullptr if tool type_id already provided
+        item *provide_pseudo_item( const item &tool );
+        // provides pseudo tool of type \p tool_type constructed at current turn
+        // @returns pointer to tool or nullptr if tool type_id is invalid or already provided
+        item *provide_pseudo_item( const itype_id &tool_type );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
@@ -209,12 +216,8 @@ class inventory : public visitable
         void dump( std::vector<item *> &dest );
         void dump( std::vector<const item *> &dest ) const;
 
-        // vector rather than list because it's NOT an item stack
-        // returns all items that need processing
-        std::vector<item *> active_items();
-
-        void json_load_invcache( JsonIn &jsin );
-        void json_load_items( JsonIn &jsin );
+        void json_load_invcache( const JsonValue &jsin );
+        void json_load_items( const JsonArray &ja );
 
         void json_save_invcache( JsonOut &json ) const;
         void json_save_items( JsonOut &json ) const;
@@ -241,7 +244,7 @@ class inventory : public visitable
         void copy_invlet_of( const inventory &other );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchantment get_active_enchantment_cache( const Character &owner ) const;
+        enchant_cache get_active_enchantment_cache( const Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
 
@@ -256,12 +259,13 @@ class inventory : public visitable
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
                         const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
-        int amount_of( const itype_id &what, bool pseudo = true,
-                       int limit = INT_MAX,
-                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+        int amount_of(
+            const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+            const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
-        std::pair<int, int> kcal_range( const itype_id &id,
-                                        const std::function<bool( const item & )> &filter, Character &player_character );
+        std::pair<int, int> kcal_range(
+            const itype_id &id,
+            const std::function<bool( const item & )> &filter, Character &player_character ) const;
 
         // specifically used to for displaying non-empty liquid container color in crafting screen
         bool must_use_liq_container( const itype_id &id, int to_use ) const;

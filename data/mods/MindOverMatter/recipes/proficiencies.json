@@ -1,0 +1,107 @@
+[
+  {
+    "type": "proficiency_category",
+    "id": "prof_concentration",
+    "name": "Concentration",
+    "description": "Proficiencies that help with maintaining concentration even in the face of distractions."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_basic",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Beginner)" },
+    "description": "You are capable of holding the same thing in mind even when sitting in an uncomfortable position or after skipping a meal.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_intermediate",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Expert)" },
+    "description": "You can maintain your concentration even if outside in winter without a coat or while in combat with a zombie.",
+    "can_learn": true,
+    "time_to_learn": "32 h",
+    "default_time_multiplier": 2.5,
+    "default_skill_penalty": 0.25,
+    "required_proficiencies": [ "prof_concentration_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_master",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Master)" },
+    "description": "You can maintain your concentration even when suffering crippling injuries or while on mind-altering substances.",
+    "can_learn": true,
+    "time_to_learn": "64 h",
+    "default_time_multiplier": 3,
+    "default_skill_penalty": 0.3,
+    "required_proficiencies": [ "prof_concentration_intermediate" ]
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_psionic",
+    "name": "Psionic",
+    "description": "Proficiencies that help with channeling psionic energy into physical objects or into more esoteric applications."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_psionic_basic",
+    "category": "prof_psionic",
+    "name": { "str": "Psionic Channeling" },
+    "description": "You know the basics of focusing your powers into material items.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.3,
+    "time_to_learn": "12 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_psionic_ritual",
+    "category": "prof_psionics",
+    "name": { "str": "Thought-form Construction" },
+    "description": "You are adept at the focused concentration and elaborate mental exercises required to practice more esoteric psionic abilities.",
+    "can_learn": true,
+    "default_time_multiplier": 1.2,
+    "default_skill_penalty": 0.4,
+    "time_to_learn": "20 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_psionic_warping",
+    "category": "prof_psionic",
+    "name": { "str": "Dimensional Metaphysics" },
+    "description": "You are familiar with how psionic power flows between dimensions and can manipulate that flow.",
+    "can_learn": true,
+    "default_time_multiplier": 1.6,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_psionic_basic", "prof_psionic_containment" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_psionic_containment",
+    "category": "prof_psionic",
+    "name": { "str": "Energy Containment" },
+    "description": "You are proficient in preventing stray substances or thoughts from contaminating your work.",
+    "can_learn": true,
+    "default_time_multiplier": 1.2,
+    "default_skill_penalty": 0.8,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_psionic_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_psionic_morphic",
+    "category": "prof_psionics",
+    "name": { "str": "Morphology Alteration" },
+    "description": "You have mastered using psionics to affect the form of living beings.",
+    "can_learn": true,
+    "default_time_multiplier": 1.6,
+    "default_skill_penalty": 0.4,
+    "time_to_learn": "18 h",
+    "required_proficiencies": [ "prof_psionic_basic", "prof_psionic_containment" ]
+  }
+]

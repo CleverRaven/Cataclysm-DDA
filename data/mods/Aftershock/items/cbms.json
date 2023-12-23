@@ -18,6 +18,15 @@
     "difficulty": 5
   },
   {
+    "id": "afs_bio_monowhip",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Monofilament Whip CBM" },
+    "description": "A carbon nanotube wire covertly installed in your right arm.  When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
+    "price": "15 kUSD",
+    "difficulty": 5
+  },
+  {
     "id": "afs_bio_linguistic_coprocessor",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -39,6 +48,18 @@
     "difficulty": 8
   },
   {
+    "id": "bio_power_storage_salvaged",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Salvaged Power Storage", "str_pl": "Several Salvaged Power Storage CBMs" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A battered and used Compact Bionics Module that upgrades the user's power capacity by 50 units.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
+    "price": 380000,
+    "weight": "70 g",
+    "difficulty": 1,
+    "installation_data": "AID_bio_power_storage"
+  },
+  {
     "id": "afs_bio_dopamine_stimulators",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -57,6 +78,30 @@
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 9
+  },
+  {
+    "id": "afs_bio_blade_fire",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Bioweapon Thermal Conduits" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An improved ulnar sheath equipped with thermal inductors allows for the super heating of all types of implanted bladed weaponry.  While this bionic is active, any deployed bionic blades will deal additional fire damage to targets.",
+    "price": 8000,
+    "price_postapoc": 3500,
+    "weight": "250 g",
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_blade_electric",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Bioweapon Superconductive Channels" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Paired capacitor banks maintain implanted bladed weaponry under constant electrical charge.  While this bionic is active, any deployed bionic blades will deal additional electric damage with a chance of the damage arcing to other nearby targets.",
+    "price": 8000,
+    "price_postapoc": 3500,
+    "weight": "250 g",
+    "difficulty": 8
   },
   {
     "id": "afs_bio_melee_optimization_unit",
@@ -89,11 +134,51 @@
     "difficulty": 8
   },
   {
+    "id": "afs_bio_chemical_enhancement_rig",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Chemical Enhancement Rig and computer CBM" },
+    "description": "An implanted AI module and medication dispenser calculates the optimal chemical mix to keep you on your toes and ready for combat.  This bionic must be active to function and while it functions your body is at a heightened performance but if it turns off it will take you several days to get back to normal.  There are a significant number of baseline bonuses granted by this setup but people around will notice your junkie behavior.  This bionic must be active to function.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_speed_injection",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Speed Injection System CBM" },
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_healing_injection",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Pain Suppression Injection System CBM" },
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_strength_injection",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Strength Injection System CBM" },
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
     "id": "afs_bio_skullgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Skullgun CBM" },
-    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "description": "A single shot 10mm gun which implants into the forehead.  It has the shortest time from thought to shot of all bionic guns which makes it popular among street punks for whom every millisecond counts, but this poorly conceived bionic removes a distressing amount of grey matter to make room for it and gives you a concussion every time you fire it.",
     "price": 100000,
     "price_postapoc": 1500,
     "difficulty": 16

@@ -1,0 +1,260 @@
+[
+  {
+    "id": "ar15",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
+    "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
+    "weight": "3170 g",
+    "volume": "3100 ml",
+    "longest_side": "930 mm",
+    "price": 125000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "dispersion": 150,
+    "durability": 7,
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
+    "min_cycle_recoil": 1350,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
+    "id": "m27_assault_rifle",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "M27 assault rifle" },
+    "description": "Designed to replace the M4 Carbine, the M27 assault rifle features most of the former's strengths, while being considerably more durable.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "weight": "3490 g",
+    "volume": "4957 ml",
+    "longest_side": "798 mm",
+    "price": 540000,
+    "price_postapoc": 2250,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "h&k416a5",
+        "name": { "str": "H&K416 A5" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+      },
+      {
+        "id": "m27iar",
+        "name": { "str": "M27 IAR" },
+        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "ascii_picture": "m27_iar"
+      },
+      {
+        "id": "m38dmr",
+        "name": { "str": "M38 DMR" },
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+      }
+    ],
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 180,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "m4_carbine",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "M4 carbine" },
+    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "ascii_picture": "modular_m4a1",
+    "weight": "2880 g",
+    "volume": "3310 ml",
+    "longest_side": "758 mm",
+    "price": 240000,
+    "price_postapoc": 5000,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m4a1",
+        "name": { "str": "M4A1" },
+        "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+        "ascii_picture": "modular_m4a1"
+      }
+    ],
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 180,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "m16a4",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "M16 burst rifle" },
+    "description": "The M16 is a common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts, ensuring the rifle is more accurate, but at the cost of being slower than other assault rifles.  It is chambered in 5.56x45mm rounds, and accepts STANAG magazines.",
+    "weight": "3260 g",
+    "volume": "5030 ml",
+    "longest_side": "1003 mm",
+    "price": 240000,
+    "price_postapoc": 5000,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m16a4",
+        "name": { "str": "M16A4" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil."
+      }
+    ],
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "dispersion": 150,
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
+    "id": "m16_auto_rifle",
+    "copy-from": "m16a4",
+    "type": "GUN",
+    "name": { "str": "M16 auto rifle" },
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m16a3",
+        "name": { "str": "M16A3" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+      },
+      {
+        "id": "acr",
+        "name": { "str": "Remington ACR" },
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
+      }
+    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ]
+  }
+]

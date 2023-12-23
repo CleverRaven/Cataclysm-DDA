@@ -1,0 +1,103 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow11",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        ".........p--............",
+        "..........--]]]]]]]]]]].",
+        "........%%--??????????].",
+        "........%#o*###ooo##??].",
+        ".%%%%%%%%#& |H    s#??].",
+        ".###oo####L |H ll x#??].",
+        ".#@¤II|b//  |H ll s#??].",
+        ".o@   +            #?G].",
+        ".o    |y      aa   ¶?K].",
+        ".#|+|||||   ||||y  o?K].",
+        ".#d  |  +   | q|   #?G].",
+        ".#d D|UU|R  + q|RRR#]]].",
+        ".#|||||||R  |||||||#^...",
+        ".oS_t|ZW|R   ,,h,h=#....",
+        ".#9_8|  +    ,hfff,o....",
+        ".#|+|||||    ,,fffho..[.",
+        "^#d DD  +    ,,h,h,#....",
+        ".od     ||+||,,,,,=#....",
+        ".o  @@  |B_8|__||||#....",
+        ".#T¤@@¤T|B_8|1_66JJo....",
+        ".###oo###___|3_____o....",
+        "........#tSY|47F5O2#..[.",
+        "..[.....###o###ooo##....",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_adobe_brick_wall",
+        "_": "t_linoleum_gray",
+        "?": "t_floor_noroof",
+        "]": "t_railing_v",
+        "G": "t_floor_noroof",
+        "K": "t_floor_noroof",
+        "Y": "t_linoleum_gray",
+        ",": "t_carpet_red",
+        "f": "t_carpet_red",
+        "=": "t_carpet_red",
+        "h": "t_carpet_red"
+      },
+      "furniture": { "=": [ "f_indoor_plant", "f_indoor_plant_y" ], "/": "f_rack", "&": "f_table" },
+      "items": {
+        "/": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
+        "&": { "item": "table_foyer", "chance": 40 }
+      },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 7, "y": 1, "chance": 80, "status": 0 } ],
+      "place_loot": [
+        { "item": "television", "x": 18, "y": 5 },
+        { "group": "child_items", "x": [ 2, 6 ], "y": [ 7, 8 ], "chance": 60, "repeat": [ 3, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow11_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "         -----------    ",
+        "         -.........-    ",
+        " ---------.........-    ",
+        " -.................-    ",
+        " -.................-    ",
+        " -............~~...-    ",
+        " -..N..............-    ",
+        " -.................-    ",
+        " -.................-    ",
+        " -.................5    ",
+        " -.................-    ",
+        " -.................-    ",
+        " -.................-    ",
+        " 5.................-    ",
+        " -........=........-    ",
+        " -.................-    ",
+        " -.................-    ",
+        " --------..........-    ",
+        "        -..........-    ",
+        "        ------------    ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

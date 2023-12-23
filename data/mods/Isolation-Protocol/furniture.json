@@ -1,0 +1,15 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_iso",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ISO_ELEVATOR" ] }
+  }
+]

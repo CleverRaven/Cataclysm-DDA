@@ -135,7 +135,17 @@
     "text": "Ate vegetables"
   },
   {
+    "id": "morale_antiveggy",
+    "type": "morale_type",
+    "text": "Ate vegetables"
+  },
+  {
     "id": "morale_meatarian",
+    "type": "morale_type",
+    "text": "Ate meat"
+  },
+  {
+    "id": "morale_antimeat",
     "type": "morale_type",
     "text": "Ate meat"
   },
@@ -193,6 +203,11 @@
     "id": "morale_feeling_bad",
     "type": "morale_type",
     "text": "Feeling bad"
+  },
+  {
+    "id": "morale_bad_protein_bar",
+    "type": "morale_type",
+    "text": "Demoralizing food"
   },
   {
     "id": "morale_killed_innocent",
@@ -253,6 +268,11 @@
     "id": "morale_perm_masochist",
     "type": "morale_type",
     "text": "Masochism"
+  },
+  {
+    "id": "morale_perm_radiophile",
+    "type": "morale_type",
+    "text": "Tingly feeling"
   },
   {
     "id": "morale_perm_noface",
@@ -403,5 +423,10 @@
     "id": "morale_impossible_shape",
     "type": "morale_type",
     "text": "Saw something that hurts to remember"
+  },
+  {
+    "id": "morale_afs_drugs",
+    "type": "morale_type",
+    "text": "Chemical enhancement moodswing"
   }
 ]
