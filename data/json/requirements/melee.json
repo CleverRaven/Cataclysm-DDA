@@ -19,6 +19,7 @@
         [ "knife_steak", -1 ],
         [ "knife_paring", -1 ],
         [ "knife_carving", -1 ],
+        [ "knife_bread", -1 ],
         [ "screwdriver", -1 ],
         [ "scissors_child", -1 ],
         [ "scissors_medical", -1 ],
