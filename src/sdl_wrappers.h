@@ -9,6 +9,7 @@
 #   include <SDL2/SDL_ttf.h>
 #else
 #pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #   include <SDL.h>
 #pragma GCC diagnostic pop
