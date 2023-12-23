@@ -4943,7 +4943,11 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "blazer", "socks", "dress_shoes", "tie_skinny", "tieclip", "poetry_book", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "permanent_marker", "charges": 500 }, { "item": "pants", "variant": "pants_black" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "permanent_marker", "charges": 500 },
+          { "item": "pants", "variant": "pants_black" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
