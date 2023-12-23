@@ -2992,7 +2992,11 @@
           "hammer",
           "hat_ball"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_electrical_measuring" }, { "item": "pants", "variant": "pants_black" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_electrical_measuring" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
