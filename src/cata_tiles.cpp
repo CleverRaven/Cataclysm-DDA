@@ -1359,7 +1359,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
     here.prev_min_mm_reg = min_mm_reg;
     here.prev_max_mm_reg = max_mm_reg;
-    
+
     you.prepare_map_memory_region(
         here.getglobal( tripoint( min_mm_reg, center.z ) ),
         here.getglobal( tripoint( max_mm_reg, center.z ) )
