@@ -3410,7 +3410,7 @@
     "traits": [ "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
     "items": {
       "both": [ "dress_shirt", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety" ],
-      "entries:" [ { "item": "pants", "variant": "pants_black" } ],
+      "entries": [ { "item": "pants", "variant": "pants_black" } ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
