@@ -3432,7 +3432,7 @@
     "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
     "items": {
       "both": [ "dress_shirt", "knit_scarf", "coat_lab", "glasses_safety", "folded_wheelchair_generic" ],
-      "entries": { "item": "pants", "variant": "pants_black" } ],
+      "entries": [ { "item": "pants", "variant": "pants_black" } ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
