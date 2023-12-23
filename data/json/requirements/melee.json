@@ -3,7 +3,14 @@
     "id": "improvised_melee_weapons",
     "type": "requirement",
     "//": "Any objects you could use as improvised melee weapons.",
-    "tools": [ [ [ "stick", -1 ], [ "stick_long", -1 ], [ "2x4", -1 ], [ "pipe", -1 ] ] ]
+    "tools": [
+      [
+        [ "stick", -1 ],
+        [ "stick_long", -1 ],
+        [ "2x4", -1 ],
+        [ "pipe", -1 ]
+      ]
+    ]
   },
   {
     "id": "basic_shivs",
@@ -559,6 +566,8 @@
         [ "morningstar_inferior", -1 ],
         [ "club_wooden", -1 ],
         [ "nailbat", -1 ],
+        [ "nailboard", -1 ],
+        [ "homewrecker", -1 ],
         [ "bwirebat", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
@@ -610,7 +619,7 @@
   {
     "id": "basic_polearms",
     "type": "requirement",
-    "//": "Any basic weapon you can use as a polearm.",
+    "//": "Any basic weapon you can use as a cutting polearm.",
     "tools": [
       [
         [ "makeshift_halberd", -1 ],
