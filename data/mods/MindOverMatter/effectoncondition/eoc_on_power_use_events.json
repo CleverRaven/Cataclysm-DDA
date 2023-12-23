@@ -815,7 +815,7 @@
     },
     "effect": [
       { "u_message": "Your concentration breaks!", "type": "bad" },
-      { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED", "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS" ] },
       {
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
@@ -824,32 +824,63 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" } ]
+    "false_effect": [ { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" }, { "run_eocs": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
-    "condition": { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+      ]
+    },
     "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
-    "//": "adds 0% - 1.6% experience per run",
+    "//": "adds 0% - 0.16% experience per run",
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
-          "condition": { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+          "condition": {
+            "and": [
+              { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+            ]
+          },
           "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
-                "condition": { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
+                "condition": {
+                  "and": [
+                    { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+                  ]
+                },
+                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
               }
             ]
           }
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
   {
     "type": "effect_on_condition",
