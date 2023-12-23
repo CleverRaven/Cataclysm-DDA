@@ -2777,6 +2777,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                                       bool empty ) : you( you ),
             target( target ), empty( empty ) {
             _indent_entries = false;
+            _collate_entries = true;
 
             append_cell( [&you]( const item_location & loc ) {
                 bool is_ammo_container = loc->is_ammo_container();
@@ -2886,7 +2887,11 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return left.obtain_cost( you ) < right.obtain_cost( you );
             }
 
-            return left->ammo_remaining() > right->ammo_remaining();
+            if( left->ammo_remaining() != right->ammo_remaining() ) {
+                return left->ammo_remaining() > right->ammo_remaining();
+            }
+
+            return inventory_selector_preset::sort_compare( lhs, rhs );
         }
 
     private:
