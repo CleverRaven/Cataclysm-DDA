@@ -3072,8 +3072,9 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                       suppress_message, flags_str, add_talker, target_location, force_equip );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
-    likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
-                                 itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( static_cast<int>( count.min.dbl_val.value_or(
+                                     count.min.default_val.value_or( 1 ) ) ),
+                                 itype_id( item_name.default_val.value_or( item_name.str_val.value_or( "" ) ) ) );
 }
 
 void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view member )
