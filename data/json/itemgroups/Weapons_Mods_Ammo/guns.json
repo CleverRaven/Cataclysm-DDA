@@ -616,7 +616,7 @@
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_zpap85", "prob": 1 },
       { "group": "nested_rfb_308", "prob": 5 },
-      { "group": "nested_steyr_scout", "prob": 2 },
+      { "group": "nested_steyr_scout", "prob": 5 },
       { "group": "nested_greasegun", "prob": 1 }
     ]
   },
@@ -669,7 +669,7 @@
       { "group": "nested_mdrx_with_kits", "prob": 10 },
       { "group": "nested_axmc_with_kits", "prob": 10 },
       { "item": "rfb_308", "prob": 10 },
-      { "item": "steyr_scout", "prob": 5 }
+      { "item": "steyr_scout", "prob": 10 }
     ]
   },
   {
@@ -755,7 +755,6 @@
       { "group": "nested_rifle_flintlock", "prob": 180 },
       { "group": "nested_oa93", "prob": 3 },
       { "group": "nested_steyr_aug", "prob": 40 },
-      { "group": "nested_steyr_scout", "prob": 25 },
       { "group": "nested_win70_458", "prob": 60 },
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_vz58p", "prob": 35 },
@@ -795,7 +794,6 @@
       { "item": "m60_semi", "prob": 5 },
       { "item": "oa93", "prob": 3 },
       { "item": "steyr_aug", "prob": 5 },
-      { "item": "steyr_scout", "prob": 3 },
       { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
       { "item": "hk_g36", "prob": 30 },
@@ -1393,7 +1391,6 @@
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_m77", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_arr", "prob": 1, "charges-min": 0, "charges-max": 3 },
-      { "item": "steyr_scout", "prob": 5, "charges-min": 0, "charges-max": 5 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 2, "charges-min": 0, "charges-max": 30 },
