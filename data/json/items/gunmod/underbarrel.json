@@ -784,7 +784,7 @@
   {
     "id": "scout_bipod_deployed",
     "type": "GUNMOD",
-    "name": { "str": "integral polymer bipod, deployed" },
+    "name": { "str": "integral polymer bipod, deployed", "str_pl": "integral polymer bipods, deployed" },
     "//": "The bipod is straight-up part of the rifle's housing, so it doesn't take up any space or weigh anything.",
     "copy-from": "scout_bipod",
     "integral_volume": "250 ml",

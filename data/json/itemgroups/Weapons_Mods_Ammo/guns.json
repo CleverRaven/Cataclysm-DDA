@@ -1390,7 +1390,7 @@
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_m77", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_arr", "prob": 1, "charges-min": 0, "charges-max": 3 },
-      { "item": "steyr_scout", "prob": 5 , "charges-min": 0, "charges-max": 5},
+      { "item": "steyr_scout", "prob": 5, "charges-min": 0, "charges-max": 5 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 2, "charges-min": 0, "charges-max": 30 },
