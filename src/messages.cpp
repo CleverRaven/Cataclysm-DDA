@@ -31,7 +31,7 @@
 
 #include "options.h"
 
-static const efftype_id effect_weed_high("weed_high");
+static const efftype_id effect_weed_high( "weed_high" );
 
 namespace
 {
@@ -207,11 +207,14 @@ class messages_impl
                         // We skip all short words (<=3 letters), and all words in the forbidden_words array.
                         if( !space_locations.empty() ) {
                             const size_t prev_space = space_locations.back();
+                            // if prev_space is the previous char, skip
+                            if( prev_space == j - 1 ) {
+                                wordskip = true;
+                            }
                             // check that smiley_locations.back() did not return none
                             if( prev_space != std::string::npos ) {
                                 const std::string word = msg.substr( prev_space, j - prev_space );
-                                const std::string forbidden_words[] = { " that", " with", " this", " over", " your",
-                                                                      };
+                                const std::string forbidden_words[] = { " that", " with", " this", " over", " your", " onto" };
                                 for( const std::string &forbidden_word : forbidden_words ) {
                                     if( word == forbidden_word ) {
                                         wordskip = true;
@@ -223,20 +226,30 @@ class messages_impl
                                 }
                             }
                         }
+                        else {
+                            // skip very first word
+                            wordskip = true; 
+                        }
                         space_locations.push_back( j );
                         if( !wordskip ) {
                             smiley_locations.push_back( j );
                         }
                     }
                 }
-                // then pick one at random
                 // first, check if smiles_for_this_msg == len(smiley_locations)
                 if( smiles_for_this_msg >= static_cast<int>( smiley_locations.size() ) ) {
                     smiles_for_this_msg = static_cast<int>( smiley_locations.size() ) - 1;
                 }
+                // then pick one at random
                 for( int i = 0; i < smiles_for_this_msg; i++ ) {
                     const size_t smiley_location = random_entry_removed( smiley_locations );
-                    msg.insert( smiley_location, " :)" );
+                    std::string smiley_string = " :)";
+                    if( type == m_good || type == m_critical ) {
+                        if( one_in( 5 ) ) {
+                            smiley_string = " :D";
+                        }
+                    }
+                    msg.insert( smiley_location, smiley_string );
                     for( size_t j = 0; j < smiley_locations.size(); j++ ) {
                         if( smiley_locations[j] > smiley_location ) {
                             // we increment to account for the insertion of the smiley string
@@ -247,8 +260,8 @@ class messages_impl
 
                 // if we are *very* high, there will be a chance to finish a long message with an exclamation
                 if( smiles_for_this_msg > 1 ) {
-                    int woah_chance = static_cast<int>( 12 / smiles_for_this_msg );
-                    if (msg.size() > 16 && one_in(woah_chance)) {
+                    int woah_chance = static_cast<int>( 10 / smiles_for_this_msg );
+                    if( msg.size() > 16 && one_in( woah_chance ) ) {
                         std::vector<std::string> exclamations = {
                             "Woah.", "Dude."
                         };
@@ -258,13 +271,11 @@ class messages_impl
                         std::vector<std::string> bad_exclamations = {
                             "Not cool.", "Oof.", "Bummer."
                         };
-                        if (type == m_good || type == m_critical || type == m_headshot) {
+                        if( type == m_good || type == m_critical || type == m_headshot ) {
                             msg += " " + random_entry( good_exclamations );
-                        }
-                        else if (type == m_bad || type == m_grazing) {
+                        } else if( type == m_bad || type == m_grazing ) {
                             msg += " " + random_entry( bad_exclamations );
-                        }
-                        else {
+                        } else {
                             msg += " " + random_entry( exclamations );
                         }
                     }
