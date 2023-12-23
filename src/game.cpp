@@ -7703,6 +7703,10 @@ look_around_result game::look_around(
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         }
+#if defined(TILES)
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+#endif
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
 
