@@ -1304,15 +1304,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     const int max_col = top_any_tile_range.p_max.x;
     const int min_row = bottom_any_tile_range.p_min.y;
     const int max_row = top_any_tile_range.p_max.y;
-    //invalidate draw_points_cache if viewport dimensions have changed
-    if( min_col != here.prev_min_col || max_col != here.prev_max_col || min_row != here.prev_min_row ||
-        max_row != here.prev_max_row ) {
-        set_draw_cache_dirty();
-    }
-    here.prev_min_col = min_col;
-    here.prev_max_col = max_col;
-    here.prev_min_row = min_row;
-    here.prev_max_row = max_row;
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
@@ -1362,6 +1353,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 std::max( max_mm_reg.y, southeast->y ) );
         }
     }
+    //invalidate draw_points_cache if viewport dimensions have changed
+    if( min_mm_reg != here.prev_min_mm_reg || max_mm_reg != here.prev_max_mm_reg ) {
+        set_draw_cache_dirty();
+    }
+    here.prev_min_mm_reg = min_mm_reg;
+    here.prev_max_mm_reg = max_mm_reg;
+    
     you.prepare_map_memory_region(
         here.getglobal( tripoint( min_mm_reg, center.z ) ),
         here.getglobal( tripoint( max_mm_reg, center.z ) )
