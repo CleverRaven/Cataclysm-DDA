@@ -50,6 +50,7 @@
       { "u_learn_recipe": "practice_electrokinetic_paralysis" },
       { "u_learn_recipe": "practice_electrokinetic_reduce_pain" },
       { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
+      { "u_learn_recipe": "practice_electrokinetic_recharge_vehicle" },
       { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
       { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
       { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
@@ -135,6 +136,7 @@
     "effect": [
       { "u_learn_recipe": "practice_pyrokinetic_flash" },
       { "u_learn_recipe": "practice_pyrokinetic_eruption" },
+      { "u_learn_recipe": "practice_pyrokinetic_cauterize" },
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
@@ -182,6 +184,7 @@
       { "u_learn_recipe": "practice_telepathic_invisibility" },
       { "u_learn_recipe": "practice_telepathic_fear" },
       { "u_learn_recipe": "practice_telepathic_scream" },
+      { "u_learn_recipe": "practice_telepathic_beast_taming" },
       { "u_learn_recipe": "practice_telepathic_mind_control" },
       { "u_learn_recipe": "practice_telepathic_network" }
     ]

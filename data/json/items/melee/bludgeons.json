@@ -358,6 +358,7 @@
     "//": "Not actually as damaging as a steel katana, by any stretch.  It's a fancy, very well-carved wooden training sword, not a weapon of war.  It's also completely rounded, so any cutting damage wouldn't make sense.  Also, the heaviest bokken I could find were 700g, none were nearly close to a kilogram.",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "category": "weapons",
+    "weapon_category": [ "LONG_SWORDS" ],
     "melee_damage": { "bash": 16 }
   },
   {

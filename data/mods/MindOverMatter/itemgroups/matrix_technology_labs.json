@@ -58,7 +58,8 @@
       { "group": "psionic_recipes_tools", "prob": 5 },
       { "group": "psionic_recipes_medicine", "prob": 2 },
       { "group": "psionic_recipes_powers", "prob": 2 },
-      { "group": "psionic_recipes_advanced", "prob": 1 }
+      { "group": "psionic_recipes_advanced", "prob": 1 },
+      { "group": "dist_matrix_translocation_items", "prob": 2 }
     ]
   },
   {
@@ -102,6 +103,12 @@
     "subtype": "collection",
     "id": "collection_force_field_and_note",
     "items": [ { "item": "force_field_generator", "prob": 1 }, { "item": "lab_file_OS647_P_item", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_translocation_items",
+    "items": [ { "item": "psionic_transporter_remote", "prob": 5 }, { "item": "psionic_transporter_beacon", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -151,7 +158,8 @@
       { "item": "mortar_pestle", "prob": 20 },
       { "item": "blindfold", "prob": 10 },
       { "item": "syringe", "prob": 12 },
-      { "item": "matrix_crystal_drained", "prob": 15 }
+      { "item": "matrix_crystal_drained", "prob": 15 },
+      { "group": "dist_matrix_translocation_items", "prob": 2 }
     ]
   },
   {

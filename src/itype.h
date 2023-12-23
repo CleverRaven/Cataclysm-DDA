@@ -173,13 +173,15 @@ struct islot_comestible {
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
 
+        // Materials to generate the below
+        std::map<material_id, int> materials;
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186f;
         float specific_heat_solid = 2.108f;
         float latent_heat = 333.0f;
 
         /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
-        int monotony_penalty = 2;
+        int monotony_penalty = -1;
 
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
         static constexpr float kcal_per_nutr = base_metabolic_rate / ( 12 * 24 );
@@ -1073,6 +1075,18 @@ struct islot_seed {
      * Name of the plant.
      */
     translation plant_name;
+    /**
+     * What the plant sprouts into. Defaults to f_plant_seedling.
+     */
+    furn_str_id seedling_form;
+    /**
+     * What the plant grows into. Defaults to f_plant_mature.
+     */
+    furn_str_id mature_form;
+    /**
+     * The plant's final growth stage. Defaults to f_plant_harvest.
+     */
+    furn_str_id harvestable_form;
     /**
      * Type id of the fruit item.
      */

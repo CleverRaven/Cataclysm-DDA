@@ -951,46 +951,41 @@
     ]
   },
   {
-    "result": "reloaded_700nx",
+    "result": "reloaded_458wm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 9,
+    "difficulty": 7,
     "skills_required": [ "gun", 7 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 7 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
-    "//": "16523 mg gunpowder rounded to 165 100 mg 'pieces'",
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_458wm", 1 ] ],
+    "//": "4296 mg gunpowder rounded to 43 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "700nx_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 165 ], [ "gunpowder_large_rifle", 165 ] ],
-      [ [ "copper", 10 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 43 ], [ "gunpowder_large_rifle", 43 ] ], [ [ "copper", 10 ] ] ]
   },
   {
-    "result": "bp_700nx",
+    "result": "bp_458wm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 9,
+    "difficulty": 7,
     "skills_required": [ "gun", 7 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 7 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_458wm", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "700nx_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 165 ] ], [ [ "copper", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 43 ] ], [ [ "copper", 10 ] ] ]
   },
   {
     "result": "reloaded_762_51",
@@ -1317,15 +1312,10 @@
     "book_learn": [ [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_303", 1 ] ],
     "//": "3100 mg gunpowder rounded to 31 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "303_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 31 ], [ "gunpowder_rifle", 31 ], [ "gunpowder_large_rifle", 31 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 31 ], [ "gunpowder_rifle", 31 ], [ "gunpowder_large_rifle", 31 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_303fmj",
@@ -1341,15 +1331,10 @@
     "book_learn": [ [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_303", 1 ] ],
     "//": "3100 mg gunpowder rounded to 31 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "303_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 31 ], [ "gunpowder_rifle", 31 ], [ "gunpowder_large_rifle", 31 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 31 ], [ "gunpowder_rifle", 31 ], [ "gunpowder_large_rifle", 31 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_303sp",
@@ -1365,15 +1350,10 @@
     "book_learn": [ [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_303", 1 ] ],
     "//": "3100 mg gunpowder rounded to 31 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "303_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 31 ], [ "gunpowder_rifle", 31 ], [ "gunpowder_large_rifle", 31 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 31 ], [ "gunpowder_rifle", 31 ], [ "gunpowder_large_rifle", 31 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_303",
@@ -1389,9 +1369,9 @@
     "book_learn": [ [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_303", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "303_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 31 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "chem_black_powder", 31 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_303fmj",
@@ -1407,9 +1387,9 @@
     "book_learn": [ [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_303", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "303_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 31 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "chem_black_powder", 31 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_303sp",
@@ -1425,9 +1405,58 @@
     "book_learn": [ [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ], [ "ammo_303", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [ [ [ "chem_black_powder", 31 ] ], [ [ "copper", 2 ] ] ]
+  },
+  {
+    "result": "reloaded_77mm_arisaka_jsp",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
+    "//": "3700 mg gunpowder rounded to 37 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [
+      [ [ "77arisaka_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 37 ], [ "gunpowder_rifle", 37 ], [ "gunpowder_large_rifle", 37 ] ],
+      [ [ "lead", 3 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
+    "result": "bp_77mm_arisaka_jsp",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "303_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 31 ] ], [ [ "copper", 2 ] ] ]
+    "components": [
+      [ [ "77arisaka_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 37 ] ],
+      [ [ "lead", 3 ] ],
+      [ [ "copper", 3 ] ]
+    ]
   },
   {
     "result": "reloaded_30carbine",

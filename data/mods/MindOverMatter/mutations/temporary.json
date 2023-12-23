@@ -179,7 +179,8 @@
     "points": 0,
     "visibility": 0,
     "ugliness": -2,
-    "player_display": false
+    "player_display": false,
+    "valid": false
   },
   {
     "id": "PHOTOKIN_HIDE_UGLY_02",
@@ -189,7 +190,8 @@
     "points": 0,
     "visibility": 0,
     "ugliness": -4,
-    "player_display": false
+    "player_display": false,
+    "valid": false
   },
   {
     "id": "PHOTOKIN_HIDE_UGLY_03",
@@ -199,7 +201,8 @@
     "points": 0,
     "visibility": 0,
     "ugliness": -6,
-    "player_display": false
+    "player_display": false,
+    "valid": false
   },
   {
     "id": "PHOTOKIN_HIDE_UGLY_04",
@@ -209,7 +212,8 @@
     "points": 0,
     "visibility": 0,
     "ugliness": -8,
-    "player_display": false
+    "player_display": false,
+    "valid": false
   },
   {
     "id": "PHOTOKIN_HIDE_UGLY_05",
@@ -219,7 +223,8 @@
     "points": 0,
     "visibility": 0,
     "ugliness": -10,
-    "player_display": false
+    "player_display": false,
+    "valid": false
   },
   {
     "id": "PHOTOKIN_HIDE_UGLY_06",
@@ -229,7 +234,8 @@
     "points": 0,
     "visibility": 0,
     "ugliness": -12,
-    "player_display": false
+    "player_display": false,
+    "valid": false
   },
   {
     "id": "TELELIXIRDOWN",
@@ -241,6 +247,7 @@
     "ugliness": 0,
     "active": true,
     "player_display": true,
+    "valid": false,
     "transform": { "target": "TELELIXIRDOWN_active", "msg_transform": "You unleash your powers.", "active": true, "moves": 10 }
   },
   {
@@ -253,6 +260,7 @@
     "cost": 1,
     "time": "1 m",
     "activated_eocs": [ "EOC_TELELIXIR_CAST" ],
+    "valid": false,
     "transform": { "target": "TELELIXIRDOWN", "msg_transform": "You rein your powers back in for now.", "active": false, "moves": 10 }
   },
   {
@@ -318,6 +326,7 @@
     "visibility": 0,
     "ugliness": 0,
     "player_display": true,
+    "valid": false,
     "flags": [ "NO_PSIONICS" ]
   },
   {
@@ -329,6 +338,7 @@
     "visibility": 0,
     "ugliness": 0,
     "player_display": true,
+    "valid": false,
     "flags": [ "TEEPSHIELD", "PORTAL_PROOF" ]
   }
 ]

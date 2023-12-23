@@ -184,6 +184,7 @@ Effect                 | Description
 `noise`                | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+`recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
 `recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `FATIGUE`, `PAIN`, `MANA` or `STAMINA`.
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
 `remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
@@ -286,7 +287,8 @@ Flag                       | Description
 `RANDOM_CRITTER`           | Same as `RANDOM_TARGET` but ignores ground.
 `RANDOM_DAMAGE`            | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_DURATION`          | Picks random number between (min + increment) * level and max instead of normal behavior.
-`RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
+`RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`. 
+`RECHARM`                  | charm_monster spell stacks its duration onto existing charm effect.
 `SILENT`                   | Spell makes no noise at target.
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.

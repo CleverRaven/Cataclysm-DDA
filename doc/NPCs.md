@@ -31,24 +31,32 @@ Format:
 ```json
 {
   "type": "npc_class",
-  "id": "NC_EXAMPLE",
-  "name": { "str": "Example NPC" },
-  "job_description": "I'm helping you learn the game.",
-  "common": false,
-  "sells_belongings": false,
-  "bonus_str": { "rng": [ -4, 0 ] },
-  "bonus_dex": { "rng": [ -2, 0 ] },
-  "bonus_int": { "rng": [ 1, 5 ] },
+  "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
+  "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
+  "job_description": "I'm helping you learn the game.",                    // Mandatory
+  "common": false,                                                         // Optional. Whether or not this class can appear via random generation.
+  "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
+  "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
+  "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
+  "bonus_int": { "one_in": 3 },                                            // Optional. This example adds 1 to the stat, but only about ~33.33% of the time (1 in 3).
+  "bonus_per": { "sum": [ { "constant": 100 }, { "dice": [ 10, 10 ] } ] }, // Optional. This example adds 100 + 10d10 (10 dice each with 10 sides) to the stat.
+  "bonus_aggression": { "rng": [ -4, 0 ] },                                // Optional. Modifies NPC's personality score like the above examples. Resulting value will be
+                                                                           // clamped to within a range of -10, 10. (e.g. if aggression would be -12 it's instead set to -10)
+  "bonus_bravery": 100,                                                    // Optional.
+  "bonus_collector": { "one_in": 3 },                                      // Optional.
+  "bonus_altruism": -10,                                                   // Optional.
   "skills": [
     {
-      "skill": "ALL",
+      "skill": "ALL",                                                      // Optional. Applies bonuses/penalties to skills like the examples above. `ALL` is a special string which
+                                                                           // applies to all skills not otherwise modified. See data/json/skills.json for a list of skill IDs.
       "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
     }
   ],
-  "worn_override": "NC_EXAMPLE_worn",
-  "carry_override": "NC_EXAMPLE_carried",
-  "weapon_override": "NC_EXAMPLE_weapon",
-  "shopkeeper_item_group": [
+  "worn_override": "NC_EXAMPLE_worn",                                      // Optional. Defines an [item group](ITEM_SPAWN.md) that replaces all of their worn items.
+  "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
+                                                                           // be carried will overflow(fall to the ground) when the NPC is loaded.
+  "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
+  "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
@@ -64,12 +72,9 @@ Format:
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
-  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
+  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]     // Optional
 }
 ```
-There are some items in the above template that may not be self explanatory:
-* `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
-* See also [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
 
 ### Shopkeeper NPC configuration
 `npc_class` supports several properties for configuring the behavior of NPCs that behave as shopkeepers:
@@ -852,8 +857,8 @@ Effect | Description
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.
-`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown
+`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.  The item will have all the flags from the array `flags`.
+`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown.  The item will have all the flags from the array `flags`.
 `u_sell_item: `string or [variable object](#variable-object), (*optional* `cost: `int or [variable object](#variable-object)), (*optional* `count: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count` copies of the item, and will add `cost` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_bulk_trade_accept, npc_bulk_trade_accept, u_bulk_trade_accept, npc_bulk_trade_accept: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity` is specified only that many items/charges will be moved.
 `u_bulk_donate, npc_bulk_donate` or  `u_bulk_donate, npc_bulk_donate: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If a value is specified only that many items/charges will be moved.

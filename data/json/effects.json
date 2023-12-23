@@ -346,6 +346,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sneezing",
+    "name": [ "Sneezing" ],
+    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "max_duration": "1 s",
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "acid_charged",
     "name": [ "Charged Acid Glands" ],
     "//": "Enables special attacks where specified",
@@ -2926,12 +2935,12 @@
       "rat_bite_fever",
       "infected",
       "asthma",
-      "common_cold",
-      "flu",
       "pre_conjunctivitis_viral",
       "pre_conjunctivitis_bacterial",
       "conjunctivitis_viral",
-      "conjunctivitis_bacterial"
+      "conjunctivitis_bacterial",
+      "common_cold",
+      "flu"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -3645,7 +3654,7 @@
       "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
     ],
     "max_intensity": 3,
-    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "//": "Mood debuff is handled separately by bad_food_mood_debuff EoC.",
     "rating": "bad"
   },
   {
@@ -4495,6 +4504,16 @@
     "show_in_info": true
   },
   {
+    "type": "effect_type",
+    "id": "hay_fever",
+    "name": [ "Hay Fever" ],
+    "desc": [ "Your eyes are itchy and you've got a runny nose." ],
+    "rating": "bad",
+    "resist_effects": [ "took_flumed", "took_antihistamine" ],
+    "show_in_info": true,
+    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -50 ], "stamina_max": [ -150 ], "stamina_chance": [ 300 ] }
+  },
+  {
     "id": "star_vampire_blood_drank",
     "type": "effect_type",
     "name": [ "Drank blood" ],
@@ -4604,5 +4623,42 @@
       "venom_pain",
       "venom_weaken"
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ink_gland_ink",
+    "name": [ "Depleted ink", "Deflated ink glands", "Inky glands", "Bulged ink glands" ],
+    "show_intensity": true,
+    "desc": [
+      "Your ink glands are empty.  Given some time and hydration they will recharge.",
+      "Your ink glands are almost empty.  Given some time and hydration they will recharge.",
+      "Your ink glands have some ink inside.  Given some time and hydration, more ink will be generated.",
+      "Your ink glands are bulged and full.  No more ink is being created."
+    ],
+    "max_intensity": 4,
+    "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
+    "id": "cramped_space",
+    "name": [ "Cramped Space" ],
+    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
+    "apply_message": "You are squeezed uncomfortably into the cramped space.",
+    "remove_message": "It feels good having room to move again.",
+    "rating": "bad",
+    "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
+    "resist_effects": [ "incorporeal" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": {
+      "dex_mod": [ -2 ],
+      "str_mod": [ -2 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 100, 500 ],
+      "pain_max_val": [ 35 ]
+    },
+    "show_in_info": true
   }
 ]

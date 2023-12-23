@@ -1037,6 +1037,7 @@ static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
     { 'm', to_translation( "iron" ), to_translation( "<color_cyan>material</color> item is made of" ) },
     { 'q', to_translation( "hammering" ), to_translation( "<color_cyan>quality</color> provided by tool" ) },
     { 'n', to_translation( "toolshelf" ), to_translation( "<color_cyan>notes</color> written on item" ) },
+    { 'f', to_translation( "freezerburn" ), to_translation( "<color_cyan>hidden flags</color> of an item" ) },
     { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
     { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
     { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
