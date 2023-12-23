@@ -734,18 +734,12 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "mbag",
-          "polo_shirt",
-          "blazer",
-          "socks",
-          "dress_shoes",
-          "knit_scarf",
-          "textbook_tailor",
-          "sf_watch",
-          "hairpin"
-        ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 }, { "item": "pants", "variant": "pants_black" } ]
+        "items": [ "mbag", "polo_shirt", "blazer", "socks", "dress_shoes", "knit_scarf", "textbook_tailor", "sf_watch", "hairpin" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 },
+          { "item": "pants", "variant": "pants_black" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -999,17 +993,12 @@
     "proficiencies": [ "prof_athlete_basic", "prof_unarmed_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "helmet_football",
-          "football_armor",
-          "mouthpiece",
-          "socks_ankle",
-          "cleats",
-          "football",
-          "knee_pads",
-          "sports_drink"
-        ],
-        "entries": [ { "item": "jersey", "snippets": [ "endsville" ] }, { "group": "charged_smart_phone" }, { "item": "pants", "variant": "pants_blue" } ]
+        "items": [ "helmet_football", "football_armor", "mouthpiece", "socks_ankle", "cleats", "football", "knee_pads", "sports_drink" ],
+        "entries": [
+          { "item": "jersey", "snippets": [ "endsville" ] },
+          { "group": "charged_smart_phone" },
+          { "item": "pants", "variant": "pants_blue" }
+        ]
       },
       "male": [ "under_armor_shorts" ],
       "female": [ "sports_bra", "panties" ]
@@ -3982,10 +3971,8 @@
           { "item": "bronze_knife", "container-item": "sheath" }
         ]
       },
-      "male": [ "cloak", "tunic", "briefs" ],
-      "entries": [ { "item": "pants", "variant": "pants_brown" } ],
-      "female": [ "silver_hairpin", "bra", "dress", "panties" ],
-      "entries": [ { "item": "altered_apron", "variant": "generic_apron_cotton" } ]
+      "male": [ "cloak", "tunic", "briefs", { "item": "pants", "variant": "pants_brown" } ],
+      "female": [ "silver_hairpin", "bra", "dress", "panties", { "item": "altered_apron", "variant": "generic_apron_cotton" } ]
     }
   },
   {
@@ -4055,17 +4042,12 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-          "leather_belt",
-          "dress_shirt",
-          "socks",
-          "kittel",
-          "kippah",
-          "tallit_gadol",
-          "dress_shoes",
-          "holybook_talmud"
-        ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "jewish_necklace1" }, { "item": "pants", "variant": "pants_black" } ]
+        "items": [ "leather_belt", "dress_shirt", "socks", "kittel", "kippah", "tallit_gadol", "dress_shoes", "holybook_talmud" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "holy_symbol", "variant": "jewish_necklace1" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
