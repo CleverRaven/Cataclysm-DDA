@@ -4281,7 +4281,7 @@
           { "group": "charged_smart_phone" },
           { "group": "speedloaders_s&w619_special" },
           { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
-          { "item": "pants", "variant": "generic_pants" } ]
+          { "item": "pants", "variant": "generic_pants" }
         ]
       },
       "male": [ "briefs" ],
