@@ -392,7 +392,7 @@
     "looks_like": "exodiiminimag",
     "type": "MAGAZINE",
     "name": { "str": "scout rifle 5-round magazine" },
-    "description": "A propietary 5-round steel box magazine for the scouting rifle.",
+    "description": "A proprietary 5-round steel box magazine for the scouting rifle.",
     "variant_type": "gun",
     "variants": [
       {
