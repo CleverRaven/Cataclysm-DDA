@@ -2887,7 +2887,11 @@
     "items": {
       "both": {
         "items": [ "socks", "boots_steel", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "pants", "variant": "pants_stone" }, { "item": "tank_top", "variant": "tank_top_generic" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "pants", "variant": "pants_stone" },
+          { "item": "tank_top", "variant": "tank_top_generic" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
