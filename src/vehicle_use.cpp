@@ -2005,9 +2005,20 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
 
         if( controls_here && has_engine_or_fuel_controls ) {
-            menu.add( _( "Control individual engines" ) )
-            .hotkey( "CONTROL_ENGINES" )
-            .on_submit( [this] { control_engines(); } );
+            Character &player_character = get_player_character();
+            if( has_part_here( "NEED_LEG" ) && player_character.get_working_leg_count() < 1 &&
+                !has_part_here( "IGNORE_LEG_REQUIREMENTS" ) ) {
+                menu.add( _( "You need at least one working leg to control the vehicle." ) )
+                .hotkey( "CONTROL_ENGINES" )
+                .on_submit( [this] { control_engines(); } );
+            } else if( has_part_here( "INOPERABLE_SMALL" ) &&
+                       ( player_character.get_size() == creature_size::small ||
+                         player_character.get_size() == creature_size::tiny ) &&
+                       !has_part_here( "IGNORE_HEIGHT_REQUIREMENT" ) ) {
+                menu.add( _( "You are too short to control the vehicle!" ) );
+            } else {
+                menu.add( _( "Control individual engines" ) );
+            }
         }
     }
 

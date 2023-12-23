@@ -1296,7 +1296,7 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 8 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "flags": [ "CONTROLS" ],
+    "flags": [ "CONTROLS", "NEED_LEG", "INOPERABLE_SMALL" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -1305,6 +1305,62 @@
     ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "hand_controls",
+    "name": { "str": "hand controls" },
+    "broken_color": "red",
+    "durability": 250,
+    "description": "A pair of adjustable rods with a simple trigger.  They easily can be easily installed on top of vehicle controls and will allow a car or similar vehicle to be driven by those who can't use their legs to do so, whether due to disability or small stature.  These are designed for automobiles and will not work on bicycle style foot pedals.",
+    "bonus": 10,
+    "folded_volume": "740 ml",
+    "item": "vehicle_hand_controls",
+    "flags": [ "IGNORE_LEG_REQUIREMENT", "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 0, 2 ] },
+      { "item": "pipe", "count": [ 0, 1 ] }
+    ],
+    "variants": [ { "symbols": "/", "symbols_broken": "/" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "pedal_extenders",
+    "name": { "str": "pedal extenders" },
+    "broken_color": "red",
+    "durability": 250,
+    "description": "Thick rubber pads which can be easily clamped onto gas and brake pedals to allow vehicle controls to be used even by people who are very short.",
+    "bonus": 10,
+    "folded_volume": "2 L",
+    "item": "pedal_extenders",
+    "flags": [ "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
+    "breaks_into": [
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 8 ] },
+      { "item": "clamp", "count": [ 0, 1 ] },
+      { "item": "scrap", "count": [ 0, 2 ] }
+    ],
+    "variants": [ { "symbols": ",", "symbols_broken": "," } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "pedal_extenders_makeshift",
+    "name": { "str": "makeshift pedal extenders" },
+    "broken_color": "red",
+    "durability": 50,
+    "description": "Blocks of wood, taped to the pedals to allow vehicle controls to be used even by people who are very short.",
+    "bonus": 10,
+    "folded_volume": "2 L",
+    "item": "pedal_extenders_makeshift",
+    "flags": [ "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "components": [ [ [ "duct_tape", 25 ] ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "breaks_into": [
+      { "item": "splinter", "count": [ 0, 4 ] }
+    ],
+    "variants": [ { "symbols": ",", "symbols_broken": "," } ]
   },
   {
     "type": "vehicle_part",
