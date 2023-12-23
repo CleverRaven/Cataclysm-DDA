@@ -323,7 +323,7 @@
   {
     "type": "GENERIC",
     "id": "pedal_extenders_makeshift",
-    "name": { "str": "hand controls" },
+    "name": { "str": "makeshift pedal extenders" },
     "description": "It is probably not a great idea, but if you wanted to, you could tape these blocks to a vehicle's gas and brake pedals so that a kid or very short adult could drive.",
     "weight": "388 g",
     "to_hit": -1,
