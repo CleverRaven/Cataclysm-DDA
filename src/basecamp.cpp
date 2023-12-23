@@ -921,9 +921,9 @@ void basecamp_action_components::consume_components()
                                          is_empty_component, src );
         int left_to_consume = 0;
 
-        if( empty_consumed.size() >= 1 && empty_consumed.front().count_by_charges() ) {
+        if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
             int consumed = 0;
-            for( item itm : empty_consumed ) {
+            for( item &itm : empty_consumed ) {
                 consumed += itm.charges;
             }
             left_to_consume = sel.comp.count * batch_size_ - consumed;

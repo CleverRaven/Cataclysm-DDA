@@ -354,9 +354,9 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
         std::list<item> empty_consumed = crafter->consume_items( it, batch, empty_container_filter );
         int left_to_consume = 0;
 
-        if( empty_consumed.size() >= 1 && empty_consumed.front().count_by_charges() ) {
+        if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
             int consumed = 0;
-            for( item itm : empty_consumed ) {
+            for( item &itm : empty_consumed ) {
                 consumed += itm.charges;
             }
             left_to_consume = it.comp.count * batch - consumed;
