@@ -363,7 +363,7 @@ class zone_data
         shared_ptr_fast<zone_options> options;
 
     public:
-        zone_data() : cached_shift() {
+        zone_data() {
             type = zone_type_id( "" );
             invert = false;
             enabled = false;
@@ -372,6 +372,7 @@ class zone_data
             is_personal = false;
             start = tripoint_zero;
             end = tripoint_zero;
+            cached_shift = {};
             options = nullptr;
         }
 
