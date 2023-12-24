@@ -2352,8 +2352,8 @@ class map
 #if defined(TILES)
         bool draw_points_cache_dirty = true;
         std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
-        point prev_bottom_left;
-        point prev_top_right;
+        point prev_bottom_right;
+        point prev_top_left;
         point prev_o;
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;

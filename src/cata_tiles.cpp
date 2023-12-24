@@ -1355,13 +1355,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     //invalidate draw_points_cache if viewport dimensions have changed
-    point bottom_left( min_col, min_row );
-    point top_right( max_col, max_row );
-    if( bottom_left != here.prev_bottom_left || top_right != here.prev_top_right || o != here.prev_o ) {
+    point bottom_right( min_col, min_row );
+    point top_left( max_col, max_row );
+    if( bottom_right != here.prev_bottom_right || top_left != here.prev_top_left || o != here.prev_o ) {
         set_draw_cache_dirty();
     }
-    here.prev_bottom_left = bottom_left;
-    here.prev_top_right = top_right;
+    here.prev_bottom_right = bottom_right;
+    here.prev_top_left = top_left;
     here.prev_o = o;
 
     you.prepare_map_memory_region(
