@@ -627,20 +627,19 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
         std::string const format = fmt_val.str( d );
         if( format == "percent" ) {
-            return static_cast<int>( raw * 100  / prof->time_to_learn() );
+            return raw * 100.0  / prof->time_to_learn();
         } else if( format == "permille" ) {
-            return static_cast<int>( raw * 1000  / prof->time_to_learn() );
+            return static_cast<double>( raw * 1000  / prof->time_to_learn() );
         } else if( format == "total_time_required" ) {
-            return to_turns<int>( prof->time_to_learn() );
+            return to_turns<double>( prof->time_to_learn() );
         } else if( format == "time_left" ) {
-            return to_turns<int>( prof->time_to_learn() - raw );
+            return to_turns<double>( prof->time_to_learn() - raw );
         } else {
             if( format != "time_spent" ) {
                 debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
             }
-            return to_turns<int>( raw );
+            return to_turns<double>( raw );
         }
-        return 0;
     };
 }
 
