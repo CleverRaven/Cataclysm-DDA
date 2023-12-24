@@ -1694,7 +1694,7 @@
     "looks_like": "lemonlime",
     "name": { "str_sp": "diet tropical soda" },
     "weight": "248 g",
-    "color": "brown",
+    "color": "light_green",
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
