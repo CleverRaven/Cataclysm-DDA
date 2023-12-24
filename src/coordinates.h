@@ -254,6 +254,11 @@ class coord_point : public
         // NOLINTNEXTLINE(google-explicit-constructor)
         constexpr coord_point( const this_as_ib &other ) : base( other.raw() ) {}
 
+        // Allow assignment from inbounds versions.
+        constexpr coord_point &operator=( const this_as_ib &other ) {
+            this->raw_ = other.raw();
+        }
+
         constexpr auto xy() const {
             return this_as_point::make_unchecked( this->raw().xy() );
         }
