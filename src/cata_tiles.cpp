@@ -1356,13 +1356,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     //invalidate draw_points_cache if viewport dimensions have changed
     //recomputing these points even though they showed up above for cleanliness of code. Just an addition so shouldn't have a performance impact
-    std::optional<point> bottom_left = tile_to_player( { min_col, min_row } );
-    std::optional<point> top_right = tile_to_player( { max_col, max_row } );
-    if( bottom_left != here.prev_bottom_left || top_right != here.prev_top_right ) {
+    point bottom_left( min_col, min_row );
+    point top_right( max_col, max_row );
+    if( bottom_left != here.prev_bottom_left || top_right != here.prev_top_right || o != here.prev_o ) {
         set_draw_cache_dirty();
     }
     here.prev_bottom_left = bottom_left;
     here.prev_top_right = top_right;
+    here.prev_o = o;
 
     you.prepare_map_memory_region(
         here.getglobal( tripoint( min_mm_reg, center.z ) ),
