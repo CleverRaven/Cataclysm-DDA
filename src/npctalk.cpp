@@ -3072,9 +3072,7 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                       suppress_message, flags_str, add_talker, target_location, force_equip );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
-    likely_rewards.emplace_back( static_cast<int>( count.min.dbl_val.value_or(
-                                     count.min.default_val.value_or( 1 ) ) ),
-                                 itype_id( item_name.default_val.value_or( item_name.str_val.value_or( "" ) ) ) );
+    likely_rewards.emplace_back( count, item_name );
 }
 
 void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view member )
@@ -3897,7 +3895,7 @@ void talk_effect_fun_t::set_add_mission( const JsonObject &jo, std::string_view 
     };
 }
 
-const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewards() const
+const talk_effect_fun_t::likely_rewards_t &talk_effect_fun_t::get_likely_rewards() const
 {
     return likely_rewards;
 }
