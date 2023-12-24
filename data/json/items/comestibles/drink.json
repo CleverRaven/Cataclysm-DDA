@@ -1692,7 +1692,7 @@
     "type": "COMESTIBLE",
     "id": "zerotropical",
     "looks_like": "lemonlime",
-    "name": { "str_sp": "diet cola" },
+    "name": { "str_sp": "diet tropical soda" },
     "weight": "248 g",
     "color": "brown",
     "container": "can_drink",
