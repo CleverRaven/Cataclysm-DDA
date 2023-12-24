@@ -144,9 +144,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
-      "place_monsters": [
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 } ]
     }
   },
   {
