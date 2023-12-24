@@ -433,7 +433,9 @@ constexpr inline coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >
 coord_min( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
            const coord_point<Point, Origin, Scale, RhsInBounds> &r )
 {
-    return { std::min( l.x(), r.x() ), std::min( l.y(), r.y() ), std::min( l.z(), r.z() ) };
+    return coord_point < Point, Origin, Scale, LhsInBounds &&
+           RhsInBounds >::make_unchecked( std::min( l.x(), r.x() ), std::min( l.y(), r.y() ), std::min( l.z(),
+                                          r.z() ) );
 }
 
 template <typename Point, origin Origin, scale Scale, bool LhsInBounds, bool RhsInBounds>
@@ -441,7 +443,9 @@ constexpr inline coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >
 coord_max( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
            const coord_point<Point, Origin, Scale, RhsInBounds> &r )
 {
-    return { std::max( l.x(), r.x() ), std::max( l.y(), r.y() ), std::max( l.z(), r.z() ) };
+    return coord_point < Point, Origin, Scale, LhsInBounds &&
+           RhsInBounds >::make_unchecked( std::max( l.x(), r.x() ), std::max( l.y(), r.y() ), std::max( l.z(),
+                                          r.z() ) );
 }
 
 template<int ScaleUp, int ScaleDown, scale ResultScale, bool InBounds>
@@ -776,7 +780,8 @@ std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBou
     std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const Point & p ) {
-        return coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBounds > ( p );
+        return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
+               RhsInBounds >::make_unchecked( p );
     } );
     return result;
 }
