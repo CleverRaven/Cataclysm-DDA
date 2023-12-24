@@ -295,7 +295,7 @@ struct auto_navigation_data {
     std::vector<navigation_step> path;
 
     void clear() {
-        current_omt = { 0, 0, -100 };
+        current_omt = tripoint_abs_omt { 0, 0, -100 };
         path.clear();
     }
     vehicle_profile &profile( orientation dir ) {
