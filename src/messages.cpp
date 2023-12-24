@@ -180,6 +180,70 @@ class messages_impl
                 return;
             }
 
+            modify_msg_with_exclamations( msg, type );
+
+            game_message m = game_message( std::move( msg ), type );
+
+            refresh_cooldown( m, flags );
+            hide_message_in_cooldown( m );
+
+            if( coalesce_messages( m ) ) {
+                return;
+            }
+
+            unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
+            while( messages.size() > message_limit ) {
+                messages.pop_front();
+            }
+
+            messages.emplace_back( m );
+        }
+
+        /** Check if the current message needs to be prevented (hidden) or not from being displayed in the side bar.
+         * @param message The message to be checked.
+         */
+        void hide_message_in_cooldown( game_message &message ) {
+            message.cooldown_hidden = false;
+
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
+                return;
+            }
+
+            // We look for **exactly the same** message string in the cooldown templates
+            // If there is one, this means the same message was already displayed.
+            const auto cooldown_it = std::find_if( cooldown_templates.begin(), cooldown_templates.end(),
+            [&message]( game_message & m_cooldown ) -> bool {
+                return m_cooldown.message == message.message;
+            } );
+            if( cooldown_it == cooldown_templates.end() ) {
+                // nothing found, not in cooldown.
+                return;
+            }
+
+            // note: from this point the current message (`message`) has the same string than one of the active cooldown template messages (`cooldown_it`).
+
+            // check how much times this message has been seen during its cooldown.
+            // If it's only one time, then no need to hide it.
+            if( cooldown_it->cooldown_seen == 1 ) {
+                return;
+            }
+
+            // check if it's the message that started the cooldown timer.
+            if( message.turn() == cooldown_it->turn() ) {
+                return;
+            }
+
+            // current message turn.
+            const int cm_turn = to_turn<int>( message.turn() );
+            // maximum range of the cooldown timer.
+            const int max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
+            // If the current message is in the cooldown range then hide it.
+            if( cm_turn <= max_cooldown_range ) {
+                message.cooldown_hidden = true;
+            }
+        }
+
+        void modify_msg_with_exclamations( std::string &msg, game_message_type const type ) {
             // add smileys to messages if the player is high on weed
             Character *p_char = &get_player_character();
             if( p_char->has_effect( effect_weed_high ) ) {
@@ -282,66 +346,6 @@ class messages_impl
                         }
                     }
                 }
-            }
-
-            game_message m = game_message( std::move( msg ), type );
-
-            refresh_cooldown( m, flags );
-            hide_message_in_cooldown( m );
-
-            if( coalesce_messages( m ) ) {
-                return;
-            }
-
-            unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
-            while( messages.size() > message_limit ) {
-                messages.pop_front();
-            }
-
-            messages.emplace_back( m );
-        }
-
-        /** Check if the current message needs to be prevented (hidden) or not from being displayed in the side bar.
-         * @param message The message to be checked.
-         */
-        void hide_message_in_cooldown( game_message &message ) {
-            message.cooldown_hidden = false;
-
-            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
-                return;
-            }
-
-            // We look for **exactly the same** message string in the cooldown templates
-            // If there is one, this means the same message was already displayed.
-            const auto cooldown_it = std::find_if( cooldown_templates.begin(), cooldown_templates.end(),
-            [&message]( game_message & m_cooldown ) -> bool {
-                return m_cooldown.message == message.message;
-            } );
-            if( cooldown_it == cooldown_templates.end() ) {
-                // nothing found, not in cooldown.
-                return;
-            }
-
-            // note: from this point the current message (`message`) has the same string than one of the active cooldown template messages (`cooldown_it`).
-
-            // check how much times this message has been seen during its cooldown.
-            // If it's only one time, then no need to hide it.
-            if( cooldown_it->cooldown_seen == 1 ) {
-                return;
-            }
-
-            // check if it's the message that started the cooldown timer.
-            if( message.turn() == cooldown_it->turn() ) {
-                return;
-            }
-
-            // current message turn.
-            const int cm_turn = to_turn<int>( message.turn() );
-            // maximum range of the cooldown timer.
-            const int max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
-            // If the current message is in the cooldown range then hide it.
-            if( cm_turn <= max_cooldown_range ) {
-                message.cooldown_hidden = true;
             }
         }
 
