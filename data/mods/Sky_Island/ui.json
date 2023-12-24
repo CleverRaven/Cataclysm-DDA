@@ -43,6 +43,18 @@
     "style": "text",
     "clauses": [
       {
+        "id": "safe_at_home",
+        "text": "HOME SAFE",
+        "color": "light_blue",
+        "condition": {
+          "or": [
+            { "u_at_om_location": "sky_island_core" },
+            { "u_at_om_location": "sky_island_edge" },
+            { "u_at_om_location": "sky_island_corner" }
+          ]
+        }
+      },
+      {
         "id": "eight_left",
         "text": "+-+-+-+-+-+-+-+",
         "color": "green",
@@ -105,19 +117,19 @@
       {
         "id": "over_deadline_two",
         "text": "EXTREME DANGER",
-        "color": "magenta",
+        "color": "i_magenta",
         "condition": { "math": [ "timeawayfromhome", "==", "11" ] }
       },
       {
         "id": "over_deadline_three",
         "text": "CATASTROPHIC DANGER",
-        "color": "magenta",
+        "color": "i_magenta",
         "condition": { "math": [ "timeawayfromhome", "==", "12" ] }
       },
       {
         "id": "over_deadline_four",
-        "text": "DEATH IMMINENT",
-        "color": "magenta",
+        "text": "IMMINENT DEATH",
+        "color": "i_magenta",
         "condition": { "u_has_effect": "warpdisintegration" }
       }
     ]
