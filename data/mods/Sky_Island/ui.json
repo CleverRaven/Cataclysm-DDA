@@ -39,7 +39,7 @@
   {
     "id": "sky_island_expedition_timer",
     "type": "widget",
-    "label": "Expedition Timer",
+    "label": "Expedition Timer:",
     "style": "text",
     "clauses": [
       {
@@ -53,6 +53,12 @@
             { "u_at_om_location": "sky_island_corner" }
           ]
         }
+      },
+      {
+        "id": "nine_left",
+        "text": "+-+-+-+-+-+-+-+-+",
+        "color": "light_blue",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "0" ] } ] }
       },
       {
         "id": "eight_left",
@@ -105,31 +111,31 @@
       {
         "id": "over_deadline",
         "text": "DANGER",
-        "color": "red",
+        "color": "i_light_red",
         "condition": { "math": [ "timeawayfromhome", "==", "9" ] }
       },
       {
         "id": "over_deadline_one",
         "text": "SEVERE DANGER",
-        "color": "red",
+        "color": "i_light_red",
         "condition": { "math": [ "timeawayfromhome", "==", "10" ] }
       },
       {
         "id": "over_deadline_two",
         "text": "EXTREME DANGER",
-        "color": "i_magenta",
+        "color": "i_red",
         "condition": { "math": [ "timeawayfromhome", "==", "11" ] }
       },
       {
         "id": "over_deadline_three",
         "text": "CATASTROPHIC DANGER",
-        "color": "i_magenta",
+        "color": "i_red",
         "condition": { "math": [ "timeawayfromhome", "==", "12" ] }
       },
       {
         "id": "over_deadline_four",
         "text": "IMMINENT DEATH",
-        "color": "i_magenta",
+        "color": "i_red",
         "condition": { "u_has_effect": "warpdisintegration" }
       }
     ]
