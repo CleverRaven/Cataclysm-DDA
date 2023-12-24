@@ -337,7 +337,6 @@
     "longest_side": "20 cm",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
     "category": "weapons",
-    "weapon_category": [ "BATONS" ],
     "melee_damage": { "bash": 13 }
   },
   {
