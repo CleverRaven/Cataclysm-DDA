@@ -2369,7 +2369,7 @@ struct weldrig_hack {
             return null_item_reference();
         }
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
-                         pseudo.ammo_capacity( ammo_battery ) , false ) ); // no cable loss since all of this is virtual
+                         pseudo.ammo_capacity( ammo_battery ), false ) ); // no cable loss since all of this is virtual
         return pseudo;
     }
 
