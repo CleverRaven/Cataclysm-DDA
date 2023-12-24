@@ -257,6 +257,7 @@ class coord_point : public
         // Allow assignment from inbounds versions.
         constexpr coord_point &operator=( const this_as_ib &other ) {
             this->raw_ = other.raw();
+            return *this;
         }
 
         constexpr auto xy() const {
