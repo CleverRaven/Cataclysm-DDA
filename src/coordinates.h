@@ -222,7 +222,6 @@ class coord_point : public
         using this_as_tripoint_ob = coord_point<tripoint, Origin, Scale>;
         using this_as_point = coord_point<point, Origin, Scale, InBounds>;
         using this_as_ob = coord_point<Point, Origin, Scale>;
-        using this_as_ib = coord_point<Point, Origin, Scale, true>;
 
         // Explicit functions to construct inbounds versions without doing any
         // bounds checking. Only use these with a very good reason, when you
@@ -250,14 +249,10 @@ class coord_point : public
             return coord_point( other.x, other.y, z );
         }
 
-        // Allow implicit construction from inbounds versions.
+        // Allow implicit conversions from inbounds to out of bounds.
         // NOLINTNEXTLINE(google-explicit-constructor)
-        constexpr coord_point( const this_as_ib &other ) : base( other.raw() ) {}
-
-        // Allow assignment from inbounds versions.
-        constexpr coord_point &operator=( const this_as_ib &other ) {
-            this->raw_ = other.raw();
-            return *this;
+        operator this_as_ob() const {
+            return this_as_ob( this->raw() );
         }
 
         constexpr auto xy() const {
