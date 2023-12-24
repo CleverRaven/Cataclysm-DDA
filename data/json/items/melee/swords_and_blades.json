@@ -2686,7 +2686,7 @@
     "copy-from": "mc_kriegsmesser",
     "type": "TOOL",
     "name": { "str": "kriegsmesser" },
-    "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword, and ability to evade law by legally qualifying as a knife.",
+    "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.",
     "replace_materials": { "mc_steel": "steel" }
   },
   {
