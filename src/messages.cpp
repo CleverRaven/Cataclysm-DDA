@@ -33,6 +33,7 @@
 
 static const efftype_id effect_weed_high( "weed_high" );
 
+
 namespace
 {
 
