@@ -241,7 +241,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             }
             items_did_not_fit_count += it.count();
             //~ %1$s is item name, %2$s is vehicle name, %3$s is vehicle part name
-            add_msg( _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
+            add_msg( m_mixed, _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                 c.i_add( it );
