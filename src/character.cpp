@@ -9009,7 +9009,7 @@ void Character::cancel_activity()
         backlog.front().auto_resume ) {
         backlog.front().auto_resume = false;
     }
-    if( activity && activity.is_suspendable() ) {
+    if( activity && activity.can_resume() ) {
         activity.allow_distractions();
         backlog.push_front( activity );
     }
@@ -11005,6 +11005,7 @@ void Character::process_effects()
             as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
         }
         const optional_vpart_position vp_there = here.veh_at( your_pos );
+        bool is_cramped_space = false;
         if( vp_there ) {
             vehicle &veh = vp_there->vehicle();
             units::volume capacity = 0_ml;
@@ -11033,7 +11034,7 @@ void Character::process_effects()
                     if( !has_effect( effect_cramped_space ) ) {
                         add_effect( effect_cramped_space, 2_turns, true );
                     }
-                    return;
+                    is_cramped_space = true;
                 }
             }
             const optional_vpart_position vp = here.veh_at( your_pos );
@@ -11042,10 +11043,12 @@ void Character::process_effects()
                 if( !has_effect( effect_cramped_space ) ) {
                     add_effect( effect_cramped_space, 2_turns, true );
                 }
-                return;
+                is_cramped_space = true;
             }
         }
-        remove_effect( effect_cramped_space );
+        if( !is_cramped_space ) {
+            remove_effect( effect_cramped_space );
+        }
     }
 
     if( has_effect( effect_boomered ) && ( is_avatar() || is_npc() ) && one_in( 10 ) &&

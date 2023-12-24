@@ -577,7 +577,7 @@
     "type": "COMESTIBLE",
     "id": "plant_sac",
     "name": { "str": "fungal fluid sac" },
-    "weight": "278 g",
+    "weight": "270 g",
     "color": "light_green",
     "spoils_in": "3 days 8 hours",
     "//": "wild vegetables as a reference",

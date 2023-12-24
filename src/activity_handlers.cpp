@@ -2369,7 +2369,8 @@ struct weldrig_hack {
             return null_item_reference();
         }
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
-                         pseudo.ammo_capacity( ammo_battery ) ) );
+                         pseudo.ammo_capacity( ammo_battery ),
+                         return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
     }
 
@@ -2378,7 +2379,8 @@ struct weldrig_hack {
             return;
         }
 
-        part->vehicle().charge_battery( pseudo.ammo_remaining() ); // return unused charges
+        part->vehicle().charge_battery( pseudo.ammo_remaining(),
+                                        false ); // return unused charges without cable loss
     }
 
     ~weldrig_hack() {

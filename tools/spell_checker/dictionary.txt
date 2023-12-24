@@ -2825,6 +2825,7 @@ spasming
 spearcat
 spearfisher
 spearfishers
+spearguns
 spearhand
 spearman
 spearmen
@@ -3431,6 +3432,7 @@ woodsmanship
 woom
 woosh
 workarounds
+workbenches
 workcycle
 workshifts
 worldgen

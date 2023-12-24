@@ -53,6 +53,36 @@
     ]
   },
   {
+    "id": "sandbag",
+    "type": "item_group",
+    "items": [ { "item": "material_sand", "count": 2000, "container-item": "bag_durasack" } ]
+  },
+  {
+    "id": "sandbag_part",
+    "type": "item_group",
+    "items": [ { "item": "material_sand", "count": [ 400, 1500 ], "container-item": "bag_durasack" } ]
+  },
+  {
+    "id": "gravelbag",
+    "type": "item_group",
+    "items": [ { "item": "material_gravel", "count": 2000, "container-item": "bag_durasack" } ]
+  },
+  {
+    "id": "gravelbag_part",
+    "type": "item_group",
+    "items": [ { "item": "material_gravel", "count": [ 400, 1500 ], "container-item": "bag_durasack" } ]
+  },
+  {
+    "id": "earthbag",
+    "type": "item_group",
+    "items": [ { "item": "material_soil", "count": 3, "container-item": "bag_durasack" } ]
+  },
+  {
+    "id": "earthbag_part",
+    "type": "item_group",
+    "items": [ { "item": "material_soil", "count": [ 1, 2 ], "container-item": "bag_durasack" } ]
+  },
+  {
     "id": "paintcans",
     "type": "item_group",
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
@@ -102,6 +132,7 @@
       { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_sand", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
+      { "group": "sandbag", "prob": 80 },
       { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       [ "material_shrd_limestone", 70 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
@@ -132,6 +163,7 @@
       { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
+      { "item": "wrapper_foil_roll", "prob": 2 },
       [ "bottle_glass", 50 ],
       [ "bottle_plastic", 70 ],
       [ "can_drink", 60 ],
