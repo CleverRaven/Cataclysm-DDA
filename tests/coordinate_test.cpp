@@ -147,11 +147,9 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
         point p1 = GENERATE( take( num_trials, random_points() ) );
         CAPTURE( p0, p1 );
         tripoint_abs_ms abst0( t0 );
-        tripoint_bub_ms_ib bub_ibt0 = tripoint_bub_ms_ib::make_unchecked( t0 );
         point_abs_ms abs0( p0 );
         point_bub_ms_ib bub_ib0 = point_bub_ms_ib::make_unchecked( p0 );
         point_abs_ms abs1( p1 );
-        point_bub_ms_ib bub_ib1 = point_bub_ms_ib::make_unchecked( p1 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
         SECTION( "rel - rel -> rel" ) {
