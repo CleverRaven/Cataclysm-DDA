@@ -3539,7 +3539,7 @@ int vehicle::drain( const int index, int amount, bool apply_loss )
         //to not break existing code, but C++ requires you also invoke all optional
         //arguments to the left of any invoked. make sure to change this if the default for
         //filters in the function above ever changes
-        return drain( fuel_type_battery, amount, return_true< vehicle_part &>, apply_loss ); 
+        return drain( fuel_type_battery, amount, return_true< vehicle_part &>, apply_loss );
     }
     if( !pt.is_tank() || !pt.ammo_remaining() ) {
         debugmsg( "Tried to drain something without any liquid: %s amount: %d ammo: %d",
