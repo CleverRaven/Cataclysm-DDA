@@ -2706,7 +2706,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "medium steel kriegsmesser" },
-    "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword, and ability to evade law by legally qualifying as a knife.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
+    "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1690 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
