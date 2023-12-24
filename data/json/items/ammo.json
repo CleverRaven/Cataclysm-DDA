@@ -1134,10 +1134,10 @@
     "symbol": "=",
     "color": "white",
     "description": "Granulated mixture of slaked lime, potassium hydroxide and/or sodium hydroxide that is used as CO2 scrubbing agent in rebreathers.",
-    "volume": "540 ml",
+    "volume": "33 ml",
     "weight": "13 g",
     "ammo_type": "rebreather_filter",
-    "count": 90
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1151,41 +1151,43 @@
     "color": "white",
     "description": "Potassium superoxide powder, used as oxygen regenerating agent in rebreathers.  Keep away from water.",
     "flags": [ "WATER_DISSOLVE" ],
-    "volume": "30 ml",
+    "volume": "13 ml",
     "weight": "6 g",
     "//": "Density is 2.14 g/cm3, rounded down to account for it being powder, weight is given per 1 minute of scrubbing",
     "ammo_type": "rebreather_o2_regenerator",
-    "count": 10
+    "count": 1
   },
   {
     "type": "AMMO",
     "id": "gasfilter_s",
     "category": "tool_magazine",
-    "price": 2500,
-    "price_postapoc": 500,
+    "material": [ "charcoal" ],
+    "price": 1,
+    "price_postapoc": 1,
     "name": { "str": "filter mask cartridge" },
     "symbol": "=",
     "color": "light_gray",
     "description": "A small, replaceable filter cartridge for an air filtration mask.",
-    "volume": "250 ml",
-    "weight": "1 g",
+    "volume": "1 ml",
+    "weight": "200 mg",
     "ammo_type": "gasfilter_s",
-    "count": 100
+    "count": 1
   },
   {
     "type": "AMMO",
     "id": "gasfilter_m",
     "category": "tool_magazine",
-    "price": 2500,
-    "price_postapoc": 750,
+    "material": [ "charcoal" ],
+    "price": 1,
+    "price_postapoc": 1,
     "name": { "str": "gas mask cartridge" },
     "symbol": "=",
     "color": "light_gray",
     "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
-    "volume": "250 ml",
-    "weight": "2 g",
+    "volume": "1 ml",
+    "weight": "200 mg",
     "ammo_type": "gasfilter_m",
-    "count": 100
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1286,8 +1288,8 @@
     "color": "brown",
     "description": "The result of an interrupted charcoal-making process.  Useless, except as fuel in a charcoal kiln.",
     "material": [ "wood" ],
-    "volume": "250 ml",
-    "weight": "300 g",
+    "volume": "300 ml",
+    "weight": "250 g",
     "ammo_type": "unfinished_char"
   },
   {

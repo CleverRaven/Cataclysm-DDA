@@ -2374,6 +2374,7 @@
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2000,
+    "material": [ "budget_steel_chain", "leather" ],
     "to_hit": -1,
     "symbol": "[",
     "color": "light_red",

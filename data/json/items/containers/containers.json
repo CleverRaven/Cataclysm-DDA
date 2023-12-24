@@ -123,6 +123,24 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "bag_durasack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reusable plastic sack" },
+    "looks_like": "bag_plastic",
+    "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
+    "//": "durasack woven polypropylene bags",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 85,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "bag_canvas",
     "type": "GENERIC",
     "category": "container",
@@ -3084,16 +3102,44 @@
     "category": "container",
     "name": { "str": "foil wrapper" },
     "description": "A piece of aluminum foil, large enough to wrap around something.  You could also cook food in it.",
-    "weight": "24 g",
-    "volume": "5 ml",
+    "//": "50 cm length, 30 cm width, 0.02 mm thickness - 3ml, but without wrapper roll 4 times as much",
+    "weight": "8 g",
+    "volume": "12 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "wrapper_foil_roll",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "aluminum foil roll" },
+    "description": "Long tube of cardboard, used to conveniently store long sheets of foil.",
+    "//": "20 m of aluminum foil, 40 units",
+    "weight": "52 g",
+    "volume": "96 ml",
+    "longest_side": "30 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": "o",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "wrapper_foil" ],
+        "volume_multiplier": 0.75
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "wrapper_pr",

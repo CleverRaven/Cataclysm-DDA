@@ -1008,7 +1008,10 @@
     "time": "2 m",
     "autolearn": true,
     "using": [ [ "flammable_liquid", 100 ] ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
+    "components": [
+      [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ]
+    ],
     "flags": [ "BLIND_HARD" ]
   },
   {

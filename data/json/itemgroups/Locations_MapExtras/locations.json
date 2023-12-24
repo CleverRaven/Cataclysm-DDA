@@ -637,6 +637,7 @@
       { "group": "literature", "prob": 20 },
       { "group": "religious_books", "prob": 10 },
       { "group": "kids_books", "prob": 20 },
+      { "item": "wrapper_foil_roll", "prob": 25 },
       [ "recipe_elfa", 15 ],
       [ "recipe_bows", 15 ],
       [ "manual_stabbing", 20 ],
