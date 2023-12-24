@@ -81,8 +81,8 @@ origin.
 
 To work with these coordinate systems we have a variety of types.  These are
 defined in [`coordinates.h`](../src/coordinates.h).  For example, we have
-`point_abs_ms` for absolute map-square coordinates.  The three parts of the
-type name are *dimension*`_`*origin*`_`*scale*.
+`point_abs_ms` for absolute map-square coordinates.  The four parts of the
+type name are *dimension*`_`*origin*`_`*scale*(_ib).
 
 * **dimension** is either `point` for two-dimensional or `tripoint` for
   three-dimensional.
@@ -104,6 +104,8 @@ type name are *dimension*`_`*origin*`_`*scale*.
   * `seg` for segment.
   * `om` for overmap.
   * `mnt` for vehicle mount coordinates (only relevant for the `veh` origin).
+* The optional **_ib** suffix denotes that the type is guaranteed to be inbounds
+  for the given origin. It is only meaningful for `bub` and `sm` origins.
 
 ## Raw point types
 
