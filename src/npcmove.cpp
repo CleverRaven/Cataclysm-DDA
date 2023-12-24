@@ -2175,15 +2175,15 @@ item::reload_option npc::select_ammo( const item_location &base, bool, bool empt
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
     const item::reload_option & rhs ) {
+        if( lhs.ammo->ammo_remaining() == 0 || rhs.ammo->ammo_remaining() == 0 ) {
+            return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
+        }
+
+        if( lhs.moves() != rhs.moves() ) {
+            return lhs.moves() < rhs.moves();
+        }
+
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
-    } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
-        return lhs.moves() < rhs.moves();
-    } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
-        return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
     if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
