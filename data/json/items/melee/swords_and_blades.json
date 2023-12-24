@@ -2729,7 +2729,7 @@
     "copy-from": "mc_kriegsmesser",
     "type": "TOOL",
     "name": { "str": "high steel kriegsmesser" },
-    "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword, and ability to evade law by legally qualifying as a knife.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
+    "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
     "proportional": { "price_postapoc": 1.05, "price": 1.05 },
     "relative": { "melee_damage": { "cut": 1 }, "qualities": [ [ "BUTCHER", 1 ] ] }
