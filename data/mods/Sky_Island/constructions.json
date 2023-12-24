@@ -238,7 +238,7 @@
       [ [ "warptoken", 1 ] ],
       [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
       [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
-      [ [ "plum", 6 ] ]
+      [ [ "plums", 6 ] ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "t_tree_plum",
