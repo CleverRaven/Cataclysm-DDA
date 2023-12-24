@@ -216,4 +216,7 @@ inline void add_msg_debug_if_player_sees( const Creature &target, debugmode::deb
     }
 }
 
+void add_msg_player_or_npc( const game_message_params &params, std::string msg,
+                               const Creature *const speaker );
+
 #endif // CATA_SRC_MESSAGES_H
