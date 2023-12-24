@@ -5135,23 +5135,6 @@ void Character::update_needs( int rate_multiplier )
         modify_respiration_effect_mod( std::min( -get_respiration_effect_mod(), rate_multiplier ) );
     }
 
-    // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && get_size() == creature_size::huge &&
-        !( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) ) ) {
-        vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
-        // it's painful to work the controls, but passengers in open topped vehicles are fine
-        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
-            add_msg_if_player( m_bad,
-                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
-            if( is_npc() ) {
-                npc &as_npc = dynamic_cast<npc &>( *this );
-                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
-            }
-
-            mod_pain( rng( 4, 6 ) );
-            mod_focus( -1 );
-        }
-    }
 }
 
 needs_rates Character::calc_needs_rates() const
