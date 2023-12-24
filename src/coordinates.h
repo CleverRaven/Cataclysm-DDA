@@ -113,20 +113,6 @@ template<typename Point>
 class coord_point_base
 {
     public:
-        constexpr const Point &raw() const {
-            return raw_;
-        }
-
-        constexpr auto x() const {
-            return raw_.x;
-        }
-        constexpr auto y() const {
-            return raw_.y;
-        }
-        constexpr auto z() const {
-            return raw_.z;
-        }
-
         std::string to_string() const {
             return raw_.to_string();
         }
@@ -162,22 +148,31 @@ class coord_point_mut : public coord_point_base<Point>
         template<typename T>
         constexpr coord_point_mut( T x, T y, T z ) : base( x, y, z ) {}
 
-        using base::raw;
+        // TODO: move the const accessors into base when cata-unsequenced-calls is fixed.
+        constexpr const Point &raw() const {
+            return this->raw_;
+        }
+
+        constexpr auto x() const {
+            return raw().x;
+        }
+        constexpr auto y() const {
+            return raw().y;
+        }
+        constexpr auto z() const {
+            return raw().z;
+        }
+
         constexpr Point &raw() {
             return this->raw_;
         }
 
-        using base::x;
         constexpr auto &x() {
             return raw().x;
         }
-
-        using base::y;
         constexpr auto &y() {
             return raw().y;
         }
-
-        using base::z;
         constexpr auto &z() {
             return raw().z;
         }
@@ -195,6 +190,21 @@ class coord_point_mut< Point, Subpoint, true> : public coord_point_base<Point>
     public:
         // Default constructed point is always inbounds.
         constexpr coord_point_mut() = default;
+
+        // TODO: move the const accessors into base when cata-unsequenced-calls is fixed.
+        constexpr const Point &raw() const {
+            return this->raw_;
+        }
+
+        constexpr auto x() const {
+            return raw().x;
+        }
+        constexpr auto y() const {
+            return raw().y;
+        }
+        constexpr auto z() const {
+            return raw().z;
+        }
 
     protected:
         // Hide the constructors so they are not used by accident.
