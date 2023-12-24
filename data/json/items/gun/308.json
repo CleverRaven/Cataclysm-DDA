@@ -571,7 +571,8 @@
       [ "stock accessory", 2 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "underbarrel", 2 ]
+      [ "underbarrel", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "steyr_scout_mag", "steyr_scout_mag_makeshift" ] } ],
