@@ -1317,10 +1317,7 @@
     "folded_volume": "740 ml",
     "item": "hand_controls",
     "flags": [ "IGNORE_LEG_REQUIREMENT", "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "breaks_into": [
-      { "item": "scrap", "count": [ 0, 2 ] },
-      { "item": "pipe", "count": [ 0, 1 ] }
-    ],
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "pipe", "count": [ 0, 1 ] } ],
     "variants": [ { "symbols": "/", "symbols_broken": "/" } ]
   },
   {
