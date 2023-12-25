@@ -55,6 +55,12 @@ struct spawn_point {
 // Suppression due to bug in clang-tidy 12
 // NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
+    // This returns a shared uniform maptile constructed with the given ter_id.
+    static const maptile_soa *make_uniform( const ter_id &id );
+
+    explicit maptile_soa( const ter_id &id ) : ter( id ), frn( f_null ), lum( 0 ), itm(), fld(),
+        trp( tr_null ), rad( 0 ) {}
+
     cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
     cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
     cata::mdarray<std::uint8_t, point_sm_ms>       lum; // Num items emitting light on each square
@@ -69,20 +75,13 @@ struct maptile_soa {
 class submap
 {
     public:
-        submap() = default;
-        submap( submap && ) noexcept( map_is_noexcept );
-        ~submap();
-
-        submap &operator=( submap && ) noexcept;
-
         void ensure_nonuniform() {
+            ensure_nonuniform( m->ter[0][0] );
+        }
+        void ensure_nonuniform( const ter_id &id ) {
             if( is_uniform() ) {
-                m = std::make_unique<maptile_soa>();
-                std::uninitialized_fill_n( &m->ter[0][0], elements, uniform_ter );
-                std::uninitialized_fill_n( &m->frn[0][0], elements, f_null );
-                std::uninitialized_fill_n( &m->lum[0][0], elements, 0 );
-                std::uninitialized_fill_n( &m->trp[0][0], elements, tr_null );
-                std::uninitialized_fill_n( &m->rad[0][0], elements, 0 );
+                owned_m = std::make_unique<maptile_soa>( id );
+                m = owned_m.get();
             }
         }
 
@@ -91,38 +90,33 @@ class submap
         submap get_revert_submap() const;
 
         trap_id get_trap( const point &p ) const {
-            if( is_uniform() ) {
-                return tr_null;
-            }
             return m->trp[p.x][p.y];
         }
 
         void set_trap( const point &p, trap_id trap ) {
             ensure_nonuniform();
-            m->trp[p.x][p.y] = trap;
+            owned_m->trp[p.x][p.y] = trap;
         }
 
         void set_all_traps( const trap_id &trap ) {
             ensure_nonuniform();
-            std::uninitialized_fill_n( &m->trp[0][0], elements, trap );
+            owned_m->trp.fill( trap );
         }
 
         furn_id get_furn( const point &p ) const {
-            if( is_uniform() ) {
-                return f_null;
-            }
             return m->frn[p.x][p.y];
         }
 
         void set_furn( const point &p, furn_id furn ) {
             ensure_nonuniform();
-            m->frn[p.x][p.y] = furn;
+            owned_m->frn[p.x][p.y] = furn;
         }
 
         void set_all_furn( const furn_id &furn ) {
             ensure_nonuniform();
-            std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
+            owned_m->frn.fill( furn );
         }
+
         int get_map_damage( const point_sm_ms &p ) const {
             auto it = ephemeral_data.find( p );
             if( it != ephemeral_data.end() ) {
@@ -136,56 +130,44 @@ class submap
         }
 
         ter_id get_ter( const point &p ) const {
-            if( is_uniform() ) {
-                return uniform_ter;
-            }
             return m->ter[p.x][p.y];
         }
 
         void set_ter( const point &p, ter_id terr ) {
             ensure_nonuniform();
-            m->ter[p.x][p.y] = terr;
+            owned_m->ter[p.x][p.y] = terr;
         }
 
         void set_all_ter( const ter_id &terr, bool uniform_ok = false ) {
-            if( !uniform_ok ) {
-                ensure_nonuniform();
-            }
-            if( is_uniform() ) {
-                uniform_ter = terr;
+            if( uniform_ok && is_uniform() ) {
+                m = maptile_soa::make_uniform( terr );
             } else {
-                std::uninitialized_fill_n( &m->ter[0][0], elements, terr );
+                ensure_nonuniform( terr );
             }
         }
 
         int get_radiation( const point &p ) const {
-            if( is_uniform() ) {
-                return 0;
-            }
             return m->rad[p.x][p.y];
         }
 
         void set_radiation( const point &p, const int radiation ) {
             ensure_nonuniform();
-            m->rad[p.x][p.y] = radiation;
+            owned_m->rad[p.x][p.y] = radiation;
         }
 
         uint8_t get_lum( const point &p ) const {
-            if( is_uniform() ) {
-                return 0;
-            }
             return m->lum[p.x][p.y];
         }
 
         void set_lum( const point &p, uint8_t luminance ) {
             ensure_nonuniform();
-            m->lum[p.x][p.y] = luminance;
+            owned_m->lum[p.x][p.y] = luminance;
         }
 
         void update_lum_add( const point &p, const item &i ) {
             ensure_nonuniform();
-            if( i.is_emissive() && m->lum[p.x][p.y] < 255 ) {
-                m->lum[p.x][p.y]++;
+            if( i.is_emissive() && owned_m->lum[p.x][p.y] < 255 ) {
+                owned_m->lum[p.x][p.y]++;
             }
         }
 
@@ -193,35 +175,21 @@ class submap
 
         // TODO: Replace this as it essentially makes itm public
         cata::colony<item> &get_items( const point &p ) {
-            if( is_uniform() ) {
-                cata::colony<item> static noitems;
-                return noitems;
-            }
-            return m->itm[p.x][p.y];
+            ensure_nonuniform();
+            return owned_m->itm[p.x][p.y];
         }
 
         const cata::colony<item> &get_items( const point &p ) const {
-            if( is_uniform() ) {
-                cata::colony<item> static noitems;
-                return noitems;
-            }
             return m->itm[p.x][p.y];
         }
 
         // TODO: Replace this as it essentially makes fld public
         field &get_field( const point &p ) {
-            if( is_uniform() ) {
-                field static nofield;
-                return nofield;
-            }
-            return m->fld[p.x][p.y];
+            ensure_nonuniform();
+            return owned_m->fld[p.x][p.y];
         }
 
         const field &get_field( const point &p ) const {
-            if( is_uniform() ) {
-                field static nofield;
-                return nofield;
-            }
             return m->fld[p.x][p.y];
         }
 
@@ -286,7 +254,7 @@ class submap
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
         bool is_uniform() const {
-            return !static_cast<bool>( m );
+            return !owned_m;
         }
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
@@ -314,13 +282,11 @@ class submap
         std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
-        std::unique_ptr<maptile_soa> m;
-        ter_id uniform_ter = t_null;
+        std::unique_ptr<maptile_soa> owned_m;
+        const maptile_soa *m = maptile_soa::make_uniform( t_null );
         int temperature_mod = 0; // delta in F
 
         void update_legacy_computer();
-
-        static constexpr size_t elements = SEEX * SEEY;
 };
 
 /**

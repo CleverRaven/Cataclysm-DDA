@@ -4747,7 +4747,7 @@ void submap::store( JsonOut &jsout ) const
     jsout.member( "terrain" );
     jsout.start_array();
     if( is_uniform() ) {
-        _write_rle_terrain( jsout, uniform_ter.id().str(), SEEX * SEEY );
+        _write_rle_terrain( jsout, m->ter[0][0].id().str(), SEEX * SEEY );
         jsout.end_array();
         return;
     }
@@ -4978,26 +4978,26 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     const ter_str_id tid( terrain_json.next_string() );
 
                     if( tid == ter_t_rubble ) {
-                        m->ter[i][j] = ter_id( "t_dirt" );
-                        m->frn[i][j] = furn_id( "f_rubble" );
-                        m->itm[i][j].insert( rock );
-                        m->itm[i][j].insert( rock );
+                        owned_m->ter[i][j] = ter_id( "t_dirt" );
+                        owned_m->frn[i][j] = furn_id( "f_rubble" );
+                        owned_m->itm[i][j].insert( rock );
+                        owned_m->itm[i][j].insert( rock );
                     } else if( tid == ter_t_wreckage ) {
-                        m->ter[i][j] = ter_id( "t_dirt" );
-                        m->frn[i][j] = furn_id( "f_wreckage" );
-                        m->itm[i][j].insert( chunk );
-                        m->itm[i][j].insert( chunk );
+                        owned_m->ter[i][j] = ter_id( "t_dirt" );
+                        owned_m->frn[i][j] = furn_id( "f_wreckage" );
+                        owned_m->itm[i][j].insert( chunk );
+                        owned_m->itm[i][j].insert( chunk );
                     } else if( tid == ter_t_ash ) {
-                        m->ter[i][j] = ter_id( "t_dirt" );
-                        m->frn[i][j] = furn_id( "f_ash" );
+                        owned_m->ter[i][j] = ter_id( "t_dirt" );
+                        owned_m->frn[i][j] = furn_id( "f_ash" );
                     } else if( tid == ter_t_pwr_sb_support_l ) {
-                        m->ter[i][j] = ter_id( "t_support_l" );
+                        owned_m->ter[i][j] = ter_id( "t_support_l" );
                     } else if( tid == ter_t_pwr_sb_switchgear_l ) {
-                        m->ter[i][j] = ter_id( "t_switchgear_l" );
+                        owned_m->ter[i][j] = ter_id( "t_switchgear_l" );
                     } else if( tid == ter_t_pwr_sb_switchgear_s ) {
-                        m->ter[i][j] = ter_id( "t_switchgear_s" );
+                        owned_m->ter[i][j] = ter_id( "t_switchgear_s" );
                     } else {
-                        m->ter[i][j] = tid.id();
+                        owned_m->ter[i][j] = tid.id();
                     }
                 }
             }
@@ -5037,7 +5037,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     } else {
                         --remaining;
                     }
-                    m->ter[i][j] = iid;
+                    owned_m->ter[i][j] = iid;
                 }
             }
             if( remaining ) {
@@ -5062,7 +5062,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray furniture_entry : furniture_json ) {
             int i = furniture_entry.next_int();
             int j = furniture_entry.next_int();
-            m->frn[i][j] = furn_id( furniture_entry.next_string() );
+            owned_m->frn[i][j] = furn_id( furniture_entry.next_string() );
             if( furniture_entry.size() > 3 ) {
                 furniture_entry.throw_error( "Too many values for furniture entry." );
             }
@@ -5074,11 +5074,11 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int j = items_json.next_int();
             const point p( i, j );
 
-            if( !items_json.next_value().read( m->itm[p.x][p.y], false ) ) {
+            if( !items_json.next_value().read( owned_m->itm[p.x][p.y], false ) ) {
                 debugmsg( "Items array is corrupt in submap at: %s, skipping", p.to_string() );
             }
             // some portion could've been read even if error occurred
-            for( item &it : m->itm[p.x][p.y] ) {
+            for( item &it : owned_m->itm[p.x][p.y] ) {
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
@@ -5093,7 +5093,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
-            m->trp[p.x][p.y] = trid.id();
+            owned_m->trp[p.x][p.y] = trid.id();
             if( trap_entry.size() > 3 ) {
                 trap_entry.throw_error( "Too many values for trap entry" );
             }
@@ -5123,7 +5123,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 } else {
                     ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
                 }
-                if( m->fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
+                if( owned_m->fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
                     field_count++;
                 }
             }

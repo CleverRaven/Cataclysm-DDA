@@ -15,6 +15,17 @@
 
 static const furn_str_id furn_f_console( "f_console" );
 
+const maptile_soa *maptile_soa::make_uniform( const ter_id &id )
+{
+    // Save a cache of uniform terrains. Fine to leak on close.
+    static std::unordered_map<ter_id, std::unique_ptr<maptile_soa>> *uniform_cache = new
+    std::unordered_map<ter_id, std::unique_ptr<maptile_soa>>();
+    if( const auto iter = uniform_cache->find( id ); iter != uniform_cache->end() ) {
+        return iter->second.get();
+    }
+    return uniform_cache->emplace( id, std::make_unique<maptile_soa>( id ) ).first->second.get();
+}
+
 void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
 {
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
@@ -25,11 +36,6 @@ void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
     std::swap( trp[p1.x][p1.y], trp[p2.x][p2.y] );
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
 }
-
-submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
-submap::~submap() = default;
-
-submap &submap::operator=( submap && ) noexcept = default;
 
 void submap::clear_fields( const point &p )
 {
@@ -241,14 +247,14 @@ void submap::rotate( int turns )
         // Swap horizontal stripes.
         for( int j = 0, je = SEEY / 2; j < je; ++j ) {
             for( int i = j, ie = SEEX - j; i < ie; ++i ) {
-                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
+                owned_m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
         // Swap vertical stripes so that they don't overlap with
         // the already swapped horizontals.
         for( int i = 0, ie = SEEX / 2; i < ie; ++i ) {
             for( int j = i + 1, je = SEEY - i - 1; j < je; ++j ) {
-                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
+                owned_m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
     } else {
@@ -261,7 +267,7 @@ void submap::rotate( int turns )
                 for( int k = 0; k < 3; ++k ) {
                     p = pp;
                     pp = rotate_point_ccw( pp );
-                    m->swap_soa_tile( p, pp );
+                    owned_m->swap_soa_tile( p, pp );
                 }
             }
         }
@@ -306,7 +312,7 @@ void submap::mirror( bool horizontally )
     if( horizontally ) {
         for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
             for( int k = 0; k < SEEY; k++ ) {
-                m->swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
+                owned_m->swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
             }
         }
 
@@ -323,7 +329,7 @@ void submap::mirror( bool horizontally )
     } else {
         for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                m->swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
+                owned_m->swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
             }
         }
 
@@ -344,7 +350,7 @@ void submap::revert_submap( submap &sr )
 {
     reverted = true;
     if( sr.is_uniform() ) {
-        m.reset();
+        owned_m.reset();
         set_all_ter( sr.get_ter( point_zero ), true );
         return;
     }
@@ -353,11 +359,11 @@ void submap::revert_submap( submap &sr )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             point pt( x, y );
-            m->frn[x][y] = sr.get_furn( pt );
-            m->ter[x][y] = sr.get_ter( pt );
-            m->trp[x][y] = sr.get_trap( pt );
-            m->itm[x][y] = sr.get_items( pt );
-            for( item &itm : m->itm[x][y] ) {
+            owned_m->frn[x][y] = sr.get_furn( pt );
+            owned_m->ter[x][y] = sr.get_ter( pt );
+            owned_m->trp[x][y] = sr.get_trap( pt );
+            owned_m->itm[x][y] = sr.get_items( pt );
+            for( item &itm : owned_m->itm[x][y] ) {
                 if( itm.is_emissive() ) {
                     this->update_lum_add( pt, itm );
                 }
@@ -370,9 +376,11 @@ void submap::revert_submap( submap &sr )
 submap submap::get_revert_submap() const
 {
     submap ret;
-    ret.uniform_ter = uniform_ter;
-    if( !is_uniform() ) {
-        ret.m = std::make_unique<maptile_soa>( *m );
+    if( is_uniform() ) {
+        ret.m = m;
+    } else {
+        ret.owned_m = std::make_unique<maptile_soa>( *owned_m );
+        ret.m = ret.owned_m.get();
     }
 
     return ret;
@@ -383,8 +391,8 @@ void submap::update_lum_rem( const point &p, const item &i )
     ensure_nonuniform();
     if( !i.is_emissive() ) {
         return;
-    } else if( m->lum[p.x][p.y] && m->lum[p.x][p.y] < 255 ) {
-        m->lum[p.x][p.y]--;
+    } else if( owned_m->lum[p.x][p.y] && owned_m->lum[p.x][p.y] < 255 ) {
+        owned_m->lum[p.x][p.y]--;
         return;
     }
 
@@ -398,6 +406,6 @@ void submap::update_lum_rem( const point &p, const item &i )
     }
 
     if( count <= 256 ) {
-        m->lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+        owned_m->lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
     }
 }
