@@ -473,7 +473,7 @@
     "max_intensity": 18,
     "dur_add_perc": 10,
     "int_dur_factor": "3 s",
-    "removes_effects": [ "slippery_terrain", "effect_biokin_hurricane_blows" ],
+    "removes_effects": [ "slippery_terrain" ],
     "enchantments": [
       {
         "values": [
@@ -487,7 +487,7 @@
           }
         ]
       }
-    ], 
+    ],
     "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
   },
   {
@@ -498,28 +498,26 @@
     "apply_message": "",
     "rating": "good",
     "max_duration": "1 seconds",
-    "removes_effects": [ "effect_biokin_perfected_motion" ],
-    "//": "Increased move cost is to absorb the Speed bonus so if you move, the power wears off.", 
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "multiply": -0.5 },
           {
-            "value": "MOVE_COST",
-            "add": {
+            "value": "ATTACK_SPEED",
+            "multiply": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 25) + 75 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( -0.5 + (clamp( ( u_spell_level('biokin_hurricane_blows') * 4), 0, 20) * -0.1) + ( clamp( ( (u_spell_level('biokin_hurricane_blows') - 5) * 2 ), 0, 10) * -0.1) + ( clamp( ( (u_spell_level('biokin_hurricane_blows') - 10) * 1 ), 0, 15) * -0.1)) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
               ]
             }
           },
           {
-            "value": "SPEED",
-            "add": {
+            "value": "MELEE_DAMAGE",
+            "multiply": {
               "math": [
-                "( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 25) + 150 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( 0.1 + ( u_spell_level('biokin_hurricane_blows') * 0.015 ) ) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
               ]
             }
-          }
+          },
+          { "value": "RANGE", "multiply": -1.0 }
         ]
       }
     ]
