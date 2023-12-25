@@ -4,6 +4,7 @@
 
 // IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
+#   undef main
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_ttf.h>
