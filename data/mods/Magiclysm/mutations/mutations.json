@@ -237,7 +237,7 @@
     "description": "You have grown noticeably taller, broader, and menacing.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance), and you notice people are starting to treat you differently.",
     "types": [ "SIZE" ],
     "prereqs": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
-    "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK", "VERY_TALL", "VERY_SHORT" ],
+    "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
