@@ -175,7 +175,10 @@ class submap
 
         // TODO: Replace this as it essentially makes itm public
         cata::colony<item> &get_items( const point &p ) {
-            ensure_nonuniform();
+            if( is_uniform() ) {
+                cata::colony<item> static noitems;
+                return noitems;
+            }
             return owned_m->itm[p.x][p.y];
         }
 
@@ -185,7 +188,10 @@ class submap
 
         // TODO: Replace this as it essentially makes fld public
         field &get_field( const point &p ) {
-            ensure_nonuniform();
+            if( is_uniform() ) {
+                field static nofield;
+                return nofield;
+            }
             return owned_m->fld[p.x][p.y];
         }
 
