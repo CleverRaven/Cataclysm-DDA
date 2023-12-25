@@ -5596,7 +5596,7 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
-    "flags": [ "GLIDE" ],
+    "flags": [ "WINGS_1" ]
     "active": true,
     "cost": 3,
     "time": "1 s",
@@ -6631,7 +6631,6 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "BEAST" ],
     "threshreq": [ "THRESH_BEAST" ],
-    "flags": [ "GLIDE" ],
     "dodge_modifier": -2
   },
   {
