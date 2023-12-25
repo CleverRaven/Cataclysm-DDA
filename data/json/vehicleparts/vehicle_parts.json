@@ -1317,10 +1317,7 @@
     "folded_volume": "740 ml",
     "item": "hand_controls",
     "flags": [ "IGNORE_LEG_REQUIREMENT", "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "breaks_into": [
-      { "item": "scrap", "count": [ 0, 2 ] },
-      { "item": "pipe", "count": [ 0, 1 ] }
-    ],
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "pipe", "count": [ 0, 1 ] } ],
     "variants": [ { "symbols": "/", "symbols_broken": "/" } ]
   },
   {
@@ -1357,9 +1354,7 @@
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "components": [ [ [ "duct_tape", 25 ] ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "breaks_into": [
-      { "item": "splinter", "count": [ 0, 4 ] }
-    ],
+    "breaks_into": [ { "item": "splinter", "count": [ 0, 4 ] } ],
     "variants": [ { "symbols": ",", "symbols_broken": "," } ]
   },
   {
