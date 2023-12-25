@@ -156,7 +156,7 @@
     "description": "Like a cheetah, you can run with incredible speed for a short distance.",
     "message": "You move faster than the eye can see.",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ground", "ally", "hostile" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -169,7 +169,7 @@
     "damage_type": "biological",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('biokin_dash') * 0.5) + 1 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
+        "min( (( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
       ]
     },
     "max_range": 12,
@@ -572,7 +572,7 @@
     "id": "biokin_perfected_motion",
     "type": "SPELL",
     "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
     "message": "The world around you slows down to a crawl.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -607,7 +607,7 @@
     "id": "biokin_hurricane_blows",
     "type": "SPELL",
     "name": "[Ψ]Hurricane Blows",
-    "description": "You can now strike so quickly that you don't even seem to move at all.  Before an opponent can even finish blinking, you can strike them multiple times, executing your final blow before they feel the pain of the first.",
+    "description": "You can now strike so quickly that you don't even seem to move at all.  Before an opponent can even finish blinking, you can strike them multiple times, executing your final blow before they feel the pain of the first.\n\nHurricane Blows <color_red>cannot be active</color> with Perfected Motion.",
     "message": "The world around you slows down to a stop.",
     "teachable": false,
     "valid_targets": [ "self" ],

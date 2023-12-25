@@ -473,7 +473,7 @@
     "max_intensity": 18,
     "dur_add_perc": 10,
     "int_dur_factor": "3 s",
-    "removes_effects": [ "slippery_terrain" ],
+    "removes_effects": [ "slippery_terrain", "effect_biokin_hurricane_blows" ],
     "enchantments": [
       {
         "values": [
@@ -498,14 +498,24 @@
     "apply_message": "",
     "rating": "good",
     "max_duration": "1 seconds",
+    "removes_effects": [ "slippery_terrain", "effect_biokin_perfected_motion" ],
     "enchantments": [
       {
         "values": [
+          { "value": "ATTACK_SPEED", "multiply": -0.6 },
           {
-            "value": "ATTACK_SPEED",
-            "multiply": {
+            "value": "SPEED",
+            "add": {
               "math": [
-                "( -0.5 + (clamp( ( u_spell_level('biokin_hurricane_blows') * 4), 0, 20) * -0.1) + ( clamp( ( (u_spell_level('biokin_hurricane_blows') - 5) * 2 ), 0, 10) * -0.1) + ( clamp( ( (u_spell_level('biokin_hurricane_blows') - 10) * 1 ), 0, 15) * -0.1)) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
+              ]
+            }
+          },
+          {
+            "value": "MOVE_COST",
+            "add": {
+              "math": [
+                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
               ]
             }
           },
