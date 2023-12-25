@@ -551,11 +551,8 @@ bool effect_type::has_flag( const flag_id &flag ) const
 
 game_message_type effect_type::get_rating( int intensity ) const
 {
-    if( apply_msgs.size() < static_cast<size_t>( intensity ) ) {
-        return apply_msgs[intensity - 1].second;
-    } else {
-        return apply_msgs[0].second;
-    }
+    intensity = std::clamp( intensity, 0, static_cast<int>( apply_msgs.size() ) - 1 );
+    return apply_msgs[intensity].second;
 }
 
 bool effect_type::use_name_ints() const
