@@ -5,6 +5,26 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "bolt_explosive",
+    "type": "MIGRATION",
+    "replace": "bolt_cf"
+  },
+  {
+    "id": "arrow_exploding",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "exploding_arrow_warhead",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "minispeargun",
+    "type": "MIGRATION",
+    "replace": "speargun"
+  },
+  {
     "id": "artifact_teleportitis_aura",
     "type": "MIGRATION",
     "replace": "oxygen"
@@ -184,6 +204,24 @@
     "from_variant": "glock_40",
     "type": "MIGRATION",
     "replace": "glock_40"
+  },
+  {
+    "id": "sandbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_sand", "count": 2000 } ]
+  },
+  {
+    "id": "gravelbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_gravel", "count": 2000 } ]
+  },
+  {
+    "id": "earthbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_soil", "count": 3 } ]
   },
   {
     "id": "r_paint",

@@ -85,6 +85,8 @@ Rework Character::overmap_sight_range to allow night overmap sight through mutat
 re-add pre-seeded hordes, make them unconditional, and show up even with wandering hordes disabled
 Allow for a "variant" field when using the add_trait effect
 There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free to add content for it.
+Make run_eocs/queue_eocs support variable objects
+Protein bars now give character a psychological trauma
 
 
 ## Content:
@@ -155,6 +157,12 @@ Add liquid recipes for faction camps
 Add the star vampire, an invisible blood-drinking monster
 Metamagic perks from Bombastic Perks
 More trail variety
+Receivers now respond for magazines you can put into the gun.
+Adds 410 loads, ballistics data
+Add's more fungal insect monsters, fixes bugs I forgot in last PR.
+Adds most kinds of Arisaka rifles to the game, cartridges, and item spawns.
+update filter guide to indicate that flags were added as filter option following PR #70212
+Adds .45 LC cowboy loads and ballistics data
 
 
 ## Interface:
@@ -284,6 +292,12 @@ Add Bombastic Perk compatibility to Defense Mode.
 [MoM] Add Project PHAVIAN skyscraper lab
 [MoM] Add telepathic dampener```
 [Xedra Evolved] Revamp spell learning system
+[MoM] Add ability to take longer to channel powers in exchange for ignoring focus
+[MoM] Add Transporter beacon and remote, using matrix technology for long-distance travel
+[MoM] Psion NPCs
+[Sky Island] teleporting items back home
+[MoM] Change electrokinetic overload
+[Sky Island] Allow selection of room teleport behavior
 
 
 ## Balance:
@@ -430,6 +444,10 @@ No more infinite aphids
 Stop milking dead cows
 Allow pocket_mods to add magazine or magazine well pockets to items without them
 Check BMR value to prevent dividing by 0
+prevent_death EOC can sometimes fail and lead to permadeath
+Adds annotations to construction menu entries done indoors, in trees, and that require supporting walls.
+Fix AIM allowing distant container interactions
+Show correct bodypart in grabs
 
 
 ## Performance:
@@ -483,6 +501,7 @@ Remove action portion out of assess_danger into a dedicated method
 Add u_has_proficiency to EoC conditions
 JSON-ify hallucinations
 Parameterize new geography changes to overmaps
+Allow items to provide martial art techniques when not wielded
 
 
 ## Build:

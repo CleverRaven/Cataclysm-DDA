@@ -4637,5 +4637,28 @@
     ],
     "max_intensity": 4,
     "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
+    "id": "cramped_space",
+    "name": [ "Cramped Space" ],
+    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
+    "apply_message": "You are squeezed uncomfortably into the cramped space.",
+    "remove_message": "It feels good having room to move again.",
+    "rating": "bad",
+    "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
+    "resist_effects": [ "incorporeal" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": {
+      "dex_mod": [ -2 ],
+      "str_mod": [ -2 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 100, 500 ],
+      "pain_max_val": [ 35 ]
+    },
+    "show_in_info": true
   }
 ]

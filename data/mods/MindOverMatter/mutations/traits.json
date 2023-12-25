@@ -187,6 +187,7 @@
     "points": 0,
     "description": "You are channeling your powers as quickly as you can.",
     "active": true,
+    "valid": false,
     "transform": {
       "target": "PSI_EXTENDED_CHANNELING_ON",
       "msg_transform": "You start to take more care in channeling your powers.",

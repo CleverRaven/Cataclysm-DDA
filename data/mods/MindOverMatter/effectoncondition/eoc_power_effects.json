@@ -5,7 +5,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_BIOKINESIS" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -13,7 +13,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENCE" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -21,7 +21,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_ELECTROKINESIS" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -29,7 +29,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PHOTOKINESIS" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -37,7 +37,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PYROKINESIS" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -45,7 +45,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEKINESIS" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -53,7 +53,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -61,7 +61,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPORTATION" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -69,7 +69,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_VITAKINESIS" } ] },
-    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "4" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -135,15 +135,15 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_effect": "effect_nether_attunement_power_surge" },
     "effect": [
-      { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "3" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "3" ] }
     ]
   },
   {
@@ -153,15 +153,15 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_effect": "effect_noetic_resilience_comedown" },
     "effect": [
-      { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: ELECTROKINETIC')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: PHOTOKINETIC')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "-3" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "-4" ] },
-      { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "-4" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "-3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "-4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "-4" ] }
     ]
   },
   {
@@ -237,7 +237,7 @@
       { "u_lose_effect": "effect_telepath_invisibility" },
       { "u_lose_effect": "effect_telepath_network_effect" },
       { "u_lose_effect": "effect_vitakin_purge_rads" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "=", "0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   },
@@ -293,7 +293,7 @@
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "=", "0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   }

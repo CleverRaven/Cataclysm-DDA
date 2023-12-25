@@ -2136,6 +2136,20 @@
   },
   {
     "type": "material",
+    "id": "zincite",
+    "name": "Zincite",
+    "copy-from": "stone",
+    "density": 5.68
+  },
+  {
+    "type": "material",
+    "id": "slaked_lime",
+    "name": "Slaked Lime",
+    "copy-from": "stone",
+    "density": 2.34
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2485,6 +2499,49 @@
   },
   {
     "type": "material",
+    "id": "acetone",
+    "name": "Acetone",
+    "density": 0.784,
+    "specific_heat_liquid": 2.14,
+    "specific_heat_solid": 2.14,
+    "latent_heat": 50,
+    "edible": false,
+    "conductive": false,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 300, "smoke": 6, "burn": 1 },
+      { "fuel": 600, "smoke": 6, "burn": 2 },
+      { "fuel": 900, "smoke": 6, "burn": 3 }
+    ],
+    "fuel_data": {
+      "energy": "35800 kJ",
+      "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    },
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 1, "bullet": 0 }
+  },
+  {
+    "type": "material",
+    "id": "acid",
+    "name": "acid",
+    "//": "fallback for all acids; stats are delivered from sulfuric acid",
+    "density": 1.83,
+    "specific_heat_liquid": 1.38,
+    "specific_heat_solid": 1.38,
+    "latent_heat": 451,
+    "edible": false,
+    "conductive": true,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 1, "bullet": 0 }
+  },
+  {
+    "type": "material",
     "id": "wheat",
     "name": "Wheat",
     "density": 1.1,
@@ -2758,6 +2815,13 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "sand",
+    "name": "Sand",
+    "copy-from": "soil",
+    "density": 1.52
   },
   {
     "type": "material",
