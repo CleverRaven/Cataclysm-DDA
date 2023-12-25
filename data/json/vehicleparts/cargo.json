@@ -269,7 +269,7 @@
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "CARGO_PASSABLE"  ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   }
