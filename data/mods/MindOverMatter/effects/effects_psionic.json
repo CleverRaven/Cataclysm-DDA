@@ -538,7 +538,8 @@
           { "value": "RANGE", "multiply": -1.99 }
         ]
       }
-    ]
+    ],
+    "flags": [ "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
