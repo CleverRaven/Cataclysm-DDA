@@ -707,7 +707,7 @@ bool vehicle::start_engine( vehicle_part &vp )
                        !has_part( player_character.pos(), "IGNORE_HEIGHT_REQUIREMENT" ) ) {
         add_msg( _( "You are too short to reach the pedals!" ) );
         return false;
-        }
+    }
 
     const double dmg = vp.damage_percent();
     const time_duration start_time = engine_start_time( vp );
