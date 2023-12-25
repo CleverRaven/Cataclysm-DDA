@@ -1735,7 +1735,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "zerodrink",
+    "id": "foodplace_zero_drink",
     "looks_like": "lemonlime",
     "name": { "str_sp": "Foodplace's refreshing drink™" },
     "weight": "248 g",
