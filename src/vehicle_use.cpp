@@ -700,7 +700,7 @@ bool vehicle::start_engine( vehicle_part &vp )
     if( has_part( player_character.pos(), "NEED_LEG" ) && player_character.get_working_leg_count() < 1 && !has_part( player_character.pos(), "IGNORE_LEG_REQUIREMENT" ) ){
         add_msg( _( "You need at least one leg to control the %s." ), vp.name() );
         return false;
-        } 
+    }
     if( has_part( player_character.pos(), "INOPERABLE_SMALL" ) &&
         ( player_character.get_size() == creature_size::small ||
           player_character.get_size() == creature_size::tiny ) &&
