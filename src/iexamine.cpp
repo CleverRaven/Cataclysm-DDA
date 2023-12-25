@@ -105,6 +105,7 @@
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_GLIDE( "ACT_GLIDE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -124,6 +125,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
@@ -180,6 +182,7 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -5018,6 +5021,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         ledge_jump_across,
         ledge_fall_down,
         ledge_examine_furniture_below,
+        ledge_glide
     };
 
     map &here = get_map();
@@ -5025,6 +5029,27 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posy() + 2 * sgn( examp.y - you.posy() ),
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+    int jdx = examp.x - you.posx();
+    int jdy = examp.y - you.posy();
+    int jump_direction = 0;
+
+    if( jdy > 0 && jdx == 0 ) {
+        jump_direction = 1; //north
+    } else if( jdy > 0 && jdx < 0  ) {
+        jump_direction = 2; //northeast
+    } else if( jdy == 0 && jdx < 0  ) {
+        jump_direction = 3; //east
+    } else if( jdy < 0 && jdx < 0  ) {
+        jump_direction = 4; //southeast
+    } else if( jdy < 0 && jdx == 0  ) {
+        jump_direction = 5; //south
+    } else if( jdy < 0 && jdx > 0  ) {
+        jump_direction = 6; //southwest
+    } else if( jdy == 0 && jdx > 0  ) {
+        jump_direction = 7; //west
+    } else if( jdy > 0 && jdx > 0  ) {
+        jump_direction = 8; //northwest
+    }
 
     tripoint just_below = examp;
     just_below.z--;
@@ -5042,6 +5067,10 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
+    if( you.has_trait_flag( json_flag_GLIDE ) ) {
+    cmenu.addentry( ledge_glide, !jump_target_valid, 'g',
+                    ( !jump_target_valid ? _( "Glide from here." ) : _( "Can't glide (not enough room)." ) ) );
+    }
 
     cmenu.query();
 
@@ -5140,6 +5169,26 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             } else {
                 // Just to highlight the trepidation
                 popup( _( "You decided to step back from the ledge." ) );
+            }
+            break;
+        }
+        case ledge_glide: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
+            if( you.get_str() < 4 ) {
+                add_msg( m_warning, _( "You are too weak to take wing." ) );
+            } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
+                add_msg( m_warning, _( "You are carrying too much to glide." ) );
+            } else {
+                add_msg( m_info, _( "You spread your wings and leap from the ledge." ) );
+                you.add_effect( effect_gliding, 1_turns, true );
+                glide_activity_actor glide( &you, jump_direction );
+                get_player_character().assign_activity( glide );
+                you.setpos( examp );
             }
             break;
         }

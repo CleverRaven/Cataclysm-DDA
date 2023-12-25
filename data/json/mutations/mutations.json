@@ -5583,7 +5583,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
-    "flags": [ "WINGS_2" ]
+    "flags": [ "WINGS_2", "GLIDE" ]
   },
   {
     "type": "mutation",
@@ -5596,6 +5596,7 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
+    "flags": [ "GLIDE" ],
     "active": true,
     "cost": 3,
     "time": "1 s",
@@ -6630,6 +6631,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "BEAST" ],
     "threshreq": [ "THRESH_BEAST" ],
+    "flags": [ "GLIDE" ],
     "dodge_modifier": -2
   },
   {
@@ -6650,7 +6652,7 @@
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
     "movecost_modifier": 0.9,
-    "flags": [ "WINGS_1" ]
+    "flags": [ "WINGS_1", "GLIDE" ]
   },
   {
     "type": "mutation",

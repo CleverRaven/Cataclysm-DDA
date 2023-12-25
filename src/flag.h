@@ -165,6 +165,7 @@ extern const flag_id json_flag_HIDDEN_ITEM;
 extern const flag_id flag_HIDDEN_POISON;
 extern const flag_id flag_HOOD;
 extern const flag_id flag_HOT;
+extern const flag_id flag_HOVERING;
 extern const flag_id flag_HURT_WHEN_WIELDED;
 extern const flag_id flag_HYGROMETER;
 extern const flag_id flag_INEDIBLE;

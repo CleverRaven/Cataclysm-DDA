@@ -110,6 +110,7 @@ static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GLIDE( "ACT_GLIDE" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
@@ -157,6 +158,7 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
@@ -1399,6 +1401,123 @@ static std::string enumerate_ints_to_string( const std::vector<int> &vec )
         return std::to_string( it );
     } );
 }
+
+
+
+ void glide_activity_actor::do_turn( player_activity &act, Character &you )
+ {
+     tripoint heading = tripoint_zero;
+     if( get_map().tr_at( you.pos() ) != tr_ledge ){
+         you.add_msg_player_or_npc( m_good,
+                                 _( "You come to a gentle landing." ),
+                                 _( "<npcname> comes to a gentle landing." ) );
+         you.remove_effect( effect_gliding );
+         act.set_to_null();
+         return;
+     }
+      if( jump_direction == 1 ){
+          heading = tripoint_south;
+      }
+      if( jump_direction == 2 ){
+          heading = tripoint_south_west;
+      }
+      if( jump_direction == 3 ){
+          heading = tripoint_west;
+      }
+      if( jump_direction == 4 ){
+          heading = tripoint_north_west;
+      }
+      if( jump_direction == 5 ){
+          heading = tripoint_north;
+      }
+      if( jump_direction == 6 ){
+          heading = tripoint_south_west;
+      }
+      if( jump_direction == 7 ){
+          heading = tripoint_east;
+      }
+      if( jump_direction == 8 ){
+          heading = tripoint_south_east;
+      }
+     tripoint newpos = you.pos() + heading;
+     you.setpos( newpos );
+     //you.moves -= 50;
+     if( get_map().tr_at( you.pos() + tripoint_below ) != tr_ledge ){
+         you.setpos( you.pos() + tripoint_below );
+     }
+ }
+
+
+glide_activity_actor::glide_activity_actor(Character *you, int jump_direction)
+     : jump_direction(jump_direction)
+{
+     you->add_effect( effect_gliding, 1_turns, true );
+     tripoint heading = tripoint_zero;
+     if( jump_direction == 1 ){
+         heading = tripoint_south;
+     }
+     if( jump_direction == 2 ){
+         heading = tripoint_south_west;
+     }
+     if( jump_direction == 3 ){
+         heading = tripoint_west;
+     }
+     if( jump_direction == 4 ){
+         heading = tripoint_north_west;
+     }
+     if( jump_direction == 5 ){
+         heading = tripoint_north;
+     }
+     if( jump_direction == 6 ){
+         heading = tripoint_north_east;
+     }
+     if( jump_direction == 7 ){
+         heading = tripoint_east;
+     }
+     if( jump_direction == 8 ){
+         heading = tripoint_south_west;
+     }
+ }
+
+ void glide_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "jump_direction", jump_direction );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &jsin )
+{
+    glide_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "jump_direction", actor.jump_direction );
+
+    return actor.clone();
+}
+
+void glide_activity_actor::start( player_activity &act, Character &you )
+{
+         you.add_msg_player_or_npc( m_good,
+                                 _( "You take wing." ),
+                                 _( "<npcname> takes wing." ) );
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void glide_activity_actor::finish( player_activity &act, Character &you )
+{
+         you.add_msg_player_or_npc( m_good,
+                                 _( "You come to a gentle landing." ),
+                                 _( "<npcname> comes to a gentle landing." ) );
+         you.remove_effect( effect_gliding );
+         act.set_to_null();
+         return;
+}
+
 
 bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle &parent_vehicle,
         const vehicle &racked_vehicle, const std::vector<int> &racks )
@@ -7447,6 +7566,7 @@ deserialize_functions = {
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GLIDE, &glide_activity_actor::deserialize },
     { ACT_GUNMOD_ADD, &gunmod_add_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },

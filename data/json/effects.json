@@ -4637,5 +4637,13 @@
     ],
     "max_intensity": 4,
     "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
+    "id": "gliding",
+    "name": [ "Gliding" ],
+    "desc": [ "You are gliding gracefully through the air." ],
+    "flags": [ "HOVERING" ],
+    "rating": "good"
   }
 ]

@@ -342,6 +342,32 @@ class hotwire_car_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+ class glide_activity_actor : public activity_actor
+ {
+     private:
+         int jump_direction;
+         int moves_total = to_moves<int>( 5_minutes );
+         explicit glide_activity_actor() = default;
+
+     public:
+         explicit glide_activity_actor( Character *you, int jump_direction );
+
+         activity_id get_type() const override {
+             return activity_id( "ACT_GLIDE" );
+         }
+
+         void start( player_activity &act, Character &you ) override;
+         void do_turn( player_activity &act, Character &you ) override;
+         void finish( player_activity &act, Character &you ) override;
+
+         std::unique_ptr<activity_actor> clone() const override {
+             return std::make_unique<glide_activity_actor>( *this );
+         }
+
+         void serialize( JsonOut &jsout ) const override;
+         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+ };
+
 class bikerack_racking_activity_actor : public activity_actor
 {
     private:
