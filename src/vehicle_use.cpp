@@ -702,9 +702,9 @@ bool vehicle::start_engine( vehicle_part &vp )
         return false;
         } 
     if( has_part( player_character.pos(), "INOPERABLE_SMALL" ) &&
-                       ( player_character.get_size() == creature_size::small ||
-                         player_character.get_size() == creature_size::tiny ) &&
-                       !has_part( player_character.pos(), "IGNORE_HEIGHT_REQUIREMENT" ) ) {
+        ( player_character.get_size() == creature_size::small ||
+          player_character.get_size() == creature_size::tiny ) &&
+        !has_part( player_character.pos(), "IGNORE_HEIGHT_REQUIREMENT" ) ) {
         add_msg( _( "You are too short to reach the pedals!" ) );
         return false;
     }
