@@ -117,7 +117,7 @@
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
-    {
+  {
     "id": "holybook_nag_hammadi",
     "type": "BOOK",
     "name": { "str": "Nag Hammadi Codex", "str_pl": "Nag Hammadi Codices" },
