@@ -325,7 +325,12 @@
               {
                 "collection": [
                   { "item": "foodplace_zero_drink", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
-                  { "item": "foodplace_zero_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                  {
+                    "item": "foodplace_zero_drink",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
                 ],
                 "prob": 5
               }
@@ -608,7 +613,12 @@
               {
                 "collection": [
                   { "item": "foodplace_zero_drink", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
-                  { "item": "foodplace_zero_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                  {
+                    "item": "foodplace_zero_drink",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
                 ],
                 "prob": 5
               }
@@ -1107,7 +1117,12 @@
               {
                 "collection": [
                   { "item": "foodplace_zero_drink", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
-                  { "item": "foodplace_zero_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                  {
+                    "item": "foodplace_zero_drink",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
                 ],
                 "prob": 5
               }
