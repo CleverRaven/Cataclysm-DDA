@@ -1278,12 +1278,20 @@ void item::update_modified_pockets()
     std::optional<const pocket_data *> mag_or_mag_well;
     std::vector<const pocket_data *> container_pockets;
 
+    // Prevent cleanup of pockets belonging to the item base type
     for( const pocket_data &pocket : type->pockets ) {
         if( pocket.type == pocket_type::CONTAINER ) {
             container_pockets.push_back( &pocket );
         } else if( pocket.type == pocket_type::MAGAZINE ||
                    pocket.type == pocket_type::MAGAZINE_WELL ) {
             mag_or_mag_well = &pocket;
+        }
+    }
+
+    // Prevent cleanup of added modular pockets
+    for( const item *it : contents.get_added_pockets() ) {
+        for( const pocket_data &pocket : it->type->pockets ) {
+            container_pockets.push_back( &pocket );
         }
     }
 
@@ -7005,7 +7013,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( amount || show_amt ) {
+    if( ( amount || show_amt ) && !has_flag( flag_PSEUDO ) ) {
         if( is_money() ) {
             amt = " " + format_money( amount );
         } else {
@@ -13987,6 +13995,30 @@ std::string item::get_plant_name() const
         return std::string{};
     }
     return type->seed->plant_name.translated();
+}
+
+std::optional<furn_str_id> item::get_plant_seedling_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->seedling_form;
+}
+
+std::optional<furn_str_id> item::get_plant_mature_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->mature_form;
+}
+
+std::optional<furn_str_id> item::get_plant_harvestable_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const

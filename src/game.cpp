@@ -7703,6 +7703,10 @@ look_around_result game::look_around(
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         }
+#if defined(TILES)
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+#endif
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
 
@@ -10419,6 +10423,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         return false;
     }
     u.set_underwater( false );
+
+    if( vp_there && !u.move_in_vehicle( static_cast<Creature *>( &u ), dest_loc ) ) {
+        return false;
+    }
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );

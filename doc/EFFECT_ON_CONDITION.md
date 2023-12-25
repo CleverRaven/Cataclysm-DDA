@@ -96,13 +96,16 @@ Effect on Condition uses a huge variety of different values for effects or for c
 | duration | string, that contain number and unit of time, that the game code transform into seconds and put into the game. It is possible to use int instead of duration, but it is recommended to use duration for the readability sake. Possible values are `s`/`seconds`, `m`/`minutes`, `h`/`hours`, `d`/`days` | `1`, `"1 s"`, `"1 seconds"`, `"60 minutes"`, `3600`, `"99 minutes"`, `"2 d"`, `"365 days"`   |
 | value between two | not a separate format, it means the field can accept two values simultaneously, and pick a random between this two; only values, that uses int can utilize it (int, duration or variable object usually) | `[ 1, 10 ]`,</br>`[ "30 seconds", "50 seconds" ]`,</br>`[ -1, 1 ]`,</br>`[ { "global_val": "small_variable" }, { "global_val": "big_variable" } ]`,</br>`[ { "global_val": "small_variable" }, 100 ]` |
 | array | not a separate format, it means the field can accept multiple values, and the game either will pick one random between them, or apply all of them simultaneously | `[ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ]`  |
-| variable object | any [variable object](##variable-object)  | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
+| variable object | any [variable object](##variable-object); can be int, time or string, stored in said variable, or arithmetic/math syntax | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
+| location variable | not a separate format, just any [variable object](##variable-object) that store location coordinates, usually obtained by using `u_location_variable` / `npc_location_variable`  | `{ "global_val": "some_location" }`,</br>`{ "u_val": "some_location_i_know" }` |
+
+There is some amount of another types, that are not explained here, like "search_data" or "fake_spell", but since this one are rarely reused, they are described in the effects that utilize them
 
 ## Variable Object
 
-Variable object is a value, that changes due some conditions. Variable can be int, time, string, `arithmetic`/`math` expression or value between two. Types of values are:
+Variable object is a value, that changes due some conditions. Variable can be int, time, string, `arithmetic`/`math` expression or location variable. Types of variables are:
 
-- `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (despite player can swap to another NPC, for example); 
+- `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (or if you swap the avatar, for example; the secret one NPC told to character A would be lost for character B); 
 - `npc_val` - variable, that is stored in beta talker
 - `global_val` - variable, that is store in the world, and won't be lost until you delete said world
 - `context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks:
@@ -1173,6 +1176,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | fuel_tank_explodes | Triggers when vehicle part (that is watertight container/magazine with magazine pocket/or is a reactor) is sufficiently damaged | { "vehicle_name", `string` }, | avatar / NONE |
 | gains_addiction | |  { "character", `character_id` },<br/> { "add_type", `addiction_id` }, | character / NONE |
 | gains_mutation | |  { "character", `character_id` },<br/> { "trait", `trait_id` }, | character / NONE |
+| gains_proficiency | | { "character", `character_id` },<br/> { "proficiency", `proficiency_id` }, | character / NONE |
 | gains_skill_level | | { "character", `character_id` },<br/> { "skill", `skill_id` },<br/> { "new_level", `int` }, | character / NONE |
 | game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "is_suicide", `bool` },<br/> { "last_words", `string` }, | avatar / NONE |
 | game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_profession", `profession_id` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
@@ -1185,6 +1189,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | installs_faulty_cbm | | { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
 | learns_martial_art | |  { "character", `character_id` },<br/> { "martial_art", `matype_id` }, | character / NONE |
 | loses_addiction | | { "character", `character_id` },<br/> { "add_type", `addiction_id` }, | character / NONE |
+| loses_mutation | |  { "character", `character_id` },<br/> { "trait", `trait_id` }, | character / NONE |
 | npc_becomes_hostile | Triggers when NPC's attitude is set to `NPCATT_KILL` via dialogue effect `hostile` | { "npc", `character_id` },<br/> { "npc_name", `string` }, | NPC / NONE |
 | opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
 | opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } | character / NONE |
@@ -1254,7 +1259,7 @@ Opens up a dialog between the participants; this should only be used in effect_o
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "topic" | optional | string or [variable object](#variable-object) | if used, instead of the dialogue with the participant, this topic would be used with an empty talker |
-| "true_eocs", "false_eocs" | optional | array of eocs | if was successful, all `true_eocs` are run, otherwise all `false_eocs` are run | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if was successful, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Valid talkers:
 
@@ -1284,7 +1289,7 @@ If beta talker is NPC, take control of it
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "take_control" | **mandatory** | simple string | makes you control the NPC; works only if avatar (you) is alpha talker, and beta talker is NPC |
-| "true_eocs", "false_eocs" | optional | eocs_array | if `take_control` was successful, all `true_eocs` are run, otherwise all `false_eocs` run | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if `take_control` was successful, all `true_eocs` are run, otherwise all `false_eocs` run | 
 
 ##### Valid talkers:
 
@@ -1448,7 +1453,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eocs" | **mandatory** | string or array of eocs | EoC or EoCS that would be run |
+| "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
 
 ##### Valid talkers:
 
@@ -1502,13 +1507,52 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
 }
 ```
 
+Use Context Variable as a eoc (A trick for loop)
+```
+[
+    {
+        "type": "effect_on_condition",
+        "id": "debug_eoc_for_loop",
+        "effect": [{
+                    "run_eoc_with": "eoc_for_loop",
+                    "variables": {
+                      "i": "0",
+                      "length": "10",
+                      "eoc":"eoc_msg_hello_world"
+                      }}]
+    },
+    {
+        "type":"effect_on_condition",
+        "id":"eoc_msg_hello_world",
+        "effect":[{"u_message": "hello world"}]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "eoc_for_loop",
+        "condition": {"and": [
+                {"expects_vars": ["i","length","eoc"]},
+                {"math": ["_i","<","_length"]}
+            ]
+        },
+        "effect": [
+            {"run_eocs": [{"context_val":"eoc"}]},
+            {"math":["_i", "++"]},
+            {
+                "run_eocs": "eoc_for_loop"
+            }
+        ],
+        "//": "As the generated dialogue for next EOC is a complete copy of the dialogue for this EOC, the context value will be passed on to the next EOC"
+    }
+]
+```
+
 
 #### `run_eoc_with`
 Same as `run_eocs`, but runs the specific EoC with provided variables as context variables
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eoc_with" | **mandatory** | string | EoC or EoCS that would be run |
+| "run_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC or EoCS that would be run |
 | "beta_loc" | optional | [variable object](#variable-object) | `u_location_variable`, where the EoC should be run | 
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
@@ -1578,7 +1622,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "queue_eocs" | **mandatory** | string, [variable object](#variable-object) or array | EoCs, that would be added into queue; Could be an inline EoC |
+| "queue_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object) or array of eocs | EoCs, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 | 
 
 ##### Valid talkers:
@@ -1604,7 +1648,7 @@ Combination of `run_eoc_with` and `queue_eocs` - Put EoC into queue and run into
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "queue_eoc_with" | **mandatory** | string or [variable object](#variable-object) | EoC, that would be added into queue; Could be an inline EoC |
+| "queue_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 |
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
@@ -1653,7 +1697,7 @@ If you or NPC does not have all of the listed bionics, mutations, spells or reci
 | "u_roll_remainder" / "npc_roll_remainder" | **mandatory** | string, [variable](#variable-object) or array of both | thing, that would be rolled and given |
 | "type" | **mandatory** | string or [variable object](#variable-object) | type of thing that would be given; can be one of `bionic`, `mutation`, `spell` or `recipe` | 
 | "message" | optional | string or [variable object](#variable-object) | message, that would be displayed in log, once remainder is used; `%s` symbol can be used in this message to write the name of a thing, that would be given; message would be printed only if roll was successful | 
-| "true_eocs", "false_eocs" | optional | string or array of eocs | If reminder was positive, all EoCs in `true_eocs` run, otherwise `false_eocs` run | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | If reminder was positive, all EoCs in `true_eocs` run, otherwise `false_eocs` run | 
 
 
 ##### Valid talkers:
@@ -1857,9 +1901,9 @@ Run EOCs on items in your or NPC's inventory
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
-| "search_data" | optional | N/A | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
-| "true_eocs" / "false_eocs" | optional | range of eocs | if item was picked successfully, all `true_eocs` are run, otherwise all `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
+| "true_eocs" / "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
 
 ##### Valid talkers:
 
@@ -1894,6 +1938,101 @@ Pick a wooden item with `DURABLE_MELEE` and `ALWAYS_TWOHAND` flags, and run `EOC
       "true_eocs": [ "EOC_DO_SOMETHING_WITH_ITEM" ]
       "false_eocs": [ { "id": "EOC_NO_SUCH_ITEM", "effect": [ { "u_message": "You don't have an item i need" } ] } ]
     }
+  ]
+}
+```
+
+
+#### `u_map_run_item_eocs`, `npc_map_run_item_eocs`
+Search items around you on the map, and run EoC on them
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_map_run_item_eocs", "npc_map_run_item_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
+| "loc" | optional | location variable | location, where items would be scanned; lack of it would scan only tile the talker stands on | 
+| "min_radius", "max_radius" | optional | int or [variable object](#variable-object) | radius around the location/talker that would be searched | 
+| "title" | optional | string or [variable object](#variable-object) | name of the menu that would be shown, if `manual` or `manual_mult` values are used | 
+| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+
+Run `EOC_GOOD` on all items 5-10 tiles around you (but not tiles 1-4 tiles around you)
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      {
+        "u_map_run_item_eocs": "all",
+        "min_radius": 5,
+        "max_radius": 10,
+        "title": "Something good?",
+        "true_eocs": [ "EOC_GOOD" ]
+      }
+    ]
+  }
+```
+
+Create context variable `loc` where player stands
+Scan all items 1-10 tiles around the `loc` (actually `loc` can be omitted here, since it's the same location as player); open the `Test: Item collection` menu, where player can pick items from said radius; after confirmation, all picked items are run in `EOC_map_item_test_run`
+`EOC_map_item_test_run` teleport all items to `loc`, and print `Items rolled at your feet`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_map_item_test1",
+  "effect": [
+    { "u_location_variable": { "context_val": "loc" } },
+    {
+      "u_map_run_item_eocs": "manual_mult",
+      "loc": { "context_val": "loc" },
+      "min_radius": 1,
+      "max_radius": 10,
+      "title": "Test: Item collection",
+      "true_eocs": [
+        {
+          "id": "EOC_map_item_test_run",
+          "effect": [ { "npc_teleport": { "context_val": "loc" } }, { "u_message": "Items rolled at your feet." } ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Search `crashing_ship_4`  overmap terrain 10 overmap tiles around the player, on z-level -10 (where the ship is places), then in this overmap search `t_escape_pod_floor` terrain, and if found, put it's coordinates to `escape_pod_crate` context value
+Search all items on `escape_pod_crate` tile, and run `EOC_AFS_ESCAPE_POD_CARGO_TP` (it will teleport items to `new_map` location)
+Print a message with popup
+Teleport player to `new_map`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_ESCAPE_POD_CHAIR",
+  "effect": [
+    {
+      "u_location_variable": { "context_val": "escape_pod_crate" },
+      "target_params": { "om_terrain": "crashing_ship_4", "search_range": 10, "z": -10 },
+      "terrain": "t_escape_pod_floor",
+      "target_max_radius": 24
+    },
+    {
+      "u_map_run_item_eocs": "all",
+      "loc": { "context_val": "escape_pod_crate" },
+      "min_radius": 0,
+      "max_radius": 0,
+      "true_eocs": [ { "id": "EOC_AFS_ESCAPE_POD_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "new_map" } } ] } ]
+    },
+    {
+      "u_message": "You make sure that all equipment is strapped down and loose items are put away to avoid projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
+      "popup": true
+    },
+    { "u_teleport": { "global_val": "new_map" }, "force": true }
   ]
 }
 ```
@@ -2163,12 +2302,13 @@ Adds `hair_mohawk` trait with the `purple` variant to the character:
 { "u_add_trait": "hair_mohawk", "variant": "purple" }
 ```
 
-#### `u_lose_effect`, `npc_effect`
+#### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_lose_effect" / "npc_lose_effect" | **mandatory** | string or [variable object](##variable-object) | id of effect to be removed; if character or NPC has no such effect, nothing happens |
+| "target_part" | optional | string or [variable object](##variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
 
 ##### Valid talkers:
 
@@ -2180,6 +2320,11 @@ Remove effect from character or NPC, if it has one
 Removes `infection` effect from player:
 ```json
 { "u_lose_effect": "infection" }
+```
+
+Removes `bleed` effect from player's head:
+```json
+{ "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
 Removes effect, stored in `effect_id` context value, from the player:
@@ -2513,8 +2658,7 @@ Search a specific coordinates of map around `u_`, `npc_` or `target_params` and 
 | "z_override" | optional | boolean | default is false; if true, instead of adding up to `z` level, override it with absolute value; `"z_adjust": 3` with `"z_override": true` turn the value of `z` to `3` | 
 | "terrain" / "furniture" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](##variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
 | "target_min_radius", "target_max_radius" | optional | int, float or [variable object](##variable-object) | default 0, min and max radius for search, if previous field was used | 
-| "true_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if the location was found, all EoCs from this field would be triggered; | 
-| "false_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if the location was not found, all EoCs from this field would be triggered | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if the location was found, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Valid talkers:
 
@@ -2920,13 +3064,17 @@ Print a snippet from `local_files_simple`, and popup it. The snippet is always t
  { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
 ```
 
+Print a text with a context variable
+```json
+  { "u_message": "Test event with trait_id FIRE! <context_val:trait_id>", "type": "good" } 
+```
 
 #### `u_cast_spell`, `npc_cast_spell`
 You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `energy_source`, `cast_time`, `components`, `difficulty` and `spell_class` fields), and uses additional fields 
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_cast_spell" / "npc_cast_spell" | **mandatory** | [variable object](##variable-object) | information of what spell and how it should be casted |
+| "u_cast_spell" / "npc_cast_spell" | **mandatory** | `fake_spell` | information of what spell and how it should be casted; next field can be used: |
 | "id" | **mandatory** | string or [variable object](##variable-object) | part of `_cast_spell`; define the id of spell to cast | 
 | "hit_self" | optional | boolean | part of `_cast_spell`; default false; if true, the spell could affect the caster (either as self damage from AoE spell, or as applying effect for buff spell) | 
 | "message" | optional | string or [variable object](##variable-object) | part of `_cast_spell`; message to send when spell is casted | 
@@ -2934,8 +3082,7 @@ You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `
 | "min_level", "max_level" | optional | int, float or [variable object](##variable-object) | part of `_cast_spell`; level of the spell that would be casted (min level define what the actual spell level would be casted, adding max_level make EoC pick a random level between min and max) | 
 | "targeted" | optional | boolean | default false; if true, allow you to aim casted spell, otherwise cast it in the location set by "loc" | 
 | "loc" | optional | [variable object](##variable-object) | Set target location of the spell. If not used, target to caster's location |
-| "true_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if spell was casted successfully, all EoCs from this field would be triggered; | 
-| "false_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if spell was not casted successfully, all EoCs from this field would be triggered | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if spell was casted successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Valid talkers:
 
@@ -3490,7 +3637,7 @@ Spawn some monsters around you, NPC or `target_var`
 | "lifespan" | optional | int, duration, [variable object](##variable-object) or value between two | if used, critters would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](##variable-object) | if used, the monster would spawn from this location instead of you or NPC | 
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](##variable-object) | if you see monster or monsters that was spawned, related message would be printed | 
-| "true_eocs", "false_eocs" | optional | eocs_array | if at least 1 monster was spawned, all EoCs from `true_eocs` is called, otherwise all EoCs from `false_eocs` is called | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Examples
 Spawn 2-5 zombies in range 3-24 around player with lifespan 40-120 seconds, with messages if player see spawn
@@ -3531,7 +3678,7 @@ Spawn some NPC near you or another NPC
 | "lifespan" | optional | int, duration, [variable object](##variable-object) or value between two | if used, NPC would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](##variable-object) | if used, the NPC would spawn from this location instead of you or NPC | 
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](##variable-object) | if you see NPC or NPCs that was spawned, related message would be printed | 
-| "true_eocs", "false_eocs" | optional | eocs_array | if at least 1 monster was spawned, all EoCs from `true_eocs` is called, otherwise all EoCs from `false_eocs` is called | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Examples
 Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, for 1-3 minutes and with messages 

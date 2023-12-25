@@ -240,7 +240,7 @@
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning_sawn", "bfg50", "trex_gun" ],
+    "id": [ "m2browning_sawn", "win70_458", "bfg50" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_double"
   },
@@ -295,6 +295,9 @@
       "m14ebr",
       "smle_mk3",
       "number4_mki",
+      "type99",
+      "type99ld",
+      "type99_sniper",
       "ar10",
       "1895sbl",
       "ak74",

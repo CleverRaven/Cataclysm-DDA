@@ -69,6 +69,10 @@ static const ammotype ammo_NULL( "NULL" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
+static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_mature( "f_plant_mature" );
+static const furn_str_id furn_f_plant_seedling( "f_plant_seedling" );
+
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
 
@@ -361,8 +365,36 @@ void Item_factory::finalize_pre( itype &obj )
     // Finalize vitamins in food
     if( obj.comestible ) {
         obj.comestible->default_nutrition.finalize_vitamins();
-    }
 
+        bool is_not_boring = false;
+        float specific_heat_solid = 0.0f;
+        float specific_heat_liquid = 0.0f;
+        float latent_heat = 0.0f;
+        int mat_total = 0;
+
+        auto add_spi = [&is_not_boring, &specific_heat_solid, &specific_heat_liquid, &latent_heat,
+                        &mat_total]( const material_id & m, int portion ) {
+            specific_heat_solid += m->specific_heat_solid() * portion;
+            specific_heat_liquid += m->specific_heat_liquid() * portion;
+            latent_heat += m->latent_heat() * portion;
+            mat_total += portion;
+            is_not_boring = is_not_boring || m == material_junk;
+        };
+
+        for( const std::pair <const material_id, int> &pair : obj.comestible->materials ) {
+            add_spi( pair.first, pair.second );
+        }
+
+        // Average based on number of materials.
+        obj.comestible->specific_heat_liquid = specific_heat_liquid / mat_total;
+        obj.comestible->specific_heat_solid = specific_heat_solid / mat_total;
+        obj.comestible->latent_heat = latent_heat / mat_total;
+
+        // Junk food never gets old by default, but this can still be overridden.
+        if( obj.comestible->monotony_penalty == -1 ) {
+            obj.comestible->monotony_penalty = is_not_boring ? 0 : 2;
+        }
+    }
 
     // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
@@ -3223,48 +3255,28 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
                                     jsobj.get_int( "probability" ) );
     }
 
-    bool is_not_boring = false;
     if( jo.has_member( "primary_material" ) ) {
-        std::string mat = jo.get_string( "primary_material" );
-        slot.specific_heat_solid = material_id( mat )->specific_heat_solid();
-        slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
-        slot.latent_heat = material_id( mat )->latent_heat();
-        is_not_boring = is_not_boring || mat == "junk";
+        material_id mat( jo.get_string( "primary_material" ) );
+        // Overwrite the materials (set by copy-from)
+        slot.materials.clear();
+        slot.materials.emplace( mat, 1 );
     } else if( jo.has_member( "material" ) ) {
-        float specific_heat_solid = 0.0f;
-        float specific_heat_liquid = 0.0f;
-        float latent_heat = 0.0f;
-        int mat_total = 0;
-
-        auto add_spi = [&]( const material_id & m, int portion ) {
-            specific_heat_solid += m->specific_heat_solid() * portion;
-            specific_heat_liquid += m->specific_heat_liquid() * portion;
-            latent_heat += m->latent_heat() * portion;
-            mat_total += portion;
-            is_not_boring = is_not_boring || m == material_junk;
-        };
+        // Overwrite the materials (set by copy-from)
+        slot.materials.clear();
 
         if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
             for( JsonObject m : jo.get_array( "material" ) ) {
                 const material_id mat_id( m.get_string( "type" ) );
                 int portion = m.get_int( "portion", 1 );
-                add_spi( mat_id, portion );
+                slot.materials.emplace( mat_id, portion );
             }
         } else {
             for( const std::string &m : jo.get_tags( "material" ) ) {
-                add_spi( material_id( m ), 1 );
+                slot.materials.emplace( m, 1 );
             }
         }
-        // Average based on number of materials.
-        slot.specific_heat_liquid = specific_heat_liquid / mat_total;
-        slot.specific_heat_solid = specific_heat_solid / mat_total;
-        slot.latent_heat = latent_heat / mat_total;
     }
 
-    // Junk food never gets old by default, but this can still be overridden.
-    if( is_not_boring ) {
-        slot.monotony_penalty = 0;
-    }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
     assign( jo, "addiction_potential", slot.default_addict_potential, strict );
     if( jo.has_member( "addiction_type" ) ) {
@@ -3388,6 +3400,9 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
+    optional( jo, was_loaded, "seedling_form", seedling_form, furn_f_plant_seedling );
+    optional( jo, was_loaded, "mature_form", mature_form, furn_f_plant_mature );
+    optional( jo, was_loaded, "harvestable_form", harvestable_form, furn_f_plant_harvest );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
               ter_furn_flag::TFLAG_PLANTABLE );
 }

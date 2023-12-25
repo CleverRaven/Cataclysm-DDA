@@ -289,7 +289,7 @@
           ]
         },
         {
-          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_val('spell_level', 'spell: photokinetic_invisibility')),4)" ] }, "y": 1000 }
+          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_spell_level('photokinetic_invisibility')),4)" ] }, "y": 1000 }
         }
       ]
     },
@@ -309,7 +309,7 @@
         { "u_has_effect": "effect_photokin_invisibility" },
         { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
         {
-          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_val('spell_level', 'spell: photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
+          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_spell_level('photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
         }
       ]
     },
@@ -338,7 +338,7 @@
         { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -348,9 +348,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -362,15 +360,11 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_biokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -385,7 +379,7 @@
         { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -395,9 +389,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -409,21 +401,15 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "blind_clair_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "deaf_clair_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -438,7 +424,7 @@
         { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -448,9 +434,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -462,16 +446,13 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_electrokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 5 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
+        "duration": { "math": [ "u_val('time: 5 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      { "run_eocs": "EOC_ELECTRO_OVERLOAD_ZAP" }
     ]
   },
   {
@@ -485,7 +466,7 @@
         { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -495,9 +476,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -509,21 +488,15 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_photokin_myopia_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_photokin_lumination_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -538,7 +511,7 @@
         { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -548,9 +521,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -562,15 +533,11 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_pyrokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 5 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 5 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -585,7 +552,7 @@
         { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -595,9 +562,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -609,15 +574,11 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_telekin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -632,7 +593,7 @@
         { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -642,9 +603,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -656,21 +615,15 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "nightmares",
-        "duration": {
-          "math": [ "u_val('time: 30 m') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 m') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "disrupted_sleep",
-        "duration": {
-          "math": [ "u_val('time: 30 m') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 m') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -685,7 +638,7 @@
         { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
             { "math": [ "_success", "==", "false" ] },
             { "is_weather": "distant_portal_storm" },
             { "is_weather": "portal_storm" },
@@ -695,9 +648,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -709,15 +660,11 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_portal_storm_teleport",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 1 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -731,17 +678,12 @@
         { "u_has_trait": "VITAKINETIC" },
         { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
         {
-          "or": [
-            { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", ">=", "200" ] },
-            { "math": [ "_success", "==", "false" ] }
-          ]
+          "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] }, { "math": [ "_success", "==", "false" ] } ]
         },
         {
           "x_in_y_chance": {
             "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
             },
             "y": 1000
           }
@@ -753,16 +695,24 @@
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
       {
         "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "effect_vitakin_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "duration": { "math": [ "u_val('time: 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRO_OVERLOAD_ZAP",
+    "condition": { "u_has_effect": "effect_electrokin_overload" },
+    "effect": [
+      { "u_message": "Your muscles suddenly seize up!", "type": "bad" },
+      { "u_add_effect": "downed", "duration": 5 },
+      { "u_add_effect": "motor_seizure", "duration": 4 },
+      { "u_add_effect": "stunned", "duration": 1 },
+      { "queue_eocs": "EOC_ELECTRO_OVERLOAD_ZAP", "time_in_future": [ "1 minutes", "45 minutes" ] }
     ]
   },
   {
@@ -807,7 +757,7 @@
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
     "condition": {
       "math": [
-        "u_val('vitamin', 'name:vitamin_maintained_powers')",
+        "u_vitamin('vitamin_maintained_powers')",
         ">=",
         "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
       ]
@@ -818,16 +768,16 @@
         "type": "bad"
       },
       { "u_add_effect": "effect_psi_intense_concentration", "duration": "PERMANENT" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "+=", "1" ] }
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] }
     ],
-    "false_effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "+=", "1" ] } ]
+    "false_effect": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
     "condition": {
       "math": [
-        "u_val('vitamin', 'name:vitamin_maintained_powers')",
+        "u_vitamin('vitamin_maintained_powers')",
         "==",
         "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()) + 1"
       ]
@@ -835,9 +785,9 @@
     "effect": [
       { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
       { "u_lose_effect": "effect_psi_intense_concentration" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "-=", "1" ] }
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] }
     ],
-    "false_effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_maintained_powers')", "-=", "1" ] } ]
+    "false_effect": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -846,7 +796,7 @@
       "and": [
         {
           "math": [
-            "u_val('vitamin', 'name:vitamin_maintained_powers')",
+            "u_vitamin('vitamin_maintained_powers')",
             ">",
             "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
           ]
@@ -855,7 +805,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "((u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
+                "((u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
               ]
             },
             "y": 100
@@ -865,44 +815,72 @@
     },
     "effect": [
       { "u_message": "Your concentration breaks!", "type": "bad" },
-      { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED", "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS" ] },
       {
         "math": [
-          "u_val('vitamin', 'name:vitamin_psionic_drain')",
+          "u_vitamin('vitamin_psionic_drain')",
           "+=",
-          "rng( 3,8 ) * (u_val('vitamin', 'name:vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
+          "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" } ]
+    "false_effect": [ { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" }, { "run_eocs": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
-    "condition": { "not": { "u_has_proficiency": "prof_concentration_basic" } },
-    "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_basic', 'format: 2400')", "+=", "rand(4)" ] } ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
+    "//": "adds 0% - 0.16% experience per run",
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
-          "condition": { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
-          "effect": [
-            {
-              "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_intermediate', 'format: 4800')", "+=", "rand(4)" ]
-            }
-          ],
+          "condition": {
+            "and": [
+              { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+            ]
+          },
+          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
-                "condition": { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                "effect": [ { "math": [ "u_val('proficiency', 'proficiency_id: prof_concentration_master', 'format: 9600')", "+=", "rand(4)" ] } ]
+                "condition": {
+                  "and": [
+                    { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+                  ]
+                },
+                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
               }
             ]
           }
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -938,11 +916,7 @@
           ]
         },
         {
-          "math": [
-            "u_val('vitamin', 'name:vitamin_maintained_powers')",
-            ">=",
-            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)"
-          ]
+          "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)" ]
         }
       ]
     },

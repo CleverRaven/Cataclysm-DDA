@@ -18,7 +18,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
+    "types": [ "BIOLUM", "HORNS", "HAIR", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
     "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
@@ -283,7 +283,17 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "DISIMMUNE", "DISRESISTANT", "INFIMMUNE", "INFRESIST", "NONADDICTIVE", "PARAIMMUNE", "POISRESIST", "STIMBOOST" ],
+    "cancels": [
+      "DISIMMUNE",
+      "DISRESISTANT",
+      "INFIMMUNE",
+      "INFRESIST",
+      "NONADDICTIVE",
+      "PARAIMMUNE",
+      "POISRESIST",
+      "STIMBOOST",
+      "SEASONAL_ALLERGIES"
+    ],
     "description": "Your immune system is more or less normal for a human."
   },
   {
@@ -696,6 +706,8 @@
     "category": [ "INSECT" ],
     "threshreq": [ "THRESH_INSECT" ],
     "active": true,
+    "kcal": true,
+    "cost": 400,
     "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
@@ -743,6 +755,16 @@
     "ugliness": 8,
     "visibility": 8,
     "social_modifiers": { "intimidate": 4 }
+  },
+  {
+    "type": "mutation",
+    "id": "SEASONAL_AFFECTIVE",
+    "name": { "str": "Seasonal Affective Disorder" },
+    "points": -1,
+    "description": "You tend to have bouts of depression during the fall and especially winter.  Taking antidepressants can help.",
+    "starting_trait": true,
+    "types": [ "ATTITUDE" ],
+    "category": [ "PLANT", "ELFA", "MEDICAL" ]
   },
   {
     "type": "mutation",
@@ -1422,7 +1444,7 @@
     "cancels": [ "UNOBSERVANT" ],
     "valid": false,
     "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+    "transform": { "target": "EAGLEEYED", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -2429,7 +2451,7 @@
     "points": 1,
     "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
     "types": [ "EYES" ],
-    "prereqs": [ "LIGHTFUR" ],
+    "prereqs": [ "LUPINE_FUR", "LUPINE_FUR_SUMMER" ],
     "category": [ "LUPINE" ],
     "mixed_effect": true,
     "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
@@ -3017,10 +3039,10 @@
     "ugliness": 2,
     "bodytemp_sleep": 75,
     "description": "Light fur has grown to cover your entire body, providing marginal protection against attacks and slight protection from cold.",
-    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ],
+    "category": [ "MOUSE", "BEAST", "RAT", "LUPINE", "URSINE", "FELINE", "RABBIT", "CATTLE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "HIRSUTE" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR" ],
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR", "LUPINE_FUR_SUMMER" ],
     "integrated_armor": [ "integrated_lightfur" ]
   },
   {
@@ -3033,7 +3055,7 @@
     "bodytemp_sleep": 200,
     "description": "Thick black fur has grown to cover your entire body, providing minor protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
-    "changes_to": [ "URSINE_FUR" ],
+    "changes_to": [ "URSINE_FUR", "URSINE_FUR_SUMMER" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "CATTLE", "RAT", "URSINE" ],
     "integrated_armor": [ "integrated_fur" ]
@@ -3050,7 +3072,21 @@
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
     "category": [ "URSINE" ],
+    "prevented_by": [ "URSINE_FUR_SUMMER" ],
     "integrated_armor": [ "integrated_ursine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "URSINE_FUR_SUMMER",
+    "name": { "str": "Scruffy Fur" },
+    "points": 4,
+    "visibility": 10,
+    "ugliness": 4,
+    "bodytemp_sleep": 225,
+    "description": "You've lost your fluffy undercoat for the summer.  This feels a lot better in the heat, but it's less protective and looks a little bedraggled.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "FUR" ],
+    "integrated_armor": [ "integrated_ursine_fur_summer" ]
   },
   {
     "type": "mutation",
@@ -3064,7 +3100,21 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "LUPINE" ],
+    "prevented_by": [ "LUPINE_FUR_SUMMER" ],
     "integrated_armor": [ "integrated_lupine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LUPINE_FUR_SUMMER",
+    "name": { "str": "Summer Coat" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,
+    "bodytemp_sleep": 175,
+    "description": "Your entire body is covered in dense fur, but it's thinned out a bit for the summer, which may provide some relief from the heat at the cost of physical protection.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "LIGHTFUR" ],
+    "integrated_armor": [ "integrated_lupine_fur_summer" ]
   },
   {
     "type": "mutation",
@@ -3174,7 +3224,7 @@
     ],
     "category": [ "CHIMERA" ],
     "threshreq": [ "THRESH_CHIMERA" ],
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "prereqs": [ "PATCHSKIN2" ],
     "integrated_armor": [ "integrated_patchskin3" ]
   },
@@ -3616,9 +3666,22 @@
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "types": [ "HAIR" ],
     "prereqs": [ "PLANTSKIN", "BARK" ],
-    "changes_to": [ "LEAVES2" ],
+    "changes_to": [ "LEAVES2", "LEAVES2_FALL", "LEAVES2_WINTER", "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
     "category": [ "PLANT", "ELFA" ],
+    "prevented_by": [ "LEAVES_WINTER" ],
     "wet_protection": [ { "part": "head", "ignored": 1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES_WINTER",
+    "name": { "str": "Dead Leaves" },
+    "points": 3,
+    "visibility": 5,
+    "ugliness": 2,
+    "description": "In place of hair, you have long, grassy leaves which have gone dormant for the winter, turning dry and yellow like straw.  They help keep you warm, but that's about it.",
+    "types": [ "HAIR" ],
+    "leads_to": [ "LEAVES2", "LEAVES2_FALL", "LEAVES2_WINTER", "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
+    "bodytemp_modifiers": [ 25, 125 ]
   },
   {
     "type": "mutation",
@@ -3629,13 +3692,43 @@
     "ugliness": 5,
     "description": "Your leaves have grown in size and prominence, with additional leaves sprouting along your arms.  While your arms and head are uncovered, you will photosynthesize nutrients while in sunlight.  Reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES" ],
+    "prereqs": [ "LEAVES", "LEAVES_WINTER" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
-    "changes_to": [ "LEAVES3" ],
+    "cancels": [ "LEAVES_WINTER" ],
+    "changes_to": [ "LEAVES3", "LEAVES3_FALL", "LEAVES3_WINTER" ],
     "category": [ "PLANT" ],
+    "flags": [ "GLARE_RESIST" ],
+    "prevented_by": [ "LEAVES2_WINTER", "LEAVES2_FALL" ],
     "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
     "encumbrance_covered": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES2_FALL",
+    "name": { "str": "Turning Leaves" },
+    "points": 6,
+    "visibility": 10,
+    "ugliness": -1,
+    "description": "The leaves growing from your head and arms have taken on fall colors.  While pretty, they can't photosynthesize as well as the green ones.  Reduces wet effects.",
+    "types": [ "HAIR" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "leads_to": [ "LEAVES3" ],
+    "flags": [ "GLARE_RESIST" ],
+    "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
+    "encumbrance_covered": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES2_WINTER",
+    "name": { "str": "Dead Lush Leaves" },
+    "points": 6,
+    "player_display": false,
+    "description": "You have no leaves because it's wintertime.  This keeps you warm by reducing heat loss, but you don't know that because you shouldn't be able to see this.",
+    "types": [ "HAIR" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "leads_to": [ "LEAVES3" ],
+    "bodytemp_modifiers": [ 50, 150 ]
   },
   {
     "type": "mutation",
@@ -3646,12 +3739,40 @@
     "ugliness": 6,
     "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrients for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrients by standing in the sunlight.  Reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "LEAVES2" ],
+    "prereqs": [ "LEAVES2", "LEAVES2_FALL", "LEAVES2_WINTER" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "cancels": [ "LEAVES2_FALL", "LEAVES2_WINTER" ],
+    "prevented_by": [ "LEAVES3_FALL", "LEAVES3_WINTER" ],
+    "flags": [ "GLARE_RESIST" ],
     "category": [ "PLANT" ],
     "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
     "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES3_FALL",
+    "name": { "str": "Autumn Foliage" },
+    "points": 9,
+    "visibility": 12,
+    "ugliness": -4,
+    "description": "Your head and upper limbs are covered in beautiful autumn leaves.  If they're uncovered you'll still be able to photosynthesize, but not as well as in the warmer months.  Reduces wet effects.",
+    "types": [ "HAIR" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "flags": [ "GLARE_RESIST" ],
+    "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
+    "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAVES3_WINTER",
+    "name": { "str": "Dead Verdant Leaves" },
+    "points": 9,
+    "player_display": false,
+    "description": "It's winter, so all your leaves are gone.  This keeps you warm by reducing heat loss, but you don't know that because you shouldn't be able to see this.",
+    "types": [ "HAIR" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "bodytemp_modifiers": [ 100, 300 ]
   },
   {
     "type": "mutation",
@@ -3674,14 +3795,33 @@
     "visibility": 10,
     "ugliness": -4,
     "description": "You've started blooming where your scalp used to be.  Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN" ],
     "prereqs2": [ "HAIRROOTS" ],
     "types": [ "SCENT" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "changes_to": [ "ROSEBUDS" ],
     "scent_mask": -200,
-    "social_modifiers": { "lie": 10 }
+    "social_modifiers": { "lie": 10 },
+    "prevented_by": [
+      "FLOWERS_WINTER",
+      "ROSEBUDS_SUMMER",
+      "ROSEBUDS_FALL",
+      "ROSEBUDS_WINTER",
+      "ROSEBUDS_FALL_active",
+      "ROSEBUDS_FALL_PICKED"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FLOWERS_WINTER",
+    "name": { "str": "Dead Flowers" },
+    "points": 2,
+    "description": "No flowers in wintertime.  As such this mutation is not supposed to be visible to the player.",
+    "types": [ "SCENT" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "leads_to": [ "ROSEBUDS" ],
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -3690,13 +3830,87 @@
     "points": 3,
     "visibility": 10,
     "ugliness": -6,
-    "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a strong fragrance that makes you pleasant to be around.",
+    "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a mild fragrance that makes you pleasant to be around.",
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS", "FLOWERS_WINTER" ],
+    "cancels": [ "SMELLY", "SMELLY2", "FLOWERS_WINTER" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "social_modifiers": { "lie": 10, "persuade": 8 },
+    "prevented_by": [ "ROSEBUDS_SUMMER", "ROSEBUDS_FALL", "ROSEBUDS_FALL_PICKED", "ROSEBUDS_WINTER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_SUMMER",
+    "name": { "str": "Blooming Roses" },
+    "points": 3,
+    "visibility": 12,
+    "ugliness": -8,
+    "description": "Your head is crowned with radiant flowers that spread their petals wide.  The dizzying fragrance attracts people and pollinators alike.",
+    "types": [ "SCENT" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "social_modifiers": { "lie": 15, "persuade": 12 }
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_FALL",
+    "name": { "str": "Fruiting" },
+    "points": 3,
+    "visibility": 12,
+    "ugliness": 2,
+    "active": true,
+    "transform": {
+      "target": "ROSEBUDS_FALL_active",
+      "msg_transform": "Most of the fruits are beyond consideration, but you pick what you can and discard the rest.",
+      "active": false,
+      "moves": 150
+    },
+    "description": "A few odd-looking fruits ripen on stems growing out of your head.  They'll probably die off come winter, but you could activate this mutation to pick them before then, if you wanted.",
+    "encumbrance_always": [ [ "head", 10 ] ],
+    "restricts_gear": [ "head_crown" ],
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
+    "//": "Sorry elves, only true plants can reproduce this way.",
+    "threshreq": [ "THRESH_PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_FALL_active",
+    "name": { "str": "Fruiting (picked)" },
+    "points": 3,
+    "active": true,
+    "description": "You shouldn't be able to see this, it's just used to proc the EOC.",
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
+    "valid": false,
+    "cancels": [ "SMELLY", "SMELLY2", "ROSEBUDS_FALL" ],
+    "threshreq": [ "THRESH_PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_FALL_PICKED",
+    "name": { "str": "Fruiting (picked)" },
+    "points": 3,
+    "description": "You've picked all your fruit and no longer have any, as such this mutation is not supposed to be visible.",
+    "types": [ "SCENT" ],
+    "prereqs": [ "FLOWERS" ],
+    "cancels": [ "SMELLY", "SMELLY2", "ROSEBUDS_FALL_active" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS_WINTER",
+    "name": { "str": "Dead Roses" },
+    "points": 3,
+    "description": "No flowers in wintertime.  As such this mutation is not supposed to be visible to the player.",
     "types": [ "SCENT" ],
     "prereqs": [ "FLOWERS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
-    "category": [ "PLANT", "ELFA" ],
-    "social_modifiers": { "lie": 15, "persuade": 10 }
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -3889,21 +4103,13 @@
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
-    "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [
-      {
-        "hit_me_effect": [
-          {
-            "id": "generic_blinding_spray_1",
-            "hit_self": false,
-            "once_in": 15,
-            "message": "Your ink glands spray some ink into %2$s's eyes!",
-            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes!"
-          }
-        ]
-      }
-    ],
-    "category": [ "CEPHALOPOD" ]
+    "description": "Several ink glands have developed in your gill structure.  When active, they will spray defensive ink and blind an attacker in an emergency.",
+    "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "ink_gland_spray_primer", "once_in": 2, "hit_self": true } ] } ],
+    "prereqs": [ "GILLS_CEPH" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "category": [ "CEPHALOPOD" ],
+    "active": true,
+    "starts_active": true
   },
   {
     "type": "mutation",
@@ -3913,7 +4119,11 @@
     "visibility": 1,
     "ugliness": 2,
     "description": "You exude slime from your pores.  You can spread that slime on an opponent in melee range.",
-    "spells_learned": [ [ "spell_slime_spray", 1 ] ],
+    "active": true,
+    "kcal": true,
+    "cost": 700,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_SLIME_SPRAY" ],
     "prereqs": [ "VISCOUS", "AMORPHOUS" ],
     "category": [ "GASTROPOD" ]
   },
@@ -4103,6 +4313,15 @@
     "prereqs2": [ "INFRESIST" ],
     "category": [ "MEDICAL" ],
     "flags": [ "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SEASONAL_ALLERGIES",
+    "name": { "str": "Seasonal Allergies" },
+    "points": -1,
+    "starting_trait": true,
+    "description": "You tend to get hay fever, especially in springtime.  Antihistamines are your friend.",
+    "category": [ "CHIMERA", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -4380,7 +4599,11 @@
     "points": 1,
     "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
-    "spells_learned": [ [ "spell_feline_leap", 1 ] ],
+    "active": true,
+    "kcal": true,
+    "cost": 400,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
     "prereqs": [ "TAIL_LONG" ],
     "prereqs2": [ "STRONG_LEGS" ],
@@ -4395,7 +4618,9 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You've gained a strong ability to leap from a standing position.",
-    "spells_learned": [ [ "spell_short_leap", 1 ] ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_SHORT_LEAP" ],
     "prereqs": [ "STRONG_LEGS" ],
     "changes_to": [ "LEAPING_LEGS2" ],
     "category": [ "BATRACHIAN", "RABBIT" ],
@@ -4409,7 +4634,9 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You've gained a strong ability to leap a significant distance from a standing position and crush whatever you land on.",
-    "spells_learned": [ [ "spell_crushing_leap", 1 ] ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_CRUSHING_LEAP" ],
     "prereqs": [ "LEAPING_LEGS" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ]
@@ -4444,7 +4671,9 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your legs and feet have become bird-like.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
-    "spells_learned": [ [ "spell_avian_leap", 1 ] ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_AVIAN_LEAP" ],
     "types": [ "LEGS", "FEET" ],
     "prereqs": [ "WINGS_BIRD" ],
     "threshreq": [ "THRESH_BIRD" ],
@@ -5547,11 +5776,11 @@
   {
     "type": "mutation",
     "id": "CANINE_EARS",
-    "name": { "str": "Canine Ears" },
+    "name": { "str": "Animal Ears" },
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
-    "description": "Your ears have extended into long, pointed ones, like those of a canine.  They enhance your hearing, allowing you to hear at greater distances.",
+    "description": "You have large ears with broad pinnae, like a dog or a cow.  They enhance your hearing, allowing you to hear at greater distances.",
     "types": [ "EARS" ],
     "category": [ "BEAST", "CATTLE", "CHIMERA", "LUPINE" ],
     "changes_to": [ "LUPINE_EARS" ],
@@ -5566,6 +5795,7 @@
     "ugliness": 1,
     "description": "Your hearing has evolved further and is now on par with that of wolves.  You can hear things significantly farther away.",
     "types": [ "EARS" ],
+    "prereqs": [ "CANINE_EARS" ],
     "category": [ "LUPINE" ],
     "hearing_modifier": 1.75
   },
@@ -7028,6 +7258,7 @@
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
+    "cancels": [ "SEASONAL_AFFECTIVE" ],
     "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
   },
   {
@@ -7546,7 +7777,17 @@
     "visibility": 4,
     "ugliness": 2,
     "description": "Roots have started growing from your leaf-like hair.  They don't seem to do much.",
-    "prereqs": [ "LEAVES" ],
+    "prereqs": [
+      "LEAVES",
+      "LEAVES2",
+      "LEAVES3",
+      "LEAVES_WINTER",
+      "LEAVES2_FALL",
+      "LEAVES2_WINTER",
+      "LEAVES3",
+      "LEAVES3_FALL",
+      "LEAVES3_WINTER"
+    ],
     "category": [ "PLANT", "ELFA" ]
   },
   {
@@ -7609,7 +7850,7 @@
     "points": 10,
     "visibility": 7,
     "ugliness": 1,
-    "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.  Activate this mutation to force yourself to sleep until nightfall.",
+    "description": "You've truly become a walking plant, though you mostly feel like sleeping in the sunshine.  When you do, your roots and bark will take in more nutrients than ever.",
     "purifiable": false,
     "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS3" ],

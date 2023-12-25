@@ -6,7 +6,7 @@
     "description": "A testing fabrication book that brings your fabrication skill up to 20.",
     "weight": "5000 g",
     "volume": "1000 ml",
-    "material": [ "paper" ],
+    "material": [ "test_material" ],
     "symbol": "?",
     "color": "blue",
     "skill": "fabrication",

@@ -129,6 +129,13 @@ void kill_advanced_inv()
     cancel_aim_processing();
 }
 
+void temp_hide_advanced_inv()
+{
+    if( advinv ) {
+        advinv->temp_hide();
+    }
+}
+
 // *INDENT-OFF*
 advanced_inventory::advanced_inventory()
     : recalc( true )
@@ -707,7 +714,7 @@ void advanced_inventory::recalc_pane( side p )
     advanced_inv_area &other = squares[there.get_area()];
     avatar &player_character = get_avatar();
     if( pane.container &&
-        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_NORTHEAST ) {
+        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_ALL ) {
 
         const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
 
@@ -717,7 +724,7 @@ void advanced_inventory::recalc_pane( side p )
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;
-        } else {
+        } else if( pane.container_base_loc <= AIM_NORTHEAST ) {
             pane.container_base_loc = static_cast<aim_location>( ( offset.y() + 1 ) * 3 - offset.x() + 2 );
         }
     }
@@ -1697,7 +1704,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         ret = g->inventory_item_menu( loc, info_startx, info_width,
                                       src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
         always_recalc = false;
-        if( !player_character.has_activity( ACT_ADV_INVENTORY ) ) {
+        if( !player_character.has_activity( ACT_ADV_INVENTORY ) || !ui ) {
             exit = true;
         } else {
             player_character.cancel_activity();
@@ -2303,6 +2310,13 @@ void advanced_inventory::do_return_entry()
     player_character.assign_activity( ACT_ADV_INVENTORY );
     player_character.activity.auto_resume = true;
     save_state->exit_code = aim_exit::re_entry;
+}
+
+void advanced_inventory::temp_hide()
+{
+    ui.reset();
+    do_return_entry();
+    cancel_aim_processing();
 }
 
 bool advanced_inventory::is_processing() const
