@@ -826,10 +826,12 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     personality.collector += the_class.roll_collector();
     personality.altruism += the_class.roll_altruism();
 
-    std::clamp( personality.aggression, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    std::clamp( personality.collector, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
+                                         NPC_PERSONALITY_MAX );
+    personality.bravery = std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.collector = std::clamp( personality.collector, NPC_PERSONALITY_MIN,
+                                        NPC_PERSONALITY_MAX );
+    personality.altruism = std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
