@@ -6396,7 +6396,7 @@
     "visibility": 4,
     "mixed_effect": true,
     "starting_trait": true,
-    "description": "You are significantly shorter than the general population.  You can't carry quite as much as a tall person and you need special accomodations to drive a car, but otherwise being little isn't too much of a bother.",
+    "description": "You are significantly shorter than the general population.  You can't carry quite as much as a person of average height and you need special accommodations to drive a car, but otherwise being little isn't too much of a bother.",
     "types": [ "SIZE" ],
     "changes_to": [ "SMALL" ],
     "category": [ "MOUSE", "RABBIT" ],
