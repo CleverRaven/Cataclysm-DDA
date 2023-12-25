@@ -200,6 +200,7 @@
     "broken_color": "light_gray",
     "size": "359614 ml",
     "item": "trashcan_large",
+    "delete": { "flags": [ "CARGO_PASSABLE" ] },
     "variants_bases": [ { "id": "trash can", "label": "Trash Can" } ],
     "variants": [ { "symbols": ")", "symbols_broken": "#" } ]
   },
