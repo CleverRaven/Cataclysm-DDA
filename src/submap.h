@@ -58,8 +58,8 @@ struct maptile_soa {
     // This returns a shared uniform maptile constructed with the given ter_id.
     static const maptile_soa *make_uniform( const ter_id &id );
 
-    explicit maptile_soa( const ter_id &id ) : ter( id ), frn( f_null ), lum( 0 ), itm(), fld(),
-        trp( tr_null ), rad( 0 ) {}
+    explicit maptile_soa( const ter_id &id ) : ter( id ), frn( f_null ), lum( 0 ), trp( tr_null ),
+        rad( 0 ) {}
 
     cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
     cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
