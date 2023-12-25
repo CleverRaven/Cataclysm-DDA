@@ -119,7 +119,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03",
     "effect": [
-      {
+      {F
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "vita_bandages_03" } ],
         "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03_ACTIVATE", "effect": { "u_activate": "heal" } } ]
@@ -176,7 +176,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP_DEPRIVATION",
-    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "5" ] },
+    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
     "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
   },
   {
