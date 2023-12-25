@@ -6389,7 +6389,7 @@
   },
   {
     "type": "mutation",
-    "id": "SHORT",
+    "id": "VERY_SHORT",
     "flags": [ "SMALL" ],
     "name": { "str": "Very Short" },
     "points": 0,
@@ -6406,7 +6406,7 @@
   },
   {
     "type": "mutation",
-    "id": "TALL",
+    "id": "VERY_TALL",
     "flags": [ "LARGE" ],
     "name": { "str": "Very Tall" },
     "points": 0,
