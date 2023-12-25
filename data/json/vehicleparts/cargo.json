@@ -16,7 +16,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "CARGO_PASSABLE"  ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "CARGO_PASSABLE" ],
     "breaks_into": "ig_vp_cloth",
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
