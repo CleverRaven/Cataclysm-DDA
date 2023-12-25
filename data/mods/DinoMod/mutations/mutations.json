@@ -439,7 +439,13 @@
     "id": "SAPIOVORE",
     "copy-from": "SAPIOVORE",
     "extend": { "category": [ "TYRANT" ], "threshreq": [ "THRESH_TYRANT" ] }
-  },
+  }
+  {
+    "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },,
   {
     "type": "mutation",
     "id": "LARGE",
