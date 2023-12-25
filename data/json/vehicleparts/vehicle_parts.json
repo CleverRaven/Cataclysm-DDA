@@ -312,7 +312,7 @@
     "size": "100 L",
     "item": "sheet_metal",
     "location": "center",
-    "//": "1m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
+    "//": ".5m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
