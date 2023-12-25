@@ -1430,6 +1430,7 @@
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
+      [ "hand_controls", 1 ],
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ]
     ]

@@ -151,7 +151,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "vehicle_hand_controls",
+    "id": "hand_controls",
     "name": { "str": "hand controls" },
     "description": "An accessibility tool for the paraplegic or very short, this is a simple pair of metal tubes that clamp to a vehicle's gas and brake pedals, allowing them to be operated by hand with the help of a trigger.",
     "weight": "1200 g",

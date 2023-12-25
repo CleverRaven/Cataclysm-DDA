@@ -1315,7 +1315,7 @@
     "description": "A pair of adjustable rods with a simple trigger.  They easily can be easily installed on top of vehicle controls and will allow a car or similar vehicle to be driven by those who can't use their legs to do so, whether due to disability or small stature.  These are designed for automobiles and will not work on bicycle style foot pedals.",
     "bonus": 10,
     "folded_volume": "740 ml",
-    "item": "vehicle_hand_controls",
+    "item": "hand_controls",
     "flags": [ "IGNORE_LEG_REQUIREMENT", "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 0, 2 ] },
