@@ -607,7 +607,7 @@
     "id": "biokin_hurricane_blows",
     "type": "SPELL",
     "name": "[Ψ]Hurricane Blows",
-    "description": "You can now strike so quickly that you don't even seem to move at all.  Before an opponent can even finish blinking, you can strike them multiple times, executing your final blow before they feel the pain of the first.\n\nHurricane Blows <color_red>cannot be active</color> with Perfected Motion.",
+    "description": "You can now strike so quickly that you don't even seem to move at all.  Before an opponent can even finish blinking, you can strike them multiple times, executing your final blow before they feel the pain of the first.  Moving while using Hurricane Blows will disrupt your concentration, ending the effect.\n\nHurricane Blows <color_red>cannot be active</color> with Perfected Motion.",
     "message": "The world around you slows down to a stop.",
     "teachable": false,
     "valid_targets": [ "self" ],
