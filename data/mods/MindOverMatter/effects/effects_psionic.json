@@ -512,14 +512,6 @@
             }
           },
           {
-            "value": "MOVE_COST",
-            "add": {
-              "math": [
-                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
-              ]
-            }
-          },
-          {
             "value": "MELEE_DAMAGE",
             "multiply": {
               "math": [
