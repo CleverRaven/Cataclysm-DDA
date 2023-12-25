@@ -361,7 +361,7 @@
   {
     "id": "real_long_swords",
     "type": "requirement",
-    "//": "Any real, edged long swords you could practice with, like katanas, scimitars, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
+    "//": "Any real, edged long swords you could practice with, like katanas, longswords, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
     "tools": [
       [
         [ "katana", -1 ],
