@@ -613,12 +613,12 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_hurricane_blows",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
+    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true }, { "id": "biokin_hurricane_blows_2", "hit_self": true } ],
     "shape": "blast",
     "min_duration": 100,
     "max_duration": 100,
@@ -629,5 +629,20 @@
     "base_casting_time": 65,
     "final_casting_time": 15,
     "casting_time_increment": -3
+  },
+  {
+    "id": "biokin_hurricane_blows_2",
+    "type": "SPELL",
+    "name": "[Ψ]Hurricane Blows 2",
+    "description": "Makes sure the extra effects of Hurricane Blows last through the power's duration.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_hurricane_blows_2",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 200
   }
 ]

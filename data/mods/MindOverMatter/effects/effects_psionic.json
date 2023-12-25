@@ -502,7 +502,6 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "multiply": -0.6 },
           {
             "value": "SPEED",
             "add": {
@@ -510,7 +509,24 @@
                 "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
               ]
             }
-          },
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_hurricane_blows_2",
+    "//": "applies the addition effects from Hurricane Blows for two rounds to make sure they work properly.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "2 seconds",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": -0.25 },
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
@@ -519,7 +535,7 @@
               ]
             }
           },
-          { "value": "RANGE", "multiply": -1.0 }
+          { "value": "RANGE", "multiply": -1.99 }
         ]
       }
     ]

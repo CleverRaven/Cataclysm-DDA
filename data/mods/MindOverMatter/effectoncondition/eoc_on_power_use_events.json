@@ -277,8 +277,8 @@
     "id": "EOC_BIOKIN_HURRICANE_BLOWS_MOVE_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "u_has_effect": "effect_biokin_hurricane_blows" },
-    "effect": { "u_lose_effect": "effect_biokin_hurricane_blows" }
+    "condition": { "or": [ { "u_has_effect": "effect_biokin_hurricane_blows" }, { "u_has_effect": "effect_biokin_hurricane_blows_2" } ] },
+    "effect": [ { "u_lose_effect": "effect_biokin_hurricane_blows" }, { "u_lose_effect": "effect_biokin_hurricane_blows_2" } ]
   },
   {
     "type": "effect_on_condition",
