@@ -505,12 +505,39 @@
     "max_damage": 1,
     "duration_increment": 1,
     "effect": "effect_on_condition",
-    "effect_str": "EOC_return_OM_teleport",
+    "effect_str": "EOC_return_OM_teleport_check",
     "shape": "blast",
     "energy_source": "NONE",
     "base_energy_cost": 0,
     "final_energy_cost": 0,
     "base_casting_time": 6000,
     "final_casting_time": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport_check",
+    "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
+    "condition": {
+      "u_query": "This will warp you home directly, bypassing the mission structure and need to find an exit point.  It is designed to be used to solve bugs.  Do you want to warp home directly?",
+      "default": false
+    },
+    "effect": [ { "u_cast_spell": { "id": "warp_home_real" } } ]
+  },
+  {
+    "id": "warp_home_real",
+    "type": "SPELL",
+    "name": "Warp Home Real",
+    "//": "A simple no-failure spell that can be cast with hands full and triggers the EOC to return home.  Flagged as verbal so you make noise while casting, increasing the need to find a safe spot to warp from.  This only exists in case of bugs.",
+    "description": "The actual warp home spell.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS", "VERBAL" ],
+    "difficulty": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "duration_increment": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_return_OM_teleport",
+    "shape": "blast"
   }
 ]
