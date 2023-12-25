@@ -115,7 +115,14 @@
     "difficulty": 2,
     "time": "10 m",
     "batch_time_factors": [ 90, 4 ],
-    "book_learn": [ [ "alloy_book", 4 ] ],
+    "book_learn": [
+      [ "bronze_book", 2 ],
+      [ "bronze_mag", 3 ],
+      [ "alloy_book", 3 ],
+      [ "textbook_armwest", 3 ],
+      [ "textbook_weapwest", 4 ],
+      [ "textbook_armschina", 4 ]
+    ],
     "using": [ [ "forging_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],

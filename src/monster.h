@@ -118,6 +118,7 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void digest_food();
+        void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -210,6 +211,8 @@ class monster : public Creature
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;
+
+        bool monster_move_in_vehicle( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?

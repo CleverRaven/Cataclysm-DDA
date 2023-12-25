@@ -151,6 +151,17 @@
     "volume": "800 L"
   },
   {
+    "id": "stowed_glass_fridge",
+    "type": "GENERIC",
+    "name": "tied-down glass door fridge",
+    "symbol": "F",
+    "looks_like": "glass_fridge",
+    "material": [ "steel", "glass" ],
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "weight": "75 kg",
+    "volume": "800 L"
+  },
+  {
     "id": "stowed_freezer",
     "type": "GENERIC",
     "name": "tied-down freezer",

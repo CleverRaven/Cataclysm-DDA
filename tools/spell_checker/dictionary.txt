@@ -17,6 +17,7 @@ acidball
 acrocanthosaurus
 acrostic
 acrylamide
+actinic
 activatable
 actuated
 adaptors
@@ -29,6 +30,7 @@ aerofoil
 aeterna
 aetheric
 aetherically
+affixes
 affordability
 affordably
 afterbirth
@@ -105,6 +107,8 @@ androgynes
 androgyny
 anechoic
 angelfish
+angelologist
+angelologists
 anglerfish
 anglicized
 anhaltende
@@ -228,6 +232,8 @@ backrest
 backstep
 backstepping
 backsteps
+backswing
+backswings
 backtracing
 bagh
 bakelite
@@ -424,6 +430,7 @@ butadiene
 butternut
 butternuts
 buttstock
+buttstroke
 buzzcut
 buzzz
 bzzt
@@ -475,6 +482,8 @@ cattail
 cattails
 causer
 caustically
+cavewoman
+cavewomen
 cavitation
 cbm
 cdc
@@ -505,6 +514,8 @@ chasmosaurus
 chaturanga
 chausses
 cheapshot
+checkerboard
+checkerboards
 cheescutter
 chelator
 chested
@@ -569,7 +580,6 @@ coalesces
 coati
 coatings
 coatis
-cockatrice
 cods
 coeculus
 coelophysis
@@ -644,6 +654,8 @@ craftwork
 crappie
 creasing
 creeply
+crenellation
+crenellations
 creped
 criniere
 cripplingly
@@ -742,6 +754,8 @@ demihuman
 demining
 demisexuality
 demoed
+demonologist
+demonologists
 denarius
 denatonium
 dentata
@@ -872,6 +886,7 @@ duplicator
 duplicators
 dustbunny
 dynamically
+dynamos
 dyoplosaurus
 dysfunctions
 dysmorphia
@@ -906,11 +921,15 @@ einiosaurus
 elderberries
 electrochemistry
 electrohack
+electrokinesis
+electrokinetic
 electrolaser
 electrolyzer
 electromancy
 electrophoresis
 electroreceptors
+elementalist
+elementalists
 eles
 elete
 elongates
@@ -986,6 +1005,7 @@ existentialists
 exobay
 exodii
 exoplanet
+exoplanetary
 exosuit
 exosuits
 expansionary
@@ -1275,6 +1295,7 @@ grnd
 grodd
 grommets
 groundcover
+groundhogs
 groundnut
 groundsheet
 gryposaurus
@@ -1354,6 +1375,8 @@ hemostatic
 hemostatics
 henge
 herbivorous
+herbologist
+herbologists
 hesperosaurus
 heterochromia
 hevel
@@ -1733,6 +1756,8 @@ ltd
 lucerne
 luddites
 lulo
+lumberjill
+lumberjills
 lumbermill
 lungfish
 lutefisk
@@ -1761,6 +1786,7 @@ manageably
 manball
 manca
 mancae
+mancala
 manfriendwich
 manhack
 manhacks
@@ -1798,6 +1824,8 @@ mealworms
 meanin
 meathook
 medibot
+megachette
+megachettes
 megacorporations
 megafauna
 megalith
@@ -1915,6 +1943,7 @@ mote
 motes
 motorpool
 motorsports
+moulinet
 mountable
 mountings
 mouthgear
@@ -2053,6 +2082,8 @@ nothronychus
 npc
 npcs
 nrmmy
+nuckalavee
+nuckalavees
 nuda
 nudicaulis
 numbingly
@@ -2166,6 +2197,7 @@ paratrooping
 parboiling
 paroxysms
 parries
+parrying
 parst
 parthenogenetic
 partyin
@@ -2328,6 +2360,8 @@ preminiscent
 premix
 preoptic
 prepper
+prequel
+prequels
 presaging
 prescriptures
 prev
@@ -2338,6 +2372,7 @@ prigs
 primeside
 privet
 prizefights
+proc
 procedurally
 procompsignathids
 proficiencies
@@ -2529,6 +2564,7 @@ revulses
 rhabdomyolysis
 rhizomes
 rhodonite
+rhombus
 rhytidome
 rhytidomes
 ribbonlike
@@ -2571,7 +2607,6 @@ rrrip
 rrrrip
 rubra
 rugerlcp
-ruggedized
 ruleset
 ruminant
 ruminants
@@ -2681,6 +2716,7 @@ shedded
 shenandoah
 shipside
 shitstorms
+shivs
 shlip
 shlop
 shoddily
@@ -2782,12 +2818,16 @@ spadelike
 spak
 spall
 spalling
+sparker
+sparkers
 spasmically
 spasming
 spearcat
 spearfisher
 spearfishers
+spearguns
 spearhand
+spearman
 spearmen
 speciesism
 spectrographs
@@ -2827,6 +2867,7 @@ spongey
 sporeling
 spork
 sporter
+spraining
 sprayable
 spraypainted
 spraypainting
@@ -2970,6 +3011,8 @@ tambaqui
 tamina
 tamped
 tanbark
+tangram
+tangrams
 tankbot
 tannin
 tarket
@@ -3144,10 +3187,12 @@ uncleaned
 uncluttered
 uncoiling
 uncoils
+uncontacted
 uncured
 undecipherable
 underbarrel
 underbody
+undercoat
 undercovering
 underfongen
 undergrown
@@ -3372,6 +3417,8 @@ winglike
 wireframe
 wirey
 wirings
+witchdoctor
+witchdoctors
 wist
 wizardy
 wk
@@ -3385,6 +3432,7 @@ woodsmanship
 woom
 woosh
 workarounds
+workbenches
 workcycle
 workshifts
 worldgen
@@ -3432,6 +3480,8 @@ z
 zahir
 zaibatsu
 zandcrawler
+zangbeto
+zangbetos
 zapback
 zaptor
 zbrojovka

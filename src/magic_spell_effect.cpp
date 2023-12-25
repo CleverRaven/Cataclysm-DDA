@@ -495,12 +495,16 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     Character *const guy = creatures.creature_at<Character>( target );
     efftype_id spell_effect( sp.effect_data() );
     bool bodypart_effected = false;
-
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
-                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
-                bodypart_effected = true;
+                if( sp.has_flag( spell_flag::LIQUID ) ) {
+                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
+                    bodypart_effected = true;
+                } else {
+                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                    bodypart_effected = true;
+                }
             }
         }
     }
@@ -1271,6 +1275,23 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
     }
 }
 
+void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
+                                     const tripoint &target )
+{
+    ::map &here = get_map();
+    optional_vpart_position v_part_pos = here.veh_at( target );
+    if( !v_part_pos ) {
+        caster.add_msg_if_player( m_bad, _( "There's no battery there." ) );
+        return;
+    }
+    vehicle &veh = v_part_pos->vehicle();
+    if( sp.damage( caster ) >= 0 ) {
+        veh.charge_battery( sp.damage( caster ), false );
+    } else {
+        veh.discharge_battery( -sp.damage( caster ), false );
+    }
+}
+
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint &target )
 {
     avatar *you = caster.as_avatar();
@@ -1403,7 +1424,8 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
-        if( mon->friendly == 0 && mon->get_hp() <= sp.damage( caster ) ) {
+        if( ( mon->friendly == 0 || ( mon->friendly != 0 && sp.has_flag( spell_flag::RECHARM ) ) ) &&
+            mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
         }

@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "item_location.h"
 #include "type_id.h"
 #include "requirements.h"
 
@@ -143,8 +144,9 @@ enum class item_drop_reason : int {
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                const tripoint_bub_ms &where, bool force_ground = false );
-void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
-                  const tripoint_bub_ms &where );
+std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
+                                        const std::list<item> &items,
+                                        const tripoint_bub_ms &where );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
@@ -186,6 +188,7 @@ void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_read_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
+void mutant_tree_communion_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
 void pickaxe_do_turn( player_activity *act, Character *you );
 void pulp_do_turn( player_activity *act, Character *you );
@@ -216,6 +219,7 @@ void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
+void mutant_tree_communion_finish( player_activity *act, Character *you );
 void operation_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );

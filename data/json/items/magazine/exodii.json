@@ -24,7 +24,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "PA md. 68 Exodii 60-round magazine" },
-    "description": "An unreasonably large magazine for the already heavy PA md. 68 battle rifle, custom designed and manufactured by the Exodii.",
+    "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine.",
     "weight": "600 g",
     "volume": "1250 ml",
     "longest_side": "255 mm",
@@ -37,5 +37,24 @@
     "reload_time": 180,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 60 } } ]
+  },
+  {
+    "id": "exodiisapramag5",
+    "looks_like": "exodiiminimag",
+    "type": "MAGAZINE",
+    "name": { "str": "Sapra '36 magazine" },
+    "description": "A large, five round single stack magazine for the Sapra '36.",
+    "weight": "710 g",
+    "volume": "449 ml",
+    "longest_side": "132 mm",
+    "price": 13500,
+    "price_postapoc": 470,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "273x44" ],
+    "reload_time": 110,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "273x44": 5 } } ]
   }
 ]

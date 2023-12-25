@@ -320,8 +320,8 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
             cont = item( target, calendar::turn );
         }
         for( int i = 0; i < count; i++ ) {
-            if( !it.put_in( cont, item_pocket::pocket_type::CONTAINER ).success() ) {
-                it.put_in( cont, item_pocket::pocket_type::MIGRATION );
+            if( !it.put_in( cont, pocket_type::CONTAINER ).success() ) {
+                it.put_in( cont, pocket_type::MIGRATION );
             }
         }
         if( sealed ) {
@@ -2469,7 +2469,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                               item_pocket::pocket_type::CONTAINER, true );
+                               pocket_type::CONTAINER, true );
     return true;
 }
 
@@ -2521,7 +2521,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
     opts.push_back( prompt );
     pos = -1;
     std::list<item *> all_items = it.all_items_top(
-                                      item_pocket::pocket_type::CONTAINER );
+                                      pocket_type::CONTAINER );
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
         return string_format( _( "Draw %s" ), elem->display_name() );
@@ -2794,7 +2794,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         if( print_msg ) {
             for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
+                                      _( "You don't have enough clean %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.charges_of( mat_comp, items_needed ) :
@@ -3942,7 +3942,7 @@ std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
-    obj.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
+    obj.put_in( item( "barrel_small", calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -4003,7 +4003,7 @@ std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint 
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
-    obj.put_in( item( "stock_none", calendar::turn ), item_pocket::pocket_type::MOD );
+    obj.put_in( item( "stock_none", calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -4218,25 +4218,31 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     filter_irremovable( mods );
     filter_irremovable( mods_copy );
 
-    uilist prompt;
-    prompt.text = _( "Remove which modification?" );
+    item_location mod_loc = game_menus::inv::gunmod_to_remove( *p, it );
 
-    for( size_t i = 0; i != mods.size(); ++i ) {
-        prompt.addentry( i, true, -1, mods[ i ]->tname() );
+    if( !mod_loc ) {
+        p->add_msg_if_player( _( "Never mind." ) );
+        return std::nullopt;
     }
 
-    prompt.query();
+    // Find the index of the mod to be removed
+    // used in identifying the mod in mods and mods_copy
+    int mod_index = -1;
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        if( mods[ i ] == mod_loc.get_item() ) {
+            mod_index = i;
+            break;
+        }
+    }
 
-    if( prompt.ret >= 0 ) {
-        // TODO: Fix bug where, in some cases, if removing a mod would remove other mods, it should be removed
-        // in the gun_copy as it is done in gunmod_remove_activity_actor::gunmod_remove
-        gun_copy.remove_item( *mods_copy[prompt.ret] );
+    if( mod_index >= 0 ) {
+        gun_copy.remove_item( *mods_copy[mod_index] );
 
-        if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
+        if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
             if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
-                p->gunmod_remove( it, *mods[prompt.ret] );
+                p->gunmod_remove( it, *mods[mod_index] );
                 return 0;
             }
         }
@@ -4504,7 +4510,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
         if( !is_cable_item || !can_extend.empty() ) {
             const bool has_extensions = !unspooled &&
-                                        !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
+                                        !it.all_items_top( pocket_type::CABLE ).empty();
             link_menu.addentry( 30, has_loose_end, -1,
                                 is_cable_item ? _( "Extend another cable" ) : _( "Extend with another cable" ) );
             link_menu.addentry( 31, has_extensions, -1, _( "Remove cable extensions" ) );
@@ -4598,7 +4604,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
         if( !can_extend.empty() ) {
             const bool has_extensions = !unspooled &&
-                                        !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
+                                        !it.all_items_top( pocket_type::CABLE ).empty();
             link_menu.addentry( 30, has_loose_end, -1, _( "Extend another cable" ) );
             link_menu.addentry( 31, has_extensions, -1, _( "Remove cable extensions" ) );
         }
@@ -5172,7 +5178,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         item cable_copy( *cable );
         cable_copy.get_contents().clear_items();
         cable_copy.link.reset();
-        if( !extended_ptr->put_in( cable_copy, item_pocket::pocket_type::CABLE ).success() ) {
+        if( !extended_ptr->put_in( cable_copy, pocket_type::CABLE ).success() ) {
             debugmsg( "Failed to put %s inside %s!", cable_copy.type_name(), extended_ptr->type_name() );
         }
     }
@@ -5189,7 +5195,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         item_location parent = extended.parent_item();
         if( parent->can_contain( *extended_ptr, false, false, false,
                                  item_location(), 10000000_ml, false ).success() ) {
-            if( !parent->put_in( *extended_ptr, item_pocket::pocket_type::CONTAINER ).success() ) {
+            if( !parent->put_in( *extended_ptr, pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),
                           parent->type_name() );
                 return std::nullopt;
@@ -5218,7 +5224,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
 
 std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) const
 {
-    std::list<item *> all_cables = it.all_items_ptr( item_pocket::pocket_type::CABLE );
+    std::list<item *> all_cables = it.all_items_ptr( pocket_type::CABLE );
     all_cables.remove_if( []( const item * cable ) {
         return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->can_link_up();
     } );
@@ -5226,7 +5232,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
     if( all_cables.empty() ) {
         // Delete any non-cables that somehow got into the pocket.
         it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
-            return pocket.is_type( item_pocket::pocket_type::CABLE );
+            return pocket.is_type( pocket_type::CABLE );
         } );
         return 0;
     }
@@ -5238,7 +5244,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
             item cable_copy( *cable );
             cable_copy.get_contents().clear_items();
             cable_copy.link.reset();
-            if( !cable_main_copy.put_in( cable_copy, item_pocket::pocket_type::CABLE ).success() ) {
+            if( !cable_main_copy.put_in( cable_copy, pocket_type::CABLE ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", cable_copy.tname(), cable_main_copy.tname() );
             }
         }
@@ -5247,7 +5253,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
                           cable_main_copy.type_name(), it.type_name() );
 
     it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
-        return pocket.is_type( item_pocket::pocket_type::CABLE );
+        return pocket.is_type( pocket_type::CABLE );
     } );
 
     if( it.link ) {

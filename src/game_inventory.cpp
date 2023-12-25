@@ -487,13 +487,9 @@ class liquid_inventory_selector_preset : public inventory_selector_preset
             if( location.get_item() == avoid ) {
                 return false;
             }
-            if( location.where() == item_location::type::character ) {
-                Character *character = get_creature_tracker().creature_at<Character>( location.position() );
-                if( character == nullptr ) {
-                    debugmsg( "Invalid location supplied to the liquid filter: no character found." );
-                    return false;
-                }
-                return location->get_remaining_capacity_for_liquid( liquid, *character ) > 0;
+            Character *carrier = location.carrier();
+            if( carrier != nullptr ) {
+                return location->get_remaining_capacity_for_liquid( liquid, *carrier ) > 0;
             }
             const bool allow_buckets = location.where() == item_location::type::map;
             return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
@@ -521,7 +517,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                                           bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
             skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
             save_state = &pickup_sel_default_state;
-            _pk_type = item_pocket::pocket_type::LAST;
+            _pk_type = pocket_type::LAST;
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1259,6 +1255,70 @@ item_location game_menus::inv::gun_to_modify( Character &you, const item &gunmod
                          _( "You don't have any guns to modify." ) );
 }
 
+class gunmod_remove_inventory_preset : public inventory_selector_preset
+{
+    public:
+        gunmod_remove_inventory_preset( const Character &you, const item &gun ) : you( you ), gun( gun ) {
+            append_cell( [this]( const item_location & loc ) {
+                if( !this->you.meets_requirements( *loc.get_item(), this->gun ) ) {
+                    return string_format( "<color_yellow>%s</color>", _( "you lack the skills to reinstall" ) );
+                }
+
+                return string_format( "<color_light_green>%s</color>", _( "always" ) );
+            }, _( "SUCCESS CHANCE" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gunmod() && !loc->is_irremovable();
+        }
+
+        // TODO: Need to represent gun mods with a tree structure
+        // Right now, for example, if there is one sight mod location on a gun, and there
+        // are two mods attached to the gun, both of which use a sight mod location, and add
+        // a sight mod location, both are removable. Ideally one should not be removable, to
+        // represent the mod that has the other mod attached to its added sight mod location.
+        std::string get_denial( const item_location &loc ) const override {
+            if( !loc->type->gunmod->add_mod.empty() ) {
+                std::map<gunmod_location, int> mod_locations_added = loc->type->gunmod->add_mod;
+
+                for( const std::pair<const gunmod_location, int> &slot : mod_locations_added ) {
+                    if( slot.second > 0 && this->gun.get_free_mod_locations( slot.first ) <= 0 ) {
+                        return _( "has mods attached" );
+                    }
+                }
+            }
+
+            return std::string();
+        }
+
+    private:
+        const Character &you;
+        const item &gun;
+};
+
+item_location game_menus::inv::gunmod_to_remove( Character &you, item &gun )
+{
+    const std::string none_message = _( "You don't have any mods to remove." );
+
+    const gunmod_remove_inventory_preset preset( you, gun );
+    inventory_pick_selector inv_s( you, preset );
+
+    inv_s.set_title( _( "Remove which modification?" ) );
+    inv_s.set_display_stats( false );
+
+    inv_s.clear_items();
+    inv_s.add_contained_gunmods( you, gun );
+
+    if( inv_s.empty() ) {
+        popup( none_message, PF_GET_KEY );
+        return item_location();
+    }
+
+    item_location location = inv_s.execute();
+
+    return location;
+}
+
 class ereader_inventory_preset : public pickup_inventory_preset
 {
     public:
@@ -1800,7 +1860,7 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+        for( item *it : droplc.first->all_items_top( pocket_type::CONTAINER, true ) ) {
             // no liquids and no items marked as favorite
             if( ( !it->made_of( phase_id::LIQUID ) || ( it->made_of( phase_id::LIQUID ) &&
                     it->is_frozen_liquid() ) ) && !it->is_favorite ) {

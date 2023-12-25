@@ -193,6 +193,8 @@ std::string action_ident( action_id act )
             return "grab";
         case ACTION_HAUL:
             return "haul";
+        case ACTION_HAUL_TOGGLE:
+            return "haul_toggle";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -943,6 +945,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
+            REGISTER_ACTION( ACTION_HAUL_TOGGLE );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
@@ -1098,6 +1101,7 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
     //~ %s: "Close where?" "Pry where?" etc.
     popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
+    temp_hide_advanced_inv();
     std::string action;
     do {
         ui_manager::redraw();
@@ -1186,5 +1190,10 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
         g->add_draw_callback( hilite_cb );
     }
 
-    return choose_adjacent( pos, message, allow_vertical );
+    const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
+        return chosen;
+    }
+
+    return std::nullopt;
 }

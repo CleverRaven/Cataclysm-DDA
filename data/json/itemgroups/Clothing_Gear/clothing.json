@@ -98,6 +98,7 @@
       { "item": "gloves_wool", "prob": 50 },
       { "item": "knit_scarf", "prob": 50 },
       { "item": "pants_cargo", "prob": 75 },
+      { "item": "tacjacket", "prob": 75 },
       { "item": "socks_wool", "prob": 50 },
       { "item": "coat_winter", "prob": 50 },
       { "item": "greatcoat", "prob": 25 },
@@ -459,10 +460,11 @@
     "id": "clothing_military_headwear",
     "type": "item_group",
     "subtype": "distribution",
-    "//": "add in field caps when they are added to the game.",
+    "//": "Standard set of hats worn by a uniformed soldier.",
     "items": [
-      { "item": "beret", "prob": 60 },
-      { "item": "hat_boonie", "prob": 38 },
+      { "item": "beret", "prob": 40 },
+      { "item": "hat_field", "prob": 35 },
+      { "item": "hat_boonie", "prob": 23 },
       { "item": "turban", "prob": 1 },
       { "item": "headscarf", "prob": 1 }
     ]
@@ -541,9 +543,12 @@
               { "item": "hoodie", "prob": 60 },
               { "item": "jacket_jean", "prob": 20 },
               { "item": "jacket_leather", "prob": 20 },
+              { "item": "tacjacket", "prob": 30 },
               { "item": "leather_police_jacket", "prob": 15 },
               { "item": "jacket_light", "prob": 40 },
               { "item": "jacket_windbreaker", "prob": 20 },
+              { "item": "jacket_varsity", "prob": 20 },
+              { "item": "gosling_jacket", "prob": 5 },
               { "item": "sweater", "prob": 50 },
               { "item": "turtleneck", "prob": 30 },
               { "item": "trenchcoat", "prob": 10 },
@@ -888,6 +893,7 @@
       { "item": "jeans", "prob": 30 },
       { "item": "sports_bra", "prob": 25 },
       { "item": "jacket_leather", "prob": 20 },
+      { "item": "jacket_varsity", "prob": 10 },
       { "prob": 30, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
@@ -1373,6 +1379,7 @@
     "entries": [
       { "item": "skirt", "prob": 5 },
       { "item": "skirt_leather", "prob": 5 },
+      { "item": "skirt_long", "prob": 5 },
       { "item": "leggings", "prob": 3 },
       { "item": "tights", "prob": 4 },
       { "item": "hot_pants", "prob": 4 },
@@ -1387,6 +1394,7 @@
     "type": "item_group",
     "items": [
       [ "skirt", 40 ],
+      [ "skirt_long", 40 ],
       [ "skirt_leather", 5 ],
       [ "dress", 120 ],
       [ "sundress", 50 ],
@@ -1468,6 +1476,7 @@
     "entries": [
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
+      { "item": "skirt_long", "prob": 25 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
       { "item": "cheerleader_skirt", "prob": 1 },
@@ -1495,6 +1504,7 @@
       [ "motorbike_pants", 5 ],
       [ "breeches", 5 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 50 ],
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
@@ -1536,10 +1546,13 @@
       [ "hoodie", 65 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
+      [ "gosling_jacket", 3 ],
       [ "blazer", 35 ],
       [ "towel", 40 ],
       [ "jacket_leather", 30 ],
+      [ "tacjacket", 30 ],
       [ "leather_police_jacket", 5 ],
       [ "motorbike_armor", 5 ],
       [ "poncho", 15 ],
@@ -1616,6 +1629,8 @@
       [ "straw_hat", 5 ],
       [ "straw_fedora", 5 ],
       [ "cassock", 1 ],
+      [ "zucchetto", 1 ],
+      [ "cape_catholic", 1 ],
       [ "nun_habit", 1 ],
       [ "nun_wimple", 1 ],
       [ "holy_symbol", 20 ],
@@ -1745,6 +1760,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 55 ],
       [ "skirt_leather", 5 ],
       [ "leggings", 15 ],
       [ "under_armor_shorts", 20 ],
@@ -1800,10 +1816,13 @@
     "items": [
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
+      [ "tacjacket", 30 ],
       [ "leather_police_jacket", 8 ],
+      [ "gosling_jacket", 5 ],
       [ "coat_rain", 50 ],
       [ "trenchcoat", 12 ],
       [ "trenchcoat_steampunk", 1 ],
@@ -2197,6 +2216,7 @@
       { "item": "pants_hiking", "prob": 2 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
+      { "item": "skirt_long", "prob": 55 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "tshirt", "prob": 70 },
       { "item": "longshirt", "prob": 80 },
@@ -2228,9 +2248,12 @@
       { "item": "hoodie", "prob": 65 },
       { "item": "jacket_light", "prob": 50 },
       { "item": "jacket_windbreaker", "prob": 25 },
+      { "item": "jacket_varsity", "prob": 20 },
+      { "item": "gosling_jacket", "prob": 5 },
       { "item": "jacket_jean", "prob": 35 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
+      { "item": "tacjacket", "prob": 30 },
       { "item": "leather_police_jacket", "prob": 10 },
       { "item": "coat_winter", "prob": 50 },
       { "item": "peacoat", "prob": 30 },
@@ -2378,6 +2401,8 @@
       { "item": "thawb", "prob": 1 },
       { "item": "kittel", "prob": 1 },
       { "item": "cassock", "prob": 1 },
+      { "item": "zucchetto", "prob": 1 },
+      { "item": "cape_catholic", "prob": 1 },
       { "item": "nun_habit", "prob": 1 },
       { "item": "nun_wimple", "prob": 1 },
       { "item": "robe", "prob": 5 },
@@ -2733,7 +2758,14 @@
   {
     "type": "item_group",
     "id": "lab_pants",
-    "items": [ [ "jeans", 90 ], [ "pants_checkered", 5 ], [ "pants", 75 ], [ "pants_cargo", 70 ], [ "skirt", 75 ] ]
+    "items": [
+      [ "jeans", 90 ],
+      [ "pants_checkered", 5 ],
+      [ "pants", 75 ],
+      [ "pants_cargo", 70 ],
+      [ "skirt", 75 ],
+      [ "skirt_long", 60 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2789,7 +2821,10 @@
         ],
         "prob": 100
       },
-      { "collection": [ { "item": "jacket_eod_light" }, { "item": "trousers_eod_light" } ], "prob": 20 }
+      {
+        "collection": [ { "item": "jacket_eod_light" }, { "item": "face_shield_eod" }, { "item": "trousers_eod_light" } ],
+        "prob": 20
+      }
     ]
   },
   {
@@ -3075,6 +3110,9 @@
       [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
+      [ "tacjacket", 30 ],
+      [ "jacket_varsity", 6 ],
+      [ "gosling_jacket", 1 ],
       [ "leather_police_jacket", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
@@ -3362,10 +3400,12 @@
     "entries": [
       { "item": "jacket_light", "prob": 50 },
       { "item": "jacket_windbreaker", "prob": 25 },
+      { "item": "jacket_varsity", "prob": 20 },
       { "item": "jacket_jean", "prob": 35 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
       { "item": "leather_police_jacket", "prob": 10 },
+      { "item": "gosling_jacket", "prob": 5 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "trenchcoat", "prob": 10 },
       { "item": "duster", "prob": 15 },
@@ -3397,6 +3437,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 60 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],
@@ -3428,6 +3469,8 @@
       [ "hoodie", 65 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
+      [ "jacket_varsity", 20 ],
+      [ "gosling_jacket", 5 ],
       [ "jacket_jean", 35 ],
       [ "blazer", 35 ],
       [ "gloves_light", 35 ],
@@ -3855,7 +3898,12 @@
     "type": "item_group",
     "//": "womens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
-    "items": [ { "item": "nanoskirt", "prob": 10 }, { "item": "skirt", "prob": 50 }, { "item": "skirt_leather", "prob": 10 } ]
+    "items": [
+      { "item": "nanoskirt", "prob": 10 },
+      { "item": "skirt", "prob": 50 },
+      { "item": "skirt_long", "prob": 40 },
+      { "item": "skirt_leather", "prob": 10 }
+    ]
   },
   {
     "id": "pants_mens",
@@ -4123,10 +4171,13 @@
           { "item": "jacket_jean", "prob": 80 },
           { "item": "jacket_flannel", "prob": 50 },
           { "item": "jacket_leather", "prob": 50 },
+          { "item": "tacjacket", "prob": 50 },
           { "item": "leather_police_jacket", "prob": 10 },
           { "item": "jacket_leather_red", "prob": 25 },
           { "item": "jacket_light", "prob": 60 },
           { "item": "jacket_windbreaker", "prob": 70 },
+          { "item": "jacket_varsity", "prob": 30 },
+          { "item": "gosling_jacket", "prob": 5 },
           { "item": "poncho", "prob": 30 },
           { "item": "ski_jacket", "prob": 25 },
           { "group": "costume_jackets", "prob": 1 },

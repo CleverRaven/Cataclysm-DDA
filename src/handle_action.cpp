@@ -119,7 +119,6 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
-static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -264,6 +263,10 @@ input_context game::get_player_input( std::string &action )
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
+#if defined(TILES)
+    // Mark cata_tiles draw caches as dirty
+    tilecontext->set_draw_cache_dirty();
+#endif
 
     user_turn current_turn;
 
@@ -343,9 +346,9 @@ input_context game::get_player_input( std::string &action )
 
                     const tripoint mapp( map, u.posz() );
 
-                    const lit_level lighting = visibility_cache[mapp.x][mapp.y];
-
-                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
+                    if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
+                        m.get_visibility( visibility_cache[mapp.x][mapp.y], cache ) ==
+                        visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
                         wPrint.vdrops.emplace_back( iRand.x, iRand.y );
@@ -728,23 +731,116 @@ static void grab()
 static void haul()
 {
     Character &player_character = get_player_character();
-    map &here = get_map();
 
-    if( player_character.is_hauling() ) {
-        player_character.stop_hauling();
-    } else {
-        if( here.veh_at( player_character.pos() ) ) {
-            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
-            add_msg( m_info, _( "You cannot haul while in deep water." ) );
-        } else if( !here.can_put_items( player_character.pos() ) ) {
-            add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_haulable_items( player_character.pos() ) ) {
-            add_msg( m_info, _( "There are no items to haul here." ) );
+    uilist menu;
+
+    bool hauling = player_character.is_hauling();
+    bool autohaul = player_character.is_autohauling();
+    std::vector<item_location> &haul_list = player_character.haul_list;
+    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
+    int haul_qty = haul_list.size();
+    std::string &haul_filter = player_character.hauling_filter;
+
+
+    std::string help_header =
+        _( "Select items on current tile to haul with you as you move.\nIf autohaul is enabled, you will automatically add encountered items to the haul.\nYou can set a filter to limit which items are automatically added." );
+
+    std::string status_header;
+    if( hauling && autohaul ) {
+        if( haul_qty == 0 ) {
+            status_header =
+                _( "You are currently not hauling any items, but autohaul is enabled, so any new items encoutered on the ground will be hauled." );
         } else {
-            player_character.start_hauling();
+            status_header = string_format(
+                                _( "You are currently hauling %d items.\nAutohaul is enabled, so any new items encountered on the ground will be hauled." ),
+                                haul_qty );
         }
     }
+
+    if( hauling && !autohaul ) {
+        if( haul_qty == 0 ) {
+            debugmsg( "Invalid hauling state: hauling enabled, nothing is being hauled, autohaul is off." );
+        } else {
+            status_header = string_format( _( "You are currently hauling %d items.\nAutohaul is disabled." ),
+                                           haul_qty );
+        }
+    }
+
+    if( !hauling ) {
+        status_header =
+            _( "You are currently not hauling.  Select items to haul or enable autohaul to start." );
+    }
+
+    if( status_header.empty() ) {
+        debugmsg( "Failed to construct status header for haul interface" );
+    }
+
+    status_header += haul_filter.empty() ? _( "\nAutohaul filter not set." ) : string_format(
+                         _( "\nAutohaul filter: %s" ), haul_filter );
+
+    menu.text = help_header + "\n\n" + status_header;
+
+    input_context ctxt = get_default_mode_input_context();
+    std::vector<input_event> haul_keys = ctxt.keys_bound_to( "haul" );
+    int haul_key = haul_keys.empty() ? '\\' : haul_keys.front().sequence.front();
+
+    menu.entries.emplace_back( 0, hauling, hauling ? haul_key : 'h', _( "Stop hauling" ) );
+    menu.entries.emplace_back( 1, !haulable_items.empty(), !hauling ? haul_key : 'h',
+                               _( "Haul everything here" ) );
+    menu.entries.emplace_back( 2, !haulable_items.empty(), 'p', _( "Choose items to haul" ) );
+    menu.entries.emplace_back( 3, true, 'a',
+                               autohaul ? _( "Disable autohaul" ) : _( "Enable autohaul" ) );
+    menu.entries.emplace_back( 4, true, 'f', _( "Edit autohaul filter" ) );
+    menu.entries.emplace_back( 9, true, 'c', _( "Cancel" ) );
+
+    menu.query();
+
+    switch( menu.ret ) {
+        case 0:
+            player_character.stop_hauling();
+            break;
+        case 1:
+            player_character.start_hauling( haulable_items );
+            break;
+        case 2: {
+            inventory_haul_selector selector( player_character );
+            selector.add_map_items( player_character.pos() );
+            selector.apply_selection( player_character.haul_list );
+            selector.set_title( _( "Select items to haul" ) );
+            selector.set_hint( _( "To select x items, type a number before selecting." ) );
+            drop_locations result = selector.execute( true );
+            haulable_items.clear();
+            for( const drop_location &dl : result ) {
+                haulable_items.push_back( dl.first );
+            }
+            if( haulable_items != player_character.haul_list ) {
+                player_character.suppress_autohaul = true;
+            }
+            player_character.start_hauling( haulable_items );
+        }
+        break;
+        case 3:
+            autohaul ? player_character.stop_autohaul() : player_character.start_autohaul();
+            break;
+        case 4:
+            string_input_popup()
+            .title( _( "Filter:" ) )
+            .width( 55 )
+            .description( item_filter_rule_string( item_filter_type::FILTER ) )
+            .desc_color( c_white )
+            .identifier( "item_filter" )
+            .max_length( 256 )
+            .edit( player_character.hauling_filter );
+            break;
+        case 9:
+        default:
+            break;
+    }
+}
+
+static void haul_toggle()
+{
+    get_avatar().toggle_hauling();
 }
 
 static void smash()
@@ -765,20 +861,10 @@ static void smash()
                           player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
-    int smashskill = player_character.get_arm_str();
-    ///\EFFECT_STR increases smashing capability
+    int smashskill = player_character.smash_ability();
     if( player_character.is_mounted() ) {
-        auto *mon = player_character.mounted_creature.get();
-        smashskill += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
         mech_smash = true;
-    } else if( player_character.get_wielded_item() ) {
-        smashskill += player_character.get_wielded_item()->damage_melee( damage_bash );
     }
-    smashskill = player_character.calculate_by_enchantment( smashskill, enchant_vals::mod::MELEE_DAMAGE,
-                 true );
-    smashskill = player_character.calculate_by_enchantment( smashskill,
-                 enchant_vals::mod::ITEM_DAMAGE_BASH,
-                 true );
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
@@ -859,18 +945,7 @@ static void smash()
 
     if( !player_character.has_weapon() ) {
         const bodypart_id bp_null( "bp_null" );
-        std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
-        int tmp_bash_armor = 0;
-        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-            tmp_bash_armor += player_character.worn.damage_resist( damage_bash, bp );
-            for( const trait_id &mut : player_character.get_mutations() ) {
-                const resistances &res = mut->damage_resistance( bp );
-                tmp_bash_armor += std::floor( res.type_resist( damage_bash ) );
-            }
-            if( tmp_bash_armor > best_part_to_smash.second ) {
-                best_part_to_smash = {bp, tmp_bash_armor};
-            }
-        }
+        std::pair<bodypart_id, int> best_part_to_smash = player_character.best_part_to_smash();
         if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
             std::string name_to_bash = _( "thing" );
             if( here.is_bashable_furn( smashp ) ) {
@@ -885,10 +960,8 @@ static void smash()
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
         }
-        const int min_smashskill = smashskill * best_part_to_smash.first->smash_efficiency;
-        const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
-        smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
+
     const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
@@ -1659,7 +1732,7 @@ static void cast_spell()
 bool Character::cast_spell( spell &sp, bool fake_spell,
                             const std::optional<tripoint> &target = std::nullopt )
 {
-    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
+    if( is_armed() && !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
@@ -1673,7 +1746,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    if( !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
+    if( !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         has_effect( effect_stunned ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't focus enough to cast spell." ) );
@@ -1952,6 +2025,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_shell()
         { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're in your shell." ) },
         { ACTION_GRAB,               _( "You can't grab things while you're in your shell." ) },
         { ACTION_HAUL,               _( "You can't haul things while you're in your shell." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while you're in your shell." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while you're in your shell." ) },
         { ACTION_PEEK,               _( "You can't peek around corners while you're in your shell." ) },
         { ACTION_DROP,               _( "You can't drop things while you're in your shell." ) },
@@ -1973,6 +2047,7 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_PICKUP_ALL,
     ACTION_GRAB,
     ACTION_HAUL,
+    ACTION_HAUL_TOGGLE,
     ACTION_BUTCHER,
     ACTION_CRAFT,
     ACTION_RECRAFT,
@@ -1993,6 +2068,7 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
         { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're riding." ) },
         { ACTION_GRAB,               _( "You can't grab things while you're riding." ) },
         { ACTION_HAUL,               _( "You can't haul things while you're riding." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while you're riding." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while you're riding." ) },
         { ACTION_PEEK,               _( "You can't peek around corners while you're riding." ) },
         { ACTION_CRAFT,              _( "You can't craft while you're riding." ) },
@@ -2268,6 +2344,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_HAUL:
             haul();
+            break;
+
+        case ACTION_HAUL_TOGGLE:
+            haul_toggle();
             break;
 
         case ACTION_BUTCHER:

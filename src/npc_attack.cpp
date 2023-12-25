@@ -241,8 +241,9 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         debugmsg( "ERROR: npc tried to attack null critter" );
         return;
     }
+    int target_distance = rl_dist( source.pos(), location );
     if( !source.is_adjacent( critter, true ) ) {
-        if( rl_dist( source.pos(), location ) <= weapon.reach_range( source ) ) {
+        if( target_distance <= weapon.reach_range( source ) ) {
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
             // check for friendlies in the line of fire
@@ -268,9 +269,26 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         } else {
             source.update_path( location );
             if( source.path.size() > 1 ) {
-                if( can_move_melee( source ) ) {
+                bool clear_path = can_move_melee( source );
+                if( clear_path && source.mem_combat.formation_distance == -1 ) {
                     source.move_to_next();
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s has no nearby ranged allies.  Going for attack.</color>", source.name );
+                } else if( clear_path && source.mem_combat.formation_distance > target_distance ) {
+                    source.move_to_next();
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s is at least %i away from ranged allies, enemy within %i.  Going for attack.</color>",
+                                   source.name, source.mem_combat.formation_distance, target_distance );
+                } else if( clear_path &&
+                           source.mem_combat.formation_distance > source.closest_enemy_to_friendly_distance() ) {
+                    source.move_to_next();
+                    //add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                    //               "<color_light_gray>%s is at least %i away from allies, enemy within %i of ally.  Going for attack.</color>",
+                    //               source.name, source.mem_combat.formation_distance, source.closest_enemy_to_friendly_distance() );
                 } else {
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s can't path to melee target, or is staying close to ranged allies.</color>",
+                                   source.name );
                     source.look_for_player( get_player_character() );
                 }
             } else if( source.path.size() == 1 ) {
@@ -286,7 +304,14 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
                 source.look_for_player( get_player_character() );
             }
         }
+    } else if( source.mem_combat.formation_distance != -1 &&
+               source.mem_combat.formation_distance <= target_distance &&
+               rng( -10, 10 ) > source.personality.aggression ) {
+        add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                       "<color_light_gray>%s decided to fall back to formation with allies.</color>", source.name );
+        source.look_for_player( get_player_character() );
     } else {
+        // may wish to add a break here to see if target is out of formation with allies, and consider running back.
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a melee attack",
                        source.disp_name() );
         source.melee_attack( *critter, true );
@@ -436,7 +461,7 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
 bool npc_attack_gun::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( *gunmode ).success();
+    return source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success();
 }
 
 int npc_attack_gun::base_time_penalty( const npc &source ) const

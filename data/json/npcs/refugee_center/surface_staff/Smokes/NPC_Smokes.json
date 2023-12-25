@@ -60,6 +60,7 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
+    "bonus_collector": { "rng": [ 1, 5 ] },
     "shopkeeper_item_group": "NC_EVAC_SHOPKEEP_misc",
     "carry_override": "NC_EVAC_SHOPKEEP_misc",
     "skills": [
@@ -216,7 +217,7 @@
       [ "cx4", 1 ],
       [ "usp_45", 10 ],
       [ "m1911", 10 ],
-      [ "modular_ar15", 10 ],
+      { "group": "modular_ar15", "prob": 10 },
       [ "savage_111f", 5 ],
       [ "remington_700", 5 ],
       [ "ruger_1022", 10 ],

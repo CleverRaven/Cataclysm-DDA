@@ -568,6 +568,15 @@ void conditional_t::set_has_activity( bool is_npc )
     };
 }
 
+void conditional_t::set_has_proficiency( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var proficiency_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [proficiency_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->knows_proficiency( proficiency_id( proficiency_to_check.evaluate( d ) ) );
+    };
+}
+
 void conditional_t::set_is_riding( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
@@ -775,6 +784,33 @@ void conditional_t::set_has_bionics( const JsonObject &jo, std::string_view memb
     };
 }
 
+void conditional_t::set_has_any_effect( const JsonObject &jo, std::string_view member,
+                                        bool is_npc )
+{
+    std::vector<str_or_var> effects_to_check;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        effects_to_check.emplace_back( get_str_or_var( jv, member ) );
+    }
+    dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
+    str_or_var bp;
+    if( jo.has_member( "bodypart" ) ) {
+        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
+    } else {
+        bp.str_val = "";
+    }
+    condition = [effects_to_check, intensity, bp, is_npc]( dialogue & d ) {
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
+                          bodypart_id( bp.evaluate( d ) );
+        for( const str_or_var &effect_id : effects_to_check ) {
+            effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
+            if( !target.is_null() && intensity.evaluate( d ) <= target.get_intensity() ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_has_effect( const JsonObject &jo, std::string_view member,
                                     bool is_npc )
 {
@@ -782,13 +818,13 @@ void conditional_t::set_has_effect( const JsonObject &jo, std::string_view membe
     dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
     str_or_var bp;
     if( jo.has_member( "bodypart" ) ) {
-        bp = get_str_or_var( jo.get_member( "target_part" ), "target_part", true );
+        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
     } else {
         bp.str_val = "";
     }
     condition = [effect_id, intensity, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) : bodypart_id( bp.evaluate(
-                              d ) );
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
+                          bodypart_id( bp.evaluate( d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
         return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
     };
@@ -1156,6 +1192,60 @@ void conditional_t::set_is_alive( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->get_is_alive();
+    };
+}
+
+void conditional_t::set_is_avatar( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character() && d.actor( is_npc )->get_character()->is_avatar();
+    };
+}
+
+void conditional_t::set_is_npc( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_npc();
+    };
+}
+
+void conditional_t::set_is_character( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character();
+    };
+}
+
+void conditional_t::set_is_monster( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_monster();
+    };
+}
+
+void conditional_t::set_is_item( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_item();
+    };
+}
+
+void conditional_t::set_is_furniture( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_computer();
+    };
+}
+
+void conditional_t::set_player_see( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        const Creature *c = d.actor( is_npc )->get_creature();
+        if( c ) {
+            return get_player_view().sees( *c );
+        } else {
+            return get_player_view().sees( d.actor( is_npc )->pos() );
+        }
     };
 }
 
@@ -2204,7 +2294,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         } else if( checked_value == "vitamin" ) {
             std::string vitamin_name = jo.get_string( "name" );
             return [is_npc, vitamin_name]( dialogue const & d ) {
-                Character *you = d.actor( is_npc )->get_character();
+                Character const *you = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
                 if( you ) {
                     return you->vitamin_get( vitamin_id( vitamin_name ) );
                 } else {
@@ -3335,6 +3425,16 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
+void conditional_t::set_can_see_location( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [is_npc, target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        return d.actor( is_npc )->can_see_location( get_map().getlocal( target_pos ) );
+    };
+}
+
 void conditional_t::set_using_martial_art( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -3352,6 +3452,7 @@ parsers = {
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_t::set_has_visible_trait },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_t::set_has_martial_art },
     {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_t::set_using_martial_art },
+    {"u_has_proficiency", "npc_has_proficiency", jarg::member, &conditional_t::set_has_proficiency },
     {"u_has_flag", "npc_has_flag", jarg::member, &conditional_t::set_has_flag },
     {"u_has_species", "npc_has_species", jarg::member, &conditional_t::set_has_species },
     {"u_bodytype", "npc_bodytype", jarg::member, &conditional_t::set_bodytype },
@@ -3373,6 +3474,7 @@ parsers = {
     {"u_has_items", "npc_has_items", jarg::member, &conditional_t::set_has_items },
     {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_t::set_has_item_category },
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_t::set_has_bionics },
+    {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_t::set_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
     {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
@@ -3410,6 +3512,7 @@ parsers = {
     {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_t::set_is_on_terrain_with_flag },
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_t::set_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_t::set_has_move_mode },
+    {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_t::set_can_see_location },
     {"is_weather", jarg::member, &conditional_t::set_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
@@ -3476,6 +3579,13 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_t::set_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_t::set_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_t::set_is_alive },
+    {"u_is_avatar", "npc_is_avatar", &conditional_t::set_is_avatar },
+    {"u_is_npc", "npc_is_npc", &conditional_t::set_is_npc },
+    {"u_is_character", "npc_is_character", &conditional_t::set_is_character },
+    {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
+    {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
+    {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
+    {"player_see_u", "player_see_npc", &conditional_t::set_player_see },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

@@ -39,21 +39,22 @@
       "furniture": { "f_region_flower": { "f_rack_coat": 1, "f_sign_warning": 1, "f_sign": 1 } }
     },
     "river_scale": 0.0,
-    "field_coverage": {
-      "percent_coverage": 0.1333,
-      "default_ter": "t_carpet_red",
-      "other": { "f_mutpoppy": 1 },
-      "boost_chance": 0.833,
-      "boosted_percent_coverage": 2.5,
-      "boosted_other": { "f_dandelion": 5.0 },
-      "boosted_other_percent": 50.0
-    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 1.0,
       "lake_size_min": 0,
       "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
+    },
+    "overmap_ocean_settings": {
+      "noise_threshold_ocean": 10.0,
+      "ocean_size_min": 100,
+      "ocean_depth": -9,
+      "ocean_start_north": 0,
+      "ocean_start_east": 0,
+      "ocean_start_west": 0,
+      "ocean_start_south": 0,
+      "sandy_beach_width": 0
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
@@ -131,11 +132,6 @@
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
       "trailhead_road_distance": 6,
-      "trail_center_variance": 3,
-      "trail_width_offset_min": 1,
-      "trail_width_offset_max": 3,
-      "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
@@ -146,6 +142,7 @@
           "mx_casings": 50,
           "mx_corpses": 50,
           "mx_collegekids": 25,
+          "mx_autodoc_room": 25,
           "mx_spider": 20,
           "mx_nest_dermatik": 20,
           "mx_science": 20,

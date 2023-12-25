@@ -37,7 +37,7 @@
     "//p": "about 450-500 seeds per pumpkin, which is about a cup. these are fairly small pumpkins.",
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
-    "charges": 1
+    "charges": 6
   },
   {
     "result": "seed_watermelon",
@@ -52,8 +52,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "components": [ [ [ "melon", 1 ] ] ],
-    "byproducts": [ [ "melon_chunks", 3 ] ],
-    "charges": 5
+    "byproducts": [ [ "melon_chunks", 4 ] ],
+    "charges": 3
   },
   {
     "result": "seed_cucumber",
@@ -125,16 +125,14 @@
     "result": "seed_barley",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "barley", 1 ] ] ],
-    "charges": 4
+    "components": [ [ [ "barley", 1 ] ] ]
   },
   {
     "result": "barley",
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_barley", 4 ] ] ],
-    "charges": 1
+    "components": [ [ [ "seed_barley", 1 ] ] ]
   },
   {
     "result": "seed_tomato",
@@ -253,16 +251,14 @@
     "result": "seed_buckwheat",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "buckwheat", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "buckwheat", 1 ] ] ]
   },
   {
     "result": "buckwheat",
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "seed_buckwheat", 2 ] ] ],
-    "charges": 1
+    "components": [ [ [ "seed_buckwheat", 1 ] ] ]
   },
   {
     "result": "seed_dogbane",
@@ -284,13 +280,6 @@
     "copy-from": "seed_extraction_cutting",
     "components": [ [ [ "mugwort", 1 ] ] ],
     "charges": 2
-  },
-  {
-    "result": "seed_spinach",
-    "type": "recipe",
-    "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "spinach", 1 ] ] ],
-    "charges": 3
   },
   {
     "result": "seed_mushroom",
@@ -426,22 +415,20 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "sunflower", 1 ] ] ],
-    "charges": 1
+    "charges": 6
   },
   {
     "result": "seed_beans",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "dry_beans", 6 ] ] ],
-    "charges": 6
+    "components": [ [ [ "dry_beans", 1 ] ] ]
   },
   {
     "result": "dry_beans",
     "id_suffix": "seed_designation",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_beans", 6 ] ] ],
-    "charges": 6
+    "components": [ [ [ "seed_beans", 1 ] ] ]
   },
   {
     "result": "soybean_seed",
@@ -460,16 +447,14 @@
     "result": "seed_lentils",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "dry_lentils", 2 ] ] ],
-    "charges": 2
+    "components": [ [ [ "dry_lentils", 1 ] ] ]
   },
   {
     "result": "dry_lentils",
     "id_suffix": "seed_designation",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_lentils", 2 ] ] ],
-    "charges": 2
+    "components": [ [ [ "seed_lentils", 1 ] ] ]
   },
   {
     "result": "seed_chamomile",

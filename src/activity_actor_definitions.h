@@ -20,6 +20,7 @@
 #include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "pickup.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -461,13 +462,15 @@ class move_items_activity_actor : public activity_actor
         std::vector<int> quantities;
         bool to_vehicle;
         tripoint relative_destination;
+        bool hauling_mode;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination ) :
+                                   bool to_vehicle, tripoint relative_destination, bool hauling_mode = false ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
-            relative_destination( relative_destination ) {}
+            relative_destination( relative_destination ),
+            hauling_mode( hauling_mode ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );
@@ -495,6 +498,7 @@ class pickup_activity_actor : public activity_actor
         /** Target items and the quantities thereof */
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        Pickup::pick_info info;
 
         /**
          * Position of the character when the activity is started. This is
@@ -1037,6 +1041,7 @@ class drop_activity_actor : public activity_actor
         contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
+        bool current_bulk_unload = false;
 };
 
 class stash_activity_actor: public activity_actor
@@ -1071,6 +1076,7 @@ class stash_activity_actor: public activity_actor
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
         tripoint placement;
+        bool current_bulk_unload = false;
 };
 
 class harvest_activity_actor : public activity_actor
@@ -1156,7 +1162,7 @@ class milk_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {}
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &/*act*/, Character &/*who*/ ) override {}
 

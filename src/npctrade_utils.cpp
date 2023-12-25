@@ -25,7 +25,7 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
     if( !elem->is_owned_by( guy ) ) {
         return;
     }
-    std::list<item *> const contents = elem->all_items_top( item_pocket::pocket_type::CONTAINER );
+    std::list<item *> const contents = elem->all_items_top( pocket_type::CONTAINER );
     if( contents.empty() ) {
         auto it = cache.find( elem->typeId() );
         if( it == cache.end() ) {

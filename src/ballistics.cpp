@@ -424,6 +424,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
             }
+            // avoid friendly fire
+            if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
+                origin->check_avoid_friendly_fire() ) {
+                continue;
+            }
             attack.missed_by = cur_missed_by;
             bool print_messages = true;
             // If the attack is shot, once we're past point-blank,

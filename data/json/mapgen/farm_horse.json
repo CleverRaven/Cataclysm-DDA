@@ -229,7 +229,7 @@
         { "group": "farming_tools", "x": [ 79, 81 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": [ 75, 81 ], "y": [ 17, 22 ], "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "bucket", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 20, "repeat": 4 },
-        { "item": "cattlefodder", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 6, 10 ] }
+        { "item": "cattlefodder_large", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 6, 10 ] }
       ],
       "monsters": { "[": { "monster": "GROUP_HORSES_STABLES", "chance": 1, "density": 0.01 } }
     }
@@ -1409,64 +1409,6 @@
         "************************"
       ],
       "palettes": [ "farm_lots" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "forest_trail_intersection",
-    "weight": 250,
-    "object": {
-      "predecessor_mapgen": "forest",
-      "rows": [
-        "........................",
-        "........................",
-        ".........??????.........",
-        ".......??????????.......",
-        "......????////????......",
-        ".....???////////???.....",
-        "....???//////////???....",
-        "...???////////////???...",
-        "...??//////////////??...",
-        "..???//////////////???..",
-        "..??////////////////??..",
-        "..??////////////////??..",
-        "..??////////////////??..",
-        "..??////////////////??..",
-        "..???//////////////???..",
-        "...??//////////////??...",
-        "...???////////////???...",
-        "....???//////////???....",
-        ".....???////////???.....",
-        "......????////????......",
-        ".......??????????.......",
-        ".........??????.........",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "place_nested": [
-        { "chunks": [ "14x14_forest_trail_intersection_north" ], "x": 5, "y": 0, "neighbors": { "north": "trail" } },
-        { "chunks": [ "14x14_forest_trail_intersection_east" ], "x": 10, "y": 5, "neighbors": { "east": "trail" } },
-        { "chunks": [ "14x14_forest_trail_intersection_south" ], "x": 5, "y": 10, "neighbors": { "south": "trail" } },
-        { "chunks": [ "14x14_forest_trail_intersection_west" ], "x": 0, "y": 5, "neighbors": { "west": "trail" } },
-        {
-          "chunks": [ "11x11_forest_trail_intersection_south_fire_lookout" ],
-          "x": 0,
-          "y": 13,
-          "neighbors": { "south": "ws_fire_lookout_tower_base" }
-        },
-        { "chunks": [ [ "null", 25 ], [ "3x3_horseposts", 75 ] ], "x": 7, "y": 7 },
-        {
-          "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_trunks", 50 ] ],
-          "x": [ 11, 12 ],
-          "y": [ 11, 12 ]
-        },
-        { "chunks": [ [ "null", 50 ], [ "3x3_tree_benches", 50 ] ], "x": 16, "y": 7 },
-        { "chunks": [ [ "null", 75 ], [ "3x3_shed_trail_supplies_N", 25 ] ], "x": 16, "y": 16 }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

@@ -59,6 +59,7 @@ enum class spell_flag : int {
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
     NO_EXPLOSION_SFX, // spell has no visual explosion
+    LIQUID, // effects applied by this spell can be resisted with waterproof equipment if targeting a body part. doesn't apply to damage (yet)
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -82,6 +83,8 @@ enum class spell_flag : int {
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     NON_MAGICAL, // ignores spell resistance
+    PSIONIC, // psychic powers instead of traditional magic
+    RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
     LAST
 };
 
@@ -201,6 +204,7 @@ class spell_type
         spell_id id;
         // NOLINTNEXTLINE(cata-serialize)
         std::vector<std::pair<spell_id, mod_id>> src;
+        mod_id src_mod;
         // spell name
         translation name;
         // spell description
@@ -348,10 +352,13 @@ class spell_type
         // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
-        enum_bitset<spell_flag> spell_tags;
+        std::set<std::string> flags; // string flags
+
+        // bitfield of -certain- string flags which are heavily checked
+        enum_bitset<spell_flag> spell_tags; // NOLINT(cata-serialize)
 
         static void load_spell( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view src );
         void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
@@ -410,14 +417,6 @@ class spell_type
         static const float casting_time_increment_default;
 };
 
-// functions for spell description
-namespace spell_desc
-{
-bool casting_time_encumbered( const spell &sp, const Character &guy );
-bool energy_cost_encumbered( const spell &sp, const Character &guy );
-std::string enumerate_spell_data( const spell &sp, const Character &guy );
-} // namespace spell_desc
-
 class spell
 {
     private:
@@ -429,8 +428,19 @@ class spell
         int experience = 0;
         // returns damage type for the spell
         const damage_type_id &dmg_type() const;
-        // Temporary caster level adjustments caused by EoC's
-        int temp_level_adjustment = 0;
+
+        // Temporary adjustments caused by EoC's
+        int temp_level_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_cast_time_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_spell_cost_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_aoe_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_range_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_duration_multiplyer = 1; // NOLINT(cata-serialize)
+        int temp_difficulty_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_somatic_difficulty_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_sound_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_concentration_difficulty_multiplyer = 1; // NOLINT(cata-serialize)
+
 
         // alternative cast message
         translation alt_message;
@@ -476,6 +486,8 @@ class spell
         int get_max_level( const Creature &caster ) const;
         int get_temp_level_adjustment() const;
         void set_temp_level_adjustment( int adjustment );
+        void set_temp_adjustment( const std::string &target_property, float adjustment );
+        void clear_temp_adjustments();
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
@@ -532,10 +544,16 @@ class spell
         bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
+        bool has_flag( const std::string &flag ) const;
+        bool no_hands() const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
         bool in_aoe( const tripoint &source, const tripoint &target, const Creature &caster ) const;
+
+        bool casting_time_encumbered( const Character &guy ) const;
+        bool energy_cost_encumbered( const Character &guy ) const;
+        std::string enumerate_spell_data( const Character &guy ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -586,6 +604,7 @@ class spell
         int get_effective_level() const;
         // difficulty of the level
         int get_difficulty( const Creature &caster ) const;
+        mod_id get_src() const;
 
         // tries to create a field at the location specified
         void create_field( const tripoint &at, Creature &caster ) const;
@@ -748,6 +767,7 @@ void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint &target );
+void recharge_vehicle( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
@@ -797,6 +817,7 @@ effect_map{
     { "recover_energy", spell_effect::recover_energy },
     { "summon", spell_effect::spawn_summoned_monster },
     { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
+    { "recharge_vehicle", spell_effect::recharge_vehicle },
     { "translocate", spell_effect::translocate },
     { "area_pull", spell_effect::area_pull },
     { "area_push", spell_effect::area_push },

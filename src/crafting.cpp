@@ -43,7 +43,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -60,6 +59,7 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -504,7 +504,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
         ret.push_back( &cont );
     }
-    for( const item *it : cont.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *it : cont.all_items_top( pocket_type::CONTAINER ) ) {
         //buckets are never allowed when inside another container
         std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
         ret.insert( ret.end(), inside.begin(), inside.end() );
@@ -1501,7 +1501,9 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
     for( const effect_on_condition_id &eoc : making.result_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
         if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
+            for( int i = 0; i < batch_size; i++ ) {
+                eoc->activate( d );
+            }
         } else {
             debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
         }

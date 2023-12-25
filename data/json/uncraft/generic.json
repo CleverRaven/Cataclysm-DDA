@@ -15,6 +15,95 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chess",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wchess_pawn", 8 ] ],
+      [ [ "bchess_pawn", 8 ] ],
+      [ [ "wchess_knight", 2 ] ],
+      [ [ "bchess_knight", 2 ] ],
+      [ [ "wchess_bishop", 2 ] ],
+      [ [ "bchess_bishop", 2 ] ],
+      [ [ "wchess_rook", 2 ] ],
+      [ [ "bchess_rook", 2 ] ],
+      [ [ "wchess_queen", 1 ] ],
+      [ [ "bchess_queen", 1 ] ],
+      [ [ "wchess_king", 1 ] ],
+      [ [ "bchess_king", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "small_chess",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "small_checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wchess_pawn", 8 ] ],
+      [ [ "bchess_pawn", 8 ] ],
+      [ [ "wchess_knight", 2 ] ],
+      [ [ "bchess_knight", 2 ] ],
+      [ [ "wchess_bishop", 2 ] ],
+      [ [ "bchess_bishop", 2 ] ],
+      [ [ "wchess_rook", 2 ] ],
+      [ [ "bchess_rook", 2 ] ],
+      [ [ "wchess_queen", 1 ] ],
+      [ [ "bchess_queen", 1 ] ],
+      [ [ "wchess_king", 1 ] ],
+      [ [ "bchess_king", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "checkpaper",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 s",
+    "components": [ [ [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "checkers",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
+      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "small_checkers",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "small_checkboard", 1 ] ],
+      [ [ "hinge", 1 ] ],
+      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
+      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "handflare",
     "skill_used": "fabrication",
@@ -404,7 +493,13 @@
     "difficulty": 1,
     "time": "22 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
+    "components": [
+      [ [ "sheet_cotton", 7 ] ],
+      [ [ "cotton_patchwork", 4 ] ],
+      [ [ "sheet", 4 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "wire", 20 ] ]
+    ]
   },
   {
     "result": "character_sheet",
@@ -412,14 +507,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "paper", 3 ] ] ]
-  },
-  {
-    "result": "sandbag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ],
-    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "scrap_cotton",
@@ -639,7 +726,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "down_feather", 50 ] ] ]
+    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "down_feather", 50 ] ] ]
   },
   {
     "result": "well_pump",

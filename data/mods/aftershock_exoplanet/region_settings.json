@@ -79,23 +79,6 @@
         "f_region_water_plant": { "f_shrub_moss": 15 }
       }
     },
-    "field_coverage": {
-      "percent_coverage": 0.02,
-      "default_ter": "t_lichen",
-      "other": {
-        "t_region_tree": 1,
-        "t_region_shrub": 3,
-        "f_region_weed": 49,
-        "f_region_flower": 37,
-        "f_boulder_small": 5,
-        "f_boulder_medium": 4,
-        "f_boulder_large": 1
-      },
-      "boost_chance": 0.03,
-      "boosted_percent_coverage": 2.5,
-      "boosted_other": { "t_lichen": 0.2, "t_lichendirt": 0.1 },
-      "boosted_other_percent": 50.0
-    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 10.0,
       "lake_size_min": 20,
@@ -107,6 +90,16 @@
         { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
+    },
+    "overmap_ocean_settings": {
+      "noise_threshold_ocean": 10.0,
+      "ocean_size_min": 100,
+      "ocean_depth": -9,
+      "ocean_start_north": 0,
+      "ocean_start_east": 0,
+      "ocean_start_west": 0,
+      "ocean_start_south": 0,
+      "sandy_beach_width": 0
     },
     "overmap_ravine_settings": { "num_ravines": 15, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
@@ -212,11 +205,6 @@
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
       "trailhead_road_distance": 6,
-      "trail_center_variance": 3,
-      "trail_width_offset_min": 1,
-      "trail_width_offset_max": 3,
-      "clear_trail_terrain": false,
-      "trail_terrain": { "t_deaddirt": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": { "road": { "chance": 75, "extras": { "mx_wraitheon_droneswarm": 10 } } }

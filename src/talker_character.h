@@ -21,6 +21,8 @@ class time_duration;
 class vehicle;
 struct tripoint;
 
+struct mutation_variant;
+
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
@@ -70,6 +72,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int attack_speed() const override;
         int pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
+        int coverage_at( bodypart_id & ) const override;
+        int encumbrance_at( bodypart_id & ) const override;
         int get_str_max() const override;
         int get_dex_max() const override;
         int get_int_max() const override;
@@ -166,6 +170,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 
         bool can_see() const override;
+        bool can_see_location( const tripoint &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
         int get_rad() const override;
@@ -233,7 +238,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
-        void set_mutation( const trait_id &new_trait ) override;
+        void set_mutation( const trait_id &new_trait, const mutation_variant * = nullptr ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void activate_mutation( const trait_id &trait ) override;
         void deactivate_mutation( const trait_id &trait ) override;
@@ -244,7 +249,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
-        void remove_effect( const efftype_id &old_effect ) override;
+        void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string &var_name ) override;
 

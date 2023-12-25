@@ -1,85 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_ZENER_DECK",
-    "condition": { "math": [ "u_val('spell_level', 'school: CLAIRSENTIENT')", ">=", "10" ] },
-    "effect": [
-      {
-        "switch": { "rand": 4 },
-        "cases": [
-          {
-            "case": 0,
-            "effect": [
-              {
-                "u_message": "You draw the hollow circle card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 1,
-            "effect": [
-              {
-                "u_message": "You draw the three wavy lines card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 2,
-            "effect": [
-              {
-                "u_message": "You draw the hollow square card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 3,
-            "effect": [
-              {
-                "u_message": "You draw the five-pointed star card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 4,
-            "effect": [
-              {
-                "u_message": "You draw the plus symbol card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "false_effect": [
-      {
-        "switch": { "rand": 4 },
-        "cases": [
-          {
-            "case": 0,
-            "effect": [ { "u_message": "You draw the hollow circle card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 1,
-            "effect": [ { "u_message": "You draw the three wavy lines card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 2,
-            "effect": [ { "u_message": "You draw the hollow square card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 3,
-            "effect": [ { "u_message": "You draw the five-pointed star card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 4,
-            "effect": [ { "u_message": "You draw the plus symbol card, look at it for a moment, and put it back in the deck." } ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
@@ -93,12 +14,13 @@
     "condition": {
       "and": [
         {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
         },
         {
           "or": [
             { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
@@ -109,7 +31,7 @@
         { "math": [ "_success", "!=", "false" ] }
       ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "(100 * _difficulty)" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(100 * _difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -119,12 +41,13 @@
     "condition": {
       "and": [
         {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
         },
         {
           "or": [
             { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
@@ -135,283 +58,234 @@
         { "math": [ "_success", "==", "false" ] }
       ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "(25 * _difficulty)" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(25 * _difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_BIOKINETIC_CHANNELING_FAILURE",
+    "id": "EOC_PSIONICS_PSI_NEUTRALIZED_ENDS_ALL_POWERS",
     "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_psi_neutralized", { "context_val": "effect" } ] },
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_BROKEN_LIMB_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "broken_bone",
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_SLEEP_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+        { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_STUNNED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
     "condition": {
       "and": [
-        { "u_has_trait": "BIOKINETIC" },
-        { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
         {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
+          "or": [
+            { "compare_string": [ "stunned", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
+          ]
+        },
+        {
+          "or": [
+            { "u_has_effect": "effect_biokin_overcome_pain" },
+            { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_hammerhand" },
+            { "u_has_effect": "effect_biokin_enhance_mobility" },
+            { "u_has_effect": "effect_clair_night_eyes" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_personal_battery" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_effect": "effect_photokin_light_barrier" },
+            { "u_has_effect": "effect_photokinetic_radio" },
+            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_pyrokinetic_cloak" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepathic_morale" },
+            { "u_has_effect": "effect_vita_health" }
+          ]
         }
       ]
     },
     "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
+      { "u_message": "As your head rings and your mind reels, you lose control of your powers!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_DAZED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "dazed", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
+            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+          ]
+        },
+        {
+          "or": [
+            { "u_has_effect": "effect_biokin_overcome_pain" },
+            { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_hammerhand" },
+            { "u_has_effect": "effect_biokin_enhance_mobility" },
+            { "u_has_effect": "effect_clair_night_eyes" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_personal_battery" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_effect": "effect_photokin_light_barrier" },
+            { "u_has_effect": "effect_photokinetic_radio" },
+            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_pyrokinetic_cloak" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepathic_morale" },
+            { "u_has_effect": "effect_vita_health" }
+          ]
         }
-      },
+      ]
+    },
+    "effect": [
       {
-        "u_add_effect": "effect_biokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_DAZED_ENDS_POWERS_2",
+            "condition": { "roll_contested": { "math": [ "u_val('intelligence') + u_skill('metaphysics')" ] }, "difficulty": 20, "die_size": 15 },
+            "effect": [  ],
+            "false_effect": [
+              { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
+              { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_CLAIRSENTIENT_CHANNELING_FAILURE",
+    "id": "EOC_PSIONICS_CONCENTRATION_EFFECT_GAIN_CHECK",
+    "//": "When you gain an effect that changes how many powers you can concentrate on, or would otherwise interrupt concentration, check concentration",
     "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
+    "required_event": "character_gains_effect",
     "condition": {
       "and": [
-        { "u_has_trait": "CLAIRSENTIENT" },
-        { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
         {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
+          "or": [
+            { "compare_string": [ "winded", { "context_val": "effect" } ] },
+            { "compare_string": [ "nausea", { "context_val": "effect" } ] },
+            { "compare_string": [ "asthma", { "context_val": "effect" } ] },
+            { "compare_string": [ "datura", { "context_val": "effect" } ] },
+            { "compare_string": [ "onfire", { "context_val": "effect" } ] },
+            { "compare_string": [ "staggered_character", { "context_val": "effect" } ] },
+            { "compare_string": [ "venom_dmg", { "context_val": "effect" } ] },
+            { "compare_string": [ "venom_pain", { "context_val": "effect" } ] },
+            { "compare_string": [ "boomered", { "context_val": "effect" } ] },
+            { "compare_string": [ "taint", { "context_val": "effect" } ] },
+            { "compare_string": [ "visuals", { "context_val": "effect" } ] },
+            { "compare_string": [ "hallu", { "context_val": "effect" } ] },
+            { "compare_string": [ "formication", { "context_val": "effect" } ] },
+            { "compare_string": [ "meth", { "context_val": "effect" } ] },
+            { "compare_string": [ "weed_high", { "context_val": "effect" } ] },
+            { "compare_string": [ "high", { "context_val": "effect" } ] },
+            { "compare_string": [ "drunk", { "context_val": "effect" } ] },
+            { "compare_string": [ "zapped", { "context_val": "effect" } ] },
+            { "compare_string": [ "effect_psi_reduced_breathing", { "context_val": "effect" } ] },
+            { "compare_string": [ "effect_psi_null", { "context_val": "effect" } ] },
+            { "compare_string": [ "effect_psi_null_unbound", { "context_val": "effect" } ] }
+          ]
+        },
+        {
+          "or": [
+            { "u_has_effect": "effect_biokin_overcome_pain" },
+            { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_hammerhand" },
+            { "u_has_effect": "effect_biokin_enhance_mobility" },
+            { "u_has_effect": "effect_clair_night_eyes" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_personal_battery" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_effect": "effect_photokin_light_barrier" },
+            { "u_has_effect": "effect_photokinetic_radio" },
+            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_pyrokinetic_cloak" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepathic_morale" },
+            { "u_has_effect": "effect_vita_health" }
+          ]
         }
       ]
     },
+    "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINDOVERMATTER_PRE_COLD_TO_COLD",
+    "//": "duration is one day to 14 days",
+    "condition": { "u_has_effect": "pre_cold" },
+    "effect": [ { "u_lose_effect": "pre_cold" }, { "u_add_effect": "cold", "duration": { "math": [ "rng(86400,1209600)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINDOVERMATTER_PRE_FLU_TO_FLU",
+    "//": "duration is 3 days to 10 days",
+    "condition": { "u_has_effect": "pre_flu" },
+    "effect": [ { "u_lose_effect": "pre_flu" }, { "u_add_effect": "flu", "duration": { "math": [ "rng(259200,864000)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_VIRAL_TO_CONJUNCTIVITIS_VIRAL",
+    "condition": { "u_has_effect": "pre_conjunctivitis_viral" },
     "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "u_lose_effect": "pre_conjunctivitis_viral" },
+      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
       {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "blind_clair_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "deaf_clair_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "u_add_effect": "conjunctivitis_viral",
+        "duration": { "math": [ "rand(259200) + 432000" ] },
+        "target_part": "eyes"
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_PYROKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "PYROKINETIC" },
-        { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
+    "id": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_BACTERIAL_TO_CONJUNCTIVITIS_BACTERIAL",
+    "condition": { "u_has_effect": "pre_conjunctivitis_bacterial" },
     "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "u_lose_effect": "pre_conjunctivitis_viral" },
+      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
       {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_pyrokin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_TELEKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "TELEKINETIC" },
-        { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_telekin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_TELEPATH_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "TELEPATH" },
-        { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "nightmares",
-        "duration": {
-          "math": [ "u_val('time: 30 m') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "disrupted_sleep",
-        "duration": {
-          "math": [ "u_val('time: 30 m') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_TELEPORTER_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "TELEPORTER" },
-        { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_portal_storm_teleport",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_VITAKINETIC_CHANNELING_FAILURE",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        { "u_has_trait": "VITAKINETIC" },
-        { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
-        { "math": [ "_success", "==", "false" ] },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
-              ]
-            },
-            "y": 1000
-          }
-        }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your powers rage out of control!", "type": "bad" },
-      {
-        "u_add_effect": "psionic_overload",
-        "duration": {
-          "math": [ "u_val('time: 30 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
-      },
-      {
-        "u_add_effect": "effect_vitakin_overload",
-        "duration": {
-          "math": [ "u_val('time: 15 s') * (1 + ( u_val('vitamin', 'name:vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ]
-        }
+        "u_add_effect": "conjunctivitis_bacterial",
+        "duration": { "math": [ "rand(259200) + 432000" ] },
+        "target_part": "eyes"
       }
     ]
   }

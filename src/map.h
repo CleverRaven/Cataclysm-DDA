@@ -17,6 +17,7 @@
 #include <set>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "calendar.h"
@@ -44,6 +45,10 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+
+#if defined(TILES)
+#include "cata_tiles.h"
+#endif
 
 struct scent_block;
 
@@ -274,6 +279,41 @@ struct drawsq_params {
         }
         tripoint center() const;
         //@}
+};
+
+struct tile_render_info {
+    struct common {
+        const tripoint pos;
+        // accumulator for 3d tallness of sprites rendered here so far;
+        int height_3d = 0;
+
+        common( const tripoint &pos, const int height_3d )
+            : pos( pos ), height_3d( height_3d ) {}
+    };
+
+    struct vision_effect {
+        visibility_type vis;
+
+        explicit vision_effect( const visibility_type vis )
+            : vis( vis ) {}
+    };
+
+    struct sprite {
+        lit_level ll;
+        std::array<bool, 5> invisible;
+
+        sprite( const lit_level ll, const std::array<bool, 5> &inv )
+            : ll( ll ), invisible( inv ) {}
+    };
+
+    common com;
+    std::variant<vision_effect, sprite> var;
+
+    tile_render_info( const common &com, const vision_effect &var )
+        : com( com ), var( var ) {}
+
+    tile_render_info( const common &com, const sprite &var )
+        : com( com ), var( var ) {}
 };
 
 /**
@@ -808,6 +848,9 @@ class map
         ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z() ) );
         }
+
+        int get_map_damage( const tripoint_bub_ms &p ) const;
+        void set_map_damage( const tripoint_bub_ms &p, int dmg );
 
         // Return a bitfield of the adjacent tiles which connect to the given
         // connect_group.  From least-significant bit the order is south, east,
@@ -1774,7 +1817,7 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        virtual bool pl_sees( const tripoint &t, int max_range ) const;
+        bool pl_sees( const tripoint &t, int max_range ) const;
         /**
          * Uses the map cache to tell if the player could see the given square.
          * pl_sees implies pl_line_of_sight
@@ -2306,7 +2349,15 @@ class map
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
 
-        std::map<tripoint, std::pair<lit_level, std::array<bool, 5>>> ll_invis_cache;
+#if defined(TILES)
+        bool draw_points_cache_dirty = true;
+        std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
+        point prev_top_left;
+        point prev_bottom_right;
+        point prev_o;
+        std::multimap<point, formatted_text> overlay_strings_cache;
+        color_block_overlay_container color_blocks_cache;
+#endif
 };
 
 map &get_map();
@@ -2323,8 +2374,6 @@ class tinymap : public map
     public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
-        // @returns false
-        bool pl_sees( const tripoint &t, int max_range ) const override;
 };
 
 class fake_map : public tinymap

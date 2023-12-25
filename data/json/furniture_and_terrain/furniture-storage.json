@@ -86,7 +86,8 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
+        { "item": "sheet_cotton", "count": 3 },
+        { "item": "cotton_patchwork", "count": 6 }
       ]
     },
     "max_volume": "875 L",
@@ -104,6 +105,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
@@ -124,7 +126,8 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
+        { "item": "sheet_cotton", "count": 3 },
+        { "item": "cotton_patchwork", "count": 6 }
       ]
     },
     "max_volume": "875 L",
@@ -137,6 +140,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
@@ -1024,7 +1028,7 @@
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
     "rotates_to": "INDOORFLOOR",
     "lockpick_result": "f_displaycase_o",
-    "lockpick_message": "With a satisfying click, the lock and the display case opens",
+    "lockpick_message": "With a satisfying click, the lock and the display case opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
@@ -1103,7 +1107,7 @@
       ]
     },
     "lockpick_result": "f_board_map_o",
-    "lockpick_message": "With a satisfying click, the locked glass panel opens",
+    "lockpick_message": "With a satisfying click, the locked glass panel opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
@@ -1398,7 +1402,8 @@
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER" ],
+    "max_volume": "1500 L",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER", "LIQUIDCONT" ],
     "deconstruct": {
       "items": [
         { "item": "frame", "count": [ 2, 3 ] },

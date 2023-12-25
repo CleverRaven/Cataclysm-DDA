@@ -183,7 +183,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_PERK_MENU_ALCHEMY4",
+    "id": "TALK_PERK_MENU_ALCHEMY5",
     "dynamic_line": "<trait_name:perk_ALCHEMY5>: \"<trait_description:perk_ALCHEMY5>\"",
     "responses": [
       {

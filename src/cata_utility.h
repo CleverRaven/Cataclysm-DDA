@@ -75,7 +75,7 @@ double round_up( double val, unsigned int dp );
 *
 * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
 */
-template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
 T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
@@ -668,7 +668,7 @@ void set_title( const std::string &title );
 /**
  * Convenience function to get the aggregate value for a list of values.
  */
-template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
 T aggregate( const std::vector<T> &values, aggregate_type agg_func )
 {
     if( values.empty() ) {

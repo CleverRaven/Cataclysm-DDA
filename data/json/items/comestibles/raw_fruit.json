@@ -315,7 +315,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juice_pulp",
-    "name": { "str": "juice pulp" },
+    "name": { "str_sp": "juice pulp" },
     "weight": "62 g",
     "color": "light_red",
     "spoils_in": "2 days 12 hours",
@@ -497,7 +497,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
@@ -858,5 +858,40 @@
     "fun": -1,
     "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutfruit",
+    "name": { "str": "mutant fruit" },
+    "weight": "40 g",
+    "color": "magenta",
+    "spoils_in": "12 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 18,
+    "description": "A leathery skin covers this purplish-brown little fruit.  It will need to be deconstructed before anything can be done with it.",
+    "material": [ "fruit", "hflesh" ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 4 ], [ "mutant_toxin", 6 ] ],
+    "volume": "60 ml",
+    "flags": [ "INEDIBLE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutfruit_peeled",
+    "name": { "str": "peeled mutant fruit" },
+    "weight": "28 g",
+    "color": "red",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 13,
+    "description": "Divested of its skin, this mutated fruit is revealed to be a nonsensical jumble of plant and animal matter.  Human hair and teeth grow from pithy blood-slick flesh, redolent with the scent of rotting mangoes.",
+    "material": [ "fruit", "hflesh" ],
+    "volume": "34 ml",
+    "fun": -10,
+    "flags": [ "BAD_TASTE", "TRADER_AVOID" ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 4 ], [ "mutant_toxin", 6 ] ]
   }
 ]

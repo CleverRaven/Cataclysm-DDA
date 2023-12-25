@@ -27,6 +27,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
+    "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
@@ -39,11 +40,14 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
       },
-      { "id": "feral_weapon_pipe" }
+      { "id": "feral_weapon_pipe" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
     ],
     "death_drops": "feral_humans_death_drops_pipe",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
@@ -60,7 +64,9 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON",
+      "EATS"
     ]
   },
   {
@@ -119,6 +125,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -154,6 +161,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -252,6 +260,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "description": "The feral security guard fires their Beretta M9A1!"
       },
@@ -335,6 +344,7 @@
         "fake_skills": [ [ "gun", 1 ], [ "smg", 1 ] ],
         "fake_dex": 6,
         "fake_per": 6,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "ranges": [ [ 2, 7, "DEFAULT" ] ],
         "description": "The feral human shoots its crossbow!"
@@ -390,6 +400,7 @@
         "fake_dex": 8,
         "fake_per": 9,
         "ranges": [ [ 2, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "description": "The feral prepper haphazardly fires their firearm!"
       },
@@ -453,6 +464,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 35, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The mad militiaman fires their rifle!"
@@ -509,6 +521,7 @@
         "fake_per": 9,
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The feral biker fires their shotgun!"
@@ -610,6 +623,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The feral officer fires their M18!"
@@ -666,6 +680,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"

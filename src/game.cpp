@@ -102,6 +102,7 @@
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_search.h"
 #include "item_stack.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -236,6 +237,7 @@ static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
@@ -1111,6 +1113,7 @@ vehicle *game::place_vehicle_nearby(
         if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
+            search_types.emplace_back( "ocean" );
         } else {
             search_types.emplace_back( "road" );
             search_types.emplace_back( "field" );
@@ -2466,6 +2469,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
+    ctxt.register_action( "haul_toggle" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
     ctxt.register_action( "look" );
@@ -7699,6 +7703,10 @@ look_around_result game::look_around(
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         }
+#if defined(TILES)
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+#endif
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
 
@@ -10183,7 +10191,7 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
-    if( u.has_effect( effect_stunned ) ) {
+    if( u.has_effect( effect_stunned ) || u.has_effect( effect_psi_stunned ) ) {
         return true;
     }
 
@@ -10415,6 +10423,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         return false;
     }
     u.set_underwater( false );
+
+    if( vp_there && !u.move_in_vehicle( static_cast<Creature *>( &u ), dest_loc ) ) {
+        return false;
+    }
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
@@ -12106,14 +12118,38 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
 void game::start_hauling( const tripoint &pos )
 {
+    std::vector<item_location> candidate_items = m.get_haulable_items( pos );
     // Find target items and quantities thereof for the new activity
-    const std::vector<item_location> target_items = m.get_haulable_items( pos );
+    u.trim_haul_list( candidate_items );
+    std::vector<item_location> target_items = u.haul_list;
+
+    if( u.is_autohauling() && !u.suppress_autohaul ) {
+        for( const item_location &item : u.haul_list ) {
+            candidate_items.erase( std::remove( candidate_items.begin(), candidate_items.end(), item ),
+                                   candidate_items.end() );
+        }
+        if( u.hauling_filter.empty() ) {
+            target_items.insert( target_items.end(), candidate_items.begin(), candidate_items.end() );
+        } else {
+            std::function<bool( const item & )> filter = item_filter_from_string( u.hauling_filter );
+            std::copy_if( candidate_items.begin(), candidate_items.end(), std::back_inserter( target_items ),
+            [&filter]( const item_location & item ) {
+                return filter( *item );
+            } );
+        }
+    }
+
+    u.suppress_autohaul = false;
+    u.haul_list.clear();
+
     // Quantity of 0 means move all
     const std::vector<int> quantities( target_items.size(), 0 );
 
     if( target_items.empty() ) {
         // Nothing to haul
-        u.stop_hauling();
+        if( !u.is_autohauling() ) {
+            u.stop_hauling();
+        }
         return;
     }
 
@@ -12122,7 +12158,8 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
+                                           true );
     u.assign_activity( actor );
 }
 
@@ -12576,8 +12613,8 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
         // Only spawn random NPCs on z-level 0
         spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldn't spawn on lakes or rivers.
-        if( !is_river_or_lake( oter ) ) {
+        // shouldn't spawn on bodies of water.
+        if( !is_water_body( oter ) ) {
             spawn_allowed = true;
         }
         counter += 1;

@@ -55,6 +55,46 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_glass_fridge",
+    "name": { "str": "glass door refrigerator" },
+    "looks_like": "f_glass_fridge",
+    "categories": [ "cargo" ],
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "damage_modifier": 80,
+    "durability": 50,
+    "description": "A standard household refrigerator.  When turned on, it will cool its contents to extend the time before they spoil.",
+    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
+    "epower": "-35 W",
+    "size": "500 L",
+    "item": "glass_fridge",
+    "requirements": {
+      "removal": { "time": "2 m" },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 2, 5 ] },
+      { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+      { "item": "steel_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "count": [ 2, 6 ] },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "hose", "count": 1 },
+      { "item": "glass_sheet", "count": 1 },
+      { "item": "cu_pipe", "count": [ 3, 6 ] },
+      { "item": "pipe_fittings", "count": [ 2, 6 ] },
+      { "item": "refrigerant_tank", "count": 1 },
+      { "item": "motor_tiny", "count": 1 }
+    ],
+    "damage_reduction": { "all": 16 },
+    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_minifridge",
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "copy-from": "minifridge"
@@ -1028,8 +1068,8 @@
     "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
     "//2": "On a normal vehicle 250mL of diesel in an I4 with a truck alternator (what the active backup gen uses) should provide ~1692 charges (kW?) of power in about 24 minutes based on a test setup. That's a little less than 7W power, rounded up as I assume a larger dedicated generator is more efficient.",
     "power": "7 W",
-    "//3": "Truck alternator value",
-    "epower": "1320 W",
+    "//3": "7.5 kW alternator value, minus power consumption of the engine",
+    "epower": "7300 W",
     "//4": "This value doesn't seem to do anything for the appliance version? Let's keep it commented out for future reference.",
     "//energy_consumption": "1000 W",
     "m2c": 5,

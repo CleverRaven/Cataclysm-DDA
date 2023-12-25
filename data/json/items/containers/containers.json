@@ -123,6 +123,24 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "bag_durasack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reusable plastic sack" },
+    "looks_like": "bag_plastic",
+    "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
+    "//": "durasack woven polypropylene bags",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 85,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "bag_canvas",
     "type": "GENERIC",
     "category": "container",
@@ -147,8 +165,8 @@
     "name": { "str": "canvas bag" },
     "looks_like": "bag_canvas",
     "description": "A small bag made of canvas.  Looks fine to store dried herbs in.",
-    "weight": "5 g",
-    "volume": "250 ml",
+    "weight": "20 g",
+    "volume": "14 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
@@ -1747,13 +1765,13 @@
     "name": { "str": "test tube" },
     "looks_like": "flask_glass",
     "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
-    "weight": "36 g",
-    "volume": "13 ml",
+    "weight": "11 g",
+    "volume": "20 ml",
     "longest_side": "100 mm",
     "price": 300,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": [ "glass", "rubber" ],
+    "material": [ { "type": "glass", "portion": 90 }, { "type": "rubber", "portion": 10 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -2324,8 +2342,7 @@
       {
         "id": "tardis_case",
         "name": { "str": "police call box smartphone case" },
-        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
-        "weight": 1
+        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box."
       },
       {
         "id": "black_smart_phone_case",
@@ -2870,20 +2887,17 @@
       {
         "id": "bspace_case",
         "name": { "str": "Black Universe smartphone case" },
-        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies.",
-        "weight": 1
+        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies."
       },
       {
         "id": "wspace_case",
         "name": { "str": "White Universe smartphone case" },
-        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots.",
-        "weight": 1
+        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots."
       },
       {
         "id": "zombie_case",
         "name": { "str": "zombie smartphone case" },
-        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?",
-        "weight": 1
+        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?"
       }
     ],
     "pocket_data": [
@@ -3088,16 +3102,44 @@
     "category": "container",
     "name": { "str": "foil wrapper" },
     "description": "A piece of aluminum foil, large enough to wrap around something.  You could also cook food in it.",
-    "weight": "24 g",
-    "volume": "5 ml",
+    "//": "50 cm length, 30 cm width, 0.02 mm thickness - 3ml, but without wrapper roll 4 times as much",
+    "weight": "8 g",
+    "volume": "12 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "wrapper_foil_roll",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "aluminum foil roll" },
+    "description": "Long tube of cardboard, used to conveniently store long sheets of foil.",
+    "//": "20 m of aluminum foil, 40 units",
+    "weight": "52 g",
+    "volume": "96 ml",
+    "longest_side": "30 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": "o",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "wrapper_foil" ],
+        "volume_multiplier": 0.75
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "wrapper_pr",
@@ -3265,7 +3307,6 @@
         "id": "condom_flavored_jalapeno",
         "name": { "str": "jalapeno flavored condom" },
         "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "weight": 1,
         "append": true
       }
     ],
@@ -3632,7 +3673,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1769 ml",
+        "max_contains_volume": "1255 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 50,
@@ -4348,5 +4389,36 @@
       }
     ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "tankard_wooden",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden tankard" },
+    "//1": "https://www.amazon.com/Handmade-Wooden-Coffee-Unique-Glasses/dp/B07GWB6R3P/",
+    "//2": "requested by Myfharad",
+    "description": "A low-tech solution for all your guzzling needs.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": 1500,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

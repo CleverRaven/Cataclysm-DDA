@@ -1334,7 +1334,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
-            { "uk_UA", R"(український)" },
+            { "uk_UA", R"(Українська)" },
             { "zh_CN", R"(中文 (天朝))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
@@ -1773,6 +1773,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
+             to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
+             true );
     } );
 
     add_empty_line();
@@ -3645,6 +3648,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
+
+#if defined(LOCALIZE)
+            if( current_opt.getName() == "USE_LANG" ) {
+                current_opt.setValue( select_language() );
+                return;
+            }
+#endif
 
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();

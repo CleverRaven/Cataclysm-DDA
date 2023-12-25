@@ -190,6 +190,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "nether_hate_humans",
+    "base_faction": "nether",
+    "hate": [ "player", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "spearfisher",
     "base_faction": "nether",
     "by_mood": [ "nether_fish_symbiote" ]

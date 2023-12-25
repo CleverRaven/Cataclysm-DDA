@@ -11,7 +11,10 @@
       { "group": "prepnet_basic_robots", "prob": 20 },
       { "group": "prepnet_basic_grenades", "prob": 30 },
       { "group": "ammo_any_batteries_full", "prob": 100 },
-      { "group": "prepnet_id_cards", "prob": 50 }
+      { "group": "prepnet_id_cards", "prob": 50 },
+      { "group": "afs_exosuit_worker", "prob": 10 },
+      { "group": "afs_exo_advanced_power", "prob": 5 },
+      { "group": "afs_exosuit_security", "prob": 5 }
     ]
   },
   {

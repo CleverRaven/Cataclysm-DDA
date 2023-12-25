@@ -92,6 +92,7 @@ enum vpart_bitflags : int {
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
     VPFLAG_CARGO,
+    VPFLAG_CARGO_PASSABLE,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
     VPFLAG_WATER_WHEEL,
@@ -110,6 +111,7 @@ enum vpart_bitflags : int {
     VPFLAG_CABLE_PORTS,
     VPFLAG_BATTERY,
     VPFLAG_POWER_TRANSFER,
+    VPFLAG_HUGE_OK,
 
     NUM_VPFLAGS
 };
@@ -352,7 +354,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::map<damage_type_id, float> damage_reduction = {};
+        std::unordered_map<damage_type_id, float> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;

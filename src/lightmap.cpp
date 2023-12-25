@@ -648,7 +648,7 @@ bool map::is_transparent( const tripoint &p ) const
 
 bool map::is_transparent_wo_fields( const tripoint &p ) const
 {
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
 }
 
 float map::light_transparency( const tripoint &p ) const
@@ -782,11 +782,6 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
 }
 
-bool tinymap::pl_sees( const tripoint &, int ) const
-{
-    return false;
-}
-
 bool map::pl_sees( const tripoint &t, const int max_range ) const
 {
     if( !inbounds( t ) ) {
@@ -795,13 +790,14 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
 
     const level_cache &map_cache = get_cache_ref( t.z );
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range &&
+    if( max_range >= 0 && square_dist( getglobal( t ), player_character.get_location() ) > max_range &&
         map_cache.camera_cache[t.x][t.y] == 0 ) {
         return false;    // Out of range!
     }
 
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
+    // avatar might not be on *this* map
+    const float light_at_player = get_map().ambient_light_at( player_character.pos() );
     return !a.obstructed &&
            ( a.apparent_light >= player_character.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );

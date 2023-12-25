@@ -64,6 +64,9 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
@@ -82,8 +85,12 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_cramped_space( "cramped_space" );
+static const efftype_id effect_critter_underfed( "critter_underfed" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disarmed( "disarmed" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
@@ -97,6 +104,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_leashed( "leashed" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_maimed_arm( "maimed_arm" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
@@ -107,8 +115,10 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
@@ -199,6 +209,7 @@ static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
 static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
 static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
 static const mon_flag_str_id mon_flag_WARM( "WARM" );
+static const mon_flag_str_id mon_flag_WIELDED_WEAPON( "WIELDED_WEAPON" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
@@ -259,6 +270,11 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
+
+static int compute_kill_xp( const mtype_id &mon_type )
+{
+    return mon_type->difficulty + mon_type->difficulty_base;
+}
 
 monster::monster()
 {
@@ -578,7 +594,7 @@ void monster::try_reproduce()
     // add a decreasing chance of additional spawns when "catching up" an existing animal.
     int chance = -1;
     while( true ) {
-        if( *baby_timer > calendar::turn ) {
+        if( !baby_timer.has_value() || *baby_timer > calendar::turn ) {
             return;
         }
 
@@ -595,7 +611,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && amount_eaten == 0 ) {
+        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -635,17 +651,36 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( calendar::turn - udder_timer > 1_days ) {
-        // You milk once a day.
-        ammo.begin()->second = type->starting_ammo.begin()->second;
-        udder_timer = calendar::turn;
+    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
+        if( calendar::turn - udder_timer > 1_days ) {
+            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
+            ammo.begin()->second = type->starting_ammo.begin()->second;
+            udder_timer = calendar::turn;
+        }
+    }
+}
+
+void monster::reset_digestion()
+{
+    if( calendar::turn - stomach_timer > 3_days ) {
+        //If the player hasn't been around, assume critters have been operating at a subsistence level.
+        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
+        remove_effect( effect_critter_underfed );
+        remove_effect( effect_critter_well_fed );
+        amount_eaten = 0;
+        stomach_timer = calendar::turn;
     }
 }
 
 void monster::digest_food()
 {
-    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
-        amount_eaten -= 1;
+    if( calendar::turn - stomach_timer > 1_days ) {
+        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
+            add_effect( effect_critter_well_fed, 24_hours );
+        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
+            add_effect( effect_critter_underfed, 24_hours );
+        }
+        amount_eaten = 0;
         stomach_timer = calendar::turn;
     }
 }
@@ -660,6 +695,9 @@ void monster::try_biosignature()
         return;
     }
     if( !type->biosig_timer ) {
+        return;
+    }
+    if( has_effect( effect_critter_underfed ) ) {
         return;
     }
 
@@ -1146,7 +1184,8 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) || has_effect( effect_downed ) ||
+    if( has_effect( effect_beartrap ) || has_effect( effect_stunned ) ||
+        has_effect( effect_psi_stunned ) || has_effect( effect_downed ) ||
         has_effect( effect_tied ) ||
         has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret = hilite( ret );
@@ -1255,7 +1294,8 @@ bool monster::can_act() const
 {
     return moves > 0 &&
            ( effects->empty() ||
-             ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
+             ( !has_effect( effect_stunned ) && !has_effect( effect_psi_stunned ) &&
+               !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
 int monster::sight_range( const float light_level ) const
@@ -1726,7 +1766,8 @@ bool monster::is_on_ground() const
 
 bool monster::has_weapon() const
 {
-    return false; // monsters will never have weapons, silly
+    return has_flag( mon_flag_WIELDED_WEAPON ) && !has_effect( effect_disarmed ) &&
+           !has_effect( effect_maimed_arm ); // monsters can actually have weapons, silly
 }
 
 bool monster::is_warm() const
@@ -2715,7 +2756,9 @@ void monster::die( Creature *nkiller )
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
-            get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
+            cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
+                            compute_kill_xp( type->id ) );
+            get_event_bus().send_with_talker( ch, this, e );
             if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
                 if( one_in( 4 ) ) {
                     const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
@@ -2847,14 +2890,14 @@ void monster::die( Creature *nkiller )
                 continue;
             }
             if( corpse ) {
-                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
             }
         }
         for( const item &it : dissectable_inv ) {
             if( corpse ) {
-                corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+                corpse->put_in( it, pocket_type::CORPSE );
             } else {
                 get_map().add_item( pos(), it );
             }
@@ -2993,7 +3036,7 @@ void monster::drop_items_on_death( item *corpse )
 
         // add stuff that could be worn or strapped to the creature
         if( it.is_armor() ) {
-            corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
+            corpse->force_insert_item( it, pocket_type::CONTAINER );
         }
     }
 
@@ -3016,7 +3059,7 @@ void monster::drop_items_on_death( item *corpse )
             if( current_best.second != nullptr ) {
                 current_best.second->insert_item( it );
             } else {
-                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, pocket_type::CONTAINER );
             }
         }
     }
@@ -3044,7 +3087,7 @@ void monster::spawn_dissectables_on_death( item *corpse )
                 dissectable.faults.emplace( flt );
             }
             if( corpse ) {
-                corpse->put_in( dissectable, item_pocket::pocket_type::CORPSE );
+                corpse->put_in( dissectable, pocket_type::CORPSE );
             } else {
                 get_map().add_item_or_charges( pos(), dissectable );
             }
@@ -3179,6 +3222,31 @@ void monster::process_effects()
         }
     }
 
+    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
+        heal( 1 );
+    }
+
+    //We already check these timers on_load, but adding a random chance for them to go off here
+    //will make it so that the player needn't leave the area and return for critters to poop,
+    //become hungry, evolve, have babies, or refill udders.
+    if( one_in( 30000 ) ) {
+        try_upgrade( false );
+        try_reproduce();
+        try_biosignature();
+
+        if( amount_eaten > 0 ) {
+            if( has_flag( mon_flag_EATS ) ) {
+                digest_food();
+            } else {
+                amount_eaten = 0;
+            }
+        }
+
+        if( has_flag( mon_flag_MILKABLE ) ) {
+            refill_udders();
+        }
+    }
+
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3250,6 +3318,77 @@ void monster::process_effects()
         if( hp < 0 ) {
             hp = 0;
         }
+    }
+
+    // Check to see if critter slips on bile or whatever.
+    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() &&
+        !digging() && !has_effect( effect_downed ) ) {
+        map &here = get_map();
+        if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
+            int intensity = get_effect_int( effect_slippery_terrain );
+            intensity -= 1;
+            //ROAD tiles are hard, flat surfaces, and easier to slip on.
+            if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
+                intensity++;
+            }
+            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
+            if( intensity + slipchance > dice( 1, 12 ) ) {
+                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
+                add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
+                                        name() );
+            }
+        }
+    }
+
+    // Apply or remove the cramped_space effect, which needs specific information about the monster's surroundings.
+    map &here = get_map();
+    const tripoint z_pos = pos();
+    const optional_vpart_position vp = here.veh_at( z_pos );
+    if( has_effect( effect_cramped_space ) && !vp.has_value() ) {
+        remove_effect( effect_cramped_space );
+    }
+    if( vp.has_value() ) {
+        vehicle &veh = vp->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( z_pos, "CARGO", part_status_flag::any );
+        for( vehicle_part *&part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                capacity += vpinfo.size;
+                free_cargo += contents.free_volume();
+            }
+        }
+        const creature_size size = get_size();
+        if( capacity > 0_ml ) {
+            // Open-topped vehicle parts have more room, and are always free space for fliers.
+            if( !veh.enclosed_at( z_pos ) ) {
+                free_cargo *= 1.2;
+                if( flies() ) {
+                    remove_effect( effect_cramped_space );
+                    return;
+                }
+            }
+            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
+                ( size == creature_size::small && free_cargo < 31250_ml ) ||
+                ( size == creature_size::medium && free_cargo < 62500_ml ) ||
+                ( size == creature_size::large && free_cargo < 125000_ml ) ||
+                ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
+                if( !has_effect( effect_cramped_space ) ) {
+                    add_effect( effect_cramped_space, 2_turns, true );
+                }
+                return;
+            }
+        }
+        if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+            !vp.part_with_feature( "HUGE_OK", true ) ) {
+            if( !has_effect( effect_cramped_space ) ) {
+                add_effect( effect_cramped_space, 2_turns, true );
+            }
+            return;
+        }
+        remove_effect( effect_cramped_space );
     }
 
     Creature::process_effects();
@@ -3462,7 +3601,7 @@ void monster::init_from_item( item &itm )
         if( !up_time.empty() ) {
             upgrade_time = std::stoi( up_time );
         }
-        for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
                 it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
@@ -3470,7 +3609,7 @@ void monster::init_from_item( item &itm )
             itm.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
-        for( item *dissectable : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
             itm.remove_item( *dissectable );
         }
@@ -3706,9 +3845,15 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+    reset_digestion();
 
-    if( has_flag( mon_flag_EATS ) ) {
-        digest_food();
+    //Clean up runaway values for monsters which eat but don't digest yet.
+    if( amount_eaten > 0 ) {
+        if( has_flag( mon_flag_EATS ) ) {
+            digest_food();
+        } else {
+            amount_eaten = 0;
+        }
     }
 
     if( has_flag( mon_flag_MILKABLE ) ) {

@@ -259,7 +259,7 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "skills_required": [ "tailor", 3 ],
     "time": "24 h",
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 120 ], [ "bronzesmithing_tools", 10 ] ],
     "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_horse", 1 ] ] ],
     "proficiencies": [

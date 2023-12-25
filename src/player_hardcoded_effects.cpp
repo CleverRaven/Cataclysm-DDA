@@ -95,7 +95,6 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -124,14 +123,9 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
-static const vitamin_id vitamin_calcium( "calcium" );
-static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static void eff_fun_onfire( Character &u, effect &it )
@@ -1032,45 +1026,6 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.set_duration( 1_turns * dice( 3, 100 ) );
     }
 
-    // TODO: Move this to update_needs when NPCs can mutate
-    if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
-            u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
-        here.is_outside( u.pos() ) ) {
-        if( u.has_trait( trait_CHLOROMORPH ) ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
-                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
-                    u.set_fatigue( 25 );
-                }
-                if( u.get_hunger() >= -30 ) {
-                    u.mod_hunger( -5 );
-                    // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_kcal( 43 );
-                }
-            }
-            if( u.get_thirst() >= -40 ) {
-                u.mod_thirst( -5 );
-            }
-            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
-            u.vitamin_mod( vitamin_iron, 2 );
-            u.vitamin_mod( vitamin_calcium, 2 );
-        }
-        if( u.has_trait( trait_M_SKIN3 ) ) {
-            // Spores happen!
-            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
-                if( u.get_fatigue() >= 0 ) {
-                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
-                }
-                if( calendar::once_every( 1_hours ) ) {
-                    u.spores(); // spawn some P O O F Y   B O I S
-                }
-            }
-        }
-        if( u.has_trait( trait_WATERSLEEP ) ) {
-            u.mod_fatigue( -3 ); // Fish sleep less in water
-        }
-    }
-
     // Check mutation category strengths to see if we're mutated enough to get a dream
     // If we've crossed a threshold, always show dreams for that category
     // Otherwise, check for the category that we have the most vitamins in our blood for
@@ -1189,29 +1144,6 @@ static void eff_fun_sleep( Character &u, effect &it )
                     break;
                 }
             }
-        }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
-            one_in( 43200 ) && u.is_avatar() ) {
-            if( one_in( 2 ) ) {
-                u.sound_hallu();
-            } else {
-                int max_count = rng( 1, 3 );
-                int count = 0;
-                for( const tripoint &mp : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( mp == u.pos() ) {
-                        continue;
-                    }
-                    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, mp ) &&
-                        here.pl_sees( mp, 2 ) ) {
-                        g->spawn_hallucination( mp );
-                        if( ++count > max_count ) {
-                            break;
-                        }
-                    }
-                }
-            }
-            it.set_duration( 0_turns );
-            woke_up = true;
         }
     }
 

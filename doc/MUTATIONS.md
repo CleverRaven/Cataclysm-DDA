@@ -59,7 +59,7 @@ These chances are determined on a curve, ranging from 0 Instability (default) to
 * Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
 * Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
 
-Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
+Instability very slowly decreases on its own, at a rate of 12 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per 2 hours, for a total of 24 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
 
 Instability can't currently be viewed numerically in normal play, but the player will receive a visible effect on their character sheet whenever they have any Instability. This serves to give a general ballpark of how unstable the character is without telling them the exact amount.
 
@@ -123,6 +123,18 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "weight": 1                                         // Used to randomly select variant when this is mutated.  Chance of being selected is weight/sum-of-all-weights.  If no weight is specified or weight is 0, variant will not be selected.
     }
   ],
+  "personality_score": [                               // Optional. Defines cosmetic flavor traits for NPCs which can be viewed during dialogue with the NPC.
+    {                                                  // Traits with a defined `personality_score` will be automatically applied to NPCs with personalities that qualify, based
+      "min_aggression": -10,                           // on the min and max values defined. NPC personalities' values are always integers within the range [-10,10].
+      "max_aggression": 10,                            // All mins and maxes are optional, this document contains their default values. (A personality_score trait with no
+      "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
+      "max_bravery": 10,                               //
+      "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
+      "max_altruism": 10,                              // numbers except 2, 3, and 4.)
+    }
+  ],
   "category": [ "MUTCAT_BIRD", "MUTCAT_INSECT" ],         // Categories containing this mutation.
       // prereqs and prereqs2 specify prerequisites of the current mutation.
       // Both are optional, but if prereqs2 is specified prereqs must also be specified.
@@ -133,6 +145,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "cancels": [ "ROT1", "ROT2", "ROT3" ],      // Cancels these mutations when mutating.
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
+  "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
     "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
     "str_mod": 2
@@ -193,7 +206,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
   "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
   "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
-  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer
+  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer. This will allow the character to see futher on the overmap at night if the mutation is active at all times
   "ranged_mutation": {                        // activation of the mutation allow you to shoot a fake gun
     "type": "pseudo_shotgun",                 // fake gun that is used to shoot
     "message": "SUDDEN SHOTGUN!."             // message that would be printed when you use it

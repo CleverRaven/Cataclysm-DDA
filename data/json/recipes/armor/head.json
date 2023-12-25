@@ -369,6 +369,7 @@
   {
     "result": "maid_hat",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
@@ -1523,6 +1524,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -1542,6 +1544,7 @@
         [ "welding_kit", 42 ],
         [ "welder_crude", 63 ],
         [ "soldering_iron", 63 ],
+        [ "soldering_iron_portable", 63 ],
         [ "integrated_welder", 63 ]
       ]
     ],
@@ -1567,6 +1570,7 @@
         [ "welding_kit", 74 ],
         [ "welder_crude", 112 ],
         [ "soldering_iron", 112 ],
+        [ "soldering_iron_portable", 112 ],
         [ "integrated_welder", 112 ]
       ]
     ],
@@ -1742,6 +1746,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2062,6 +2067,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2094,6 +2100,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2127,6 +2134,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2156,6 +2164,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2190,6 +2199,7 @@
         [ "welding_kit", 56 ],
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
+        [ "soldering_iron_portable", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2629,7 +2639,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "9 h 10 m",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
@@ -2660,7 +2670,7 @@
     "difficulty": 6,
     "time": "9 h 10 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
@@ -2779,6 +2789,7 @@
   {
     "result": "hood_gut",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",

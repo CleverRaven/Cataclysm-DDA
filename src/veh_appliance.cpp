@@ -147,7 +147,6 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "UNPLUG" );
     ctxt.register_action( "MERGE" );
 }
 
@@ -527,7 +526,7 @@ void veh_app_interact::merge()
             return false;
         }
         vehicle &target_veh = target_vp->vehicle();
-        if( !target_veh.has_tag( flag_APPLIANCE ) || !target_veh.is_powergrid() ) {
+        if( !target_veh.is_powergrid() ) {
             return false;
         }
         return true;

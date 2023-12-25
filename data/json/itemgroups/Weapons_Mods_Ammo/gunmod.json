@@ -7,10 +7,12 @@
       [ "belt_clip", 5 ],
       [ "brass_catcher", 100 ],
       [ "improve_sights", 60 ],
+      [ "compensator", 40 ],
       [ "muzzle_brake", 20 ],
       [ "pistol_grip", 30 ],
       [ "rifle_scope", 30 ],
       [ "shoulder_strap", 50 ],
+      [ "shoulder_strap_simple", 70 ],
       [ "single_sling", 50 ],
       [ "butt_hook", 30 ],
       [ "match_trigger", 20 ],
@@ -133,6 +135,13 @@
     "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
     "subtype": "collection",
     "entries": [ { "item": "grip_mount" }, { "item": "rail_mount" }, { "item": "stock_mount" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "type99_mods",
+    "//": "Default possible mods for Arisaka Type 99 rifles.",
+    "subtype": "distribution",
+    "entries": [ { "item": "arisaka_monopod", "prob": 25 }, { "item": "arisaka_bayonet", "prob": 50 } ]
   },
   {
     "type": "item_group",
