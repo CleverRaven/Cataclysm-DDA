@@ -44,19 +44,17 @@
     "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "tie_skinny",
-          "blazer",
-          "trenchcoat",
-          "gloves_light",
-          "wristwatch",
-          "socks",
-          "dress_shoes",
-          "cig"
-        ],
         "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "tie_skinny" },
+          { "item": "blazer" },
+          { "item": "trenchcoat" },
+          { "item": "gloves_light" },
+          { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "cig" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
@@ -65,8 +63,8 @@
           { "item": "wyld_candy", "count": 10, "container-item": "null", "entry-wrapper": "wrapper_wyld" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -80,20 +78,18 @@
     "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "tie_skinny",
-          "blazer",
-          "trenchcoat",
-          "badge_zebra",
-          "gloves_leather",
-          "wristwatch",
-          "socks",
-          "dress_shoes",
-          "cig"
-        ],
         "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "tie_skinny" },
+          { "item": "blazer" },
+          { "item": "trenchcoat" },
+          { "item": "badge_zebra" },
+          { "item": "gloves_leather" },
+          { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "cig" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
@@ -102,8 +98,8 @@
           { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -122,15 +118,21 @@
     "proficiencies": [ "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [ "sneakers", "hoodie", "knit_scarf", "diving_watch", "backpack", "wristwatch", "pants_cargo" ],
         "entries": [
+          { "item": "sneakers" },
+          { "item": "hoodie" },
+          { "item": "knit_scarf" },
+          { "item": "diving_watch" },
+          { "item": "backpack" },
+          { "item": "wristwatch" },
+          { "item": "pants_cargo" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
         ]
       },
-      "male": [ "briefs", "socks" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" }, { "item": "socks" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "missions": [ "MISSION_SAFEHOUSE" ]
   },
@@ -154,29 +156,27 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "wristwatch",
-          "tacvest",
-          "socks",
-          "badge_zebra",
-          "molle_pack"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
+          { "item": "molle_pack" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "group": "military_ballistic_vest_light" },
           { "group": "torso_grenade_bandolier_jotunn" },
           { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -198,21 +198,19 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "wristwatch",
-          "legrig",
-          "tacvest",
-          "socks",
-          "badge_zebra"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
@@ -226,8 +224,8 @@
           { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -251,21 +249,19 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "wristwatch",
-          "legrig",
-          "tacvest",
-          "socks",
-          "badge_zebra"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -273,8 +269,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -300,23 +296,21 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "pants_army",
-          "undershirt",
-          "combat_shirt",
-          "tac_fullhelmet",
-          "armguard_hard",
-          "legguard_hard",
-          "mask_ski",
-          "wristwatch",
-          "gloves_liner",
-          "gloves_tactical",
-          "socks",
-          "boots_combat",
-          "molle_pack",
-          "hammer_sledge"
-        ],
         "entries": [
+          { "item": "pants_army" },
+          { "item": "undershirt" },
+          { "item": "combat_shirt" },
+          { "item": "tac_fullhelmet" },
+          { "item": "armguard_hard" },
+          { "item": "legguard_hard" },
+          { "item": "mask_ski" },
+          { "item": "wristwatch" },
+          { "item": "gloves_liner" },
+          { "item": "gloves_tactical" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "molle_pack" },
+          { "item": "hammer_sledge" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_eater" },
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
@@ -329,8 +323,8 @@
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -356,20 +350,18 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "wristwatch",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "wristwatch" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamer" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -377,8 +369,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -401,20 +393,18 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "wristwatch",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_inventor" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -422,8 +412,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -440,20 +430,18 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "wristwatch",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamsmith" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -461,8 +449,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -475,13 +463,18 @@
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -495,13 +488,18 @@
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -515,13 +513,18 @@
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -535,13 +538,18 @@
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -555,13 +563,18 @@
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -575,13 +588,18 @@
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   }
