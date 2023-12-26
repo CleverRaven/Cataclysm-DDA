@@ -130,7 +130,7 @@ void harvest_drop_type::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-const std::vector<harvest_drop_type> &harvest_drop_type::get_all()
+const std::deque<harvest_drop_type> &harvest_drop_type::get_all()
 {
     return harvest_drop_type_factory.get_all();
 }
@@ -185,7 +185,7 @@ void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &s
     harvest_list_factory.load( jo, src );
 }
 
-const std::vector<harvest_list> &harvest_list::get_all()
+const std::deque<harvest_list> &harvest_list::get_all()
 {
     return harvest_list_factory.get_all();
 }

@@ -449,7 +449,7 @@ class json_flag
         /** true, if flags were loaded */
         static bool is_ready();
 
-        static const std::vector<json_flag> &get_all();
+        static const std::deque<json_flag> &get_all();
 
     private:
         translation info_;

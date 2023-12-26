@@ -73,7 +73,7 @@ class MonsterGenerator
         void check_monster_definitions() const;
 
         std::optional<mon_action_death> get_death_function( const std::string &f ) const;
-        const std::vector<mtype> &get_all_mtypes() const;
+        const std::deque<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;

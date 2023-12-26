@@ -186,7 +186,7 @@ struct weakpoints {
     static void load_weakpoint_sets( const JsonObject &jo, const std::string &src );
     static void reset();
     static void finalize_all();
-    static const std::vector<weakpoints> &get_all();
+    static const std::deque<weakpoints> &get_all();
 };
 
 #endif // CATA_SRC_WEAKPOINT_H

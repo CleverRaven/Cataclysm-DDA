@@ -70,7 +70,7 @@ void construction_categories::reset()
     all_construction_categories.reset();
 }
 
-const std::vector<construction_category> &construction_categories::get_all()
+const std::deque<construction_category> &construction_categories::get_all()
 {
     return all_construction_categories.get_all();
 }

@@ -56,7 +56,7 @@ struct proficiency_category {
     static void load_proficiency_categories( const JsonObject &jo, const std::string &src );
     static void reset();
     void load( const JsonObject &jo, std::string_view src );
-    static const std::vector<proficiency_category> &get_all();
+    static const std::deque<proficiency_category> &get_all();
 };
 
 class proficiency
@@ -92,7 +92,7 @@ class proficiency
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
 
-        static const std::vector<proficiency> &get_all();
+        static const std::deque<proficiency> &get_all();
 
         bool can_learn() const;
         bool ignore_focus() const;

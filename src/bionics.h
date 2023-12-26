@@ -193,7 +193,7 @@ struct bionic_data {
     void finalize();
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static void finalize_bionic();
-    static const std::vector<bionic_data> &get_all();
+    static const std::deque<bionic_data> &get_all();
     static void check_bionic_consistency();
 
     static std::map<bionic_id, bionic_id> migrations;

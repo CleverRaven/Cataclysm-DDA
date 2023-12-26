@@ -34,7 +34,7 @@ class weapon_category
 
         void load( const JsonObject &jo, std::string_view src );
 
-        static const std::vector<weapon_category> &get_all();
+        static const std::deque<weapon_category> &get_all();
 
         const weapon_category_id &getId() const {
             return id;

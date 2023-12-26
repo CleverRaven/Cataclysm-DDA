@@ -403,7 +403,7 @@ void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd 
     }
 }
 
-const std::vector<field_type> &field_types::get_all()
+const std::deque<field_type> &field_types::get_all()
 {
     return get_all_field_types().get_all();
 }

@@ -973,7 +973,7 @@ TEST_CASE( "export_profession_swim_cost_and_distance", "[.]" )
     testfile.open( fs::u8path( "swim-profession.csv" ), std::ofstream::trunc );
     testfile << "profession, move cost, steps" << std::endl;
 
-    const std::vector<profession> &all = profession::get_all();
+    const std::deque<profession> &all = profession::get_all();
     for( const profession &prof : all ) {
         std::vector<trait_id> traits;
         std::vector<std::string> trait_ids;

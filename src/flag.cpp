@@ -451,7 +451,7 @@ bool json_flag::is_ready()
     return !json_flags_all.empty();
 }
 
-const std::vector<json_flag> &json_flag::get_all()
+const std::deque<json_flag> &json_flag::get_all()
 {
     return json_flags_all.get_all();
 }

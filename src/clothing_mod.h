@@ -76,7 +76,7 @@ constexpr std::array<clothing_mod_type, 9> all_clothing_mod_types = {{
 void load( const JsonObject &jo, const std::string &src );
 void reset();
 
-const std::vector<clothing_mod> &get_all();
+const std::deque<clothing_mod> &get_all();
 const std::vector<clothing_mod> &get_all_with( clothing_mod_type type );
 
 std::string string_from_clothing_mod_type( clothing_mod_type type );

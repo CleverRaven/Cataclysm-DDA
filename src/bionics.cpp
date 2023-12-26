@@ -487,7 +487,7 @@ void bionic_data::finalize_bionic()
     bionic_factory.finalize();
 }
 
-const std::vector<bionic_data> &bionic_data::get_all()
+const std::deque<bionic_data> &bionic_data::get_all()
 {
     return bionic_factory.get_all();
 }

@@ -1433,7 +1433,7 @@ static std::string get_compass_for_direction( const cardinal_direction dir, int 
                 break;
         }
     }
-    for( const std::pair<const mtype *, int> &m : mon_visible.unique_mons[d] ) {
+    for( const std::pair<mtype_id, int> &m : mon_visible.unique_mons[d] ) {
         syms.emplace_back( m.first->sym, m.first->color );
     }
 
@@ -1478,9 +1478,11 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
             names.emplace_back( name );
         }
     }
-    std::map<const mtype *, int> mlist;
+    // Note that the order here is significant. Some widget tests depend on the
+    // monsters being displayed in the order the underlying string IDs were interned.
+    std::map<mtype_id, int> mlist;
     for( const auto &mv : mon_visible.unique_mons ) {
-        for( const std::pair<const mtype *, int> &m : mv ) {
+        for( const std::pair<mtype_id, int> &m : mv ) {
             mlist[m.first] += m.second;
         }
     }
@@ -1694,9 +1696,11 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
         int nearest_loc;
         int cnt;
     };
-    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
+    // Note that the order here is significant. Some widget tests depend on the
+    // monsters being displayed in the order the underlying string IDs were interned.
+    std::map<mtype_id, nearest_loc_and_cnt> all_mons;
     for( int loc = 0; loc < 9; loc++ ) {
-        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
+        for( const std::pair<mtype_id, int> &mon : unique_mons[loc] ) {
             const auto mon_it = all_mons.find( mon.first );
             if( mon_it == all_mons.end() ) {
                 all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
@@ -1707,8 +1711,8 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
             }
         }
     }
-    std::array<std::vector<std::pair<const mtype *, int>>, 9> mons_at;
-    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
+    std::array<std::vector<std::pair<mtype_id, int>>, 9> mons_at;
+    for( const std::pair<mtype_id, nearest_loc_and_cnt> &mon : all_mons ) {
         mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
     }
 
@@ -1724,8 +1728,8 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
     for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = j == 8 ? 2 : 1;
-        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
-            const mtype *const type = mon.first;
+        for( const std::pair<mtype_id, int> &mon : mons_at[j] ) {
+            const mtype_id &type = mon.first;
             const int count = mon.second;
             if( pr.y >= maxheight ) {
                 // no space to print to anyway

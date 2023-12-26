@@ -109,7 +109,7 @@ class score
         void check() const;
         static void load_score( const JsonObject &, const std::string & );
         static void check_consistency();
-        static const std::vector<score> &get_all();
+        static const std::deque<score> &get_all();
         static void reset();
 
         string_id<score> id;

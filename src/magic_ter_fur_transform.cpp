@@ -54,7 +54,7 @@ bool ter_furn_transform::is_valid() const
     return ter_furn_transform_factory.is_valid( this->id );
 }
 
-const std::vector<ter_furn_transform> &ter_furn_transform::get_all()
+const std::deque<ter_furn_transform> &ter_furn_transform::get_all()
 {
     return ter_furn_transform_factory.get_all();
 }

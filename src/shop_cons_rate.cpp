@@ -50,7 +50,7 @@ void shopkeeper_blacklist::reset()
     shop_blacklist_factory.reset();
 }
 
-std::vector<shopkeeper_blacklist> const &shopkeeper_blacklist::get_all()
+std::deque<shopkeeper_blacklist> const &shopkeeper_blacklist::get_all()
 {
     return shop_blacklist_factory.get_all();
 }
@@ -74,7 +74,7 @@ void shopkeeper_cons_rates::reset()
     shop_cons_rate_factory.reset();
 }
 
-std::vector<shopkeeper_cons_rates> const &shopkeeper_cons_rates::get_all()
+std::deque<shopkeeper_cons_rates> const &shopkeeper_cons_rates::get_all()
 {
     return shop_cons_rate_factory.get_all();
 }

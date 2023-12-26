@@ -458,7 +458,7 @@ TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
     d.add_topic( "TALK_TEST_MISSION_GOAL" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    const std::vector<mission_type> &all_missions = mission_type::get_all();
+    const std::deque<mission_type> &all_missions = mission_type::get_all();
     bool set_mission = false;
     for( const mission_type &some_mission : all_missions ) {
         if( some_mission.goal == MGOAL_ASSASSINATE ) {

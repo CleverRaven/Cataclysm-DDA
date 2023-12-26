@@ -37,7 +37,7 @@ void butchery_requirements::load_butchery_req( const JsonObject &jo, const std::
     butchery_req_factory.load( jo, src );
 }
 
-const std::vector<butchery_requirements> &butchery_requirements::get_all()
+const std::deque<butchery_requirements> &butchery_requirements::get_all()
 {
     return butchery_req_factory.get_all();
 }

@@ -377,7 +377,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         return true;
     } else if( action == "FAV_CATEGORY" ) {
         // Get all categories and sort by name
-        std::vector<item_category> all_cat = item_category::get_all();
+        const std::deque<item_category> &all_categories = item_category::get_all();
+        std::vector<item_category> all_cat( all_categories.begin(), all_categories.end() );
         const cata::flat_set<item_category_id> &listed_cat = whitelist
                 ? selected_pocket->settings.get_category_whitelist()
                 : selected_pocket->settings.get_category_blacklist();

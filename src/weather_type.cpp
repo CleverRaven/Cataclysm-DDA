@@ -154,7 +154,7 @@ void weather_types::finalize_all()
     }
 }
 
-const std::vector<weather_type> &weather_types::get_all()
+const std::deque<weather_type> &weather_types::get_all()
 {
     return weather_type_factory.get_all();
 }

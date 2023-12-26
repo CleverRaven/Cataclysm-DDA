@@ -40,7 +40,7 @@ constexpr char variant_separator = '#';
 void load_prototype( const JsonObject &jo, const std::string &src );
 void reset_prototypes();
 void finalize_prototypes();
-const std::vector<vehicle_prototype> &get_all_prototypes();
+const std::deque<vehicle_prototype> &get_all_prototypes();
 
 namespace parts
 {
@@ -48,7 +48,7 @@ void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 void finalize();
-const std::vector<vpart_info> &get_all();
+const std::deque<vpart_info> &get_all();
 } // namespace parts
 } // namespace vehicles
 

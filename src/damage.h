@@ -55,7 +55,7 @@ struct damage_type {
     static void reset();
     static void check();
     void load( const JsonObject &jo, std::string_view );
-    static const std::vector<damage_type> &get_all();
+    static const std::deque<damage_type> &get_all();
 };
 
 struct damage_info_order {
@@ -93,8 +93,8 @@ struct damage_info_order {
     static void finalize_all();
     void finalize();
     void load( const JsonObject &jo, std::string_view src );
-    static const std::vector<damage_info_order> &get_all();
-    static const std::vector<damage_info_order> &get_all( info_type sort_by );
+    static const std::deque<damage_info_order> &get_all();
+    static const std::deque<damage_info_order> &get_all( info_type sort_by );
 };
 
 struct barrel_desc {

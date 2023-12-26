@@ -149,7 +149,7 @@ void limb_score::reset()
     limb_score_factory.reset();
 }
 
-const std::vector<limb_score> &limb_score::get_all()
+const std::deque<limb_score> &limb_score::get_all()
 {
     return limb_score_factory.get_all();
 }
@@ -276,7 +276,7 @@ sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
     return sub_bodypart_id();
 }
 
-const std::vector<body_part_type> &body_part_type::get_all()
+const std::deque<body_part_type> &body_part_type::get_all()
 {
     return body_part_factory.get_all();
 }

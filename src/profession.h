@@ -98,7 +98,7 @@ class profession
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
-        static const std::vector<profession> &get_all();
+        static const std::deque<profession> &get_all();
         static std::vector<string_id<profession>> get_all_hobbies();
 
         static bool has_initialized();

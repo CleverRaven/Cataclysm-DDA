@@ -47,7 +47,7 @@ void mood_face::load( const JsonObject &jo, const std::string_view )
     } );
 }
 
-const std::vector<mood_face> &mood_face::get_all()
+const std::deque<mood_face> &mood_face::get_all()
 {
     return mood_face_factory.get_all();
 }

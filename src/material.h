@@ -21,7 +21,7 @@ class material_type;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
-using material_list = std::vector<material_type>;
+using material_list = std::deque<material_type>;
 using material_id_list = std::vector<material_id>;
 
 // values for how breathable a material is

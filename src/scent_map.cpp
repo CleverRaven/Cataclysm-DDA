@@ -287,7 +287,7 @@ void scent_type::load( const JsonObject &jo, const std::string_view )
     assign( jo, "receptive_species", receptive_species );
 }
 
-const std::vector<scent_type> &scent_type::get_all()
+const std::deque<scent_type> &scent_type::get_all()
 {
     return scent_factory.get_all();
 }

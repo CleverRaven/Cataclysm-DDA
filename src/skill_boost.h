@@ -25,7 +25,7 @@ class skill_boost
         static void load_boost( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        static const std::vector<skill_boost> &get_all();
+        static const std::deque<skill_boost> &get_all();
         static std::optional<skill_boost> get( const std::string &stat_str );
 
     private:

@@ -208,7 +208,7 @@ void monfaction::load( const JsonObject &jo, const std::string_view )
     attitude_map.emplace( id, MFA_FRIENDLY );
 }
 
-const std::vector<monfaction> &monfactions::get_all()
+const std::deque<monfaction> &monfactions::get_all()
 {
     return faction_factory.get_all();
 }

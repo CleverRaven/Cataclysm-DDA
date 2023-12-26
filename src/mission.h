@@ -251,7 +251,7 @@ struct mission_type {
         /**
          * Get all mission types at once.
          */
-        static const std::vector<mission_type> &get_all();
+        static const std::deque<mission_type> &get_all();
 
         bool test_goal_condition( struct dialogue &d ) const;
 

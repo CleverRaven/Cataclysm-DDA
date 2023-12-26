@@ -41,7 +41,7 @@ void speed_description::load( const JsonObject &jo, const std::string_view )
     } );
 }
 
-const std::vector<speed_description> &speed_description::get_all()
+const std::deque<speed_description> &speed_description::get_all()
 {
     return speed_description_factory.get_all();
 }

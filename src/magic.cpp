@@ -634,7 +634,7 @@ void spell_type::check_consistency()
     }
 }
 
-const std::vector<spell_type> &spell_type::get_all()
+const std::deque<spell_type> &spell_type::get_all()
 {
     return spell_factory.get_all();
 }

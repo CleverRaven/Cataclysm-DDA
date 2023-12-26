@@ -21,7 +21,7 @@
 #include "translations.h"
 #include "units.h"
 
-static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
+static std::map<damage_info_order::info_type, std::deque<damage_info_order>> sorted_order_lists;
 
 namespace
 {
@@ -69,7 +69,7 @@ void damage_type::reset()
     damage_type_factory.reset();
 }
 
-const std::vector<damage_type> &damage_type::get_all()
+const std::deque<damage_type> &damage_type::get_all()
 {
     return damage_type_factory.get_all();
 }
@@ -85,12 +85,12 @@ void damage_info_order::reset()
     sorted_order_lists.clear();
 }
 
-const std::vector<damage_info_order> &damage_info_order::get_all()
+const std::deque<damage_info_order> &damage_info_order::get_all()
 {
     return damage_info_order_factory.get_all();
 }
 
-const std::vector<damage_info_order> &damage_info_order::get_all( info_type sort_by )
+const std::deque<damage_info_order> &damage_info_order::get_all( info_type sort_by )
 {
     return sorted_order_lists.at( sort_by );
 }
@@ -156,7 +156,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
 void damage_type::check()
 {
     for( const damage_type &dt : damage_type::get_all() ) {
-        const std::vector<damage_info_order> &dio_list = damage_info_order::get_all();
+        const std::deque<damage_info_order> &dio_list = damage_info_order::get_all();
         auto iter = std::find_if( dio_list.begin(), dio_list.end(),
         [&dt]( const damage_info_order & dio ) {
             return dt.id == dio.dmg_type;
@@ -200,7 +200,7 @@ void damage_info_order::load( const JsonObject &jo, std::string_view )
     }
 }
 
-static void prepare_sorted_lists( std::vector<damage_info_order> &list,
+static void prepare_sorted_lists( std::deque<damage_info_order> &list,
                                   damage_info_order::info_type sb )
 {
     for( auto iter = list.begin(); iter != list.end(); ) {
@@ -774,7 +774,7 @@ std::unordered_map<damage_type_id, float> load_damage_map( const JsonObject &jo,
 void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map, bool force_derive,
                           float default_value )
 {
-    const std::vector<damage_type> &dams = damage_type::get_all();
+    const std::deque<damage_type> &dams = damage_type::get_all();
     if( dams.empty() ) {
         debugmsg( "called before damage_types have been loaded." );
         return;

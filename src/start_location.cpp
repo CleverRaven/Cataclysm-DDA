@@ -555,7 +555,7 @@ void start_locations::reset()
     all_start_locations.reset();
 }
 
-const std::vector<start_location> &start_locations::get_all()
+const std::deque<start_location> &start_locations::get_all()
 {
     return all_start_locations.get_all();
 }

@@ -131,7 +131,7 @@ class relic_procgen_data
 
         bool was_loaded = false;
 
-        static const std::vector<relic_procgen_data> &get_all();
+        static const std::deque<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, std::string_view = {} );

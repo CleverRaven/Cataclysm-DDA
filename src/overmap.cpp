@@ -492,7 +492,7 @@ void overmap_land_use_codes::reset()
     land_use_codes.reset();
 }
 
-const std::vector<overmap_land_use_code> &overmap_land_use_codes::get_all()
+const std::deque<overmap_land_use_code> &overmap_land_use_codes::get_all()
 {
     return land_use_codes.get_all();
 }
@@ -559,7 +559,7 @@ void overmap_specials::reset()
     specials.reset();
 }
 
-const std::vector<overmap_special> &overmap_specials::get_all()
+const std::deque<overmap_special> &overmap_specials::get_all()
 {
     return specials.get_all();
 }
@@ -1076,7 +1076,7 @@ void overmap_terrains::reset()
     terrains.reset();
 }
 
-const std::vector<oter_t> &overmap_terrains::get_all()
+const std::deque<oter_t> &overmap_terrains::get_all()
 {
     return terrains.get_all();
 }
@@ -7402,8 +7402,8 @@ void overmap_special_migration::check()
 
 bool overmap_special_migration::migrated( const overmap_special_id &os_id )
 {
-    std::vector<overmap_special_migration> migs = migrations.get_all();
-    return std::find_if( migs.begin(), migs.end(), [&os_id]( overmap_special_migration & m ) {
+    const std::deque<overmap_special_migration> &migs = migrations.get_all();
+    return std::find_if( migs.begin(), migs.end(), [&os_id]( const overmap_special_migration & m ) {
         return os_id == overmap_special_id( m.id.str() );
     } ) != migs.end();
 }

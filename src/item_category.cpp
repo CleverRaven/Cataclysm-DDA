@@ -35,7 +35,7 @@ void zone_priority_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "filthy", filthy, false );
 }
 
-const std::vector<item_category> &item_category::get_all()
+const std::deque<item_category> &item_category::get_all()
 {
     return item_category_factory.get_all();
 }

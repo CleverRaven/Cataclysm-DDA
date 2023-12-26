@@ -300,7 +300,7 @@ class widget
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
-        static const std::vector<widget> &get_all();
+        static const std::deque<widget> &get_all();
         // Get this widget's id
         const widget_id &getId() const;
 

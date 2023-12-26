@@ -21,7 +21,7 @@ class speed_description
 
         void load( const JsonObject &jo, std::string_view src );
 
-        static const std::vector<speed_description> &get_all();
+        static const std::deque<speed_description> &get_all();
 
         const std::vector<speed_description_value> &values() const {
             return values_;

@@ -34,7 +34,7 @@ class butchery_requirements
 
         static void load_butchery_req( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view );
-        static const std::vector<butchery_requirements> &get_all();
+        static const std::deque<butchery_requirements> &get_all();
         static void check_consistency();
         static void reset();
         bool is_valid() const;

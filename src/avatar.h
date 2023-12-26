@@ -66,7 +66,7 @@ struct monster_visible_info {
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
     std::array<std::vector<npc *>, 9> unique_types;
-    std::array<std::vector<std::pair<const mtype *, int>>, 9> unique_mons;
+    std::array<std::vector<std::pair<mtype_id, int>>, 9> unique_mons;
 
     // If the monster visible in this direction is dangerous
     std::array<bool, 8> dangerous = {};

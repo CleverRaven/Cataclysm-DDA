@@ -279,14 +279,15 @@ const profession *profession::generic()
     return &generic_profession_id.obj();
 }
 
-const std::vector<profession> &profession::get_all()
+const std::deque<profession> &profession::get_all()
 {
     return all_profs.get_all();
 }
 
 std::vector<string_id<profession>> profession::get_all_hobbies()
 {
-    std::vector<profession> all = profession::get_all();
+    const std::deque<profession> &all_professions = profession::get_all();
+    std::vector<profession> all( all_professions.begin(), all_professions.end() );
     std::vector<profession_id> ret;
 
     // remove all non-hobbies from list of professions

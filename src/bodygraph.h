@@ -57,7 +57,7 @@ struct bodygraph {
     static void finalize_all();
     static void check_all();
     static void reset();
-    static const std::vector<bodygraph> &get_all();
+    static const std::deque<bodygraph> &get_all();
     void load( const JsonObject &jo, std::string_view src );
     void finalize();
     void check() const;

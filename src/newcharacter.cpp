@@ -4308,7 +4308,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "RESET_CALENDAR" ) {
             get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {
-            std::vector<city> cities( city::get_all() );
+            const std::deque<city> &all_cities = city::get_all();
+            std::vector<city> cities( all_cities.begin(), all_cities.end() );
             const auto cities_cmp_population = []( const city & a, const city & b ) {
                 return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
             };

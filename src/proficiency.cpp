@@ -126,12 +126,12 @@ void proficiency_category::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "description", _description );
 }
 
-const std::vector<proficiency> &proficiency::get_all()
+const std::deque<proficiency> &proficiency::get_all()
 {
     return proficiency_factory.get_all();
 }
 
-const std::vector<proficiency_category> &proficiency_category::get_all()
+const std::deque<proficiency_category> &proficiency_category::get_all()
 {
     return proficiency_category_factory.get_all();
 }

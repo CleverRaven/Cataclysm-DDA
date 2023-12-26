@@ -36,7 +36,7 @@ void jmath_func::reset()
     get_all_jmath_func().reset();
 }
 
-std::vector<jmath_func> const &jmath_func::get_all()
+std::deque<jmath_func> const &jmath_func::get_all()
 {
     return get_all_jmath_func().get_all();
 }

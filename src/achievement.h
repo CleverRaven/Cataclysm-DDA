@@ -66,7 +66,7 @@ class achievement
         static void load_achievement( const JsonObject &, const std::string & );
         static void finalize();
         static void check_consistency();
-        static const std::vector<achievement> &get_all();
+        static const std::deque<achievement> &get_all();
         static void reset();
 
         achievement_id id;

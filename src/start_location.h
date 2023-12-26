@@ -110,7 +110,7 @@ void finalize_all();
 void check_consistency();
 void reset();
 
-const std::vector<start_location> &get_all();
+const std::deque<start_location> &get_all();
 
 } // namespace start_locations
 

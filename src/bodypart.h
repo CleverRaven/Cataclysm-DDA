@@ -112,7 +112,7 @@ struct limb_score {
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
-        static const std::vector<limb_score> &get_all();
+        static const std::deque<limb_score> &get_all();
 
         const limb_score_id &getId() const {
             return id;
@@ -342,7 +342,7 @@ struct body_part_type {
         void check() const;
 
         static void load_bp( const JsonObject &jo, const std::string &src );
-        static const std::vector<body_part_type> &get_all();
+        static const std::deque<body_part_type> &get_all();
 
         // Clears all bps
         static void reset();

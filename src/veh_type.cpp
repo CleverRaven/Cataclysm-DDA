@@ -953,7 +953,7 @@ void vehicles::parts::reset()
     vpart_info_factory.reset();
 }
 
-const std::vector<vpart_info> &vehicles::parts::get_all()
+const std::deque<vpart_info> &vehicles::parts::get_all()
 {
     return vpart_info_factory.get_all();
 }
@@ -1241,7 +1241,7 @@ void vehicles::load_prototype( const JsonObject &jo, const std::string &src )
     vehicle_prototype_factory.load( jo, src );
 }
 
-const std::vector<vehicle_prototype> &vehicles::get_all_prototypes()
+const std::deque<vehicle_prototype> &vehicles::get_all_prototypes()
 {
     return vehicle_prototype_factory.get_all();
 }

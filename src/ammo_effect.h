@@ -64,7 +64,7 @@ void finalize_all();
 void check_consistency();
 void reset();
 
-const std::vector<ammo_effect> &get_all();
+const std::deque<ammo_effect> &get_all();
 
 } // namespace ammo_effects
 

@@ -185,7 +185,7 @@ bool string_id<zone_type>::is_valid() const
     return zone_type_factory.is_valid( *this );
 }
 
-const std::vector<zone_type> &zone_type::get_all()
+const std::deque<zone_type> &zone_type::get_all()
 {
     return zone_type_factory.get_all();
 }

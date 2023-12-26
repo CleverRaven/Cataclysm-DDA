@@ -19,7 +19,7 @@ struct city {
     static void load_city( const JsonObject &, const std::string & );
     static void finalize();
     static void check_consistency();
-    static const std::vector<city> &get_all();
+    static const std::deque<city> &get_all();
     static void reset();
 
     city_id id;

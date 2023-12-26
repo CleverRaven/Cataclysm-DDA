@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <bitset>
+#include <deque>
 #include <set>
 #include <unordered_map>
 #include <vector>
@@ -137,7 +138,8 @@ class generic_factory
         }
 
     protected:
-        std::vector<T> list;
+        // Pointers need to be stable, so vector is unsafe.
+        std::deque<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
         std::unordered_map<std::string, T> abstracts;
 
@@ -180,7 +182,7 @@ class generic_factory
             }
         }
 
-        const T dummy_obj;
+        std::unique_ptr<T> dummy_obj;
 
     public:
         const bool initialized;
@@ -197,7 +199,7 @@ class generic_factory
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
-              dummy_obj(),
+              dummy_obj( std::make_unique<T>() ),
               initialized( true ) {
         }
 
@@ -440,7 +442,7 @@ class generic_factory
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
          */
-        const std::vector<T> &get_all() const {
+        const std::deque<T> &get_all() const {
             return list;
         }
         /**
@@ -461,7 +463,7 @@ class generic_factory
         const T &obj( const int_id<T> &id ) const {
             if( !is_valid( id ) ) {
                 debugmsg( "invalid %s id \"%d\"", type_name, id.to_i() );
-                return dummy_obj;
+                return *dummy_obj;
             }
             return list[id.to_i()];
         }
@@ -476,7 +478,7 @@ class generic_factory
             int_id<T> i_id;
             if( !find_id( id, i_id ) ) {
                 debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
-                return dummy_obj;
+                return *dummy_obj;
             }
             return list[i_id.to_i()];
         }

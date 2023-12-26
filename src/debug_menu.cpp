@@ -1386,7 +1386,8 @@ static void teleport_overmap( bool specific_coordinates = false )
 
 static void teleport_city()
 {
-    std::vector<city> cities( city::get_all() );
+    const std::deque<city> &all_cities = city::get_all();
+    std::vector<city> cities( all_cities.begin(), all_cities.end() );
     const auto cities_cmp_population = []( const city & a, const city & b ) {
         return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
     };
@@ -3385,7 +3386,7 @@ void debug()
             static_cast<void>( raise( SIGSEGV ) );
             break;
         case debug_menu_index::ACTIVATE_EOC: {
-            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+            const std::deque<effect_on_condition> &eocs = effect_on_conditions::get_all();
             uilist eoc_menu;
             for( const effect_on_condition &eoc : eocs ) {
                 eoc_menu.addentry( -1, true, -1, eoc.id.str() );

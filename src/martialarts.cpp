@@ -89,7 +89,7 @@ void weapon_category::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "name", name_ );
 }
 
-const std::vector<weapon_category> &weapon_category::get_all()
+const std::deque<weapon_category> &weapon_category::get_all()
 {
     return weapon_category_factory.get_all();
 }

@@ -4648,13 +4648,13 @@ void game::mon_info_update( )
                 }
             }
 
-            std::vector<std::pair<const mtype *, int>> &vec = unique_mons[index];
+            std::vector<std::pair<mtype_id, int>> &vec = unique_mons[index];
             const auto mon_it = std::find_if( vec.begin(), vec.end(),
-            [&]( const std::pair<const mtype *, int> &elem ) {
-                return elem.first == critter.type;
+            [&]( const std::pair<mtype_id, int> &elem ) {
+                return &elem.first.obj() == critter.type;
             } );
             if( mon_it == vec.end() ) {
-                vec.emplace_back( critter.type, 1 );
+                vec.emplace_back( critter.type->id, 1 );
             } else {
                 mon_it->second++;
             }

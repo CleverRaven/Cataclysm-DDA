@@ -10,6 +10,7 @@
 #include "colony_list_test_helpers.h"
 #include "flat_set.h"
 #include "generic_factory.h"
+#include "resolved_id.h"
 #include "type_id.h"
 
 #ifdef _MSC_VER
@@ -22,14 +23,48 @@ namespace
 {
 struct test_obj;
 
+using test_id = int_id<test_obj>;
 using test_obj_id = string_id<test_obj>;
+using resolved_test_id = resolved_id<test_obj>;
 
 struct test_obj {
     test_obj_id id;
     std::string value;
 };
 
+test_obj invalid;
+test_id test_int_id_null( -1 );
+
+generic_factory<test_obj> *current_factory;
+
 } // namespace
+
+// standard "generic_factory" methods to support the tests below
+template<> int_id<test_obj> string_id<test_obj>::id() const
+{
+    return current_factory->convert( *this, test_int_id_null );
+}
+template<> int_id<test_obj>::int_id( const string_id<test_obj> &id ) : _id( id.id() ) {}
+template<> const test_obj &int_id<test_obj>::obj() const
+{
+    return current_factory->obj( *this );
+}
+template<> bool int_id<test_obj>::is_valid() const
+{
+    return current_factory->is_valid( *this );
+}
+template<> const test_obj &string_id<test_obj>::obj() const
+{
+    return current_factory->obj( *this );
+}
+template<> bool string_id<test_obj>::is_valid() const
+{
+    return current_factory->is_valid( *this );
+}
+template<> const test_obj &resolved_id<test_obj>::invalid_obj() const
+{
+    return invalid;
+}
 
 static const test_obj_id test_obj_id_0( "id_0" );
 static const test_obj_id test_obj_id_1( "id_1" );
@@ -43,10 +78,15 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     test_obj_id id_2( "id_2" );
 
     generic_factory<test_obj> test_factory( "test_factory" );
+    current_factory = &test_factory;
 
     REQUIRE_FALSE( test_factory.is_valid( id_0 ) );
     REQUIRE_FALSE( test_factory.is_valid( id_1 ) );
     REQUIRE_FALSE( test_factory.is_valid( id_2 ) );
+
+    REQUIRE_FALSE( resolved_test_id( id_0 ).is_valid() );
+    REQUIRE_FALSE( resolved_test_id( id_1 ).is_valid() );
+    REQUIRE_FALSE( resolved_test_id( id_2 ).is_valid() );
 
     test_factory.insert( {test_obj_id_0, "value_0"} );
     test_factory.insert( {test_obj_id_1, "value_1"} );
@@ -61,10 +101,24 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     CHECK( test_factory.is_valid( id_0 ) );
     CHECK( test_factory.is_valid( id_1 ) );
     CHECK( test_factory.is_valid( id_2 ) );
+
+    CHECK( test_factory.is_valid( id_0.id() ) );
+    CHECK( test_factory.is_valid( id_1.id() ) );
+    CHECK( test_factory.is_valid( id_2.id() ) );
+
+    CHECK( resolved_test_id( id_0 ).is_valid() );
+    CHECK( resolved_test_id( id_1 ).is_valid() );
+    CHECK( resolved_test_id( id_2 ).is_valid() );
+
+    CHECK( resolved_test_id( id_0.id() ).is_valid() );
+    CHECK( resolved_test_id( id_1.id() ).is_valid() );
+    CHECK( resolved_test_id( id_2.id() ).is_valid() );
+
     CHECK( test_factory.size() == 3 );
     CHECK_FALSE( test_factory.empty() );
 
     CHECK_FALSE( test_factory.is_valid( test_obj_non_existent_id ) );
+    CHECK_FALSE( resolved_test_id( test_obj_non_existent_id ).is_valid() );
 
     int_id<test_obj> int_id_1 = test_factory.convert( test_obj_id_1,
                                 int_id<test_obj>( -1 ) );
@@ -78,6 +132,11 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     CHECK( test_factory.obj( id_2 ).value == "value_2" );
     CHECK( test_factory.obj( int_id_1 ).value == "value_1" );
 
+    CHECK( resolved_test_id( id_0 )->value == "value_0" );
+    CHECK( resolved_test_id( id_1 )->value == "value_1" );
+    CHECK( resolved_test_id( id_2 )->value == "value_2" );
+    CHECK( resolved_test_id( int_id_1 )->value == "value_1" );
+
     test_factory.reset();
     // factory is be empty, all ids must be invalid
     CHECK( test_factory.empty() );
@@ -89,6 +148,11 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     REQUIRE_FALSE( test_factory.is_valid( id_0 ) );
     REQUIRE_FALSE( test_factory.is_valid( id_1 ) );
     REQUIRE_FALSE( test_factory.is_valid( id_2 ) );
+
+    REQUIRE_FALSE( resolved_test_id( int_id_1 ).is_valid() );
+    REQUIRE_FALSE( resolved_test_id( id_0 ).is_valid() );
+    REQUIRE_FALSE( resolved_test_id( id_1 ).is_valid() );
+    REQUIRE_FALSE( resolved_test_id( id_2 ).is_valid() );
 }
 
 TEST_CASE( "generic_factory_repeated_overwrite", "[generic_factory]" )
@@ -111,15 +175,19 @@ TEST_CASE( "generic_factory_repeated_invalidation", "[generic_factory]" )
     // if id is static, factory must be static (or singleton by other means)
     static test_obj_id id_1( "id_1" );
     static generic_factory<test_obj> test_factory( "test_factory" );
+    current_factory = &test_factory;
 
     for( int i = 0; i < 10; i++ ) {
         INFO( "iteration: " << i );
         test_factory.reset();
         REQUIRE_FALSE( test_factory.is_valid( id_1 ) );
+        REQUIRE_FALSE( resolved_id( id_1 ).is_valid() );
         std::string value = "value_" + std::to_string( i );
         test_factory.insert( { test_obj_id_1, value } );
         CHECK( test_factory.is_valid( id_1 ) );
+        CHECK( resolved_id( id_1 ).is_valid() );
         CHECK( test_factory.obj( id_1 ).value == value );
+        CHECK( resolved_id( id_1 )->value == value );
     }
 }
 
@@ -279,7 +347,9 @@ struct stat_test_obj {
 };
 using stat_str_id = string_id<stat_test_obj>;
 using stat_int_id = int_id<stat_test_obj>;
+using resolved_stat_id = resolved_id<stat_test_obj>;
 int_id<stat_test_obj> stat_int_id_null( -1 );
+stat_test_obj invalid_stat;
 
 generic_factory<stat_test_obj> stat_test_obj_factory( "stat_test_obj" );
 } // namespace
@@ -290,9 +360,25 @@ template<> int_id<stat_test_obj> string_id<stat_test_obj>::id() const
     return stat_test_obj_factory.convert( *this, stat_int_id_null );
 }
 template<> int_id<stat_test_obj>::int_id( const string_id<stat_test_obj> &id ) : _id( id.id() ) {}
+template<> const stat_test_obj &int_id<stat_test_obj>::obj() const
+{
+    return stat_test_obj_factory.obj( *this );
+}
+template<> bool int_id<stat_test_obj>::is_valid() const
+{
+    return stat_test_obj_factory.is_valid( *this );
+}
 template<> const stat_test_obj &string_id<stat_test_obj>::obj() const
 {
     return stat_test_obj_factory.obj( *this );
+}
+template<> bool string_id<stat_test_obj>::is_valid() const
+{
+    return stat_test_obj_factory.is_valid( *this );
+}
+template<> const stat_test_obj &resolved_id<stat_test_obj>::invalid_obj() const
+{
+    return invalid_stat;
 }
 
 // mark string_id<dyn_test_obj> as dynamic/non-interned
@@ -378,6 +464,7 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
         for( const auto &f : item.std_set_string_ids ) {
             test_flags.push_back( f );
         }
+        std::shuffle( test_flags.begin(), test_flags.end(), rng_get_engine() );
     } else {
         // populate with random flags
         for( int i = 0; i < 20; i++ ) {
@@ -390,74 +477,81 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
     for( const auto &f : test_flags ) {
         test_dyn_str_ids.emplace_back( f.str() );
     }
+    std::vector<resolved_stat_id> test_resolved_ids;
+    test_resolved_ids.reserve( test_resolved_ids.size() );
+    for( const auto &f : test_flags ) {
+        test_resolved_ids.emplace_back( f );
+    }
 
     DYNAMIC_SECTION( "number_ids_in_collection: " << flags_in_item << "; only_hits: " << hits ) {
     }
 
-    int i = 0;
-
-    BENCHMARK( "baseline: string_id access" ) {
-        return test_flags[( i++ ) % test_flags_size].str().size();
+    BENCHMARK( "baseline: string_id access", i ) {
+        return test_flags[i % test_flags_size].str().size();
     };
 
-    BENCHMARK( "baseline: string_id::obj()" ) {
-        return test_flags[0].obj().was_loaded;
+    BENCHMARK( "baseline: string_id::obj()", i ) {
+        return test_flags[i % test_flags_size].obj().was_loaded;
     };
 
-    BENCHMARK( "baseline: string_id -> int_id" ) {
-        return test_flags[0].id().to_i();
+    BENCHMARK( "baseline: resolved_id::obj()", i ) {
+        return test_resolved_ids[i % test_flags_size].obj().was_loaded;
     };
 
-    BENCHMARK( "\"enum\" bitset" ) {
-        return !!item.bit_flags[( i++ ) % bit_flags_size];
+    BENCHMARK( "baseline: string_id -> int_id", i ) {
+        return test_flags[i % test_flags_size].id().to_i();
     };
 
-    BENCHMARK( "std::set<std::string>" ) {
-        return item.std_set_std_strings.count( test_flags[( i++ ) % test_flags_size].str() );
+    BENCHMARK( "\"enum\" bitset", i ) {
+        return !!item.bit_flags[i % test_flags_size % bit_flags_size];
     };
 
-    BENCHMARK( "flat_set<std::string>" ) {
-        return item.flat_set_std_strings.count( test_flags[( i++ ) % test_flags_size].str() );
+    BENCHMARK( "std::set<std::string>", i ) {
+        return item.std_set_std_strings.count( test_flags[i % test_flags_size].str() );
     };
 
-    BENCHMARK( "flat_set<string_id>" ) {
-        return item.flat_set_string_ids.count( test_flags[( i++ ) % test_flags_size] );
+    BENCHMARK( "flat_set<std::string>", i ) {
+        return item.flat_set_std_strings.count( test_flags[i % test_flags_size].str() );
     };
 
-    BENCHMARK( "std::set<string_id>" ) {
-        return item.std_set_string_ids.count( test_flags[( i++ ) % test_flags_size] );
+    BENCHMARK( "flat_set<string_id>", i ) {
+        return item.flat_set_string_ids.count( test_flags[i % test_flags_size] );
     };
 
-    BENCHMARK( "std::unordered_set<string_id>" ) {
-        return item.uo_set_string_ids.count( test_flags[( i++ ) % test_flags_size] );
+    BENCHMARK( "std::set<string_id>", i ) {
+        return item.std_set_string_ids.count( test_flags[i % test_flags_size] );
     };
 
-    BENCHMARK( "flat_set<dyn_string_id>" ) {
-        return item.flat_set_dyn_string_ids.count( test_dyn_str_ids[( i++ ) % test_flags_size] );
+    BENCHMARK( "std::unordered_set<string_id>", i ) {
+        return item.uo_set_string_ids.count( test_flags[i % test_flags_size] );
     };
 
-    BENCHMARK( "std::set<dyn_string_id>" ) {
-        return item.std_set_dyn_string_ids.count( test_dyn_str_ids[( i++ ) % test_flags_size] );
+    BENCHMARK( "flat_set<dyn_string_id>", i ) {
+        return item.flat_set_dyn_string_ids.count( test_dyn_str_ids[i % test_flags_size] );
     };
 
-    BENCHMARK( "std::unordered_set<dyn_string_id>" ) {
-        return item.uo_set_dyn_string_ids.count( test_dyn_str_ids[( i++ ) % test_flags_size] );
+    BENCHMARK( "std::set<dyn_string_id>", i ) {
+        return item.std_set_dyn_string_ids.count( test_dyn_str_ids[i % test_flags_size] );
     };
 
-    BENCHMARK( "flat_set<int_id>" ) {
-        return item.flat_set_int_ids.count( test_flags[( i++ ) % test_flags_size] );
+    BENCHMARK( "std::unordered_set<dyn_string_id>", i ) {
+        return item.uo_set_dyn_string_ids.count( test_dyn_str_ids[i % test_flags_size] );
     };
 
-    BENCHMARK( "std::set<int_id>" ) {
-        return item.std_set_int_ids.count( test_flags[( i++ ) % test_flags_size] );
+    BENCHMARK( "flat_set<int_id>", i ) {
+        return item.flat_set_int_ids.count( test_flags[i % test_flags_size] );
     };
 
-    BENCHMARK( "std::unordered_set<int_id>" ) {
-        return item.std_uo_set_int_ids.count( test_flags[( i++ ) % test_flags_size] );
+    BENCHMARK( "std::set<int_id>", i ) {
+        return item.std_set_int_ids.count( test_flags[i % test_flags_size] );
     };
 
-    BENCHMARK( "std::vector<int_id>" ) {
+    BENCHMARK( "std::unordered_set<int_id>", i ) {
+        return item.std_uo_set_int_ids.count( test_flags[i % test_flags_size] );
+    };
+
+    BENCHMARK( "std::vector<int_id>", i ) {
         const std::vector<stat_int_id> &v = item.vector_int_ids;
-        return std::find( v.begin(), v.end(), test_flags[( i++ ) % test_flags_size] ) != v.end();
+        return std::find( v.begin(), v.end(), test_flags[i % test_flags_size] ) != v.end();
     };
 }

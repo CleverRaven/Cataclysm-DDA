@@ -32,7 +32,7 @@ namespace construction_groups
 void load( const JsonObject &jo, const std::string &src );
 void reset();
 
-const std::vector<construction_group> &get_all();
+const std::deque<construction_group> &get_all();
 
 } // namespace construction_groups
 

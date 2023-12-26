@@ -71,7 +71,7 @@ struct mon_flag {
     void load( const JsonObject &jo, std::string_view src );
     static void load_mon_flags( const JsonObject &jo, const std::string &src );
     static void reset();
-    static const std::vector<mon_flag> &get_all();
+    static const std::deque<mon_flag> &get_all();
 };
 
 /** Used to store monster effects placed on attack */

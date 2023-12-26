@@ -45,7 +45,7 @@ void bodygraph::reset()
     bodygraph_factory.reset();
 }
 
-const std::vector<bodygraph> &bodygraph::get_all()
+const std::deque<bodygraph> &bodygraph::get_all()
 {
     return bodygraph_factory.get_all();
 }

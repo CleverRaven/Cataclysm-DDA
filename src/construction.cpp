@@ -421,7 +421,7 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
 
-    const std::vector<construction_category> &construct_cat = construction_categories::get_all();
+    const std::deque<construction_category> &construct_cat = construction_categories::get_all();
     const int tabcount = static_cast<int>( construction_category::count() );
 
     std::string filter;

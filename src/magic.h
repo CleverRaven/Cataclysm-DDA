@@ -363,7 +363,7 @@ class spell_type
         /**
          * All spells in the game.
          */
-        static const std::vector<spell_type> &get_all();
+        static const std::deque<spell_type> &get_all();
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;

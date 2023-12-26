@@ -32,7 +32,7 @@ void profession_group::load( const JsonObject &jo, const std::string_view & )
 
 }
 
-const std::vector<profession_group> &profession_group::get_all()
+const std::deque<profession_group> &profession_group::get_all()
 {
     return profession_group_factory.get_all();
 }

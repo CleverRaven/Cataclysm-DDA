@@ -39,7 +39,7 @@ static_assert( std::numeric_limits<mfaction_att_vec::value_type>::max() >
 
 namespace monfactions
 {
-const std::vector<monfaction> &get_all();
+const std::deque<monfaction> &get_all();
 void reset();
 void finalize();
 void load_monster_faction( const JsonObject &jo, const std::string &src );

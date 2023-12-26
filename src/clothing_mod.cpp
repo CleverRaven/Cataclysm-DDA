@@ -140,7 +140,7 @@ void clothing_mods::reset()
     clothing_mods_by_type.clear();
 }
 
-const std::vector<clothing_mod> &clothing_mods::get_all()
+const std::deque<clothing_mod> &clothing_mods::get_all()
 {
     return all_clothing_mods.get_all();
 }

@@ -9,7 +9,7 @@ struct profession_group {
 
         static void load_profession_group( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string_view & );
-        static const std::vector<profession_group> &get_all();
+        static const std::deque<profession_group> &get_all();
         static void check_profession_group_consistency();
         bool was_loaded;
 

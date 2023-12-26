@@ -533,7 +533,7 @@ const mission_type *mission_type::get( const mission_type_id &id )
     return &id.obj();
 }
 
-const std::vector<mission_type> &mission_type::get_all()
+const std::deque<mission_type> &mission_type::get_all()
 {
     return mission_type_factory.get_all();
 }

@@ -24,7 +24,7 @@ struct jmath_func {
     static void load_func( const JsonObject &jo, std::string const &src );
     static void finalize();
     static void reset();
-    static const std::vector<jmath_func> &get_all();
+    static const std::deque<jmath_func> &get_all();
 
     mutable std::string _str;
     mutable math_exp _exp;

@@ -51,7 +51,7 @@ void add_type::reset()
     add_type_factory.reset();
 }
 
-const std::vector<add_type> &add_type::get_all()
+const std::deque<add_type> &add_type::get_all()
 {
     return add_type_factory.get_all();
 }

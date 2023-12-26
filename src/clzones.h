@@ -66,7 +66,7 @@ class zone_type
         /**
          * All spells in the game.
          */
-        static const std::vector<zone_type> &get_all();
+        static const std::deque<zone_type> &get_all();
         bool is_valid() const;
 };
 

@@ -402,7 +402,7 @@ void achievement::load_achievement( const JsonObject &jo, const std::string &src
 
 void achievement::finalize()
 {
-    for( achievement &a : const_cast<std::vector<achievement>&>( achievement::get_all() ) ) {
+    for( achievement &a : const_cast<std::deque<achievement>&>( achievement::get_all() ) ) {
         for( achievement_requirement &req : a.requirements_ ) {
             req.finalize();
         }
@@ -414,7 +414,7 @@ void achievement::check_consistency()
     achievement_factory.check();
 }
 
-const std::vector<achievement> &achievement::get_all()
+const std::deque<achievement> &achievement::get_all()
 {
     return achievement_factory.get_all();
 }

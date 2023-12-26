@@ -75,7 +75,7 @@ void construction_groups::reset()
     all_construction_groups.reset();
 }
 
-const std::vector<construction_group> &construction_groups::get_all()
+const std::deque<construction_group> &construction_groups::get_all()
 {
     return all_construction_groups.get_all();
 }

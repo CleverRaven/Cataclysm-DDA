@@ -64,7 +64,7 @@ void weakpoints::reset()
     weakpoints_factory.reset();
 }
 
-const std::vector<weakpoints> &weakpoints::get_all()
+const std::deque<weakpoints> &weakpoints::get_all()
 {
     return weakpoints_factory.get_all();
 }

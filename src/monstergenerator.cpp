@@ -1246,12 +1246,12 @@ void mon_flag::load( const JsonObject &jo, std::string_view )
     mandatory( jo, was_loaded, "id", id );
 }
 
-const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
+const std::deque<mtype> &MonsterGenerator::get_all_mtypes() const
 {
     return mon_templates->get_all();
 }
 
-const std::vector<mon_flag> &mon_flag::get_all()
+const std::deque<mon_flag> &mon_flag::get_all()
 {
     return mon_flags.get_all();
 }

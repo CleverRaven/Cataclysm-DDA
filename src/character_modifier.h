@@ -20,7 +20,7 @@ struct character_modifier {
         static void load_character_modifiers( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
-        static const std::vector<character_modifier> &get_all();
+        static const std::deque<character_modifier> &get_all();
 
         // Use this to obtain the calculated modifier
         float modifier( const Character &c, const skill_id &skill = skill_id::NULL_ID() ) const;

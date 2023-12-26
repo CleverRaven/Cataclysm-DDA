@@ -473,7 +473,7 @@ void effect_on_condition::check() const
 {
 }
 
-const std::vector<effect_on_condition> &effect_on_conditions::get_all()
+const std::deque<effect_on_condition> &effect_on_conditions::get_all()
 {
     return effect_on_condition_factory.get_all();
 }

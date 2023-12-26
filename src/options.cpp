@@ -82,7 +82,7 @@ void option_slider::reset()
     option_slider_factory.reset();
 }
 
-const std::vector<option_slider> &option_slider::get_all()
+const std::deque<option_slider> &option_slider::get_all()
 {
     return option_slider_factory.get_all();
 }

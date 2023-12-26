@@ -71,7 +71,7 @@ class climbing_aid
         using aid_list = std::vector<const climbing_aid *>;
 
 
-        static const std::vector<climbing_aid> &get_all();
+        static const std::deque<climbing_aid> &get_all();
         // static void check_climbing_aid_consistency(); TODO
         bool was_loaded = false;
 

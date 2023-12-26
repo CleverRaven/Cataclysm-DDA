@@ -652,7 +652,7 @@ void check_consistency();
 void finalize();
 void reset();
 
-const std::vector<oter_t> &get_all();
+const std::deque<oter_t> &get_all();
 
 } // namespace overmap_terrains
 
@@ -664,7 +664,7 @@ void finalize();
 void check_consistency();
 void reset();
 
-const std::vector<overmap_land_use_code> &get_all();
+const std::deque<overmap_land_use_code> &get_all();
 
 } // namespace overmap_land_use_codes
 
@@ -677,7 +677,7 @@ void finalize_mapgen_parameters();
 void check_consistency();
 void reset();
 
-const std::vector<overmap_special> &get_all();
+const std::deque<overmap_special> &get_all();
 
 overmap_special_batch get_default_batch( const point_abs_om &origin );
 /**

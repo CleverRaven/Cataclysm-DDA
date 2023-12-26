@@ -41,7 +41,7 @@ void city::load_city( const JsonObject &jo, const std::string &src )
 
 void city::finalize()
 {
-    for( city &c : const_cast<std::vector<city>&>( city::get_all() ) ) {
+    for( city &c : const_cast<std::deque<city>&>( city::get_all() ) ) {
         if( c.name.empty() ) {
             c.name = Name::get( nameFlags::IsTownName );
         }
@@ -59,7 +59,7 @@ void city::check_consistency()
     get_city_factory().check();
 }
 
-const std::vector<city> &city::get_all()
+const std::deque<city> &city::get_all()
 {
     return get_city_factory().get_all();
 }

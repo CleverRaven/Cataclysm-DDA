@@ -52,7 +52,7 @@ struct shopkeeper_cons_rates {
     shopkeeper_cons_rates() = default;
 
     static void reset();
-    static const std::vector<shopkeeper_cons_rates> &get_all();
+    static const std::deque<shopkeeper_cons_rates> &get_all();
     static void load_rate( const JsonObject &jo, std::string const &src );
     static void check_all();
     void load( const JsonObject &jo, std::string_view src );
@@ -69,7 +69,7 @@ struct shopkeeper_blacklist {
     std::vector<icg_entry> entries;
 
     static void reset();
-    static const std::vector<shopkeeper_blacklist> &get_all();
+    static const std::deque<shopkeeper_blacklist> &get_all();
     static void load_blacklist( const JsonObject &jo, std::string const &src );
     void load( const JsonObject &jo, std::string_view src );
     icg_entry const *matches( item const &it, npc const &beta ) const;

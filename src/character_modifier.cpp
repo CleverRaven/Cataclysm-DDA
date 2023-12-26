@@ -48,7 +48,7 @@ void character_modifier::reset()
     character_modifier_factory.reset();
 }
 
-const std::vector<character_modifier> &character_modifier::get_all()
+const std::deque<character_modifier> &character_modifier::get_all()
 {
     return character_modifier_factory.get_all();
 }

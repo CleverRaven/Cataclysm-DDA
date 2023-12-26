@@ -46,7 +46,7 @@ void widget::reset()
     widget_factory.reset();
 }
 
-const std::vector<widget> &widget::get_all()
+const std::deque<widget> &widget::get_all()
 {
     return widget_factory.get_all();
 }
@@ -1069,7 +1069,7 @@ bool widget::uses_text_function() const
 // Simple workaround from the copied widget from the panel to set the widget's height globally
 static void set_height_for_widget( const widget_id &id, int height )
 {
-    const std::vector<widget> &wlist = widget::get_all();
+    const std::deque<widget> &wlist = widget::get_all();
     auto iter = std::find_if( wlist.begin(), wlist.end(), [&id]( const widget & w ) {
         return w.getId() == id;
     } );

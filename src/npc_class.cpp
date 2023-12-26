@@ -382,7 +382,7 @@ const npc_class_id &npc_class::from_legacy_int( int i )
     return legacy_ids[ i ];
 }
 
-const std::vector<npc_class> &npc_class::get_all()
+const std::deque<npc_class> &npc_class::get_all()
 {
     return npc_class_factory.get_all();
 }

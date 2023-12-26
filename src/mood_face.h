@@ -20,7 +20,7 @@ class mood_face
 
         void load( const JsonObject &jo, std::string_view src );
 
-        static const std::vector<mood_face> &get_all();
+        static const std::deque<mood_face> &get_all();
 
         const mood_face_id &getId() const {
             return id;

@@ -71,7 +71,7 @@ int_id<climbing_aid>::int_id( const string_id<climbing_aid> &id ) : _id( id.id()
 {
 }
 
-const std::vector<climbing_aid> &climbing_aid::get_all()
+const std::deque<climbing_aid> &climbing_aid::get_all()
 {
     return climbing_aid_factory.get_all();
 }

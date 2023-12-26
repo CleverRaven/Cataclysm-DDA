@@ -28,7 +28,7 @@ struct add_type {
         static void reset();
         static void check_add_types();
         void load( const JsonObject &jo, std::string_view src );
-        static const std::vector<add_type> &get_all();
+        static const std::deque<add_type> &get_all();
 
         const translation &get_name() const {
             return _name;

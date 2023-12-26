@@ -169,7 +169,7 @@ void ammo_effects::reset()
     get_all_ammo_effects().reset();
 }
 
-const std::vector<ammo_effect> &ammo_effects::get_all()
+const std::deque<ammo_effect> &ammo_effects::get_all()
 {
     return get_all_ammo_effects().get_all();
 }

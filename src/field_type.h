@@ -275,7 +275,7 @@ void reset();
 
 void load_immunity( const JsonObject &jid, field_immunity_data &fd );
 
-const std::vector<field_type> &get_all();
+const std::deque<field_type> &get_all();
 field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 
 } // namespace field_types

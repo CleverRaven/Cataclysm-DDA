@@ -923,7 +923,7 @@ const mutation_variant *mutation_branch::pick_variant_menu() const
     return options[menu.ret];
 }
 
-const std::vector<mutation_branch> &mutation_branch::get_all()
+const std::deque<mutation_branch> &mutation_branch::get_all()
 {
     return trait_factory.get_all();
 }

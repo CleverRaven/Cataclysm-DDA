@@ -472,7 +472,7 @@ struct mutation_branch {
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
          */
-        static const std::vector<mutation_branch> &get_all();
+        static const std::deque<mutation_branch> &get_all();
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json

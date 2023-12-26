@@ -78,7 +78,7 @@ class scenario
         static const scenario *generic(); // points to the generic, default profession
         // return a random scenario, weighted for use w/ random character creation
         static const scenario *weighted_random();
-        static const std::vector<scenario> &get_all();
+        static const std::deque<scenario> &get_all();
 
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
