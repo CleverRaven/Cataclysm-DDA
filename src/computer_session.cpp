@@ -86,6 +86,9 @@ static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
 static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+static const mission_type_id mission_MISSION_OLD_GUARD_REPEATER( "MISSION_OLD_GUARD_REPEATER" );
+static const mission_type_id
+mission_MISSION_OLD_GUARD_REPEATER_BEGIN( "MISSION_OLD_GUARD_REPEATER_BEGIN" );
 static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
 
 static const mon_flag_str_id mon_flag_CONSOLE_DESPAWN( "CONSOLE_DESPAWN" );
@@ -874,22 +877,41 @@ void computer_session::action_complete_disable_external_power()
 
 void computer_session::action_repeater_mod()
 {
-    avatar &player_character = get_avatar();
-    if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
-        for( mission *miss : player_character.get_active_missions() ) {
-            static const mission_type_id commo_3 = mission_MISSION_OLD_GUARD_NEC_COMMO_3;
-            static const mission_type_id commo_4 = mission_MISSION_OLD_GUARD_NEC_COMMO_4;
+    avatar &pc = get_avatar();
+    static const mission_type_id commo_3 = mission_MISSION_OLD_GUARD_NEC_COMMO_3;
+    static const mission_type_id commo_4 = mission_MISSION_OLD_GUARD_NEC_COMMO_4;
+    static const mission_type_id repeat = mission_MISSION_OLD_GUARD_REPEATER;
+    static const mission_type_id repeatb = mission_MISSION_OLD_GUARD_REPEATER_BEGIN;
+    if( pc.has_amount( itype_radio_repeater_mod, 1 ) ) {
+        if( !( pc.has_mission_id( commo_3 ) || pc.has_mission_id( commo_4 ) ||
+               pc.has_mission_id( repeat ) || pc.has_mission_id( repeatb ) ) ) {
+            print_error( _( "You wouldn't gain anything from installing this repeater.  "
+                            "However, someone else in the wasteland might reward you "
+                            "for doing so." ) );
+            query_any();
+        }
+        for( mission *miss : pc.get_active_missions() ) {
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
-                print_error( _( "Repeater mod installed…" ) );
-                print_error( _( "Mission Complete!" ) );
-                player_character.use_amount( itype_radio_repeater_mod, 1 );
+                print_line( _( "Repeater mod installed…" ) );
+                print_line( _( "Mission Complete!" ) );
+                pc.use_amount( itype_radio_repeater_mod, 1 );
+                query_any();
+                comp.options.clear();
+                activate_failure( COMPFAIL_SHUTDOWN );
+                break;
+            } else if( miss->mission_id() == repeat || miss->mission_id() == repeatb ) {
+                miss->step_complete( 1 );
+                print_line( _( "Repeater mod installed…" ) );
+                print_line( _( "Mission Complete!" ) );
+                pc.use_amount( itype_radio_repeater_mod, 1 );
                 query_any();
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
                 break;
             }
         }
+
     } else {
         print_error( _( "You do not have a repeater mod to install…" ) );
         query_any();

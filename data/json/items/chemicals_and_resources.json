@@ -97,10 +97,10 @@
     "color": "dark_gray",
     "description": "A handful of gravel, smaller than pebbles but larger than sand.",
     "material": [ "stone" ],
-    "volume": "250 ml",
-    "weight": "6 g",
+    "volume": "5 ml",
+    "weight": "5 g",
     "ammo_type": "components",
-    "count": 50,
+    "count": 1,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -164,7 +164,7 @@
     "symbol": "=",
     "color": "white",
     "description": " A handful of slaked lime, a white odorless powder with many uses.  Also known as calcium hydroxide.",
-    "material": [ "powder_nonflam" ],
+    "material": [ "slaked_lime" ],
     "volume": "250 ml",
     "weight": "2211 mg",
     "ammo_type": "components",
@@ -180,11 +180,11 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
-    "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "8 g",
+    "material": [ "sand" ],
+    "volume": "8 ml",
+    "weight": "5 g",
     "ammo_type": "components",
-    "count": 50
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -259,10 +259,9 @@
     "symbol": "*",
     "color": "red",
     "description": "A chunk of zincite.  Could be refined into zinc oxide, then into zinc by reduction with a source of carbon.",
-    "material": [ "stone" ],
+    "material": [ "zincite" ],
     "volume": "250 ml",
     "weight": "1412 g",
-    "//": "density: 5.64–5.68 g/cm3",
     "melee_damage": { "bash": 1 }
   },
   {
@@ -509,10 +508,10 @@
     "description": "A handful of silvery-white metallic powder composed of nickel.  Common industrial uses include production of stainless steel as well as other alloys.",
     "container": "bag_plastic",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "8908 mg",
+    "volume": "1 ml",
+    "weight": "36 mg",
     "ammo_type": "components",
-    "count": 250
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -705,7 +704,8 @@
     "color": "white",
     "description": "Acetone, best known as the primary constituent of most nail polish removers.  Flammable, and can be easily used for potent homemade explosives, as demonstrated by the terrorist attacks of 2016.",
     "volume": "250 ml",
-    "weight": "200 g",
+    "weight": "190 g",
+    "material": [ "acetone" ],
     "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
@@ -1698,21 +1698,6 @@
     "looks_like": "bb"
   },
   {
-    "id": "sandbag",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "sandbag" },
-    "description": "A canvas sack filled with sand.  It can be used to construct simple barricades.",
-    "weight": "24415 g",
-    "volume": "16L",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "canvas", "powder" ],
-    "symbol": ")",
-    "color": "brown",
-    "looks_like": "bag_canvas"
-  },
-  {
     "id": "gravelbag",
     "type": "GENERIC",
     "category": "other",
@@ -1785,14 +1770,15 @@
     "name": { "str_sp": "formic acid" },
     "description": "Common in nature as an insect venom, this substance has a number of industrial uses such as preservation and manufacturing.",
     "comestible_type": "INVALID",
-    "weight": "2 g",
-    "volume": "600 ml",
+    "material": [ "acid" ],
+    "weight": "204 g",
+    "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
     "symbol": "=",
     "color": "white",
     "charges": 1,
-    "stack_size": 100,
+    "stack_size": 1,
     "phase": "liquid",
     "explode_in_fire": true,
     "explosion": { "power": 5, "shrapnel": 0 },
@@ -2071,7 +2057,6 @@
     "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
     "volume": "250 ml",
     "weight": "305 g",
-    "stack_size": 1,
     "container": "bottle_glass",
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }

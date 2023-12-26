@@ -43,13 +43,17 @@
       "PERMEABLE"
     ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "gravelbag", "count": 16 } ] },
+    "deconstruct": { "items": [ { "group": "gravelbag", "count": 16 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 60,
       "sound": "rrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_gravel", "charges": [ 40, 48 ] } ]
+      "items": [
+        { "group": "gravelbag", "count": 15 },
+        { "group": "gravelbag_part", "count": 1, "damage": [ 1, 3 ] },
+        { "item": "material_gravel", "count": [ 200, 500 ] }
+      ]
     }
   },
   {
@@ -64,14 +68,18 @@
     "description": "A wall of stacked gravelbags, a bit taller than an average adult.",
     "required_str": -1,
     "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
-    "deconstruct": { "items": [ { "item": "gravelbag", "count": 20 } ], "furn_set": "f_gravelbag_half" },
+    "deconstruct": { "items": [ { "group": "gravelbag", "count": 20 } ], "furn_set": "f_gravelbag_half" },
     "bash": {
       "str_min": 24,
       "str_max": 80,
       "sound": "rrrip!",
       "sound_fail": "whump.",
       "furn_set": "f_gravelbag_half",
-      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_gravel", "charges": [ 50, 60 ] } ]
+      "items": [
+        { "group": "gravelbag", "count": 19 },
+        { "group": "gravelbag_part", "count": 1, "damage": [ 1, 3 ] },
+        { "item": "material_gravel", "count": [ 200, 500 ] }
+      ]
     }
   },
   {
@@ -97,13 +105,17 @@
       "PERMEABLE"
     ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "earthbag", "count": 16 } ] },
+    "deconstruct": { "items": [ { "group": "earthbag", "count": 16 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 60,
       "sound": "rrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_soil", "charges": [ 40, 48 ] } ]
+      "items": [
+        { "group": "earthbag", "count": 15 },
+        { "group": "earthbag_part", "count": 1, "damage": [ 1, 3 ] },
+        { "item": "material_soil", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -125,7 +137,11 @@
       "sound": "rrrip!",
       "sound_fail": "whump.",
       "furn_set": "f_earthbag_half",
-      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_soil", "charges": [ 50, 60 ] } ]
+      "items": [
+        { "group": "earthbag", "count": 19 },
+        { "group": "earthbag_part", "count": 1, "damage": [ 1, 3 ] },
+        { "item": "material_soil", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -168,13 +184,17 @@
       "PERMEABLE"
     ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "sandbag", "count": 16 } ] },
+    "deconstruct": { "items": [ { "group": "sandbag", "count": 16 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 60,
       "sound": "rrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_sand", "charges": [ 800, 960 ] } ]
+      "items": [
+        { "group": "sandbag", "count": 15 },
+        { "group": "sandbag_part", "count": 1, "damage": [ 1, 3 ] },
+        { "item": "material_sand", "count": [ 200, 500 ] }
+      ]
     }
   },
   {
@@ -188,14 +208,18 @@
     "description": "A wall of stacked sandbags, a bit taller than an average adult.",
     "required_str": -1,
     "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
-    "deconstruct": { "items": [ { "item": "sandbag", "count": 20 } ], "furn_set": "f_sandbag_half" },
+    "deconstruct": { "items": [ { "group": "sandbag", "count": 20 } ], "furn_set": "f_sandbag_half" },
     "bash": {
       "str_min": 24,
       "str_max": 80,
       "sound": "rrrip!",
       "sound_fail": "whump.",
       "furn_set": "f_sandbag_half",
-      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_sand", "charges": [ 1000, 1200 ] } ]
+      "items": [
+        { "group": "sandbag", "count": 19 },
+        { "group": "sandbag_part", "count": 1, "damage": [ 1, 3 ] },
+        { "item": "material_sand", "count": [ 200, 500 ] }
+      ]
     }
   },
   {
