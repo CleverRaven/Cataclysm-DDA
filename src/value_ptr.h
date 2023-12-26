@@ -151,6 +151,18 @@ struct heap {
     public:
 
         // Various conditionally defined proxy functions for common types like containers.
+#pragma push_macro("PROXY")
+#define PROXY(func) \
+    template<typename ...Us> \
+    auto func( Us&& ...us ) -> decltype( val().func( std::forward<Us>( us )... ) ) { \
+        return val().func( std::forward<Us>( us )... ); \
+    }
+#pragma push_macro("PROXY_CONST")
+#define PROXY_CONST(func) \
+    template<typename ...Us> \
+    auto func( Us&& ...us ) const -> decltype( val().func( std::forward<Us>( us )... ) ) { \
+        return val().func( std::forward<Us>( us )... ); \
+    }
 
         // Comparison operators.
         auto operator==( heap const &rhs ) const -> decltype( val() == val() ) {
@@ -169,39 +181,16 @@ struct heap {
 
 
         // Tests & sets
-        auto empty() const -> decltype( val().empty() ) {
-            return val().empty();
-        }
-
-        template<typename U>
-        auto count( U &&u ) const -> decltype( val().count( std::forward<U>( u ) ) ) {
-            return val().count( std::forward<U>( u ) );
-        }
-
-        auto size() const -> decltype( val().size() ) {
-            return val().size();
-        }
-
-        auto clear() -> decltype( val().clear() ) {
-            return val().clear();
-        }
+        PROXY_CONST( empty )
+        PROXY_CONST( count )
+        PROXY_CONST( size )
+        PROXY( clear )
 
         // Iterators
-        auto begin() -> decltype( val().begin() ) {
-            return val().begin();
-        }
-
-        auto begin() const -> decltype( val().begin() ) {
-            return val().begin();
-        }
-
-        auto end() -> decltype( val().end() ) {
-            return val().end();
-        }
-
-        auto end() const -> decltype( val().end() ) {
-            return val().end();
-        }
+        PROXY( begin )
+        PROXY_CONST( begin )
+        PROXY( end )
+        PROXY_CONST( end )
 
         // Accessors
         template<typename U>
@@ -209,30 +198,12 @@ struct heap {
             return val()[std::forward<U>( u )];
         }
 
-        template<typename U>
-        auto find( U &&u ) -> decltype( val().find( std::forward<U>( u ) ) ) {
-            return val().find( std::forward<U>( u ) );
-        }
+        PROXY( find )
+        PROXY_CONST( find )
 
-        template<typename U>
-        auto find( U &&u ) const -> decltype( val().find( std::forward<U>( u ) ) ) {
-            return val().find( std::forward<U>( u ) );
-        }
-
-        template<typename U>
-        auto erase( U &&u ) -> decltype( val().erase( std::forward<U>( u ) ) ) {
-            return val().erase( std::forward<U>( u ) );
-        }
-
-        template<typename U>
-        auto insert( U &&u ) -> decltype( val().insert( std::forward<U>( u ) ) ) {
-            return val().insert( std::forward<U>( u ) );
-        }
-
-        template<typename U>
-        auto emplace( U &&u ) -> decltype( val().emplace( std::forward<U>( u ) ) ) {
-            return val().emplace( std::forward<U>( u ) );
-        }
+        PROXY( erase )
+        PROXY( insert )
+        PROXY( emplace )
 
         // Json* support.
         template<typename Stream = JsonOut>
@@ -244,6 +215,8 @@ struct heap {
         void deserialize( const Value &jsin ) {
             jsin.read( val() );
         }
+#pragma pop_macro("PROXY")
+#pragma pop_macro("PROXY_CONST")
 };
 
 } // namespace cata
