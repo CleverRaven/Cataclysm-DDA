@@ -1046,7 +1046,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
                         consumed += itm.charges;
                     }
                     left_to_consume = comp.count - consumed;
-                } else if( empty_consumed.size() < static_cast<size_t>(comp.count) ) {
+                } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
                     left_to_consume = comp.count - empty_consumed.size();
                 }
 
