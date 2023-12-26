@@ -499,151 +499,153 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     new_item.set_itype_variant( variant );
 
-    // create container here from modifier or from default to get max charges later
-    item cont;
-    if( container != nullptr ) {
-        cont = container->create_single( new_item.birthday() );
-    } else if( new_item.type->default_container.has_value() ) {
-        cont = item( *new_item.type->default_container, new_item.birthday() );
-    }
-
-    int max_capacity = -1;
-
-    if( charges.first != -1 && charges.second == -1 && ( new_item.is_magazine() ||
-            new_item.uses_magazine() ) ) {
-        int max_ammo = 0;
-
-        if( new_item.is_magazine() ) {
-            // Get the ammo capacity of the new item itself
-            max_ammo = new_item.ammo_capacity( item_controller->find_template(
-                                                   new_item.ammo_default() )->ammo->type );
-        } else if( !new_item.magazine_default().is_null() ) {
-            // Get the capacity of the item's default magazine
-            max_ammo = item_controller->find_template( new_item.magazine_default() )->magazine->capacity;
-        }
-        // Don't change the ammo capacity from 0 if the item isn't a magazine
-        // and doesn't have a default magazine with a capacity
-
-        if( max_ammo > 0 ) {
-            max_capacity = max_ammo;
-        }
-    }
-
-    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
-            ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
-        if( new_item.type->weight == 0_gram ) {
-            max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
-        } else {
-            max_capacity = std::min( new_item.charges_per_volume( cont.get_total_capacity() ),
-                                     new_item.charges_per_weight( cont.get_total_weight_capacity() ) );
-        }
-    }
-
-    const bool charges_not_set = charges.first == -1 && charges.second == -1;
-    int ch = -1;
-    if( !charges_not_set ) {
-        int charges_min = charges.first == -1 ? 0 : charges.first;
-        int charges_max = charges.second == -1 ? max_capacity : charges.second;
-
-        if( charges_min == -1 && charges_max != -1 ) {
-            charges_min = 0;
+    {
+        // create container here from modifier or from default to get max charges later
+        item cont;
+        if( container != nullptr ) {
+            cont = container->create_single( new_item.birthday() );
+        } else if( new_item.type->default_container.has_value() ) {
+            cont = item( *new_item.type->default_container, new_item.birthday() );
         }
 
-        if( max_capacity != -1 && ( charges_max > max_capacity || ( charges_min != 1 &&
-                                    charges_max == -1 ) ) ) {
-            charges_max = max_capacity;
+        int max_capacity = -1;
+
+        if( charges.first != -1 && charges.second == -1 && ( new_item.is_magazine() ||
+                new_item.uses_magazine() ) ) {
+            int max_ammo = 0;
+
+            if( new_item.is_magazine() ) {
+                // Get the ammo capacity of the new item itself
+                max_ammo = new_item.ammo_capacity( item_controller->find_template(
+                                                       new_item.ammo_default() )->ammo->type );
+            } else if( !new_item.magazine_default().is_null() ) {
+                // Get the capacity of the item's default magazine
+                max_ammo = item_controller->find_template( new_item.magazine_default() )->magazine->capacity;
+            }
+            // Don't change the ammo capacity from 0 if the item isn't a magazine
+            // and doesn't have a default magazine with a capacity
+
+            if( max_ammo > 0 ) {
+                max_capacity = max_ammo;
+            }
         }
 
-        if( charges_min > charges_max ) {
-            charges_min = charges_max;
+        if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
+                ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
+            if( new_item.type->weight == 0_gram ) {
+                max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+            } else {
+                max_capacity = std::min( new_item.charges_per_volume( cont.get_total_capacity() ),
+                                         new_item.charges_per_weight( cont.get_total_weight_capacity() ) );
+            }
         }
 
-        ch = charges_min == charges_max ? charges_min : rng( charges_min,
-                charges_max );
-    } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
-        new_item.charges = std::max( 1, max_capacity );
-    }
+        const bool charges_not_set = charges.first == -1 && charges.second == -1;
+        int ch = -1;
+        if( !charges_not_set ) {
+            int charges_min = charges.first == -1 ? 0 : charges.first;
+            int charges_max = charges.second == -1 ? max_capacity : charges.second;
 
-    if( ch != -1 ) {
-        if( new_item.count_by_charges() || new_item.made_of( phase_id::LIQUID ) ) {
-            // food, ammo
-            // count_by_charges requires that charges is at least 1. It makes no sense to
-            // spawn a "water (0)" item.
-            new_item.charges = std::max( 1, ch );
-        } else if( new_item.is_tool() ) {
-            if( !new_item.magazine_current() && !new_item.magazine_default().is_null() ) {
-                item mag( new_item.magazine_default() );
-                if( !mag.ammo_default().is_null() ) {
-                    mag.ammo_set( mag.ammo_default(), ch );
+            if( charges_min == -1 && charges_max != -1 ) {
+                charges_min = 0;
+            }
+
+            if( max_capacity != -1 && ( charges_max > max_capacity || ( charges_min != 1 &&
+                                        charges_max == -1 ) ) ) {
+                charges_max = max_capacity;
+            }
+
+            if( charges_min > charges_max ) {
+                charges_min = charges_max;
+            }
+
+            ch = charges_min == charges_max ? charges_min : rng( charges_min,
+                    charges_max );
+        } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
+            new_item.charges = std::max( 1, max_capacity );
+        }
+
+        if( ch != -1 ) {
+            if( new_item.count_by_charges() || new_item.made_of( phase_id::LIQUID ) ) {
+                // food, ammo
+                // count_by_charges requires that charges is at least 1. It makes no sense to
+                // spawn a "water (0)" item.
+                new_item.charges = std::max( 1, ch );
+            } else if( new_item.is_tool() ) {
+                if( !new_item.magazine_current() && !new_item.magazine_default().is_null() ) {
+                    item mag( new_item.magazine_default() );
+                    if( !mag.ammo_default().is_null() ) {
+                        mag.ammo_set( mag.ammo_default(), ch );
+                    }
+                    new_item.put_in( mag, pocket_type::MAGAZINE_WELL );
+                } else if( new_item.is_magazine() ) {
+                    new_item.ammo_set( new_item.ammo_default(), ch );
+                } else if( new_item.magazine_current() ) {
+                    new_item.ammo_set( new_item.magazine_current()->ammo_default(), ch );
+                } else {
+                    debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",
+                              context, new_item.typeId().str() );
+                }
+            } else if( new_item.type->can_have_charges() ) {
+                new_item.charges = ch;
+            }
+        }
+
+        if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
+            itype_id ammo_id;
+            if( ammo ) {
+                ammo_id = ammo->create_single( new_item.birthday() ).typeId();
+            } else if( new_item.ammo_default() ) {
+                ammo_id = new_item.ammo_default();
+            } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
+                ammo_id = new_item.magazine_default()->magazine->default_ammo;
+            }
+            if( ammo_id && !ammo_id.is_empty() ) {
+                new_item.ammo_set( ammo_id, ch );
+            } else {
+                debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
+                          new_item.typeId().c_str() );
+            }
+            // Make sure the item is in valid state
+            if( new_item.magazine_integral() ) {
+                new_item.charges = std::min( new_item.charges,
+                                             new_item.ammo_capacity( item_controller->find_template( new_item.ammo_default() )->ammo->type ) );
+            } else {
+                new_item.charges = 0;
+            }
+        }
+
+        if( new_item.is_magazine() ||
+            new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
+                              ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
+            bool spawn_mag = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
+                             !new_item.magazine_current();
+
+            if( spawn_mag ) {
+                item mag( new_item.magazine_default(), new_item.birthday() );
+                if( spawn_ammo && !mag.ammo_default().is_null() ) {
+                    mag.ammo_set( mag.ammo_default() );
                 }
                 new_item.put_in( mag, pocket_type::MAGAZINE_WELL );
-            } else if( new_item.is_magazine() ) {
-                new_item.ammo_set( new_item.ammo_default(), ch );
-            } else if( new_item.magazine_current() ) {
-                new_item.ammo_set( new_item.magazine_current()->ammo_default(), ch );
-            } else {
-                debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",
-                          context, new_item.typeId().str() );
-            }
-        } else if( new_item.type->can_have_charges() ) {
-            new_item.charges = ch;
-        }
-    }
-
-    if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        itype_id ammo_id;
-        if( ammo ) {
-            ammo_id = ammo->create_single( new_item.birthday() ).typeId();
-        } else if( new_item.ammo_default() ) {
-            ammo_id = new_item.ammo_default();
-        } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
-            ammo_id = new_item.magazine_default()->magazine->default_ammo;
-        }
-        if( ammo_id && !ammo_id.is_empty() ) {
-            new_item.ammo_set( ammo_id, ch );
-        } else {
-            debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
-                      new_item.typeId().c_str() );
-        }
-        // Make sure the item is in valid state
-        if( new_item.magazine_integral() ) {
-            new_item.charges = std::min( new_item.charges,
-                                         new_item.ammo_capacity( item_controller->find_template( new_item.ammo_default() )->ammo->type ) );
-        } else {
-            new_item.charges = 0;
-        }
-    }
-
-    if( new_item.is_magazine() ||
-        new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
-        bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
-                          ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
-        bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
-                          !new_item.magazine_current();
-
-        if( spawn_mag ) {
-            item mag( new_item.magazine_default(), new_item.birthday() );
-            if( spawn_ammo && !mag.ammo_default().is_null() ) {
-                mag.ammo_set( mag.ammo_default() );
-            }
-            new_item.put_in( mag, pocket_type::MAGAZINE_WELL );
-        } else if( spawn_ammo && !new_item.ammo_default().is_null() ) {
-            if( ammo ) {
-                const item am = ammo->create_single( new_item.birthday() );
-                new_item.ammo_set( am.typeId() );
-            } else {
-                new_item.ammo_set( new_item.ammo_default() );
+            } else if( spawn_ammo && !new_item.ammo_default().is_null() ) {
+                if( ammo ) {
+                    const item am = ammo->create_single( new_item.birthday() );
+                    new_item.ammo_set( am.typeId() );
+                } else {
+                    new_item.ammo_set( new_item.ammo_default() );
+                }
             }
         }
-    }
 
-    if( !cont.is_null() ) {
-        const pocket_type pk_type = guess_pocket_for( cont, new_item );
-        cont.put_in( new_item, pk_type );
-        cont.add_automatic_whitelist();
-        new_item = cont;
-        if( sealed ) {
-            new_item.seal();
+        if( !cont.is_null() ) {
+            const pocket_type pk_type = guess_pocket_for( cont, new_item );
+            cont.put_in( new_item, pk_type );
+            cont.add_automatic_whitelist();
+            new_item = std::move( cont );
+            if( sealed ) {
+                new_item.seal();
+            }
         }
     }
 
