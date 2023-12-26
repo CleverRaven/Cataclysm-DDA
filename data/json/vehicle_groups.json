@@ -301,6 +301,7 @@
       [ "humvee", 600 ],
       [ "humvee_gl", 150 ],
       [ "military_cargo_truck", 300 ],
+      [ "military_cargo_truck_b", 300 ],
       [ "policecar", 400 ],
       [ "policecar_k9", 2 ],
       [ "policesuv", 400 ],
@@ -656,6 +657,7 @@
     "id": "military_vehicles",
     "vehicles": [
       [ "military_cargo_truck", 1000 ],
+      [ "military_cargo_truck_b", 1000 ],
       [ "humvee", 500 ],
       [ "humvee_gl", 250 ],
       [ "humvee_tow", 125 ],
@@ -664,6 +666,11 @@
       [ "aapc-mg", 250 ],
       [ "aapc-gl", 125 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "military_cargo_trucks",
+    "vehicles": [ [ "military_cargo_truck", 500 ], [ "military_cargo_truck_b", 500 ] ]
   },
   {
     "type": "vehicle_group",
@@ -1611,6 +1618,7 @@
       [ "flatbed_truck", 800 ],
       [ "semi_truck", 800 ],
       [ "military_cargo_truck", 800 ],
+      [ "military_cargo_truck_b", 800 ],
       [ "humvee_gl", 800 ],
       [ "humvee", 800 ],
       [ "security_van", 800 ],
