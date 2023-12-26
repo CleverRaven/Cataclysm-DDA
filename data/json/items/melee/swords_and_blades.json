@@ -13,6 +13,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 50,
     "flags": [ "BELT_CLIP" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 12, "cut": 1 }
   },
@@ -31,7 +32,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 50,
     "flags": [ "BELT_CLIP", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "GREAT_HAMMERS" ],
+    "weapon_category": [ "GREAT_SWORDS" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "melee_damage": { "bash": 16, "cut": 2 }
   },
@@ -49,6 +50,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 100,
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
     "melee_damage": { "bash": 12, "cut": 4 }
   },

@@ -180,7 +180,7 @@
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "ter_transform",

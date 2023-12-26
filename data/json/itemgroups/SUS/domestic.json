@@ -130,6 +130,7 @@
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
       { "item": "aluminum_foil", "prob": 25 },
+      { "item": "wrapper_foil", "prob": 12, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
       { "item": "nuts_bolts", "prob": 20, "charges-min": 1, "charges-max": 4 },
       {
         "distribution": [
@@ -1065,7 +1066,8 @@
       { "group": "pants_unisex", "prob": 50 },
       { "group": "pants_male", "prob": 60 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
   {
@@ -1087,7 +1089,8 @@
       { "group": "pants_female", "prob": 60 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
   {

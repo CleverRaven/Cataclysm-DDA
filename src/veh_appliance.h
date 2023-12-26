@@ -99,9 +99,9 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
-         * Checks whether the current appliance has any power connections that
-         * can be disconnected by the player.
-         * @returns True if the appliance can be unplugged.
+         * Checks whether the current appliance is power storage
+         * or powergen or a cable and can thus be merged into a powergrid.
+         * @returns True if the appliance can be merged.
         */
         bool can_merge();
         /**
