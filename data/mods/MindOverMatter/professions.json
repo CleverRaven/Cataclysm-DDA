@@ -61,6 +61,7 @@
           { "item": "socks" },
           { "item": "cleats" },
           { "item": "sports_drink" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
