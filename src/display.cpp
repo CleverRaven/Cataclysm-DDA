@@ -1712,7 +1712,7 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
         }
     }
     std::array<std::vector<std::pair<mtype_id, int>>, 9> mons_at;
-    for( const std::pair<mtype_id, nearest_loc_and_cnt> &mon : all_mons ) {
+    for( const std::pair<const mtype_id, nearest_loc_and_cnt> &mon : all_mons ) {
         mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
     }
 
