@@ -89,7 +89,6 @@
   {
     "id": "dynamite_act",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "dynamite (lit)", "str_pl": "dynamites (lit)" },
     "description": "The fuse on this dynamite is lit and hissing.  It'll explode any moment now.",
     "copy-from": "dynamite",
@@ -130,7 +129,6 @@
   {
     "id": "dynamite_bomb_act",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "dynamite bomb (lit)", "str_pl": "dynamite bombs (lit)" },
     "description": "The fuse on this dynamite bomb is lit and hissing.  It'll explode any moment now.",
     "copy-from": "dynamite_bomb",
