@@ -7393,7 +7393,7 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
 
     p.add_msg_if_player( m_good, _( "You washed your items." ) );
 
-    //Create grey_water byproduct after washing
+    //Create gray_water byproduct after washing
     map &here = get_map();
     item graywater( itype_water_gray, calendar::turn, requirements.water );
     liquid_handler::handle_liquid( graywater, nullptr, 1, nullptr, nullptr, -1, nullptr );
