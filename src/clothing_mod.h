@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstddef>
+#include <deque>
 #include <iosfwd>
 #include <vector>
 

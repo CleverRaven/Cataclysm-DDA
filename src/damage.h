@@ -3,6 +3,7 @@
 #define CATA_SRC_DAMAGE_H
 
 #include <array>
+#include <deque>
 #include <iosfwd>
 #include <map>
 #include <unordered_map>

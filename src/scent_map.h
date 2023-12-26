@@ -3,6 +3,7 @@
 #define CATA_SRC_SCENT_MAP_H
 
 #include <array>
+#include <deque>
 #include <iosfwd>
 #include <optional>
 #include <set>

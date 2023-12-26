@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_EVENT_STATISTICS_H
 #define CATA_SRC_EVENT_STATISTICS_H
 
+#include <deque>
 #include <iosfwd>
 #include <memory>
 #include <unordered_map>

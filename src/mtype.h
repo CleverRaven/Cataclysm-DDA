@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 
+#include <deque>
 #include <iosfwd>
 #include <array>
 #include <map>

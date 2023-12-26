@@ -3,6 +3,7 @@
 #define CATA_SRC_MUTATION_H
 
 #include <climits>
+#include <deque>
 #include <iosfwd>
 #include <map>
 #include <new>

@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
+#include <deque>
+
 #include "generic_factory.h"
 #include "type_id.h"
 #include "units.h"

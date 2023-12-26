@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
 #define CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
 
+#include <deque>
 #include <map>
 #include <optional>
 #include <vector>

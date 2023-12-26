@@ -3,6 +3,7 @@
 #define CATA_SRC_BIONICS_H
 
 #include <cstddef>
+#include <deque>
 #include <iosfwd>
 #include <map>
 #include <new>

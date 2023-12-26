@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BUTCHERY_REQUIREMENTS_H
 #define CATA_SRC_BUTCHERY_REQUIREMENTS_H
 
+#include <deque>
 #include <iosfwd>
 #include <map>
 #include <utility>

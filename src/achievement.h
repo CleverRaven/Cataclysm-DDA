@@ -3,6 +3,7 @@
 #define CATA_SRC_ACHIEVEMENT_H
 
 #include <array>
+#include <deque>
 #include <functional>
 #include <iosfwd>
 #include <memory>

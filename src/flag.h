@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FLAG_H
 #define CATA_SRC_FLAG_H
 
+#include <deque>
 #include <iosfwd>
 #include <set>
 #include <string>

@@ -3,6 +3,7 @@
 #define CATA_SRC_OPTIONS_H
 
 #include <algorithm>
+#include <deque>
 #include <functional>
 #include <iosfwd>
 #include <map>

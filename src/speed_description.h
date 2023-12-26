@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_SPEED_DESCRIPTION_H
 #define CATA_SRC_SPEED_DESCRIPTION_H
 
+#include <deque>
 #include <string>
 #include <vector>
 

@@ -6,6 +6,7 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <deque>
 #include <iosfwd>
 #include <list>
 #include <new>

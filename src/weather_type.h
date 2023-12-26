@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <cstdint>
+#include <deque>
 #include <iosfwd>
 #include <new>
 #include <optional>

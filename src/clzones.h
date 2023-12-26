@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
+#include <deque>
 #include <functional>
 #include <cstddef>
 #include <iosfwd>

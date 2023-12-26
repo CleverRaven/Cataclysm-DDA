@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_DISEASE_H
 #define CATA_SRC_DISEASE_H
 
+#include <deque>
 #include <iosfwd>
 #include <new>
 #include <optional>

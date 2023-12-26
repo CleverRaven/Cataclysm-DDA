@@ -3,6 +3,7 @@
 #define CATA_SRC_WEAKPOINT_H
 
 #include <array>
+#include <deque>
 #include <map>
 #include <unordered_map>
 #include <optional>

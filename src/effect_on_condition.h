@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_EFFECT_ON_CONDITION_H
 #define CATA_SRC_EFFECT_ON_CONDITION_H
 
+#include <deque>
 #include <string>
 #include <climits>
 #include <optional>

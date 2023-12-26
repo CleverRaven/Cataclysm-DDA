@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <cmath>
+#include <deque>
 #include <iosfwd>
 #include <utility>
 #include <vector>

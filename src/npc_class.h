@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
+#include <deque>
 #include <functional>
 #include <iosfwd>
 #include <map>

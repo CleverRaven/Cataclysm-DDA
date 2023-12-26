@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
+#include <deque>
 #include <iosfwd>
 #include <list>
 #include <map>

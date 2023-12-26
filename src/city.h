@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CITY_H
 #define CATA_SRC_CITY_H
 
+#include <deque>
 #include <string>         // for string, basic_string
 #include <vector>         // for vector
 

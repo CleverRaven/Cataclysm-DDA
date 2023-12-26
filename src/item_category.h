@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
+#include <deque>
 #include <iosfwd>
 #include <new>
 #include <optional>

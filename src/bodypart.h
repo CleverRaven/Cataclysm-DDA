@@ -5,6 +5,7 @@
 #include <array>
 #include <climits>
 #include <cstddef>
+#include <deque>
 #include <initializer_list>
 #include <iosfwd>
 #include <set>

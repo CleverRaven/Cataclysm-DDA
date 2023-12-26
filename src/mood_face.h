@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MOOD_FACE_H
 #define CATA_SRC_MOOD_FACE_H
 
+#include <deque>
 #include <vector>
 
 #include "type_id.h"

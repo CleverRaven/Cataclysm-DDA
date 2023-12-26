@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_MODIFIER_H
 #define CATA_SRC_CHARACTER_MODIFIER_H
 
+#include <deque>
 #include <vector>
 
 #include "bodypart.h"

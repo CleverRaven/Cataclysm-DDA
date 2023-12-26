@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_HARVEST_H
 #define CATA_SRC_HARVEST_H
 
+#include <deque>
 #include <iosfwd>
 #include <list>
 #include <map>

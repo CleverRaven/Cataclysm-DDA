@@ -3,6 +3,7 @@
 #define CATA_SRC_CONSTRUCTION_CATEGORY_H
 
 #include <cstddef>
+#include <deque>
 #include <iosfwd>
 #include <vector>
 

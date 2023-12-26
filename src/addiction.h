@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ADDICTION_H
 #define CATA_SRC_ADDICTION_H
 
+#include <deque>
 #include <iosfwd>
 
 #include "calendar.h"

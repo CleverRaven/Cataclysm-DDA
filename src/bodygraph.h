@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BODYGRAPH_H
 #define CATA_SRC_BODYGRAPH_H
 
+#include <deque>
 #include <vector>
 
 #include "color.h"

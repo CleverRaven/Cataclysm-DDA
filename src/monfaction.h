@@ -3,6 +3,7 @@
 #define CATA_SRC_MONFACTION_H
 
 #include <cstdint>
+#include <deque>
 #include <iosfwd>
 #include <limits>
 #include <map>

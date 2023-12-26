@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_H
 #define CATA_SRC_FLEXBUFFER_JSON_H
 
+#include <deque>
 #include <optional>
 #include <string>
 #include <type_traits>

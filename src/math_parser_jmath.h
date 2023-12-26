@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MATH_PARSER_JMATH_H
 #define CATA_SRC_MATH_PARSER_JMATH_H
 
+#include <deque>
 #include <string>
 #include <string_view>
 #include <vector>

@@ -3,6 +3,7 @@
 #define CATA_SRC_START_LOCATION_H
 
 #include <cstddef>
+#include <deque>
 #include <iosfwd>
 #include <set>
 #include <string>

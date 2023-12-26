@@ -3,6 +3,7 @@
 #define CATA_SRC_MATERIAL_H
 
 #include <cstddef>
+#include <deque>
 #include <iosfwd>
 #include <map>
 #include <new>

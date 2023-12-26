@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <deque>
 #include <iosfwd>
 #include <map>
 #include <memory>

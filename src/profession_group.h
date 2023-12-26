@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_PROFESSION_GROUP_H
 #define CATA_SRC_PROFESSION_GROUP_H
 
+#include <deque>
+
 #include "type_id.h"
 #include "json.h"
 
