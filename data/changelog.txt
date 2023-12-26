@@ -167,10 +167,8 @@ Adds .45 LC cowboy loads and ballistics data
 Add a 1 cylinder diesel engine to the game.
 Vehicles spawn on bridges
 Added creatures to populate the new edge ocean.
-This is a minor addition to the game, to be honest. It adds several new board games, some of them solitaire board games to the lone survivors, small counterparts to the chess and checkers set, loose pieces for both of them, ways to craft the standard sets and makeshift/handmade ones, which where also added as items. For fluff purposes, Homebrew character sheets with homebrew classes where also added. The board games consists of tabletop RPG sets, solitaire board games, two new deck of cards and jigsaw puzzles with national and international wonders and landmarks. Thank you all for the attention.
+Major board game expansion
 Allow the Nunez family to move to Tacoma Commune if you help them set it up.
-added "rotates_to": "WALL" to f_ladder
-I think I did it properly now.  Attempted to fix the mess with pants in the professions, selecting roper variants rather than a random one.  Gave the handyman/handywoman professions a generic tank top, instead of a camo or cheerleader one, added some female names for other professions such as the Lumberjack (Lumberjill), fixed issues with the holy symbol regarding some professions, selecting a proper variant, added a new profession (Asatru priest or priestess), and a new religious book, the Asatru Edda.
 
 
 ## Interface:
@@ -308,10 +306,7 @@ Add Bombastic Perk compatibility to Defense Mode.
 [Sky Island] teleporting items back home
 [MoM] Change electrokinetic overload
 [Sky Island] Allow selection of room teleport behavior
-[MoM] lower channeling protocol PGS38 time
 [MOM] Allow high nether attunement to induce hallucinations.
-[MoM] Concentration reduces focus
-[MoM] Reduce duration of random teleports from Nether Attunement
 
 
 ## Balance:
@@ -361,9 +356,6 @@ Fragile Clothing will degrade if its dealt damage larger than 15% its armor valu
 Professions can start with specific recipes
 Food irradiation slows food decay to a quarter, instead of making it last forever
 Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
-bokken trains long swords
-Cooldown to change character at a camp lowered
-Reduces manhack weight (5kg to 1.5kg)
 
 
 ## Bugfixes:
@@ -465,20 +457,9 @@ prevent_death EOC can sometimes fail and lead to permadeath
 Adds annotations to construction menu entries done indoors, in trees, and that require supporting walls.
 Fix AIM allowing distant container interactions
 Show correct bodypart in grabs
-Use correct bionic tool for welding-based vehicle modifications
-[MoM] Add valid false to everything missing it 
-makes satellite maps reveal ocean and shore tiles
-[MoM] clamp Phase
-[MoM] Fix Momentum Alteration
 [MoM] Quell Walls
 Vehicle parts check creature size, increases storage of dumpster and vehicle parts
-Non-portable electric tools cause errors when used as pseudo-tools
-3D draw point generation
-Fix look around scrolling
-Proficiency training works now again
-Fix diluting concentrated hydrogen peroxide producing too little
 Prevent softlock when sleeping in cramped spaces
-Fix cabled-only pseudo-tools, part 2
 Invalidate draw point cache if viewport size or position changes
 
 
