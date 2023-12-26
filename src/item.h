@@ -3006,7 +3006,7 @@ class item : public visitable
         FlagsSetType item_tags; // generic item specific flags
         FlagsSetType inherited_tags_cache;
         safe_reference_anchor anchor;
-        std::map<std::string, std::string> item_vars;
+        cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques

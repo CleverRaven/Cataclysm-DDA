@@ -124,6 +124,22 @@ struct heap {
             return std::move( *heaped_ );
         }
 
+        // The one weird one: since this is ultimately backed on the heap,
+        // allow operator* to get a reference to the thing.
+        // We don't allow exposing it as a pointer directly, but some places need
+        // to peel back the heap<> wrapper because otherwise template type deduction
+        // might break.
+        T &operator*() & { // *NOPAD*
+            return *heaped_;
+        }
+        T const &operator*() const & { // *NOPAD*
+            return *heaped_;
+        }
+        // Intentionally move construct a value T to avoid binding a ref to a temporary.
+        T operator*() && { // *NOPAD*
+            return std::move( *heaped_ );
+        }
+
     private:
         // Helper for proxy functions.
         T &val() {

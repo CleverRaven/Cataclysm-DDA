@@ -1489,7 +1489,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
     const std::vector<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
-    if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
+    if( map_without_keys( *item_vars, ignore_keys ) != map_without_keys( *rhs.item_vars,
+            ignore_keys ) ) {
         return false;
     }
     const std::string omt_loc_var = "spawn_location_omt";
