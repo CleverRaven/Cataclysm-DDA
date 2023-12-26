@@ -740,6 +740,7 @@
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
+    "rotates_to": "WALL",
     "bash": {
       "str_min": 6,
       "str_max": 40,

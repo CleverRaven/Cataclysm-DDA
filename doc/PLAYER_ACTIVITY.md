@@ -42,12 +42,8 @@ to e.g. pain or seeing monsters will be suppressed.
 
 * interruptable_with_kb (true): Can this be interrupted by a key press.
 
-* no_resume (false): Rather than resuming, you must always restart the
-activity from scratch.
-
-* suspendable (true): If true, the activity can be continued without
-starting from scratch again. This is only possible if `can_resume_with()`
-returns true.
+* can_resume (true): If true, the activity can be resumed after an interruption,
+letting you continue from where you left off rather than from scratch.
 
 * based_on: Can be 'time', 'speed', or 'neither'.
 
@@ -100,7 +96,7 @@ There are several ways an activity can be ended:
     Canceling an activity prevents the `activity_actor::finish`
     function from running, and the activity does therefore not yield a
     result. Instead, `activity_actor::canceled` is called. If activity is
-    suspendable, a copy of it is written to `Character::backlog`.
+    resumable, a copy of it is written to `Character::backlog`.
 
 ## Notes
 
