@@ -156,9 +156,11 @@ static void put_into_container(
         ctr.seal();
     }
 
-    excess.emplace_back( std::move( ctr ) );
     items.erase( items.end() - num_items, items.end() );
-    items.insert( items.end(), excess.begin(), excess.end() );
+    items.reserve( items.size() + excess.size() + 1 );
+    items.insert( items.end(), std::make_move_iterator( excess.begin() ),
+                  std::make_move_iterator( excess.end() ) );
+    items.emplace_back( std::move( ctr ) );
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
