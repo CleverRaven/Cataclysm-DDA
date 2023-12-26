@@ -17,6 +17,7 @@
     "weight": "5897 g",
     "volume": "4000 ml",
     "longest_side": "1295 mm",
+    "barrel_length": "686 mm",
     "price": 642800,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -49,6 +50,7 @@
     "weight": "5470 g",
     "volume": "3000 ml",
     "longest_side": "1264 mm",
+    "barrel_length": "660 mm",
     "price": 110900,
     "price_postapoc": 800,
     "to_hit": -1,
@@ -96,6 +98,7 @@
     "weight": "6305 g",
     "volume": "5500 ml",
     "longest_side": "1204 mm",
+    "barrel_length": "660 mm",
     "price": 406098,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -152,7 +155,7 @@
     "dispersion": 50,
     "durability": 10,
     "blackpowder_tolerance": 24,
-    "default_mods": [ "match_trigger", "high_end_folding_stock", "retool_axmc_338lapua", "muzzle_brake" ],
+    "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "bore", 1 ],
@@ -165,7 +168,6 @@
     ],
     "flags": [ "NO_TURRET", "EASY_CLEAN" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10", "ai_308mag_10" ] } ],
     "melee_damage": { "bash": 12 }
   }
 ]

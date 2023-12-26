@@ -127,6 +127,26 @@
   },
   {
     "type": "overmap_location",
+    "id": "ocean_surface",
+    "terrains": [ "ocean_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_water_cube",
+    "terrains": [ "ocean_water_cube" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_bed",
+    "terrains": [ "ocean_bed" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_shore",
+    "terrains": [ "ocean_shore" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "potential_basement_lab_entrance",
     "terrains": [ "basement" ]
   },

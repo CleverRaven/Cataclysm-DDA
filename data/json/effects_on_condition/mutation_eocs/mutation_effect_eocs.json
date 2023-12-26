@@ -225,9 +225,465 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_RASHY_SKIN",
-    "recurrence": [ "2 hour", "24 hours" ],
-    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
+    "id": "rashy_skin",
+    "recurrence": [ "2 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SKIN_RASHY" },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "formication" } }
+      ]
+    },
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hay_fever_spring_fall",
+    "recurrence": [ "6 hours", "4 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "or": [ { "is_season": "spring" }, { "is_season": "autumn" } ] },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
+      { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hay_fever_summer",
+    "recurrence": [ "8 hours", "8 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "is_season": "SUMMER" },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
+      { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sneeze",
+    "recurrence": [ "45 seconds", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "hay_fever" },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You sneeze!", "type": "bad" },
+      { "u_add_effect": "sneezing", "duration": "1 second" },
+      { "u_make_sound": "a sneeze!", "volume": 10, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "LEAVES" } ] },
+    "effect": [
+      { "u_message": "The grassy leaves on your head have succumbed to winter dormancy.", "type": "bad" },
+      { "u_lose_trait": "LEAVES" },
+      { "u_add_trait": "LEAVES_WINTER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves_spring_summer_fall_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
+        { "u_has_trait": "LEAVES_WINTER" }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your leaves are looking green and healthy again.", "type": "good" },
+      { "u_lose_trait": "LEAVES_WINTER" },
+      { "u_add_trait": "LEAVES" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "flowers_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "FLOWERS" } ] },
+    "effect": [
+      {
+        "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "FLOWERS" },
+      { "u_add_trait": "FLOWERS_WINTER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "flowers_spring_summer_fall_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
+        { "u_has_trait": "FLOWERS_WINTER" }
+      ]
+    },
+    "effect": [
+      { "u_message": "You feel a giddy thrill as new flowers bloom from your scalp.", "type": "good" },
+      { "u_lose_trait": "FLOWERS_WINTER" },
+      { "u_add_trait": "FLOWERS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves2_spring_summer_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "LEAVES2_FALL" }, { "u_has_trait": "LEAVES2_WINTER" } ] },
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "New green leaves are growing in on your head and arms.", "type": "good" },
+      { "u_lose_trait": "LEAVES2_WINTER" },
+      { "u_lose_trait": "LEAVES2_FALL" },
+      { "u_add_trait": "LEAVES2" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves2_fall_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_WINTER" } ] }, { "is_season": "autumn" } ]
+    },
+    "effect": [
+      { "u_message": "Your leaves are turning and starting to drop as the season changes.", "type": "good" },
+      { "u_lose_trait": "LEAVES2" },
+      { "u_lose_trait": "LEAVES2_WINTER" },
+      { "u_spawn_item": "leaves", "count": 1 },
+      { "u_add_trait": "LEAVES2_FALL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves2_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_FALL" } ] }, { "is_season": "winter" } ] },
+    "effect": [
+      { "u_message": "The last of your leaves fall, leaving your head and arms bare.", "type": "bad" },
+      { "u_lose_trait": "LEAVES2" },
+      { "u_lose_trait": "LEAVES2_FALL" },
+      { "u_spawn_item": "leaves", "count": 1 },
+      { "u_add_trait": "LEAVES2_WINTER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves3_spring_summer_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "LEAVES3_FALL" }, { "u_has_trait": "LEAVES3_WINTER" } ] },
+        { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "New green leaves are growing in on your head and upper limbs.", "type": "good" },
+      { "u_lose_trait": "LEAVES3_WINTER" },
+      { "u_lose_trait": "LEAVES3_FALL" },
+      { "u_add_trait": "LEAVES3" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves3_fall_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_WINTER" } ] }, { "is_season": "autumn" } ]
+    },
+    "effect": [
+      {
+        "u_message": "Your leaves have begun taking on the red-gold hues of fall.  A few have fallen already.",
+        "type": "good"
+      },
+      { "u_lose_trait": "LEAVES3" },
+      { "u_lose_trait": "LEAVES3_WINTER" },
+      { "u_spawn_item": "leaves", "count": 1 },
+      { "u_add_trait": "LEAVES3_FALL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "leaves3_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_FALL" } ] }, { "is_season": "winter" } ] },
+    "effect": [
+      { "u_message": "The last of your leaves fall, leaving your head and upper limbs bare.", "type": "bad" },
+      { "u_lose_trait": "LEAVES3" },
+      { "u_lose_trait": "LEAVES3_FALL" },
+      { "u_spawn_item": "leaves", "count": 1 },
+      { "u_add_trait": "LEAVES3_WINTER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_spring_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ]
+        },
+        { "is_season": "spring" }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Spring must be here, the new buds growing from your scalp are giving off a lovely scent.",
+        "type": "good"
+      },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS_SUMMER" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_summer_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "is_season": "summer" }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
+        "type": "good"
+      },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_fall_timer_plant",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "u_has_trait": "THRESH_PLANT" },
+        { "is_season": "autumn" }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.",
+        "type": "good"
+      },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_SUMMER" },
+      { "u_add_trait": "ROSEBUDS_FALL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "picked_rosebuds_fall",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "and": [ { "u_has_trait": "ROSEBUDS_FALL_active" } ] },
+    "effect": [
+      { "u_lose_trait": "ROSEBUDS_FALL_active" },
+      { "u_spawn_item": "mutfruit", "count": 1 },
+      { "u_add_trait": "ROSEBUDS_FALL_PICKED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_fall_timer_elfa",
+    "//": "Only true plants bear fruit. Elves just look pretty for longer.",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
+        { "not": { "u_has_trait": "THRESH_PLANT" } },
+        { "is_season": "autumn" }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
+        "type": "good"
+      },
+      { "u_lose_trait": "ROSEBUDS_WINTER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rosebuds_winter_timer",
+    "recurrence": [ "15 hours", "60 hours" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_SUMMER" } ] },
+        { "is_season": "winter" }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "ROSEBUDS_SUMMER" },
+      { "u_lose_trait": "ROSEBUDS" },
+      { "u_lose_trait": "ROSEBUDS_FALL" },
+      { "u_add_trait": "ROSEBUDS_WINTER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shed_summer_timer_lupine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
+    "effect": [
+      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_lose_trait": "LUPINE_FUR" },
+      { "u_add_trait": "LUPINE_FUR_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "regrow_timer_lupine",
+    "recurrence": [ "5 days", "15 days" ],
+    "condition": { "and": [ { "u_has_trait": "LUPINE_FUR_SUMMER" }, { "not": { "is_season": "summer" } } ] },
+    "effect": [
+      { "u_message": "It looks like your coat has grown back in for the colder seasons.", "type": "good" },
+      { "u_lose_trait": "LUPINE_FUR_SUMMER" },
+      { "u_add_trait": "LUPINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shed_summer_timer_ursine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
+    "effect": [
+      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_lose_trait": "URSINE_FUR" },
+      { "u_add_trait": "URSINE_FUR_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "regrow_timer_ursine",
+    "recurrence": [ "5 days", "15 days" ],
+    "condition": { "and": [ { "u_has_trait": "URSINE_FUR_SUMMER" }, { "not": { "is_season": "summer" } } ] },
+    "effect": [
+      { "u_message": "It looks like your coat has grown back in for the colder seasons.", "type": "good" },
+      { "u_lose_trait": "URSINE_FUR_SUMMER" },
+      { "u_add_trait": "URSINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "seasonal_affective_fall",
+    "recurrence": [ "5 days", "20 days" ],
+    "condition": {
+      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "autumn" }, { "not": { "u_has_effect": "took_prozac" } } ]
+    },
+    "effect": [
+      { "u_message": "It's only fall, but you already miss the summer sun.", "type": "bad" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -15,
+        "max_bonus": -15,
+        "duration": { "math": [ "rand(216000) + 86400" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "seasonal_affective_winter",
+    "recurrence": [ "3 days", "12 days" ],
+    "condition": {
+      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "winter" }, { "not": { "u_has_effect": "took_prozac" } } ]
+    },
+    "effect": [
+      { "u_message": "The long, cold nights really get you feeling down.", "type": "bad" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -15,
+        "max_bonus": -15,
+        "duration": { "math": [ "rand(432000) + 86400" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ink_grand_spray",
+    "//": "will cast 'ink_gland_spray' spell when player has stored ink charges",
+    "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "ink_gland_spray" } },
+      { "u_message": "Your ink glands spray some ink into attacker eyes!", "type": "good" },
+      {
+        "u_add_effect": "ink_gland_ink",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') - 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ink_gland_recharge_timer",
+    "//": "will regenerate ink for ink glands to spray ~3 charges per hour",
+    "recurrence": [ "18 minutes", "22 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "INK_GLANDS" },
+        { "not": { "u_has_effect": "ink_gland_ink", "intensity": 4 } },
+        { "math": [ "u_val('stored_kcal_percentage')", ">", "33" ] },
+        { "math": [ "u_val('instant_thirst')", "<", "240" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_val('stored_kcal')", "-=", "47" ] },
+      { "math": [ "u_val('thirst')", "+=", "4" ] },
+      {
+        "u_add_effect": "ink_gland_ink",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') + 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ink_gland_ink_cleanup",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "will remove ink_gland_ink effect when the mutation is lost",
+    "condition": { "and": [ { "u_has_effect": "ink_gland_ink" }, { "compare_string": [ "INK_GLANDS", { "context_val": "trait" } ] } ] },
+    "effect": [ { "u_lose_effect": "ink_gland_ink" } ]
   }
 ]

@@ -15,12 +15,12 @@
 #include "game.h"
 #include "item_category.h"
 #include "item_factory.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "math_defines.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "test_data.h"
 #include "type_id.h"
@@ -80,7 +80,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item gun( "win70" );
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
-    gun.put_in( mod, item_pocket::pocket_type::MOD );
+    gun.put_in( mod, pocket_type::MOD );
     CHECK( gun.get_layer().front() == layer_level::BELTED );
     CHECK( gun.get_category_of_contents().id == item_category_guns );
 }
@@ -91,8 +91,8 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
     item cash0( "cash_card", calendar::turn_zero );
     item cash1( "cash_card", calendar::turn_zero );
     item cash2( "cash_card", calendar::turn_zero );
-    cash1.put_in( item( "money", calendar::turn_zero, 1 ), item_pocket::pocket_type::MAGAZINE );
-    cash2.put_in( item( "money", calendar::turn_zero, 2 ), item_pocket::pocket_type::MAGAZINE );
+    cash1.put_in( item( "money", calendar::turn_zero, 1 ), pocket_type::MAGAZINE );
+    cash2.put_in( item( "money", calendar::turn_zero, 2 ), pocket_type::MAGAZINE );
     CHECK( !cash0.stacks_with( cash1 ) );
     //CHECK( cash1.stacks_with( cash2 ) ); Enable this once cash card stacking is brought back.
 }
@@ -356,7 +356,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item aspirin( "aspirin" );
             item backpack( "backpack" );
 
-            backpack.put_in( aspirin, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( aspirin, pocket_type::CONTAINER );
 
             REQUIRE( guy.wear_item( backpack ) );
 
@@ -373,7 +373,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item aspirin( "aspirin" );
             item bottle_small( "bottle_plastic_small" );
 
-            bottle_small.put_in( aspirin, item_pocket::pocket_type::CONTAINER );
+            bottle_small.put_in( aspirin, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( bottle_small ) );
 
@@ -391,8 +391,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item backpack( "backpack" );
             item duffelbag( "duffelbag" );
 
-            backpack.put_in( aspirin, item_pocket::pocket_type::CONTAINER );
-            duffelbag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( aspirin, pocket_type::CONTAINER );
+            duffelbag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wear_item( duffelbag ) );
 
@@ -410,8 +410,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item backpack( "backpack" );
             item body_bag( "test_waterproof_bag" );
 
-            backpack.put_in( aspirin, item_pocket::pocket_type::CONTAINER );
-            body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( aspirin, pocket_type::CONTAINER );
+            body_bag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
 
@@ -447,7 +447,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item smart_phone( itype_test_smart_phone );
             item backpack( itype_test_backpack );
 
-            backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( smart_phone, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( backpack ) );
 
@@ -464,7 +464,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item smart_phone( itype_test_smart_phone );
             item body_bag( "test_waterproof_bag" );
 
-            body_bag.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
+            body_bag.put_in( smart_phone, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
 
@@ -482,8 +482,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item backpack( itype_test_backpack );
             item duffelbag( itype_test_duffelbag );
 
-            backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
-            duffelbag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( smart_phone, pocket_type::CONTAINER );
+            duffelbag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( duffelbag ) );
 
@@ -501,8 +501,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item backpack( itype_test_backpack );
             item body_bag( itype_test_waterproof_bag );
 
-            backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
-            body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( smart_phone, pocket_type::CONTAINER );
+            body_bag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
 
@@ -538,7 +538,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item mp3( itype_test_mp3 );
             item backpack( itype_test_backpack );
 
-            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( mp3, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( backpack ) );
 
@@ -557,7 +557,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item mp3( itype_test_mp3 );
             item body_bag( itype_test_waterproof_bag );
 
-            body_bag.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+            body_bag.put_in( mp3, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
 
@@ -577,8 +577,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item backpack( itype_test_backpack );
             item duffelbag( itype_test_duffelbag );
 
-            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
-            duffelbag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( mp3, pocket_type::CONTAINER );
+            duffelbag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( duffelbag ) );
 
@@ -598,8 +598,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item backpack( itype_test_backpack );
             item body_bag( itype_test_waterproof_bag );
 
-            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
-            body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( mp3, pocket_type::CONTAINER );
+            body_bag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
 
@@ -619,9 +619,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             REQUIRE( guy.wield( mp3 ) );
 
-            THEN( "should be wet for around 8664 seconds" ) {
+            THEN( "should be wet for around 9562 seconds" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.get_wielded_item()->wetness == Approx( 8664 ).margin( 20 ) );
+                CHECK( guy.get_wielded_item()->wetness == Approx( 9562 ).margin( 20 ) );
             }
         }
 
@@ -639,8 +639,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
-                AND_THEN( "should be wet for around 43320 seconds" ) {
-                    CHECK( guy.get_wielded_item()->wetness == Approx( 43320 ).margin( 100 ) );
+                AND_THEN( "should be wet for around 47810 seconds" ) {
+                    CHECK( guy.get_wielded_item()->wetness == Approx( 47810 ).margin( 100 ) );
                 }
             }
         }
@@ -683,7 +683,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item towel( "towel" );
             item backpack( "backpack" );
 
-            backpack.put_in( towel, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( towel, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( backpack ) );
 
@@ -700,7 +700,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item towel( "towel" );
             item body_bag( "test_waterproof_bag" );
 
-            body_bag.put_in( towel, item_pocket::pocket_type::CONTAINER );
+            body_bag.put_in( towel, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
 
@@ -807,7 +807,7 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     item test_exo( "test_modular_exosuit" );
     item test_module( "test_exo_lense_module" );
 
-    test_exo.force_insert_item( test_module, item_pocket::pocket_type::CONTAINER );
+    test_exo.force_insert_item( test_module, pocket_type::CONTAINER );
 
     guy.worn.wear_item( guy, test_exo, false, false, false );
 
@@ -816,7 +816,7 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     clear_avatar();
     item miner_hat( "miner_hat" );
     item ear_muffs( "attachable_ear_muffs" );
-    REQUIRE( miner_hat.put_in( ear_muffs, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( miner_hat.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
     REQUIRE( !miner_hat.has_flag( json_flag_DEAF ) );
     guy.wear_item( miner_hat );
     item_location worn_hat = guy.worn.top_items_loc( guy ).front();
@@ -912,20 +912,20 @@ TEST_CASE( "item_single_type_contents", "[item]" )
     int const num = GENERATE( 1, 2 );
     bool ret = true;
     for( int i = 0; i < num; i++ ) {
-        ret &= bag.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success();
+        ret &= bag.put_in( walnut, pocket_type::CONTAINER ).success();
     }
     REQUIRE( ret );
     CAPTURE( num, bag.display_name() );
     CHECK( bag.get_category_of_contents() == *item_category_food );
     REQUIRE( nail.get_category_of_contents().id != walnut.get_category_of_contents().id );
-    REQUIRE( bag.put_in( nail, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( bag.put_in( nail, pocket_type::CONTAINER ).success() );
     CHECK( bag.get_category_of_contents().id == item_category_container );
 
     SECTION( "clothing" ) {
         item jeans( "jeans" );
         REQUIRE( jeans.get_category_of_contents().id == item_category_clothing );
         REQUIRE( walnut.get_category_of_contents().id == item_category_food );
-        REQUIRE( jeans.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+        REQUIRE( jeans.put_in( walnut, pocket_type::CONTAINER ).success() );
         CHECK( jeans.get_category_of_contents().id == item_category_clothing );
     }
 
@@ -933,7 +933,7 @@ TEST_CASE( "item_single_type_contents", "[item]" )
         item usb_drive( "usb_drive" );
         item software_hacking( "software_hacking" );
         REQUIRE( usb_drive.get_category_of_contents().id == item_category_tools );
-        REQUIRE( usb_drive.put_in( software_hacking, item_pocket::pocket_type::SOFTWARE ).success() );
+        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::SOFTWARE ).success() );
         CHECK( usb_drive.get_category_of_contents().id == item_category_tools );
     }
 }
@@ -945,15 +945,15 @@ TEST_CASE( "item_nested_contents", "[item]" )
     item inner_bag1( "bag_plastic" );
     item inner_bag2( "bag_plastic" );
 
-    REQUIRE( inner_bag1.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
-    REQUIRE( inner_bag1.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( inner_bag1.put_in( walnut, pocket_type::CONTAINER ).success() );
+    REQUIRE( inner_bag1.put_in( walnut, pocket_type::CONTAINER ).success() );
     CHECK( inner_bag1.get_category_of_contents().id == item_category_food );
 
-    REQUIRE( inner_bag2.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( inner_bag2.put_in( walnut, pocket_type::CONTAINER ).success() );
     CHECK( inner_bag2.get_category_of_contents().id == item_category_food );
 
-    REQUIRE( outer_bag.put_in( inner_bag1, item_pocket::pocket_type::CONTAINER ).success() );
-    REQUIRE( outer_bag.put_in( inner_bag2, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( outer_bag.put_in( inner_bag1, pocket_type::CONTAINER ).success() );
+    REQUIRE( outer_bag.put_in( inner_bag2, pocket_type::CONTAINER ).success() );
     CAPTURE( outer_bag.display_name() );
     // outer_bag
     //   inner_bag1
@@ -971,14 +971,14 @@ TEST_CASE( "item_rotten_contents", "[item]" )
 
     item butter_rotten( "butter" );
     butter_rotten.set_relative_rot( 1.01 );
-    REQUIRE( wrapper.put_in( butter_rotten, item_pocket::pocket_type::CONTAINER ).success() );
-    REQUIRE( wrapper.put_in( butter_rotten, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter_rotten, pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter_rotten, pocket_type::CONTAINER ).success() );
     CAPTURE( wrapper.display_name() );
     CHECK( wrapper.get_category_of_contents().id == item_category_food );
 
     item butter( "butter" );
     butter.set_relative_rot( 0.5 );
-    REQUIRE( wrapper.put_in( butter, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter, pocket_type::CONTAINER ).success() );
     CAPTURE( wrapper.display_name() );
     // wrapper
     //   butter (rotten)

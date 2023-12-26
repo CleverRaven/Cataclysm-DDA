@@ -159,7 +159,7 @@
         [ "welder", 20 ],
         [ "welding_kit", 20 ],
         [ "welder_crude", 40 ],
-        [ "toolset", 30 ],
+        [ "integrated_welder", 30 ],
         [ "oxy_torch", 1 ],
         [ "propane_torch", 8 ]
       ]
@@ -252,7 +252,15 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "integrated_welder", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
+    "tools": [
+      [
+        [ "soldering_iron", 1 ],
+        [ "soldering_iron_portable", 1 ],
+        [ "integrated_welder", 1 ],
+        [ "small_repairkit", 1 ],
+        [ "large_repairkit", 1 ]
+      ]
+    ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {

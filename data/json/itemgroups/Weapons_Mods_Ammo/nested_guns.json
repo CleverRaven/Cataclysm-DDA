@@ -110,7 +110,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_20", "variant": "glock_40", "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_40", "variant": "glock_40", "charges-min": 0, "charges-max": 15 },
       { "item": "glock_20mag" },
       { "item": "glock_20mag", "prob": 50 },
       { "group": "on_hand_10mm" }
@@ -1304,7 +1304,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "modular_ar15", "charges-min": 0, "charges-max": 30 },
+      { "group": "modular_ar15", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1494,7 +1494,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "fn_fal", "charges-min": 0, "charges-max": 20 },
+      { "item": "fn_fal_semi", "charges-min": 0, "charges-max": 20 },
       { "item": "falmag" },
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
@@ -1820,19 +1820,6 @@
     ]
   },
   {
-    "id": "nested_rm298",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "rm298", "charges-min": 0, "charges-max": 100 },
-      { "item": "8x40_250_mag" },
-      { "item": "8x40_250_mag", "prob": 50 },
-      { "group": "on_hand_8x40" }
-    ]
-  },
-  {
     "id": "nested_rm51_assault_rifle",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2029,12 +2016,12 @@
     ]
   },
   {
-    "id": "nested_trex_gun",
+    "id": "nested_win70_458",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "trex_gun", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_700nx" } ]
+    "entries": [ { "item": "win70_458", "charges-min": 0, "charges-max": 3 }, { "group": "on_hand_458wm" } ]
   },
   {
     "id": "nested_arx160",
@@ -2483,7 +2470,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "mdrx", "charges-min": 0, "charges-max": 30 },
+      { "group": "mdrx", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -2533,7 +2520,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "axmc", "charges-min": 0, "charges-max": 10 },
+      { "group": "axmc", "charges-min": 0, "charges-max": 10 },
       { "item": "ai_338mag_10" },
       { "item": "ai_338mag_10", "prob": 50 },
       { "group": "on_hand_338lapua" }
@@ -2553,7 +2540,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "cz600", "charges-min": 0, "charges-max": 10 },
+      { "group": "cz600", "charges-min": 0, "charges-max": 10 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -2658,6 +2645,63 @@
       { "item": "greasegun30mag" },
       { "item": "greasegun30mag", "prob": 50 },
       { "group": "on_hand_45" }
+    ]
+  },
+  {
+    "id": "nested_type99",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "type99", "variant": "type99", "charges-min": 0, "charges-max": 5, "prob": 30 },
+          {
+            "item": "type99",
+            "variant": "type99",
+            "charges-min": 0,
+            "charges-max": 5,
+            "contents-group": [ "type99_mods" ],
+            "prob": 20
+          },
+          { "item": "type99", "variant": "type99ld", "charges-min": 0, "charges-max": 5, "prob": 30 },
+          {
+            "item": "type99",
+            "variant": "type99ld",
+            "charges-min": 0,
+            "charges-max": 5,
+            "contents-group": [ "type99_mods" ],
+            "prob": 20
+          }
+        ]
+      },
+      { "item": "clip_77mm_arisaka" },
+      { "item": "clip_77mm_arisaka", "prob": 50 },
+      { "group": "on_hand_77mm_arisaka" }
+    ]
+  },
+  {
+    "id": "nested_type99_sniper",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "type99_sniper", "charges-min": 0, "charges-max": 5, "prob": 70 },
+          {
+            "item": "type99_sniper",
+            "charges-min": 0,
+            "charges-max": 5,
+            "contents-item": [ "arisaka_monopod" ],
+            "prob": 30
+          }
+        ]
+      },
+      { "item": "clip_77mm_arisaka" },
+      { "item": "clip_77mm_arisaka", "prob": 50 },
+      { "group": "on_hand_77mm_arisaka" }
     ]
   }
 ]

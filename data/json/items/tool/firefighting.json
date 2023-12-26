@@ -182,7 +182,7 @@
     "name": { "str": "pike pole" },
     "description": "A durable tool consisting of a sturdy fiberglass shaft tipped with a small steel hook.",
     "price": 10000,
-    "material": [ "plastic", "steel" ],
+    "material": [ "fiberglass", "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "3100 g",

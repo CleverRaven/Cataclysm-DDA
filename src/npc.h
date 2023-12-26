@@ -256,6 +256,8 @@ struct npc_opinion {
     void deserialize( const JsonObject &data );
 };
 
+
+
 enum class combat_engagement : int {
     NONE = 0,
     CLOSE,
@@ -571,6 +573,7 @@ struct npc_short_term_cache {
     npc_attack_rating current_attack_evaluation;
     std::shared_ptr<npc_attack> current_attack;
 
+
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
@@ -584,6 +587,22 @@ struct npc_short_term_cache {
     // friendly creature.
     // returns nullopt if not applicable
     std::optional<int> closest_enemy_to_friendly_distance() const;
+};
+
+// npc_combat_memory should store short-term trackers that don't really need to be saved if
+// the player exits the game. Minor logic behaviour changes might occur, but nothing serious.
+struct npc_combat_memory_cache {
+    float assess_ally = 0.0f;
+    float assess_enemy = 0.0f;
+    int panic = 0;
+    int swarm_count = 0; //so you can tell if you're getting away over multiple turns
+    int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
+    int reposition_countdown = 0; // set when repos fails so that we don't keep trying.
+    int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
+    float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
+    bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int formation_distance = -1; // dist to nearest ally with a gun, or to player
+    int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
 
 struct npc_need_goal_cache {
@@ -1005,7 +1024,7 @@ class npc : public Character
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
-        int smash_ability() const;
+        int smash_ability() const override;
 
         /*
          *  CBM management functions
@@ -1027,7 +1046,9 @@ class npc : public Character
         bool deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
         // in bionics.cpp
         // can't use bionics::activate because it calls plfire directly
-        void discharge_cbm_weapon();
+        void discharge_cbm_weapon( bool fired = true, bool stow_real_weapon = false );
+        // deactivate or discharge the fake bionic weapon that NPC wielded
+        void deactivate_or_discharge_bionic_weapon( bool stow_real_weapon = false );
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
@@ -1088,10 +1109,11 @@ class npc : public Character
 
         /** rates how dangerous a target is */
         float evaluate_monster( const monster &target, int dist ) const;
-        float evaluate_character( const Character &candidate, bool my_gun, bool enemy ) const;
-        float evaluate_self( bool my_gun ) const;
+        float evaluate_character( const Character &candidate, bool my_gun, bool enemy );
+        float evaluate_self( bool my_gun );
 
         void assess_danger();
+        void act_on_danger_assessment();
         bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
@@ -1357,6 +1379,8 @@ class npc : public Character
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
+        npc_combat_memory_cache mem_combat;
+
         dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;

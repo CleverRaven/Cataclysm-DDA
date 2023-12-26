@@ -336,6 +336,23 @@
     "ammo_type": "components"
   },
   {
+    "id": "warp_vortex_token",
+    "type": "AMMO",
+    "category": "other",
+    "name": { "str_sp": "warp vortex token" },
+    "description": "This irregular purplish lump seems to slowly pull in air even while you hold it in your hand.  If you have one with you when you activate the return obelisk and the obelisk is correctly configured, it will drag the entire contents of the room with you back up to your island.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 1,
+    "stack_size": 100,
+    "looks_like": "spiral_stone",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "alien_resin" ],
+    "symbol": ".",
+    "color": "magenta",
+    "ammo_type": "components"
+  },
+  {
     "id": "warptoken",
     "type": "AMMO",
     "category": "other",

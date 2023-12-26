@@ -108,7 +108,14 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_soldering_iron",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "soldering_iron" } ]
+    "entries": [
+      {
+        "item": "light_plus_battery_cell",
+        "ammo-item": "battery",
+        "charges": 150,
+        "container-item": "soldering_iron_portable"
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -696,7 +703,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
           { "item": "45_acp", "charges": 23 },
-          { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
+          { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap_simple" },
           { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
           { "item": "3006", "charges": 4 }
         ]
@@ -839,11 +846,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
-        "entries": [
-          { "item": "pants", "variant": "pants_stone" },
-          { "group": "charged_smart_phone" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "chemistry_set" }
-        ]
+        "entries": [ { "item": "pants", "variant": "pants_stone" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -863,8 +866,7 @@
         "entries": [
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_smart_phone" },
-          { "item": "wrench", "container-item": "tool_belt" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" }
+          { "item": "wrench", "container-item": "tool_belt" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1529,7 +1531,7 @@
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat_army", "container-item": "sheath" },
+          { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
             "item": "mossberg_930",
@@ -1592,7 +1594,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat_army", "container-item": "sheath" },
+          { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           {
             "item": "modular_m4_carbine",
             "variant": "modular_m4a1",
@@ -1774,7 +1776,8 @@
           "socks",
           "boots_combat",
           "dive_bag",
-          "diving_watch"
+          "diving_watch",
+          "single_sling"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -1783,12 +1786,7 @@
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
-          {
-            "item": "hk_mp5",
-            "ammo-item": "9mm",
-            "charges": 30,
-            "contents-item": [ "shoulder_strap", "suppressor", "holo_sight" ]
-          }
+          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "suppressor", "holo_sight" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2369,7 +2367,8 @@
           "wristwatch",
           "pants_tactical",
           "elbow_pads",
-          "knee_pads"
+          "knee_pads",
+          "single_sling"
         ],
         "entries": [
           { "group": "swat_ballistic_vest_pristine" },
@@ -2380,12 +2379,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          {
-            "item": "hk_mp5",
-            "ammo-item": "9mm",
-            "charges": 30,
-            "contents-item": [ "shoulder_strap", "rail_laser_sight" ]
-          }
+          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "rail_laser_sight" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2699,14 +2693,14 @@
     ],
     "items": {
       "both": {
-        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_steel",
             "charges": 1,
-            "contents-item": "shoulder_strap",
+            "contents-item": "shoulder_strap_simple",
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
@@ -2737,7 +2731,7 @@
             "item": "remington_870",
             "ammo-item": "shot_00",
             "charges": 5,
-            "contents-item": "shoulder_strap",
+            "contents-item": "shoulder_strap_simple",
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
@@ -2768,7 +2762,7 @@
             "item": "remington700_270",
             "ammo-item": "270win_jsp",
             "charges": 4,
-            "contents-item": "shoulder_strap",
+            "contents-item": "shoulder_strap_simple",
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
@@ -2806,10 +2800,10 @@
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
-            "item": "ar15_50",
+            "group": "ar15_50",
             "ammo-item": "50beowulf_xtp",
             "charges": 10,
-            "contents-item": "shoulder_strap",
+            "contents-item": "shoulder_strap_simple",
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "chestrig", "contents-group": "mags_50beowulf_ar15" },
@@ -2842,7 +2836,7 @@
           { "group": "charged_smart_phone" },
           { "item": "shot_00", "charges": 25 },
           { "item": "beer", "count": 6 },
-          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" }
+          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap_simple" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3097,7 +3091,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "group": "modular_ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3996,7 +3990,7 @@
     "type": "profession",
     "id": "rabbi",
     "name": "Rabbi",
-    "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
+    "description": "You were davening Shacharit in shul when the Cataclysm struck.  You had always taught that God will restore life to the dead after Moshiach has come, but not like this!",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
@@ -4010,10 +4004,9 @@
           "kippah",
           "tallit_gadol",
           "dress_shoes",
-          "holy_symbol",
           "holybook_talmud"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "jewish_necklace1" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -4469,7 +4462,7 @@
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat_army", "container-item": "sheath" },
+          { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           {
             "item": "modular_m4_carbine",
             "variant": "modular_m4a1",
@@ -4643,7 +4636,7 @@
           "pipe_cleaner"
         ],
         "entries": [
-          { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
+          { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap_simple" },
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
           { "item": "flintlock_ammo", "charges": 15 },
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
@@ -5461,7 +5454,7 @@
             "item": "m249",
             "ammo-item": "556",
             "charges": 200,
-            "contents-item": [ "shoulder_strap", "holo_sight", "bipod" ]
+            "contents-item": [ "shoulder_strap_simple", "holo_sight", "bipod" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
@@ -5522,7 +5515,7 @@
             "item": "m320",
             "ammo-item": "40x46mm_m433",
             "charges": 1,
-            "contents-item": [ "shoulder_strap", "holo_sight" ]
+            "contents-item": [ "shoulder_strap_simple", "holo_sight" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenade_pouch", "contents-group": [ "army_grenades_40x46" ] },
@@ -5587,7 +5580,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
-          { "item": "knife_combat_army", "container-item": "sheath" },
+          { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
@@ -5649,7 +5642,7 @@
             "contents-item": [ "shoulder_strap", "rifle_scope" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat_army", "container-item": "sheath" },
+          { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mmfmj", "container-item": "holster", "charges": 17 },
           { "item": "legpouch_large", "contents-group": "army_mags_m17" }
         ]
@@ -5703,19 +5696,15 @@
           "boots_combat",
           "diving_watch",
           "molle_pack",
-          "multitool"
+          "multitool",
+          "single_sling"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "army_mags_mp7" },
           { "item": "water_clean", "container-item": "canteen" },
-          {
-            "item": "hk_mp7",
-            "ammo-item": "46mm",
-            "charges": 20,
-            "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
-          },
+          { "item": "hk_mp7", "ammo-item": "46mm", "charges": 20, "contents-item": [ "holo_sight", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat_marine", "container-item": "sheath" },
           { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
@@ -5960,7 +5949,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat_army", "container-item": "sheath" },
+          { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           {
             "item": "modular_m4_carbine",
             "variant": "modular_m4a1",
@@ -6619,7 +6608,7 @@
           { "group": "charged_ref_lighter" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap" ] }
+          { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap_simple" ] }
         ]
       },
       "male": [ "briefs" ],

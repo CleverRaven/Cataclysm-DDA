@@ -642,9 +642,6 @@ class Character : public Creature, public visitable
         using Creature::mod_speed_bonus;
         void mod_speed_bonus( int nspeed, const std::string &desc );
 
-        // Prints message(s) about current health
-        void print_health() const;
-
         /** Getters for health values exclusive to characters */
         int get_lifestyle() const;
         int get_daily_health() const;
@@ -767,7 +764,7 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         int point_shooting_limit( const item &gun ) const;
         double fastest_aiming_method_speed( const item &gun, double recoil,
-                                            Target_attributes target_attributes = Target_attributes(),
+                                            const Target_attributes &target_attributes = Target_attributes(),
                                             std::optional<std::reference_wrapper<const parallax_cache>> parallax_cache = std::nullopt ) const;
         int most_accurate_aiming_method_limit( const item &gun ) const;
         double aim_factor_from_volume( const item &gun ) const;
@@ -790,7 +787,7 @@ class Character : public Creature, public visitable
         * Use a struct to avoid repeatedly calculate some modifiers that are actually persistent for aiming UI drawing.
         */
         double aim_per_move( const item &gun, double recoil,
-                             Target_attributes target_attributes = Target_attributes(),
+                             const Target_attributes &target_attributes = Target_attributes(),
                              std::optional<std::reference_wrapper<const aim_mods_cache>> aim_cache = std::nullopt ) const;
 
         int get_dodges_left() const;
@@ -1178,7 +1175,9 @@ class Character : public Creature, public visitable
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns value of player's stable footing */
+        /** Returns value of player's footing on narrow or slippery terrain */
+        float balance_roll() const;
+        /** Returns value of player's footing on skates or similar */
         float stability_roll() const override;
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
@@ -1762,7 +1761,7 @@ class Character : public Creature, public visitable
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER,
+                    pocket_type pk_type = pocket_type::CONTAINER,
                     bool check_best_pkt = false );
         void store( item_pocket *pocket, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY );
@@ -1853,7 +1852,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, item_pocket::pocket_type::SOFTWARE );
+                }, pocket_type::SOFTWARE );
             }
         };
 
@@ -2203,6 +2202,7 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::volume free_space() const;
+        units::mass free_weight_capacity() const;
         /**
          * Returns the total volume of all worn holsters.
         */
@@ -2487,6 +2487,9 @@ class Character : public Creature, public visitable
             return query_yn( string_format( msg, std::forward<Args>( args ) ... ) );
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
+
+        std::pair<bodypart_id, int> best_part_to_smash() const;
+        virtual int smash_ability() const;
 
         // checks if your character is immune to an effect or field based on field_immunity_data
         bool check_immunity_data( const field_immunity_data &ft ) const override;

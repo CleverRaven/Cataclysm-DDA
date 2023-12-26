@@ -51,6 +51,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_null( "null" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
@@ -744,6 +745,7 @@ bool melee_actor::call( monster &z ) const
 
     // We need to do some calculations in the main function - we might mutate bp_hit
     // But first we need to handle exclusive grabs etc.
+    std::optional<bodypart_id> grabbed_bp_id;
     if( is_grab ) {
         int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                                 grab_data.grab_strength;
@@ -830,6 +832,7 @@ bool melee_actor::call( monster &z ) const
         } else if( result == 0 ) {
             return true;
         }
+        grabbed_bp_id = bp_id;
     }
 
     // Damage instance calculation
@@ -869,7 +872,7 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : to_translation( "" ),
-                                       mon_name, body_part_name_accusative( bp_id ) );
+                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
@@ -1232,11 +1235,12 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         } else {
             item mag( gun.magazine_default() );
             mag.ammo_set( ammo, z.ammo[ammo_type] );
-            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            gun.put_in( mag, pocket_type::MAGAZINE_WELL );
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 

@@ -14,8 +14,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_2",
@@ -32,8 +32,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_3",
@@ -50,8 +50,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_4",
@@ -68,8 +68,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_5",
@@ -86,8 +86,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_6",
@@ -104,8 +104,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_7",
@@ -122,8 +122,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_8",
@@ -140,8 +140,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_9",
@@ -158,8 +158,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_10",
@@ -176,8 +176,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_11",
@@ -194,8 +194,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_12",
@@ -212,8 +212,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_13",
@@ -230,8 +230,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_14",
@@ -248,8 +248,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_15",
@@ -266,8 +266,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_16",
@@ -284,8 +284,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_17",
@@ -302,8 +302,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_18",
@@ -320,8 +320,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_19",
@@ -338,8 +338,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_20",
@@ -356,7 +356,33 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "min_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 12000)" ] },
+    "max_duration": { "math": [ "(u_spell_level('telekinetic_vehicle_lift') * 120000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_MORALE_DRAIN",
+    "condition": { "u_has_effect": "effect_telepathic_morale" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "u_add_morale": "morale_telepathy",
+        "bonus": 10,
+        "max_bonus": 25,
+        "duration": "4 hours",
+        "decay_start": "2 hours"
+      },
+      {
+        "queue_eocs": "EOC_TELEKIN_MORALE_DRAIN",
+        "time_in_future": [
+          { "math": [ "( (u_spell_level('telepathic_morale') * 150) + 1800) * (scaling_factor(u_val('intelligence') ) )" ] },
+          {
+            "math": [ "( (u_spell_level('telepathic_morale') * 150) + 7200) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   }
 ]

@@ -1,10 +1,4 @@
 abcdefghijklmnopqrstuvwxyz
-moulinet
-backswings
-backswing
-buttstroke
-spraining
-parrying
 aberrance
 aboveground
 abso
@@ -23,6 +17,7 @@ acidball
 acrocanthosaurus
 acrostic
 acrylamide
+actinic
 activatable
 actuated
 adaptors
@@ -35,6 +30,7 @@ aerofoil
 aeterna
 aetheric
 aetherically
+affixes
 affordability
 affordably
 afterbirth
@@ -234,6 +230,8 @@ backrest
 backstep
 backstepping
 backsteps
+backswing
+backswings
 backtracing
 bagh
 bakelite
@@ -430,6 +428,7 @@ butadiene
 butternut
 butternuts
 buttstock
+buttstroke
 buzzcut
 buzzz
 bzzt
@@ -877,6 +876,7 @@ duplicator
 duplicators
 dustbunny
 dynamically
+dynamos
 dyoplosaurus
 dysfunctions
 dysmorphia
@@ -911,6 +911,8 @@ einiosaurus
 elderberries
 electrochemistry
 electrohack
+electrokinesis
+electrokinetic
 electrolaser
 electrolyzer
 electromancy
@@ -1281,6 +1283,7 @@ grnd
 grodd
 grommets
 groundcover
+groundhogs
 groundnut
 groundsheet
 gryposaurus
@@ -1804,6 +1807,8 @@ mealworms
 meanin
 meathook
 medibot
+megachette
+megachettes
 megacorporations
 megafauna
 megalith
@@ -1921,6 +1926,7 @@ mote
 motes
 motorpool
 motorsports
+moulinet
 mountable
 mountings
 mouthgear
@@ -2059,6 +2065,8 @@ nothronychus
 npc
 npcs
 nrmmy
+nuckalavee
+nuckalavees
 nuda
 nudicaulis
 numbingly
@@ -2172,6 +2180,7 @@ paratrooping
 parboiling
 paroxysms
 parries
+parrying
 parst
 parthenogenetic
 partyin
@@ -2344,6 +2353,7 @@ prigs
 primeside
 privet
 prizefights
+proc
 procedurally
 procompsignathids
 proficiencies
@@ -2478,8 +2488,8 @@ reckonin
 reclines
 recolherem
 recrafted
-recursively
 recuperator
+recursively
 recurve
 recutita
 recycler
@@ -2686,6 +2696,7 @@ shedded
 shenandoah
 shipside
 shitstorms
+shivs
 shlip
 shlop
 shoddily
@@ -2787,6 +2798,8 @@ spadelike
 spak
 spall
 spalling
+sparker
+sparkers
 spasmically
 spasming
 spearcat
@@ -2832,6 +2845,7 @@ spongey
 sporeling
 spork
 sporter
+spraining
 sprayable
 spraypainted
 spraypainting
@@ -3154,6 +3168,7 @@ uncured
 undecipherable
 underbarrel
 underbody
+undercoat
 undercovering
 underfongen
 undergrown
@@ -3469,7 +3484,6 @@ zuniceratops
 zuul
 zweitimber
 zygomaticus
-shivs
 zzz
 zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus

@@ -159,6 +159,7 @@
       [ "knife_combat_army", 2 ],
       [ "knife_combat_marine", 1 ],
       [ "knife_KABAR", 35 ],
+      { "item": "knife_combat_army", "variant": "akbayonet", "prob": 10, "entry-wrapper": "sheath" },
       { "group": "infantry_knives", "prob": 5 },
       { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_knife", 10 ],

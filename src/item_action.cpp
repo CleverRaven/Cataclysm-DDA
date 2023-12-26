@@ -94,7 +94,7 @@ bool item::item_has_uses_recursive( bool contents_only ) const
 bool item_contents::item_has_uses_recursive() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+        if( pocket.is_type( pocket_type::CONTAINER ) &&
             pocket.item_has_uses_recursive() ) {
             return true;
         }

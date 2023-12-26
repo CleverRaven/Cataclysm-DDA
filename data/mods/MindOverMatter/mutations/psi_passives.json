@@ -27,6 +27,7 @@
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
     "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 1.05 ], [ "vitB", 1.05 ], [ "vitC", 1.05 ], [ "calcium", 1.05 ], [ "iron", 1.05 ] ] ] ],
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
@@ -53,11 +54,30 @@
     "hearing_modifier": 1.2,
     "flags": [ "ENHANCED_VISION", "WATCH" ],
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
         "values": [
           { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: CLAIRSENTIENT')))" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTRO_SHIELD",
+    "name": { "str": "Galvanic Armor" },
+    "points": 0,
+    "description": "Your powers help protect you from electrical damage and slightly reduce the intensity of pain you feel.",
+    "player_display": true,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'school: ELECTROKINETIC') / -4" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "u_val('spell_level', 'school: ELECTROKINETIC') * -0.007" ] } }
         ]
       }
     ]
@@ -70,6 +90,7 @@
     "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
     "player_display": true,
+    "valid": false,
     "purifiable": false
   },
   {
@@ -93,6 +114,7 @@
       { "part": "torso", "ignored": 10 }
     ],
     "player_display": true,
+    "valid": false,
     "purifiable": false
   },
   {

@@ -3532,10 +3532,14 @@ static void draw_blood( ui_adaptor &ui, const catacurses::window &w_blood,
 static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
                            const avatar &you, const bool highlight )
 {
-    const std::string random_start_location_text = string_format( n_gettext(
+    std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
                 get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
+
+    if( get_scenario()->start_location_targets_count() == 1 ) {
+        random_start_location_text = get_scenario()->start_location().obj().name();
+    }
 
     werase( w_location );
     mvwprintz( w_location, point_zero, highlight ? COL_SELECT : c_light_gray,

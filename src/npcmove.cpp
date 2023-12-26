@@ -128,6 +128,7 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
@@ -276,45 +277,99 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 tripoint npc::good_escape_direction( bool include_pos )
 {
     map &here = get_map();
-    if( path.empty() ) {
+    // if NPC is repositioning rather than fleeing, they do smarter things
+    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                   "<color_brown>good_escape_direction</color> activated by %s", name );
+
+    // To do: Eventually careful_retreat should determine if NPC will go to previously identified
+    // safe locations.  For now it just sends them to a retreat zone if one exists.
+    bool careful_retreat = mem_combat.repositioning || mem_combat.panic == 0;
+    if( !careful_retreat ) {
+        careful_retreat = mem_combat.panic < 10 + personality.bravery + get_int();
+        if( !careful_retreat ) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is panicking too much to use retreat zones and stuff.",
+                           name );
+        } else {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is running away but still being smart about it.",
+                           name );
+        }
+    }
+    //if not, consider regrouping on the player if they're getting far away.
+    //in the future this should run to the strongest nearby ally, remembered in mem_combat or cached.
+    bool run_to_friend = mem_combat.repositioning || mem_combat.panic == 0;
+    if( !run_to_friend ) {
+        run_to_friend = mem_combat.panic < 10 + personality.bravery + op_of_u.trust;
+    }
+    if( path.empty() && careful_retreat ) {
+        add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                       "%s doesn't already have an escape path.  Checking for retreat zone.", name );
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
         // if there is a retreat zone in range, go there
-        if( !retreat_target && is_player_ally() ) {
-            //if not, consider regrouping on the player if they're getting far away.
-            Character &player_character = get_player_character();
-            int dist = rl_dist( pos(), player_character.pos() );
-            int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
-            if( dist > def_radius ) {
-                tripoint_bub_ms player_pos = get_player_character().pos_bub();
-                while( player_pos == get_player_character().pos_bub() ) {
-                    player_pos.x() += rng( -1, 1 );
-                    player_pos.y() += rng( -1, 1 );
-                }
-                retreat_target = here.getglobal( player_pos );
-            }
-        }
+
+
         if( retreat_target && *retreat_target != abs_pos ) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s is </color><color_brown>repositioning</color> to %i %i %i", name,
+                           here.getlocal( *retreat_target ).x, here.getlocal( *retreat_target ).y,
+                           here.getlocal( *retreat_target ).z );
             update_path( here.getlocal( *retreat_target ) );
         }
         if( !path.empty() ) {
             return path[0];
+        } else {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s did not detect a zone to reposition to, or is too panicked.  Checking to see if there's an ally.</color>",
+                           name );
         }
+    } else if( path.empty() && run_to_friend && is_player_ally() ) {
+        Character &player_character = get_player_character();
+        int dist = rl_dist( pos(), player_character.pos() );
+        int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+        if( dist > def_radius ) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s is repositioning closer to</color> you", name );
+            tripoint_bub_ms destination = get_player_character().pos_bub();
+            int loop_avoider = 0;
+            while( !can_move_to( destination.raw() ) && loop_avoider < 10 ) {
+                destination.x() += rng( -2, 2 );
+                destination.y() += rng( -2, 2 );
+                loop_avoider += 1;
+            }
+            update_path( destination.raw() );
+            if( loop_avoider == 10 ) {
+                add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                               "<color_red>%s had to break out of an infinite loop when looking for a good escape destination</color>.  This might not be that big a deal but if you're seeing this a lot, there might be something wrong in good_escape_direction().",
+                               name );
+            }
+        }
+    } else {
+        add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                       "<color_light_gray>%s couldn't find anywhere preset to reposition to.  Looking for a random location.</color>",
+                       name );
     }
+
 
     std::vector<tripoint> candidates;
 
     const auto rate_pt = [&]( const tripoint & pt, const float threat_val ) {
         if( !can_move_to( pt, !rules.has_flag( ally_rule::allow_bash ) ) ) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_dark_gray>%s can't move to %i, %i, %i. Rate_pt returning absurdly high rating.</color>",
+                           name, pt.x, pt.y, pt.z );
             return MAX_FLOAT;
         }
         float rating = threat_val;
         for( const auto &e : here.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // TODO: Rate fire higher than smoke
+                // Note, field danger should be rated more specifically than this,
+                // to distinguish eg fire vs smoke. Probably needs to be handled by field code, not here.
+                add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                               "<color_dark_gray>%s spotted field %s at %i, %i, %i; adding %f to rating</color>", name,
+                               e.second.name(), pt.x, pt.y, pt.z, e.second.get_field_intensity() );
                 rating += e.second.get_field_intensity();
             }
         }
@@ -325,19 +380,33 @@ tripoint npc::good_escape_direction( bool include_pos )
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;
+    int num_points_searched = 1;
     for( direction pt_dir : npc_threat_dir ) {
         const tripoint pt = pos() + displace_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
+            add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                           "<color_light_gray>%s thinks </color><color_light_blue>%i, %i, %i</color><color_light_gray> is the best retreat spot they've seen so far</color><color_light_blue> rated %1.2f</color><color_light_gray>after checking %i candidates</color>",
+                           name, pt.x, pt.y, pt.z, best_rating, num_points_searched );
             candidates.emplace_back( pos() + displace_XY( pt_dir ) );
         } else if( cur_rating < best_rating ) {
+            if( one_in( 5 ) ) {
+                add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                               "<color_dark_gray>%s just wants to let you know, esteemed debugger, that they're still checking escape points but haven't found any new good ones.  Checked %i.</color>",
+                               name, num_points_searched );
+            }
             candidates.clear();
             candidates.emplace_back( pos() + displace_XY( pt_dir ) );
             best_rating = cur_rating;
         }
+        num_points_searched += 1;
     }
-    return random_entry( candidates );
+    ( void )num_points_searched;
+    tripoint redirect_goal = random_entry( candidates );
+    add_msg_debug( debugmode::DF_NPC_MOVEAI, "%s is repositioning to %i, %i, %i", name, redirect_goal.x,
+                   redirect_goal.y, redirect_goal.z );
+    return redirect_goal;
 }
 
 bool npc::sees_dangerous_field( const tripoint &p ) const
@@ -407,29 +476,21 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 float npc::evaluate_monster( const monster &target, int dist ) const
 {
     float speed = target.speed_rating();
-    float scaled_distance = std::max( 1.0f, dist * dist / ( target.speed_rating() + 10 ) );
+    float scaled_distance = std::max( 1.0f, dist * dist / ( speed * 250.0f ) );
     float hp_percent = static_cast<float>( target.get_hp() ) / target.get_hp_max();
-    float diff = std::min( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
+    float diff = std::max( static_cast<float>( target.type->difficulty ), NPC_DANGER_VERY_LOW );
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_yellow>evaluate_monster </color><color_light_gray>%s thinks %s threat level is %1.2f before considering situation.</color>",
-                   name,
-                   target.type->nname(), diff );
+                   "<color_yellow>evaluate_monster </color><color_dark_gray>%s thinks %s threat level is <color_light_gray>%1.2f</color><color_dark_gray> before considering situation.  Speed rating: %1.2f; dist: %i; scaled_distance: %1.0f; HP: %1.0f%%</color>",
+                   name, target.type->nname(), diff, speed, dist, scaled_distance, hp_percent * 100 );
     // Note that the danger can pass below "very low" if the monster is weak and far away.
     diff *= ( hp_percent * 0.5f + 0.5f ) / scaled_distance;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s distance from %s: %i.  Speed rating: %1.2f.  Scaled distance: %1.2f.</color>",
-                   name, target.type->nname(), dist, speed, scaled_distance );
-    add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s sees %s hp percent remaining is %1.0f%%.</color>",
-                   name, target.type->nname(), hp_percent * 100 );
-    add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "%s puts final %s threat level at %1.2f<color_light_gray> after counting speed, distance, hp</color>",
-                   name,
-                   target.type->nname(), diff );
+                   "<color_light_gray>%s puts final %s threat level at </color>%1.2f<color_light_gray> after counting speed, distance, hp</color>",
+                   name, target.type->nname(), diff );
     return std::min( diff, NPC_MONSTER_DANGER_MAX );
 }
 
-float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true ) const
+float npc::evaluate_character( const Character &candidate, bool my_gun, bool enemy = true )
 {
     float threat = 0.0f;
     bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
@@ -450,9 +511,18 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        candidate_health *= std::max( 1.0f - bleed_intensity / 20.f, 0.5f );
+        candidate_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding…</color>, intensity %i", candidate.disp_name(), bleed_intensity );
+    }
+    if( !enemy ) {
+        if( candidate_gun || ( is_player_ally() && candidate.is_avatar() ) ) {
+            // later we should evaluate if the NPC trusts the player enough to stick to them so reliably
+            int dist = rl_dist( pos(), candidate.pos() );
+            if( dist > mem_combat.formation_distance ) {
+                mem_combat.formation_distance = std::max( dist, mem_combat.engagement_distance );
+            }
+        }
     }
 
     if( !my_gun ) {
@@ -524,7 +594,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
 
-float npc::evaluate_self( bool my_gun ) const
+float npc::evaluate_self( bool my_gun )
 {
     float threat = 0.0f;
     const double &my_weap_val = ai_cache.my_weapon_value;
@@ -533,7 +603,7 @@ float npc::evaluate_self( bool my_gun ) const
     // Randomize it such that it becomes more swingy as their emotions and pain grow higher.
     float pain_factor = rng( 0.0f,
                              static_cast<float>( get_pain() ) / static_cast<float>( get_per() ) );
-    float my_health = ( hp_percentage() - pain_factor ) / 100.0f;
+    mem_combat.my_health = ( hp_percentage() - pain_factor ) / 100.0f;
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
@@ -547,10 +617,14 @@ float npc::evaluate_self( bool my_gun ) const
                 bleed_intensity += bleediness.get_intensity();
             }
         }
-        my_health *= std::max( 1.0f - bleed_intensity / 20.f, 0.5f );
+        mem_combat.my_health *= std::max( 1.0f - bleed_intensity / 10.0f, 0.25f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_red>%s is bleeeeeeding…</color>, intensity %i", name, bleed_intensity );
+        if( mem_combat.my_health < 0.25f ) {
+            mem_combat.panic += 1;
+        }
     }
+
 
     threat += get_dodge();
     threat += armour;
@@ -572,11 +646,11 @@ float npc::evaluate_self( bool my_gun ) const
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s scales own threat by %1.0f%% based on speed.",
                    name, speed * 100.0f );
-    threat *= my_health;
+    threat *= mem_combat.my_health;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s scales own threat by %1.0f%% based on remaining health (reduced by %1.2f%% due to pain).</color>  Final value: %1.2f",
                    name,
-                   my_health * 100.0f, pain_factor, threat );
+                   mem_combat.my_health * 100.0f, pain_factor, threat );
     add_msg_debug( debugmode::DF_NPC, "%s assesses own threat as %1.2f", name, threat );
     return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
@@ -598,10 +672,11 @@ float npc::estimate_armour( const Character &candidate ) const
                        "<color_light_gray>%s: %s armour value for %s rated as %i.</color>", name,
                        candidate.disp_name( true ), body_part_name( part_id ), armour_step );
         if( part_id == bodypart_id( "head" ) || part_id == bodypart_id( "torso" ) ) {
-            armour_step *= 3;
-            number_of_parts += 2;
+            armour_step *= 4;
+            number_of_parts += 3;
         }
-        armour += static_cast<float>( armour_step );
+        // obtain an average value of the 4 armour types we checked.
+        armour += static_cast<float>( armour_step ) / 4.0f;
     }
     armour /= number_of_parts;
 
@@ -612,7 +687,6 @@ float npc::estimate_armour( const Character &candidate ) const
     // I don't know how to do that, I'm supposed to be a writer.
     return armour;
 }
-
 
 static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius )
 {
@@ -641,14 +715,10 @@ std::optional<int> npc_short_term_cache::closest_enemy_to_friendly_distance() co
 
 void npc::assess_danger()
 {
-    float assessment = 0.0f;
-    float assess_ally = 0.0f;
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
-    int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
-    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
     if( !confident_range_cache ) {
@@ -656,7 +726,15 @@ void npc::assess_danger()
     }
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
+    // Radius in which enemy threats are multiplied to avoid surrounding
+    int preferred_medium_range = std::max( max_range, 8 );
+    preferred_medium_range = std::min( preferred_medium_range, 15 );
+    // Radius in which enemy threats are hugely multiplied to encourage repositioning
+    int preferred_close_range = std::max( max_range, 1 );
+    preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+
     Character &player_character = get_player_character();
+    bool sees_player = sees( player_character.pos() );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
@@ -673,6 +751,7 @@ void npc::assess_danger()
             def_radius = 1;
         }
     }
+    mem_combat.engagement_distance = def_radius;
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
     int dist, int scaled_dist ) {
@@ -740,9 +819,9 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+    if( is_friendly( player_character ) && sees_player ) {
         ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-    } else if( is_enemy() && sees( player_character ) ) {
+    } else if( sees_player && is_enemy() && sees( player_character ) ) {
         // Unlike allies, hostile npcs should not see invisible players
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
@@ -766,36 +845,49 @@ void npc::assess_danger()
         }
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
+        // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
         float critter_threat = evaluate_monster( critter, dist );
-        // warn and consider the odds for distant enemies
+
+        // ignore targets behind glass even if we can see them
+        if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
+            if( is_enemy() || !critter.friendly ) {
+                // still warn about enemies behind impassable glass walls, but not as often.
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s ignored %s because there's an obstacle in between.  Might warn about it.",
+                               name, critter.type->nname() );
+                if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+                }
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s ignored %s because there's an obstacle in between, and it's not worth warning about.",
+                               name, critter.type->nname() );
+            }
+            continue;
+        }
+
         if( is_enemy() || !critter.friendly ) {
-            assessment += critter_threat;
+            mem_combat.assess_enemy += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
-            if( dist < 8 && critter_threat > bravery_vs_pain ) {
+            if( dist < preferred_medium_range ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to nearby hostile count.  Total: %i</color>", name,
                                critter.type->nname(), hostile_count );
             }
-            if( dist < 4 && npc_ranged ) {
-                swarm_count += 1;
+            if( dist <= preferred_close_range ) {
+                mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to swarming enemies count.  Total: %i</color>",
-                               name,
-                               critter.type->nname(), swarm_count );
+                               "<color_light_gray>%s added %s to swarm count.  Total: %i</color>",
+                               name, critter.type->nname(), mem_combat.swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
             continue;
         }
-        // ignore targets behind glass even if we can see them
-        if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
-            continue;
-        }
-
 
         add_msg_debug( debugmode::DF_NPC,
                        "%s assessed threat of critter %s as %1.2f.",
@@ -834,8 +926,11 @@ void npc::assess_danger()
         }
     }
 
-    if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
-        ai_cache.danger_assessment = assessment;
+    if( mem_combat.assess_enemy == 0.0 && ai_cache.hostile_guys.empty() ) {
+        if( mem_combat.panic > 0 ) {
+            mem_combat.panic -= 1;
+        }
+        ai_cache.danger_assessment = mem_combat.assess_enemy;
         return;
     }
 
@@ -843,6 +938,18 @@ void npc::assess_danger()
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
+        // ignore targets behind glass even if we can see them
+        if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
+            // still warn about enemies behind impassable glass walls, but not as often.
+            // since NPC threats have a higher chance of ignoring soft obstacles, we'll ignore them here.
+            if( foe_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
+            }
+            return 0.0f;
+        } else {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s ignored %s because there's an obstacle in between.",
+                           name, bogey );
+        }
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
@@ -850,10 +957,6 @@ void npc::assess_danger()
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         if( must_retreat || no_fighting ) {
-            return 0.0f;
-        }
-        // ignore targets behind glass even if we can see them
-        if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
@@ -889,30 +992,30 @@ void npc::assess_danger()
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_character( *foe, npc_ranged ),
-                                          translate_marker( "bandit" ),
-                                          "kill_npc" );
+            mem_combat.assess_enemy += handle_hostile( *foe, evaluate_character( *foe, npc_ranged ),
+                                       translate_marker( "bandit" ),
+                                       "kill_npc" );
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "Before checking allies+player, %s assesses danger level as <color_light_red>%1.2f</color>.", name,
-                   assessment );
+                   mem_combat.assess_enemy );
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
         }
         float guy_threat = std::max( evaluate_character( dynamic_cast<const Character &>( *guy.lock() ),
                                      npc_ranged, false ), NPC_DANGER_VERY_LOW );
-        assess_ally += guy_threat * 0.5f;
+        mem_combat.assess_ally += guy_threat * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "<color_light_gray>%s assessed friendly %s at threat level </color><color_light_blue>%1.2f.</color>",
                        name, guy.lock()->disp_name(), guy_threat );
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "Total of <color_green>%s NPC ally threat</color>: <color_light_green>%1.2f</color>.",
-                   name, assess_ally );
+                   name, mem_combat.assess_ally );
 
-    if( sees( player_character.pos() ) ) {
+    if( sees_player ) {
         // Mod for the player's danger level, weight it higher if player is very close
         // When the player is almost adjacent, it can exceed max danger ratings, so the
         // NPC will try hard not to break and run while in formation.
@@ -925,76 +1028,69 @@ void npc::assess_danger()
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s identified player as an</color> <color_red>enemy</color> <color_light_gray>of threat level %1.2f</color>",
                            name, player_diff );
-            assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
-                                          "kill_player" );
+            mem_combat.assess_enemy += handle_hostile( player_character, player_diff,
+                                       translate_marker( "maniac" ),
+                                       "kill_player" );
         } else if( is_friendly( player_character ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s identified player as a </color><color_green>friend</color><color_light_gray> of threat level %1.2f (ily babe)",
                            name, player_diff );
             if( dist <= 3 ) {
                 player_diff = player_diff * ( 4 - dist ) / 2;
-                assess_ally += player_diff;
+                mem_combat.swarm_count /= ( 4 - dist );
+                mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_green>Player is %i tiles from %s.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
                                dist, name,
                                player_diff );
-                swarm_count = 0;
                 // don't try to fall back with your ranged weapon if you're in formation with the player.
-                friendly_count += 4 - dist; // when close to the player, weight swarms less.
+                if( mem_combat.panic > 0 && one_in( dist ) ) {
+                    mem_combat.panic -= 1;
+                }
+                friendly_count += 4 - dist; // when close to the player, weight enemy groups less.
             } else {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s sees friendly player,</color> <color_light_green>adding %1.2f</color><color_light_gray> to ally strength.</color>",
                                name, player_diff * 0.5f );
-                assess_ally += player_diff * 0.5f;
+                mem_combat.assess_ally += player_diff * 0.5f;
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_blue>After checking player</color><color_light_gray>, %s assesses enemy level as </color><color_yellow>%1.2f</color><color_light_gray>, ally level at </color><color_light_green>%1.2f</color>",
-                   name, assessment, assess_ally );
+                   name, mem_combat.assess_enemy, mem_combat.assess_ally );
+
+
+    // gotta rename cowardice modifier now.
+    // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
+    // It's likely to get deprecated in a while?
+    mem_combat.assess_enemy *= NPC_COWARDICE_MODIFIER;
+    //Figure our own health more heavily here, because it doens't matter how tough our friends are if we're dying.
+    mem_combat.assess_ally *= mem_combat.my_health * NPC_COWARDICE_MODIFIER;
 
     // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
     // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
     // large crowds of minor creatures, until they start getting hurt.
     if( hostile_count > friendly_count ) {
-        assessment *= std::max( hostile_count / static_cast<float>( friendly_count ), 1.0f );
+        mem_combat.assess_enemy *= std::max( hostile_count / static_cast<float>( friendly_count ), 1.0f );
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "Crowd adjustment: <color_light_gray>%s set danger level to </color>%1.2f<color_light_gray> after counting </color><color_yellow>%i major hostiles</color><color_light_gray> vs </color><color_light_green>%i friendlies.</color>",
-                       name, assessment, hostile_count, friendly_count );
+                       name, mem_combat.assess_enemy, hostile_count, friendly_count );
     }
 
-    // gotta rename cowardice modifier now.
-    // This bit scales the assessments of enemies and allies so that the NPC weights their own skills a little higher.
-    // It's likely to get deprecated in a while?
-    assessment *= NPC_COWARDICE_MODIFIER;
-    assess_ally *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_self( npc_ranged ) * 0.5f;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s assesses own final strength as %1.2f.", name, my_diff );
-        assess_ally += my_diff;
+        mem_combat.assess_ally += my_diff;
         add_msg_debug( debugmode::DF_NPC_COMBATAI,
                        "%s rates total <color_yellow>enemy strength %1.2f</color>, <color_light_green>ally strength %1.2f</color>.",
-                       name,
-                       assessment, assess_ally );
-        if( assess_ally < assessment ) {
-            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery
-                                         + 1_turns * static_cast<int>( get_pain() / 5 );
-            warn_about( "run_away", run_away_for );
-            add_effect( effect_npc_run_away, run_away_for );
-            path.clear();
-        } else if( npc_ranged && assess_ally < assessment * swarm_count ) {
-            add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                           "<color_light_gray>Due to ranged weapon, %s decides to try to </color>reposition<color_light_gray> from swarming enemies.</color>",
-                           name );
-            time_duration run_away_for = 2_turns;
-            add_effect( effect_npc_run_away, run_away_for );
-            path.clear();
-        }
+                       name, mem_combat.assess_enemy, mem_combat.assess_ally );
+        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", mem_combat.assess_enemy,
+                       mem_combat.assess_ally );
     }
-
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
         direction threat_dir = npc_threat_dir[i];
@@ -1003,11 +1099,120 @@ void npc::assess_danger()
         ai_cache.threat_map[threat_dir] = cur_threat_map[threat_dir] + 0.1f *
                                           ( cur_threat_map[dir_right] + cur_threat_map[dir_left] );
     }
-    if( assessment <= 2.0f ) {
-        assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
+    if( mem_combat.assess_enemy <= 2.0f ) {
+        ai_cache.danger_assessment = -10.0f + 5.0f *
+                                     mem_combat.assess_enemy; // Low danger if no monsters around
+    } else {
+        ai_cache.danger_assessment = mem_combat.assess_enemy;
     }
-    //should also cache ally strength here?
-    ai_cache.danger_assessment = assessment;
+}
+
+void npc::act_on_danger_assessment()
+{
+    bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
+    bool failed_reposition = false;
+    Character &player_character = get_player_character();
+    if( has_effect( effect_npc_run_away ) ) {
+        // this check runs each turn that the NPC is repositioning and assesses if the situation is getting any better.
+        // The longer they try to move without improving, the more likely they become to stop and stand their ground.
+        const bool melee_reposition_fail = !npc_ranged &&
+                                           mem_combat.assessment_before_repos + rng( 0, 5 ) <= mem_combat.assess_enemy;
+        const bool range_reposition_fail = npc_ranged &&
+                                           mem_combat.assessment_before_repos * mem_combat.swarm_count + rng( 0,
+                                                   5 ) <= mem_combat.assess_enemy * mem_combat.swarm_count;
+        if( melee_reposition_fail || range_reposition_fail ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "<color_light_red>%s tried to reposition last turn, and the situation has not improved.</color>",
+                           name );
+            failed_reposition = true;
+            mem_combat.failing_to_reposition += 1;
+        } else {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "<color_light_green>%s tried to reposition last turn, and it worked out!</color>",
+                           name );
+            mem_combat.failing_to_reposition = 0;
+        }
+    }
+    if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
+        mem_combat.assessment_before_repos = std::round( mem_combat.assess_enemy );
+        if( mem_combat.assess_ally < mem_combat.assess_enemy ) {
+            // Each time NPC decides to run away, their panic increases, which increases likelihood
+            // and duration of running away.
+            // if they run to a more advantageous position, they'll reassess and rally.
+            time_duration run_away_for = std::max( 2_turns + 1_turns * mem_combat.panic, 20_turns );
+
+            if( mem_combat.reposition_countdown <= 0 ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s decides to reposition.  Has not yet decided to flee.", name );
+                mem_combat.repositioning = true;
+                add_effect( effect_npc_run_away, run_away_for );
+                path.clear();
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s still wants to reposition, but they just tried.",
+                               name );
+            }
+            mem_combat.panic *= ( mem_combat.assess_enemy / ( mem_combat.assess_ally + 0.5f ) );
+            mem_combat.panic += std::min(
+                                    rng( 1, 3 ) + ( get_pain() / 5 ) - personality.bravery, 1 );
+
+            if( mem_combat.panic - personality.bravery >= mem_combat.failing_to_reposition ) {
+                // NPC hasn't yet failed to get away
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s upgrades reposition to flat out retreat.", name );
+                mem_combat.repositioning = false; // we're not just moving, we're running.
+                warn_about( "run_away", run_away_for );
+                if( mem_combat.panic > 5 && is_player_ally() && sees( player_character.pos() ) ) {
+                    // consider warning player about panic
+                    int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
+                    if( mem_combat.panic - personality.bravery > panic_alert ) {
+                        if( one_in( 4 ) && mem_combat.panic < 10 + personality.bravery ) {
+                            add_msg( m_bad, _( "%s is starting to panic a bit." ) );
+                        } else if( mem_combat.panic >= 10 + personality.bravery ) {
+                            add_msg( m_bad, _( "%s is panicking!" ) );
+                        }
+                    }
+                }
+            }
+        } else if( failed_reposition ||
+                   ( mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                           "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
+                           name );
+            if( failed_reposition ) {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
+                mem_combat.failing_to_reposition++;
+            } else {
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "%s decided to reposition/kite due to %i nearby enemies.",
+                               name, mem_combat.swarm_count );
+            }
+            mem_combat.repositioning = true;
+            // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
+
+            time_duration run_away_for = 2_turns;
+            add_effect( effect_npc_run_away, run_away_for );
+            path.clear();
+        } else {
+            // Things seem to be going okay, reset/reduce "worry" memories.
+            if( mem_combat.panic > 0 ) {
+                mem_combat.panic -= 1;
+            }
+            mem_combat.failing_to_reposition = 0;
+        }
+    }
+    add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s <color_magenta>panic level</color> is up to %i.",
+                   name, mem_combat.panic );
+    if( mem_combat.failing_to_reposition > 2 && has_effect( effect_npc_run_away ) &&
+        !has_effect( effect_npc_fire_bad ) ) {
+        // NPC is fleeing, but hasn't been able to reposition safely.
+        // Consider cancelling fleeing.
+        // Note that panic will still increment prior to this, and a truly panicked NPC will not stand and fight for any reason.
+        if( mem_combat.panic - personality.bravery < mem_combat.failing_to_reposition ) {
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s decided running away was futile.", name );
+            mem_combat.reposition_countdown = 4;
+            remove_effect( effect_npc_run_away );
+            path.clear();
+        }
+    }
 }
 
 bool npc::is_safe() const
@@ -1055,6 +1260,23 @@ void npc::regen_ai_cache()
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
+    mem_combat.formation_distance = -1;
+
+    mem_combat.assess_enemy = 0.0f;
+    mem_combat.assess_ally = 0.0f;
+    mem_combat.swarm_count = 0;
+    if( mem_combat.reposition_countdown > 0 ) {
+        mem_combat.reposition_countdown --;
+    }
+
+    if( mem_combat.repositioning && !has_effect( effect_npc_run_away ) &&
+        !has_effect( effect_npc_fire_bad ) ) {
+        // if NPC no longer has the run away effect and isn't fleeing in panic,
+        // they can stop moving away.
+        mem_combat.repositioning = false;
+        mem_combat.reposition_countdown = 1;
+        path.clear();
+    }
 
     assess_danger();
     if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
@@ -1100,7 +1322,7 @@ void npc::move()
         execute_action( npc_player_activity );
         return;
     }
-
+    act_on_danger_assessment();
     npc_action action = npc_undecided;
 
     const item_location weapon = get_wielded_item();
@@ -1954,6 +2176,7 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
+    deactivate_or_discharge_bionic_weapon();
     weapon_bionic_uid = 0;
 }
 
@@ -2616,7 +2839,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     recoil = MAX_RECOIL;
 
-    if( has_effect( effect_stunned ) ) {
+    if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
         p.x = rng( posx() - 1, posx() + 1 );
         p.y = rng( posy() - 1, posy() + 1 );
         p.z = posz();
@@ -3495,10 +3718,15 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 bool npc::find_corpse_to_pulp()
 {
     Character &player_character = get_player_character();
-    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) ||
-                                player_character.in_vehicle ) ) ||
-        is_hallucination() ) {
-        return false;
+    if( is_player_ally() ) {
+        if( !rules.has_flag( ally_rule::allow_pulp ) ||
+            player_character.in_vehicle || is_hallucination() ) {
+            return false;
+        }
+        if( rl_dist( pos(), player_character.pos() ) >= mem_combat.engagement_distance ) {
+            // don't start to pulp corpses if you're already far from the player.
+            return false;
+        }
     }
 
     map &here = get_map();
@@ -3538,7 +3766,7 @@ bool npc::find_corpse_to_pulp()
         return nullptr;
     };
 
-    const int range = 6;
+    const int range = mem_combat.engagement_distance;
 
     const item *corpse = nullptr;
     if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {
@@ -3662,7 +3890,7 @@ bool npc::wield_better_weapon()
     double best_value = -100.0;
 
     const auto compare_weapon =
-    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
+    [this, &weap, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -3672,7 +3900,11 @@ bool npc::wield_better_weapon()
             val = weapon_value( it, ammo_count );
         }
 
-        if( val > best_value ) {
+        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                             && &it != &weap
+                                             && it.type->get_id() == weap.type->get_id();
+
+        if( val > best_value && !using_same_type_bionic_weapon ) {
             best = const_cast<item *>( &it );
             best_value = val;
         }
@@ -4147,7 +4379,8 @@ bool npc::consume_food_from_camp()
     if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
-        int desired_kcals = std::min( 2500, std::max( 0, kcal_threshold + 100 - current_kcals ) );
+        int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
+                                      kcal_threshold + 100 - current_kcals ) );
         int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
 
         if( kcals_to_eat > 0 ) {

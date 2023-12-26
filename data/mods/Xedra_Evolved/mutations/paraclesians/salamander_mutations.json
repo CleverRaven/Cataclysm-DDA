@@ -383,7 +383,7 @@
     "valid": false,
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed is increased.",
     "category": [ "SALAMANDER" ],
-    "crafting_speed_multiplier": 0.85,
+    "crafting_speed_multiplier": 1.15,
     "triggers": [
       [
         {

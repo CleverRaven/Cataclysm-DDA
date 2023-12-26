@@ -10,27 +10,31 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_pull') * -1.5) - 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_pull') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_pull') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
     "energy_source": "STAMINA",
-    "base_energy_cost": 1500,
-    "final_energy_cost": 250,
+    "base_energy_cost": 1750,
+    "final_energy_cost": 750,
     "energy_increment": -80,
     "base_casting_time": 50,
     "final_casting_time": 10,
@@ -49,27 +53,31 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 2,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_push') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_push') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_push') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) ), 40)"
+        "min( (( (u_spell_level('telekinetic_push') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
-    "final_energy_cost": 450,
+    "final_energy_cost": 750,
     "energy_increment": -80,
     "base_casting_time": 50,
     "final_casting_time": 10,
@@ -80,26 +88,27 @@
   {
     "id": "telekinetic_momentum",
     "type": "SPELL",
-    "name": "[Ψ]Momentum Alteration",
-    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.",
-    "message": "The air around you feels more yielding.",
+    "name": "[Ψ]Momentum Alteration (C)",
+    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_telekinetic_momentum",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
-    "shape": "blast",
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_MOMENTUM_INITIATE",
+    "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_momentum') * 1000) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('telekinetic_momentum') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -128,17 +137,21 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_telekinetic_slowfall",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_slowfall') * 100) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_slowfall') * 100) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_slowfall') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_slowfall') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 1750,
@@ -159,20 +172,15 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "WONDER" ],
-    "effect": "attack",
-    "extra_effects": [
-      { "id": "telekinetic_wavepush", "hit_self": false, "max_level": 10 },
-      { "id": "psionic_drained_difficulty_four", "hit_self": true }
-    ],
-    "shape": "blast",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": 12,
-    "max_damage": 12,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_WAVE_FORCE",
+    "shape": "blast",
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 750,
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1250,
     "energy_increment": -175,
     "base_casting_time": 50,
     "final_casting_time": 10,
@@ -186,9 +194,26 @@
     }
   },
   {
+    "id": "telekinetic_wave_wonder",
+    "type": "SPELL",
+    "name": "[Ψ]Wave of Force WONDER",
+    "description": "The WONDER spell that casts multiple waves of force .",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "WONDER" ],
+    "effect": "attack",
+    "extra_effects": [ { "id": "telekinetic_wavepush", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": 12,
+    "max_damage": 12
+  },
+  {
     "id": "telekinetic_wavepush",
     "type": "SPELL",
-    "name": "[Ψ]Telekinetic wave Push",
+    "name": "[Ψ]Telekinetic Wave Push",
     "description": "Part of Wave of Force.  If you see this it's a bug.",
     "message": "",
     "valid_targets": [ "ally", "hostile", "item" ],
@@ -197,23 +222,24 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
     "shape": "blast",
-    "difficulty": 1,
-    "damage_type": "psi_telekinetic_damage",
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) ), 15)"
+        "min( (( (u_spell_level('telekinetic_wave') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
       ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "min_range": 1,
     "max_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 1000,
-    "final_energy_cost": 50,
-    "energy_increment": -158.333333,
+    "base_energy_cost": 2500,
+    "final_energy_cost": 750,
+    "energy_increment": -150,
     "base_casting_time": 50,
     "final_casting_time": 10,
     "ignored_monster_species": [ "PSI_NULL" ],
@@ -222,8 +248,8 @@
   {
     "id": "telekinetic_strength",
     "type": "SPELL",
-    "name": "[Ψ]Enhance Strength (toggle)",
-    "description": "Focus your powers to allow you move much heavier objects and smash through walls.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Enhance Strength (C)",
+    "description": "Focus your powers to allow you move much heavier objects and smash through walls.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -238,27 +264,33 @@
       "RANDOM_DURATION",
       "EXTRA_EFFECTS_FIRST"
     ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_STRENGTH_INITIATE",
     "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 1500) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_strength') * 1500) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telekinetic_strength') * 3000) + 12000 )* (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('telekinetic_strength') * 3000) + 12000 )* (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 2000,
-    "energy_increment": -150,
-    "base_casting_time": 1500,
-    "final_casting_time": 200,
-    "casting_time_increment": -86,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_strength') > -1 ? 0 : max((4000 - (u_spell_level('telekinetic_strength') * 150)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_strength') > -1 ? 10 : max((1500 -(u_spell_level('telekinetic_strength') * 86)), 200)"
+      ]
+    },
     "learn_spells": { "telekinetic_vehicle_lift": 4, "telekinetic_shield": 8 }
   },
   {
@@ -276,20 +308,24 @@
       { "id": "tele_mindhammer_bash", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_five", "hit_self": true }
     ],
-    "effect": "attack",
-    "shape": "blast",
     "damage_type": "psi_telekinetic_damage",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_hammer') * 1.5) + 73) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( (( (u_spell_level('telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
@@ -303,7 +339,7 @@
     "sound_type": "combat",
     "sound_description": "a heavy thud!",
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12 }
+    "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12, "telekinetic_earthshaker": 18 }
   },
   {
     "id": "tele_mindhammer_bash",
@@ -316,79 +352,99 @@
     "effect": "bash",
     "shape": "blast",
     "damage_type": "bash",
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 2) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_hammer') * 2) + 73) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_vehicle_lift",
     "type": "SPELL",
-    "name": "[Ψ]Lift Vehicle (toggle)",
-    "description": "Focus your powers to raise a vehicle just enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Lift Vehicle (C)",
+    "description": "Focus your powers to raise a vehicle just enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_SUMMON_JACKING_TOOL_INITIATE",
     "shape": "blast",
-    "difficulty": 6,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 18000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('telekinetic_vehicle_lift') * 18000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 36000) + 120000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('telekinetic_vehicle_lift') * 36000) + 120000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 2750,
-    "energy_increment": -250,
-    "base_casting_time": 250,
-    "final_casting_time": 125,
-    "casting_time_increment": -8,
-    "learn_spells": { "telekinetic_wave": 4, "telekinetic_explosion": 6 }
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 0 : max((6500 - (u_spell_level('telekinetic_vehicle_lift') * 200)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 10 : max((250 -(u_spell_level('telekinetic_vehicle_lift') * 8)), 125)"
+      ]
+    },
+    "learn_spells": { "telekinetic_wave": 4, "telekinetic_explosion": 8, "telekinetic_earthshaker": 15 }
   },
   {
     "id": "telekinetic_shield",
     "type": "SPELL",
-    "name": "[Ψ]Inertial Barrier",
-    "description": "Create a telekinetic barrier around yourself to protect you from damage.",
-    "message": "The air around you shimmers slightly.",
+    "name": "[Ψ]Inertial Barrier (C)",
+    "description": "Create a telekinetic barrier around yourself to protect you from damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_telekinetic_armor",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
-    "shape": "blast",
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_SHIELD_INITIATE",
+    "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_shield') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 2500) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_shield') * 2500) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 7000,
-    "final_energy_cost": 4500,
-    "energy_increment": -250,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_armor') > -1 ? 0 : max((6000 - (u_spell_level('telekinetic_shield') * 250)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_armor') > -1 ? 10 : max((150 -(u_spell_level('telekinetic_shield') * 5)), 75)"
+      ]
+    },
     "learn_spells": { "telekinetic_push": 4, "telekinetic_wave": 6, "telekinetic_aegis": 8 }
   },
   {
@@ -413,29 +469,33 @@
       "IGNORE_WALLS",
       "NO_EXPLOSION_SFX"
     ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "bash",
     "extra_effects": [
       { "id": "tele_explosion_damage", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_seven", "hit_self": true }
     ],
-    "effect": "bash",
     "shape": "blast",
-    "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) ), 60)"
+        "min( (( (u_spell_level('telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"
       ]
     },
     "max_range": 60,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+        "min( (( (u_spell_level('telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
       ]
     },
     "max_aoe": 30,
@@ -449,7 +509,7 @@
     "sound_type": "combat",
     "sound_description": "a loud crash!",
     "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telekinetic_push": 4, "telekinetic_pull": 4 }
+    "learn_spells": { "telekinetic_earthshaker": 10 }
   },
   {
     "id": "tele_explosion_damage",
@@ -462,15 +522,26 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "psi_telekinetic_damage",
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"
+      ]
+    },
+    "max_range": 60,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "min( (( (u_spell_level('telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
+      ]
     },
     "max_aoe": 30,
     "ignored_monster_species": [ "PSI_NULL" ]
@@ -478,53 +549,63 @@
   {
     "id": "telekinetic_levitation",
     "type": "SPELL",
-    "name": "[Ψ]Levitation (toggle)",
-    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Levitation (C)",
+    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKIN_LEVITATION_INITIATE",
     "shape": "blast",
-    "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 75) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_levitation') * 75) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 200) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_levitation') * 200) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 5500,
-    "final_energy_cost": 3000,
-    "energy_increment": -250,
-    "base_casting_time": 75,
-    "final_casting_time": 15,
-    "casting_time_increment": -7.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 0 : max((7500 - (u_spell_level('telekinetic_levitation') * 250)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 10 : max((75 -(u_spell_level('telekinetic_levitation') * 7.5)), 15)"
+      ]
+    }
   },
   {
     "id": "telekinetic_aegis",
     "type": "SPELL",
     "name": "[Ψ]Aegis",
-    "description": "Create a shield impenetrable to physical damage around yourself.  It will only last a few moments.  You will be unable to move while the power is in effect.",
+    "description": "Create a shield impenetrable to physical damage around yourself.  It will <color_yellow>only last a few moments</color>.  You will be <color_red>unable to move</color> while the power is in effect.",
     "message": "The air around you becomes as hard as adamant.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_telekinetic_aegis",
     "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": 100,
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 9500,
@@ -533,5 +614,95 @@
     "base_casting_time": 125,
     "final_casting_time": 55,
     "casting_time_increment": -5
+  },
+  {
+    "id": "telekinetic_earthshaker",
+    "type": "SPELL",
+    "name": "[Ψ]Earthshaker",
+    "description": "Seize the nearby earth with your powers and *wrench* it, toppling buildings and knocking everyone nearby off their feet.",
+    "message": "The earth shakes!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_ten", "hit_self": true },
+      { "id": "telekinetic_earthshaker_bash_terrain", "hit_self": false },
+      { "id": "telekinetic_earthshaker_spawn_rubble", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_earthshaker') * 45) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_earthshaker') * 75) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_earthshaker') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+      ]
+    },
+    "max_aoe": 30,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8500,
+    "final_energy_cost": 6500,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -6,
+    "sound_description": "the ground shaking!",
+    "sound_id": "earth_spell",
+    "sound_variant": "strong"
+  },
+  {
+    "id": "telekinetic_earthshaker_bash_terrain",
+    "type": "SPELL",
+    "name": "[Ψ]Earthshaker Bash Terrain",
+    "description": "Destroy furniture and terrain nearby.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
+    "effect": "bash",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_earthshaker') * 2.5) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_earthshaker') * 7) + 80) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+      ]
+    },
+    "max_aoe": 35
+  },
+  {
+    "id": "telekinetic_earthshaker_spawn_rubble",
+    "type": "SPELL",
+    "name": "[Ψ]Earthshaker Rubble",
+    "description": "Causes rubble to be spawned occasionally.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "ter_transform",
+    "effect_str": "telekinetic_earthshaker_transform",
+    "shape": "blast",
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+      ]
+    },
+    "max_aoe": 35
   }
 ]

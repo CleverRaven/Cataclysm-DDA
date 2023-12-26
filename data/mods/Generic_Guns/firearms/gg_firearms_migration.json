@@ -126,6 +126,7 @@
       "px4_40",
       "glock_29",
       "glock_20",
+      "glock_40",
       "glock_21",
       "m1911_10",
       "witness_10",
@@ -239,7 +240,7 @@
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning_sawn", "bfg50", "trex_gun" ],
+    "id": [ "m2browning_sawn", "win70_458", "bfg50" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_double"
   },
@@ -294,6 +295,9 @@
       "m14ebr",
       "smle_mk3",
       "number4_mki",
+      "type99",
+      "type99ld",
+      "type99_sniper",
       "ar10",
       "1895sbl",
       "ak74",
@@ -335,7 +339,7 @@
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
-      "fn_fal",
+      "fn_fal_semi",
       "m1a",
       "sks",
       "mosin44",

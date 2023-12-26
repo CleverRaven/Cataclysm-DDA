@@ -165,6 +165,8 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
+static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
@@ -204,6 +206,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_run( "run" );
@@ -645,6 +648,24 @@ std::optional<int> iuse::antibiotic( Character *p, item *, const tripoint & )
         } else {
             p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
         }
+    }
+    if( p->has_effect( effect_conjunctivitis_bacterial ) ) {
+        if( one_in( 2 ) ) {
+            p->remove_effect( effect_conjunctivitis_bacterial );
+            p->add_msg_if_player( m_good, _( "Your pinkeye seems to be clearing up." ) );
+        } else {
+            p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
+        }
+    }
+    if( p->has_effect( effect_pre_conjunctivitis_bacterial ) ) {
+        if( one_in( 2 ) ) {
+            //There were no symptoms yet, so we skip telling the player they feel better.
+            p->remove_effect( effect_pre_conjunctivitis_bacterial );
+        }
+    }
+    if( p->has_effect( effect_conjunctivitis_viral ) ) {
+        //Antibiotics don't kill viruses.
+        p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
     }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
@@ -1753,7 +1774,11 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
-        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        // this is a ridiculous way to find a good fishing spot, but I'm just trying
+        // to do oceans right now.  Maybe is_water_body() would be better?
+        // if you find this comment still here and it's later than 2025, LOL.
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_ocean() &&
+        !cur_omt->is_lake_shore() && !cur_omt->is_ocean_shore() ) {
         p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
     }
@@ -4669,7 +4694,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     if( acid_blood ) {
         item acid( "blood_acid", calendar::turn );
         acid.set_item_temperature( blood_temp );
-        it->put_in( acid, item_pocket::pocket_type::CONTAINER );
+        it->put_in( acid, pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage() ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4690,7 +4715,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     }
 
     blood.set_item_temperature( blood_temp );
-    it->put_in( blood, item_pocket::pocket_type::CONTAINER );
+    it->put_in( blood, pocket_type::CONTAINER );
     p->mod_moves( -to_moves<int>( 5_seconds ) );
     return 1;
 }
@@ -5462,7 +5487,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint &
         const item mod_copy( *it );
         item modded_gun( *loc );
 
-        modded_gun.put_in( mod_copy, item_pocket::pocket_type::MOD );
+        modded_gun.put_in( mod_copy, pocket_type::MOD );
 
         if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
             continue;
@@ -7228,7 +7253,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint & )
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( &put ), item_pocket::pocket_type::CONTAINER );
+                it->put_in( p->i_rem( &put ), pocket_type::CONTAINER );
             } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
                 p->add_msg_if_player( _( "You want to arm your RC car with %s?  But how?" ),
                                       put.tname() );
@@ -7986,7 +8011,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
         it->erase_var( "COOKTIME" );
         it->convert( itype_multi_cooker, p );
         if( it->can_contain( meal ).success() ) {
-            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            it->put_in( meal, pocket_type::CONTAINER );
         } else {
             add_msg( m_info,
                      _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
@@ -8752,7 +8777,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
     auto filter = [it]( const item & itm ) {
         return !itm.is_broken() &&
                &itm != it &&
-               itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
+               itm.has_pocket_type( pocket_type::EBOOK );
     };
 
     item_location storage_card = game_menus::inv::titled_filter_menu(
@@ -8811,7 +8836,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
         books_moved = fromset.size();
         for( const item *ebook : fromset )
         {
-            toit.put_in( *ebook, item_pocket::pocket_type::EBOOK );
+            toit.put_in( *ebook, pocket_type::EBOOK );
         }
     };
 

@@ -206,6 +206,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_PLOWABLE: return "PLOWABLE";
         case ter_furn_flag::TFLAG_ORGANIC: return "ORGANIC";
         case ter_furn_flag::TFLAG_CONSOLE: return "CONSOLE";
+        case ter_furn_flag::TFLAG_TREE_PLANTABLE: return "TREE_PLANTABLE";
         case ter_furn_flag::TFLAG_PLANTABLE: return "PLANTABLE";
         case ter_furn_flag::TFLAG_GROWTH_HARVEST: return "GROWTH_HARVEST";
         case ter_furn_flag::TFLAG_MOUNTABLE: return "MOUNTABLE";
@@ -264,6 +265,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_GRAZABLE: return "GRAZABLE";
         case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
         case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
+        case ter_furn_flag::TFLAG_MUTANT_TREE: return "MUTANT_TREE";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

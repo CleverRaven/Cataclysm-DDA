@@ -145,6 +145,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "cancels": [ "ROT1", "ROT2", "ROT3" ],      // Cancels these mutations when mutating.
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
+  "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
     "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
     "str_mod": 2
@@ -205,7 +206,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
   "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
   "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
-  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer
+  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer. This will allow the character to see futher on the overmap at night if the mutation is active at all times
   "ranged_mutation": {                        // activation of the mutation allow you to shoot a fake gun
     "type": "pseudo_shotgun",                 // fake gun that is used to shoot
     "message": "SUDDEN SHOTGUN!."             // message that would be printed when you use it

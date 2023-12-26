@@ -313,6 +313,11 @@
     "info": "This gear <good>completely protects</good> you from <info>bash damage</info>."
   },
   {
+    "id": "EMP_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>EMP blasts</info>."
+  },
+  {
     "id": "CUT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>cut damage</info>."
@@ -648,6 +653,11 @@
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
+    "id": "PROVIDES_TECHNIQUES",
+    "type": "json_flag",
+    "//": "This item provides martial arts techniques in addition to the character's weapon"
+  },
+  {
     "id": "SPAWN_ACTIVE",
     "type": "json_flag",
     "//": "This item will spawn active. Not advised for items that drain power when active."
@@ -727,6 +737,11 @@
     "type": "json_flag"
   },
   {
+    "id": "IRRADIATED",
+    "type": "json_flag",
+    "info": "This food item has been irradiated, and will spoil 4 times slower."
+  },
+  {
     "id": "FREEZERBURN",
     "type": "json_flag"
   },
@@ -791,11 +806,6 @@
     "id": "RAD_STERILIZED",
     "type": "json_flag",
     "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
-  },
-  {
-    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
-    "type": "json_flag",
-    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
@@ -1378,6 +1388,10 @@
   },
   {
     "id": "PORTAL_PROOF",
+    "type": "json_flag"
+  },
+  {
+    "id": "TELEPORT_LOCK",
     "type": "json_flag"
   },
   {
@@ -2352,5 +2366,10 @@
     "id": "UNDERFED",
     "type": "json_flag",
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
+  },
+  {
+    "id": "TRANSPARENT",
+    "type": "json_flag",
+    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
   }
 ]

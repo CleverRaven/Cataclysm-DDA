@@ -160,7 +160,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelionburdock_fried",
-    "name": { "str": "fried dandelions and burdocks", "str_pl": "fried dandelions burdocks" },
+    "name": { "str_sp": "fried dandelions and burdocks" },
     "color": "green",
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
@@ -190,7 +190,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bamboo_fried",
-    "name": { "str_sp": "fried bamboo" },
+    "name": { "str_sp": "fried bamboo shoots" },
     "color": "green",
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
@@ -208,7 +208,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_cooked",
-    "name": { "str": "cooked plant marrow" },
+    "name": { "str_sp": "cooked plant marrow" },
     "copy-from": "veggy",
     "spoils_in": "2 days 2 hours",
     "description": "A freshly-cooked chunk of plant matter, tasty and nutritious.",
@@ -230,7 +230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_aspic",
-    "name": { "str": "vegetable aspic" },
+    "name": { "str_sp": "vegetable aspic" },
     "weight": "120 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
@@ -717,7 +717,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_pumpkin",
-    "name": { "str": "mashed pumpkin" },
+    "name": { "str_sp": "mashed pumpkin" },
     "copy-from": "pumpkin_cut",
     "color": "light_red",
     "spoils_in": "1 day 12 hours",
@@ -799,7 +799,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_canned",
-    "name": { "str": "canned veggy", "str_pl": "canned veggies" },
+    "name": { "str_sp": "canned veggy" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "bamboo_cooked", "name": { "str_sp": "%s, cooked bamboo shoots" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
@@ -983,7 +983,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_pickled",
-    "name": { "str": "pickled veggy", "str_pl": "pickled veggies" },
+    "name": { "str_sp": "pickled veggy" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "broccoli", "name": { "str_sp": "%s, broccoli" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
@@ -1011,7 +1011,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_veggy",
-    "name": { "str": "dehydrated vegetable" },
+    "name": { "str_sp": "dehydrated vegetable" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "bamboo_cooked", "name": { "str_sp": "%s, cooked bamboo shoots" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
@@ -1133,7 +1133,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_veggy",
-    "name": { "str": "rehydrated vegetable" },
+    "name": { "str_sp": "rehydrated vegetable" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "bamboo_cooked", "name": { "str_sp": "%s, cooked bamboo shoots" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
@@ -1245,7 +1245,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_salad",
-    "name": { "str": "vegetable salad" },
+    "name": { "str_sp": "vegetable salad" },
     "weight": "227 g",
     "color": "green",
     "spoils_in": "5 days 20 hours",
@@ -1266,7 +1266,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dried_salad",
-    "name": { "str": "dried salad" },
+    "name": { "str_sp": "dried salad" },
     "copy-from": "veggy_salad",
     "weight": "150 g",
     "spoils_in": "360 days",
@@ -1283,7 +1283,7 @@
   {
     "type": "COMESTIBLE",
     "id": "insta_salad",
-    "name": { "str": "insta-salad" },
+    "name": { "str_sp": "insta-salad" },
     "copy-from": "veggy_salad",
     "quench": 16,
     "description": "A dried salad with water added, not very tasty but still a decent substitution for real salad.",

@@ -297,6 +297,10 @@ void player_activity::do_turn( Character &you )
         } else {
             debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
         }
+        // We may have canceled this via a message interrupt.
+        if( type.is_null() ) {
+            return;
+        }
     }
 
     // This might finish the activity (set it to null)
@@ -340,12 +344,13 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
-                    set_to_null();
+                    you.cancel_activity();
                     break;
                 case 3:
                     ignoreQuery = true;
                     break;
                 default:
+                    canceled( you );
                     break;
             }
         }

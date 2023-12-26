@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_val('vitamin', 'name:dreamer_vit')", ">=", "600" ] },
+    "condition": { "math": [ "u_vitamin('dreamer_vit')", ">=", "600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
-      { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "600" ] },
+      { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
       {
         "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
@@ -95,6 +95,9 @@
       {
         "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
+      },
+      {
+        "math": [ "u_spell_exp('spell_karma_arms')", "+=", "spell_exp_diff(u_spell_level('spell_karma_arms'))/spell_train_factor(200)" ]
       }
     ],
     "false_effect": [
@@ -126,6 +129,9 @@
       {
         "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
+      },
+      {
+        "math": [ "u_spell_exp('spell_devil_tail')", "+=", "spell_exp_diff(u_spell_level('spell_devil_tail'))/spell_train_factor(100)" ]
       }
     ],
     "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
@@ -160,6 +166,13 @@
       {
         "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
+      },
+      {
+        "math": [
+          "u_spell_exp('spell_stalker_eyes')",
+          "+=",
+          "spell_exp_diff(u_spell_level('spell_stalker_eyes'))/spell_train_factor(200)"
+        ]
       }
     ],
     "false_effect": [

@@ -270,6 +270,38 @@
   },
   {
     "type": "snippet",
+    "category": "lab_file_teleportation",
+    "//": "Phavian designation for teleportation study is LOST RAIN",
+    "text": [
+      {
+        "name": "On Time Travel",
+        "id": "lab_file_teleportation_01",
+        "text": "Let's start with the obvious.  Teleportation is moving faster than light, by definition.  Even though our most powerful mathematicians can currently only teleport a few grams a few meters distant, we've used slow-motion photography and confirmed that while the transit is not instantaneous, it's still faster than c.  So, as the saying goes, relativity, causality, faster than light travel, pick two, right?  Which are we going to pick?\n\nWell, as much as it pains me as a physicist to say it, relativity, at least as it relates in this case.  Now we have a third domain alongside quantum mechanics and general relativity: netherum mathematics.  While I hesitate to speculate on something that we have collected so little data on, it is possible that the Netherum provides its own reference frame coterminous with our own (or multiple) realities.  If we built our satellites with matrix technology, would they still need to account for time dilation?  Would relativity override netherum mathematics in that case?\n\nBut to return to the title: there is no evidence time travel is possible despite repeated attempts.  Perhaps if we had a LOST RAIN mathematician capable of moving interstellar distances we could ask them to come back before they left.  Barring that, I'm afraid asking LOST RAIN to retroactively avert any disasters is not on the table."
+      },
+      {
+        "name": "COBALT RAIN progress report",
+        "id": "lab_file_teleportation_02",
+        "text": "Alright, so should I even be working on this?  The world is ending, we're on lockdown, and I'm pretty sure some of my coworkers have lost their minds.  I should be looking for ways to get out of here, right?  But hell, I've always buried myself in my work in a crisis and this sure is one of those.  So my report is that ever since we detected the spread of XE037, COBALT RAIN has been running at…well, it's a perpetual motion machine so I can't exactly talk about \"increased efficiency\" but it's been putting out even more power than it was a month ago.  On the order of 3x more.  Maybe all that nonsense about the fabric of space expanding or whatever was right?  I regret to inform you that it's still occasionally popping out monsters, though fortunately the only thing I had to deal with so far has been those blobs and I set up an isolation chamber for COBALT RAIN to run in.  It's keeping the lights on down here, so there's that.  If I can just fix that one flaw, we'll see set.  Too bad my assistant is out trying to figure out how to jump floor to floor so they don't have to use the stairs anymore."
+      },
+      {
+        "name": "testing report I4-9469",
+        "id": "lab_file_teleportation_03",
+        "text": "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the disortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by an defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached."
+      },
+      {
+        "name": "testing report B4-2567",
+        "id": "lab_file_teleportation_04",
+        "text": "Attempt 1: Move pencil at least 400 cm: Successful\nAttempt 2: Move pencil at least 2 m: Failed\nAttempt 3: Move pencil inside sealed, clear plastic bag to outside the bag: Successful\nAttempt 4: Move pencil inside sealed, opaque plastic bag outside the bag: Failed\nAttempt 5: Move eraser without moving the rest of the pencil: Failed\nAttempt 6: Rotate pencil during transit of at least 400 cm so that eraser previously facing the door is now facing away from the door: Successful\nAttempt 7: Move pencil 400 cm into pencil sharpener: Successful\nAttempt 8: Move pencil at least 400 cm into bucket of water: Successful\nAttempt 9: Move pencil at least 400 cm into block of ice: Failed\nAttempt 10: Move stationary pencil 400 cm so that it arrives at destination with upward velocity: Failed\nAttempt 11: Preserve velocity of falling pencil after moving it at least 400 cm: Successful\nAttempt 12: Move pencil gripped firmly in hand at least 400 cm: Successful"
+      },
+      {
+        "name": "It's alive!  IT'S ALIVE!",
+        "id": "lab_file_teleportation_05",
+        "text": "Like we won't be for much longer.\n\nNews outside is a nightmare.  I saw some phone video of a giant monster destroying LA before the net went down.  There's no way I'll be able to report this to Dr. Liu, but I finally made a breakthrough.  Or maybe I should say, a breakthrough was made, because I sure as hell didn't do anything to cause it.  I went to go test QN283 today and it just worked.  I didn't change anything, I didn't make any adjustments, I just turned on the remote and the payload vanished and reappeared near the beacon just like it was supposed to.  Is this because of the end of the world?  I can hear gunfire and shouting in the distance and there's nowhere to run because we're been on lockdown for weeks but I invent functional teleportation, one of the greatest discoveries in human history?  Great.\n\nIf I only had gotten C78 to sneak a beacon outside before lockdown.  If she can get out of here with her powers, maybe I can still escape."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_file_vitakinesis",
     "//": "Phavian designation for vitakinetic study is SMOKE USHER",
     "text": [
@@ -317,10 +349,9 @@
         "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or in-phase environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
       },
       {
-        "name": "Hastily-scribbled note on XEDRA stationary",
+        "name": "Preliminary report: OBSIDIAN RING",
         "id": "lab_file_matrix_research_02",
-        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
-        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, starships, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 researchers have this problem?"
+        "text": "Dr. Richardson,\nAs you directed, we've been attempting to find a way to increase the strength of mathematicians' powers without having to send them on an immersion and we've made a breakthrough.  With some caveats, I'm afraid.\n\nWe put five volunteers through the OBSIDIAN RING process and achieved complete success with two of them.  LOST RAIN mathematician U23, previously capable of expanding or contracting the effective volume of a space up to two meters across by 15%, is now capable of displacing his entire body up to two-thirds of a meter, effectively allowing him to walk through walls.  CRYPTIC FORGE mathematician V97 displayed similar enhancements, suffering no ill effects when exposed to up to 4 Gy of radiation.\n\nUnfortunately, the process is imperfect.  While B54 underwent the process with no apparent effects, BURNT NOVEMBER mathematician E43 has suffered from persistent tremors and muscle weakness since emerging and NOBLE HORIZON mathematician Q12 is currently on leave after suffering from hallucinatory psychosis.  Both candidates are undergoing SMOKE USHER treatment and hopefully will recover soon.\n\nwhile matrix crystals are a rare resource, the sheer amount of additional power available to an OBSIDIAN RING candidate makes the resource expenditure worthwhile.  ONYX LIGHTNING may soon show real progress.\nAlexandra da Silva\nLead Researcher, OBSIDIAN RING"
       },
       {
         "name": "Preliminary Report: Matrix Awakening",
@@ -378,6 +409,29 @@
         "name": "Something is seriously wrong",
         "id": "lab_file_phavian_memo_05",
         "text": "Dr. Liu,\nSorry for the inflammatory title but, well, something is seriously wrong.  The LOST RAIN mathematicians are universally reporting that something strange is happening to space itself.  You've seen the testing data about them being able to change effective distance between two points and they're reporting that ALL distances are being affected to a very small degree.  I don't know if this has anything to do with the erratic behavior from the staff or XE037 contamination but coupled with all the BURNT NOVEMBER reports of impending doom, plus all the news filtering from the outside, I think we need to prepare for the worst.\n\nJohn Goldberg\nResearcher"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_phavian_private",
+    "text": [
+      {
+        "name": "Hastily-scribbled note on XEDRA stationary",
+        "id": "lab_file_phavian_private_01",
+        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
+        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, starships, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 researchers have this problem?"
+      },
+      {
+        "name": "OSHA violations",
+        "id": "lab_file_phavian_private_02",
+        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
+        "text": "Mo,\nI know you're worried about maintaining secrecy what with the NOBLE HORIZON/GRAY DAWN research locations, but I assure you that it's fine.  We need them higher-up to test for line-of-sight-based range anyway, and we don't have all the problems that XEDRA-12 has with maintaining secrecy.  If some normie somehow gets past security and wanders in, they're just going to see an ordinary office with maybe a few weird room layouts, there aren't going to be wolfmen wandering the halls.  The mathematicians are just people, and if some of them are creepy, we've ALL worked with the creepy guy before.  If it were really that serious of a concern, we'd be underground like the LOST RAIN guys.  And with a bunch of clears here, we'll get warning hours or days before anything goes wrong.\n\nAnd besides, look at the advantages!  There's a gym and a bar on the ground floor.  Drinks with Priya and Ishaan on Friday?  I've already checked the menu and I know there'll be something there for you.\nSridhar"
+      },
+      {
+        "name": "We're getting out of here",
+        "id": "lab_file_phavian_private_03",
+        "text": "Jen\nI know we're in lockdown but it's obvious we're doomed.  Word gets out, right?  You heard about Dr. Greene and Dr. Summers?  It's only going to get worse.  I talked to K̶3̶4̶  Erica about it and she's positive she can take someone else with her on one of her little trips.  It's not that far to the surface, right?  You with me?\nAlex"
       }
     ]
   }

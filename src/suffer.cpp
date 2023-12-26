@@ -78,7 +78,6 @@ static const bionic_id bio_synlungs( "bio_synlungs" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_datura( "datura" );
@@ -86,7 +85,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
@@ -98,9 +96,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_took_xanax( "took_xanax" );
-static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weary_0( "weary_0" );
 static const efftype_id effect_weary_1( "weary_1" );
@@ -132,39 +128,41 @@ static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
 static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
+static const trait_id trait_JAUNDICE( "JAUNDICE" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES2_FALL( "LEAVES2_FALL" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_LEAVES3_FALL( "LEAVES3_FALL" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
+static const trait_id trait_NO_LEFT_ARM( "NO_LEFT_ARM" );
+static const trait_id trait_NO_LEFT_LEG( "NO_LEFT_LEG" );
+static const trait_id trait_NO_RIGHT_ARM( "NO_RIGHT_ARM" );
+static const trait_id trait_NO_RIGHT_LEG( "NO_RIGHT_LEG" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PLANTSKIN( "PLANTSKIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
@@ -177,6 +175,9 @@ static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
+static const trait_id trait_VINES1( "VINES1" );
+static const trait_id trait_VINES2( "VINES2" );
+static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -187,7 +188,7 @@ static const vitamin_id vitamin_vitC( "vitC" );
 namespace suffer
 {
 static void from_sunburn( Character &you, bool severe );
-static void in_sunlight( Character &you );
+static void in_sunlight( Character &you, outfit &worn );
 static void water_damage( Character &you, const trait_id &mut_id );
 static void mutation_power( Character &you, const trait_id &mut_id );
 static void while_underwater( Character &you );
@@ -195,7 +196,6 @@ static void while_grabbed( Character &you );
 static void from_addictions( Character &you );
 static void while_awake( Character &you, int current_stim );
 static void from_chemimbalance( Character &you );
-static void from_schizophrenia( Character &you );
 static void from_asthma( Character &you, int current_stim );
 static void from_item_dropping( Character &you );
 static void from_other_mutations( Character &you );
@@ -423,11 +423,6 @@ void suffer::while_awake( Character &you, const int current_stim )
         suffer::from_chemimbalance( you );
     }
 
-    if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-        !you.has_effect( effect_took_thorazine ) ) {
-        suffer::from_schizophrenia( you );
-    }
-
     if( you.has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
             you.add_msg_if_player( m_bad,
@@ -548,195 +543,6 @@ void suffer::from_chemimbalance( Character &you )
     }
 }
 
-void suffer::from_schizophrenia( Character &you )
-{
-    std::string i_name_w;
-    item_location weap = you.get_wielded_item();
-    if( weap ) {
-        i_name_w = weap->has_var( "item_label" ) ?
-                   weap->get_var( "item_label" ) :
-                   //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), weap->type_name() );
-    }
-    // Start with the effects that both NPCs and avatars can suffer from
-    // Delusions
-    if( one_turn_in( 8_hours ) ) {
-        if( rng( 1, 20 ) > 5 ) {  // 75% chance
-            const translation snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" ).value_or(
-                                         translation() );
-            you.add_msg_if_player( m_warning, "%s", snip );
-            you.add_morale( MORALE_FEELING_BAD, -20, -100 );
-        } else { // 25% chance
-            const translation snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" ).value_or(
-                                         translation() );
-            you.add_msg_if_player( m_good, "%s", snip );
-            you.add_morale( MORALE_FEELING_GOOD, 20, 100 );
-        }
-        return;
-    }
-    // Formication
-    if( one_turn_in( 6_hours ) ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
-                                     translation() );
-        const bodypart_id &bp = you.random_body_part( true );
-        you.add_effect( effect_formication, 45_minutes, bp );
-        you.add_msg_if_player( m_bad, "%s", snip );
-        return;
-    }
-    // Numbness
-    if( one_turn_in( 4_hours ) ) {
-        you.add_msg_if_player( m_bad, _( "You suddenly feel so numb…" ) );
-        you.mod_painkiller( 25 );
-        return;
-    }
-    // Hallucination
-    if( one_turn_in( 6_hours ) ) {
-        you.add_effect( effect_hallu, 6_hours );
-        return;
-    }
-    // Visuals
-    if( one_turn_in( 2_hours ) ) {
-        you.add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
-        return;
-    }
-    // Shaking
-    if( !you.has_effect( effect_valium ) && one_turn_in( 4_hours ) ) {
-        you.add_msg_player_or_npc( m_bad, _( "You start to shake uncontrollably." ),
-                                   _( "<npcname> starts to shake uncontrollably." ) );
-        you.add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
-        return;
-    }
-    // Shout
-    if( one_turn_in( 4_hours ) ) {
-        you.shout( SNIPPET.random_from_category( "schizo_self_shout" ).value_or(
-                       translation() ).translated() );
-        return;
-    }
-    // Drop weapon
-    if( one_turn_in( 2_days ) && weap ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
-                                     translation() );
-        you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
-        you.drop( weap, you.pos() );
-        return;
-    }
-    // Talk to self
-    if( one_turn_in( 4_hours ) ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
-                                     translation() );
-        you.add_msg_if_player( _( "%1$s says: \"%2$s\"" ), you.get_name(), snip );
-        return;
-    }
-
-    // effects of this point are entirely internal, so NPCs can't suffer from them
-    if( you.is_npc() ) {
-        return;
-    }
-    // Sound
-    if( one_turn_in( 4_hours ) ) {
-        you.sound_hallu();
-    }
-    // Follower turns hostile
-    if( one_turn_in( 4_hours ) ) {
-        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
-
-        std::string who_gets_angry = you.get_name();
-        if( !followers.empty() ) {
-            who_gets_angry = random_entry_ref( followers )->get_name();
-        }
-        you.add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
-        return;
-    }
-
-    // Monster dies
-    if( one_turn_in( 6_hours ) ) {
-        // TODO: move to monster group json
-        static const std::array<mtype_id, 5> monsters = { {
-                mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
-            }
-        };
-        you.add_msg_if_player( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
-        return;
-    }
-
-    // Limb Breaks
-    if( one_turn_in( 4_hours ) ) {
-        const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
-        you.add_msg_if_player( m_bad, "%s", snip );
-        return;
-    }
-
-    // NPC chat
-    if( one_turn_in( 4_hours ) ) {
-        std::string i_name = Name::generate( one_in( 2 ) );
-
-        std::string i_talk = SNIPPET.expand( SNIPPET.random_from_category( "<lets_talk>" ).value_or(
-                translation() ).translated() );
-        parse_tags( i_talk, you, you );
-
-        you.add_msg_if_player( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
-        return;
-    }
-
-    // Skill raise
-    if( one_turn_in( 12_hours ) ) {
-        const skill_id raised_skill = Skill::random_skill();
-        const SkillLevel level = you.get_all_skills().get_skill_level_object( raised_skill );
-        if( level.level() == level.knowledgeLevel() && one_in( 2 ) ) {
-            you.add_msg_if_player( m_good, _( "Your practical skill in %s has increased to %d!" ),
-                                   raised_skill->name(), level.level() + 1 );
-        }
-        you.add_msg_if_player( m_good, _( "Your theoretical understanding of %s has increased to %d!" ),
-                               raised_skill->name(), level.knowledgeLevel() + 1 );
-        return;
-    }
-
-    // Talking weapon
-    if( weap ) {
-        // If player has a weapon, picks a message from said weapon
-        // Weapon tells player to kill a monster if any are nearby
-        // Weapon is concerned for player if bleeding
-        // Weapon is concerned for itself if damaged
-        // Otherwise random chit-chat
-        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
-
-        std::string i_talk_w;
-        bool does_talk = false;
-        if( !mons.empty() && one_turn_in( 12_minutes ) ) {
-            std::vector<std::string> seen_mons;
-            for( weak_ptr_fast<monster> &n : mons ) {
-                if( you.sees( *n.lock() ) ) {
-                    seen_mons.emplace_back( n.lock()->get_name() );
-                }
-            }
-            if( !seen_mons.empty() ) {
-                const translation talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" ).value_or(
-                                               translation() );
-                i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
-                does_talk = true;
-            }
-        }
-        if( !does_talk && you.has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
-                           translation() ).translated();
-            does_talk = true;
-        } else if( weap->damage() >= ( weap->max_damage() - weap->degradation() ) / 3 +
-                   weap->degradation() && one_turn_in( 1_hours ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
-                           translation() ).translated();
-            does_talk = true;
-        } else if( one_turn_in( 4_hours ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" ).value_or(
-                           translation() ).translated();
-            does_talk = true;
-        }
-        if( does_talk ) {
-            add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
-            return;
-        }
-    }
-}
-
 void suffer::from_asthma( Character &you, const int current_stim )
 {
     if( you.has_effect( effect_adrenaline ) ||
@@ -847,7 +653,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     }
 }
 
-void suffer::in_sunlight( Character &you )
+void suffer::in_sunlight( Character &you, outfit &worn )
 {
     const tripoint position = you.pos();
 
@@ -857,30 +663,136 @@ void suffer::in_sunlight( Character &you )
 
     const bool leafy = you.has_trait( trait_LEAVES ) ||
                        you.has_trait( trait_LEAVES2 ) ||
-                       you.has_trait( trait_LEAVES3 );
+                       you.has_trait( trait_LEAVES2_FALL ) ||
+                       you.has_trait( trait_LEAVES3 ) ||
+                       you.has_trait( trait_LEAVES3_FALL ) ||
+                       you.has_trait( trait_PLANTSKIN ) ||
+                       you.has_trait( trait_JAUNDICE );
+    float phelloderm_surface = 0.0;
+    float exposure = 0.0;
     int sunlight_nutrition = 0;
     if( leafy ) {
-        const bool leafier = you.has_trait( trait_LEAVES2 );
-        const bool leafiest = you.has_trait( trait_LEAVES3 );
-        const double sleeve_factor = you.armwear_factor();
-        const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
+        // Phelloderm and bark photosynthesize.
+        if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
+            std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
+            for( auto &bp_exp : bp_exposure ) {
+                bodypart_id bp = bp_exp.first;
+                exposure = bp_exp.second;
+                if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
+                      you.has_trait( trait_NO_LEFT_ARM ) )
+                    || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
+                         you.has_trait( trait_NO_RIGHT_ARM ) )
+                    || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
+                         you.has_trait( trait_NO_LEFT_LEG ) )
+                    || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
+                         you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
+                    exposure = 0.0;
+                }
+                phelloderm_surface += exposure;
+            }
+            // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
+            if( you.has_trait( trait_JAUNDICE ) ) {
+                phelloderm_surface *= .5;
+            };
+            // Multiply phelloderm_surface here so we can average it with head_exposure later.
+            phelloderm_surface *= 8.33;
+        }
+        // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
+        if( you.has_trait( trait_JAUNDICE ) ) {
+            phelloderm_surface *= .5;
+        }
+        // Multiply phelloderm_surface here so we can average it with head_exposure later.
+        phelloderm_surface *= 8.33;
+        const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
+        const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
+        const bodypart_id left_arm( "arm_l" );
+        const bodypart_id right_arm( "arm_r" );
+        const bodypart_id head( "head" );
+        // TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
+        // We'll assume they poke out of your sleeves to do their thing.
+        float head_leaf_surface = 100 - worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
+        float rarm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } )
+                                         * .005 );
+        float larm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } )
+                                         * .005 );
+        float vine_leaf_surface = rarm_leaf_surface + larm_leaf_surface;
+        if( you.has_trait( trait_NO_LEFT_ARM ) ) {
+            larm_leaf_surface = .0;
+        }
+        if( you.has_trait( trait_NO_RIGHT_ARM ) ) {
+            rarm_leaf_surface = .0;
+        }
+        if( you.has_trait( trait_VINES1 ) ) {
+            vine_leaf_surface = vine_leaf_surface * 0.5;
+        }
+        if( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) &&
+            !you.has_trait( trait_VINES3 ) ) {
+            vine_leaf_surface = 0;
+        }
         const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
         const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
-        const int flux = ( player_local_temp - 65 ) / 2;
-        if( !has_hat ) {
-            sunlight_nutrition += ( 100 + flux ) * weather_factor;
+        int flux = ( player_local_temp - 32 ) / 5;
+        // Efficiency rapidly falls off when it's too hot due to photosynthesis being an enzymatic process.
+        // Some tropical plants can overcome this with specific adaptations, but that would probably be its own mutation.
+        if( player_local_temp > 104 ) {
+            flux -= ( player_local_temp - 104 ) * 3;
         }
+        if( you.has_trait( trait_LEAVES ) ) {
+            head_leaf_surface *= .5;
+        }
+        if( you.has_trait( trait_LEAVES3 ) ) {
+            head_leaf_surface *= 1.5;
+        }
+        if( you.has_trait( trait_LEAVES3 ) ) {
+            head_leaf_surface *= 1.75;
+        }
+        if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
+            vine_leaf_surface *= .9;
+            larm_leaf_surface *= .9;
+            rarm_leaf_surface *= .9;
+            head_leaf_surface *= .9;
+        }
+        if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) &&
+            !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) &&
+            !you.has_trait( trait_LEAVES3_FALL ) ) {
+            head_leaf_surface = 0;
+        }
+        sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface +
+                              phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = ( 100 * sleeve_factor + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
+            const int rate = std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
+                                                    vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
+            sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
+        }
+        you.get_size();
+        // Multiply by the proportional difference in average height, as height roughly determines armspan,
+        // and that's how far out our branches extend.
+        if( you.get_size() == creature_size::tiny ) {
+            sunlight_nutrition *= .015;
+        }
+        if( you.get_size() == creature_size::small ) {
+            sunlight_nutrition *= .7;
+        }
+        if( you.get_size() == creature_size::large ) {
+            sunlight_nutrition *= 1.54;
+        }
+        if( you.get_size() == creature_size::huge ) {
+            sunlight_nutrition *= 2.35;
+        }
+        // Chloromorph makes photosynthesis more efficient while the animal parts are in sleep mode.
+        if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
+            sunlight_nutrition *= 1.1;
+        }
+
+        if( x_in_y( sunlight_nutrition, 12000 ) ) {
+            you.vitamin_mod( vitamin_vitC, 1 );
+            you.mod_hunger( -1 );
+            // Photosynthesis absorbs kcal directly.
+            you.mod_stored_kcal( 1 );
+            you.stomach.ate();
         }
     }
-
-    if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitC, 1 );
-    }
-
     if( you.has_flag( json_flag_SUNBURN ) ) {
         suffer::from_sunburn( you, true );
     }
@@ -1037,20 +949,30 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) &&
+                     !you.get_wielded_item()->has_flag( flag_TRANSPARENT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
                         && you.can_use_hood() )
+                   || ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
+                        you.has_trait( trait_NO_LEFT_ARM ) )
+                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
+                        you.has_trait( trait_NO_RIGHT_ARM ) )
+                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
+                        you.has_trait( trait_NO_LEFT_LEG ) )
+                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
+                        you.has_trait( trait_NO_RIGHT_LEG ) )
                    || ( bp == body_part_mouth
                         && you.worn_with_flag( flag_COLLAR )
                         && you.can_use_collar() ) ) {
             // Eyes suffer even in the presence of the checks in this branch!
-            // Umbrellas can keep the sun off all bodyparts
+            // Umbrellas can keep the sun off all bodyparts, unless you grabbed a clear one
             // Pockets can keep the sun off your hands if you don't wield a too large item
             // Hoods can keep the sun off your unencumbered head
+            // Missing limbs can't get sunburned
             // Collars can keep the sun off your unencumbered mouth
             continue;
         }
@@ -1872,7 +1794,7 @@ void Character::suffer()
         suffer::from_asthma( *this, current_stim );
     }
 
-    suffer::in_sunlight( *this );
+    suffer::in_sunlight( *this, worn );
     suffer::from_exertion( *this );
     suffer::from_item_dropping( *this );
     suffer::from_other_mutations( *this );
@@ -2078,59 +2000,6 @@ void Character::mend( int rate_multiplier )
                                body_part_name( bp ) );
         }
     }
-}
-
-void Character::sound_hallu()
-{
-    if( is_npc() ) {
-        return;
-    }
-
-    // Random 'dangerous' sound from a random direction
-    // 1/5 chance to be a loud sound
-    std::vector<std::string> dir{ "north",
-                                  "northeast",
-                                  "northwest",
-                                  "south",
-                                  "southeast",
-                                  "southwest",
-                                  "east",
-                                  "west" };
-
-    std::vector<std::string> dirz{ "and above you", "and below you" };
-
-    std::vector<std::tuple<std::string, std::string, std::string>> desc{
-        std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
-        std::make_tuple( "crash!", "smash_success", "t_door_c" ),
-        std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
-
-    std::vector<std::tuple<std::string, std::string, std::string>> desc_big{
-        std::make_tuple( "a huge explosion!", "explosion", "default" ),
-        std::make_tuple( "bang!", "fire_gun", "glock_19" ),
-        std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
-        std::make_tuple( "crash!", "smash_success", "t_wall" ),
-        std::make_tuple( "SMASH!", "smash_success", "t_wall" ) };
-
-    std::string i_dir = dir[rng( 0, dir.size() - 1 )];
-
-    if( one_in( 10 ) ) {
-        i_dir += " " + dirz[rng( 0, dirz.size() - 1 )];
-    }
-
-    std::string i_desc;
-    std::pair<std::string, std::string> i_sound;
-    if( one_in( 5 ) ) {
-        int r_int = rng( 0, desc_big.size() - 1 );
-        i_desc = std::get<0>( desc_big[r_int] );
-        i_sound = std::make_pair( std::get<1>( desc_big[r_int] ), std::get<2>( desc_big[r_int] ) );
-    } else {
-        int r_int = rng( 0, desc.size() - 1 );
-        i_desc = std::get<0>( desc[r_int] );
-        i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
-    }
-
-    add_msg_if_player( m_warning, _( "From the %1$s you hear %2$s" ), i_dir, i_desc );
-    sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
 }
 
 void Character::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )

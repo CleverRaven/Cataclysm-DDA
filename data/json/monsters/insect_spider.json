@@ -381,6 +381,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
+    "fungalize_into": "mon_bee_small_fungus",
     "upgrades": { "half_life": 30, "into": "mon_bee" }
   },
   {
@@ -419,6 +420,7 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_bee_mega" },
     "zombify_into": "mon_meat_cocoon_small",
+    "fungalize_into": "mon_bee_fungus",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 4, "cut": 6, "bullet": 5 }
   },
@@ -436,6 +438,7 @@
     "dissect": "dissect_insect_sample_small",
     "special_attacks": [ { "id": "impale" } ],
     "zombify_into": "mon_meat_cocoon_large",
+    "fungalize_into": "mon_bee_mega_fungus",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
   },
@@ -1848,6 +1851,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "half_life": 30, "into": "mon_wasp" },
     "zombify_into": "mon_meat_cocoon_tiny",
+    "fungalize_into": "mon_wasp_small_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT", "EATS" ],
     "armor": { "bash": 1, "cut": 6, "stab": 4 }
   },
@@ -1862,7 +1866,8 @@
     "stomach_size": 180,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_guard" }
+    "upgrades": { "half_life": 30, "into": "mon_wasp_guard" },
+    "fungalize_into": "mon_wasp_small_guard_fungus"
   },
   {
     "id": "mon_wasp_queen",
@@ -1875,6 +1880,7 @@
     "stomach_size": 800,
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
     "upgrades": { "half_life": 30, "into": "mon_wasp_mega" },
+    "fungalize_into": "mon_wasp_queen_fungus",
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 3 }
   },
   {
@@ -1934,6 +1940,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
+    "fungalize_into": "mon_wasp_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE", "EATS" ],
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12 }
   },
@@ -1949,6 +1956,7 @@
     "dissect": "dissect_insect_sample_small",
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
+    "fungalize_into": "mon_wasp_guard_fungus",
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 2 }
   },
   {
@@ -1996,6 +2004,7 @@
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 4, "baby_timer": 5 },
     "extend": { "flags": [ "PUSH_MON" ] },
     "zombify_into": "mon_meat_cocoon_large",
+    "fungalize_into": "mon_wasp_mega_fungus",
     "delete": { "flags": [ "HARDTOSHOOT", "FLIES" ] },
     "armor": { "bash": 8, "cut": 30, "stab": 18, "bullet": 22, "electric": 4 }
   },
@@ -3628,7 +3637,7 @@
     "id": "mon_cicada_nymph",
     "type": "MONSTER",
     "name": { "str": "cicada nymph" },
-    "description": "The mutated larval form of a Cicada.  It doesn't produce noise like the adults but its digging claws seem suited for scratching.",
+    "description": "The mutated larval form of a cicada.  It doesn't produce noise like the adults but its digging claws seem suited for scratching.",
     "copy-from": "mon_larva_abstract",
     "volume": "40 L",
     "weight": "40 kg",
@@ -3655,7 +3664,7 @@
     "id": "mon_cicada",
     "type": "MONSTER",
     "name": { "str": "giant cicada" },
-    "description": "A huge Cicada the size of a person.  These insects are mostly harmless but may bite if attacked and produce a loud buzzing sound.",
+    "description": "A huge cicada the size of a person.  These insects are mostly harmless but may bite if attacked and produce a loud buzzing sound.",
     "default_faction": "insect",
     "bodytype": "insect",
     "species": [ "INSECT" ],

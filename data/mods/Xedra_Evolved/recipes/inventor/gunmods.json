@@ -21,7 +21,7 @@
       }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -51,7 +51,7 @@
       }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -81,7 +81,7 @@
       }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -118,7 +118,7 @@
       [ [ "cable", 100 ] ],
       [ [ "circuit", 1 ] ]
     ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -148,7 +148,7 @@
       }
     ],
     "components": [ [ [ "pipe", 3 ] ], [ [ "scrap", 5 ] ], [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 5 ] ] ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],

@@ -39,7 +39,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_manure",
-    "name": { "str": "manure" },
+    "name": { "str_sp": "manure" },
     "copy-from": "feces_bird",
     "weight": "250 g",
     "volume": "125 ml",
@@ -48,7 +48,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_roach",
-    "name": { "str": "roach dirt" },
+    "name": { "str_sp": "roach dirt" },
     "copy-from": "feces_bird",
     "description": "Large black pellets of rotting material."
   },

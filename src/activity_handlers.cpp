@@ -53,7 +53,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -77,6 +76,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
@@ -139,6 +139,7 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
+static const activity_id ACT_MUTANT_TREE_COMMUNION( "ACT_MUTANT_TREE_COMMUNION" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -221,8 +222,10 @@ static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -244,6 +247,7 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
+    { ACT_MUTANT_TREE_COMMUNION, mutant_tree_communion_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
@@ -352,12 +356,25 @@ std::string enum_to_string<butcher_type>( butcher_type data )
 
 } // namespace io
 
+static void assign_multi_activity( Character &you, const player_activity &act )
+{
+    const bool requires_actor = activity_actors::deserialize_functions.find( act.id() ) !=
+                                activity_actors::deserialize_functions.end();
+    if( requires_actor ) {
+        // the activity uses `activity_actor` and requires `player_activity::actor` to be set
+        you.assign_activity( player_activity( act ) );
+    } else {
+        // the activity uses the older type of player_activity where `player_activity::actor` is not used
+        you.assign_activity( act.id() );
+    }
+}
+
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {
     if( !you.backlog.empty() ) {
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
-            you.assign_activity( you.backlog.front().id() );
+            assign_multi_activity( you, back_act );
             you.backlog.clear();
             return true;
         }
@@ -901,7 +918,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT )    {
         int dissectable_practice = 0;
         int dissectable_num = 0;
-        for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *item : corpse_item->all_items_top( pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
                                     item->dropped_from );
@@ -1173,7 +1190,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -1565,6 +1582,45 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();
         return;
+    }
+}
+
+void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Character *you )
+{
+    int communioncycles = 0;
+    // The mutant tree is intelligent, but communicating via mycelium is slow
+    if( calendar::once_every( 2_minutes ) ) {
+        bool adjacent_mutant_tree = false;
+        map &here = get_map();
+        for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                adjacent_mutant_tree = true;
+            }
+        }
+        if( adjacent_mutant_tree == false ) {
+            if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
+                you->add_msg_if_player( m_bad,
+                                        _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
+                you->add_morale( MORALE_FEELING_BAD, -10, 10, 6_hours, 2_hours );
+            } else {
+                you->add_msg_if_player(
+                    _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );
+            }
+            act->set_to_null();
+        }
+        if( one_in( 128 ) ) {
+            communioncycles += 1;
+            you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
+                                        translation() ) );
+            you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
+            you->mod_daily_health( rng( 0, 1 ), 5 );
+            if( communioncycles >= 20 ) {
+                you->add_msg_if_player(
+                    _( "You retract your roots, feeling a lingering sense of warmth after your communion." ) );
+                you->add_morale( MORALE_TREE_COMMUNION, 20, 20, 18_hours, 8_hours );
+                act->set_to_null();
+            }
+        }
     }
 }
 
@@ -2292,7 +2348,7 @@ struct weldrig_hack {
         }
 
         item pseudo_magazine( pseudo.magazine_default() );
-        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+        pseudo.put_in( pseudo_magazine, pocket_type::MAGAZINE_WELL );
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
                          pseudo.ammo_capacity( ammo_battery ) ) );
         return pseudo;
@@ -2526,7 +2582,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() && !can_refit ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2656,7 +2712,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
-    tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
 }
@@ -3237,7 +3293,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         } else {
             here.furn_set( examp, f_plant_seed );
         }
-        you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+        you->add_msg_player_or_npc( _( "You plant your %s." ), _( "<npcname> plants their %s." ),
                                     item::nname( seed_id ) );
     }
     // Go back to what we were doing before
@@ -3645,10 +3701,35 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )
 {
     // There's an initial rooting process.
+    bool adjacent_mutant_tree = false;
     if( act->values.front() > 0 ) {
         act->values.front() -= 1;
         if( act->values.front() == 0 ) {
-            if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
+            map &here = get_map();
+            for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                    adjacent_mutant_tree = true;
+                }
+            }
+            if( adjacent_mutant_tree == true ) {
+                uilist mutant_tree_query;
+                mutant_tree_query.text = string_format(
+                                             _( "Something familiar reaches out to your roots as the communion begins." ) );
+                mutant_tree_query.addentry( 1, true, 'f', _( "Focus only on the mutant tree." ) );
+                mutant_tree_query.addentry( 2, true, 's',
+                                            _( "Spread your roots in communion with all nearby trees." ) );
+                mutant_tree_query.query();
+                switch( mutant_tree_query.ret ) {
+                    case 1:
+                        you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
+                        return;
+                    case 2:
+                        add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
+                        return;
+                    default:
+                        return;
+                }
+            } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
                 you->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
@@ -3775,11 +3856,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
+            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
+            int cost = spell_being_cast.energy_cost( *you );
+
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                // pay the cost
-                int cost = spell_being_cast.energy_cost( *you );
                 switch( spell_being_cast.energy_source() ) {
                     case magic_energy_type::mana:
                         you->magic->mod_mana( *you, -cost );

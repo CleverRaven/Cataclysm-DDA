@@ -76,6 +76,7 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
+static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -384,6 +385,10 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
+    if( has_effect( effect_invisibility ) ) {
+        return false;
+    }
+
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
         here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
@@ -412,6 +417,7 @@ bool Creature::sees( const Creature &critter ) const
                      critter.get_size() < creature_size::medium ) ) ) ||
                ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
                  here.light_at( critter.pos() ) <= lit_level::LOW ) ||
+               critter.has_effect( effect_invisibility ) ||
                ( !is_likely_underwater() && critter.is_likely_underwater() &&
                  majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
@@ -1680,6 +1686,42 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
     return add_env_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID(), permanent,
                            intensity, force );
 }
+
+bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                                  const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
+{
+    if( !force && is_immune_effect( eff_id ) ) {
+        return false;
+    }
+    if( is_monster() ) {
+        if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
+            //Monsters don't have clothing wetness multipliers, so we still use enviro for them.
+            add_effect( effect_source::empty(), eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity,
+                        true );
+            return true;
+        } else {
+            return false;
+        }
+    }
+    const Character *c = as_character();
+    //d100 minus strength should never be less than 1 so we don't have liquids phasing through sealed power armor.
+    if( std::max( dice( 1, 100 ) - strength,
+                  1 ) < ( c->worn.clothing_wetness_mult( vector ) * 100 ) ) {
+        // Don't check immunity (force == true), because we did check above
+        add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, true );
+        return true;
+    } else {
+        //To do: make absorbent armor filthy, damage it with acid, etc
+        return false;
+    }
+}
+bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                                  const time_duration &dur, bool permanent, int intensity, bool force )
+{
+    return add_liquid_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID(), permanent,
+                              intensity, force );
+}
+
 void Creature::clear_effects()
 {
     for( auto &elem : *effects ) {
@@ -1705,7 +1747,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
                          type.get_remove_message() );
             }
         }
-        get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );
+        get_event_bus().send<event_type::character_loses_effect>( ch->getID(), bp.id(), eff_id );
     }
 
     // bp_null means remove all of a given effect id

@@ -1,5 +1,34 @@
 [
   {
+    "id": "biokin_breathe_skin_item",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "oxygen absorption" },
+    "description": "You are breathing through your skin.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "[",
+    "color": "pink",
+    "flags": [
+      "PERSONAL",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "SEMITANGIBLE",
+      "REBREATHER",
+      "WATER_FRIENDLY",
+      "ONLY_ONE",
+      "NO_DROP",
+      "TRANSPARENT"
+    ],
+    "environmental_protection": -5,
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "biokin_hammerhand_item",
     "type": "TOOL_ARMOR",
     "name": { "str_sp": "hammerhand" },
@@ -19,7 +48,9 @@
       "PADDED",
       "SEMITANGIBLE",
       "ONLY_ONE",
-      "NO_DROP"
+      "WATER_FRIENDLY",
+      "NO_DROP",
+      "TRANSPARENT"
     ],
     "qualities": [
       [ "WRENCH", 1 ],
@@ -52,7 +83,8 @@
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRANSPARENT"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -81,7 +113,8 @@
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRANSPARENT"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -110,7 +143,8 @@
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRANSPARENT"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -139,7 +173,8 @@
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRANSPARENT"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -168,7 +203,8 @@
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRANSPARENT"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -197,7 +233,8 @@
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRANSPARENT"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -219,8 +256,86 @@
     "price_postapoc": 0,
     "symbol": "[",
     "color": "dark_gray",
-    "flags": [ "RAD_DETECT", "PERSONAL", "ZERO_WEIGHT" ],
+    "flags": [ "RAD_DETECT", "PERSONAL", "ZERO_WEIGHT", "TRANSPARENT" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "electrokinetic_ups_1",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "=",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "IS_UPS",
+      "TRANSPARENT"
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17500 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "electrokinetic_ups_6",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 25000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
   },
   {
     "id": "pyrokinetic_fire_tool",
@@ -233,13 +348,69 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE", "NO_DROP" ],
+    "flags": [
+      "PERSONAL",
+      "PADDED",
+      "UNBREAKABLE",
+      "INTEGRATED",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "LIGHT_20",
+      "FIRE",
+      "NO_DROP",
+      "TRANSPARENT"
+    ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HEAT_FOOD" } ],
-    "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "item_photokinetic_radio",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "radio sense (speaking)" },
+    "description": "Your powers allow you to communicate by radio waves.  With a moment's concentration, you may instead scan for radio signals.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": ";",
+    "color": "yellow",
+    "flags": [
+      "TWO_WAY_RADIO",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "SEMITANGIBLE",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED",
+      "TRANSPARENT"
+    ],
+    "use_action": [ { "type": "transform", "target": "item_photokinetic_radio_on", "menu_text": "Switch to scanning mode" } ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "item_photokinetic_radio_on",
+    "copy-from": "item_photokinetic_radio",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "radio sense (scanning)" },
+    "description": "Your powers allow you to listen for radio signals from the surrounding area.  With a moment's concentration, you may change frequency or switch to communicating by radio.",
+    "use_action": [ "RADIO_ON", { "type": "transform", "target": "item_photokinetic_radio", "menu_text": "Switch to speaking mode" } ],
+    "tick_action": [ "RADIO_TICK" ],
+    "flags": [
+      "TRADER_AVOID",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "ZERO_WEIGHT",
+      "NO_DROP",
+      "INTEGRATED",
+      "PADDED",
+      "TRANSPARENT"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
     "id": "pyrokinetic_torch_weld",
@@ -252,12 +423,21 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "LIGHT_50", "FIRE", "NO_DROP" ],
+    "flags": [
+      "PERSONAL",
+      "PADDED",
+      "UNBREAKABLE",
+      "INTEGRATED",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "LIGHT_50",
+      "FIRE",
+      "NO_DROP",
+      "TRANSPARENT"
+    ],
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [ { "type": "firestarter", "moves": 10 }, { "type": "OXYTORCH" } ],
-    "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -700 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -273,7 +453,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -301,7 +481,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -329,7 +509,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -357,7 +537,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -385,7 +565,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -413,7 +593,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -441,7 +621,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -469,7 +649,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -497,7 +677,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -525,7 +705,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -553,7 +733,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -581,7 +761,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -609,7 +789,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -637,7 +817,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -665,7 +845,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -693,7 +873,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -721,7 +901,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -749,7 +929,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -777,7 +957,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -805,7 +985,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -833,7 +1013,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -861,7 +1041,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -889,7 +1069,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -917,7 +1097,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -945,7 +1125,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -973,7 +1153,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1001,7 +1181,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1029,7 +1209,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1057,7 +1237,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1085,7 +1265,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "TRANSPARENT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

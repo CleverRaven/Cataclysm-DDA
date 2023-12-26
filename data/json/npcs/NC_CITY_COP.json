@@ -87,7 +87,7 @@
       { "item": "pearl_collar", "prob": 30 },
       { "item": "diamond", "prob": 10 },
       { "item": "holy_symbol", "prob": 20 },
-      { "item": "soldering_iron", "prob": 60, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron_portable", "prob": 60, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 60 },
       { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
       { "prob": 15, "group": "codeine_bottle_plastic_pill_painkiller_10" },

@@ -42,7 +42,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
@@ -57,6 +56,7 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -1707,7 +1707,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
             ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
-    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+    const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
 
     const int throw_moves = throw_cost( you, weapon );
 
@@ -2134,11 +2134,11 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
             weap.force_insert_item( casing.set_flag( flag_CASING ),
-                                    item_pocket::pocket_type::MAGAZINE );
+                                    pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
-                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
+                brass_catcher->put_in( casing, pocket_type::CONTAINER );
             } else if( ovp_cargo ) {
                 ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
             } else {
@@ -2155,7 +2155,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
-               brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
+               brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
             if( ovp_cargo ) {
                 ovp_cargo->items().insert( linkage );
             } else {

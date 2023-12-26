@@ -2,37 +2,41 @@
   {
     "id": "photokinetic_light_local",
     "type": "SPELL",
-    "name": "[Ψ]Candle's Glow (toggle)",
-    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "name": "[Ψ]Candle's Glow (C)",
+    "description": "Create a simple patch of light nearby, sufficient to read or perform simple tasks with.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_LIGHT_LOCAL_INITIATE",
     "shape": "blast",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_local') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_local') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 1500,
-    "final_energy_cost": 450,
-    "energy_increment": -80,
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "photokinetic_create_light": 4, "photokinetic_light_beam": 8, "photokinetic_light_image": 12 }
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_local') > -1 ? 0 : max((1500 - (u_spell_level('photokinetic_light_local') * 80)), 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_local') > -1 ? 10 : max((125 -(u_spell_level('photokinetic_light_local') * 7.5)), 50)"
+      ]
+    },
+    "learn_spells": { "photokinetic_create_light": 5, "photokinetic_light_beam": 10, "photokinetic_light_image": 15 }
   },
   {
     "id": "photokinetic_create_light",
@@ -58,7 +62,12 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7.5,
-    "learn_spells": { "photokinetic_light_beam": 6, "photokinetic_light_image": 9, "photokinetic_invisibility": 12 }
+    "learn_spells": {
+      "photokinetic_light_beam": 6,
+      "photokinetic_camouflage": 8,
+      "photokinetic_light_image": 12,
+      "photokinetic_invisibility": 16
+    }
   },
   {
     "id": "photokinetic_create_light_01",
@@ -77,13 +86,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
@@ -109,13 +118,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
@@ -141,13 +150,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
@@ -173,17 +182,17 @@
     "min_field_intensity": 1,
     "max_field_intensity": 1,
     "shape": "blast",
-    "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 5000)" ] },
-    "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 10000)" ] },
+    "min_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 5000) * u_nether_attunement_power_scaling" ] },
+    "max_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 10000) * u_nether_attunement_power_scaling" ] },
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ), 70)"
+        "min( (( (u_spell_level('photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_spell_level('photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "energy_source": "STAMINA",
@@ -195,7 +204,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7.5,
-    "learn_spells": { "photokinetic_light_arms": 7, "photokinetic_invisibility": 12 }
+    "learn_spells": { "photokinetic_rad_immunity": 8, "photokinetic_invisibility": 18 }
   },
   {
     "id": "photokinetic_light_dodge",
@@ -214,12 +223,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_dodge') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_dodge') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_dodge') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_dodge') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -231,7 +240,7 @@
     "base_casting_time": 125,
     "final_casting_time": 65,
     "casting_time_increment": -9.5,
-    "learn_spells": { "photokinetic_rad_immunity": 5, "photokinetic_invisibility": 7, "photokinetic_light_image": 12 }
+    "learn_spells": { "photokinetic_hide_ugly": 12, "photokinetic_light_image": 15, "photokinetic_invisibility": 18 }
   },
   {
     "id": "photokinetic_light_beam",
@@ -249,15 +258,19 @@
     "difficulty": 3,
     "shape": "line",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('photokinetic_light_beam') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ), 30)"
+        "min( (( (u_spell_level('photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
       ]
     },
     "max_range": 30,
@@ -274,127 +287,96 @@
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
     "learn_spells": {
-      "photokinetic_light_image": 5,
+      "photokinetic_radio": 8,
       "photokinetic_light_flash": 12,
       "photokinetic_blinding_glare": 15,
       "photokinetic_light_disintegrate": 18
     }
   },
   {
-    "id": "photokinetic_light_image",
+    "id": "photokinetic_camouflage",
     "type": "SPELL",
-    "name": "[Ψ]Lucid Shadows",
-    "description": "Form images of yourself to confuse and distract enemies.",
-    "message": "Identical copies of you suddenly appear!",
-    "valid_targets": [ "ground", "hostile", "self", "ally" ],
+    "name": "[Ψ]Chameleoflage (C)",
+    "//~": "Combination of chameleon and camouflage",
+    "description": "By blending the light reflecting from you with the light reflecting from nearby surfaces, you can make yourself much harder to spot from a distance.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
-    "effect": "summon",
-    "effect_str": "mon_photokin_image",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": {
-      "math": [ " (u_val('spell_level', 'spell: photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 5000)" ] },
-    "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000)" ] },
-    "min_range": {
-      "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
-      ]
-    },
-    "max_range": 40,
-    "min_aoe": 3,
-    "max_aoe": 3,
-    "energy_source": "STAMINA",
+    "flags": [ "PSIONIC", "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "base_energy_cost": 2000,
-    "final_energy_cost": 1000,
-    "energy_increment": -125.0,
-    "base_casting_time": 150,
-    "final_casting_time": 90,
-    "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_arms": 7, "photokinetic_invisibility": 12 }
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_CAMOUFLAGE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_camouflage') * 5000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_camouflage') * 10000) + 120000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_camouflage') * 75)), 1500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_camouflage') * 8)), 75)"
+      ]
+    },
+    "learn_spells": { "photokinetic_light_image": 7, "photokinetic_hide_ugly": 10, "photokinetic_invisibility": 14 }
   },
   {
     "id": "photokinetic_rad_immunity",
     "type": "SPELL",
-    "name": "[Ψ]Lucent Barrier",
-    "description": "Create a barrier of light around yourself to protect against radiation and light damage.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Lucent Barrier (C)",
+    "description": "Create a barrier of light around yourself to protect against radiation and light damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 8000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_rad_immunity') * 3000) + 8000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "base_energy_cost": 3000,
-    "final_energy_cost": 700,
-    "energy_increment": -125,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -4.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 0 : max((3000 - (u_spell_level('photokinetic_rad_immunity') * 125)), 800)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 10 : max((250 -(u_spell_level('photokinetic_rad_immunity') * 4.5)), 100)"
+      ]
+    },
     "learn_spells": { "photokinetic_invisibility": 5, "photokinetic_light_flash": 7 }
-  },
-  {
-    "id": "photokinetic_invisibility",
-    "type": "SPELL",
-    "name": "[Ψ]Veil of Light",
-    "description": "Refract light around yourself to become invisible.",
-    "message": "Suddenly, the world around you seems like it's on the other side of the surface of water.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "PHOTOKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "attack",
-    "effect_str": "effect_photokin_invisibility",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
-    "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 1500) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 4000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "energy_source": "STAMINA",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "base_energy_cost": 3000,
-    "final_energy_cost": 1200,
-    "energy_increment": -125,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_flash": 6, "photokinetic_light_disintegrate": 12 }
   },
   {
     "id": "photokinetic_light_arms",
     "type": "SPELL",
     "name": "[Ψ]Refraction of Arms",
-    "description": "Create the illusion of extra arms and wielded items to trick your enemies, forcing them off balance.",
+    "description": "Create the illusion of extra arms and wielded items to trick your enemies, forcing them off balance and rendering them open to attack.",
     "message": "Light around your arms shimmers and refracts, creating the illusion of multiple arms.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -407,12 +389,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -420,6 +402,161 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 3500,
     "final_energy_cost": 1500,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_hide_ugly": 6, "photokinetic_light_flash": 9, "photokinetic_light_disintegrate": 12 }
+  },
+  {
+    "id": "photokinetic_hide_ugly",
+    "type": "SPELL",
+    "name": "[Ψ]Mirror-Mask (C)",
+    "description": "Hide your true form behind unassuming illusions, preventing baseline humans from reacting poorly to your presence if you are mutated or a cyborg.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_HIDE_UGLY_INITIATE",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_hide_ugly') * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_hide_ugly') * 5500) + 80000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_hide_ugly') * 150)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_spell_level('photokinetic_hide_ugly') * 100)), 150)"
+      ]
+    },
+    "learn_spells": { "photokinetic_light_image": 6 }
+  },
+  {
+    "id": "photokinetic_light_image",
+    "type": "SPELL",
+    "name": "[Ψ]Lucid Shadows",
+    "description": "Form images of yourself to confuse and distract enemies.",
+    "message": "Identical copies of you suddenly appear!",
+    "valid_targets": [ "ground", "hostile", "self", "ally" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "summon",
+    "effect_str": "mon_photokin_image",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": {
+      "math": [
+        " (u_spell_level('photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1000) + 5000) * u_nether_attunement_power_scaling" ] },
+    "max_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1000) + 10000) * u_nether_attunement_power_scaling" ] },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_range": 40,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 1000,
+    "energy_increment": -125.0,
+    "base_casting_time": 150,
+    "final_casting_time": 90,
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_invisibility": 10, "photokinetic_blinding_glare": 15 }
+  },
+  {
+    "id": "photokinetic_radio",
+    "type": "SPELL",
+    "name": "[Ψ]Radio Transception (C)",
+    "description": "Attune your senses to radio waves, allowing you to listen to transmissions and send them yourself.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_RADIO_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_radio') * 12000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_radio') * 18000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((4000 - (u_spell_level('photokinetic_radio') * 100)), 1500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_spell_level('biokin_hammerhand') * 10)), 75)"
+      ]
+    },
+    "learn_spells": { "photokinetic_rad_immunity": 6, "photokinetic_blinding_glare": 9 }
+  },
+  {
+    "id": "photokinetic_invisibility",
+    "type": "SPELL",
+    "name": "[Ψ]Veil of Light",
+    "description": "Refract light around yourself to become invisible.",
+    "message": "Suddenly, the world around you seems like it's on the other side of the surface of water.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_photokin_invisibility",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_invisibility') * 500) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_invisibility') * 1500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1200,
     "energy_increment": -125,
     "base_casting_time": 250,
     "final_casting_time": 100,
@@ -444,22 +581,24 @@
     "shape": "line",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 2.5) + 20) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_flash') * 2.5) + 20) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 5) + 40) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('photokinetic_light_flash') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_spell_level('photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
     "min_aoe": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ), 20)"
+        "min( (( (u_spell_level('photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
       ]
     },
     "max_aoe": 20,
@@ -495,12 +634,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_blinding_glare') * 1000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_blinding_glare') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -530,18 +669,18 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_disintegrate') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 7) + 80) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('photokinetic_light_disintegrate') * 7) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( ( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) ), 50)"
+        "min( (( (u_spell_level('photokinetic_light_disintegrate') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,

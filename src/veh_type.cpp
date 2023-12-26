@@ -23,10 +23,10 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -1016,7 +1016,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             } else if( !base.magazine_default().is_null() ) {
                 class::item tmp_mag( base.magazine_default() );
                 tmp_mag.ammo_set( tmp_mag.ammo_default() );
-                base.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                base.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
             }
         }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),

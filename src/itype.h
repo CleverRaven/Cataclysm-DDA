@@ -114,6 +114,9 @@ struct islot_tool {
     std::vector<int> rand_charges;
 };
 
+constexpr float base_metabolic_rate =
+    2500.0f;  // kcal / day, standard average for human male, but game does not differentiate genders here.
+
 struct islot_comestible {
     public:
         friend Item_factory;
@@ -170,16 +173,18 @@ struct islot_comestible {
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
 
+        // Materials to generate the below
+        std::map<material_id, int> materials;
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186f;
         float specific_heat_solid = 2.108f;
         float latent_heat = 333.0f;
 
         /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
-        int monotony_penalty = 2;
+        int monotony_penalty = -1;
 
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
-        static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+        static constexpr float kcal_per_nutr = base_metabolic_rate / ( 12 * 24 );
 
         bool has_calories() const {
             return default_nutrition.calories > 0;
@@ -1071,6 +1076,18 @@ struct islot_seed {
      */
     translation plant_name;
     /**
+     * What the plant sprouts into. Defaults to f_plant_seedling.
+     */
+    furn_str_id seedling_form;
+    /**
+     * What the plant grows into. Defaults to f_plant_mature.
+     */
+    furn_str_id mature_form;
+    /**
+     * The plant's final growth stage. Defaults to f_plant_harvest.
+     */
+    furn_str_id harvestable_form;
+    /**
      * Type id of the fruit item.
      */
     itype_id fruit_id;
@@ -1399,7 +1416,7 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::map<damage_type_id, float> melee;
+        std::unordered_map<damage_type_id, float> melee;
 
         bool default_container_sealed = true;
 
@@ -1414,10 +1431,10 @@ struct itype {
 
     private:
         // load-only, for applying proportional melee values at load time
-        std::map<damage_type_id, float> melee_proportional;
+        std::unordered_map<damage_type_id, float> melee_proportional;
 
         // load-only, for applying relative melee values at load time
-        std::map<damage_type_id, float> melee_relative;
+        std::unordered_map<damage_type_id, float> melee_relative;
 
         /** Can item be combined with other identical items? */
         bool stackable_ = false;

@@ -13,13 +13,17 @@
       "practice_clair_night_vision",
       "practice_clair_danger_sense",
       "practice_clair_speed_reading",
+      "practice_clair_aura_sight",
       "practice_clair_sense_rads",
       "practice_clair_spot_weakness",
       "practice_clair_ranged_enhance",
       "practice_clair_voyance",
       "practice_clair_dodge_power",
+      "practice_clair_craft_bonus",
       "practice_clair_see_map",
+      "practice_clair_perfect_shot",
       "practice_clair_clear_sight",
+      "practice_clair_group_tactics",
       "practice_clair_omniscience"
     ],
     "difficulty": 1
@@ -43,16 +47,14 @@
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_night_vision')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_night_vision')", "<=", "(difficulty_one_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_night_vision')", "<=", "(difficulty_one_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_night_vision')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -60,7 +62,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_night_vision')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -94,16 +96,14 @@
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_danger_sense')", "<=", "(difficulty_two_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_danger_sense')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_danger_sense')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -111,7 +111,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -145,16 +145,14 @@
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_speed_reading')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_speed_reading')", "<=", "(difficulty_two_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_speed_reading')", "<=", "(difficulty_two_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_speed_reading')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -162,7 +160,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SPEED_READING_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_speed_reading')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -196,16 +194,14 @@
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_spot_weakness')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_spot_weakness')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_spot_weakness')", "<=", "(difficulty_three_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_spot_weakness')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_spot_weakness')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -213,7 +209,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_spot_weakness')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -247,16 +243,14 @@
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_sense_rads')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_sense_rads')", "<=", "(difficulty_three_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_sense_rads')", "<=", "(difficulty_three_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_sense_rads')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_sense_rads')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -264,7 +258,56 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SENSE_RADS_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_sense_rads')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: aura sight",
+    "id": "practice_clair_aura_sight",
+    "description": "Contemplate your powers and improve your ability to see others' emotional states.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_see_auras')", "<=", "(difficulty_three_contemplation(1))" ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_CLAIR_SEE_AURAS_FALSE",
+              "condition": { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -299,16 +342,14 @@
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_ranged_enhance')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_ranged_enhance')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_ranged_enhance')", "<=", "(difficulty_four_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_ranged_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -316,7 +357,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_ranged_enhance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -351,14 +392,14 @@
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_voyance')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: clair_voyance')", "<=", "(difficulty_five_contemplation(1))" ] }
+            { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_voyance')", "<=", "(difficulty_five_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_voyance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_voyance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -366,7 +407,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_VOYANCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_voyance')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -401,16 +442,14 @@
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_dodge_power')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "<=", "(difficulty_six_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_dodge_power')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_dodge_power')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -418,7 +457,57 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_dodge_power')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: intuitive artisan",
+    "id": "practice_clair_craft_bonus",
+    "description": "Contemplate your powers and improve your ability to determine exactly how you should build that thing you're working on.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_craft_bonus')", "<=", "(difficulty_six_contemplation(1))" ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS_FALSE",
+              "condition": { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -453,14 +542,14 @@
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_see_map')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: clair_see_map')", "<=", "(difficulty_seven_contemplation(1))" ] }
+            { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_see_map')", "<=", "(difficulty_seven_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_see_map')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_see_map')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -468,7 +557,57 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SEE_MAP_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_see_map')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: one perfect shot",
+    "id": "practice_clair_perfect_shot",
+    "description": "Contemplate your powers and improve your ability to only need one shot.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_perfect_shot')", "<=", "(difficulty_seven_contemplation(1))" ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('clair_perfect_shot')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT_FALSE",
+              "condition": { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -503,16 +642,14 @@
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "<=", "(difficulty_eight_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_clear_sight')", "<=", "(difficulty_eight_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_clear_sight')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -520,7 +657,57 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: prescient tactics",
+    "id": "practice_clair_group_tactics",
+    "description": "Contemplate your powers and improve your ability to use foresight to advise your allies.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_group_tactics')", "<=", "(difficulty_nine_contemplation(1))" ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS_FALSE",
+              "condition": { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -555,16 +742,14 @@
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: clair_omniscience')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: clair_omniscience')", "<=", "(difficulty_ten_contemplation(1))" ]
-            }
+            { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
+            { "math": [ "u_spell_exp('clair_omniscience')", "<=", "(difficulty_ten_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: clair_omniscience')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('clair_omniscience')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -572,7 +757,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_OMNISCENCE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: clair_omniscience')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
