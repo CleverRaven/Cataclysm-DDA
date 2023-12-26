@@ -415,7 +415,7 @@ item::item( const itype_id &id, time_point turn, solitary_tag tag )
 
 safe_reference<item> item::get_safe_reference()
 {
-    return anchor.reference_to( this );
+    return anchor->reference_to( this );
 }
 
 static const item *get_most_rotten_component( const item &craft )

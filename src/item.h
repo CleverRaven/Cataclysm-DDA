@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
 #include "enums.h"
@@ -3005,7 +3006,7 @@ class item : public visitable
         bool requires_tags_processing = true;
         cata::heap<FlagsSetType> item_tags; // generic item specific flags
         cata::heap<FlagsSetType> inherited_tags_cache;
-        safe_reference_anchor anchor;
+        lazy<safe_reference_anchor> anchor;
         cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
