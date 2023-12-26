@@ -2995,7 +2995,7 @@ class item : public visitable
         const itype *type;
         item_components components;
         /** What faults (if any) currently apply to this item */
-        std::set<fault_id> faults;
+        cata::heap<std::set<fault_id>> faults;
 
     private:
         item_contents contents;

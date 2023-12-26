@@ -157,6 +157,11 @@ struct heap {
             return val().empty();
         }
 
+        template<typename U>
+        auto count( U &&u ) const -> decltype( val().count( std::forward<U>( u ) ) ) {
+            return val().count( std::forward<U>( u ) );
+        }
+
         auto size() const -> decltype( val().size() ) {
             return val().size();
         }
@@ -201,6 +206,16 @@ struct heap {
         template<typename U>
         auto erase( U &&u ) -> decltype( val().erase( std::forward<U>( u ) ) ) {
             return val().erase( std::forward<U>( u ) );
+        }
+
+        template<typename U>
+        auto insert( U &&u ) -> decltype( val().insert( std::forward<U>( u ) ) ) {
+            return val().insert( std::forward<U>( u ) );
+        }
+
+        template<typename U>
+        auto emplace( U &&u ) -> decltype( val().emplace( std::forward<U>( u ) ) ) {
+            return val().emplace( std::forward<U>( u ) );
         }
 
         // Json* support.
