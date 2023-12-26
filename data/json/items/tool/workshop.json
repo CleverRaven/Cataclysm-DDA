@@ -453,6 +453,21 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "hammer_crude",
+    "type": "TOOL",
+    "name": { "str": "crude hammer" },
+    "description": "A simple crude steel hammer.  It is not as sophisticated or useful as a properly made alternative but it does get the job of hammering in nails well enough.",
+    "copy-from": "hammer",
+    "ascii_picture": "hammer",
+    "weight": "500 g",
+    "price": "1 USD",
+    "price_postapoc": 50,
+    "material": [ "steel", "wood" ],
+    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "use_action": [  ],
+    "melee_damage": { "bash": 7 }
+  },
+  {
     "id": "hammer_bronze",
     "type": "TOOL",
     "name": { "str": "bronze hammer" },

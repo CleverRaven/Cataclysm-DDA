@@ -51,7 +51,7 @@
     "id": "anvil_crude",
     "type": "TOOL",
     "name": { "str": "crude anvil" },
-    "description": "An anvil-shaped object cut out of some form of metal stock or a railroad track.  Usable on its own for simpler metalworking, but could be improved for more advanced recipes.",
+    "description": "A rough anvil-shaped object cut or cast out of some form of metal stock.  Usable on its own for simpler metalworking, but could be improved for more advanced recipes.",
     "weight": "27 kg",
     "volume": "12 L",
     "price": 100000,
