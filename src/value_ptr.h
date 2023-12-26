@@ -109,18 +109,98 @@ struct heap {
             return *this;
         }
 
-        auto operator==( heap const &rhs ) const -> decltype( *rhs == *rhs ) {
+        // Implicit conversion functions
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator T &() & { // *NOPAD*
+            return *heaped_;
+        }
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator T const &() const & { // *NOPAD*
+            return *heaped_;
+        }
+        // Intentionally move construct a value T to avoid binding a ref to a temporary.
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator T() && { // *NOPAD*
+            return std::move( *heaped_ );
+        }
+
+    private:
+        // Helper for proxy functions.
+        T &val() {
+            return *heaped_;
+        }
+        T const &val() const {
+            return *heaped_;
+        }
+    public:
+
+        // Various conditionally defined proxy functions for common types like containers.
+
+        // Comparison operators.
+        auto operator==( heap const &rhs ) const -> decltype( val() == val() ) {
             const T *lhsp = heaped_.get();
             const T *rhsp = rhs.heaped_.get();
 
             return rhsp && lhsp && *rhsp == *lhsp;
         }
 
-        auto operator!=( heap const &rhs ) const -> decltype( *rhs != *rhs ) {
+        auto operator!=( heap const &rhs ) const -> decltype( val() != val() ) {
             const T *lhsp = heaped_.get();
             const T *rhsp = rhs.heaped_.get();
 
             return rhsp && lhsp && *rhsp != *lhsp;
+        }
+
+
+        // Tests & sets
+        auto empty() const -> decltype( val().empty() ) {
+            return val().empty();
+        }
+
+        auto size() const -> decltype( val().size() ) {
+            return val().size();
+        }
+
+        auto clear() -> decltype( val().clear() ) {
+            return val().clear();
+        }
+
+        // Iterators
+        auto begin() -> decltype( val().begin() ) {
+            return val().begin();
+        }
+
+        auto begin() const -> decltype( val().begin() ) {
+            return val().begin();
+        }
+
+        auto end() -> decltype( val().end() ) {
+            return val().end();
+        }
+
+        auto end() const -> decltype( val().end() ) {
+            return val().end();
+        }
+
+        // Accessors
+        template<typename U>
+        auto operator[]( U &&u ) -> decltype( val()[std::forward<U>( u )] ) {
+            return val()[std::forward<U>( u )];
+        }
+
+        template<typename U>
+        auto find( U &&u ) -> decltype( val().find( std::forward<U>( u ) ) ) {
+            return val().find( std::forward<U>( u ) );
+        }
+
+        template<typename U>
+        auto find( U &&u ) const -> decltype( val().find( std::forward<U>( u ) ) ) {
+            return val().find( std::forward<U>( u ) );
+        }
+
+        template<typename U>
+        auto erase( U &&u ) -> decltype( val().erase( std::forward<U>( u ) ) ) {
+            return val().erase( std::forward<U>( u ) );
         }
 
         // Json* support.
