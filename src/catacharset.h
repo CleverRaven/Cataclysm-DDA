@@ -59,6 +59,7 @@ std::u32string utf8_to_utf32( std::string_view str );
 // Split the given string into displayed characters.  Each element of the returned vector
 // contains one 'regular' codepoint and all subsequent combining characters.
 std::vector<std::string> utf8_display_split( const std::string & );
+void utf8_display_split_into( const std::string &, std::vector<std::string_view> & );
 
 /**
  * UTF8-Wrapper over std::string.

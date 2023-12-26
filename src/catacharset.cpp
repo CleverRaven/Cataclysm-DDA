@@ -415,21 +415,31 @@ std::u32string utf8_to_utf32( const std::string_view str )
 std::vector<std::string> utf8_display_split( const std::string &s )
 {
     std::vector<std::string> result;
-    std::string current_glyph;
+    std::vector<std::string_view> parts;
+    utf8_display_split_into( s, parts );
+    result.reserve( parts.size() );
+    for( std::string_view part : parts ) {
+        result.emplace_back( part );
+    }
+    return result;
+}
+
+void utf8_display_split_into( const std::string &s, std::vector<std::string_view> &result )
+{
     const char *pos = s.c_str();
+    const char *glyph_begin = pos;
+    const char *glyph_end = pos;
     int len = s.length();
     while( len > 0 ) {
-        const char *old_pos = pos;
         const uint32_t ch = UTF8_getch( &pos, &len );
         const int width = mk_wcwidth( ch );
-        if( width > 0 && !current_glyph.empty() ) {
-            result.push_back( current_glyph );
-            current_glyph.clear();
+        if( width > 0 && glyph_begin != glyph_end ) {
+            result.emplace_back( glyph_begin, std::distance( glyph_begin, glyph_end ) );
+            glyph_begin = glyph_end;
         }
-        current_glyph += std::string( old_pos, pos );
+        glyph_end = pos;
     }
-    result.push_back( current_glyph );
-    return result;
+    result.emplace_back( glyph_begin, std::distance( glyph_begin, glyph_end ) );
 }
 
 int center_text_pos( const char *text, int start_pos, int end_pos )

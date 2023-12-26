@@ -4491,10 +4491,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const std::string row = parray.get_string( c );
-            std::vector<map_key> row_keys;
-            for( const std::string &key : utf8_display_split( row ) ) {
-                row_keys.emplace_back( key );
-            }
+            static std::vector<std::string_view> row_keys;
+            row_keys.clear();
+            row_keys.reserve( total_size.x );
+            utf8_display_split_into( row, row_keys );
             if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
                 parray.throw_error(
                     string_format( "  format: row %d must have at least %d columns, not %d",
@@ -4507,7 +4507,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const map_key key = row_keys[i];
+                const map_key key{ std::string( row_keys[i] ) };
                 const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
