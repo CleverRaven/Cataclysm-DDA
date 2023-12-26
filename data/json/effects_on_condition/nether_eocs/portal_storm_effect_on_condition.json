@@ -1077,7 +1077,7 @@
       "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
       "cases": [
         {
-          "case": 0,
+          "case": 2,
           "effect": [
             {
               "weighted_list_eocs": [
@@ -1098,7 +1098,7 @@
           ]
         },
         {
-          "case": 5,
+          "case": 7,
           "effect": {
             "run_eocs": [
               { "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM" },
@@ -1129,17 +1129,26 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
-    "effect": { "u_add_effect": "weakened_inertia", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": {
+      "u_add_effect": "weakened_inertia",
+      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
-    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": {
+      "u_add_effect": "warped_viewpoint",
+      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY",
-    "effect": { "u_add_effect": "weakened_gravity", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": {
+      "u_add_effect": "weakened_gravity",
+      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
+    }
   },
   {
     "type": "effect_on_condition",

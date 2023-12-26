@@ -473,7 +473,7 @@
     "max_intensity": 18,
     "dur_add_perc": 10,
     "int_dur_factor": "3 s",
-    "removes_effects": [ "slippery_terrain" ],
+    "removes_effects": [ "slippery_terrain", "effect_biokin_hurricane_blows" ],
     "enchantments": [
       {
         "values": [
@@ -489,6 +489,57 @@
       }
     ],
     "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_hurricane_blows",
+    "name": [ "Hurricane Blows" ],
+    "desc": [ "You can attack faster than thought." ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "1 seconds",
+    "removes_effects": [ "slippery_terrain", "effect_biokin_perfected_motion" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_hurricane_blows_2",
+    "//": "applies the addition effects from Hurricane Blows for two rounds to make sure they work properly.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "2 seconds",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": -0.25 },
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": {
+              "math": [
+                "( 0.1 + ( u_spell_level('biokin_hurricane_blows') * 0.015 ) ) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          { "value": "RANGE", "multiply": -1.99 }
+        ]
+      }
+    ],
+    "flags": [ "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
