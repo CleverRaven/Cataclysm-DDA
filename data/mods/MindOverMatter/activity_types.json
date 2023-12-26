@@ -11,7 +11,6 @@
     "id": "ACT_PSI_LEARNING_NEW_POWER",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
-    "interruptable": true,
     "verb": "meditating",
     "based_on": "time"
   }

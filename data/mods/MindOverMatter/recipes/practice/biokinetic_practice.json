@@ -132,6 +132,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
@@ -150,7 +151,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 6
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -195,6 +196,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING",
@@ -213,7 +215,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 7
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -259,6 +261,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
@@ -277,7 +280,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 8
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -323,6 +326,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
@@ -341,7 +345,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 8
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -387,6 +391,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
@@ -405,7 +410,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 9
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -451,6 +456,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
@@ -469,7 +475,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 9
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -515,6 +521,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
@@ -533,7 +540,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 10
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -579,6 +586,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
@@ -597,7 +605,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 11
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -643,6 +651,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
@@ -661,7 +670,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 11
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -707,6 +716,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
@@ -725,7 +735,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 12
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -771,6 +781,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
@@ -789,7 +800,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 13
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [
@@ -834,6 +845,7 @@
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS_LEARNING",
@@ -852,7 +864,7 @@
           "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
           "difficulty": 14
         },
-        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+        { "u_has_effect": "effect_psi_learning_new_power" }
       ]
     },
     "effect": [

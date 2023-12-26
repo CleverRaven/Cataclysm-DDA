@@ -2,10 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_biokin_physical_enhance" },
-      { "u_learn_recipe": "practice_biokin_overcome_pain" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_biokin_physical_enhance" }, { "u_learn_recipe": "practice_biokin_overcome_pain" } ]
   },
   {
     "type": "effect_on_condition",
@@ -251,21 +248,24 @@
           ]
         },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "0" ] },
-        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } }
+        { "not": { "u_has_effect": "effect_psi_learning_new_power" } }
       ]
     },
-    "deactivate_condition": { "not": { "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-    } },
+    "deactivate_condition": {
+      "not": {
+        "u_has_any_trait": [
+          "BIOKINETIC",
+          "CLAIRSENTIENT",
+          "ELECTROKINETIC",
+          "PHOTOKINETIC",
+          "PYROKINETIC",
+          "TELEKINETIC",
+          "TELEPATH",
+          "TELEPORTER",
+          "VITAKINETIC"
+        ]
+      }
+    },
     "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
   },
   {

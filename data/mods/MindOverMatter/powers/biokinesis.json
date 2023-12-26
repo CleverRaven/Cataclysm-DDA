@@ -533,7 +533,7 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (uspell_level('biokin_combat_dance') * 500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_combat_dance') * 500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
