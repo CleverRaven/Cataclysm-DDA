@@ -587,10 +587,10 @@ item::item( const recipe *rec, int qty, item &component )
 }
 
 item::item( const item & ) = default;
-item::item( item && ) noexcept( map_is_noexcept ) = default;
+item::item( item && ) noexcept = default;
 item::~item() = default;
 item &item::operator=( const item & ) = default;
-item &item::operator=( item && ) noexcept( list_is_noexcept ) = default;
+item &item::operator=( item && ) noexcept = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )

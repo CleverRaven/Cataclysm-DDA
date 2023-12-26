@@ -193,9 +193,9 @@ class item : public visitable
 
         item();
 
-        item( item && ) noexcept( map_is_noexcept );
+        item( item && ) noexcept;
         item( const item & );
-        item &operator=( item && ) noexcept( list_is_noexcept );
+        item &operator=( item && ) noexcept;
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
