@@ -22,7 +22,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -59,7 +59,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 7500) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -335,7 +335,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",

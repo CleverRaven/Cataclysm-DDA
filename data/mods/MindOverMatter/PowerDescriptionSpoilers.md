@@ -6,7 +6,7 @@ Note that every power, unless otherwise specified, is affected by Intelligence s
 
 ## Overcome Pain (C)
 *Difficulty*: 1
-*Duration*: 5 minutes to 21 minutes 40 seconds, plus 20 seconds per level 
+*Duration*: 5 minutes to 21 minutes 40 seconds, plus 20 to 75 seconds per level 
 *Stamina Cost*: 1750, minus 75 per level to a minimum of 800
 *Channeling Time*: 125 moves, minus 7 moves per level to a minimum of 50
 *Effects*: Adds pkill to the psion, scaling every 4 levels. 
@@ -23,7 +23,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)
 
 ## Physical Enhancement (C)
 *Difficulty*: 2
-*Duration*: 90 seconds to 7 minutes 30 seconds, plus 15 to 30 seconds per level 
+*Duration*: 90 seconds to 7 minutes 30 seconds, plus 15 to 90 seconds per level 
 *Stamina Cost*: 3500, minus 175 per level to a minimum of 1250
 *Channeling Time*: 120 moves, minus 5.5 moves per level to a minimum of 75
 *Effects*: +1 Strength and +1 Dexterity, with an additional point of each every 5 power levels. It also makes you immune to Weakening Poison. 
@@ -95,7 +95,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)
 
 ## Heightened Reflexes (C) 
 *Difficulty*: 6
-*Duration*: 90 seconds to 7 minutes 30 seconds, plus 15 to 20 seconds per level. 
+*Duration*: 90 seconds to 7 minutes 30 seconds, plus 15 to 90 seconds per level. 
 *Stamina Cost*: 5500, minus 205 per level to a minimum of 2250
 *Channeling Time*: 175 moves, minus 5.5 moves per level to a minimum of 100. 
 *Effects*: Adds +1 Perception and +5 Speed, plus 1 Perception per 5 levels and plus 1 Speed per level (to a maximum bonus of +30 speed). 
@@ -132,3 +132,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)
 *Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 15. 
 *Effects*: Increases the psion’s movement rate to an inhuman degree. Move cost is reduced by 50% plus 1.5% per level, to a maximum of 96% reduced move cost. The psion is also immune to slippery terrain. 
 *Prerequisites*: Combat Dance 6, Burst of Speed 12.  
+
+## Hurricane Blow
+*Difficulty*: 10
+*Duration*: 1 second
+*Stamina Cost*: 4500, minus 75 per level to a minimum of 2500.
+*Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15. 
+*Effects*: Allows the psion to strike multiple times in less than a second. Speed is increased by 400 plus 75 per power level and the psion attacks 25% faster and does 10% more melee damage plus 1.5% per power level, but cannot use ranged attacks or other psionic powers, and the power ends immediately if the psion moves.
+*Prerequisites*: Combat Dance 10, Reflex Enhance 14 *or* Adrenaline Trigger 12.  

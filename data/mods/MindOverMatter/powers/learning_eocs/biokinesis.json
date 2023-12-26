@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
     "recurrence": [ "12 hours", "24 hours" ],
@@ -7,8 +7,17 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
-        { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "3" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
+                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "3" ] }
+              ]
+            }
+          ]
+        },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
         { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
@@ -36,7 +45,9 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] } ]
+        },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
         { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
@@ -65,17 +76,22 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "5" ] }
-              ]
-            },
-            {
-              "or": [
-                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
-                { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] }
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "5" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
+                    { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] }
+                  ]
+                }
               ]
             }
           ]
@@ -107,17 +123,22 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "6" ] }
-              ]
-            },
-            {
-              "or": [
-                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "7" ] },
-                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "6" ] }
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "6" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "7" ] },
+                    { "math": [ "u_spell_level('biokin_climate_control')", ">=", "6" ] }
+                  ]
+                }
               ]
             }
           ]
@@ -151,14 +172,19 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "9" ] },
-                { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "9" ] },
+                    { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] }
               ]
-            },
-            { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] }
+            }
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
@@ -190,14 +216,19 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "5" ] }
               ]
-            },
-            { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "5" ] }
+            }
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
@@ -229,21 +260,26 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_dash')", ">=", "10" ] },
-                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "4" ] },
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] }
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_dash')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "4" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "9" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "4" ] }
               ]
-            },
-            {
-              "or": [
-                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "9" ] }
-              ]
-            },
-            { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "4" ] }
+            }
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
@@ -274,8 +310,17 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-        { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
+                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] }
+              ]
+            }
+          ]
+        },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
         { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
@@ -305,13 +350,18 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
-            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-            { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] },
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] }
+              "and": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
+                { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] }
+                  ]
+                }
               ]
             }
           ]
@@ -345,17 +395,22 @@
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "and": [
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
             {
-              "or": [
-                { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "9" ] },
-                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "9" ] }
-              ]
-            },
-            {
-              "or": [
-                { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "7" ] },
-                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "10" ] }
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "9" ] },
+                    { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "9" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "7" ] },
+                    { "math": [ "u_spell_level('biokin_climate_control')", ">=", "10" ] }
+                  ]
+                }
               ]
             }
           ]
@@ -388,11 +443,21 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
-        { "or": [
-          { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
-          { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] }
-          ] 
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
@@ -422,12 +487,21 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
-        { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "10" ] },
         {
           "or": [
-            { "math": [ "u_spell_level('biokin_dash')", ">=", "6" ] },
-            { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "9" ] }
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
+                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "10" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_dash')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "9" ] }
+                  ]
+                }
+              ]
+            }
           ]
         },
         { "not": { "u_has_effect": "sleep" } },
@@ -458,8 +532,17 @@
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
-        { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
+                { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] }
+              ]
+            }
+          ]
+        },
         { "not": { "u_has_effect": "sleep" } },
         { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
         { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
@@ -473,11 +556,55 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       {
-        "u_roll_remainder": [ "practice_biokin_metabolism_enhance" ],
+        "u_roll_remainder": [ "biokin_perfected_motion" ],
         "type": "recipe",
         "message": "Practicing your powers has led to an insight.  You could maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding any difficult terrain while doing so, if you can figure out the technique."
       },
       { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "4900" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_HURRICANE_BLOWS",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "10" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "14" ] },
+                    { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "12" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" } },
+        { "not": { "u_has_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE" } },
+        { "math": [ "u_spell_level('biokin_hurricane_blows')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_biokin_hurricane_blows" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      {
+        "u_roll_remainder": [ "biokin_hurricane_blows" ],
+        "type": "recipe",
+        "message": "Practicing your powers has led to an insight.  You could maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding any difficult terrain while doing so, if you can figure out the technique."
+      },
+      { "math": [ "u_spell_exp('biokin_hurricane_blows')", "+=", "4900" ] }
     ]
   }
 ]

@@ -22,7 +22,8 @@
       "practice_biokin_sealed_system",
       "practice_biokin_metabolism_enhance",
       "practice_biokin_combat_dance",
-      "practice_biokin_perfected_motion"
+      "practice_biokin_perfected_motion",
+      "practice_biokin_hurricane_blows"
     ],
     "difficulty": 1
   },
@@ -44,15 +45,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_overcome_pain')", ">=", "1" ] }
-          ]
-        },
+        "condition": { "and": [ { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] } ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_overcome_pain')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -60,7 +57,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_overcome_pain')", ">=", "1" ] },
+              "condition": { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -93,12 +90,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
-        "condition": 
-            { "math": [ "u_val('spell_level', 'spell: biokin_physical_enhance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_physical_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_physical_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
@@ -123,11 +119,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
-        "condition": { "and": [ { "math": [ "u_val('spell_level', 'spell: biokin_breathe_skin')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] } ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_breathe_skin')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -137,7 +133,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2))"] }, { "math": [ "learn_new_power_upper_time_bound(2))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2))" ] }, { "math": [ "learn_new_power_upper_time_bound(2))" ] } ]
           }
         ]
       }
@@ -148,21 +144,25 @@
     "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 6 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 6
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_breathe_skin" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_breathe_skin" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Oxygen Absorption power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Oxygen Absorption power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
     ]
   },
   {
@@ -183,12 +183,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
-        "condition": { "math": [ "u_val('spell_level', 'spell: biokin_flexibility')", ">=", "1" ] 
-        },
+        "condition": { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_flexibility')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_flexibility')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -198,7 +197,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3))"] }, { "math": [ "learn_new_power_upper_time_bound(3))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3))" ] }, { "math": [ "learn_new_power_upper_time_bound(3))" ] } ]
           }
         ]
       }
@@ -209,24 +208,25 @@
     "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 7 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 7
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_flexibility" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_flexibility" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Flexibility power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Flexibility power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_flexibility')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
-    ]
-  },
-      }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ]
   },
   {
@@ -248,13 +248,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
-        "condition": 
-            { "math": [ "u_val('spell_level', 'spell: biokin_armor_skin')", ">=", "1" ] }
-        },
+        "condition": { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_armor_skin')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -264,7 +262,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4))"] }, { "math": [ "learn_new_power_upper_time_bound(4))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4))" ] }, { "math": [ "learn_new_power_upper_time_bound(4))" ] } ]
           }
         ]
       }
@@ -275,21 +273,25 @@
     "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 8 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 8
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_armor_skin" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_armor_skin" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hardened Skin power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hardened Skin power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ]
   },
   {
@@ -311,18 +313,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: biokin_climate_control')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: biokin_climate_control')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_climate_control')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -332,7 +327,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4))"] }, { "math": [ "learn_new_power_upper_time_bound(4))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4))" ] }, { "math": [ "learn_new_power_upper_time_bound(4))" ] } ]
           }
         ]
       }
@@ -343,21 +338,25 @@
     "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 8 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 8
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_climate_control" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_climate_control" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Temperature Adaptability power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Temperature Adaptability power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
     ]
   },
   {
@@ -379,14 +378,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
-        "condition": 
-            { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')", ">=", "1" ] 
-          
-        },
+        "condition": { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_enhance_mobility')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -396,7 +392,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5))"] }, { "math": [ "learn_new_power_upper_time_bound(5))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5))" ] }, { "math": [ "learn_new_power_upper_time_bound(5))" ] } ]
           }
         ]
       }
@@ -407,21 +403,25 @@
     "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 9 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 9
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_enhance_mobility" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_enhance_mobility" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Enhance Mobility power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Enhance Mobility power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ]
   },
   {
@@ -446,8 +446,8 @@
         "condition": { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -457,7 +457,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5))"] }, { "math": [ "learn_new_power_upper_time_bound(5))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5))" ] }, { "math": [ "learn_new_power_upper_time_bound(5))" ] } ]
           }
         ]
       }
@@ -468,21 +468,25 @@
     "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 9 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 9
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_hammerhand" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_hammerhand" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hammerhand power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hammerhand power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
     ]
   },
   {
@@ -504,13 +508,11 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
-        "condition": {
-        { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] }
-        },
+        "condition": { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_reflex_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -520,7 +522,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6))"] }, { "math": [ "learn_new_power_upper_time_bound(6))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6))" ] }, { "math": [ "learn_new_power_upper_time_bound(6))" ] } ]
           }
         ]
       }
@@ -531,21 +533,25 @@
     "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 10 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 10
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_reflex_enhance" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_reflex_enhance" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Heightened Reflexes power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Heightened Reflexes power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
     ]
   },
   {
@@ -570,8 +576,8 @@
         "condition": { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_sealed_system')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -581,7 +587,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7))"] }, { "math": [ "learn_new_power_upper_time_bound(7))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7))" ] }, { "math": [ "learn_new_power_upper_time_bound(7))" ] } ]
           }
         ]
       }
@@ -592,22 +598,25 @@
     "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 11 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 11
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_sealed_system" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_sealed_system" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Sealed System power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Sealed System power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_sealed_system')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ],
-    "false_effect": [ 
-    { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ]
   },
   {
@@ -632,8 +641,8 @@
         "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_metabolism_enhance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -643,7 +652,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7))"] }, { "math": [ "learn_new_power_upper_time_bound(7))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7))" ] }, { "math": [ "learn_new_power_upper_time_bound(7))" ] } ]
           }
         ]
       }
@@ -654,21 +663,25 @@
     "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 11 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 11
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_metabolism_enhance" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_metabolism_enhance" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Metabolic Hyperefficiency power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Metabolic Hyperefficiency power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
     ]
   },
   {
@@ -693,8 +706,8 @@
         "condition": { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_combat_dance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -704,7 +717,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8))"] }, { "math": [ "learn_new_power_upper_time_bound(8))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8))" ] }, { "math": [ "learn_new_power_upper_time_bound(8))" ] } ]
           }
         ]
       }
@@ -715,22 +728,25 @@
     "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 12 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 12
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_combat_dance" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_combat_dance" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Combat Dance power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Combat Dance power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
     ],
-    "false_effect": [ 
-    { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true } 
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
     ]
   },
   {
@@ -755,8 +771,8 @@
         "condition": { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,5 )" ] },
+          { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,5 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -766,7 +782,7 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "queue_eocs": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9))"] }, { "math": [ "learn_new_power_upper_time_bound(9))"] } ]
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9))" ] }, { "math": [ "learn_new_power_upper_time_bound(9))" ] } ]
           }
         ]
       }
@@ -777,21 +793,89 @@
     "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
     "condition": {
       "and": [
-        { "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] }, "difficulty": 13 },
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 13
+        },
         { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [
+      { "u_roll_remainder": [ "biokin_perfected_motion" ], "type": "spell" },
       {
-        "u_roll_remainder": [ "biokin_perfected_motion" ],
-        "type": "spell"
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Perfected Motion power.",
+        "popup": true
       },
-      { "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Perfected Motion power.", "popup": true },
       { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "4900" ] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
     ],
-    "false_effect": [ { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-    { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: hurricane blows",
+    "id": "practice_biokin_hurricane_blows",
+    "description": "Contemplate your powers and improve your ability to strike your opponents faster than thought.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS",
+        "condition": { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "1" ] },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('biokin_hurricane_blows')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(10))" ] }, { "math": [ "learn_new_power_upper_time_bound(10))" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS_LEARNING",
+    "condition": {
+      "and": [
+        {
+          "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+          "difficulty": 14
+        },
+        { "u_has_activity": "ACT_PSI_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [
+      { "u_roll_remainder": [ "biokin_hurricane_blows" ], "type": "spell" },
+      {
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Perfected Motion power.",
+        "popup": true
+      },
+      { "math": [ "u_spell_exp('biokin_hurricane_blows')", "+=", "4900" ] },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
     ]
   }
 ]
