@@ -962,11 +962,6 @@ bool can_construct( const construction &con )
     return false;
 }
 
-static bool is_empty_component( const item &it )
-{
-    return is_crafting_component( it ) && it.is_container_empty();
-}
-
 void place_construction( std::vector<construction_group_str_id> const &groups )
 {
     avatar &player_character = get_avatar();
@@ -1036,7 +1031,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
                 comp_selection<item_comp> sel;
                 sel.use_from = usage_from::both;
                 sel.comp = comp;
-                std::list<item> empty_consumed = player_character.consume_items( sel, 1, is_empty_component );
+                std::list<item> empty_consumed = player_character.consume_items( sel, 1,
+                                                 is_empty_crafting_component );
 
                 int left_to_consume = 0;
 
