@@ -118,6 +118,96 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_nag_hammadi",
+    "type": "BOOK",
+    "name": { "str": "Nag Hammadi Codex", "str_pl": "Nag Hammadi Codices" },
+    "description": "A translation of some of the gnostic texts and early biblical apocrypha recovered from the Nag Hammadi library in Egypt.  Obviously heretical, but the zombies aren't the type to discriminate.",
+    "weight": "281 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "holybook_nag_hammadi_01",
+        "name": { "str": "Nag Hammadi Codex I", "str_pl": "copies of the first Nag Hammadi Codex" },
+        "description": "It contains the Prayer of the Apostle Paul, the Apocryphon of James, the Gospel of Truth, the Treatise on the Resurrection, and the Tripartite Tractate.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_02",
+        "name": { "str": "Nag Hammadi Codex II", "str_pl": "copies of the second Nag Hammadi Codex" },
+        "description": "It contains the Apocryphon of John (version 1), the Gospel of Thomas, the Gospel of Phillip, the Hypostasis of the Archons, On the Origin of the World, the Exegesis of the Soul, and the Book of Thomas the Contender.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_03",
+        "name": { "str": "Nag Hammadi Codex III", "str_pl": "copies of the third Nag Hammadi Codex" },
+        "description": "It contains the Apocryphon of John (version 2), Holy Book of the Great Invisible Spirit, Eugnostos the Blessed, The Sophia of Jesus Christ, and the Dialogue of the Savior.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_04",
+        "name": { "str": "Nag Hammadi Codex IV", "str_pl": "copies of the fourth Nag Hammadi Codex" },
+        "description": "It contains the Apocryphon of John (version 1) and Holy Book of the Great Invisible Spirit.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_05",
+        "name": { "str": "Nag Hammadi Codex V", "str_pl": "copies of the fifth Nag Hammadi Codex" },
+        "description": "It contains Eugenostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_06",
+        "name": { "str": "Nag Hammadi Codex VI", "str_pl": "copies of the sixth Nag Hammadi Codex" },
+        "description": "It contains the Acts of Peter and the Twelve Apostles, The Thunder/Perfect Mind, Authoritative Teaching, the Context of Our Great Power, fragments of Plato's Republic, The Discourse of the Eight and Ninth, the Prayer of Thanksgiving, and Asclepius.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_07",
+        "name": { "str": "Nag Hammadi Codex VII", "str_pl": "copies of the seventh Nag Hammadi Codex" },
+        "description": "It contains the Paraphrase of Shem, the Second Treatise of the Great Seth, Gnostic Apocalypse of Peter, the Teachings of Sylvanus, and the Three Steles of Seth.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_08",
+        "name": { "str": "Nag Hammadi Codex VIII", "str_pl": "copies of the eighth Nag Hammadi Codex" },
+        "description": "It contains Zostrianos and the Letter of Peter to Philip.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_09",
+        "name": { "str": "Nag Hammadi Codex IX", "str_pl": "copies of the ninth Nag Hammadi Codex" },
+        "description": "It contains Melchizedek, the Thought of Norea, and the Testimony of Truth.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_10",
+        "name": { "str": "Nag Hammadi Codex X", "str_pl": "copies of the tenth Nag Hammadi Codex" },
+        "description": "It contains Marsanes.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_11",
+        "name": { "str": "Nag Hammadi Codex XI", "str_pl": "copies of the eleventh Nag Hammadi Codex" },
+        "description": "It contains the Interpretation of Knowledge, a Valentinian Exposition, Allogenes, and Hypsiphrone.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_12",
+        "name": { "str": "Nag Hammadi Codex XII", "str_pl": "copies of the twelfth Nag Hammadi Codex" },
+        "description": "It contains the Sentences of Sextus, the Gospel of Truth, and various fragmented texts.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_13",
+        "name": { "str": "Nag Hammadi Codex XIII", "str_pl": "copies of the thirteenth Nag Hammadi Codex" },
+        "description": "It contains Trimorphic Protennoia, On the Origin of the World, and various fragmented texts.",
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "holybook_pastafarian",
     "type": "BOOK",
     "name": {
