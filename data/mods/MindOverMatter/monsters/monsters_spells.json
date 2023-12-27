@@ -32,6 +32,23 @@
     "max_range": 10
   },
   {
+    "id": "pigeon_aura",
+    "type": "SPELL",
+    "name": "Pigeon aura",
+    "description": "Anyone nearby will get stronger.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "pigeon_aura",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_casting_time": 500,
+    "base_energy_cost": 0,
+    "flags": [ "SILENT", "NO_LEGS", "NO_FAIL" ],
+    "difficulty": 0,
+    "min_range": 30,
+    "max_range": 30
+  },
+  {
     "id": "biokinetic_speed_boost_monster_01",
     "type": "SPELL",
     "name": "[Ψ]Biokinetic Speed Boost Monster Lesser",

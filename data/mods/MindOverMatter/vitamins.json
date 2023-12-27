@@ -24,6 +24,19 @@
     ]
   },
   {
+    "id": "passenger_pigeon_aura",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Passenger Pigeon Aura" },
+    "excess": "pigeon_aura",
+    "deficiency": "pigeon_aura_prep",
+    "min": 0,
+    "max": 1000,
+    "rate": "1 m",
+    "disease": [ [ 1, 400 ] ],
+    "disease_excess": [ [ 401, 1000 ] ]
+  },
+  {
     "id": "vitamin_maintained_powers",
     "type": "vitamin",
     "vit_type": "counter",
