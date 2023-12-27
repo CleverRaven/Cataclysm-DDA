@@ -285,6 +285,9 @@
     "entries": [
       { "item": "santa_pants", "prob": 20 },
       { "item": "santa_shorts", "prob": 10 },
+      { "item": "santa_boots", "prob": 5 },
+      { "item": "santa_socks", "prob": 5 },
+      { "item": "santa_shoes", "prob": 5 },
       { "item": "santa_briefs", "prob": 5 },
       { "item": "santa_undershirt", "prob": 5 },
       { "item": "pants", "variant": "pants_flag", "prob": 15 },
