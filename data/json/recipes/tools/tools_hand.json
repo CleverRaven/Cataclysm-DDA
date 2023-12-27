@@ -138,7 +138,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_toolsmithing" } ],
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-	"//": "Intentionally avoids using anvil 3, since this is required to make the chisel required to create a proper anvil",
+    "//": "Intentionally avoids using anvil 3, since this is required to make the chisel required to create a proper anvil",
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "steel_chunk", 3 ] ], [ [ "nail", 1 ], [ "nuts_bolts", 1 ] ] ]
   },
