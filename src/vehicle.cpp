@@ -3493,13 +3493,14 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 }
 
 int vehicle::drain( const itype_id &ftype, int amount,
-                    const std::function<bool( vehicle_part & )> &filter )
+                    const std::function<bool( vehicle_part & )> &filter,
+                    bool apply_loss )
 {
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
         // (including taking cable power loss into account).
-        int remnant = discharge_battery( amount );
+        int remnant = discharge_battery( amount, apply_loss );
 
         // discharge_battery returns amount of charges that were not
         // found anywhere in the power network, whereas this function
@@ -3526,7 +3527,7 @@ int vehicle::drain( const itype_id &ftype, int amount,
     return drained;
 }
 
-int vehicle::drain( const int index, int amount )
+int vehicle::drain( const int index, int amount, bool apply_loss )
 {
     if( index < 0 || index >= static_cast<int>( parts.size() ) ) {
         debugmsg( "Tried to drain an invalid part index: %d", index );
@@ -3534,7 +3535,11 @@ int vehicle::drain( const int index, int amount )
     }
     vehicle_part &pt = parts[index];
     if( pt.ammo_current() == fuel_type_battery ) {
-        return drain( fuel_type_battery, amount );
+        //return_true< vehicle_part &> is needed because apply_loss needs to be last arg
+        //to not break existing code, but C++ requires you also invoke all optional
+        //arguments to the left of any invoked. make sure to change this if the default for
+        //filters in the function above ever changes
+        return drain( fuel_type_battery, amount, return_true< vehicle_part &>, apply_loss );
     }
     if( !pt.is_tank() || !pt.ammo_remaining() ) {
         debugmsg( "Tried to drain something without any liquid: %s amount: %d ammo: %d",
