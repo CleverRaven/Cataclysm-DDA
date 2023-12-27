@@ -5170,9 +5170,19 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
             } else {
+                int glide_distance = 4;
+                const weather_manager &weather = get_weather();
                 add_msg( m_info, _( "You glide away from the ledge." ) );
+                    if( std::abs(weather.winddirection - ( jump_direction * 45 ) % 360) <= 45 ) {
+                    add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
+                    glide_distance += 1;
+                    }
+                    if( std::abs(weather.winddirection - ( jump_direction * 45 ) % 360) >= 315 ) {
+                    add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
+                    glide_distance -= 1;
+                    }
                 you.as_avatar()->grab( object_type::NONE );
-                glide_activity_actor glide( &you, jump_direction );
+                glide_activity_actor glide( &you, jump_direction, glide_distance );
                 you.assign_activity( glide );
                 you.add_effect( effect_gliding, 1_turns, true );
                 you.setpos( examp );

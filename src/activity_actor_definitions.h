@@ -346,12 +346,13 @@ class glide_activity_actor : public activity_actor
  {
      private:
          int jump_direction;
+         int glide_distance;
          int moved_tiles = 0;
          int moves_total = to_moves<int>( 1_seconds );
          explicit glide_activity_actor() = default;
 
      public:
-         explicit glide_activity_actor( Character *you, int jump_direction );
+         explicit glide_activity_actor( Character *you, int jump_direction, int glide_distance );
 
          activity_id get_type() const override {
              return activity_id( "ACT_GLIDE" );

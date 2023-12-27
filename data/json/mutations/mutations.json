@@ -5580,9 +5580,11 @@
     "ugliness": 2,
     "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few nearly vestigial digits, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges, keep warm in your sleep, and will take less damage if you fall.",
     "types": [ "ARMS", "HANDS" ],
+    "enchantments": [ "ENCH_WINGS_BIRD" ],
     "prereqs": [ "ARM_FEATHERS" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
     "flags": [ "WINGS_2", "WINGGLIDE" ]
   },
   {
@@ -6616,7 +6618,7 @@
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
     "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY", "WINGS_BAT" ],
-    "category": [ "INSECT" ]
+    "category": [ "INSECT", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -8020,18 +8022,20 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
-    "points": -2,
+    "points": -1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "Your arms have grown vibrantly-colored feathers, and you find you can no longer fully extend your elbows.  This hampers manipulation, but the feathers offer minor protection from damage and the elements.",
-    "category": [ "RAPTOR" ],
+    "mixed_effect": true,
+    "description": "Your arms have grown vibrantly-colored feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
+    "category": [ "RAPTOR", "BIRD" ],
+    "changes_to": [ "WINGS_BIRD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
       { "part": "arm_r", "neutral": 50 },
       { "part": "hand_l", "neutral": 10 },
       { "part": "hand_r", "neutral": 10 }
     ],
-    "encumbrance_always": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "encumbrance_always": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
     "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ]
   },
   {

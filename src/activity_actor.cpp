@@ -1528,7 +1528,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         }
     you.move_to( newpos );
     moved_tiles ++;
-    if( moved_tiles >= 4 ) {
+    if( moved_tiles >= glide_distance ) {
     g->vertical_move( -1, false, false );
     moved_tiles = 0;
     }
@@ -1541,12 +1541,9 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
        }  
 }
 
-glide_activity_actor::glide_activity_actor(Character *you, int jump_direction)
-     : jump_direction(jump_direction)
+glide_activity_actor::glide_activity_actor(Character *you, int jump_direction, int glide_distance)
+     : jump_direction(jump_direction), glide_distance(glide_distance)
 {
-         you->add_msg_player_or_npc( m_good,
-                                 _( "Running GLIDE_ACTIVITY_ACTOR." ),
-                                 _( "Running GLIDE_ACTIVITY_ACTOR." ) );
      you->add_effect( effect_gliding, 1_turns, true );
      tripoint heading = tripoint_zero;
      if( jump_direction == 1 ){
@@ -1581,6 +1578,7 @@ glide_activity_actor::glide_activity_actor(Character *you, int jump_direction)
 
     jsout.member( "moved_tiles", moved_tiles );
     jsout.member( "jump_direction", jump_direction );
+    jsout.member( "glide_distance", glide_distance );
 
     jsout.end_object();
 }
@@ -1591,17 +1589,15 @@ std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &js
 
     JsonObject data = jsin.get_object();
     data.read( "jump_direction", actor.jump_direction );
+    data.read( "glide_distance", actor.glide_distance );
 
     return actor.clone();
 }
 void glide_activity_actor::start( player_activity &act, Character &you )
 {
-             you.add_msg_player_or_npc( m_good,
-                                 _( "Running START." ),
-                                 _( "Running START." ) );
-         you.add_msg_player_or_npc( m_good,
-                                 _( "You take wing." ),
-                                 _( "<npcname> takes wing." ) );
+    you.add_msg_player_or_npc( m_good,
+        _( "You take wing." ),
+        _( "<npcname> takes wing." ) );
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
@@ -1609,9 +1605,6 @@ void glide_activity_actor::start( player_activity &act, Character &you )
 void glide_activity_actor::finish( player_activity &act, Character &you )
 {
          g->update_map( you );
-             you.add_msg_player_or_npc( m_good,
-                                 _( "Running FINISH." ),
-                                 _( "Running FINISH." ) );
          you.add_msg_player_or_npc( m_good,
                                  _( "You come to a gentle landing." ),
                                  _( "<npcname> comes to a gentle landing." ) );
