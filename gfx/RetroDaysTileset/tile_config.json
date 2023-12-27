@@ -4091,19 +4091,7 @@
         { "id": "sunglasses", "fg": 1293, "rotates": false },
         { "id": "superglue", "fg": 1460, "rotates": false },
         { "id": [ "survival_kit", "survival_kit_box", "cuvettes" ], "fg": 1684, "rotates": false },
-        {
-          "id": [
-            "survivor223mag",
-            "m14smallmag",
-            "blrmag",
-            "m2010mag",
-            "steyr_scout_mag",
-            "steyr_scout_mag_makeshift",
-            "ruger1022mag",
-            "ruger5"
-          ],
-          "fg": 772
-        },
+        { "id": [ "survivor223mag", "m14smallmag", "blrmag", "m2010mag", "ruger1022mag", "ruger5" ], "fg": 772 },
         { "id": [ "survivor_belt", "survivor_belt_notools", "tool_belt" ], "fg": 1429, "rotates": false },
         { "id": "survivor_hairtrimmer", "fg": 1061, "rotates": false },
         { "id": [ "survivor_light", "wearable_light" ], "fg": 1185, "rotates": false },

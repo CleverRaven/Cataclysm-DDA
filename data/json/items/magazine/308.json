@@ -398,7 +398,7 @@
       {
         "id": "steyr_scout_mag",
         "name": { "str": "Steyr Scout 5-round magazine" },
-        "description": "A propietary 5-round steel box magazine for the Steyr Scout rifle."
+        "description": "A proprietary 5-round steel box magazine for the Steyr Scout rifle."
       }
     ],
     "weight": "80 g",

@@ -2971,7 +2971,7 @@
           ],
           "fg": 2077
         },
-        { "id": [ "survivor223mag", "m14smallmag", "blrmag", "m2010mag", "steyr_scout_mag", "steyr_scout_mag_makeshift", "ruger1022mag", "ruger5" ], "fg": 2078 },
+        { "id": [ "survivor223mag", "m14smallmag", "blrmag", "m2010mag", "ruger1022mag", "ruger5" ], "fg": 2078 },
         { "id": [ "bot_nursebot", "broken_nursebot", "broken_nursebot_defective" ], "fg": 1715, "rotates": false },
         { "id": [ "bot_secubot", "broken_secubot" ], "fg": 1714, "rotates": false },
         { "id": [ "bot_talon_m202a1", "broken_talon_m202a1" ], "fg": 1709, "rotates": false },
