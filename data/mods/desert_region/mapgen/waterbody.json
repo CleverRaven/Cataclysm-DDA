@@ -40,30 +40,10 @@
           "y": 0,
           "flags": { "south_west": [ "BRIDGE", "LAKE", "RIVER" ] }
         },
-        {
-          "else_chunks": [ "shore_north" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "north": [ "BRIDGE", "LAKE", "RIVER" ] }}
-        },
-        {
-          "else_chunks": [ "shore_east" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "east": [ "BRIDGE", "LAKE", "RIVER" ] }
-        },
-        {
-          "else_chunks": [ "shore_south" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "south": [ "BRIDGE", "LAKE", "RIVER" ] }
-        },
-        {
-          "else_chunks": [ "shore_west" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "west": [ "BRIDGE", "LAKE", "RIVER" ] }
-        }
+        { "else_chunks": [ "shore_north" ], "x": 0, "y": 0, "flags": { "north": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_east" ], "x": 0, "y": 0, "flags": { "east": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_south" ], "x": 0, "y": 0, "flags": { "south": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_west" ], "x": 0, "y": 0, "flags": { "west": [ "BRIDGE", "LAKE", "RIVER" ] } }
       ]
     }
   },
