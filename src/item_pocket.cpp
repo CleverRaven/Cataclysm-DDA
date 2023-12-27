@@ -1336,7 +1336,6 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
-
     if( data->type == pocket_type::MOD ) {
         if( it.is_toolmod() || it.is_gunmod() ) {
             return ret_val<item_pocket::contain_code>::make_success();

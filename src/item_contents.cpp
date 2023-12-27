@@ -660,6 +660,7 @@ void item_contents::read_mods( const item_contents &read_input )
 void item_contents::combine( const item_contents &read_input, const bool convert,
                              const bool into_bottom, bool restack_charges, bool ignore_contents )
 {
+    std::list<item_pocket> mismatched_pockets;
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
 
@@ -702,6 +703,11 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
 
+            if( !current_pocket_iter->is_type( pocket.saved_type() ) ) {
+                mismatched_pockets.push_back( pocket );
+                continue;
+            }
+
             for( const item *it : pocket.all_items_top() ) {
                 const ret_val<item *> inserted = current_pocket_iter->insert_item( *it,
                                                  into_bottom, restack_charges, ignore_contents );
@@ -722,6 +728,17 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             }
         }
         ++pocket_index;
+    }
+
+    for( const item_pocket &pocket : mismatched_pockets ) {
+        for( const item *it : pocket.all_items_top() ) {
+            const ret_val<item *> inserted = insert_item( *it, pocket.saved_type(), ignore_contents );
+            if( !inserted.success() ) {
+                uninserted_items.push_back( *it );
+                debugmsg( "error: item %s cannot fit into any pocket while loading: %s",
+                          it->typeId().str(), inserted.str() );
+            }
+        }
     }
 
     for( const item &uninserted_item : uninserted_items ) {
