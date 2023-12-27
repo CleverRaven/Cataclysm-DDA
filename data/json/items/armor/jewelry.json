@@ -1937,6 +1937,24 @@
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
+    "id": "santa_wristwatch",
+    "type": "ARMOR",
+    "name": { "str": "Christmas wrist watch", "str_pl": "Christmas wrist watches" },
+    "description": "A festive, good-quality red and white wristwatch on a red leather band.  Tells the time and has an alarm clock feature, for Santa Claus not to miss Christmas.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 5000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "leather", "steel" ],
+    "ascii_picture": "wristwatch",
+    "symbol": "[",
+    "color": "dark_gray",
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+  },
+  {
     "id": "rad_badge",
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
@@ -2019,6 +2037,17 @@
     "weight": "50 g",
     "volume": "50 ml",
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
+  },
+  {
+    "id": "badge_santa",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "Santa badge" },
+    "material": [ "plastic" ],
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": 10,
+    "description": "A official badge for identification, authority and recognition of someone who portrait Santa Claus or Mrs. Claus.  This is a symbol of respect and care for those who once worked to keep the Christmas Spirit alive."
   },
   {
     "id": "fur_cat_ears",
