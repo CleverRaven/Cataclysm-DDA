@@ -1654,7 +1654,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         if( caster_you != nullptr ) {
             if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
                 !g->walk_move( here.getlocal( *walk_point ), false ) ) {
-                if (walk_point != trajectory.begin()) {
+                if( walk_point != trajectory.begin() ) {
                     --walk_point;
                 }
                 break;
