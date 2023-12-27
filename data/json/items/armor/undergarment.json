@@ -1132,7 +1132,7 @@
     "type": "ARMOR",
     "name": { "str": "Santa undershirt" },
     "description": "A simple red undershirt with a Christmas pattern on it.  Worn beneath your regular clothes, it provides a little extra warmth to endure the freezing North Pole.",
-    "copy_from": "undershirt"
+    "copy_from": "undershirt",
     "weight": "100 g",
     "volume": "250 ml",
     "price": 1000,
