@@ -3085,11 +3085,8 @@
     "difficulty": 3,
     "time": "4 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } , { "id": "ANVIL", "level": 1 } ],
-    "tools": [ 
-      [ [ "angle_grinder", 200 ] ],
-      [ [ "forge", 100 ], [ "oxy_torch", 100 ] ]
-	],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "angle_grinder", 200 ] ], [ [ "forge", 100 ], [ "oxy_torch", 100 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "railroad_track_item_half", 1 ] ] ]
   },
