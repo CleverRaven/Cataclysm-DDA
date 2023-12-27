@@ -3078,8 +3078,8 @@
     "difficulty": 6,
     "time": "10 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } , { "id": "GRIND", "level": 2 } ],
-	"tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "casting_mold", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "casting_mold", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "steel_lump", 28 ] ] ]
   },
