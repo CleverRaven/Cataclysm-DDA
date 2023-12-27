@@ -62,7 +62,6 @@
     "location": "bore",
     "mod_targets": [
       "modular_ar15",
-      "m4_cqbr",
       "modular_m4_carbine",
       "modular_m16a4",
       "modular_m16_auto_rifle",
@@ -239,7 +238,6 @@
     "location": "bore",
     "mod_targets": [
       "modular_ar15",
-      "m4_cqbr",
       "modular_m4_carbine",
       "modular_m16a4",
       "modular_m16_auto_rifle",
@@ -413,7 +411,6 @@
     "location": "bore",
     "mod_targets": [
       "modular_ar15",
-      "m4_cqbr",
       "modular_m4_carbine",
       "modular_m16a4",
       "modular_m16_auto_rifle",
@@ -506,7 +503,6 @@
     "location": "bore",
     "mod_targets": [
       "modular_ar15",
-      "m4_cqbr",
       "modular_m4_carbine",
       "modular_m16a4",
       "modular_m16_auto_rifle",
@@ -573,7 +569,6 @@
     "location": "bore",
     "mod_targets": [
       "modular_ar15",
-      "m4_cqbr",
       "modular_m4_carbine",
       "modular_m16a4",
       "modular_m16_auto_rifle",

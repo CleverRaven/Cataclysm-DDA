@@ -40,6 +40,37 @@
     "replace": "recipe_lab_elec"
   },
   {
+    "id": "ar15",
+    "type": "MIGRATION",
+    "replace": "modular_ar15",
+    "contents": [ { "id": "retool_ar15_223rem_medium", "count": 1 } ]
+  },
+  {
+    "id": "m27_assault_rifle",
+    "type": "MIGRATION",
+    "replace": "modular_m27_assault_rifle"
+  },
+  {
+    "id": "m4_carbine",
+    "type": "MIGRATION",
+    "replace": "modular_m4_carbine"
+  },
+  {
+    "id": "m4_cqbr",
+    "type": "MIGRATION",
+    "replace": "modular_m4_carbine"
+  },
+  {
+    "id": "m16a4",
+    "type": "MIGRATION",
+    "replace": "modular_m16a4"
+  },
+  {
+    "id": "m16_auto_rifle",
+    "type": "MIGRATION",
+    "replace": "modular_m16_auto_rifle"
+  },
+  {
     "id": "ar15_223long",
     "type": "MIGRATION",
     "replace": "modular_ar15"
