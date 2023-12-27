@@ -4637,7 +4637,7 @@
     ],
     "max_intensity": 4,
     "rating": "neutral"
-  }
+  },
   {
     "type": "effect_type",
     "id": "cramped_space",
@@ -4669,5 +4669,5 @@
     "flags": [ "HOVERING" ],
     "rating": "good",
     "show_in_info": true
-   }
+  }
 ]

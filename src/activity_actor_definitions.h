@@ -346,6 +346,7 @@ class hotwire_car_activity_actor : public activity_actor
  {
      private:
          int jump_direction;
+         int moved_tiles;
          int moves_total = to_moves<int>( 5_minutes );
          explicit glide_activity_actor() = default;
 

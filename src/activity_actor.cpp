@@ -1443,14 +1443,14 @@ static std::string enumerate_ints_to_string( const std::vector<int> &vec )
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
     // Tailwind
-    if std::abs(weather.winddirection - ( jump_direction * 45 + 22 ) % 360) <= 45 {
+    if( std::abs(weather.winddirection - ( jump_direction * 45 + 22 ) % 360) <= 45 ) {
         you.add_msg_player_or_npc( m_good,
                                 _( "Tailwind bonus." ),
                                 _( "<npcname> gets a tailwind bonus." ) );
     glide_distance = 5;
     }    
     // Headwind
-    if std::abs(weather.winddirection - ( jump_direction * 45 + 22 ) % 360) >= 315 {
+    if( std::abs(weather.winddirection - ( jump_direction * 45 + 22 ) % 360) >= 315 ) {
         you.add_msg_player_or_npc( m_good,
                                 _( "Headwind penalty." ),
                                 _( "<npcname> gets a headwind penalty." ) );

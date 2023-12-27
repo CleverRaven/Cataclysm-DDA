@@ -90,7 +90,6 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
@@ -184,7 +183,6 @@ static const damage_type_id damage_stab( "stab" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
