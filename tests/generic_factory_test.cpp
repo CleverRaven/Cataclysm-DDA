@@ -35,7 +35,7 @@ struct test_obj {
 test_obj invalid;
 test_id test_int_id_null( -1 );
 
-generic_factory<test_obj> *current_factory;
+generic_factory<test_obj> *current_factory = nullptr;
 
 } // namespace
 
@@ -78,6 +78,7 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     test_obj_id id_2( "id_2" );
 
     generic_factory<test_obj> test_factory( "test_factory" );
+    restore_on_out_of_scope<generic_factory<test_obj>*> current_factory_prev( current_factory );
     current_factory = &test_factory;
 
     REQUIRE_FALSE( test_factory.is_valid( id_0 ) );
@@ -175,6 +176,7 @@ TEST_CASE( "generic_factory_repeated_invalidation", "[generic_factory]" )
     // if id is static, factory must be static (or singleton by other means)
     static test_obj_id id_1( "id_1" );
     static generic_factory<test_obj> test_factory( "test_factory" );
+    restore_on_out_of_scope<generic_factory<test_obj>*> current_factory_prev( current_factory );
     current_factory = &test_factory;
 
     for( int i = 0; i < 10; i++ ) {

@@ -1194,7 +1194,7 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-static const furn_str_id furn_t_null( "f_null" );
+static const furn_str_id furn_f_null( "f_null" );
 
 resolved_furn_id f_null, f_clear,
                  f_hay,
@@ -1244,7 +1244,7 @@ resolved_furn_id f_null, f_clear,
 
 void set_furn_ids()
 {
-    f_null = null_furn = furn_t_null;
+    f_null = null_furn = furn_f_null;
     f_clear = furn_id( "f_clear" );
     f_hay = furn_id( "f_hay" );
     f_rubble = furn_id( "f_rubble" );
@@ -1807,7 +1807,7 @@ void activity_data_ter::load( const JsonObject &jo )
 
 void activity_data_furn::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "result", result_, furn_t_null );
+    optional( jo, was_loaded, "result", result_, furn_f_null );
     activity_data_common::load( jo );
     valid_ = true;
 }
