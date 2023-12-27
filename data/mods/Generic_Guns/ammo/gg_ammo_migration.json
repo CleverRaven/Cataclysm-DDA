@@ -55,6 +55,7 @@
       "380_p",
       "38super_fmj",
       "40fmj",
+      "45colt_cowboy",
       "45_acp",
       "46mm",
       "57mm",
@@ -82,6 +83,8 @@
       "reloaded_380_p",
       "reloaded_38super_fmj",
       "reloaded_40fmj",
+      "reloaded_45colt_fmj",
+      "reloaded_45colt_cowboy",
       "reloaded_45_acp",
       "reloaded_46mm",
       "reloaded_57mm",
@@ -105,6 +108,8 @@
       "bp_40ball",
       "bp_40fmj",
       "bp_44ball",
+      "bp_45colt_fmj",
+      "bp_45colt_cowboy",
       "bp_45_acp",
       "bp_46mm",
       "bp_57mm",
@@ -124,6 +129,8 @@
       "matchhead_40ball",
       "matchhead_40fmj",
       "matchhead_45_acp",
+      "matchhead_45colt_fmj",
+      "matchhead_45colt_cowboy",
       "matchhead_9mmfmj",
       "matchhead_9x18mmfmj",
       "matchhead_357mag_fmj"
@@ -247,6 +254,7 @@
       "300blk_ss",
       "303_bthp",
       "303_sp",
+      "77mm_arisaka_jsp",
       "308",
       "4570_low",
       "4570_sp",
@@ -297,6 +305,7 @@
       "reloaded_545",
       "reloaded_303",
       "reloaded_303sp",
+      "reloaded_77mm_arisaka_jsp",
       "reloaded_762_54R",
       "reloaded_762_jhp",
       "reloaded_762_m87",
@@ -322,6 +331,7 @@
       "bp_545",
       "bp_303",
       "bp_303sp",
+      "bp_77mm_arisaka_jsp",
       "bp_762_54R",
       "bp_762_m87",
       "bp_762_jhp",
@@ -397,12 +407,12 @@
     "replace": "bp_rifle_AP"
   },
   {
-    "id": [ "50_incendiary", "50_mk211", "50bmg", "50match" ],
+    "id": [ "50_incendiary", "50_mk211", "50bmg", "50match", "458wm" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_ball"
   },
   {
-    "id": [ "reloaded_50_incendiary", "reloaded_50bmg" ],
+    "id": [ "reloaded_50_incendiary", "reloaded_458wm", "reloaded_50bmg" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_ball"
   },
@@ -422,7 +432,7 @@
     "replace": "bp_rifle_huge_AP"
   },
   {
-    "id": [ "bp_50_incendiary", "bp_50match" ],
+    "id": [ "bp_50_incendiary", "bp_458wm", "bp_50match" ],
     "type": "MIGRATION",
     "replace": "bp_rifle_huge_ball"
   },
@@ -482,6 +492,11 @@
       "bp_40x46mm_flechette_m199",
       "bp_40x53mm_flechette_m169",
       "bp_40x53mm_buckshot_m169",
+      "40x46mm_hornets_nest_410_slug",
+      "40x46mm_hornets_nest_410_bird",
+      "40x46mm_hornets_nest_410",
+      "40x46mm_hornets_nest_22lr",
+      "40x46mm_hornets_nest_410_scrap",
       "273x110flock",
       "273x110canister"
     ],
@@ -517,12 +532,12 @@
     "replace": "shot_bean"
   },
   {
-    "id": [ "shot_bird", "shot_paper_bird" ],
+    "id": [ "shot_bird", "410shot_bird", "shot_paper_bird" ],
     "type": "MIGRATION",
     "replace": "shot_fowl"
   },
   {
-    "id": [ "shot_slug", "shot_paper_slug", "20x66_slug" ],
+    "id": [ "shot_slug", "shot_paper_slug", "410shot_slug", "20x66_slug" ],
     "type": "MIGRATION",
     "replace": "shot_foster"
   },
@@ -537,7 +552,7 @@
     "replace": "shot_explosive"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "shot_scrap" ],
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "shot_scrap", "410shot_scrap" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
@@ -547,12 +562,12 @@
     "replace": "reloaded_shot_buck"
   },
   {
-    "id": [ "reloaded_shot_bird" ],
+    "id": [ "reloaded_shot_bird", "reloaded_410shot_bird" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_fowl"
   },
   {
-    "id": [ "reloaded_shot_slug", "20x66_bootleg_slug" ],
+    "id": [ "reloaded_shot_slug", "reloaded_410shot_slug", "20x66_bootleg_slug" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_foster"
   },
@@ -567,17 +582,17 @@
     "replace": "reloaded_shot_dart"
   },
   {
-    "id": [ "bp_shot_00", "bp_shot_scrap" ],
+    "id": [ "bp_shot_00", "bp_410shot_000", "bp_shot_scrap", "bp_410shot_scrap" ],
     "type": "MIGRATION",
     "replace": "bp_shot_buck"
   },
   {
-    "id": [ "bp_shot_bird" ],
+    "id": [ "bp_shot_bird", "bp_410shot_bird" ],
     "type": "MIGRATION",
     "replace": "bp_shot_fowl"
   },
   {
-    "id": [ "bp_shot_slug" ],
+    "id": [ "bp_shot_slug", "bp_410shot_slug" ],
     "type": "MIGRATION",
     "replace": "bp_shot_foster"
   },

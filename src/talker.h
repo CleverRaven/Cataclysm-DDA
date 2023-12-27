@@ -337,7 +337,7 @@ class talker
         }
         virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
-        virtual void remove_effect( const efftype_id & ) {}
+        virtual void remove_effect( const efftype_id &, const std::string & ) {}
         virtual void add_bionic( const bionic_id & ) {}
         virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string & ) const {

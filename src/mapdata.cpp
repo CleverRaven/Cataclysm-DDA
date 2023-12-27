@@ -206,6 +206,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_PLOWABLE: return "PLOWABLE";
         case ter_furn_flag::TFLAG_ORGANIC: return "ORGANIC";
         case ter_furn_flag::TFLAG_CONSOLE: return "CONSOLE";
+        case ter_furn_flag::TFLAG_TREE_PLANTABLE: return "TREE_PLANTABLE";
         case ter_furn_flag::TFLAG_PLANTABLE: return "PLANTABLE";
         case ter_furn_flag::TFLAG_GROWTH_HARVEST: return "GROWTH_HARVEST";
         case ter_furn_flag::TFLAG_MOUNTABLE: return "MOUNTABLE";
@@ -264,6 +265,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_GRAZABLE: return "GRAZABLE";
         case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
         case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
+        case ter_furn_flag::TFLAG_MUTANT_TREE: return "MUTANT_TREE";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -815,7 +817,7 @@ ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
-       t_water_pool, t_sewage,
+       t_swater_surf, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -1066,6 +1068,7 @@ void set_ter_ids()
     t_water_dp = ter_id( "t_water_dp" );
     t_swater_sh = ter_id( "t_swater_sh" );
     t_swater_dp = ter_id( "t_swater_dp" );
+    t_swater_surf = ter_id( "t_swater_surf" );
     t_water_pool = ter_id( "t_water_pool" );
     t_sewage = ter_id( "t_sewage" );
     t_lava = ter_id( "t_lava" );

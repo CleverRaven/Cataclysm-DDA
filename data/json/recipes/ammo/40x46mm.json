@@ -88,6 +88,78 @@
     ]
   },
   {
+    "result": "40x46mm_hornets_nest_410_slug",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [
+      [ [ "410shot_slug", 4 ], [ "reloaded_410shot_slug", 4 ] ],
+      [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_hornets_nest_410_bird",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [
+      [ [ "410shot_bird", 4 ], [ "reloaded_410shot_bird", 4 ] ],
+      [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_hornets_nest_410",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [
+      [ [ "410shot_000", 4 ], [ "reloaded_410shot_000", 4 ] ],
+      [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_hornets_nest_410_scrap",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [ [ [ "410shot_scrap", 4 ] ], [ [ "40x46mm_hornets_nest_410_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
     "result": "40x46mm_slug_m118",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

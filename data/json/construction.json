@@ -964,7 +964,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "16 m",
-    "components": [ [ [ "sandbag", 16 ] ] ],
+    "components": [ [ [ "bag_durasack", 16 ], [ "bag_canvas", 16 ] ], [ [ "material_sand", 32000 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_sandbag_half"
@@ -977,7 +977,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
-    "components": [ [ [ "sandbag", 20 ] ] ],
+    "components": [ [ [ "bag_durasack", 20 ], [ "bag_canvas", 20 ] ], [ [ "material_sand", 40000 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_sandbag_half",
     "post_terrain": "f_sandbag_wall"
@@ -989,7 +989,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "16 m",
-    "components": [ [ [ "gravelbag", 16 ] ] ],
+    "components": [ [ [ "bag_durasack", 16 ], [ "bag_canvas", 16 ] ], [ [ "material_gravel", 32000 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_gravelbag_half"
@@ -1001,7 +1001,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
-    "components": [ [ [ "gravelbag", 20 ] ] ],
+    "components": [ [ [ "bag_durasack", 20 ], [ "bag_canvas", 20 ] ], [ [ "material_gravel", 40000 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_gravelbag_half",
     "post_terrain": "f_gravelbag_wall"
@@ -1014,7 +1014,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "16 m",
-    "components": [ [ [ "earthbag", 16 ] ] ],
+    "components": [ [ [ "bag_durasack", 16 ], [ "bag_canvas", 16 ] ], [ [ "material_soil", 48 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_earthbag_half"
@@ -1027,7 +1027,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
-    "components": [ [ [ "earthbag", 20 ] ] ],
+    "components": [ [ [ "bag_durasack", 20 ], [ "bag_canvas", 20 ] ], [ [ "material_soil", 60 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_earthbag_half",
     "post_terrain": "f_earthbag_wall"

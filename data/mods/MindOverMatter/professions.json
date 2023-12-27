@@ -7,11 +7,21 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "water_clean", "wristwatch", "matrix_crystal_coruscating" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "mbag" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "item": "matrix_crystal_coruscating" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" }
+        ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -35,11 +45,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "jacket_light", "jeans", "socks", "cleats", "sports_drink" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jacket_light" },
+          { "item": "jeans" },
+          { "item": "socks" },
+          { "item": "cleats" },
+          { "item": "sports_drink" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -58,11 +75,20 @@
     ],
     "items": {
       "both": {
-        "items": [ "jeans", "socks", "robe", "lowtops", "newest_newspaper", "weeks_old_newspaper", "months_old_newspaper" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "socks" },
+          { "item": "robe" },
+          { "item": "lowtops" },
+          { "item": "newest_newspaper" },
+          { "item": "weeks_old_newspaper" },
+          { "item": "months_old_newspaper" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -88,16 +114,21 @@
     "proficiencies": [ "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
     "items": {
       "both": {
-        "items": [ "socks", "technician_coveralls", "boots", "wristwatch", "mbag", "water_clean" ],
         "entries": [
+          { "item": "socks" },
+          { "item": "technician_coveralls" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
+          { "item": "water_clean" },
           { "group": "charged_smart_phone" },
           { "group": "charged_electrical_measuring" },
           { "group": "charged_laptop" },
           { "group": "charged_cigs" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -121,16 +152,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "sneakers" ],
         "entries": [
+          { "item": "socks" },
+          { "item": "jeans" },
+          { "item": "sneakers" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -149,16 +182,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "sneakers" ],
         "entries": [
+          { "item": "socks" },
+          { "item": "jeans" },
+          { "item": "sneakers" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "lighter", "charges": 100 },
           { "item": "lighter", "charges": 100 },
           { "group": "charged_matches" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -184,11 +219,18 @@
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "gloves_tactical", "army_top", "boots_combat", "socks" ],
-        "entries": [ { "item": "water_clean", "container-item": "canteen" }, { "item": "knife_combat", "container-item": "sheath" } ]
+        "entries": [
+          { "item": "pants_army" },
+          { "item": "gloves_tactical" },
+          { "item": "army_top" },
+          { "item": "boots_combat" },
+          { "item": "socks" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "knife_combat", "container-item": "sheath" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -208,15 +250,18 @@
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
-        "items": [ "pants", "dress_shirt", "socks", "dress_shoes" ],
         "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
           { "item": "water_clean", "container-item": "canteen" },
           { "group": "charged_smart_phone" },
           { "item": "lighter", "charges": 100 }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -242,14 +287,26 @@
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
-        "items": [ "wristwatch", "pants", "dress_shirt", "socks", "dress_shoes", "officer_uniform", "beret", "holster" ],
         "entries": [
-          { "item": "mom_fusion_pistol", "ammo-item": "mom_fusion_ammo", "charges": 40, "contents-item": [ "mom_fusion_mag" ] },
+          { "item": "wristwatch" },
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "officer_uniform" },
+          { "item": "beret" },
+          { "item": "holster" },
+          {
+            "item": "mom_fusion_pistol",
+            "ammo-item": "mom_fusion_ammo",
+            "charges": 40,
+            "contents-item": [ "mom_fusion_mag" ]
+          },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -268,11 +325,21 @@
     ],
     "items": {
       "both": {
-        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "flyer", "flyer", "flyer", "holy_symbol" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "wristwatch" },
+          { "item": "flyer" },
+          { "item": "flyer" },
+          { "item": "flyer" },
+          { "item": "holy_symbol" },
+          { "group": "charged_smart_phone" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {

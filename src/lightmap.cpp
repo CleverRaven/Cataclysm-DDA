@@ -648,7 +648,7 @@ bool map::is_transparent( const tripoint &p ) const
 
 bool map::is_transparent_wo_fields( const tripoint &p ) const
 {
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
 }
 
 float map::light_transparency( const tripoint &p ) const
