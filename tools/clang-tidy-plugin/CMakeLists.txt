@@ -25,7 +25,7 @@ set(CataAnalyzerSrc
         StaticDeclarationsCheck.cpp
         StaticInitializationOrderCheck.cpp
         StaticIntIdConstantsCheck.cpp
-	StaticResolvedIdConstantsCheck.cpp
+        StaticResolvedIdConstantsCheck.cpp
         StaticStringIdConstantsCheck.cpp
         StringLiteralIterator.cpp
         TestFilenameCheck.cpp
