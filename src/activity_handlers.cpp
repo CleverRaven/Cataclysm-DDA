@@ -1691,64 +1691,6 @@ void activity_handlers::game_do_turn( player_activity *act, Character *you )
     generic_game_turn_handler( act, you, 1, 100 );
 }
 
-// void activity_handlers::glide_do_turn( player_activity *act, Character *you )
-// {
-//     map &here = get_map();
-//     tripoint heading = tripoint_zero;
-//     if( act->index == 1 ){
-//          heading = tripoint_north;
-//     }
-//     if( act->index == 2 ){
-//         heading = tripoint_north_east;
-//     }
-//     if( act->index == 3 ){
-//         heading = tripoint_east;
-//     }
-//     if( act->index == 4 ){
-//         heading = tripoint_south_east;
-//     }
-//     if( act->index == 5 ){
-//         heading = tripoint_south;
-//     }
-//     if( act->index == 6 ){
-//         heading = tripoint_south_west;
-//     }
-//     if( act->index == 7 ){
-//         heading = tripoint_west;
-//     }
-//     if( act->index == 8 ){
-//         heading = tripoint_north_west;
-//     }
-//     if( heading == tripoint_zero ) {
-//         you->add_msg_if_player( m_good, _( "WARNING: NO HEADING FOUND." ) );
-//         you->remove_effect( effect_gliding );
-//         act->set_to_null();
-//         you->gravity_check();
-//     }
-//     tripoint newpos = you->pos() + heading;
-//     if( here.impassable( newpos ) ) {
-//         you->remove_effect( effect_gliding );
-//         act->set_to_null();
-//         you->gravity_check();
-//     }
-//     if( calendar::once_every( 1_minutes ) ) {
-//     you->add_msg_if_player( m_good, _( "Heading found, trying to move." ) );
-//     if( get_map().tr_at( you->pos() + tripoint_below ) == tr_ledge ){
-//         you->setpos( newpos );
-//         you->setpos( you->pos() + tripoint_below );
-//         you->moves -= 50;
-//     }
-//     if( get_map().tr_at( you->pos() ) != tr_ledge ) {
-//         you->add_msg_player_or_npc( m_good,
-//                                 _( "You come to a gentle landing." ),
-//                                 _( "<npcname> comes to a gentle landing." ) );
-//         you->remove_effect( effect_gliding );
-//         act->set_to_null();
-//         you->gravity_check();
-//     }
-//     }
-// }
-
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 {
     const tripoint &pos = get_map().getlocal( act->placement );
