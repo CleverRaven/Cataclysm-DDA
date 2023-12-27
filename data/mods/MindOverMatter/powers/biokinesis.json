@@ -318,7 +318,7 @@
     },
     "max_duration": {
       "math": [
-        "( ( (u_spell_level('biokin_enhance_mobility') * 9000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('biokin_enhance_mobility') * 12000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",

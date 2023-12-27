@@ -289,7 +289,7 @@
           },
           {
             "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 90 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -364,7 +364,7 @@
           },
           {
             "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 90 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

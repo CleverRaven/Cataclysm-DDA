@@ -79,7 +79,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)
 
 ## Enhance Mobility (C) 
 *Difficulty*: 5
-*Duration*: 5 minutes to 15 minutes, plus 45 seconds to 90 seconds per level. 
+*Duration*: 5 minutes to 15 minutes, plus 45 seconds to 120 seconds per level. 
 *Stamina Cost*: 4500, minus 150 per level to a minimum of 2500
 *Channeling Time*: 275 moves, minus 15 moves per level to a minimum of 50. 
 *Effects*: Reduces encumbrance on every body part, improving every 4 levels. Other than -2 at level 0 through 3, encumbrance reduction is equal to power threshold level: -4 from levels 4 to 7, -8 from levels 8 to 11, and so on. 
