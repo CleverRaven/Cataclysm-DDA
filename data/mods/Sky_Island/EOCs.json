@@ -625,7 +625,7 @@
     "id": "EOC_return_OM_teleport_check",
     "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
     "condition": {
-      "u_query": "This will warp you home directly, bypassing the mission structure and need to find an exit point.  It is designed to be used to solve bugs.  Do you want to warp home directly?",
+      "u_query": "This will warp you home directly, bypassing the mission structure and need to find an exit point.  Do you want to warp home directly?",
       "default": false
     },
     "effect": [ { "u_cast_spell": { "id": "warp_home_real" } }, { "run_eocs": "EOC_REMOVE_WARPED_SKYWARD_BEACON_CHECK" } ]
