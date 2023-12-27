@@ -43,7 +43,6 @@
     "skill_used": "survival",
     "difficulty": 0,
     "time": "1 m",
-    "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 5 ] ] ],

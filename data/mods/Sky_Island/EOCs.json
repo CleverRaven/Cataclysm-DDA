@@ -492,7 +492,7 @@
         "u_message": "Warp Home spell granted.  You may find it in your spellcasting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
-      { "u_forget_recipe": "warped_skyward_beacon" },
+      { "u_forget_recipe": "warp_skyward_beacon" },
       { "math": [ "u_spell_level('warp_home')", "=", "0" ] },
       { "math": [ "u_spell_exp('warp_home')", "=", "0" ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
@@ -506,7 +506,7 @@
         "u_message": "Warped Return spell granted.  You may find it in your spellcasting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
-      { "u_forget_recipe": "warped_skyward_beacon" },
+      { "u_forget_recipe": "warp_skyward_beacon" },
       { "math": [ "u_spell_level('warped_return')", "=", "0" ] },
       { "math": [ "u_spell_exp('warped_return')", "=", "0" ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
@@ -521,7 +521,7 @@
       },
       { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
       { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
-      { "u_learn_recipe": "warped_skyward_beacon" },
+      { "u_learn_recipe": "warp_skyward_beacon" },
       { "math": [ "has_set_difficulty", "=", "1" ] }
     ]
   },
@@ -533,7 +533,7 @@
         "u_message": "All additional returning options removed.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
-      { "u_forget_recipe": "warped_skyward_beacon" },
+      { "u_forget_recipe": "warp_skyward_beacon" },
       { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
     ]
@@ -611,7 +611,8 @@
       {
         "run_eocs": [
           {
-            "condition": { "math": [ "u_monsters_nearby('radius': 10)", "==", "0" ] },
+            "id": "EOC_warped_return_shard_check_2",
+            "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
             "effect": [ { "u_consume_item": "warptoken", "count": 1 }, { "run_eocs": "EOC_return_OM_teleport_check" } ],
             "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
           }
@@ -656,7 +657,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_ENEMY_CHECK_RETURN",
-    "condition": { "math": [ "u_monsters_nearby('radius': 10)", "==", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
     "effect": [ { "u_assign_activity": "ACT_WARP_HOME", "duration": "60 seconds" } ],
     "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
   }
