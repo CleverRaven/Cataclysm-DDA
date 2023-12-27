@@ -11,7 +11,7 @@ namespace mapf
 {
 
 void formatted_set_simple( map *m, const point &start, const char *cstr,
-                           const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
+                           const format_effect<resolved_ter_id> &ter_b, const format_effect<resolved_furn_id> &furn_b )
 {
     const char *p = cstr;
     point p2( start );
@@ -20,8 +20,8 @@ void formatted_set_simple( map *m, const point &start, const char *cstr,
             p2.y++;
             p2.x = start.x;
         } else {
-            const ter_id ter = ter_b.translate( *p );
-            const furn_id furn = furn_b.translate( *p );
+            const resolved_ter_id ter = ter_b.translate( *p );
+            const resolved_furn_id furn = furn_b.translate( *p );
             if( ter != t_null ) {
                 m->ter_set( p2, ter );
             }
@@ -58,5 +58,7 @@ ID format_effect<ID>::translate( const char c ) const
 
 template class format_effect<furn_id>;
 template class format_effect<ter_id>;
+template class format_effect<resolved_furn_id>;
+template class format_effect<resolved_ter_id>;
 
 }//END NAMESPACE mapf

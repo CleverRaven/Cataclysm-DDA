@@ -229,22 +229,22 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
         m.spawn_item( loc, itype_withered );
     }
     // terrain specific conversions
-    const ter_id tid = m.ter( loc );
-    static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_grass_dead},
-            {t_grass_long, ter_t_grass_dead},
-            {t_grass_tall, ter_t_grass_dead},
-            {t_moss, ter_t_grass_dead},
-            {t_tree_pine, ter_t_tree_deadpine},
-            {t_tree_birch, ter_t_tree_birch_harvested},
-            {t_tree_willow, ter_t_tree_dead},
-            {t_tree_hickory, ter_t_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
-            {t_grass_golf, ter_t_grass_dead},
-            {t_grass_white, ter_t_grass_dead},
+    const resolved_ter_id tid = m.ter( loc );
+    static const std::map<ter_str_id, ter_str_id> dies_into {{
+            {t_grass->id, ter_t_grass_dead},
+            {t_grass_long->id, ter_t_grass_dead},
+            {t_grass_tall->id, ter_t_grass_dead},
+            {t_moss->id, ter_t_grass_dead},
+            {t_tree_pine->id, ter_t_tree_deadpine},
+            {t_tree_birch->id, ter_t_tree_birch_harvested},
+            {t_tree_willow->id, ter_t_tree_dead},
+            {t_tree_hickory->id, ter_t_tree_hickory_dead},
+            {t_tree_hickory_harvested->id, ter_t_tree_hickory_dead},
+            {t_grass_golf->id, ter_t_grass_dead},
+            {t_grass_white->id, ter_t_grass_dead},
         }};
 
-    const auto iter = dies_into.find( tid );
+    const auto iter = dies_into.find( tid->id );
     if( iter != dies_into.end() ) {
         m.ter_set( loc, iter->second );
     }
@@ -1118,7 +1118,7 @@ static bool mx_grove( map &m, const tripoint &abs_sub )
     // This map extra finds the first tree in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of tree.
 
-    ter_id tree;
+    resolved_ter_id tree;
     bool found_tree = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -1153,7 +1153,7 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     // This map extra finds the first shrub in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of shrub.
 
-    ter_id shrubbery;
+    resolved_ter_id shrubbery;
     bool found_shrubbery = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -1320,7 +1320,7 @@ static bool mx_point_dead_vegetation( map &m, const tripoint &abs_sub )
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
     const furn_t &fid = m.furn( loc ).obj();
-    const ter_id tid = m.ter( loc );
+    const resolved_ter_id tid = m.ter( loc );
     const ter_t &tr = tid.obj();
 
     VehicleList vehs = m.get_vehicles();
@@ -1358,17 +1358,17 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // grass is converted separately
     // this method is deliberate to allow adding new post-terrains
     // (TODO: expand this list when new destroyed terrain is added)
-    static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_grass_dead},
-            {t_grass_long, ter_t_grass_dead},
-            {t_grass_tall, ter_t_grass_dead},
-            {t_moss, ter_t_grass_dead},
-            {t_fungus, ter_t_dirt},
-            {t_grass_golf, ter_t_grass_dead},
-            {t_grass_white, ter_t_grass_dead},
+    static const std::map<ter_str_id, ter_str_id> dies_into {{
+            {t_grass->id, ter_t_grass_dead},
+            {t_grass_long->id, ter_t_grass_dead},
+            {t_grass_tall->id, ter_t_grass_dead},
+            {t_moss->id, ter_t_grass_dead},
+            {t_fungus->id, ter_t_dirt},
+            {t_grass_golf->id, ter_t_grass_dead},
+            {t_grass_white->id, ter_t_grass_dead},
         }};
 
-    const auto iter = dies_into.find( tid );
+    const auto iter = dies_into.find( tid->id );
     if( iter != dies_into.end() ) {
         if( one_in( 6 ) ) {
             m.ter_set( loc, t_dirt );
@@ -1524,7 +1524,7 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
         return false;
     };
 
-    weighted_int_list<furn_id> vegetation;
+    weighted_int_list<resolved_furn_id> vegetation;
     vegetation.add( f_cattails, 15 );
     vegetation.add( f_lotus, 5 );
     vegetation.add( furn_id( "f_purple_loosestrife" ), 1 );
@@ -1534,7 +1534,7 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
             const tripoint loc( i, j, abs_sub.z );
             if( ( m.ter( loc ) == t_water_sh || m.ter( loc ) == t_water_moving_sh ) &&
                 one_in( intensity ) ) {
-                m.furn_set( loc, vegetation.pick()->id() );
+                m.furn_set( loc, *vegetation.pick() );
             }
             // tall grass imitates reed
             if( ( m.ter( loc ) == t_dirt || m.ter( loc ) == t_grass ) &&
@@ -1566,12 +1566,12 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     const bool road_at_east = east->get_type_id() == oter_type_road;
 
     // defect types
-    weighted_int_list<ter_id> road_defects;
+    weighted_int_list<resolved_ter_id> road_defects;
     road_defects.add( t_pit_shallow, 15 );
     road_defects.add( t_dirt, 15 );
     road_defects.add( t_dirtmound, 15 );
     road_defects.add( t_pavement, 55 );
-    const weighted_int_list<ter_id> defects = road_defects;
+    const weighted_int_list<resolved_ter_id> defects = road_defects;
 
     // location holders
     point defects_from; // road defects square start

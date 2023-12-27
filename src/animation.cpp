@@ -913,27 +913,27 @@ void game::draw_radiation_override( const tripoint &, const int )
 #endif
 
 #if defined(TILES)
-void game::draw_terrain_override( const tripoint &p, const ter_id &id )
+void game::draw_terrain_override( const tripoint &p, const resolved_ter_id &id )
 {
     if( use_tiles ) {
         tilecontext->init_draw_terrain_override( p, id );
     }
 }
 #else
-void game::draw_terrain_override( const tripoint &, const ter_id & )
+void game::draw_terrain_override( const tripoint &, const resolved_ter_id & )
 {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_furniture_override( const tripoint &p, const furn_id &id )
+void game::draw_furniture_override( const tripoint &p, const resolved_furn_id &id )
 {
     if( use_tiles ) {
         tilecontext->init_draw_furniture_override( p, id );
     }
 }
 #else
-void game::draw_furniture_override( const tripoint &, const furn_id & )
+void game::draw_furniture_override( const tripoint &, const resolved_furn_id & )
 {
 }
 #endif

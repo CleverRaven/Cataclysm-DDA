@@ -75,7 +75,7 @@ struct gate_data {
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return gate_id( get_map().ter( pos ).id().str() );
+    return gate_id( get_map().ter( pos )->id.str() );
 }
 
 generic_factory<gate_data> gates_data( "gate type" );
@@ -131,9 +131,9 @@ void gate_data::check() const
 
 bool gate_data::is_suitable_wall( const tripoint &pos ) const
 {
-    const ter_id wid = get_map().ter( pos );
+    const resolved_ter_id wid = get_map().ter( pos );
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
-        return wall.id() == wid;
+        return wall == wid->id;
     } );
     return iter != walls.end();
 }
@@ -206,7 +206,7 @@ void gates::open_gate( const tripoint &pos )
             if( !close ) { // Opening the gate...
                 tripoint cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = here.ter( cur_pos );
+                    const resolved_ter_id ter = here.ter( cur_pos );
 
                     if( ter == gate.door.id() ) {
                         here.ter_set( cur_pos, gate.floor.id() );

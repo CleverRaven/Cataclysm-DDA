@@ -112,7 +112,7 @@ void game::extended_description( const tripoint &p )
                 if( !u.sees( p ) || !m.has_furn( p ) ) {
                     desc = _( "You do not see any furniture here." );
                 } else {
-                    const furn_id fid = m.furn( p );
+                    const resolved_furn_id fid = m.furn( p );
                     const std::string mod_src = enumerate_as_string( fid->src.begin(),
                     fid->src.end(), []( const std::pair<furn_str_id, mod_id> &source ) {
                         return string_format( "'%s'", source.second->name() );
@@ -124,7 +124,7 @@ void game::extended_description( const tripoint &p )
                 if( !u.sees( p ) ) {
                     desc = _( "You can't see the terrain here." );
                 } else {
-                    const ter_id tid = m.ter( p );
+                    const resolved_ter_id tid = m.ter( p );
                     const std::string mod_src = enumerate_as_string( tid->src.begin(),
                     tid->src.end(), []( const std::pair<ter_str_id, mod_id> &source ) {
                         return string_format( "'%s'", source.second->name() );

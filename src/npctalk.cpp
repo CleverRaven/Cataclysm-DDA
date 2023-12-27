@@ -3442,14 +3442,14 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
                     continue;
                 }
                 if( search_type.value() == "terrain" ) {
-                    if( here.ter( search_loc ).id().c_str() == cur_search_target ) {
+                    if( here.ter( search_loc )->id.str() == cur_search_target ) {
                         target_pos = here.getabs( search_loc );
                         found = true;
                         break;
                     }
                 } else if( search_type.value() == "furniture" ) {
-                    if( here.furn( search_loc ).id().c_str() == cur_search_target ||
-                        ( !here.furn( search_loc ).id().is_null() && cur_search_target.empty() ) ) {
+                    if( here.furn( search_loc )->id.str() == cur_search_target ||
+                        ( !here.furn( search_loc )->id.is_null() && cur_search_target.empty() ) ) {
                         target_pos = here.getabs( search_loc );
                         found = true;
                         break;

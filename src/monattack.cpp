@@ -1649,7 +1649,7 @@ bool mattack::growplants( monster *z )
         return true;
     }
     for( const tripoint &p : here.points_in_radius( z->pos(), 5 ) ) {
-        const ter_id ter = here.ter( p );
+        const resolved_ter_id ter = here.ter( p );
         if( ter != t_tree_young && ter != t_underbrush ) {
             // Skip as soon as possible to avoid all the checks
             continue;

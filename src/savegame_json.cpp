@@ -4747,7 +4747,7 @@ void submap::store( JsonOut &jsout ) const
     jsout.member( "terrain" );
     jsout.start_array();
     if( is_uniform() ) {
-        _write_rle_terrain( jsout, uniform_ter.id().str(), SEEX * SEEY );
+        _write_rle_terrain( jsout, uniform_ter->id.str(), SEEX * SEEY );
         jsout.end_array();
         return;
     }
@@ -4818,7 +4818,7 @@ void submap::store( JsonOut &jsout ) const
         for( int i = 0; i < SEEX; i++ ) {
             const point p( i, j );
             // Save furniture
-            if( get_furn( p ) ) {
+            if( get_furn( p ) != f_null ) {
                 jsout.start_array();
                 jsout.write( p.x );
                 jsout.write( p.y );
@@ -5004,7 +5004,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         } else {
             // terrain is encoded using simple RLE
             int remaining = 0;
-            int_id<ter_t> iid;
+            resolved_ter_id iid;
             for( int j = 0; j < SEEY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < SEEX; i++ ) {

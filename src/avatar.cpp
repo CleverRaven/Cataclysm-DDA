@@ -1893,8 +1893,8 @@ void avatar::try_to_sleep( const time_duration &dur )
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( pos() );
     const trap &trap_at_pos = here.tr_at( pos() );
-    const ter_id ter_at_pos = here.ter( pos() );
-    const furn_id furn_at_pos = here.furn( pos() );
+    const resolved_ter_id ter_at_pos = here.ter( pos() );
+    const resolved_furn_id furn_at_pos = here.furn( pos() );
     bool plantsleep = false;
     bool fungaloid_cosplay = false;
     bool websleep = false;

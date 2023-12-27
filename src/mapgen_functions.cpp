@@ -121,7 +121,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     return iter == pointers.end() ? nullptr : iter->second;
 }
 
-ter_id grass_or_dirt()
+resolved_ter_id grass_or_dirt()
 {
     if( one_in( 4 ) ) {
         return t_grass;
@@ -129,7 +129,7 @@ ter_id grass_or_dirt()
     return t_dirt;
 }
 
-ter_id clay_or_sand()
+resolved_ter_id clay_or_sand()
 {
     if( one_in( 16 ) ) {
         return t_sand;
@@ -1260,7 +1260,7 @@ void mapgen_forest( mapgendata &dat )
     * @param p: The point to place the dependent feature, if one is selected.
     */
     const auto set_terrain_dependent_furniture =
-    [&self_biome, &m]( const ter_id & tid, const point & p ) {
+    [&self_biome, &m]( const resolved_ter_id & tid, const point & p ) {
         const auto terrain_dependent_furniture_it = self_biome.terrain_dependent_furniture.find(
                     tid );
         if( terrain_dependent_furniture_it == self_biome.terrain_dependent_furniture.end() ) {
@@ -2358,13 +2358,13 @@ void mremove_fields( map *m, const point &p )
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )
 {
     for( const tripoint &p : dat.m.points_on_zlevel() ) {
-        const ter_id tid_before = dat.m.ter( p );
-        const ter_id tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
+        const resolved_ter_id tid_before = dat.m.ter( p );
+        const resolved_ter_id tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
         if( tid_after != tid_before ) {
             dat.m.ter_set( p, tid_after );
         }
-        const furn_id fid_before = dat.m.furn( p );
-        const furn_id fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
+        const resolved_furn_id fid_before = dat.m.furn( p );
+        const resolved_furn_id fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
         if( fid_after != fid_before ) {
             dat.m.furn_set( p, fid_after );
         }

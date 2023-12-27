@@ -147,7 +147,7 @@ void complete_activity( Character &u )
     }
 }
 
-void check_ter_in_radius( tripoint_abs_ms const &center, int range, ter_id const &ter )
+void check_ter_in_radius( tripoint_abs_ms const &center, int range, resolved_ter_id const &ter )
 {
     map tm;
     tm.load( project_to<coords::sm>( center - point{ range, range } ), false, false );
@@ -160,7 +160,7 @@ void check_ter_in_radius( tripoint_abs_ms const &center, int range, ter_id const
 }
 
 void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &second,
-                        ter_id const &ter )
+                        resolved_ter_id const &ter )
 {
     map tm;
     tripoint_abs_ms const orig = coord_min( first, second );

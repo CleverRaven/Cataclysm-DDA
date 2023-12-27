@@ -17,7 +17,7 @@
 // https://github.com/CleverRaven/Cataclysm-DDA/issues/24707
 TEST_CASE( "pavement_destroy", "[.]" )
 {
-    const ter_id flat_roof_id = ter_id( "t_flat_roof" );
+    const resolved_ter_id flat_roof_id = ter_id( "t_flat_roof" );
     REQUIRE( flat_roof_id != t_null );
 
     clear_map_and_put_player_underground();
@@ -27,7 +27,7 @@ TEST_CASE( "pavement_destroy", "[.]" )
 
     // Destroy it
     here.destroy( tripoint_zero, true );
-    ter_id after_destroy = here.ter( tripoint_zero );
+    resolved_ter_id after_destroy = here.ter( tripoint_zero );
     if( after_destroy == flat_roof_id ) {
         FAIL( flat_roof_id.obj().name() << " found after destroying pavement" );
     } else {
@@ -40,7 +40,7 @@ TEST_CASE( "pavement_destroy", "[.]" )
 // https://github.com/CleverRaven/Cataclysm-DDA/issues/23250
 TEST_CASE( "explosion_on_ground", "[.]" )
 {
-    ter_id flat_roof_id = ter_id( "t_flat_roof" );
+    resolved_ter_id flat_roof_id = ter_id( "t_flat_roof" );
     REQUIRE( flat_roof_id != t_null );
 
     clear_map_and_put_player_underground();
@@ -70,7 +70,7 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     for( int x = 0; x < area_dim; x++ ) {
         for( int y = 0; y < area_dim; y++ ) {
             tripoint pt( x, y, 0 );
-            ter_id t_id = here.ter( pt );
+            resolved_ter_id t_id = here.ter( pt );
             if( t_id == flat_roof_id ) {
                 FAIL( "After explosion, " << t_id.obj().name() << " found at " << x << "," << y );
             }
@@ -83,10 +83,10 @@ TEST_CASE( "explosion_on_ground", "[.]" )
 // the defined roof of a t_rock-floor).
 TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 {
-    ter_id flat_roof_id = ter_id( "t_flat_roof" );
-    ter_id floor_id = ter_id( "t_floor" );
-    ter_id rock_floor_id = ter_id( "t_rock_floor" );
-    ter_id open_air_id = ter_id( "t_open_air" );
+    resolved_ter_id flat_roof_id = ter_id( "t_flat_roof" );
+    resolved_ter_id floor_id = ter_id( "t_floor" );
+    resolved_ter_id rock_floor_id = ter_id( "t_rock_floor" );
+    resolved_ter_id open_air_id = ter_id( "t_open_air" );
 
     REQUIRE( flat_roof_id != t_null );
     REQUIRE( floor_id != t_null );
@@ -117,7 +117,7 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     for( int x = 0; x < area_dim; x++ ) {
         for( int y = 0; y < area_dim; y++ ) {
             tripoint pt( x, y, 0 );
-            ter_id t_id = here.ter( pt );
+            resolved_ter_id t_id = here.ter( pt );
             INFO( "t " << t_id.obj().name() << " at " << x << "," << y );
             if( t_id == open_air_id ) {
                 found_open_air = true;
@@ -140,10 +140,10 @@ TEST_CASE( "collapse_checks", "[.]" )
 {
     constexpr int wall_size = 5;
 
-    const ter_id floor_id = ter_id( "t_floor" );
-    const ter_id dirt_id = ter_id( "t_dirt" );
-    const ter_id wall_id = ter_id( "t_wall" );
-    const ter_id open_air_id = ter_id( "t_open_air" );
+    const resolved_ter_id floor_id = ter_id( "t_floor" );
+    const resolved_ter_id dirt_id = ter_id( "t_dirt" );
+    const resolved_ter_id wall_id = ter_id( "t_wall" );
+    const resolved_ter_id open_air_id = ter_id( "t_open_air" );
 
     REQUIRE( floor_id != t_null );
     REQUIRE( dirt_id != t_null );
@@ -206,7 +206,7 @@ TEST_CASE( "collapse_checks", "[.]" )
         if( pt.z == 0 ) {
             continue;
         }
-        const ter_id t_id = here.ter( pt );
+        const resolved_ter_id t_id = here.ter( pt );
         tile_count += 1;
         if( t_id == t_open_air ) {
             open_air_count += 1;

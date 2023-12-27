@@ -131,7 +131,7 @@ class mapgendata
 
         map &m;
 
-        weighted_int_list<ter_id> default_groundcover;
+        weighted_int_list<resolved_ter_id> default_groundcover;
 
         struct dummy_settings_t {};
         static constexpr dummy_settings_t dummy_settings = {};
@@ -226,7 +226,7 @@ class mapgendata
         const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
         void square_groundcover( const point &p1, const point &p2 ) const;
-        ter_id groundcover() const;
+        resolved_ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
 
         bool has_flag( jmapgen_flags ) const;

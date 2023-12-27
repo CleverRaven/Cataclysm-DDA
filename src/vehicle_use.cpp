@@ -1034,11 +1034,11 @@ void vehicle::transform_terrain()
             }
         }
         if( prereq_fulfilled ) {
-            const ter_id new_ter = ter_id( ttd.post_terrain );
+            const resolved_ter_id new_ter = ter_id( ttd.post_terrain );
             if( new_ter != t_null ) {
                 here.ter_set( start_pos, new_ter );
             }
-            const furn_id new_furn = furn_id( ttd.post_furniture );
+            const resolved_furn_id new_furn = furn_id( ttd.post_furniture );
             if( new_furn != f_null ) {
                 here.furn_set( start_pos, new_furn );
             }

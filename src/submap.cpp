@@ -215,7 +215,7 @@ bool submap::contains_vehicle( vehicle *veh )
 
 bool submap::is_open_air( const point &p ) const
 {
-    ter_id t = get_ter( p );
+    resolved_ter_id t = get_ter( p );
     return t->trap == tr_ledge;
 }
 

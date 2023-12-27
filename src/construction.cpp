@@ -919,7 +919,8 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
     return false;
 }
 
-bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id const &t )
+bool can_construct_furn_ter( const construction &con, resolved_furn_id const &f,
+                             resolved_ter_id const &t )
 {
     return std::all_of( con.pre_flags.begin(), con.pre_flags.end(), [&f, &t]( auto const & flag ) {
         const bool use_ter = flag.second || f == f_null;
@@ -931,8 +932,8 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
-    const furn_id f = here.furn( p );
-    const ter_id t = here.ter( p );
+    const resolved_furn_id f = here.furn( p );
+    const resolved_ter_id t = here.ter( p );
 
     if( !con.pre_special( p ) ||                 // pre-function
         !has_pre_terrain( con, p ) ||            // terrain type

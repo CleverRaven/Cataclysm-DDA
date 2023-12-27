@@ -1144,7 +1144,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         }
     }
     // If the flames are in a pit, it can't spread to non-pit
-    const bool in_pit = ter.id.id() == t_pit;
+    const bool in_pit = ter.id == t_pit->id;
 
     // Count adjacent fires, to optimize out needless smoke and hot air
     int adjacent_fires = 0;
@@ -1301,7 +1301,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                ( in_pit == ( dster.id == t_pit->id ) ) &&
                 (
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE ) &&
                                       one_in( 2 ) ) ) ||
@@ -1361,7 +1361,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                ( in_pit == ( dster.id == t_pit->id ) ) &&
                 (
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE ) &&
                                       one_in( 2 ) ) ) ||

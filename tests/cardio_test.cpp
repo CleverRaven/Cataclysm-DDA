@@ -53,7 +53,7 @@ static void verify_default_cardio_options()
 }
 
 // Count the number of steps (tiles) until character runs out of stamina or becomes winded.
-static int running_steps( Character &they, const ter_id &terrain = t_pavement )
+static int running_steps( Character &they, const resolved_ter_id &terrain = t_pavement )
 {
     map &here = get_map();
     // Please take off your shoes when entering, and no NPCs allowed

@@ -231,7 +231,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( here.furn( p ).to_i() > 0 ) {
+                if( here.furn( p )->id.id().to_i() > 0 ) {
                     const furn_t &furniture_type = here.furn( p ).obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
@@ -668,7 +668,7 @@ void editmap::draw_main_ui_overlay()
             std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
-                    submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z } );
+                    submap *sm = tmpmap.get_submap_at_grid( tripoint { x, y, target.z } );
                     if( sm ) {
                         const tripoint sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z );
                         for( const spawn_point &sp : sm->spawns ) {
@@ -727,15 +727,15 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target )->id.id().to_i(),
                static_cast<std::string>( terrain_type.id ),
                terrain_type.movecost
              );
     off++; // 2
-    if( here.furn( target ).to_i() > 0 ) {
+    if( here.furn( target )->id.id().to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
-                   here.furn( target ).to_i(),
+                   here.furn( target )->id.id().to_i(),
                    static_cast<std::string>( furniture_type.id ),
                    furniture_type.movecost,
                    furniture_type.move_str_req
@@ -898,13 +898,13 @@ static T_id feature( const tripoint &p );
 template<>
 ter_id feature<ter_id>( const tripoint &p )
 {
-    return get_map().ter( p );
+    return get_map().ter( p )->id;
 }
 
 template<>
 furn_id feature<furn_id>( const tripoint &p )
 {
-    return get_map().furn( p );
+    return get_map().furn( p )->id;
 }
 
 template<>
@@ -2011,7 +2011,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            submap *destsm = target_bay.get_submap_at_grid( tripoint { x, y, target.z } );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to get vehicles at (%d,%d,%d) but the submap is not loaded", x, y, target.z );
                 continue;
@@ -2048,7 +2048,7 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
     target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            submap *destsm = target_bay.get_submap_at_grid( tripoint { x, y, target.z } );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to destroy vehicle at (%d,%d,%d) but the submap is not loaded", x, y, target.z );
                 continue;

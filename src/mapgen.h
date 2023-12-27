@@ -521,7 +521,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
 
     protected:
         bool setup_internal( const JsonObject &/*jo*/ ) override;
-        ter_id fill_ter;
+        ter_str_id fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base
@@ -636,19 +636,20 @@ enum room_type {
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
 // wrappers for map:: functions
-void line( map *m, const ter_id &type, const point &p1, const point &p2 );
-void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
-void fill_background( map *m, const ter_id &type );
-void fill_background( map *m, ter_id( *f )() );
-void square( map *m, const ter_id &type, const point &p1, const point &p2 );
-void square( map *m, ter_id( *f )(), const point &p1, const point &p2 );
-void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 );
-void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
-void rough_circle( map *m, const ter_id &type, const point &, int rad );
-void rough_circle_furn( map *m, const furn_id &type, const point &, int rad );
-void circle( map *m, const ter_id &type, double x, double y, double rad );
-void circle( map *m, const ter_id &type, const point &, int rad );
-void circle_furn( map *m, const furn_id &type, const point &, int rad );
+void line( map *m, const resolved_ter_id &type, const point &p1, const point &p2 );
+void line_furn( map *m, const resolved_furn_id &type, const point &p1, const point &p2 );
+void fill_background( map *m, const resolved_ter_id &type );
+void fill_background( map *m, resolved_ter_id( *f )() );
+void square( map *m, const resolved_ter_id &type, const point &p1, const point &p2 );
+void square( map *m, resolved_ter_id( *f )(), const point &p1, const point &p2 );
+void square( map *m, const weighted_int_list<resolved_ter_id> &f, const point &p1,
+             const point &p2 );
+void square_furn( map *m, const resolved_furn_id &type, const point &p1, const point &p2 );
+void rough_circle( map *m, const resolved_ter_id &type, const point &, int rad );
+void rough_circle_furn( map *m, const resolved_furn_id &type, const point &, int rad );
+void circle( map *m, const resolved_ter_id &type, double x, double y, double rad );
+void circle( map *m, const resolved_ter_id &type, const point &, int rad );
+void circle_furn( map *m, const resolved_furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
 extern std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;

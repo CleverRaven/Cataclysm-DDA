@@ -842,7 +842,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         !veh.is_flying_in_air() && dp.z == 0 ) {
         veh.velocity -= std::clamp( veh.velocity, -2000, 2000 ); // extra drag
         for( const tripoint &p : veh.get_points() ) {
-            const ter_id &pter = ter( p );
+            const resolved_ter_id &pter = ter( p );
             if( pter == t_dirt || pter == t_grass ) {
                 ter_set( p, t_dirtmound );
             }
@@ -1633,7 +1633,8 @@ bool map::displace_water( const tripoint &p )
 
 // End of 3D vehicle
 
-void map::set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture )
+void map::set( const tripoint &p, const resolved_ter_id &new_terrain,
+               const resolved_furn_id &new_furniture )
 {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
@@ -1672,7 +1673,7 @@ bool map::has_furn( const tripoint_bub_ms &p ) const
     return has_furn( p.raw() );
 }
 
-furn_id map::furn( const tripoint &p ) const
+resolved_furn_id map::furn( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return f_null;
@@ -1688,12 +1689,12 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( l );
 }
 
-furn_id map::furn( const tripoint_bub_ms &p ) const
+resolved_furn_id map::furn( const tripoint_bub_ms &p ) const
 {
     return furn( p.raw() );
 }
 
-bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset,
+bool map::furn_set( const tripoint &p, const resolved_furn_id &new_furniture, const bool furn_reset,
                     bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
@@ -1712,8 +1713,8 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
-    const furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
-    const furn_id old_id = current_submap->get_furn( l );
+    const resolved_furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
+    const resolved_furn_id old_id = current_submap->get_furn( l );
     if( old_id == new_target_furniture ) {
         // Nothing changed
         return true;
@@ -1731,10 +1732,10 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     if( current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
         new_target_furniture != f_null ) {
-        const ter_id current_ter = current_submap->get_ter( l );
+        const resolved_ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
                   "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
-                  new_target_furniture.id().str(), p.to_string(), current_ter.id().str() );
+                  new_target_furniture->id.str(), p.to_string(), current_ter->id.str() );
         result = false;
     }
 
@@ -1806,7 +1807,8 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     return result;
 }
 
-bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
+bool map::furn_set( const tripoint_bub_ms &p, const resolved_furn_id &new_furniture,
+                    const bool furn_reset,
                     bool avoid_creatures )
 {
     return furn_set( p.raw(), new_furniture, furn_reset, avoid_creatures );
@@ -1870,7 +1872,7 @@ std::string map::furnname( const tripoint_bub_ms &p )
  * retained for high performance comparisons, save/load, and gradual transition
  * to string terrain.id
  */
-ter_id map::ter( const tripoint &p ) const
+resolved_ter_id map::ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return t_null;
@@ -1886,7 +1888,7 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
-ter_id map::ter( const tripoint_bub_ms &p ) const
+resolved_ter_id map::ter( const tripoint_bub_ms &p ) const
 {
     return ter( p.raw() );
 }
@@ -1923,7 +1925,7 @@ void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
 
 uint8_t map::get_known_connections( const tripoint &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
-                                    const std::map<tripoint, ter_id> &override ) const
+                                    const std::map<tripoint, resolved_ter_id> &override ) const
 {
     if( connect_group.none() ) {
         return 0;
@@ -1980,7 +1982,7 @@ uint8_t map::get_known_connections( const tripoint &p,
 
 uint8_t map::get_known_rotates_to( const tripoint &p,
                                    const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                   const std::map<tripoint, ter_id> &override ) const
+                                   const std::map<tripoint, resolved_ter_id> &override ) const
 {
     if( rotate_to_group.none() ) {
         return CHAR_MAX;
@@ -2009,7 +2011,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p,
 
 uint8_t map::get_known_connections_f( const tripoint &p,
                                       const std::bitset<NUM_TERCONN> &connect_group,
-                                      const std::map<tripoint, furn_id> &override ) const
+                                      const std::map<tripoint, resolved_furn_id> &override ) const
 {
     if( connect_group.none() ) {
         return 0;
@@ -2066,8 +2068,8 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 
 uint8_t map::get_known_rotates_to_f( const tripoint &p,
                                      const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                     const std::map<tripoint, ter_id> &override,
-                                     const std::map<tripoint, furn_id> &override_f ) const
+                                     const std::map<tripoint, resolved_ter_id> &override,
+                                     const std::map<tripoint, resolved_furn_id> &override_f ) const
 {
     if( rotate_to_group.none() ) {
         return CHAR_MAX;
@@ -2107,7 +2109,7 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
  */
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    const furn_id furn_here = furn( pos );
+    const resolved_furn_id furn_here = furn( pos );
     if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         const harvest_id &harvest = furn_here->get_harvest();
         if( ! harvest.is_null() ) {
@@ -2115,7 +2117,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
         }
     }
 
-    const ter_id ter_here = ter( pos );
+    const resolved_ter_id ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return harvest_id::NULL_ID();
     }
@@ -2126,7 +2128,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
-    const furn_id furn_here = furn( pos );
+    const resolved_furn_id furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
         if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
             return null_harvest_names;
@@ -2135,7 +2137,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
         return furn_here->get_harvest_names();
     }
 
-    const ter_id ter_here = ter( pos );
+    const resolved_ter_id ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return null_harvest_names;
     }
@@ -2174,7 +2176,7 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures )
+bool map::ter_set( const tripoint &p, const resolved_ter_id &new_terrain, bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         return false;
@@ -2192,7 +2194,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         debugmsg( "Tried to set terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
         return true;
     }
-    const ter_id old_id = current_submap->get_ter( l );
+    const resolved_ter_id old_id = current_submap->get_ter( l );
     if( old_id == new_terrain ) {
         // Nothing changed
         return false;
@@ -2206,12 +2208,12 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     const ter_t &new_t = new_terrain.obj();
 
     if( current_submap->is_open_air( l ) ) {
-        const furn_id &current_furn = current_submap->get_furn( l );
+        const resolved_furn_id &current_furn = current_submap->get_furn( l );
         if( current_furn != f_null &&
             !current_furn->has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
             debugmsg( "Setting terrain %s at %s where furniture is %s.  Terrain is_open_air\n"
                       "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
-                      new_terrain.id().str(), p.to_string(), current_furn.id().str() );
+                      new_terrain->id.str(), p.to_string(), current_furn->id.str() );
         }
     }
 
@@ -2282,7 +2284,8 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     return true;
 }
 
-bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures )
+bool map::ter_set( const tripoint_bub_ms &p, const resolved_ter_id &new_terrain,
+                   bool avoid_creatures )
 {
     return ter_set( p.raw(), new_terrain, avoid_creatures );
 }
@@ -2669,7 +2672,7 @@ bool map::supports_above( const tripoint &p ) const
         return true;
     }
 
-    const furn_id frn_id = tile.get_furn();
+    const resolved_furn_id frn_id = tile.get_furn();
     if( frn_id != f_null ) {
         const furn_t &frn = frn_id.obj();
         if( frn.movecost < 0 ) {
@@ -2711,7 +2714,7 @@ void map::drop_everything( const tripoint &p )
 
 void map::drop_furniture( const tripoint &p )
 {
-    const furn_id frn = furn( p );
+    const resolved_furn_id frn = furn( p );
     if( frn == f_null ) {
         return;
     }
@@ -2739,7 +2742,7 @@ void map::drop_furniture( const tripoint &p )
             return SS_GOOD_SUPPORT;
         }
 
-        const furn_id frn_id = furn( below_dest );
+        const resolved_furn_id frn_id = furn( below_dest );
         if( frn_id != f_null ) {
             const furn_t &frn = frn_id.obj();
             // Allow crushing tiny/nocollide furniture
@@ -3226,8 +3229,8 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
 // End of 3D bashable
 
-void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
-                       const ter_id &floor_type, bool overwrite )
+void map::make_rubble( const tripoint &p, const resolved_furn_id &rubble_type, const bool items,
+                       const resolved_ter_id &floor_type, bool overwrite )
 {
     if( overwrite ) {
         ter_set( p, floor_type );
@@ -3541,7 +3544,7 @@ bool map::has_nearby_chair( const tripoint &p, int radius ) const
     return false;
 }
 
-bool map::has_nearby_ter( const tripoint &p, const ter_id &type, int radius ) const
+bool map::has_nearby_ter( const tripoint &p, const resolved_ter_id &type, int radius ) const
 {
     for( const tripoint &pt : points_in_radius( p, radius ) ) {
         if( ter( pt ) == type ) {
@@ -3863,7 +3866,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     }
 }
 
-ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
+resolved_ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
@@ -3886,7 +3889,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
         return t_open_air;
     }
 
-    ter_id new_ter = roof.id();
+    resolved_ter_id new_ter = roof.id();
     if( new_ter == t_null ) {
         debugmsg( "map::get_new_floor: %d,%d,%d has invalid roof type %s",
                   p.x, p.y, p.z, roof.c_str() );
@@ -3951,7 +3954,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.xy(), p.z - 1 );
-            const ter_id roof = get_roof( below, false );
+            const resolved_ter_id roof = get_roof( below, false );
             if( roof == ter( p ) ) {
                 smash_ter = false;
                 bash = nullptr;
@@ -4075,14 +4078,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     // Special code to collapse the tent if destroyed
     if( tent ) {
         // Get ids of possible centers
-        std::set<furn_id> centers;
+        std::set<resolved_furn_id> centers;
         for( const auto &cur_id : bash->tent_centers ) {
             if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
         }
 
-        std::optional<std::pair<tripoint, furn_id>> tentp;
+        std::optional<std::pair<tripoint, resolved_furn_id>> tentp;
 
         // Find the center of the tent
         // First check if we're not currently bashing the center
@@ -4090,7 +4093,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             tentp.emplace( p, furn( p ) );
         } else {
             for( const tripoint &pt : points_in_radius( p, bash->collapse_radius ) ) {
-                const furn_id &f_at = furn( pt );
+                const resolved_furn_id &f_at = furn( pt );
                 // Check if we found the center of the current tent
                 if( centers.count( f_at ) > 0 ) {
                     tentp.emplace( pt, f_at );
@@ -4106,7 +4109,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // Take the tent down
             const int rad = tentp->second.obj().bash.collapse_radius;
             for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
-                const furn_id frn = furn( pt );
+                const resolved_furn_id frn = furn( pt );
                 if( frn == f_null ) {
                     continue;
                 }
@@ -4166,7 +4169,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( smash_ter && ter( p ) == t_open_air && zlevels ) {
         tripoint below( p.xy(), p.z - 1 );
-        const ter_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        const resolved_ter_id roof = get_roof( below, params.bash_floor &&
+                                               ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
 
@@ -4453,8 +4457,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         return false;
     };
 
-    furn_id furniture = furn( p );
-    ter_id terrain = ter( p );
+    resolved_furn_id furniture = furn( p );
+    resolved_ter_id terrain = ter( p );
     bool hit_something = false;
 
     // shoot through furniture or terrain and see if we hit something
@@ -4530,7 +4534,7 @@ bool map::hit_with_acid( const tripoint &p )
     if( passable( p ) ) {
         return false;    // Didn't hit the tile!
     }
-    const ter_id t = ter( p );
+    const resolved_ter_id t = ter( p );
     if( t == t_wall_glass || t == t_wall_glass_alarm ||
         t == t_vat ) {
         ter_set( p, t_floor );
@@ -4634,7 +4638,7 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
     return false;
 }
 
-void map::translate( const ter_id &from, const ter_id &to )
+void map::translate( const resolved_ter_id &from, const resolved_ter_id &to )
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
@@ -4650,8 +4654,8 @@ void map::translate( const ter_id &from, const ter_id &to )
 }
 
 //This function performs the translate function within a given radius of the player.
-void map::translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
-                            const bool same_submap, const bool toggle_between )
+void map::translate_radius( const resolved_ter_id &from, const resolved_ter_id &to, float radi,
+                            const tripoint &p, const bool same_submap, const bool toggle_between )
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s", from.obj().name(), to.obj().name() );
@@ -5321,7 +5325,7 @@ item map::water_from( const tripoint &p )
         }
     }
 
-    const ter_id terrain_id = ter( p );
+    const resolved_ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
@@ -7298,7 +7302,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
         obstaclepos = new_point;
         return false;
     } );
-    if( const furn_id obstacle_f = furn( obstaclepos ) ) {
+    if( const resolved_furn_id obstacle_f = furn( obstaclepos ); obstacle_f != f_null ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( obstaclepos ) ) {
@@ -7347,7 +7351,7 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p ) cons
         }
     }
     // Viewer eye level is higher when standing on furniture
-    const furn_id viewer_furn = furn( viewer_p );
+    const resolved_furn_id viewer_furn = furn( viewer_p );
     if( viewer_furn.obj().id ) {
         eye_level += viewer_furn->coverage * 0.01f;
     }
@@ -7398,7 +7402,7 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
     float ledge_coverage = ( covered_z - target_p.z * zlevel_to_grid_ratio ) * 100;
 
     // Target has a coverage penalty when standing on furniture
-    const furn_id target_furn = furn( target_p );
+    const resolved_furn_id target_furn = furn( target_p );
     if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
                                   !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
         ledge_coverage -= target_furn->coverage;
@@ -7409,7 +7413,7 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
 
 int map::coverage( const tripoint &p ) const
 {
-    if( const furn_id obstacle_f = furn( p ) ) {
+    if( const resolved_furn_id obstacle_f = furn( p ); obstacle_f != f_null ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -8433,19 +8437,19 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
         furn_set( p, f_null );
     }
 
-    const ter_id tid = ter( p );
+    const resolved_ter_id tid = ter( p );
     // TODO: De-hardcode this
-    static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_dirt},
-            {t_tree_young, ter_t_dirt},
-            {t_tree_pine, ter_t_tree_deadpine},
-            {t_tree_birch, ter_t_tree_birch_harvested},
-            {t_tree_willow, ter_t_tree_willow_harvested},
-            {t_tree_hickory, ter_t_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
+    static const std::map<ter_str_id, ter_str_id> dies_into {{
+            {t_grass->id, ter_t_dirt},
+            {t_tree_young->id, ter_t_dirt},
+            {t_tree_pine->id, ter_t_tree_deadpine},
+            {t_tree_birch->id, ter_t_tree_birch_harvested},
+            {t_tree_willow->id, ter_t_tree_willow_harvested},
+            {t_tree_hickory->id, ter_t_tree_hickory_dead},
+            {t_tree_hickory_harvested->id, ter_t_tree_hickory_dead},
         }};
 
-    const auto iter = dies_into.find( tid );
+    const auto iter = dies_into.find( tid->id );
     if( iter != dies_into.end() ) {
         ter_set( p, iter->second );
         return;
@@ -8572,7 +8576,7 @@ void map::add_roofs( const tripoint &grid )
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            const ter_id ter_here = sub_here->get_ter( { x, y } );
+            const resolved_ter_id ter_here = sub_here->get_ter( { x, y } );
             if( ter_here != t_open_air ) {
                 continue;
             }
@@ -8942,7 +8946,7 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-fake_map::fake_map( const ter_id &ter_type )
+fake_map::fake_map( const resolved_ter_id &ter_type )
 {
     const tripoint_abs_sm tripoint_below_zero( 0, 0, fake_map_z );
 
@@ -9556,7 +9560,7 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 }
 
-void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+void map::draw_line_ter( const resolved_ter_id &type, const point &p1, const point &p2,
                          bool avoid_creatures )
 {
     draw_line( [this, type, avoid_creatures]( const point & p ) {
@@ -9564,7 +9568,7 @@ void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2,
     }, p1, p2 );
 }
 
-void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+void map::draw_line_furn( const resolved_furn_id &type, const point &p1, const point &p2,
                           bool avoid_creatures )
 {
     draw_line( [this, type, avoid_creatures]( const point & p ) {
@@ -9572,7 +9576,7 @@ void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2,
     }, p1, p2 );
 }
 
-void map::draw_fill_background( const ter_id &type )
+void map::draw_fill_background( const resolved_ter_id &type )
 {
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z() );
@@ -9593,16 +9597,16 @@ void map::draw_fill_background( const ter_id &type )
     }
 }
 
-void map::draw_fill_background( ter_id( *f )() )
+void map::draw_fill_background( resolved_ter_id( *f )() )
 {
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
-void map::draw_fill_background( const weighted_int_list<ter_id> &f )
+void map::draw_fill_background( const weighted_int_list<resolved_ter_id> &f )
 {
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+void map::draw_square_ter( const resolved_ter_id &type, const point &p1, const point &p2,
                            bool avoid_creatures )
 {
     draw_square( [this, type, avoid_creatures]( const point & p ) {
@@ -9610,7 +9614,7 @@ void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2,
     }, p1, p2 );
 }
 
-void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+void map::draw_square_furn( const resolved_furn_id &type, const point &p1, const point &p2,
                             bool avoid_creatures )
 {
     draw_square( [this, type, avoid_creatures]( const point & p ) {
@@ -9618,30 +9622,31 @@ void map::draw_square_furn( const furn_id &type, const point &p1, const point &p
     }, p1, p2 );
 }
 
-void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2, bool avoid_creatures )
+void map::draw_square_ter( resolved_ter_id( *f )(), const point &p1, const point &p2,
+                           bool avoid_creatures )
 {
     draw_square( [this, f, avoid_creatures]( const point & p ) {
         this->ter_set( p, f(), avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
+void map::draw_square_ter( const weighted_int_list<resolved_ter_id> &f, const point &p1,
                            const point &p2, bool avoid_creatures )
 {
     draw_square( [this, f, avoid_creatures]( const point & p ) {
-        const ter_id *tid = f.pick();
+        const resolved_ter_id *tid = f.pick();
         this->ter_set( p, tid != nullptr ? *tid : t_null, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_rough_circle_ter( const ter_id &type, const point &p, int rad )
+void map::draw_rough_circle_ter( const resolved_ter_id &type, const point &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_rough_circle_furn( const furn_id &type, const point &p, int rad )
+void map::draw_rough_circle_furn( const resolved_furn_id &type, const point &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
         if( !is_open_air( tripoint( q, abs_sub.z() ) ) ) {
@@ -9650,21 +9655,21 @@ void map::draw_rough_circle_furn( const furn_id &type, const point &p, int rad )
     }, p, rad );
 }
 
-void map::draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad )
+void map::draw_circle_ter( const resolved_ter_id &type, const rl_vec2d &p, double rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_ter( const ter_id &type, const point &p, int rad )
+void map::draw_circle_ter( const resolved_ter_id &type, const point &p, int rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_furn( const furn_id &type, const point &p, int rad )
+void map::draw_circle_furn( const resolved_furn_id &type, const point &p, int rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->furn_set( q, type );

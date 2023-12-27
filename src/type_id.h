@@ -5,6 +5,7 @@
 // IWYU pragma: begin_exports
 #include "int_id.h"
 #include "string_id.h"
+#include "resolved_id.h"
 // IWYU pragma: end_exports
 
 class achievement;
@@ -98,6 +99,7 @@ using field_type_str_id = string_id<field_type>;
 struct furn_t;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
+using resolved_furn_id = resolved_id<furn_t>;
 
 class climbing_aid;
 using climbing_aid_id = string_id<climbing_aid>;
@@ -257,6 +259,7 @@ using proficiency_id = string_id<proficiency>;
 struct ter_t;
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
+using resolved_ter_id = resolved_id<ter_t>;
 
 class ter_furn_transform;
 using ter_furn_transform_id = string_id<ter_furn_transform>;

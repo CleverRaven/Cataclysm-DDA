@@ -238,9 +238,9 @@ bool mapgendata::has_flag( jmapgen_flags f ) const
     return mapgen_flags_.test( f );
 }
 
-ter_id mapgendata::groundcover() const
+resolved_ter_id mapgendata::groundcover() const
 {
-    const ter_id *tid = default_groundcover.pick();
+    const resolved_ter_id *tid = default_groundcover.pick();
     return tid != nullptr ? *tid : t_null;
 }
 

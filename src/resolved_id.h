@@ -76,10 +76,6 @@ class resolved_id
             return ptr_ != rhs.ptr_;
         }
 
-        explicit operator bool() const {
-            return is_valid();
-        }
-
         const T &obj() const {
             return *ptr_;
         }

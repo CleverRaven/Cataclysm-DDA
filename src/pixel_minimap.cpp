@@ -92,7 +92,7 @@ SDL_Color get_map_color_at( const tripoint &p )
         return curses_color_to_SDL( vd.color );
     }
 
-    if( const furn_id furn_id = here.furn( p ) ) {
+    if( const resolved_furn_id furn_id = here.furn( p ); furn_id != f_null ) {
         return curses_color_to_SDL( furn_id->color() );
     }
 

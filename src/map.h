@@ -786,8 +786,10 @@ class map
         vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
         // Furniture
-        void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture );
-        void set( const point &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
+        void set( const tripoint &p, const resolved_ter_id &new_terrain,
+                  const resolved_furn_id &new_furniture );
+        void set( const point &p, const resolved_ter_id &new_terrain,
+                  const resolved_furn_id &new_furniture ) {
             furn_set( p, new_furniture );
             ter_set( p, new_terrain );
         }
@@ -810,9 +812,9 @@ class map
             return has_furn( tripoint( p, abs_sub.z() ) );
         }
         // TODO: fix point types (remove the first overload)
-        furn_id furn( const tripoint &p ) const;
-        furn_id furn( const tripoint_bub_ms &p ) const;
-        furn_id furn( const point &p ) const {
+        resolved_furn_id furn( const tripoint &p ) const;
+        resolved_furn_id furn( const tripoint_bub_ms &p ) const;
+        resolved_furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z() ) );
         }
         /**
@@ -820,11 +822,12 @@ class map
         * when the player is grab-moving furniture
         */
         // TODO: fix point types (remove the first overload)
-        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false,
+        bool furn_set( const tripoint &p, const resolved_furn_id &new_furniture, bool furn_reset = false,
                        bool avoid_creatures = false );
-        bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
+        bool furn_set( const tripoint_bub_ms &p, const resolved_furn_id &new_furniture,
                        bool furn_reset = false, bool avoid_creatures = false );
-        bool furn_set( const point &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
+        bool furn_set( const point &p, const resolved_furn_id &new_furniture,
+                       bool avoid_creatures = false ) {
             return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         void furn_clear( const tripoint &p ) {
@@ -843,9 +846,9 @@ class map
 
         // Terrain
         // TODO: fix point types (remove the first overload)
-        ter_id ter( const tripoint &p ) const;
-        ter_id ter( const tripoint_bub_ms &p ) const;
-        ter_id ter( const point &p ) const {
+        resolved_ter_id ter( const tripoint &p ) const;
+        resolved_ter_id ter( const tripoint_bub_ms &p ) const;
+        resolved_ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z() ) );
         }
 
@@ -860,10 +863,10 @@ class map
         // at specific positions. This is used to display terrain overview in
         // the map editor.
         uint8_t get_known_connections( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
-                                       const std::map<tripoint, ter_id> &override = {} ) const;
+                                       const std::map<tripoint, resolved_ter_id> &override = {} ) const;
         // as above, but for furniture
         uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
-                                         const std::map<tripoint, furn_id> &override = {} ) const;
+                                         const std::map<tripoint, resolved_furn_id> &override = {} ) const;
 
         // Return a bitfield of the adjacent tiles which rotate towards the given
         // connect_group.  From least-significant bit the order is south, east,
@@ -873,11 +876,11 @@ class map
         // Additional overrides can be passed in to override terrain
         // at specific positions.
         uint8_t get_known_rotates_to( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                      const std::map<tripoint, ter_id> &override = {} ) const;
+                                      const std::map<tripoint, resolved_ter_id> &override = {} ) const;
         // as above, but for furniture (considers neighbouring terrain and furniture)
         uint8_t get_known_rotates_to_f( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                        const std::map<tripoint, ter_id> &override = {},
-                                        const std::map<tripoint, furn_id> &override_f = {} ) const;
+                                        const std::map<tripoint, resolved_ter_id> &override = {},
+                                        const std::map<tripoint, resolved_furn_id> &override_f = {} ) const;
 
         /**
          * Returns the full harvest list, for spawning.
@@ -890,13 +893,15 @@ class map
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
         // TODO: fix point types (remove the first overload)
-        bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false );
-        bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain, bool avoid_creatures = false );
+        bool ter_set( const tripoint &p, const resolved_ter_id &new_terrain, bool avoid_creatures = false );
+        bool ter_set( const tripoint_bub_ms &, const resolved_ter_id &new_terrain,
+                      bool avoid_creatures = false );
         // TODO: fix point types (remove the first overload)
-        bool ter_set( const point &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+        bool ter_set( const point &p, const resolved_ter_id &new_terrain, bool avoid_creatures = false ) {
             return ter_set( tripoint( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
-        bool ter_set( const point_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+        bool ter_set( const point_bub_ms &p, const resolved_ter_id &new_terrain,
+                      bool avoid_creatures = false ) {
             return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
 
@@ -921,7 +926,7 @@ class map
         /**
          * Checks whether a specific terrain is nearby.
         */
-        bool has_nearby_ter( const tripoint &p, const ter_id &type, int radius = 1 ) const;
+        bool has_nearby_ter( const tripoint &p, const resolved_ter_id &type, int radius = 1 ) const;
         /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
@@ -1073,9 +1078,9 @@ class map
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
          *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items,
-                          const ter_id &floor_type, bool overwrite = false );
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items ) {
+        void make_rubble( const tripoint &p, const resolved_furn_id &rubble_type, bool items,
+                          const resolved_ter_id &floor_type, bool overwrite = false );
+        void make_rubble( const tripoint &p, const resolved_furn_id &rubble_type, bool items ) {
             make_rubble( p, rubble_type, items, t_dirt, false );
         }
         void make_rubble( const tripoint &p ) {
@@ -1133,36 +1138,37 @@ class map
         point random_outdoor_tile() const;
         // mapgen
 
-        void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+        void draw_line_ter( const resolved_ter_id &type, const point &p1, const point &p2,
                             bool avoid_creature = false );
-        void draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+        void draw_line_furn( const resolved_furn_id &type, const point &p1, const point &p2,
                              bool avoid_creatures = false );
-        void draw_fill_background( const ter_id &type );
-        void draw_fill_background( ter_id( *f )() );
-        void draw_fill_background( const weighted_int_list<ter_id> &f );
+        void draw_fill_background( const resolved_ter_id &type );
+        void draw_fill_background( resolved_ter_id( *f )() );
+        void draw_fill_background( const weighted_int_list<resolved_ter_id> &f );
 
-        void draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+        void draw_square_ter( const resolved_ter_id &type, const point &p1, const point &p2,
                               bool avoid_creature = false );
-        void draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+        void draw_square_furn( const resolved_furn_id &type, const point &p1, const point &p2,
                                bool avoid_creatures = false );
-        void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2,
+        void draw_square_ter( resolved_ter_id( *f )(), const point &p1, const point &p2,
                               bool avoid_creatures = false );
-        void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
+        void draw_square_ter( const weighted_int_list<resolved_ter_id> &f, const point &p1,
                               const point &p2, bool avoid_creatures = false );
-        void draw_rough_circle_ter( const ter_id &type, const point &p, int rad );
-        void draw_rough_circle_furn( const furn_id &type, const point &p, int rad );
-        void draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad );
-        void draw_circle_ter( const ter_id &type, const point &p, int rad );
-        void draw_circle_furn( const furn_id &type, const point &p, int rad );
+        void draw_rough_circle_ter( const resolved_ter_id &type, const point &p, int rad );
+        void draw_rough_circle_furn( const resolved_furn_id &type, const point &p, int rad );
+        void draw_circle_ter( const resolved_ter_id &type, const rl_vec2d &p, double rad );
+        void draw_circle_ter( const resolved_ter_id &type, const point &p, int rad );
+        void draw_circle_furn( const resolved_furn_id &type, const point &p, int rad );
 
         void add_corpse( const tripoint &p );
 
         // Terrain changing functions
         // Change all instances of $from->$to
-        void translate( const ter_id &from, const ter_id &to );
+        void translate( const resolved_ter_id &from, const resolved_ter_id &to );
         // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
         // Optionally toggles instances $from->$to & $to->$from
-        void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
+        void translate_radius( const resolved_ter_id &from, const resolved_ter_id &to, float radi,
+                               const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
         void transform_radius( const ter_furn_transform_id &transform, int radi,
                                const tripoint_abs_ms &p );
@@ -2185,7 +2191,7 @@ class map
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        ter_id get_roof( const tripoint &p, bool allow_air ) const;
+        resolved_ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
     public:
         void process_items();
@@ -2381,7 +2387,7 @@ class fake_map : public tinymap
     private:
         std::vector<std::unique_ptr<submap>> temp_submaps_;
     public:
-        explicit fake_map( const ter_id &ter_type = t_dirt );
+        explicit fake_map( const resolved_ter_id &ter_type = t_dirt );
         ~fake_map() override;
         static constexpr int fake_map_z = -OVERMAP_DEPTH;
 };

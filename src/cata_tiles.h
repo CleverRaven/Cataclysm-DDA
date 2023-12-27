@@ -497,13 +497,13 @@ class cata_tiles
         static void get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                         const std::bitset<NUM_TERCONN> &connect_group,
                                         const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                        const std::map<tripoint, ter_id> &ter_override );
+                                        const std::map<tripoint, resolved_ter_id> &ter_override );
         static void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
                                              const std::bitset<NUM_TERCONN> &connect_group,
                                              const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                             const std::map<tripoint, furn_id> &furn_override );
+                                             const std::map<tripoint, resolved_furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-                                      const std::map<tripoint, ter_id> &ter_override,
+                                      const std::map<tripoint, resolved_ter_id> &ter_override,
                                       const std::array<bool, 5> &invisible,
                                       const std::bitset<NUM_TERCONN> &rotate_group );
 
@@ -614,10 +614,10 @@ class cata_tiles
         void init_draw_radiation_override( const tripoint &p, int rad );
         void void_radiation_override();
 
-        void init_draw_terrain_override( const tripoint &p, const ter_id &id );
+        void init_draw_terrain_override( const tripoint &p, const resolved_ter_id &id );
         void void_terrain_override();
 
-        void init_draw_furniture_override( const tripoint &p, const furn_id &id );
+        void init_draw_furniture_override( const tripoint &p, const resolved_furn_id &id );
         void void_furniture_override();
 
         void init_draw_graffiti_override( const tripoint &p, bool has );
@@ -781,8 +781,8 @@ class cata_tiles
         point op;
 
         std::map<tripoint, int> radiation_override;
-        std::map<tripoint, ter_id> terrain_override;
-        std::map<tripoint, furn_id> furniture_override;
+        std::map<tripoint, resolved_ter_id> terrain_override;
+        std::map<tripoint, resolved_furn_id> furniture_override;
         std::map<tripoint, bool> graffiti_override;
         std::map<tripoint, trap_id> trap_override;
         std::map<tripoint, field_type_id> field_override;

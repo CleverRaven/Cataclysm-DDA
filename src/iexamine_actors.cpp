@@ -143,8 +143,8 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
         open = false;
         const tripoint_range<tripoint> points = here.points_in_radius( examp, radius );
         for( const tripoint &tmp : points ) {
-            const auto ter_iter = terrain_changes.find( here.ter( tmp ).id() );
-            const auto furn_iter = furn_changes.find( here.furn( tmp ).id() );
+            const auto ter_iter = terrain_changes.find( here.ter( tmp )->id );
+            const auto furn_iter = furn_changes.find( here.furn( tmp )->id );
             if( ter_iter != terrain_changes.end() ) {
                 here.ter_set( tmp, ter_iter->second );
                 open = true;
@@ -252,7 +252,7 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
-    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
+    d.set_value( "npctalk_var_this", get_map().furn( examp )->id.str() );
     d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );

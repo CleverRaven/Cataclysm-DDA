@@ -825,7 +825,7 @@ mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
         dbl_or_var w, const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( std::move( w ) )
     , mapgen_function_json_base( jsobj, context )
-    , fill_ter( t_null )
+    , fill_ter( t_str_null )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
@@ -2843,14 +2843,14 @@ class jmapgen_terrain : public jmapgen_piece
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &context ) const override {
-            ter_id chosen_id = id.get( dat );
-            if( chosen_id.id().is_null() ) {
+            resolved_ter_id chosen_id = id.get( dat );
+            if( chosen_id->is_null() ) {
                 return;
             }
             point p( x.get(), y.get() );
             tripoint tp( p, dat.m.get_abs_sub().z() );
 
-            ter_id terrain_here = dat.m.ter( p );
+            resolved_ter_id terrain_here = dat.m.ter( p );
             const ter_t &chosen_ter = *chosen_id;
             const bool is_wall = chosen_ter.has_flag( ter_furn_flag::TFLAG_WALL );
             const bool place_item = chosen_ter.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM );
@@ -2910,7 +2910,7 @@ class jmapgen_terrain : public jmapgen_piece
                 dat.m.delete_signage( tp );
             } else if( act_furn == apply_action::act_dismantle ) {
                 int max_recurse = 10; // insurance against infinite looping
-                std::string initial_furn = dat.m.furn( p ) != f_null ? dat.m.furn( p ).id().str() : "";
+                std::string initial_furn = dat.m.furn( p ) != f_null ? dat.m.furn( p )->id.str() : "";
                 while( dat.m.has_furn( p ) && max_recurse-- > 0 ) {
                     const furn_t &f = dat.m.furn( p ).obj();
                     if( f.deconstruct.can_do ) {
@@ -2954,7 +2954,7 @@ class jmapgen_terrain : public jmapgen_piece
                 trap_str_id trap_here = dat.m.tr_at( tp ).id;
                 if( act_furn != apply_action::act_ignore && dat.m.furn( p ) != f_null ) {
                     // NOLINTNEXTLINE(cata-translate-string-literal)
-                    error = string_format( "furniture was %s", dat.m.furn( p ).id().str() );
+                    error = string_format( "furniture was %s", dat.m.furn( p )->id.str() );
                 } else if( act_trap != apply_action::act_ignore && !trap_here.is_null() &&
                            trap_here.id() != terrain_here->trap ) {
                     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -2970,8 +2970,8 @@ class jmapgen_terrain : public jmapgen_piece
                               "adding suitable removal commands to the mapgen, or by adding an "
                               "appropriate clearing flag to the innermost layered mapgen.  "
                               "Consult the \"mapgen flags\" section in MAPGEN.md for options.",
-                              context, dat.terrain_type().id().str(), chosen_id.id().str(),
-                              terrain_here.id().str(), p.to_string(), error );
+                              context, dat.terrain_type().id().str(), chosen_id->id.str(),
+                              terrain_here->id.str(), p.to_string(), error );
                 }
             }
             dat.m.ter_set( p, chosen_id );
@@ -3019,9 +3019,9 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
 class jmapgen_make_rubble : public jmapgen_piece
 {
     public:
-        mapgen_value<furn_id> rubble_type = mapgen_value<furn_id>( f_rubble );
+        mapgen_value<furn_id> rubble_type = mapgen_value<furn_id>( f_rubble->id );
         bool items = false;
-        mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( t_dirt );
+        mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( t_dirt->id );
         bool overwrite = false;
         jmapgen_make_rubble( const JsonObject &jsi, const std::string_view/*context*/ ) {
             if( jsi.has_member( "rubble_type" ) ) {
@@ -3035,12 +3035,12 @@ class jmapgen_make_rubble : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
-            furn_id chosen_rubble_type = rubble_type.get( dat );
-            ter_id chosen_floor_type = floor_type.get( dat );
-            if( chosen_rubble_type.id().is_null() ) {
+            resolved_furn_id chosen_rubble_type = rubble_type.get( dat );
+            resolved_ter_id chosen_floor_type = floor_type.get( dat );
+            if( chosen_rubble_type->id.is_null() ) {
                 return;
             }
-            if( chosen_floor_type.id().is_null() ) {
+            if( chosen_floor_type->is_null() ) {
                 debugmsg( "null floor type when making rubble" );
                 chosen_floor_type = t_dirt;
             }
@@ -4352,7 +4352,7 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
 
     jo.read( "fallback_predecessor_mapgen", fallback_predecessor_mapgen_ );
 
-    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
+    return fill_ter != t_str_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
            fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
@@ -5120,7 +5120,7 @@ static bool apply_mapgen_in_phases(
 void mapgen_function_json::generate( mapgendata &md )
 {
     map *const m = &md.m;
-    if( fill_ter != t_null ) {
+    if( fill_ter != t_str_null ) {
         m->draw_fill_background( fill_ter );
     }
     const oter_t &ter = *md.terrain_type();
@@ -5428,7 +5428,8 @@ void map::draw_lab( mapgendata &dat )
                 boarders++;
             }
 
-            const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
+            const auto maybe_insert_stairs = [this]( const oter_id & terrain,
+            const resolved_ter_id & t_stair_type ) {
                 if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                     const auto predicate = [this]( const tripoint & p ) {
                         return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
@@ -5474,12 +5475,12 @@ void map::draw_lab( mapgendata &dat )
                         !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
-                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
-                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
+                        resolved_ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        resolved_ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        resolved_ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
+                                                  t_concrete_wall;
+                        resolved_ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
+                                                  t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point( 23, i ), rw_type );
                             furn_set( point( 23, i ), f_null );
@@ -5805,7 +5806,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    resolved_ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -5832,7 +5833,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    resolved_ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
@@ -5980,10 +5981,10 @@ void map::draw_lab( mapgendata &dat )
             if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
                 !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
-                ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
+                resolved_ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                resolved_ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                resolved_ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                resolved_ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                 for( int i = 0; i < SEEX * 2; i++ ) {
                     ter_set( point( 23, i ), rw_type );
                     furn_set( point( 23, i ), f_null );
@@ -6215,7 +6216,8 @@ void map::draw_lab( mapgendata &dat )
 
         // Handle stairs in the unlikely case they are needed.
 
-        const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
+        const auto maybe_insert_stairs = [this]( const oter_id & terrain,
+        const resolved_ter_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                 const auto predicate = [this]( const tripoint & p ) {
                     return ter( p ) == t_thconc_floor && furn( p ) == f_null &&
@@ -7568,55 +7570,55 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 }
 ///////////////////// part of map
 
-void line( map *m, const ter_id &type, const point &p1, const point &p2 )
+void line( map *m, const resolved_ter_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+void line_furn( map *m, const resolved_furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
-void fill_background( map *m, const ter_id &type )
+void fill_background( map *m, const resolved_ter_id &type )
 {
     m->draw_fill_background( type );
 }
-void fill_background( map *m, ter_id( *f )() )
+void fill_background( map *m, resolved_ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void square( map *m, const ter_id &type, const point &p1, const point &p2 )
+void square( map *m, const resolved_ter_id &type, const point &p1, const point &p2 )
 {
     m->draw_square_ter( type, p1, p2 );
 }
-void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+void square_furn( map *m, const resolved_furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }
-void square( map *m, ter_id( *f )(), const point &p1, const point &p2 )
+void square( map *m, resolved_ter_id( *f )(), const point &p1, const point &p2 )
 {
     m->draw_square_ter( f, p1, p2 );
 }
-void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 )
+void square( map *m, const weighted_int_list<resolved_ter_id> &f, const point &p1, const point &p2 )
 {
     m->draw_square_ter( f, p1, p2 );
 }
-void rough_circle( map *m, const ter_id &type, const point &p, int rad )
+void rough_circle( map *m, const resolved_ter_id &type, const point &p, int rad )
 {
     m->draw_rough_circle_ter( type, p, rad );
 }
-void rough_circle_furn( map *m, const furn_id &type, const point &p, int rad )
+void rough_circle_furn( map *m, const resolved_furn_id &type, const point &p, int rad )
 {
     m->draw_rough_circle_furn( type, p, rad );
 }
-void circle( map *m, const ter_id &type, double x, double y, double rad )
+void circle( map *m, const resolved_ter_id &type, double x, double y, double rad )
 {
     m->draw_circle_ter( type, rl_vec2d( x, y ), rad );
 }
-void circle( map *m, const ter_id &type, const point &p, int rad )
+void circle( map *m, const resolved_ter_id &type, const point &p, int rad )
 {
     m->draw_circle_ter( type, p, rad );
 }
-void circle_furn( map *m, const furn_id &type, const point &p, int rad )
+void circle_furn( map *m, const resolved_furn_id &type, const point &p, int rad )
 {
     m->draw_circle_furn( type, p, rad );
 }
@@ -7651,7 +7653,7 @@ bool update_mapgen_function_json::setup_update( const JsonObject &jo )
 
 bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 {
-    fill_ter = t_null;
+    fill_ter = t_str_null;
     /* update_mapgen doesn't care about fill_ter or rows */
     return true;
 }
@@ -7806,13 +7808,13 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_id ter_at_pos = tmp_map.ter( pos );
+            resolved_ter_id ter_at_pos = tmp_map.ter( pos );
             if( ter_at_pos != base_ter ) {
-                terrains[ter_at_pos] += 1;
+                terrains[ter_at_pos->id] += 1;
             }
             if( tmp_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = tmp_map.furn( pos );
-                furnitures[furn_at_pos] += 1;
+                resolved_furn_id furn_at_pos = tmp_map.furn( pos );
+                furnitures[furn_at_pos->id] += 1;
             }
         }
     }

@@ -2767,7 +2767,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint &p : bay.points_on_zlevel() ) {
-        const ter_id t = bay.ter( p );
+        const resolved_ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
         if( t == t_door_c || t == t_door_c_peep || t == t_door_b
             || t == t_door_boarded || t == t_door_boarded_damaged

@@ -1335,7 +1335,7 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
     if( c->is_avatar() ) {
         add_msg( _( "You hear the grinding of shifting rock." ) );
         map &here = get_map();
-        const ter_id type = here.ter( p );
+        const resolved_ter_id type = here.ter( p );
         tripoint tmp = p;
         int &i = tmp.x;
         int &j = tmp.y;

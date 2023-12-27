@@ -10528,9 +10528,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
                 if( m.has_furn( dest_loc ) ) {
-                    sfx::do_obstacle( m.furn( dest_loc ).id().str() );
+                    sfx::do_obstacle( m.furn( dest_loc )->id.str() );
                 } else {
-                    sfx::do_obstacle( m.ter( dest_loc ).id().str() );
+                    sfx::do_obstacle( m.ter( dest_loc )->id.str() );
                 }
             }
         } else {
@@ -10541,9 +10541,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
                 if( m.has_furn( u.pos() ) ) {
-                    sfx::do_obstacle( m.furn( u.pos() ).id().str() );
+                    sfx::do_obstacle( m.furn( u.pos() )->id.str() );
                 } else {
-                    sfx::do_obstacle( m.ter( u.pos() ).id().str() );
+                    sfx::do_obstacle( m.ter( u.pos() )->id.str() );
                 }
             }
         }
@@ -11892,7 +11892,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // > and < are used for diving underwater.
     if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) ) {
         swimming = true;
-        const ter_id &target_ter = here.ter( u.pos() + tripoint( 0, 0, movez ) );
+        const resolved_ter_id &target_ter = here.ter( u.pos() + tripoint( 0, 0, movez ) );
 
         // If we're in a water tile that has both air above and deep enough water to submerge in...
         if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, u.pos() ) &&
@@ -13582,7 +13582,7 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;
     }
-    get_event_bus().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
+    get_event_bus().send<event_type::avatar_moves>( mount_type, m.ter( new_pos )->id,
             u.current_movement_mode(), u.is_underwater(), new_pos.z );
 
     // TODO: fix point types

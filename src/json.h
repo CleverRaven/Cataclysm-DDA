@@ -22,6 +22,7 @@
 #include "json_error.h"
 #include "int_id.h"
 #include "memory_fast.h"
+#include "resolved_id.h"
 #include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
@@ -834,6 +835,11 @@ class JsonOut
         template <typename T>
         auto write( const int_id<T> &thing ) {
             write( thing.id().str() );
+        }
+
+        template <typename T>
+        auto write( const resolved_id<T> &thing ) {
+            write( thing->id );
         }
 
         // enum ~> string

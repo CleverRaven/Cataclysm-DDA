@@ -29,7 +29,7 @@ class format_effect;
  * @param start Coordinates in the map where to start drawing \p cstr.
  */
 void formatted_set_simple( map *m, const point &start, const char *cstr,
-                           const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
+                           const format_effect<resolved_ter_id> &ter_b, const format_effect<resolved_furn_id> &furn_b );
 
 template<typename ID>
 class format_effect
@@ -64,24 +64,24 @@ class format_effect
 /**@{*/
 template<size_t N, typename ...Args>
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... ids )
+inline format_effect<resolved_ter_id> ter_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!
     static_assert( N % 2 == 0, "list of characters to bind to must be odd, e.g. \"a b c\"" );
     static_assert( N / 2 == sizeof...( Args ),
                    "list of characters to bind to must match the size of the remaining arguments" );
-    return format_effect<ter_id>( characters, { std::forward<Args>( ids )... } );
+    return format_effect<resolved_ter_id>( characters, { std::forward<Args>( ids )... } );
 }
 
 template<size_t N, typename ...Args>
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... ids )
+inline format_effect<resolved_furn_id> furn_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!
     static_assert( N % 2 == 0, "list of characters to bind to must be odd, e.g. \"a b c\"" );
     static_assert( N / 2 == sizeof...( Args ),
                    "list of characters to bind to must match the size of the remaining arguments" );
-    return format_effect<furn_id>( characters, { std::forward<Args>( ids )... } );
+    return format_effect<resolved_furn_id>( characters, { std::forward<Args>( ids )... } );
 }
 /**@}*/
 

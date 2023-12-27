@@ -5540,8 +5540,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     const optional_vpart_position vp = here.veh_at( p );
     const maptile tile = here.maptile_at( p );
     const trap &trap_at_pos = tile.get_trap_t();
-    const ter_id ter_at_pos = tile.get_ter();
-    const furn_id furn_at_pos = tile.get_furn();
+    const resolved_ter_id ter_at_pos = tile.get_ter();
+    const resolved_furn_id furn_at_pos = tile.get_furn();
 
     int web = here.get_field_intensity( p, fd_web );
 
@@ -9154,8 +9154,8 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
-    const ter_id ter_at_pos = here.ter( pos );
-    const furn_id furn_at_pos = here.furn( pos );
+    const resolved_ter_id ter_at_pos = here.ter( pos );
+    const resolved_furn_id furn_at_pos = here.furn( pos );
 
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );

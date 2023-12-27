@@ -55,8 +55,8 @@ struct spawn_point {
 // Suppression due to bug in clang-tidy 12
 // NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
-    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
-    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
+    cata::mdarray<resolved_ter_id, point_sm_ms>    ter; // Terrain on each square
+    cata::mdarray<resolved_furn_id, point_sm_ms>   frn; // Furniture on each square
     cata::mdarray<std::uint8_t, point_sm_ms>       lum; // Num items emitting light on each square
     cata::mdarray<cata::colony<item>, point_sm_ms> itm; // Items on each square
     cata::mdarray<field, point_sm_ms>              fld; // Field on each square
@@ -107,19 +107,19 @@ class submap
             std::uninitialized_fill_n( &m->trp[0][0], elements, trap );
         }
 
-        furn_id get_furn( const point &p ) const {
+        resolved_furn_id get_furn( const point &p ) const {
             if( is_uniform() ) {
                 return f_null;
             }
             return m->frn[p.x][p.y];
         }
 
-        void set_furn( const point &p, furn_id furn ) {
+        void set_furn( const point &p, resolved_furn_id furn ) {
             ensure_nonuniform();
             m->frn[p.x][p.y] = furn;
         }
 
-        void set_all_furn( const furn_id &furn ) {
+        void set_all_furn( const resolved_furn_id &furn ) {
             ensure_nonuniform();
             std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
         }
@@ -135,19 +135,19 @@ class submap
             ephemeral_data[p] = { dmg };
         }
 
-        ter_id get_ter( const point &p ) const {
+        resolved_ter_id get_ter( const point &p ) const {
             if( is_uniform() ) {
                 return uniform_ter;
             }
             return m->ter[p.x][p.y];
         }
 
-        void set_ter( const point &p, ter_id terr ) {
+        void set_ter( const point &p, resolved_ter_id terr ) {
             ensure_nonuniform();
             m->ter[p.x][p.y] = terr;
         }
 
-        void set_all_ter( const ter_id &terr, bool uniform_ok = false ) {
+        void set_all_ter( const resolved_ter_id &terr, bool uniform_ok = false ) {
             if( !uniform_ok ) {
                 ensure_nonuniform();
             }
@@ -315,7 +315,7 @@ class submap
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;
-        ter_id uniform_ter = t_null;
+        resolved_ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
 
         void update_legacy_computer();
@@ -360,11 +360,11 @@ class maptile_impl
             return sm->get_trap( pos() );
         }
 
-        furn_id get_furn() const {
+        resolved_furn_id get_furn() const {
             return sm->get_furn( pos() );
         }
 
-        ter_id get_ter() const {
+        resolved_ter_id get_ter() const {
             return sm->get_ter( pos() );
         }
 

@@ -150,7 +150,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint &pos : veh.get_points() ) {
-            REQUIRE( here.ter( pos ) );
+            REQUIRE( here.ter( pos ) != t_null );
         }
         for( const vpart_reference &vp : veh.get_all_parts() ) {
             if( vp.info().location != "structure" ) {

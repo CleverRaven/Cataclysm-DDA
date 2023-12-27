@@ -80,8 +80,8 @@ struct city_settings {
 };
 
 struct ter_furn_id {
-    ter_id ter;
-    furn_id furn;
+    resolved_ter_id ter;
+    resolved_furn_id furn;
     ter_furn_id();
 };
 
@@ -97,7 +97,7 @@ struct groundcover_extra {
     std::map<std::string, double> boosted_percent_str;
     std::map<int, ter_furn_id>    weightlist;
     std::map<int, ter_furn_id>    boosted_weightlist;
-    ter_id default_ter               = t_null;
+    resolved_ter_id default_ter   = t_null;
     int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
     int boost_chance              = 0;
     int boosted_mpercent_coverage = 0;
@@ -133,10 +133,10 @@ struct forest_biome {
     std::map<std::string, forest_biome_component> unfinalized_biome_components;
     std::vector<forest_biome_component> biome_components;
     std::map<std::string, int> unfinalized_groundcover;
-    weighted_int_list<ter_id> groundcover;
+    weighted_int_list<resolved_ter_id> groundcover;
     std::map<std::string, forest_biome_terrain_dependent_furniture>
     unfinalized_terrain_dependent_furniture;
-    std::map<ter_id, forest_biome_terrain_dependent_furniture> terrain_dependent_furniture;
+    std::map<resolved_ter_id, forest_biome_terrain_dependent_furniture> terrain_dependent_furniture;
     int sparseness_adjacency_factor = 0;
     int item_group_chance = 0;
     int item_spawn_iterations = 0;
@@ -246,12 +246,12 @@ struct map_extras {
 struct region_terrain_and_furniture_settings {
     std::map<std::string, std::map<std::string, int>> unfinalized_terrain;
     std::map<std::string, std::map<std::string, int>> unfinalized_furniture;
-    std::map<ter_id, weighted_int_list<ter_id>> terrain;
-    std::map<furn_id, weighted_int_list<furn_id>> furniture;
+    std::map<resolved_ter_id, weighted_int_list<resolved_ter_id>> terrain;
+    std::map<resolved_furn_id, weighted_int_list<resolved_furn_id>> furniture;
 
     void finalize();
-    ter_id resolve( const ter_id & ) const;
-    furn_id resolve( const furn_id & ) const;
+    resolved_ter_id resolve( const resolved_ter_id & ) const;
+    resolved_furn_id resolve( const resolved_furn_id & ) const;
     region_terrain_and_furniture_settings() = default;
 };
 
@@ -263,7 +263,7 @@ struct regional_settings {
     std::string id;           //
     std::array<oter_str_id, OVERMAP_LAYERS> default_oter;
     double river_scale = 1;
-    weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
+    weighted_int_list<resolved_ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind

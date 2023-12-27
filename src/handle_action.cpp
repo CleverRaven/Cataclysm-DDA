@@ -636,7 +636,7 @@ static void open()
     if( didit ) {
         player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
     } else {
-        const ter_str_id tid = here.ter( openp ).id();
+        const ter_str_id tid = here.ter( openp )->id;
 
         if( here.has_flag( ter_furn_flag::TFLAG_LOCKED, openp ) ) {
             add_msg( m_info, _( "The door is locked!" ) );
@@ -884,7 +884,7 @@ static void smash()
         smash_floor = true;
     }
     get_event_bus().send<event_type::character_smashes_tile>(
-        player_character.getID(), here.ter( smashp ).id(), here.furn( smashp ).id() );
+        player_character.getID(), here.ter( smashp )->id, here.furn( smashp )->id );
     if( player_character.is_mounted() ) {
         monster *crit = player_character.mounted_creature.get();
         if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {

@@ -4,6 +4,7 @@
 #include "item.h"
 #include "itype.h"
 #include "magic.h"
+#include "map.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "point.h"

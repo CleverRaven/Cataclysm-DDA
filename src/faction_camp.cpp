@@ -3285,7 +3285,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
         return ( bay1.ter( pos ) == t_dirtmound ) && ( !bay2.has_furn( pos ) );
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
-        const ter_id &farm_ter = farm_map.ter( pos );
+        const resolved_ter_id &farm_ter = farm_map.ter( pos );
         return farm_ter->has_flag( ter_furn_flag::TFLAG_PLOWABLE );
     };
 

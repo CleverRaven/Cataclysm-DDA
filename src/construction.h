@@ -124,7 +124,8 @@ void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
 void complete_construction( Character *you );
-bool can_construct_furn_ter( const construction &con, furn_id const &furn, ter_id const &ter );
+bool can_construct_furn_ter( const construction &con, resolved_furn_id const &furn,
+                             resolved_ter_id const &ter );
 bool can_construct( const construction &con, const tripoint_bub_ms &p );
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
                        bool can_construct_skip = false );

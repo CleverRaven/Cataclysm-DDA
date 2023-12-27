@@ -209,7 +209,7 @@ void run_test_case( Character &u )
         tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
-        ter_id const ter_pre = here.ter( tri_window );
+        resolved_ter_id const ter_pre = here.ter( tri_window );
         partial_con pc;
         pc.id = get_construction( "test_constr_door" ).id;
         here.partial_con_set( tri_window, pc );

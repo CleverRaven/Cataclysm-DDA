@@ -1675,7 +1675,7 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
 
             // special case for rails
             if( check_rail_direction ) {
-                ter_id terrain_at_wheel = here.ter( wheel_tripoint );
+                resolved_ter_id terrain_at_wheel = here.ter( wheel_tripoint );
                 // check is it correct tile to turn into
                 if( !is_diagonal_movement &&
                     ( terrain_at_wheel == t_railroad_track_d || terrain_at_wheel == t_railroad_track_d1 ||

@@ -894,16 +894,16 @@ TEST_CASE( "submap_terrain_rle_load", "[submap][load]" )
 
     REQUIRE( is_normal_submap( sm, checks ) );
 
-    const ter_id ter_nw = sm.get_ter( corner_nw );
-    const ter_id ter_ne = sm.get_ter( corner_ne );
-    const ter_id ter_sw = sm.get_ter( corner_sw );
-    const ter_id ter_se = sm.get_ter( corner_se );
+    const resolved_ter_id ter_nw = sm.get_ter( corner_nw );
+    const resolved_ter_id ter_ne = sm.get_ter( corner_ne );
+    const resolved_ter_id ter_sw = sm.get_ter( corner_sw );
+    const resolved_ter_id ter_se = sm.get_ter( corner_se );
 
     // We placed a unique terrain in each of the corners. Check that those are correct
-    INFO( string_format( "nw: %s", ter_nw.id().str() ) );
-    INFO( string_format( "ne: %s", ter_ne.id().str() ) );
-    INFO( string_format( "sw: %s", ter_sw.id().str() ) );
-    INFO( string_format( "se: %s", ter_se.id().str() ) );
+    INFO( string_format( "nw: %s", ter_nw->id.str() ) );
+    INFO( string_format( "ne: %s", ter_ne->id.str() ) );
+    INFO( string_format( "sw: %s", ter_sw->id.str() ) );
+    INFO( string_format( "se: %s", ter_se->id.str() ) );
     // Require to prevent the lower CHECK from being spammy
     REQUIRE( ter_nw == t_floor_green );
     REQUIRE( ter_ne == t_floor_red );
@@ -947,7 +947,7 @@ TEST_CASE( "submap_terrain_load_invalid_ter_ids_as_t_dirt", "[submap][load]" )
         for( int y = 0; y < SEEY; y++ ) {
             CAPTURE( x, y );
             // expect t_rock_floor patch in a corner
-            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? t_rock_floor : t_dirt;
+            const resolved_ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? t_rock_floor : t_dirt;
             CHECK( sm.get_ter( {x, y} ) == expected );
         }
     }
@@ -962,18 +962,18 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
 
     REQUIRE( is_normal_submap( sm, checks ) );
 
-    const furn_id furn_nw = sm.get_furn( corner_nw );
-    const furn_id furn_ne = sm.get_furn( corner_ne );
-    const furn_id furn_sw = sm.get_furn( corner_sw );
-    const furn_id furn_se = sm.get_furn( corner_se );
-    const furn_id furn_ra = sm.get_furn( random_pt );
+    const resolved_furn_id furn_nw = sm.get_furn( corner_nw );
+    const resolved_furn_id furn_ne = sm.get_furn( corner_ne );
+    const resolved_furn_id furn_sw = sm.get_furn( corner_sw );
+    const resolved_furn_id furn_se = sm.get_furn( corner_se );
+    const resolved_furn_id furn_ra = sm.get_furn( random_pt );
 
     // We placed a unique furniture in a couple pf place. Check that those are correct
-    INFO( string_format( "nw: %s", furn_nw.id().str() ) );
-    INFO( string_format( "ne: %s", furn_ne.id().str() ) );
-    INFO( string_format( "sw: %s", furn_sw.id().str() ) );
-    INFO( string_format( "se: %s", furn_se.id().str() ) );
-    INFO( string_format( "ra: %s", furn_ra.id().str() ) );
+    INFO( string_format( "nw: %s", furn_nw->id.str() ) );
+    INFO( string_format( "ne: %s", furn_ne->id.str() ) );
+    INFO( string_format( "sw: %s", furn_sw->id.str() ) );
+    INFO( string_format( "se: %s", furn_se->id.str() ) );
+    INFO( string_format( "ra: %s", furn_ra->id.str() ) );
     // Require to prevent the lower CHECK from being spammy
     REQUIRE( furn_nw == f_coffin_c );
     REQUIRE( furn_ne == f_bookcase );

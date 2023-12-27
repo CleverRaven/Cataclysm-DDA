@@ -1624,7 +1624,7 @@ static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const fur
 void iexamine::portable_structure( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    const furn_str_id fid = here.furn( examp ).id();
+    const furn_str_id fid = here.furn( examp )->id;
     const std::pair<itype_id, const deploy_tent_actor *> tent_item_type = find_tent_itype( fid );
     if( tent_item_type.first.is_null() ) {
         debugmsg( "unknown furniture %s: don't know how to transform it into an item", fid.str() );
@@ -2046,7 +2046,7 @@ void iexamine::fswitch( Character &you, const tripoint &examp )
         none( you, examp );
         return;
     }
-    ter_id terid = here.ter( examp );
+    resolved_ter_id terid = here.ter( examp );
     you.moves -= to_moves<int>( 1_seconds );
     tripoint tmp;
     tmp.z = examp.z;
@@ -2729,7 +2729,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
-    const furn_id old_furn = here.furn( tile );
+    const resolved_furn_id old_furn = here.furn( tile );
     here.furn_set( tile, f_null );
     here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
     here.furn_set( tile, old_furn );
@@ -2812,15 +2812,15 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 void iexamine::kiln_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_kiln_type = here.furn( examp );
-    furn_id next_kiln_type = f_null;
+    resolved_furn_id cur_kiln_type = here.furn( examp );
+    resolved_furn_id next_kiln_type = f_null;
     if( cur_kiln_type == f_kiln_empty ) {
         next_kiln_type = f_kiln_full;
     } else if( cur_kiln_type == f_kiln_metal_empty ) {
         next_kiln_type = f_kiln_metal_full;
     } else {
         debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
 
@@ -2905,15 +2905,15 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
 void iexamine::kiln_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_kiln_type = here.furn( examp );
-    furn_id next_kiln_type = f_null;
+    resolved_furn_id cur_kiln_type = here.furn( examp );
+    resolved_furn_id next_kiln_type = f_null;
     if( cur_kiln_type == f_kiln_full ) {
         next_kiln_type = f_kiln_empty;
     } else if( cur_kiln_type == f_kiln_metal_full ) {
         next_kiln_type = f_kiln_metal_empty;
     } else {
         debugmsg( "Examined furniture has action kiln_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
     map_stack items = here.i_at( examp );
@@ -2965,13 +2965,13 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
 void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_arcfurnace_type = here.furn( examp );
-    furn_id next_arcfurnace_type = f_null;
+    resolved_furn_id cur_arcfurnace_type = here.furn( examp );
+    resolved_furn_id next_arcfurnace_type = f_null;
     if( cur_arcfurnace_type == f_arcfurnace_empty ) {
         next_arcfurnace_type = f_arcfurnace_full;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.c_str() );
         return;
     }
 
@@ -3038,13 +3038,13 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
 void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_arcfurnace_type = here.furn( examp );
-    furn_id next_arcfurnace_type = f_null;
+    resolved_furn_id cur_arcfurnace_type = here.furn( examp );
+    resolved_furn_id next_arcfurnace_type = f_null;
     if( cur_arcfurnace_type == f_arcfurnace_full ) {
         next_arcfurnace_type = f_arcfurnace_empty;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
 
@@ -3097,13 +3097,13 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 void iexamine::stook_empty( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_stook_type = here.furn( examp );
-    furn_id next_stook_type = f_null;
+    resolved_furn_id cur_stook_type = here.furn( examp );
+    resolved_furn_id next_stook_type = f_null;
     if( cur_stook_type == f_stook_empty ) {
         next_stook_type = f_stook_full;
     } else {
         debugmsg( "Examined furniture has action stook_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
 
@@ -3139,13 +3139,13 @@ void iexamine::stook_empty( Character &, const tripoint &examp )
 void iexamine::stook_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_stook_type = here.furn( examp );
-    furn_id next_stook_type = f_null;
+    resolved_furn_id cur_stook_type = here.furn( examp );
+    resolved_furn_id next_stook_type = f_null;
     if( cur_stook_type == f_stook_full ) {
         next_stook_type = f_null;
     } else {
         debugmsg( "Examined furniture has action stook_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
     map_stack items = here.i_at( examp );
@@ -3186,13 +3186,13 @@ void iexamine::stook_full( Character &, const tripoint &examp )
 void iexamine::autoclave_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_autoclave_type = here.furn( examp );
-    furn_id next_autoclave_type = f_null;
+    resolved_furn_id cur_autoclave_type = here.furn( examp );
+    resolved_furn_id next_autoclave_type = f_null;
     if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
         next_autoclave_type = furn_id( "f_autoclave_full" );
     } else {
         debugmsg( "Examined furniture has action autoclave_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.c_str() );
         return;
     }
 
@@ -3246,13 +3246,13 @@ void iexamine::autoclave_empty( Character &you, const tripoint &examp )
 void iexamine::autoclave_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_autoclave_type = here.furn( examp );
-    furn_id next_autoclave_type = f_null;
+    resolved_furn_id cur_autoclave_type = here.furn( examp );
+    resolved_furn_id next_autoclave_type = f_null;
     if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
         next_autoclave_type = furn_id( "f_autoclave" );
     } else {
         debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.c_str() );
         return;
     }
 
@@ -3436,7 +3436,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
 static void fvat_set_empty( const tripoint &pos )
 {
     map &here = get_map();
-    furn_id furn = here.furn( pos );
+    resolved_furn_id furn = here.furn( pos );
     if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
         here.furn_set( pos, f_fvat_wood_empty );
     } else {
@@ -3447,7 +3447,7 @@ static void fvat_set_empty( const tripoint &pos )
 static void fvat_set_full( const tripoint &pos )
 {
     map &here = get_map();
-    furn_id furn = here.furn( pos );
+    resolved_furn_id furn = here.furn( pos );
     if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
         here.furn_set( pos, f_fvat_wood_full );
     } else {
@@ -3681,7 +3681,7 @@ static void displace_items_except_one_liquid( const tripoint &examp )
 {
     map &here = get_map();
     // Temporarily replace the real furniture with a fake furniture with NOITEM
-    const furn_id previous_furn = here.furn( examp );
+    const resolved_furn_id previous_furn = here.furn( examp );
     here.furn_set( examp, furn_id( "f_no_item" ) );
 
     bool liquid_present = false;
@@ -3899,7 +3899,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 }
 
 static void pick_plant( Character &you, const tripoint &examp,
-                        const itype_id &itemType, ter_id new_ter, bool seeds = false )
+                        const itype_id &itemType, resolved_ter_id new_ter, bool seeds = false )
 {
     map &here = get_map();
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
@@ -4511,7 +4511,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
         return;
     }
 
-    const ter_id ter = here.ter( examp );
+    const resolved_ter_id ter = here.ter( examp );
 
     // Peek through the curtains, or tear them down.
     uilist window_menu;
@@ -4602,7 +4602,7 @@ static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_typ
     int result = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const ter_id t = here.ter( tmp );
+        const resolved_ter_id t = here.ter( tmp );
         if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
             result++;
             fuel_type = FUEL_TYPE_GASOLINE;
@@ -4623,8 +4623,7 @@ std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, 
 
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
-
-        furn_id check_for_fuel_tank = here.furn( tmp );
+        resolved_furn_id check_for_fuel_tank = here.furn( tmp );
 
         if( ( fuel_type == FUEL_TYPE_GASOLINE && check_for_fuel_tank != furn_f_gas_tank ) ||
             ( fuel_type == FUEL_TYPE_DIESEL && check_for_fuel_tank != furn_f_diesel_tank ) ) {
@@ -4727,7 +4726,7 @@ std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int num
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const ter_id t = here.ter( tmp );
+        const resolved_ter_id t = here.ter( tmp );
         if( ( t == ter_t_gas_pump || t == ter_t_gas_pump_a
               || t == ter_t_diesel_pump || t == ter_t_diesel_pump_a ) && number == k++ ) {
             return tmp;
@@ -4774,8 +4773,8 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
             item liq_d( item_it->type, calendar::turn, amount );
 
             // add the charges to the destination
-            const ter_id backup_ter = here.ter( dst );
-            const furn_id backup_furn = here.furn( dst );
+            const resolved_ter_id backup_ter = here.ter( dst );
+            const resolved_furn_id backup_furn = here.furn( dst );
             here.ter_set( dst, ter_str_id::NULL_ID() );
             here.furn_set( dst, furn_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
@@ -4795,7 +4794,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const ter_id t = here.ter( tmp );
+        const resolved_ter_id t = here.ter( tmp );
         if( fuel_type == FUEL_TYPE_GASOLINE ) {
             if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                 if( number == k++ ) {
@@ -5688,15 +5687,15 @@ static int get_milled_amount( const itype_id &milled_id, const tripoint &examp,
 static void mill_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    const furn_id cur_mill_type = here.furn( examp );
-    furn_id next_mill_type = f_null;
+    const resolved_furn_id cur_mill_type = here.furn( examp );
+    resolved_furn_id next_mill_type = f_null;
     if( cur_mill_type == f_wind_mill ) {
         next_mill_type = f_wind_mill_active;
     } else if( cur_mill_type == f_water_mill ) {
         next_mill_type = f_water_mill_active;
     } else {
         debugmsg( "Examined furniture has action mill_activate, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
     bool food_present = false;
@@ -5764,8 +5763,8 @@ static void mill_activate( Character &you, const tripoint &examp )
 static void smoker_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    furn_id cur_smoker_type = here.furn( examp );
-    furn_id next_smoker_type = f_null;
+    resolved_furn_id cur_smoker_type = here.furn( examp );
+    resolved_furn_id next_smoker_type = f_null;
     const bool portable = here.furn( examp ) == furn_f_metal_smoking_rack ||
                           here.furn( examp ) == furn_f_metal_smoking_rack_active;
     if( cur_smoker_type == f_smoking_rack ) {
@@ -5774,7 +5773,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
         next_smoker_type = f_metal_smoking_rack_active;
     } else {
         debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
     bool food_present = false;
@@ -5878,15 +5877,15 @@ static void smoker_activate( Character &you, const tripoint &examp )
 void iexamine::mill_finalize( Character &, const tripoint &examp, const time_point &start_time )
 {
     map &here = get_map();
-    const furn_id cur_mill_type = here.furn( examp );
-    furn_id next_mill_type = f_null;
+    const resolved_furn_id cur_mill_type = here.furn( examp );
+    resolved_furn_id next_mill_type = f_null;
     if( cur_mill_type == f_wind_mill_active ) {
         next_mill_type = f_wind_mill;
     } else if( cur_mill_type == f_water_mill_active ) {
         next_mill_type = f_water_mill;
     } else {
         debugmsg( "Furniture executed action mill_finalize, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.str() );
         return;
     }
 
@@ -5978,15 +5977,15 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
 static void smoker_finalize( Character &, const tripoint &examp, const time_point &start_time )
 {
     map &here = get_map();
-    furn_id cur_smoker_type = here.furn( examp );
-    furn_id next_smoker_type = f_null;
+    resolved_furn_id cur_smoker_type = here.furn( examp );
+    resolved_furn_id next_smoker_type = f_null;
     if( cur_smoker_type == f_smoking_rack_active ) {
         next_smoker_type = f_smoking_rack;
     } else if( cur_smoker_type == f_metal_smoking_rack_active ) {
         next_smoker_type = f_metal_smoking_rack;
     } else {
         debugmsg( "Furniture executed action smoker_finalize, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  here.furn( examp )->id.c_str() );
         return;
     }
 
@@ -6044,7 +6043,7 @@ static void smoker_load_food( Character &you, const tripoint &examp,
         return;
     }
 
-    furn_id rack = here.furn( examp );
+    resolved_furn_id rack = here.furn( examp );
     units::volume total_capacity = rack == furn_f_metal_smoking_rack ?
                                    sm_rack::MAX_FOOD_VOLUME_PORTABLE :
                                    sm_rack::MAX_FOOD_VOLUME;

@@ -3157,13 +3157,13 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         }
     }
     // first memorize the actual terrain
-    const ter_id &t = here.ter( p );
-    const std::string &tname = t.id().str();
+    const resolved_ter_id &t = here.ter( p );
+    const std::string &tname = t->id.str();
     // Legacy mode does not draw fog sprites
     if( fov_3d_z_range == 0 && tname == "t_open_air" ) {
         return false;
     }
-    if( t && !invisible[0] ) {
+    if( t != t_null && !invisible[0] ) {
         int subtile = 0;
         int rotation = 0;
         const std::bitset<NUM_TERCONN> &connect_group = t.obj().connect_to_groups;
@@ -3190,8 +3190,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     }
     if( invisible[0] ? overridden : neighborhood_overridden ) {
         // and then draw the override terrain
-        const ter_id &t2 = overridden ? override->second : t;
-        if( t2 ) {
+        const resolved_ter_id &t2 = overridden ? override->second : t;
+        if( t2 != t_null ) {
             // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             int subtile = 0;
@@ -3204,7 +3204,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             } else {
                 get_terrain_orientation( p, rotation, subtile, terrain_override, invisible, rotate_group );
             }
-            const std::string &tname = t2.id().str();
+            const std::string &tname = t2->id.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
@@ -3245,13 +3245,13 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     }
     map &here = get_map();
     // first memorize the actual furniture
-    const furn_id &f = here.furn( p );
-    if( f && !invisible[0] ) {
+    const resolved_furn_id &f = here.furn( p );
+    if( f != f_null && !invisible[0] ) {
         const std::array<int, 4> neighborhood = {
-            static_cast<int>( here.furn( p + point_south ) ),
-            static_cast<int>( here.furn( p + point_east ) ),
-            static_cast<int>( here.furn( p + point_west ) ),
-            static_cast<int>( here.furn( p + point_north ) )
+            static_cast<int>( here.furn( p + point_south )->id.id() ),
+            static_cast<int>( here.furn( p + point_east )->id.id() ),
+            static_cast<int>( here.furn( p + point_west )->id.id() ),
+            static_cast<int>( here.furn( p + point_north )->id.id() )
         };
         int subtile = 0;
         int rotation = 0;
@@ -3261,9 +3261,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         if( connect_group.any() ) {
             get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
         } else {
-            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
+            get_tile_values_with_ter( p, f->id.id().to_i(), neighborhood, subtile, rotation, rotate_group );
         }
-        const std::string &fname = f.id().str();
+        const std::string &fname = f->id.str();
         if( !( you.get_grab_type() == object_type::FURNITURE
                && p == you.pos() + you.grab_point )
             && here.memory_cache_dec_is_dirty( p ) ) {
@@ -3279,20 +3279,20 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     }
     if( invisible[0] ? overridden : neighborhood_overridden ) {
         // and then draw the override furniture
-        const furn_id &f2 = overridden ? override->second : f;
-        if( f2 ) {
+        const resolved_furn_id &f2 = overridden ? override->second : f;
+        if( f2 != f_null ) {
             // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
-            const auto furn = [&]( const tripoint & q, const bool invis ) -> furn_id {
+            const auto furn = [&]( const tripoint & q, const bool invis ) -> resolved_furn_id {
                 const auto it = furniture_override.find( q );
                 return it != furniture_override.end() ? it->second :
                 ( !overridden || !invis ) ? here.furn( q ) : f_null;
             };
             const std::array<int, 4> neighborhood = {
-                static_cast<int>( furn( p + point_south, invisible[1] ) ),
-                static_cast<int>( furn( p + point_east, invisible[2] ) ),
-                static_cast<int>( furn( p + point_west, invisible[3] ) ),
-                static_cast<int>( furn( p + point_north, invisible[4] ) )
+                static_cast<int>( furn( p + point_south, invisible[1] )->id.id() ),
+                static_cast<int>( furn( p + point_east, invisible[2] )->id.id() ),
+                static_cast<int>( furn( p + point_west, invisible[3] )->id.id() ),
+                static_cast<int>( furn( p + point_north, invisible[4] )->id.id() )
             };
             int subtile = 0;
             int rotation = 0;
@@ -3302,10 +3302,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             if( connect_group.any() ) {
                 get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             } else {
-                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
+                get_tile_values_with_ter( p, f->id.id().to_i(), neighborhood, subtile, rotation, rotate_group );
             }
-            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation, 0 );
-            const std::string &fname = f2.id().str();
+            get_tile_values_with_ter( p, f2->id.id().to_i(), neighborhood, subtile, rotation, 0 );
+            const std::string &fname = f2->id.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
@@ -4370,11 +4370,11 @@ void cata_tiles::init_draw_radiation_override( const tripoint &p, const int rad 
 {
     radiation_override.emplace( p, rad );
 }
-void cata_tiles::init_draw_terrain_override( const tripoint &p, const ter_id &id )
+void cata_tiles::init_draw_terrain_override( const tripoint &p, const resolved_ter_id &id )
 {
     terrain_override.emplace( p, id );
 }
-void cata_tiles::init_draw_furniture_override( const tripoint &p, const furn_id &id )
+void cata_tiles::init_draw_furniture_override( const tripoint &p, const resolved_furn_id &id )
 {
     furniture_override.emplace( p, id );
 }
@@ -4820,19 +4820,19 @@ void cata_tiles::init_light()
 }
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible,
+        const std::map<tripoint, resolved_ter_id> &ter_override, const std::array<bool, 5> &invisible,
         const std::bitset<NUM_TERCONN> &rotate_group )
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
-    const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_id {
+    const auto ter = [&]( const tripoint & q, const bool invis ) -> resolved_ter_id {
         const auto override = ter_override.find( q );
         return override != ter_override.end() ? override->second :
         ( !overridden || !invis ) ? here.ter( q ) : t_null;
     };
 
     // get terrain at x,y
-    const ter_id tid = ter( p, invisible[0] );
+    const resolved_ter_id tid = ter( p, invisible[0] );
     if( tid == t_null ) {
         subtile = 0;
         rota = 0;
@@ -4840,7 +4840,7 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
     }
 
     // get terrain neighborhood
-    const std::array<ter_id, 4> neighborhood = {
+    const std::array<resolved_ter_id, 4> neighborhood = {
         ter( p + point_south, invisible[1] ),
         ter( p + point_east, invisible[2] ),
         ter( p + point_west, invisible[3] ),
@@ -5099,7 +5099,7 @@ int cata_tiles::get_rotation_unconnected( const char rot_to )
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      const std::bitset<NUM_TERCONN> &connect_group,
                                      const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                     const std::map<tripoint, ter_id> &ter_override )
+                                     const std::map<tripoint, resolved_ter_id> &ter_override )
 {
     uint8_t connections = get_map().get_known_connections( p, connect_group, ter_override );
     uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_to_group, ter_override );
@@ -5108,7 +5108,7 @@ void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotat
 
 void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
         const std::bitset<NUM_TERCONN> &connect_group, const std::bitset<NUM_TERCONN> &rotate_to_group,
-        const std::map<tripoint, furn_id> &furn_override )
+        const std::map<tripoint, resolved_furn_id> &furn_override )
 {
     uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
     uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {}, {} );
