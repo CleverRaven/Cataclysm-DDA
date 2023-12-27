@@ -497,8 +497,8 @@
     "material": [ "wood" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 10,
-    "extend": { "flags": [ "NON_CONDUCTIVE" ], [ "CRUTCHES" ] },
-    "melee_damage": { "bash": 2 }
+    "extend": { "flags": [ "NON_CONDUCTIVE", "CRUTCHES" ] },
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "TOOL",
