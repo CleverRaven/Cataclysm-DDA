@@ -1273,10 +1273,8 @@
       { "id": "GRIND", "level": 2 },
       { "id": "DRILL", "level": 2 }
     ],
-    "tools": [
-      [ [ "forge", 200 ], [ "oxy_torch", 200 ] ]      
-    ],
-	"proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "forge", 200 ], [ "oxy_torch", 200 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "anvil_crude", 1 ] ] ]
   },
   {
