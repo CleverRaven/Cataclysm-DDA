@@ -344,6 +344,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
+    "flags": [ "NO_WEAR_EFFECT" ],
     "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml"
   }
 ]

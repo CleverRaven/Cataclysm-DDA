@@ -2674,7 +2674,8 @@
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
       },
-      { "group": "clothing_watch", "prob": 5 }
+      { "group": "clothing_watch", "prob": 5 },
+      { "item": "dog_tag", "prob": 20 }
     ]
   },
   {
