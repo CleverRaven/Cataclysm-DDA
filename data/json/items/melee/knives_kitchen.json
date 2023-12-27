@@ -166,5 +166,25 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 6, "cut": 16 }
+  },
+  {
+    "id": "santa_knife",
+    "name": { "str": "Christmas knife", "str_pl": "Christmas knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A long-bladed novelty kitchen knife with a Christmas-themed red handle and a sharp blade, originally meant to help Mrs. Claus at kitchen work.  Given the circumstances, it makes an acceptable melee weapon, but the wide blade is unwieldy for butchering.",
+    "copy-from": "base_kitchen_knife",
+    "looks_like": "knife_butcher",
+    "ascii_picture": "knife_chef",
+    "weight": "280 g",
+    "volume": "200 ml",
+    "longest_side": "30 cm",
+    "price": 1500,
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 3 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 16 }
   }
 ]
