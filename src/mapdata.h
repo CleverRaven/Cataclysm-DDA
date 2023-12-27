@@ -690,8 +690,8 @@ provided for terrains added by mods. A string equivalent is always present, i.e.
 t_basalt
 "t_basalt"
 */
-extern ter_str_id t_str_null;
-// NOLINTNEXTLINE(cata-static-int_id-constants)
+extern const ter_str_id ter_t_null;
+// NOLINTNEXTLINE(cata-static-resolved_id-constants)
 extern resolved_ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
@@ -817,7 +817,7 @@ runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
 about ter_id above.
 */
-// NOLINTNEXTLINE(cata-static-int_id-constants)
+// NOLINTNEXTLINE(cata-static-resolved_id-constants)
 extern resolved_furn_id f_null, f_clear,
        f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,

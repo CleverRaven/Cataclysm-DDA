@@ -36,7 +36,9 @@ const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 generic_factory<ter_t> terrain_data( "terrain" );
 generic_factory<furn_t> furniture_data( "furniture" );
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 ter_id null_ter;
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 furn_id null_furn;
 
 ter_t invalid_ter;
@@ -757,7 +759,7 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
     }
 }
 
-ter_str_id t_str_null( "t_null" );
+const ter_str_id ter_t_null( "t_null" );
 
 resolved_ter_id t_null,
                 t_hole, // Real nothingness; makes you fall a z-level
@@ -883,7 +885,7 @@ resolved_ter_id t_null,
 
 void set_ter_ids()
 {
-    t_null = null_ter = t_str_null;
+    t_null = null_ter = ter_t_null;
     t_hole = ter_id( "t_hole" );
     t_dirt = ter_id( "t_dirt" );
     t_sand = ter_id( "t_sand" );
@@ -1192,7 +1194,7 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-static furn_str_id f_str_null( "f_null" );
+static const furn_str_id furn_t_null( "f_null" );
 
 resolved_furn_id f_null, f_clear,
                  f_hay,
@@ -1242,7 +1244,7 @@ resolved_furn_id f_null, f_clear,
 
 void set_furn_ids()
 {
-    f_null = null_furn = f_str_null;
+    f_null = null_furn = furn_t_null;
     f_clear = furn_id( "f_clear" );
     f_hay = furn_id( "f_hay" );
     f_rubble = furn_id( "f_rubble" );
@@ -1805,7 +1807,7 @@ void activity_data_ter::load( const JsonObject &jo )
 
 void activity_data_furn::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "result", result_, f_str_null );
+    optional( jo, was_loaded, "result", result_, furn_t_null );
     activity_data_common::load( jo );
     valid_ = true;
 }

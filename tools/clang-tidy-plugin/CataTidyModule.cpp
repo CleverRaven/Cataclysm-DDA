@@ -22,6 +22,7 @@
 #include "StaticDeclarationsCheck.h"
 #include "StaticInitializationOrderCheck.h"
 #include "StaticIntIdConstantsCheck.h"
+#include "StaticResolvedIdConstantsCheck.h"
 #include "StaticStringIdConstantsCheck.h"
 #include "TestFilenameCheck.h"
 #include "TestsMustRestoreGlobalStateCheck.h"
@@ -88,6 +89,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );
             CheckFactories.registerCheck<StaticIntIdConstantsCheck>(
                 "cata-static-int_id-constants" );
+            CheckFactories.registerCheck<StaticResolvedIdConstantsCheck>(
+                "cata-static-resolved_id-constants" );
             CheckFactories.registerCheck<StaticStringIdConstantsCheck>(
                 "cata-static-string_id-constants" );
             CheckFactories.registerCheck<TestFilenameCheck>( "cata-test-filename" );

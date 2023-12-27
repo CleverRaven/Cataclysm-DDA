@@ -825,7 +825,7 @@ mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
         dbl_or_var w, const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( std::move( w ) )
     , mapgen_function_json_base( jsobj, context )
-    , fill_ter( t_str_null )
+    , fill_ter( ter_t_null )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
@@ -4352,7 +4352,7 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
 
     jo.read( "fallback_predecessor_mapgen", fallback_predecessor_mapgen_ );
 
-    return fill_ter != t_str_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
+    return fill_ter != ter_t_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
            fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
@@ -5120,7 +5120,7 @@ static bool apply_mapgen_in_phases(
 void mapgen_function_json::generate( mapgendata &md )
 {
     map *const m = &md.m;
-    if( fill_ter != t_str_null ) {
+    if( fill_ter != ter_t_null ) {
         m->draw_fill_background( fill_ter );
     }
     const oter_t &ter = *md.terrain_type();
@@ -7653,7 +7653,7 @@ bool update_mapgen_function_json::setup_update( const JsonObject &jo )
 
 bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 {
-    fill_ter = t_str_null;
+    fill_ter = ter_t_null;
     /* update_mapgen doesn't care about fill_ter or rows */
     return true;
 }

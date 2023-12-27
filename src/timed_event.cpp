@@ -196,7 +196,8 @@ void timed_event::actualize()
         case timed_event_type::TEMPLE_FLOOD: {
             bool flooded = false;
 
-            cata::mdarray<resolved_ter_id, point_bub_ms> flood_buf;
+            std::vector<std::vector<resolved_ter_id>> flood_buf( MAPSIZE_X,
+                                                   std::vector<resolved_ter_id>( MAPSIZE_Y, t_null ) );
             for( const tripoint &p : here.points_on_zlevel() ) {
                 flood_buf[p.x][p.y] = here.ter( p );
             }

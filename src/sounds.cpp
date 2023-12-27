@@ -1696,7 +1696,7 @@ void sfx::do_footstep()
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         const Character &player_character = get_player_character();
         int heard_volume = sfx::get_heard_volume( player_character.pos() );
-        const auto terrain = get_map().ter( player_character.pos() )->id;
+        const ter_str_id terrain = get_map().ter( player_character.pos() )->id;
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
             ter_t_shrub,
