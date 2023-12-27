@@ -222,6 +222,9 @@
     "//": "jewelry for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
+      { "item": "santa_ear", "prob": 5 },
+      { "item": "santa_necklace", "prob": 5 },
+      { "item": "santa_wristwatch", "prob": 5 },
       { "item": "onyx_silver_cufflinks", "variant": "dark_cufflinks", "prob": 10 },
       { "item": "onyx_silver_earring", "variant": "dark_earring", "prob": 25 },
       { "item": "onyx_silver_ring", "variant": "dark_ring", "prob": 25 },
@@ -282,6 +285,8 @@
     "entries": [
       { "item": "santa_pants", "prob": 20 },
       { "item": "santa_shorts", "prob": 10 },
+      { "item": "santa_briefs", "prob": 5 },
+      { "item": "santa_undershirt", "prob": 5 },
       { "item": "pants", "variant": "pants_flag", "prob": 15 },
       { "item": "trousers_ninja", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
@@ -351,6 +356,8 @@
     "//": "undergarments for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
+      { "item": "santa_panties", "prob": 10 },
+      { "item": "santa_bra", "prob": 10 },
       { "item": "bikini_top", "prob": 20 },
       { "item": "bikini_bottom", "prob": 20 },
       { "item": "bikini_top_short", "prob": 10 },
@@ -432,6 +439,8 @@
     "id": "costume_weapons",
     "type": "item_group",
     "items": [
+      [ "santa_staff", 1 ],
+      [ "santa_knife", 1 ],
       [ "cutlass_inferior", 1 ],
       [ "broadsword_inferior", 1 ],
       [ "nodachi_inferior", 1 ],
