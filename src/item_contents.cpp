@@ -646,7 +646,12 @@ void item_contents::read_mods( const item_contents &read_input )
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket.saved_type() == pocket_type::MOD ) {
             for( const item *it : pocket.all_items_top() ) {
-                insert_item( *it, pocket_type::MOD );
+                if( it->is_gunmod() || it->is_toolmod() ) {
+                    insert_item( *it, pocket_type::MOD );
+                } else {
+                    debugmsg( "Non-mod %s in MOD pocket!", it->tname() );
+                    insert_item( *it, pocket_type::MIGRATION );
+                }
             }
         }
     }
