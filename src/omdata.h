@@ -176,6 +176,7 @@ enum class oter_flags : int {
     should_not_spawn,
     water,
     river_tile,
+    bridge,
     has_sidewalk,
     ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
