@@ -583,7 +583,7 @@
     "final_casting_time": 6000
   },
   {
-    "id": "warp_home",
+    "id": "warped_return",
     "type": "SPELL",
     "name": "Warped Return",
     "description": "Take a full minute of concentration, pay one warp shard, and return to the safety of your home base.",
