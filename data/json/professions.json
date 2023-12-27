@@ -2769,6 +2769,7 @@
           { "item": "santa_hat" },
           { "item": "santa_necklace" },
           { "item": "santa_wristwatch" },
+          { "item": "santa_gloves" },
           { "item": "badge_santa" },
           { "item": "bag_santa" },
           { "item": "candycane", "count": 10 },
