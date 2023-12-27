@@ -612,6 +612,7 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
+      { "item": "santa_wristwatch", "prob": 1 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "fitness_band", "prob": 10 },
       { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
