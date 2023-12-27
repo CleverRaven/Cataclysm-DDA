@@ -1123,5 +1123,14 @@
     "interruptable": false,
     "can_resume": false,
     "interruptable_with_kb": false
+  },
+  {
+    "id": "ACT_GLIDE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "gliding",
+    "based_on": "neither",
+    "interruptable": false,
+    "suspendable": false
   }
 ]

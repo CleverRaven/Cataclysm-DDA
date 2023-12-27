@@ -5578,12 +5578,12 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
+    "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few nearly vestigial digits, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges, keep warm in your sleep, and will take less damage if you fall.",
+    "types": [ "ARMS", "HANDS" ],
+    "prereqs": [ "ARM_FEATHERS" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
-    "flags": [ "WINGS_2" ]
+    "flags": [ "WINGS_2", "WINGGLIDE" ]
   },
   {
     "type": "mutation",
@@ -6615,8 +6615,8 @@
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
-    "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ],
-    "category": [ "BIRD", "BEAST", "INSECT" ]
+    "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY", "WINGS_BAT" ],
+    "category": [ "INSECT" ]
   },
   {
     "type": "mutation",
@@ -8023,7 +8023,7 @@
     "points": -2,
     "visibility": 8,
     "ugliness": 2,
-    "description": "Your arms have grown vibrantly-colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
+    "description": "Your arms have grown vibrantly-colored feathers, and you find you can no longer fully extend your elbows.  This hampers manipulation, but the feathers offer minor protection from damage and the elements.",
     "category": [ "RAPTOR" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
@@ -8031,8 +8031,8 @@
       { "part": "hand_l", "neutral": 10 },
       { "part": "hand_r", "neutral": 10 }
     ],
-    "encumbrance_always": [ [ "arm_l", 20 ], [ "arm_r", 20 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1 } ]
+    "encumbrance_always": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ]
   },
   {
     "type": "mutation",

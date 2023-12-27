@@ -124,6 +124,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
@@ -180,6 +181,8 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
+static const json_character_flag json_flag_WINGGLIDE( "WINGGLIDE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -5018,6 +5021,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         ledge_jump_across,
         ledge_fall_down,
         ledge_examine_furniture_below,
+        ledge_glide,
     };
 
     map &here = get_map();
@@ -5025,6 +5029,27 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posy() + 2 * sgn( examp.y - you.posy() ),
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+    int jdx = examp.x - you.posx();
+    int jdy = examp.y - you.posy();
+    int jump_direction = 0;
+
+    if( jdy > 0 && jdx == 0 ) {
+        jump_direction = 1; //south //THESE ARE ALL BACKWARDS FIX COMMENTS LATER
+    } else if( jdy > 0 && jdx < 0  ) {
+        jump_direction = 2; //southwest
+    } else if( jdy == 0 && jdx < 0  ) {
+        jump_direction = 3; //west
+    } else if( jdy < 0 && jdx < 0  ) {
+        jump_direction = 4; //northwest
+    } else if( jdy < 0 && jdx == 0  ) {
+        jump_direction = 5; //north
+    } else if( jdy < 0 && jdx > 0  ) {
+        jump_direction = 6; //northeast
+    } else if( jdy == 0 && jdx > 0  ) {
+        jump_direction = 7; //east
+    } else if( jdy > 0 && jdx > 0  ) {
+        jump_direction = 8; //southeast
+    }
 
     tripoint just_below = examp;
     just_below.z--;
@@ -5041,9 +5066,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     }
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
-    cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-
+    cmenu.addentry( ledge_glide, true, 'f', _( "Fall down." ) );
+        if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+        cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
+        }
     cmenu.query();
+
 
     creature_tracker &creatures = get_creature_tracker();
     if( g->climb_down_menu_pick( examp, cmenu.ret ) ) {
@@ -5127,6 +5155,30 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }*/
+        case ledge_glide: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+            // The WINGGLIDE trait flag implies wings. GLIDE is to be used for things such as artifacts,
+            // spells in mods etc. where characters are gliding without the use of wings.
+            if( you.get_str() < 4 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+                    add_msg( m_warning, _( "You are too weak to take wing." ) );
+            } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+                    add_msg( m_warning, _( "You won't make it far without two functional wings." ) );                
+            } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
+                add_msg( m_warning, _( "You are carrying too much to glide." ) );
+            } else {
+                add_msg( m_info, _( "You glide away from the ledge." ) );
+                you.as_avatar()->grab( object_type::NONE );
+                glide_activity_actor glide( &you, jump_direction );
+                you.assign_activity( glide );
+                you.add_effect( effect_gliding, 1_turns, true );
+                you.setpos( examp );
+            }
+            break;
+        }
         case ledge_fall_down: {
             if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
                 you.moves -= 100;
