@@ -41,9 +41,10 @@
     "subtype": "hobby",
     "id": "newly_biokinetic",
     "name": "Newly-Awakened Biokinetic",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run a mile and climb a mountain and then wake up and do it again.  You'll probably need it.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run ten miles and climb a mountain and then wake up and do it again.  You'll probably need it.",
     "points": 3,
-    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ]
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
+    "recipes": [ "practice_biokin_overcome_pain", "practice_biokin_physical_enhance" ]
   },
   {
     "type": "profession",
