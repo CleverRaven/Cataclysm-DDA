@@ -879,6 +879,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
+    const bool show_map_revealed = uistate.overmap_show_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     o = origin.raw().xy();
 
@@ -922,6 +923,12 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             if( !mx.is_empty() && mx->autonote ) {
                 draw_from_id_string( mx.str(), TILE_CATEGORY::MAP_EXTRA, "map_extra", omp.raw(),
                                      0, 0, ll, false );
+            }
+
+            if( blink && show_map_revealed ) {
+                for( tripoint_abs_omt map_reveals : get_avatar().map_revealed_omts ) {
+                    draw_from_id_string( "highlight", map_reveals.raw(), 0, 0, lit_level::LIT, false );
+                }
             }
 
             if( see ) {
