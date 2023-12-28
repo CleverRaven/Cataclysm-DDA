@@ -91,6 +91,15 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_bible8",
+    "type": "BOOK",
+    "name": { "str": "Orthodox Tewahedo Biblical Canon", "str_pl": "copies of the Orthodox Tewahedo Biblical Canon" },
+    "description": "This is very rare English translation of the Orthodox Tewahedo Biblical Canon, a collection of religious texts that form the basis of the Ethiopian Orthodox Church’s faith and doctrine, probably acquired by a immigrant, collector or theologist.  This canon is distinct from the Protestant and Catholic biblical canons, as it contains additional books that are not part of the Hebrew Bible or the Old Testament.",
+    "weight": "850 g",
+    "volume": "2 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_catechism",
     "type": "BOOK",
     "name": { "str": "The Common Catechism", "str_pl": "copies of The Common Catechism" },
@@ -114,7 +123,7 @@
     "name": { "str": "Westminster Catechism", "str_pl": "copies of the Westminster Catechism" },
     "description": "The Westminster Shorter Catechism and the Westminster Larger Catechism into one single large, hardcover book.  It serves as the doctrinal standard in the Reformed tradition of Protestant Christianity, a concise and systematic summary of Christian beliefs, intended to be used for teaching and instruction (and also one of the Four Forms of Unity, depending on the denomination).  This catechism is also divided into a series of questions and answers, covering various aspects of theology, morality, and Christian living.",
     "weight": "1100 g",
-    "volume": ",2300 ml",
+    "volume": "2300 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -151,6 +160,51 @@
     "description": "A hardcover, updated edition of the 'Heidelberg Catechism', a Protestant confession of faith and also a guide for religious instruction, written in 1563 (and also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination).  The contents consists of 129 questions and answers, divided into three main sections: guilt, grace, and gratitude.  Each section addresses a different aspect of the Christian faith and is intended to be memorized and understood by believers.",
     "weight": "600 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism6",
+    "type": "BOOK",
+    "name": { "str": "Philaret Catechism", "str_pl": "copies of the Philaret Catechism" },
+    "description": "A hardcover English translation of the Philaret Catechism, written by the Metropolitan Philaret of Moscow in the 19th century.  This book serves as a comprehensive guide to the teachings and beliefs of the Eastern Orthodox Church, structured in a question-and-answer format and covers various aspects of Christian doctrine, including theology, morality, sacraments, prayer, and the Ten Commandments.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism7",
+    "type": "BOOK",
+    "name": { "str": "Keach's Catechism", "str_pl": "copies of the Keach's Catechism" },
+    "description": "A hardcover edition of the Keach's Catechism, a Reformed Baptist catechism consisting of a set of basic questions and answers from scripture teaching readers the basics of the Baptist faith.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism8",
+    "type": "BOOK",
+    "name": { "str": "Pentecostal Catechism", "str_pl": "copies of the Pentecostal Catechism" },
+    "description": "A hardcover edition of the Pentecostal Catechism, a comprehensive guide to the beliefs, practices, and teachings of the Pentecostal movement within Christianity.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_orthodox",
+    "type": "BOOK",
+    "name": { "str": "The Orthodox Church", "str_pl": "copies of the The Orthodox Church" },
+    "description": "A paperback edition of 'The Orthodox Church: An Introduction to Eastern Christianity', written by Timothy Ware.  This book provides a comprehensive overview of the history, theology, and practices of the Eastern Orthodox Church, and an introduction to the Orthodox faith for those unfamiliar with it, as well as a deeper exploration for those seeking to deepen their understanding.",
+    "weight": "269 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_didascalia",
+    "type": "BOOK",
+    "name": { "str": "Didascalia Apostolorum", "str_pl": "copies of the Didascalia Apostolorum" },
+    "description": "A paperback English translation of the Didascalia Apostolorum, an ancient Christian text that provides instructions and guidelines for the organization and governance of the early Christian Church.  The Didascalia Apostolorum is attributed to the Twelve Apostles, and is believed to have been written in the third century AD.",
+    "weight": "400 g",
+    "volume": "800 L",
     "copy-from": "holybook_abstract"
   },
   {
