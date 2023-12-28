@@ -490,6 +490,8 @@ cdc
 cdda
 cegamente
 centric
+centrigrade
+centrigrades
 centrosaurus
 centrum
 cepa

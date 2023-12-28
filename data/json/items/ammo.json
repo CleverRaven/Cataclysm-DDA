@@ -1033,8 +1033,8 @@
     "symbol": "=",
     "color": "dark_gray",
     "phase": "solid",
-    "volume": "30 ml",
-    "weight": "50 g"
+    "volume": "50 ml",
+    "weight": "10 g"
   },
   {
     "type": "AMMO",
