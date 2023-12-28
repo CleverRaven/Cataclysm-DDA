@@ -1243,7 +1243,7 @@ float spell::spell_fail( const Character &guy ) const
     const float half_power_level = ( get_effective_level() / 2 );
 
     const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 )  - get_difficulty(
-                                            guy ) ) + ( guy.get_int() * 1.5 ) + ( half_power_level );                              
+            guy ) ) + ( guy.get_int() * 1.5 ) + ( half_power_level );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
