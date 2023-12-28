@@ -1317,14 +1317,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-                // do we have the required seed on our person?
-                // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
-                // then it means no further work can be done here
-            } else if( seed.is_empty() ) {
-                return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
             } else if( here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
                        // TODO: fix point types
-                       warm_enough_to_plant( src_loc.raw() ) ) {
+                       warm_enough_to_plant( src_loc.raw() ) &&
+                       // do we have the required seed on our person?
+                       // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
+                       // then it means no further work can be done here
+                       !seed.is_empty() ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
                 } else {
