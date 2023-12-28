@@ -580,15 +580,15 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_ELECTRO_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_PHOTOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_TELEKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_TEEP_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_TELEPORT_MATRIX_AWAKENING_3", { "const": 1 } ],
-          [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
+          [ "EOC_BIOKIN_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_CLAIR_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_ELECTRO_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_PHOTOKIN_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_PYROKIN_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_TELEKIN_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_TEEP_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_TELEPORT_MATRIX_AWAKENING_3", 1 ],
+          [ "EOC_VITAKIN_MATRIX_AWAKENING_3", 1 ]
         ]
       },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
