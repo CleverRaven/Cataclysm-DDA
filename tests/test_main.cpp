@@ -387,6 +387,9 @@ int main( int argc, const char *argv[] )
         // see the seed unless it's printed out in advance, so do that here.
         DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
     }
+    else {
+        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed();
+    }
 
     try {
         // TODO: Only init game if we're running tests that need it.
@@ -423,6 +426,8 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         // Also print the seed at the end so it can be easily found
         DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
+    } else {
+        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
     }
 
     if( error_during_initialization ) {
