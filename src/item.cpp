@@ -13778,7 +13778,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 bool item::force_reset_link( Character *p, int vpart_index,
                              const bool loose_message, const tripoint cable_position )
 {
-    if( !can_link_up() || !has_link_data() ) {
+    if( !has_link_data() ) {
         return has_flag( flag_NO_DROP );
     }
     link().length = 0;
@@ -13792,7 +13792,7 @@ bool item::force_reset_link( Character *p, int vpart_index,
 bool item::reset_link( Character *p, int vpart_index,
                        const bool loose_message, const tripoint cable_position )
 {
-    if( !can_link_up() || !has_link_data() ) {
+    if( !has_link_data() ) {
         return has_flag( flag_NO_DROP );
     }
     // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
