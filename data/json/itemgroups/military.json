@@ -643,7 +643,7 @@
       { "item": "m9", "variant": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
       { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 7 },
-      { "item": "m4_cqbr", "prob": 1 },
+      { "group": "m4_cqbr", "prob": 1 },
       { "item": "m231pfw", "prob": 1 },
       { "item": "modular_m16a4", "prob": 5 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_m16a3", "prob": 1 },

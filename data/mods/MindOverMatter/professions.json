@@ -29,7 +29,7 @@
     "id": "psi_biokinetic_athlete",
     "name": "Star Athlete",
     "description": "You were always good at athletics.  People praised your effort and hard work, but the truth was you barely needed to practice.  It all just came naturally to you, as naturally as breathing.  That kept you safe during the Cataclysm--you outran the dead and worse things that chased you and made it out of the cities, and they're certainly the thing that will keep you going, especially since now, you're stronger and faster than you've ever been.",
-    "points": 4,
+    "points": 10,
     "skills": [
       { "level": 3, "name": "throw" },
       { "level": 7, "name": "swimming" },
@@ -38,10 +38,20 @@
     ],
     "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
     "spells": [
-      { "id": "biokin_physical_enhance", "level": 4 },
-      { "id": "biokin_overcome_pain", "level": 2 },
+      { "id": "biokin_physical_enhance", "level": 9 },
+      { "id": "biokin_overcome_pain", "level": 7 },
+      { "id": "biokin_breathe_skin", "level": 4 },
+      { "id": "biokin_dash", "level": 8 },
       { "id": "biokin_flexibility", "level": 3 },
-      { "id": "biokin_reflex_enhance", "level": 1 }
+      { "id": "biokin_adrenaline", "level": 2 }
+    ],
+    "recipes": [
+      "practice_biokin_overcome_pain",
+      "practice_biokin_physical_enhance",
+      "practice_biokin_breathe_skin",
+      "practice_biokin_dash",
+      "practice_biokin_flexibility",
+      "practice_biokin_adrenaline"
     ],
     "items": {
       "both": {
@@ -51,6 +61,7 @@
           { "item": "socks" },
           { "item": "cleats" },
           { "item": "sports_drink" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
