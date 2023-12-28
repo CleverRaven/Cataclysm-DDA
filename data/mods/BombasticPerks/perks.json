@@ -177,9 +177,7 @@
     "points": 0,
     "description": "Oh, they're not getting away with THAT.\n\nYou do +15% damage for two turns after you're hit.",
     "category": [ "perk" ],
-    "enchantments": [ "perk_ench_vengeful" ],
-    "purifiable": false,
-    "valid": false
+    "enchantments": [ "perk_ench_vengeful" ]
   },
   {
     "type": "mutation",
@@ -232,9 +230,7 @@
     "name": { "str": "Quick Recovery" },
     "points": 0,
     "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
-    "category": [ "perk" ],
-    "purifiable": false,
-    "valid": false
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
@@ -243,7 +239,6 @@
     "points": 0,
     "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.'",
     "category": [ "perk" ],
-    "active": true,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
   },
   {
