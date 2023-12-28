@@ -804,7 +804,7 @@
     ]
   },
   {
-    "id": "ACT_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE ",
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "meditating",

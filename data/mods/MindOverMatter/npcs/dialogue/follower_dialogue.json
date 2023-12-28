@@ -74,6 +74,7 @@
   },
   {
     "id": [ "TALK_FRIEND_VITAKINETIC_CURE_ILLNESS" ],
+    "//": "Debug Mind Control will lead to auto-failure due to the formatting below.  Be careful when testing!",
     "type": "talk_topic",
     "dynamic_line": [
       "And?",
