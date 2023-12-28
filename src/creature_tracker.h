@@ -165,7 +165,7 @@ class creature_tracker
         bool dirty_ = true;  // NOLINT(cata-serialize)
         int zone_tick_ = 1;  // NOLINT(cata-serialize)
         int zone_number_ = 0;  // NOLINT(cata-serialize)
-        std::unordered_map < int, std::unordered_map<mfaction_id, std::vector<Creature *>>>
+        std::unordered_map<int, std::unordered_map<mfaction_id, std::vector<Creature *>>>
         creatures_by_zone_and_faction_;  // NOLINT(cata-serialize)
         std::unordered_set<Creature *> removed_;  // NOLINT(cata-serialize)
 
