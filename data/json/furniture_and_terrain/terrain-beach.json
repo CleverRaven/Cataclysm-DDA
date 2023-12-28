@@ -1,8 +1,8 @@
 [
   {
-    "id": "t_craggy_rocks",
+    "id": "t_coast_rock",
     "type": "terrain",
-    "name": "craggy rocks",
+    "name": "rocky coastline",
     "description": "This is a section of eroded natural stone formations along the beach.  It will take a little hopping and jumping to climb around on them.",
     "symbol": "-",
     "looks_like": "t_rockfloor",
@@ -13,71 +13,22 @@
     "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_jagged_rocks",
+    "id": "t_coast_rock_surf",
     "type": "terrain",
-    "name": "jagged rocks",
-    "description": "Wind and salt water have carved these rocks into beautiful, jagged formations encrusted with barnacles and dried seaweed.  You can climb them, but it'll be hard going.",
-    "symbol": "^",
-    "looks_like": "t_craggy_rocks",
-    "color": "dark_gray",
-    "move_cost": 5,
-    "connect_groups": "BEACH_FORMATIONS",
-    "connects_to": "BEACH_FORMATIONS",
-    "flags": [ "TRANSPARENT", "UNSTABLE" ]
+    "name": "rocky coastline",
+    "description": "This is a section of eroded natural stone formations along the beach, the water lapping and splashing at the edges.",
+    "copy-from": "t_coast_rock",
+    "color": "dark_cyan"
   },
   {
-    "id": "t_barnacle_rock",
+    "id": "t_coast_rock_submerged",
     "type": "terrain",
-    "name": "barnacle encrusted rocks",
-    "description": "These salt-encrusted rocks are covered in tiny, sharp barnacles.",
-    "symbol": "*",
-    "looks_like": "t_jagged_rocks",
-    "color": "dark_cyan",
-    "move_cost": 3,
-    "connect_groups": "BEACH_FORMATIONS",
-    "connects_to": "BEACH_FORMATIONS",
-    "flags": [ "TRANSPARENT" ]
-  },
-  {
-    "id": "t_weed_rock",
-    "type": "terrain",
-    "name": "seaweed-covered rocks",
-    "description": "These smooth, eroded rock formations are covered in slick, exposed seaweed.",
-    "symbol": "~",
-    "looks_like": "t_craggy_rocks",
-    "color": "dark_green",
-    "move_cost": 5,
-    "connect_groups": "BEACH_FORMATIONS",
-    "connects_to": "BEACH_FORMATIONS",
-    "flags": [ "TRANSPARENT", "UNSTABLE" ]
-  },
-  {
-    "type": "terrain",
-    "id": "t_swater_splash",
-    "name": "waves",
-    "description": "The waves here splash against something almost submerged below, spraying salt water in the air.",
-    "color": "dark_cyan",
-    "symbol": "'",
+    "name": "submerged shoals",
+    "description": "This is a section of eroded natural stone formations along the beach that has dipped below the surface of the water.",
+    "copy-from": "t_coast_rock",
     "looks_like": "t_swater_sh",
-    "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "FISHABLE", "SHALLOW_WATER" ],
-    "connect_groups": "WATER",
-    "connects_to": "WATER",
-    "examine_action": "water_source"
-  },
-  {
-    "type": "terrain",
-    "id": "t_swater_surf",
-    "name": "surf",
-    "description": "A broad area of fine sand, washed by waves coming in from the sea.",
-    "symbol": ".",
-    "color": "dark_cyan",
-    "looks_like": "t_swater_sh",
-    "move_cost": 3,
-    "connect_groups": [ "SAND", "WATER" ],
-    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS", "BEACH_FORMATIONS" ],
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "examine_action": "water_source"
+    "color": "light_blue",
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "SALT_WATER", "MURKY" ]
   },
   {
     "type": "terrain",
