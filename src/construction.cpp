@@ -1259,11 +1259,11 @@ bool construct::check_nofloor_above( const tripoint_bub_ms &p )
 bool construct::check_deconstruct( const tripoint_bub_ms &p )
 {
     map &here = get_map();
-    // Can deconstruct furniture here, make sure regular deconstruction isn't available as long as the furniture is
-    if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
-        return false;
-    }
     if( here.has_furn( p ) ) {
+        // Can deconstruct furniture here, make sure regular deconstruction isn't available as long as the furniture is
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
+            return false;
+        }
         return here.furn( p ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
