@@ -153,7 +153,7 @@
           "failures": [ { "action": "alarm" } ]
         }
       },
-      "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 37, "y": 35, "chance": 25, "status": 1, "rotation": 90, "fuel": 40 } ]
+      "place_vehicles": [ { "vehicle": "military_cargo_trucks", "x": 37, "y": 35, "chance": 25, "status": 1, "rotation": 90, "fuel": 40 } ]
     }
   },
   {

@@ -444,6 +444,56 @@
     }
   },
   {
+    "id": "vita_attack_touch",
+    "type": "SPELL",
+    "name": "[Ψ]Lacerating Touch",
+    "description": "With an inverse of vitakinesis's healing powers, you randomly tear flesh and cut blood vessels, causing significant damage in your target.",
+    "message": "You touch your target and wounds open on their flesh.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_attack_touch') * 2) + 12) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_attack_touch') * 4) + 35) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_dot": 1,
+    "max_dot": 1,
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_attack_touch') * 50) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_attack_touch') * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1750,
+    "energy_increment": -115,
+    "base_casting_time": 85,
+    "final_casting_time": 55,
+    "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ],
+    "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
+  },
+  {
     "id": "vita_purge_rads",
     "type": "SPELL",
     "name": "[Ψ]Radiation Decontamination",

@@ -25,7 +25,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -54,7 +54,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -83,7 +83,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -112,7 +112,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -269,6 +269,6 @@
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   }
 ]
