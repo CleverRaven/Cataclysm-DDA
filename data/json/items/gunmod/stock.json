@@ -407,7 +407,7 @@
     "id": "scout_stock",
     "type": "GUNMOD",
     "name": { "str": "hollow polymer stock" },
-    "description": "An extremely lightweight stock. There's a hollow cavity at the bottom where a spare magazine can be stored.",
+    "description": "An extremely lightweight stock.  There's a hollow cavity at the bottom where a spare magazine can be stored.",
     "weight": "260 g",
     "volume": "500 ml",
     "integral_volume": "0 ml",
