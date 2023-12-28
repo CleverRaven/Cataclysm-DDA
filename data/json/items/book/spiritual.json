@@ -27,7 +27,7 @@
   {
     "id": "holybook_bible1",
     "type": "BOOK",
-    "name": { "str": "King James Bible", "str_pl": "copies of King James Bible" },
+    "name": { "str": "King James Bible", "str_pl": "copies of the King James Bible" },
     "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
     "weight": "368 g",
     "volume": "1 L",
@@ -36,7 +36,7 @@
   {
     "id": "holybook_bible2",
     "type": "BOOK",
-    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
+    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of the Eastern Orthodox Bible" },
     "description": "An English copy of the Eastern Orthodox translation of the Christian Bible.",
     "weight": "428 g",
     "volume": "1250 ml",
@@ -45,7 +45,7 @@
   {
     "id": "holybook_bible3",
     "type": "BOOK",
-    "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
+    "name": { "str": "Gideon Bible", "str_pl": "copies of the Gideon Bible" },
     "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
     "weight": "368 g",
     "volume": "1 L",
@@ -54,7 +54,7 @@
   {
     "id": "holybook_bible4",
     "type": "BOOK",
-    "name": { "str": "New American Bible", "str_pl": "copies of the New Bible" },
+    "name": { "str": "New American Bible", "str_pl": "copies of the New American Bible" },
     "description": "An English translation of the Bible first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
     "weight": "368 g",
     "volume": "1 L",
@@ -65,9 +65,27 @@
     "type": "BOOK",
     "name": {
       "str": "The New World Translation of the Holy Scriptures",
-      "str_pl": "copies of the New World Translation of the Holy Scriptures"
+      "str_pl": "copies of the New World Translation of the Holy Scriptures" 
     },
     "description": "An English translation of the Bible published by the Watch Tower Bible and Tract Society, used and distributed by Jehovah's Witnesses",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible6",
+    "type": "BOOK",
+    "name": { "str": "Holman Christian Bible", "str_pl": "copies of the Holman Christian Bible" },
+    "description": "An English translation of the Christian Bible by Holman Bible Publishers, developed by the Southern Baptist Convention.  It is primarily used within Baptist circles.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible7",
+    "type": "BOOK",
+    "name": { "str": "Douay-Rheims Bible", "str_pl": "copies of the Douay-Rheims Bible" },
+    "description": "An uncommon English translation of the Christian Bible, completed in 1609.  It is based on the Latin Vulgate, and remained popular among traditionalist Catholics.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
