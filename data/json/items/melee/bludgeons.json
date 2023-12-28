@@ -872,7 +872,7 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "weapon_category": [ "MACES" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "price": 8000,
     "price_postapoc": 50,
     "melee_damage": { "bash": 35, "stab": 2 }
