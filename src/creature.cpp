@@ -385,10 +385,6 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( has_effect( effect_invisibility ) ) {
-        return false;
-    }
-
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
         here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {

@@ -2,21 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_biokin_physical_enhance" },
-      { "u_learn_recipe": "practice_biokin_overcome_pain" },
-      { "u_learn_recipe": "practice_biokin_breathe_skin" },
-      { "u_learn_recipe": "practice_biokin_flexibility" },
-      { "u_learn_recipe": "practice_biokin_climate_control" },
-      { "u_learn_recipe": "practice_biokin_enhance_mobility" },
-      { "u_learn_recipe": "practice_biokin_hammerhand" },
-      { "u_learn_recipe": "practice_biokin_armor_skin" },
-      { "u_learn_recipe": "practice_biokin_reflex_enhance" },
-      { "u_learn_recipe": "practice_biokin_sealed_system" },
-      { "u_learn_recipe": "practice_biokin_metabolism_enhance" },
-      { "u_learn_recipe": "practice_biokin_combat_dance" },
-      { "u_learn_recipe": "practice_biokin_perfected_motion" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_biokin_physical_enhance" }, { "u_learn_recipe": "practice_biokin_overcome_pain" } ]
   },
   {
     "type": "effect_on_condition",
@@ -180,14 +166,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BIOKIN_RECIPE_TEACHER",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "condition": { "u_has_trait": "BIOKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_CLAIR_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
@@ -249,6 +227,46 @@
     "required_event": "game_begin",
     "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
+    "recurrence": [ "12 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "0" ] },
+        { "not": { "u_has_effect": "effect_psi_learning_new_power" } }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "u_has_any_trait": [
+          "BIOKINETIC",
+          "CLAIRSENTIENT",
+          "ELECTROKINETIC",
+          "PHOTOKINETIC",
+          "PYROKINETIC",
+          "TELEKINETIC",
+          "TELEPATH",
+          "TELEPORTER",
+          "VITAKINETIC"
+        ]
+      }
+    },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",

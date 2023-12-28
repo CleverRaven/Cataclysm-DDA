@@ -42,8 +42,26 @@
   },
   {
     "type": "proficiency_category",
+    "id": "prof_contemplation",
+    "name": "Contemplation",
+    "description": "Proficiencies that help with discovering new powers or improving existing ones."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_biokinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Biokinetic Insight" },
+    "description": "You have an understanding on how biokinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency_category",
     "id": "prof_psionic",
-    "name": "Psionic",
+    "name": "Psionic Crafting",
     "description": "Proficiencies that help with channeling psionic energy into physical objects or into more esoteric applications."
   },
   {
