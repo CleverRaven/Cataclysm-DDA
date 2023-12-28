@@ -2207,7 +2207,10 @@
     "id": "santa_shoes",
     "type": "ARMOR",
     "name": { "str": "pair of Santa shoes", "str_pl": "pairs of Santa shoes" },
-    "description": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs. Claus or Santa style and comfort.",
+    "description": {
+        "str": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs. Claus or Santa style and comfort.",
+        "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
+    },
     "copy_from": "sneakers",
     "weight": "840 g",
     "volume": "1500 ml",
