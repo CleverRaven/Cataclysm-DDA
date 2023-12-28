@@ -100,6 +100,15 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_bible9",
+    "type": "BOOK",
+    "name": { "str": "The Holy Piby", "str_pl": "copies of The Holy Piby" },
+    "description": "A compilation of texts and interpretations of the Christian Bible that focus on the history, culture, and religious beliefs of the Rastafarian community.  It aims to provide an alternative perspective on the origins of the world and its people, emphasizing the African roots of the Rastafarian faith.",
+    "weight": "468 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_catechism",
     "type": "BOOK",
     "name": { "str": "The Common Catechism", "str_pl": "copies of The Common Catechism" },
@@ -190,6 +199,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_dort",
+    "type": "BOOK",
+    "name": { "str": "Canons of Dort", "str_pl": "copies of the Canons of Dort" },
+    "description": "A rare English translation of the Canons of Dort, a significant theological document within the Reformed tradition.  It consists of five main points: The Corruption of Human Nature, Unconditional Election, Limited Atonement, Irresistible Grace and Perseverance of the Saints.  It is also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination.",
+    "weight": "200 g",
+    "volume": "400 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_confession",
+    "type": "BOOK",
+    "name": { "str": "Confession of Faith", "str_pl": "copies of the Confession of Faith" },
+    "description": "A rare English translation of the Confession of Faith, also known as the Belgic Confession. It is a collection of documents in Christian theology and written statements of belief or doctrines.  These confessions aim to summarize and articulate the core beliefs of particular Christian denominations and traditions.  It also serve as a guide for the members of the church to understand and uphold the essential teachings of their faith.  It is also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination.",
+    "weight": "420 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_orthodox",
     "type": "BOOK",
     "name": { "str": "The Orthodox Church", "str_pl": "copies of the The Orthodox Church" },
@@ -204,7 +231,7 @@
     "name": { "str": "Didascalia Apostolorum", "str_pl": "copies of the Didascalia Apostolorum" },
     "description": "A paperback English translation of the Didascalia Apostolorum, an ancient Christian text that provides instructions and guidelines for the organization and governance of the early Christian Church.  The Didascalia Apostolorum is attributed to the Twelve Apostles, and is believed to have been written in the third century AD.",
     "weight": "400 g",
-    "volume": "800 L",
+    "volume": "800 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -244,6 +271,15 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_kebra",
+    "type": "BOOK",
+    "name": { "str": "Kebra Negast", "str_pl": "copies of the Kebra Negast" },
+    "description": "A hardcover English translation of the Kebra Negast, also known as the Glory of the Kings.  It is an ancient Ethiopian text that holds significant religious and historical value for the Ethiopian Orthodox Church and the Rastafarian movement.  It is a compilation of sacred stories and legends that revolve around the life of King Solomon and the Queen of Sheba, as well as the birth and early life of King Menelik I, the founder of the Ethiopian Empire.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_granth",
     "type": "BOOK",
     "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
@@ -277,6 +313,24 @@
     "description": "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
     "weight": "368 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_nihon",
+    "type": "BOOK",
+    "name": { "str": "Nihon Shoki", "str_pl": "copies of the Nihon Shoki" },
+    "description": "Also known as 'Chronicles of Japan', it is considered one of the two most important and oldest chronicles of ancient Japan, the other being the Kojiki.  The Nihon Shoki covers the history of Japan with a compilation of myths, legends, religious practices, rituals and historical events.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_fudoki",
+    "type": "BOOK",
+    "name": { "str": "Fudoki", "str_pl": "copies of the Fudoki" },
+    "description": "A somewhat large paperback book containing a extensive compilation of historical records and chronicles that originated in ancient Japan (probably during the Nara and Heian periods).  It covers local legends, folklore, religious beliefs, agricultural practices, dialects, historical events, quantity and quality of resources, boundaries, topography, climate, flora, fauna, and cultural practices of several Japanese provinces at that time.",
+    "weight": "1300 g",
+    "volume": "2 L",
     "copy-from": "holybook_abstract"
   },
   {
@@ -450,6 +504,15 @@
     "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
     "description": "A collection of discourses attributed to the Buddha and his close disciples.",
     "weight": "496 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_siddur",
+    "type": "BOOK",
+    "name": { "str": "Siddur", "str_pl": "Siddurim" },
+    "description": "This is a lightweight collection of prayers and blessings that are recited by Jews during various parts of their daily lives, religious ceremonies, and festivals.",
+    "weight": "450 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
