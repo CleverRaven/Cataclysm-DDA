@@ -93,5 +93,19 @@
     "min_damage": 1,
     "max_damage": 2,
     "min_range": 30
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "pigeon_aura",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "passenger_pigeon_aura" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 400 } ] }
+        ]
+      }
+    ]
   }
 ]

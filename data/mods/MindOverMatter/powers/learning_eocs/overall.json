@@ -1,0 +1,18 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_MOVING_CANCELS_RESEARCH",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_psi_learning_new_power" },
+    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_CHANNELING_CANCELS_RESEARCH",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "u_has_effect": "effect_psi_learning_new_power" },
+    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+  }
+]
