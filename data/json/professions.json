@@ -2779,8 +2779,30 @@
           { "group": "charged_smart_phone" }
         ]
       },
-      "male": { "entries": [ { "item": "santa_undershirt" }, { "item": "santa_jacket" }, { "item": "santa_belt" }, { "item": "santa_pants" }, { "item" :"santa_briefs" }, { "item": "santa_socks" }, { "item": "santa_boots" }, { "item": "santa_staff" }, { "item": "santa_beard" } ] },
-      "female": { "entries": [ { "item": "santa_ear" }, { "item": "santa_bra" }, { "item": "santa_dress" }, { "item": "stockings", "variant": "santa_stockings" }, { "item": "santa_panties" }, { "item": "santa_shoes" }, { "item": "santa_knife" } ] }
+      "male": {
+        "entries": [
+          { "item": "santa_undershirt" },
+          { "item": "santa_jacket" },
+          { "item": "santa_belt" },
+          { "item": "santa_pants" },
+          { "item": "santa_briefs" },
+          { "item": "santa_socks" },
+          { "item": "santa_boots" },
+          { "item": "santa_staff" },
+          { "item": "santa_beard" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "santa_ear" },
+          { "item": "santa_bra" },
+          { "item": "santa_dress" },
+          { "item": "stockings", "variant": "santa_stockings" },
+          { "item": "santa_panties" },
+          { "item": "santa_shoes" },
+          { "item": "santa_knife" }
+        ]
+      }
     }
   },
   {
