@@ -4365,11 +4365,6 @@ void modify_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-std::unique_ptr<iuse_actor> link_up_actor::clone() const
-{
-    return std::make_unique<link_up_actor>( *this );
-}
-
 void link_up_actor::load( const JsonObject &jo )
 {
     jo.read( "cable_length", cable_length );
@@ -4379,6 +4374,19 @@ void link_up_actor::load( const JsonObject &jo )
     jo.read( "menu_text", menu_text );
     jo.read( "targets", targets );
     jo.read( "can_extend", can_extend );
+}
+
+std::unique_ptr<iuse_actor> link_up_actor::clone() const
+{
+    return std::make_unique<link_up_actor>( *this );
+}
+
+std::string link_up_actor::get_name() const
+{
+    if( !menu_text.empty() ) {
+        return menu_text.translated();
+    }
+    return iuse_actor::get_name();
 }
 
 void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
@@ -4442,14 +4450,6 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 
-std::string link_up_actor::get_name() const
-{
-    if( !menu_text.empty() ) {
-        return menu_text.translated();
-    }
-    return iuse_actor::get_name();
-}
-
 std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &pnt ) const
 {
     if( !p ) {
@@ -4475,12 +4475,13 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
     const bool has_loose_end = !unspooled && is_cable_item ?
                                it.link_has_state( link_state::no_link ) : it.has_no_links();
 
+    vehicle *t_veh = it.has_link_data() ? it.link().t_veh.get() : nullptr;
+
     uilist link_menu;
     if( !is_cable_item || it.has_no_links() ) {
         // This is either a device or a cable item without any connections.
-        link_menu.text = string_format( _( "What to do with the %s?%s" ),
-                                        cable_name, it.link().t_veh ?
-                                        string_format( _( "\nAttached to: %s" ), it.link().t_veh->name ) : "" );
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, t_veh ?
+                                        string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
             link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
         }
@@ -4523,8 +4524,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
 
     } else if( it.link_has_state( link_state::vehicle_tow ) ) {
         // Cables that started a tow can finish one or detach; nothing else.
-        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, it.link().t_veh ?
-                                        string_format( _( "\nAttached to: %s" ), it.link().t_veh->name ) : "" );
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, t_veh ?
+                                        string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
 
         link_menu.addentry( 10, has_loose_end && it.link().target == link_state::vehicle_tow, -1,
                             _( "Attach loose end to towing vehicle" ) );
@@ -4545,7 +4546,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         std::string state_desc_rhs;
         if( it.link_has_state( link_state::no_link ) ) {
             state_desc_lhs = _( "\nAttached to " );
-            if( it.link().t_veh ) {
+            if( t_veh ) {
                 state_desc_rhs = it.link().t_veh->name;
             } else if( it.link_has_state( link_state::bio_cable ) ) {
                 state_desc_rhs = _( "Cable Charger System" );
@@ -4634,10 +4635,10 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
         p->activity.auto_resume = true;
 
-        if( it.link().t_veh ) {
+        if( t_veh ) {
             // Cancel out the linked device's power draw so the vehicle's power display will be accurate.
-            int power_draw = it.charge_linked_batteries( *it.link().t_veh, 0 );
-            it.link().t_veh->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
+            int power_draw = it.charge_linked_batteries( *t_veh, 0 );
+            t_veh->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
         }
 
         it.reset_link( p );
