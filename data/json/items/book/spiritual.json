@@ -472,6 +472,33 @@
     "flags": [ "INSPIRATIONAL" ]
   },
   {
+    "id": "holybook_wicca",
+    "type": "BOOK",
+    "name": { "str": "The Book of Shadows", "str_pl": "copies of The Book of Shadows" },
+    "description": "A dark hardcover copy of The Book of Shadows.  It serves as a personal journal and reference book for individual witches or covens.  Each practitioner may have their own unique version of The Book of Shadows, which contains their personal rituals, spells, invocations, herbal lore, divination methods, and other magical knowledge.  This one, apart from having a wide range of information directly printed on the pages, there are also blank pages for you to write on.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_satanic"
+  },
+  {
+    "id": "holybook_wicca1",
+    "type": "BOOK",
+    "name": { "str": "Witchcraft Today", "str_pl": "copies of Witchcraft Today" },
+    "description": "A hardcover book, written by Gerald Gardner and published in 1954.  It was once considered one of the foundational texts of modern Wicca and played a significant role in popularizing contemporary witchcraft.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_satanic"
+  },
+  {
+    "id": "holybook_wicca2",
+    "type": "BOOK",
+    "name": { "str": "The Spiral Dance", "str_pl": "copies of The Spiral Dance" },
+    "description": "A hardcover copy of the Spiral Dance, written by Starhawk, a prominent author, and activist in the fields of feminism, spirituality, and environmentalism.  First published in 1979, this book explores the beliefs, practices, and history of the Goddess movement, which is a spiritual and feminist response to patriarchal religions.  The Goddess movement seeks to reclaim and revive the worship of the divine feminine in various forms.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_scientology",
     "type": "BOOK",
     "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
@@ -724,6 +751,33 @@
     "name": { "str": "The Book of the Dead", "str_pl": "copies of The Book of the Dead" },
     "description": "A hardcover, English translation of the Book of the Dead, a collection of funerary texts dating from the New Kingdom to the Greco-Roman period and contains spells and instructions to help the deceased navigate the Egyptian afterlife.",
     "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_umbanda",
+    "type": "BOOK",
+    "name": { "str": "Orishas and Their Deities", "str_pl": "copies of Orishas and Their Deities" },
+    "description": "A paperwork English edition of the Orishas and Their Deities (Orixás e Suas Divindades), written by José Honorato do Rego.  This book provides an extensive overview of the orishas and their associated deities.  It delves into the history, characteristics, and roles of these divine beings within the Umbanda religion, a syncretic Afro-Brazilian religion that combines elements of African, Indigenous Brazilian, and European traditions.",
+    "weight": "350 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_daime",
+    "type": "BOOK",
+    "name": { "str": "Cruzeiro", "str_pl": "copies of the Cruzeiro" },
+    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and indigenous Brazilian beliefs.  It is considered a sacred scripture by the movement’s followers.",
+    "weight": "350 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai",
+    "type": "BOOK",
+    "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
+    "description": ".",
+    "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
