@@ -664,10 +664,64 @@
     "id": "holybook_hawaii",
     "type": "BOOK",
     "name": { "str": "Moʻolelo", "str_pl": "copies of the Moʻolelo" },
-    "description": "A plant-fiber cover English edition of the Moʻolelo, a collection of traditional Hawaiian stories, texts and oral traditions, that have been compiled, translated, and documented in written form.  This book also includes information on the deities and entities of the traditional religion of Hawaii, alongside shamanic rituals and practices.",
+    "description": "A grass-cover English edition of the Moʻolelo, a collection of traditional Hawaiian stories, texts and oral traditions, that have been compiled, translated, and documented in written form.  This book also includes information on the deities and entities of the traditional religion of Hawaii, alongside rituals and practices.",
     "weight": "550 g",
     "volume": "1 L",
-    "material": [ "paper", "plant_fiber" ],
+    "material": [ "paper", "dry_plant" ],
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_maori",
+    "type": "BOOK",
+    "name": { "str": "Te Ao Māori", "str_pl": "copies of the Te Ao Māori" },
+    "description": "A collection of written oral traditions of the religion of the Maori people, including the Whakapapa (genealogy and the relationships between the living, the dead, and the natural world), the Tikanga (customs, traditions, and protocols that govern the daily lives of the Maori people), Waiata (songs that play a significant role in the Traditional Maori Religion), Pepeha (a personal statement that outlines one’s whakapapa, or genealogy, and connection to the land) and Taonga Tūtahi (sacred treasures and objects that hold spiritual significance for the Maori people), as well as inscriptions regarding the deities, entities and religious traditions of the Maori Religion.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_native",
+    "type": "BOOK",
+    "name": { "str": "The Native Religion of New England", "str_pl": "copies of The Native Religion of New England" },
+    "description": "A collection of written oral and recorded religious tradition of the many native groups and tribes of New England (such as the Wampanoag, Narragansett, Mohegan, and Penobscot).  This book also contain information regarding the deities, entities and religious characteristics and hierarchy of these groups, as well as historical, geographical, social, political and cultural information.",
+    "weight": "700 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_cao",
+    "type": "BOOK",
+    "name": { "str": "The Compilation of Divine Messages", "str_pl": "copies of The Compilation of Divine Messages" },
+    "description": "A hardcover English translation of the Thanh Ngon Hiep Tuyen (Compilation of Divine Messages), a compilation of divine messages received by Cao Dai mediums during séances in Cao Dai temples.  These messages are believed to be communication from various divine beings, including saints, sages, and deities.  The mediums serve as channels through which these messages are transmitted to the followers.",
+    "weight": "700 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_egypt",
+    "type": "BOOK",
+    "name": { "str": "The Pyramid Texts", "str_pl": "copies of The Pyramid Texts" },
+    "description": "A hardcover, English translation of The Pyramid Texts.  These texts were intended to guide the deceased pharaohs through the Egyptian afterlife, providing them with magical spells, hymns, and instructions for their journey.  The Pyramid Texts contain a wealth of information about ancient Egyptian beliefs in the afterlife, the gods, and the role of the pharaoh as a mediator between the mortal world and the divine.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_egypt1",
+    "type": "BOOK",
+    "name": { "str": "The Coffin Texts", "str_pl": "copies of The Coffin Texts" },
+    "description": "A hardcover, English translation of The Coffin Texts, a collection of magical spells and texts inscribed on the inner surfaces of wooden coffins.  These texts were intended to protect the deceased and ensure their safe passage through the Egyptian afterlife.  The Coffin Texts provide a insight into the religious beliefs of ancient Egyptians and its contemporary revival, Kemeticism.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_egypt2",
+    "type": "BOOK",
+    "name": { "str": "The Book of the Dead", "str_pl": "copies of The Book of the Dead" },
+    "description": "A hardcover, English translation of the Book of the Dead, a collection of funerary texts dating from the New Kingdom to the Greco-Roman period and contains spells and instructions to help the deceased navigate the Egyptian afterlife.",
+    "weight": "600 g",
+    "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
   {
