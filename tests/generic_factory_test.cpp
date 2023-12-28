@@ -44,7 +44,6 @@ template<> int_id<test_obj> string_id<test_obj>::id() const
 {
     return current_factory->convert( *this, test_int_id_null );
 }
-template<> int_id<test_obj>::int_id( const string_id<test_obj> &id ) : _id( id.id() ) {}
 template<> const test_obj &int_id<test_obj>::obj() const
 {
     return current_factory->obj( *this );
@@ -362,14 +361,6 @@ template<> int_id<stat_test_obj> string_id<stat_test_obj>::id() const
     return stat_test_obj_factory.convert( *this, stat_int_id_null );
 }
 template<> int_id<stat_test_obj>::int_id( const string_id<stat_test_obj> &id ) : _id( id.id() ) {}
-template<> const stat_test_obj &int_id<stat_test_obj>::obj() const
-{
-    return stat_test_obj_factory.obj( *this );
-}
-template<> bool int_id<stat_test_obj>::is_valid() const
-{
-    return stat_test_obj_factory.is_valid( *this );
-}
 template<> const stat_test_obj &string_id<stat_test_obj>::obj() const
 {
     return stat_test_obj_factory.obj( *this );
