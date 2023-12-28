@@ -499,6 +499,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_mahayana",
+    "type": "BOOK",
+    "name": { "str": "The Mahayana Sutras", "str_pl": "copies of The Mahayana Sutras" },
+    "description": "A hardcover English translation of the Mahayana Sutras, a collection of scriptures that form the foundation of Mahayana Buddhism.  Those cover a wide range of topics and teachings, including, but not limited to, discourses on meditation, ethics, philosophy, cosmology, and the nature of reality.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tibetan",
+    "type": "BOOK",
+    "name": { "str": "Tibetan Buddhist Canon", "str_pl": "copies of the Tibetan Buddhist Canon" },
+    "description": "A hardcover English translation of the Tibetan Buddhist Canon, also known as the Kangyur and Tengyur, or Vajrayana Canon.  It contains a vast collection of sacred texts that form the basis of the Buddhist teachings in Tibetan Buddhism.  It consists of two main parts: the Kangyur, which contains the translated words of the Buddha, and the Tengyur, which comprises commentaries by Indian and Tibetan scholars.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_sutras",
     "type": "BOOK",
     "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
