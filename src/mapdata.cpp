@@ -26,7 +26,11 @@
 #include "trap.h"
 #include "type_id.h"
 
+static const furn_str_id furn_f_null( "f_null" );
+
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+const ter_str_id ter_t_null( "t_null" );
 
 namespace
 {
@@ -759,8 +763,6 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
     }
 }
 
-const ter_str_id ter_t_null( "t_null" );
-
 resolved_ter_id t_null,
                 t_hole, // Real nothingness; makes you fall a z-level
                 // Ground
@@ -1193,8 +1195,6 @@ void reset_furn_ter()
     terrain_data.reset();
     furniture_data.reset();
 }
-
-static const furn_str_id furn_f_null( "f_null" );
 
 resolved_furn_id f_null, f_clear,
                  f_hay,
