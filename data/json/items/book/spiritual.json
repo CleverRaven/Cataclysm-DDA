@@ -127,11 +127,20 @@
     "copy-from": "holybook_abstract"
   },
   {
-    "id": "holybook_catechism4",
+    "id": "holybook_catechismbudda",
     "type": "BOOK",
     "name": { "str": "Buddhist Catechism", "str_pl": "copies of the Buddhist Catechism" },
     "description": "A paperback book written by Henry Steel Olcott and Published in 1881.  It serves as an introductory guide to Buddhism, providing a concise overview of its principles, practices, and history.  The book presents a series of questions and answers that cover various aspects of Buddhism, including the life of the Buddha, the Four Noble Truths, the Eightfold Path, karma, rebirth, meditation, and ethics.",
     "weight": "400 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechismmuslim",
+    "type": "BOOK",
+    "name": { "str": "Safinatun Najah", "str_pl": "copies of the Safinatun Najah" },
+    "description": "A hardcover English translation of the Safinatun Najah, a renowned manual of Islamic jurisprudence, specifically focusing on the Shafi’i school of thought.  It serves as a comprehensive guide for Muslims seeking knowledge and understanding of the principles and practices of Islam.",
+    "weight": "630 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
@@ -141,6 +150,15 @@
     "name": { "str": "Heidelberg Catechism", "str_pl": "copies of the Heidelberg Catechism" },
     "description": "A hardcover, updated edition of the 'Heidelberg Catechism', a Protestant confession of faith and also a guide for religious instruction, written in 1563 (and also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination).  The contents consists of 129 questions and answers, divided into three main sections: guilt, grace, and gratitude.  Each section addresses a different aspect of the Christian faith and is intended to be memorized and understood by believers.",
     "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ladder",
+    "type": "BOOK",
+    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of the The Ladder of Divine Ascent" },
+    "description": "A commercial-grade, hardcover English edition of The Ladder of Divine Ascent, a well-known spiritual guidebook written in the 6th century by John Climacus, an Orthodox Christian monk.  This book is composed of many chapters, each representing a rung on the ladder, symbolizing the spiritual journey towards union with God.",
+    "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
