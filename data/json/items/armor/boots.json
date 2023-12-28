@@ -2208,8 +2208,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of Santa shoes", "str_pl": "pairs of Santa shoes" },
     "description": {
-        "str": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs. Claus or Santa style and comfort.",
-        "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
+      "str": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs. Claus or Santa style and comfort.",
+      "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
     },
     "copy_from": "sneakers",
     "weight": "840 g",
