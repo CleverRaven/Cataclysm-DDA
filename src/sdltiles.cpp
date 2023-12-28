@@ -925,10 +925,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                      0, 0, ll, false );
             }
 
-            if( blink && show_map_revealed ) {
-                for( tripoint_abs_omt map_reveals : get_avatar().map_revealed_omts ) {
-                    draw_from_id_string( "highlight", map_reveals.raw(), 0, 0, lit_level::LIT, false );
-                }
+            std::vector<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
+            auto it = std::find( revealed_highlights.begin(), revealed_highlights.end(), omp );
+            if( blink && show_map_revealed && it != revealed_highlights.end() ) {
+                draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
             }
 
             if( see ) {
