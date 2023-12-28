@@ -1469,9 +1469,9 @@ class item : public visitable
         const item::link_data &link() const;
         /// Returns true if the item has valid link_data. Does not mean the link actually connects to anything; use has_no_links() for that.
         bool has_link_data() const;
-
-        /// Returns true if the item is/has a cable that can link up to other things.
+        /// Returns true if the item is/has a cable that can link up to other things. Should usually be called before using link().
         bool can_link_up() const;
+
         /// Returns true if either of the link's ends have the specified state.
         bool link_has_state( link_state state ) const;
         /// Returns true if both of the item's link connections match the specified states.
