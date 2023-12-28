@@ -65,9 +65,6 @@
       "radius": 300,
       "message": "You add the facilities to your map.",
       "terrain": [
-        { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
-        { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",
         "lab_res_8_SWU_ground",
@@ -125,9 +122,6 @@
       "radius": 300,
       "message": "You add the facilities to your map",
       "terrain": [
-        { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
-        { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",
         "lab_res_8_SWU_ground",
