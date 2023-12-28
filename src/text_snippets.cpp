@@ -232,7 +232,7 @@ bool snippet_library::has_snippet_with_id( const snippet_id &id ) const
     return snippets_by_id.find( id ) != snippets_by_id.end();
 }
 
-std::string snippet_library::expand( const std::string &str ) const
+std::string snippet_library::expand( const std::string &str, bool with_tags ) const
 {
     size_t tag_begin = str.find( '<' );
     if( tag_begin == std::string::npos ) {
@@ -246,6 +246,12 @@ std::string snippet_library::expand( const std::string &str ) const
     std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
     std::optional<translation> replacement = random_from_category( symbol );
     if( !replacement.has_value() ) {
+        if( with_tags ) {
+            parse_basic_tags( symbol );
+            return str.substr( 0, tag_end + 1 )
+                   + expand( symbol )
+                   + expand( str.substr( tag_end + 1 ) );
+        }
         return str.substr( 0, tag_end + 1 )
                + expand( str.substr( tag_end + 1 ) );
     }

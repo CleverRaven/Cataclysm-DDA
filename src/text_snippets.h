@@ -81,7 +81,7 @@ class snippet_library
          * because "<yrwp>" is a special tag that does not have a category defined
          * in the JSON files.
          */
-        std::string expand( const std::string &str ) const;
+        std::string expand( const std::string &str, bool with_tags = true ) const;
         /**
          * Returns the id of a random snippet out of the given category.
          * Snippets without an id will NOT be returned by this function.
@@ -146,6 +146,8 @@ class snippet_library
 
         std::optional<std::map<int, snippet_id>> hash_to_id_migration;
 };
+
+void parse_basic_tags( std::string &phrase );
 
 extern snippet_library SNIPPET;
 
