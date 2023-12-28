@@ -1260,7 +1260,7 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     if( here.has_furn( p ) ) {
-        // Can deconstruct furniture here, make sure regular deconstruction isn't available as long as the furniture is
+        // Can deconstruct furniture here, make sure regular deconstruction isn't available if easy deconstruction is possible
         if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
             return false;
         }
