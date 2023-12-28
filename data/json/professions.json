@@ -2762,7 +2762,12 @@
     "name": { "male": "Mall Santa", "female": "Mall Mrs. Claus" },
     "description": "Everything was set for Christmas, you where just waiting for the call.  The children's happiness and joy where lost due to the Cataclysm, but you are decided to keep the Christmas Spirit alive, no matter what.  At least, all that time making toys and carrying them will be of use.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
+    "skills": [
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 1, "name": "traps" }
+    ],
     "items": {
       "both": {
         "entries": [
