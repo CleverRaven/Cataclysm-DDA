@@ -20,7 +20,6 @@
     "time": "10 s",
     "pre_note": "Certain terrain and furniture can be deconstructed without any tools.",
     "pre_flags": "EASY_DECONSTRUCT",
-    "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct"
   },
