@@ -17,6 +17,7 @@
     "type": "terrain",
     "name": "rocky coastline",
     "description": "This is a section of eroded natural stone formations along the beach, the water lapping and splashing at the edges.",
+    "symbol": "-",
     "copy-from": "t_coast_rock",
     "color": "dark_cyan"
   },
@@ -25,6 +26,7 @@
     "type": "terrain",
     "name": "submerged shoals",
     "description": "This is a section of eroded natural stone formations along the beach that has dipped below the surface of the water.",
+    "symbol": "-",
     "copy-from": "t_coast_rock",
     "looks_like": "t_swater_sh",
     "color": "light_blue",
