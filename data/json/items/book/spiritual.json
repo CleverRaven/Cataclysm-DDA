@@ -753,5 +753,59 @@
     "weight": "672 g",
     "volume": "1368 ml",
     "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai",
+    "type": "BOOK",
+    "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
+    "description": "A hardcover English translation of the Kitáb-i-Aqdas, also known as The Most Holy Book.  Written by Baha’u’llah, the founder of the Baha’i Faith, in a poetic and mystical style.  It encompasses a wide range of topics, including the nature of God, the purpose of human existence, the role of religion in society, and the principles governing human conduct.  It also contains laws and regulations that govern various aspects of Baha’i life, such as marriage, family life, and the administration of the Baha’i community.",
+    "weight": "1130 g",
+    "volume": "1290 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai1",
+    "type": "BOOK",
+    "name": { "str": "Kitáb-i-Íqán", "str_pl": "copies of the Kitáb-i-Íqán" },
+    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha’u’llah, the founder of the Baha’i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history. This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha’i Faith in relation to other religions.",
+    "weight": "1000 g",
+    "volume": "1035 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai2",
+    "type": "BOOK",
+    "name": { "str": "The Hidden Words", "str_pl": "copies of The Hidden Words" },
+    "description": "A hardcover English translation of the Kalimát-i-Maknúnih, also known as the Hidden Words.  It was written by Baha’u’llah, the founder of the Baha’i Faith, during his exile in Baghdad.  This book covers a wide range of themes, including love, detachment, unity, humility, justice, and the recognition of God.  Each passage is concise and poetic, expressing profound spiritual truths in a simple yet profound manner.  One distinctive feature of this book is its universal appeal: while it was revealed within the context of the Bahá’í Faith, its teachings transcend religious boundaries and are applicable to people from all backgrounds.",
+    "weight": "900 g",
+    "volume": "699 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai3",
+    "type": "BOOK",
+    "name": { "str": "Baha'i Prayers", "str_pl": "copies of the Baha'i Prayers" },
+    "description": "A lightweight, paperback book containing a collection of prayers, meditations, and devotional readings that are used for personal reflection, worship, and spiritual nourishment for followers, adherents or sympathizers of the Baha'i Faith.",
+    "weight": "350 g",
+    "volume": "500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai4",
+    "type": "BOOK",
+    "name": { "str": "The Secret of Divine Civilization", "str_pl": "copies of The Secret of Divine Civilization" },
+    "description": "A hardcover English translation of the Risali-yi-madaniyyih, also known as The Secret of Divine Civilization.  It was written by ‘Abdu’l-Bahá, the son of Bahá’u’lláh, founder of the Bahá’í Faith.  This book addresses various aspects of social and economic development, advocating for progressive reforms and offering guidance on how societies can advance spiritually, intellectually, and materially.  It explores principles that can contribute to the progress and well-being of individuals and societies, emphasizing the importance of education, justice, equality, and unity.  A perfect book for rebuilding society once again.",
+    "weight": "826 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai5",
+    "type": "BOOK",
+    "name": { "str": "'Some Answered Questions'", "str_pl": "copies of 'Some Answered Questions'" },
+    "description": "A hardcover book containing a collection of transcriptions of table talks given by ‘Abdu’l‑Bahá in ‘Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá’í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha’is and those seeking to learn more about the religion.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
   }
 ]
