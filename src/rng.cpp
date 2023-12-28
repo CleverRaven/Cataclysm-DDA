@@ -192,7 +192,7 @@ double rng_normal( double lo, double hi )
 cata_default_random_engine::result_type rng_get_first_seed()
 {
     static auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    return static_cast<cata_default_random_engine::result_type>(seed);
+    return static_cast<cata_default_random_engine::result_type>( seed );
 }
 
 cata_default_random_engine &rng_get_engine()
