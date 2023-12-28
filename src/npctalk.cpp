@@ -5258,9 +5258,17 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     std::vector<std::pair<effect_on_condition_id, std::function<double( dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
-        JsonObject weight = ja.next_object();
-        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
-                                conditional_t::get_get_dbl( weight ) );
+        if( ja.test_int() ) {
+            int weight = ja.next_int();
+            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc,
+            "" ), [weight]( dialogue const & ) {
+                return weight;
+            } );
+        } else {
+            JsonObject weight = ja.next_object();
+            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
+                                    conditional_t::get_get_dbl( weight ) );
+        }
     }
     function = [eoc_pairs]( dialogue & d ) {
         weighted_int_list<effect_on_condition_id> eocs;

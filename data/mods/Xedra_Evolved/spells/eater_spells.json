@@ -187,7 +187,7 @@
     "max_damage": 300,
     "max_level": { "math": [ "eater_level(1)" ] },
     "skill": "deduction",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX", "NO_PROJECTILE" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX", "NO_PROJECTILE" ],
     "spell_class": "EATER",
     "components": "spell_components_dreamdross2",
     "difficulty": 4,

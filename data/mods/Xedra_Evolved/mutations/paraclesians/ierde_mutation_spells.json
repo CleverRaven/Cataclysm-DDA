@@ -11,7 +11,7 @@
     "effect_str": "EOC_IERDE_GOBLIN_FRUIT",
     "shape": "blast",
     "spell_class": "IERDE",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "str_to_level(1)" ] },
     "difficulty": 8,
     "base_casting_time": 180000,
