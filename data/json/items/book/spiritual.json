@@ -129,9 +129,9 @@
   {
     "id": "holybook_catechism4",
     "type": "BOOK",
-    "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
-    "description": ".",
-    "weight": "540 g",
+    "name": { "str": "Buddhist Catechism", "str_pl": "copies of the Buddhist Catechism" },
+    "description": "A paperback book written by Henry Steel Olcott and Published in 1881.  It serves as an introductory guide to Buddhism, providing a concise overview of its principles, practices, and history.  The book presents a series of questions and answers that cover various aspects of Buddhism, including the life of the Buddha, the Four Noble Truths, the Eightfold Path, karma, rebirth, meditation, and ethics.",
+    "weight": "400 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
@@ -140,8 +140,17 @@
     "type": "BOOK",
     "name": { "str": "Heidelberg Catechism", "str_pl": "copies of the Heidelberg Catechism" },
     "description": "A hardcover, updated edition of the 'Heidelberg Catechism', a Protestant confession of faith and also a guide for religious instruction, written in 1563 (and also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination).  The contents consists of 129 questions and answers, divided into three main sections: guilt, grace, and gratitude.  Each section addresses a different aspect of the Christian faith and is intended to be memorized and understood by believers.",
-    "weight": "400 g",
+    "weight": "600 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_jaiva",
+    "type": "BOOK",
+    "name": { "str": "Jaiva Dharma", "str_pl": "copies of the Jaiva Dharma" },
+    "description": "A paperback English translation of the Jaiva Dharma, a significant philosophical and devotional book written by Srila Bhaktivinoda Thakura, a prominent spiritual leader and philosopher in the Gaudiya Vaishnava Hindu tradition.  This book delves into the essential teachings of the Bhagavad-gita and the Srimad-Bhagavatam, providing deep insights into the nature of the soul, its relationship with God, and the process of spiritual realization.",
+    "weight": "630 g",
+    "volume": "1004 ml",
     "copy-from": "holybook_abstract"
   },
   {
