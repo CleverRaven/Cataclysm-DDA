@@ -646,8 +646,8 @@ static void draw_ascii(
         size_t count = 0;
     };
     std::unordered_set<tripoint_abs_omt> npc_path_route;
-    std::unordered_set<tripoint_abs_omt> newly_revealed( player_character.revealed_omts.begin(),
-            player_character.revealed_omts.end() )  ;
+    std::unordered_set<tripoint_abs_omt> newly_revealed( player_character.map_revealed_omts.begin(),
+            player_character.map_revealed_omts.end() )  ;
     std::unordered_map<point_abs_omt, int> player_path_route;
     std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
     auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
