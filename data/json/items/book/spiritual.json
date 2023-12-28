@@ -91,6 +91,42 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_catechism",
+    "type": "BOOK",
+    "name": { "str": "The Common Catechism", "str_pl": "copies of The Common Catechism" },
+    "description": "A hardcover edition of 'The Common Catechism: A Book of Christian Faith', an ecumenical Christian catechism that is the result of Roman Catholic-Protestant dialogue and work.",
+    "weight": "760 g",
+    "volume": "1290 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism1",
+    "type": "BOOK",
+    "name": { "str": "Catechism of The Catholic Church", "str_pl": "copies of the Catechism of The Catholic Church" },
+    "description": "A hardcover edition of the 'Catechism of The Catholic Church', a compendium of Catholic doctrine, teachings, beliefs, and moral guidance.  This book serves as a guide for Catholics to understand and deepen their faith, providing a systematic presentation of the essential teachings of the Catholic Church.",
+    "weight": "700 g",
+    "volume": "1140 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism2",
+    "type": "BOOK",
+    "name": { "str": "Westminster Catechism", "str_pl": "copies of the Westminster Catechism" },
+    "description": "The Westminster Shorter Catechism and the Westminster Larger Catechism into one single large, hardcover book.  It serves a the doctrinal standard in the Reformed tradition of Protestant Christianity, a concise and systematic summary of Christian beliefs, intended to be used for teaching and instruction.  This catechism is divided into a series of questions and answers, covering various aspects of theology, morality, and Christian living.",
+    "weight": "1100 g",
+    "volume": ",2300 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism3",
+    "type": "BOOK",
+    "name": { "str": "Luther's Catechism", "str_pl": "copies of the Luther's Catechism" },
+    "description": "The Luther's Small Catechism and the Luther's Large Catechism into one single large, hardcover book.  .",
+    "weight": "1100 g",
+    "volume": "2300 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_granth",
     "type": "BOOK",
     "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
