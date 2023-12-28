@@ -533,13 +533,13 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "scouting rifle" },
+    "name": { "str": "scouting rifle" },
     "description": "This is a versatile, all-purpose hunting rifle. To this end, it is exceedingly lightweight, contains an inbuilt polymer bipod, and fits a spare magazine inside the stock for fast reloading. While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "steyr_scout",
-        "name": { "str_sp": "Steyr Scout rifle" },
+        "name": { "str": "Steyr Scout rifle" },
         "description": "The Steyr Scout is Steyr's interpretation of Jeff Cooper's concept of a 'scout rifle', a versatile, all-purpose hunting rifle.  To this end, it is exceedingly lightweight, and contains a built-in polymer bipod, and fits a spare magazine inside the stock for fast reloading.  While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world."
       }
     ],
