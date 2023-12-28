@@ -200,6 +200,6 @@
     "type": "enchantment",
     "id": "ENCH_WINGS_BIRD",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "lose": "hand_r" }, { "lose": "hand_l" }, { "gain": "bird_wing_l" }, { "gain": "bird_wing_r" }, { "gain": "bird_wing_claws_l" }, { "gain": "bird_wing_claws_r" } ]
+    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "lose": "hand_r" }, { "lose": "hand_l" }, { "gain": "wing_bird_l" }, { "gain": "wing_bird_r" } ]
   }
 ]
