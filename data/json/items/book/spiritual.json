@@ -654,7 +654,10 @@
   {
     "id": "holybook_tengriism",
     "type": "BOOK",
-    "name": { "str": "Tengriism: The Religion of Ancient Mongolia", "str_pl": "copies of Tengriism: The Religion of Ancient Mongolia" },
+    "name": {
+      "str": "Tengriism: The Religion of Ancient Mongolia",
+      "str_pl": "copies of Tengriism: The Religion of Ancient Mongolia"
+    },
     "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, Shamanic Rituals and folklore.",
     "weight": "600 g",
     "volume": "1 L",
