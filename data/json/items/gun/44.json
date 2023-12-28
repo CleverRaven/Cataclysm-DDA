@@ -17,7 +17,8 @@
       {
         "id": "modular_deagle",
         "name": { "str": "Desert Eagle Mark XIX" },
-        "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine."
+        "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.",
+        "weight": 10000
       },
       {
         "id": "modular_deagle_gold",
