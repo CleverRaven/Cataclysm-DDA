@@ -517,11 +517,101 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_gita",
+    "type": "BOOK",
+    "name": { "str": "The Bhagavad Gita", "str_pl": "copies of The Bhagavad Gita" },
+    "description": "A hardcover English translation of The Bhagavad Gita, a 700-verse Hindu scripture.  It is written in the form of a dialogue between Prince Arjuna and the god Krishna, who serves as his charioteer.  The conversation takes place on the battlefield of Kurukshetra just before the start of a great war between two factions of a royal family.",
+    "weight": "350 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mahabharata",
+    "type": "BOOK",
+    "name": { "str": "The Mahabharata", "str_pl": "copies of The Mahabharata" },
+    "description": "A large and complete hardcover English translation of The Mahabharata, the most revered and significant ancient texts in Indian literature and Hindu mythology.  It is an epic narrative that has been passed down through generations and has been a source of inspiration and guidance for millions of people before and possibly during and after the Cataclysm.  The epic is divided into 18 books or parvas, each focusing on different aspects of the story, such as the genealogy of the Pandavas, the education of the Pandavas, and the great war of Kurukshetra.",
+    "weight": "800 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ramayana",
+    "type": "BOOK",
+    "name": { "str": "The Ramayana", "str_pl": "copies of The Ramayana" },
+    "description": "A complete hardcover English translation of The Ramayana, an ancient Indian epic that holds great religious and cultural significance in Hinduism.  It is considered one of the two major Sanskrit epics of ancient Indian literature and tells the story of Prince Rama, an incarnation of Lord Vishnu, who embarks on a journey to rescue his wife Sita from the demon king Ravana.  The epic is divided into seven books, known as Kandas, and presents a narrative that encompasses themes of devotion, righteousness, duty, honor, love, and the triumph of good over evil.",
+    "weight": "800 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_puranas",
+    "type": "BOOK",
+    "name": { "str": "The Puranas", "str_pl": "copies of The Puranas" },
+    "description": "A hardcover English translation of The Puranas, a collection of ancient Indian texts that form an integral part of Hindu literature.  They are considered to be among the oldest and most authoritative scriptures in Hinduism, alongside the Vedas.  It consist of a vast collection of narratives, legends, genealogies, cosmology, theology, philosophy, and rituals related to Hinduism, and are classified into two main categories: Mahapuranas (major Puranas) and Upapuranas (minor Puranas).",
+    "weight": "600 g",
+    "volume": "1150 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_agamas",
+    "type": "BOOK",
+    "name": { "str": "The Agamas", "str_pl": "copies of The Agamas" },
+    "description": "A paperback English translation of The Agamas, a collection of scriptures in Hinduism that provide detailed guidelines for rituals, temple construction, worship practices, and philosophical teachings, and are considered authoritative texts by several Hindu sects, particularly those that follow the Shaiva and Shakta traditions.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_sutras",
     "type": "BOOK",
     "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
     "description": "A collection of discourses attributed to the Buddha and his close disciples.",
     "weight": "496 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_zara",
+    "type": "BOOK",
+    "name": { "str": "The Zara Avesta", "str_pl": "copies of the Zara Avesta" },
+    "description": "A rare hardcover English translation of the Zara Avesta, a collection of sacred hymns, prayers, and liturgies, which are believed to have been revealed by Zoroaster himself.  It is considered an essential guide to living a righteous life in Zoroastrianism, as it provides moral teachings, ethical principles, and spiritual insights.",
+    "weight": "650 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_romancult",
+    "type": "BOOK",
+    "name": { "str": "Res Gestae Divi Augusti", "str_pl": "copies of the Res Gestae Divi Augusti" },
+    "description": "A rare, paperback English translation of the Res Gestae Divi Augusti, or 'Deeds of the Divine Augustus', a inscription commissioned by the Roman Emperor Augustus himself.  It is a list of his accomplishments and claims to divine status, emphasizing his role in the Roman Imperial Cult.  This inscription provides insight into the religious beliefs and practices surrounding the emperor during these stages of the Roman Imperial Cult",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_romancult2",
+    "type": "BOOK",
+    "name": { "str": "Historia Augusta", "str_pl": "copies of the Historia Augusta" },
+    "description": "A large, rare hardcover English translation of the Historia Augusta, a collection of biographies of Roman emperors.  It also contains information about the Imperial Roman Cult, including its rituals, symbols, and the role of such emperors in the cult.",
+    "weight": "600 g",
+    "volume": "1300 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_corpus",
+    "type": "BOOK",
+    "name": { "str": "The Corpus Hermeticum", "str_pl": "copies of The Corpus Hermeticum" },
+    "description": "A rare, paperback English translation of The Corpus Hermeticum, a collection of ancient philosophical and religious texts that are attributed to Hermes Trismegistus, a legendary figure in ancient Egyptian and Greek mythology.  The contents of this book consists of a series of dialogues or discourses that explore various philosophical and theological concepts.  These texts cover a wide range of topics, including cosmology, theology, metaphysics, ethics, and spirituality at the time.  The overarching theme throughout the Corpus Hermeticum is the pursuit of spiritual knowledge and the attainment of divine wisdom.",
+    "weight": "620 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mithraic",
+    "type": "BOOK",
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
+    "description": "A commercial-grade, paperback English edition of the The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
+    "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
