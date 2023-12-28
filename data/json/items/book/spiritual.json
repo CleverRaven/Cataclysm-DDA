@@ -562,6 +562,15 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_jagamas",
+    "type": "BOOK",
+    "name": { "str": "The Jain Agamas", "str_pl": "copies of the Jain Agamas" },
+    "description": "A paperback English translation of the Jain Agamas, the most authoritative and sacred scriptures in Jainism.  The Jain Agamas consist of two main categories: the Angas and the Upangas. The Angas are considered the primary scriptures, while the Upangas are supplementary texts that provide further explanations and commentaries on various aspects of Jain philosophy and practice.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_sutras",
     "type": "BOOK",
     "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
@@ -577,6 +586,33 @@
     "description": "A rare hardcover English translation of the Zara Avesta, a collection of sacred hymns, prayers, and liturgies, which are believed to have been revealed by Zoroaster himself.  It is considered an essential guide to living a righteous life in Zoroastrianism, as it provides moral teachings, ethical principles, and spiritual insights.",
     "weight": "650 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_theogony",
+    "type": "BOOK",
+    "name": { "str": "Theogony", "str_pl": "copies of the Theogony" },
+    "description": "A paperback English translation of the Theogony, a Greek epic poem attributed to the ancient poet Hesiod.  It is one of the oldest surviving works of Greek literature and provides a comprehensive account of the origins and genealogies of the Greek gods, as well as the creation of the universe and the establishment of divine order.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_orphic",
+    "type": "BOOK",
+    "name": { "str": "The Orphic Hymns", "str_pl": "copies of The Orphic Hymns" },
+    "description": "A paperback English translation of The Orphic Hymns, a collection of ancient Greek hymns attributed to the legendary poet Orpheus.  These hymns are a significant source of information about Greek religion, philosophy, and literature.  It is divided in a set of 88 hymns, divided into 10 sections, and the hymns are dedicated to various gods and goddesses in the Greek pantheon, as well as to heroes and abstract concepts.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_golden",
+    "type": "BOOK",
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the The Orphic Gold Tablets" },
+    "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods’ will.",
+    "weight": "300 g",
+    "volume": "900 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -613,6 +649,25 @@
     "description": "A commercial-grade, paperback English edition of the The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tengriism",
+    "type": "BOOK",
+    "name": { "str": "Tengriism: The Religion of Ancient Mongolia", "str_pl": "copies of Tengriism: The Religion of Ancient Mongolia" },
+    "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, Shamanic Rituals and folklore.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_hawaii",
+    "type": "BOOK",
+    "name": { "str": "Moʻolelo", "str_pl": "copies of the Moʻolelo" },
+    "description": "A plant-fiber cover English edition of the Moʻolelo, a collection of traditional Hawaiian stories, texts and oral traditions, that have been compiled, translated, and documented in written form.  This book also includes information on the deities and entities of the traditional religion of Hawaii, alongside shamanic rituals and practices.",
+    "weight": "550 g",
+    "volume": "1 L",
+    "material": [ "paper", "plant_fiber" ],
     "copy-from": "holybook_abstract"
   },
   {
