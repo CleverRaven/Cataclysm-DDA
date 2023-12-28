@@ -2754,7 +2754,7 @@
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "citrine_gold_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "gold_ear" } ] }
-    }
+   },
    {
      "type": "profession",
     "id": "santa",
