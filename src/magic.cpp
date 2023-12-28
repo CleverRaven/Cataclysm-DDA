@@ -1239,8 +1239,11 @@ float spell::spell_fail( const Character &guy ) const
     // Int 8, Metaphysics 2, level 1 , difficulty 1 is effective level 26.5
     // Int 10, Metaphysics 5, level 4, difficulty 5 is effective level 27
     // Int 12, Metaphysics 8, level 7, difficulty 10 is clamped at effective level 30
+
+    const float half_power_level = ( get_effective_level() / 2 );
+
     const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 )  - get_difficulty(
-                                            guy ) ) + ( guy.get_int() * 1.5 ) + ( get_effective_level() / 2 );                              
+                                            guy ) ) + ( guy.get_int() * 1.5 ) + ( half_power_level );                              
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
