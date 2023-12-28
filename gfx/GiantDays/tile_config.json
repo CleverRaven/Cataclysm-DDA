@@ -7711,7 +7711,7 @@
           ],
           "fg": 3606
         },
-        { "id": [ "survivor223mag", "m14smallmag", "blrmag", "m2010mag", "steyr_scout_mag", "steyr_scout_mag_makeshift", "ruger1022mag", "ruger5" ], "fg": 3607 },
+        { "id": [ "survivor223mag", "m14smallmag", "blrmag", "m2010mag", "ruger1022mag", "ruger5" ], "fg": 3607 },
         { "id": [ "bot_nursebot", "broken_nursebot", "broken_nursebot_defective" ], "fg": 3285, "rotates": false },
         { "id": [ "bot_secubot", "broken_secubot" ], "fg": 3284, "rotates": false },
         { "id": [ "bot_talon_m202a1", "broken_talon_m202a1" ], "fg": 3278, "rotates": false },
@@ -9080,8 +9080,7 @@
             "l_dsr_223",
             "l_lmg_223",
             "ksub2000",
-            "rm88_battle_rifle",
-            "steyr_scout"
+            "rm88_battle_rifle"
           ],
           "fg": 4209
         },
@@ -11064,7 +11063,6 @@
           "id": [
             "overlay_female_wielded_m14ebr",
             "overlay_female_wielded_m2010",
-            "overlay_female_wielded_steyr_scout",
             "overlay_female_wielded_m107a1",
             "overlay_female_wielded_as50",
             "overlay_female_wielded_tac50",
@@ -11548,7 +11546,6 @@
           "id": [
             "overlay_male_wielded_m14ebr",
             "overlay_male_wielded_m2010",
-            "overlay_male_wielded_steyr_scout",
             "overlay_male_wielded_m107a1",
             "overlay_male_wielded_as50",
             "overlay_male_wielded_tac50",
