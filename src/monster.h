@@ -212,6 +212,8 @@ class monster : public Creature
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;
 
+        bool monster_move_in_vehicle( const tripoint &p ) const;
+
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
 

@@ -401,9 +401,9 @@
   {
     "type": "mutation",
     "id": "perk_jugg",
-    "name": { "str": "Unstoppable force" },
+    "name": { "str": "Iron arm" },
     "points": 0,
-    "description": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your armor is.",
+    "description": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your right arm is.",
     "category": [ "perk" ],
     "enchantments": [
       {

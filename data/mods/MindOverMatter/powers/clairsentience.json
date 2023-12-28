@@ -17,24 +17,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_night_eyes') > -1 ? 0 : max((1500 - (u_val('spell_level', 'spell: clair_night_vision') * 50)), 500)"
+        "u_effect_intensity('effect_clair_night_eyes') > -1 ? 0 : max((1500 - (u_spell_level('clair_night_vision') * 50)), 500)"
       ]
     },
     "base_casting_time": {
-      "math": [
-        "u_effect_intensity('effect_clair_night_eyes') > -1 ? 10 : max((50 -(u_val('spell_level', 'spell: clair_night_vision') * 2)), 20)"
-      ]
+      "math": [ "u_effect_intensity('effect_clair_night_eyes') > -1 ? 10 : max((50 -(u_spell_level('clair_night_vision') * 2)), 20)" ]
     },
     "learn_spells": { "clair_see_auras": 7, "clair_danger_sense": 9, "clair_voyance": 12, "clair_see_map": 18 }
   },
@@ -56,23 +54,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_speed_reading') * 36000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_speed_reading') * 36000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_speed_reading') * 72000) + 1080000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_speed_reading') * 72000) + 1080000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_speed_reader') > -1 ? 0 : max((2500 - (u_val('spell_level', 'spell: clair_speed_reading') * 125)), 1000)"
+        "u_effect_intensity('effect_clair_speed_reader') > -1 ? 0 : max((2500 - (u_spell_level('clair_speed_reading') * 125)), 1000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_clair_speed_reader') > -1 ? 10 : max((500 -(u_val('spell_level', 'spell: clair_speed_reading') * 12)), 250)"
+        "u_effect_intensity('effect_clair_speed_reader') > -1 ? 10 : max((500 -(u_spell_level('clair_speed_reading') * 12)), 250)"
       ]
     },
     "learn_spells": {
@@ -101,23 +99,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_danger_sense') * 4500) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_danger_sense') * 4500) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_danger_sense') * 7500) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_danger_sense') * 7500) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_premonition') > -1 ? 0 : max((1500 - (u_val('spell_level', 'spell: clair_danger_sense') * 85)), 850)"
+        "u_effect_intensity('effect_clair_premonition') > -1 ? 0 : max((1500 - (u_spell_level('clair_danger_sense') * 85)), 850)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_clair_premonition') > -1 ? 10 : max((85 -(u_val('spell_level', 'spell: clair_danger_sense') * 7)), 25)"
+        "u_effect_intensity('effect_clair_premonition') > -1 ? 10 : max((85 -(u_spell_level('clair_danger_sense') * 7)), 25)"
       ]
     },
     "learn_spells": { "clair_spot_weakness": 6, "clair_dodge_power": 12, "clair_clear_sight": 15 }
@@ -141,18 +139,18 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.1) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 100)"
+        "min( (( (u_spell_level('clair_spot_weakness') * 1.1) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 100)"
       ]
     },
     "max_range": 100,
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_spot_weakness') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -184,24 +182,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_see_auras') * 9000) + 65000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_see_auras') * 9000) + 65000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_see_auras') * 19000) + 120000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_see_auras') * 19000) + 120000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_see_auras') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: clair_see_auras') * 125)), 1750)"
+        "u_effect_intensity('effect_clair_see_auras') > -1 ? 0 : max((4000 - (u_spell_level('clair_see_auras') * 125)), 1750)"
       ]
     },
     "base_casting_time": {
-      "math": [
-        "u_effect_intensity('effect_clair_see_auras') > -1 ? 10 : max((300 -(u_val('spell_level', 'spell: clair_see_auras') * 8.5)), 100)"
-      ]
+      "math": [ "u_effect_intensity('effect_clair_see_auras') > -1 ? 10 : max((300 -(u_spell_level('clair_see_auras') * 8.5)), 100)" ]
     },
     "learn_spells": { "clair_dodge_power": 9, "clair_craft_bonus": 12, "clair_clear_sight": 15 }
   },
@@ -258,12 +254,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     }
   },
@@ -302,23 +298,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 800) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_ranged_enhance') * 800) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 2500) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_ranged_enhance') * 2500) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: clair_ranged_enhance') * 175)), 1500)"
+        "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 0 : max((4000 - (u_spell_level('clair_ranged_enhance') * 175)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 10 : max((200 -(u_val('spell_level', 'spell: clair_ranged_enhance') * 6)), 125)"
+        "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 10 : max((200 -(u_spell_level('clair_ranged_enhance') * 6)), 125)"
       ]
     },
     "learn_spells": {
@@ -347,24 +343,24 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: clair_voyance') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        "min( (( (u_spell_level('clair_voyance') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
     "max_range": 80,
     "min_aoe": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: clair_voyance') * 1.2) + 1.5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('clair_voyance') * 1.2) + 1.5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_voyance') * 50) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_voyance') * 50) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "field_id": "fd_clairvoyant",
@@ -398,24 +394,20 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_dodge_power') * 1000) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_dodge_power') * 1000) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_dodge_power') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_dodge_power') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
-      "math": [
-        "u_effect_intensity('effect_clair_dodge') > -1 ? 0 : max((5500 - (u_val('spell_level', 'spell: clair_dodge_power') * 145)), 2250)"
-      ]
+      "math": [ "u_effect_intensity('effect_clair_dodge') > -1 ? 0 : max((5500 - (u_spell_level('clair_dodge_power') * 145)), 2250)" ]
     },
     "base_casting_time": {
-      "math": [
-        "u_effect_intensity('effect_clair_dodge') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: clair_dodge_power') * 9)), 70)"
-      ]
+      "math": [ "u_effect_intensity('effect_clair_dodge') > -1 ? 10 : max((150 -(u_spell_level('clair_dodge_power') * 9)), 70)" ]
     },
     "learn_spells": { "clair_spot_weakness": 3, "clair_ranged_enhance": 6, "clair_clear_sight": 10, "clair_perfect_shot": 12 }
   },
@@ -437,23 +429,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_craft_bonus') * 25000) + 121500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_craft_bonus') * 25000) + 121500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_craft_bonus') * 60000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_craft_bonus') * 60000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 0 : max((5500 - (u_val('spell_level', 'spell: clair_craft_bonus') * 145)), 2250)"
+        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 0 : max((5500 - (u_spell_level('clair_craft_bonus') * 145)), 2250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: clair_craft_bonus') * 9)), 70)"
+        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 10 : max((150 -(u_spell_level('clair_craft_bonus') * 9)), 70)"
       ]
     },
     "learn_spells": { "clair_clear_sight": 8, "clair_omniscience": 12 }
@@ -503,12 +495,12 @@
     "shape": "blast",
     "min_aoe": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_see_map') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_see_map') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_aoe": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_see_map') * 1) + 11) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_see_map') * 1) + 11) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -534,23 +526,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_clear_sight') * 1200) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_clear_sight') * 1200) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_clear_sight') * 2500) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_clear_sight') * 2500) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_clear_sight') > -1 ? 0 : max((5000 - (u_val('spell_level', 'spell: clair_clear_sight') * 150)), 2000)"
+        "u_effect_intensity('effect_clair_clear_sight') > -1 ? 0 : max((5000 - (u_spell_level('clair_clear_sight') * 150)), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_clair_clear_sight') > -1 ? 10 : max((75 -(u_val('spell_level', 'spell: clair_clear_sight') * 3.5)), 25)"
+        "u_effect_intensity('effect_clair_clear_sight') > -1 ? 10 : max((75 -(u_spell_level('clair_clear_sight') * 3.5)), 25)"
       ]
     },
     "learn_spells": { "clair_omniscience": 7 }
@@ -573,23 +565,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_group_tactics') * 1200) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_group_tactics') * 1200) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_group_tactics') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_group_tactics') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 0 : max((6500 - (u_val('spell_level', 'spell: clair_group_tactics') * 150)), 2500)"
+        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 0 : max((6500 - (u_spell_level('clair_group_tactics') * 150)), 2500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 10 : max((200 -(u_val('spell_level', 'spell: clair_group_tactics') * 7.5)), 60)"
+        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 10 : max((200 -(u_spell_level('clair_group_tactics') * 7.5)), 60)"
       ]
     }
   },
@@ -612,12 +604,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_omniscience') * 100) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_omniscience') * 100) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: clair_omniscience') * 100) + 1000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_omniscience') * 100) + 1000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",

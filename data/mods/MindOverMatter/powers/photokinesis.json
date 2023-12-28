@@ -17,23 +17,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_local') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_local') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_local') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_local') * 90000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_light_local') > -1 ? 0 : max((1500 - (u_val('spell_level', 'spell: photokinetic_light_local') * 80)), 450)"
+        "u_effect_intensity('effect_photokin_light_local') > -1 ? 0 : max((1500 - (u_spell_level('photokinetic_light_local') * 80)), 450)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_light_local') > -1 ? 10 : max((125 -(u_val('spell_level', 'spell: photokinetic_light_local') * 7.5)), 50)"
+        "u_effect_intensity('effect_photokin_light_local') > -1 ? 10 : max((125 -(u_spell_level('photokinetic_light_local') * 7.5)), 50)"
       ]
     },
     "learn_spells": { "photokinetic_create_light": 5, "photokinetic_light_beam": 10, "photokinetic_light_image": 15 }
@@ -86,13 +86,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
@@ -118,13 +118,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
@@ -150,13 +150,13 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('photokinetic_create_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_aoe": 50,
@@ -182,21 +182,17 @@
     "min_field_intensity": 1,
     "max_field_intensity": 1,
     "shape": "blast",
-    "min_duration": {
-      "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 5000) * u_nether_attunement_power_scaling" ]
-    },
-    "max_duration": {
-      "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 10000) * u_nether_attunement_power_scaling" ]
-    },
+    "min_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 5000) * u_nether_attunement_power_scaling" ] },
+    "max_duration": { "math": [ "((u_spell_level('photokinetic_snuff_light') * 1000) + 10000) * u_nether_attunement_power_scaling" ] },
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('photokinetic_snuff_light') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
     "min_aoe": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('photokinetic_snuff_light') * 0.8) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "energy_source": "STAMINA",
@@ -227,12 +223,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_dodge') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_dodge') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_dodge') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_dodge') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -263,18 +259,18 @@
     "shape": "line",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_beam') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
+        "min( (( (u_spell_level('photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
       ]
     },
     "max_range": 30,
@@ -316,23 +312,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 5000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_camouflage') * 5000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_camouflage') * 10000) + 120000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_camouflage') * 10000) + 120000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_val('spell_level', 'spell: photokinetic_camouflage') * 75)), 1500)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_camouflage') * 75)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_val('spell_level', 'spell: photokinetic_camouflage') * 8)), 75)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_camouflage') * 8)), 75)"
       ]
     },
     "learn_spells": { "photokinetic_light_image": 7, "photokinetic_hide_ugly": 10, "photokinetic_invisibility": 14 }
@@ -355,23 +351,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 8000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_rad_immunity') * 3000) + 8000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 0 : max((3000 - (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 125)), 800)"
+        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 0 : max((3000 - (u_spell_level('photokinetic_rad_immunity') * 125)), 800)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: photokinetic_rad_immunity') * 4.5)), 100)"
+        "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 10 : max((250 -(u_spell_level('photokinetic_rad_immunity') * 4.5)), 100)"
       ]
     },
     "learn_spells": { "photokinetic_invisibility": 5, "photokinetic_light_flash": 7 }
@@ -393,12 +389,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -431,23 +427,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_hide_ugly') * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 5500) + 80000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_hide_ugly') * 5500) + 80000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_val('spell_level', 'spell: photokinetic_hide_ugly') * 150)), 2000)"
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_hide_ugly') * 150)), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_val('spell_level', 'spell: photokinetic_hide_ugly') * 100)), 150)"
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_spell_level('photokinetic_hide_ugly') * 100)), 150)"
       ]
     },
     "learn_spells": { "photokinetic_light_image": 6 }
@@ -471,18 +467,14 @@
     "min_damage": 1,
     "max_damage": {
       "math": [
-        " (u_val('spell_level', 'spell: photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        " (u_spell_level('photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "min_duration": {
-      "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 5000) * u_nether_attunement_power_scaling" ]
-    },
-    "max_duration": {
-      "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000) * u_nether_attunement_power_scaling" ]
-    },
+    "min_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1000) + 5000) * u_nether_attunement_power_scaling" ] },
+    "max_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1000) + 10000) * u_nether_attunement_power_scaling" ] },
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( (( (u_spell_level('photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
@@ -514,23 +506,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_radio') * 12000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_radio') * 12000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_radio') * 18000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_radio') * 18000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((4000 - (u_val('spell_level', 'spell: photokinetic_radio') * 100)), 1500)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((4000 - (u_spell_level('photokinetic_radio') * 100)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_val('spell_level', 'spell: biokin_hammerhand') * 10)), 75)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_spell_level('biokin_hammerhand') * 10)), 75)"
       ]
     },
     "learn_spells": { "photokinetic_rad_immunity": 6, "photokinetic_blinding_glare": 9 }
@@ -554,12 +546,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 500) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_invisibility') * 500) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 1500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_invisibility') * 1500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -589,24 +581,24 @@
     "shape": "line",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 2.5) + 20) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_flash') * 2.5) + 20) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_flash') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
     "min_aoe": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
+        "min( (( (u_spell_level('photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
       ]
     },
     "max_aoe": 20,
@@ -642,12 +634,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 1000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_blinding_glare') * 1000) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_blinding_glare') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_blinding_glare') * 2500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -677,18 +669,18 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_disintegrate') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 7) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('photokinetic_light_disintegrate') * 7) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('photokinetic_light_disintegrate') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,

@@ -454,7 +454,7 @@
     "material": [ "aluminum", "steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
-    "flags": [ "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED", "PROVIDES_TECHNIQUES" ],
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
     "material_thickness": 1,
     "armor": [

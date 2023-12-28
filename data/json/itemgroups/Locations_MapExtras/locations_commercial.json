@@ -210,10 +210,9 @@
     "type": "item_group",
     "id": "pawn_guns",
     "items": [
-      [ "trex_gun", 1 ],
+      [ "win70_458", 1 ],
       [ "combination_gun", 1 ],
-      [ "700nx", 1 ],
-      [ "700nx_casing", 1 ],
+      [ "458wm", 1 ],
       [ "ruger_redhawk", 3 ],
       [ "deagle_44", 2 ],
       [ "lemat_revolver", 1 ],
@@ -2105,6 +2104,7 @@
     "subtype": "collection",
     "items": [
       { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "group": "sandbag", "prob": 50 },
       { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" }
     ]
   },

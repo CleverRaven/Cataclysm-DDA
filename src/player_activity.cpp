@@ -119,9 +119,9 @@ int player_activity::get_value( size_t index, int def ) const
     return index < values.size() ? values[index] : def;
 }
 
-bool player_activity::is_suspendable() const
+bool player_activity::can_resume() const
 {
-    return type->suspendable();
+    return type->can_resume();
 }
 
 bool player_activity::is_multi_type() const
@@ -297,6 +297,10 @@ void player_activity::do_turn( Character &you )
         } else {
             debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
         }
+        // We may have canceled this via a message interrupt.
+        if( type.is_null() ) {
+            return;
+        }
     }
 
     // This might finish the activity (set it to null)
@@ -424,7 +428,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    if( !*this || !other || type->no_resume() ) {
+    if( !*this || !other || !type->can_resume() ) {
         return false;
     }
 

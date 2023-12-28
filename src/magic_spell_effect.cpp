@@ -1275,6 +1275,23 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
     }
 }
 
+void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
+                                     const tripoint &target )
+{
+    ::map &here = get_map();
+    optional_vpart_position v_part_pos = here.veh_at( target );
+    if( !v_part_pos ) {
+        caster.add_msg_if_player( m_bad, _( "There's no battery there." ) );
+        return;
+    }
+    vehicle &veh = v_part_pos->vehicle();
+    if( sp.damage( caster ) >= 0 ) {
+        veh.charge_battery( sp.damage( caster ), false );
+    } else {
+        veh.discharge_battery( -sp.damage( caster ), false );
+    }
+}
+
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint &target )
 {
     avatar *you = caster.as_avatar();
@@ -1407,7 +1424,8 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
-        if( mon->friendly == 0 && mon->get_hp() <= sp.damage( caster ) ) {
+        if( ( mon->friendly == 0 || ( mon->friendly != 0 && sp.has_flag( spell_flag::RECHARM ) ) ) &&
+            mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
         }
@@ -1626,7 +1644,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( *walk_point == source ) {
+    if( here.getlocal( *walk_point ) == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1636,7 +1654,9 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         if( caster_you != nullptr ) {
             if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
                 !g->walk_move( here.getlocal( *walk_point ), false ) ) {
-                --walk_point;
+                if( walk_point != trajectory.begin() ) {
+                    --walk_point;
+                }
                 break;
             } else {
                 sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );

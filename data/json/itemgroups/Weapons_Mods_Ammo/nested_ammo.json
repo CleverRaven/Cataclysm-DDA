@@ -135,17 +135,12 @@
       { "item": "8mm_caseless", "prob": 100, "charges": [ 1, 40 ] },
       { "item": "8mm_caseless", "prob": 75, "charges": [ 44, 80 ] },
       { "item": "8mm_caseless", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "8mm_civilian", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "8mm_civilian", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "8mm_civilian", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "8mm_fmj", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "8mm_fmj", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "8mm_fmj", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "8mm_caseless", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "8mm_caseless", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "8mm_caseless", "prob": 30, "charges": [ 88, 160 ] },
       { "item": "8mm_jhp", "prob": 100, "charges": [ 1, 40 ] },
       { "item": "8mm_jhp", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "8mm_jhp", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "8mm_hvp", "prob": 30, "charges": [ 1, 40 ] },
-      { "item": "8mm_inc", "prob": 30, "charges": [ 1, 40 ] }
+      { "item": "8mm_jhp", "prob": 30, "charges": [ 88, 160 ] }
     ]
   },
   {
@@ -502,14 +497,14 @@
     ]
   },
   {
-    "id": "on_hand_700nx",
+    "id": "on_hand_458wm",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "700nx", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "700nx", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "700nx", "prob": 30, "charges": [ 22, 40 ] }
+      { "item": "458wm", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "458wm", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "458wm", "prob": 30, "charges": [ 22, 40 ] }
     ]
   },
   {
@@ -536,12 +531,18 @@
   {
     "id": "on_hand_410shot",
     "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
+    "//": "a collection of ammo that would be found with a loaded gun.  29Slug:36Buck:184Bird.",
     "subtype": "distribution",
     "entries": [
-      { "item": "410shot_000", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "410shot_000", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "410shot_000", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "410shot_000", "prob": 720, "charges": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 540, "charges": [ 22, 40 ] },
+      { "item": "410shot_000", "prob": 216, "charges": [ 44, 80 ] },
+      { "item": "410shot_bird", "prob": 3680, "charges": [ 1, 20 ] },
+      { "item": "410shot_bird", "prob": 2760, "charges": [ 22, 40 ] },
+      { "item": "410shot_bird", "prob": 1104, "charges": [ 44, 80 ] },
+      { "item": "410shot_slug", "prob": 580, "charges": [ 1, 20 ] },
+      { "item": "410shot_slug", "prob": 435, "charges": [ 22, 40 ] },
+      { "item": "410shot_slug", "prob": 174, "charges": [ 44, 80 ] }
     ]
   },
   {
@@ -635,6 +636,17 @@
       { "item": "303_fmjbt", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "303_fmjbt", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "303_fmjbt", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_77mm_arisaka",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "77mm_arisaka_jsp", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "77mm_arisaka_jsp", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "77mm_arisaka_jsp", "prob": 30, "charges": [ 44, 80 ] }
     ]
   }
 ]

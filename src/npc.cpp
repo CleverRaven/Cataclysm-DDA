@@ -821,59 +821,24 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     int_max += the_class.roll_intelligence();
     per_max += the_class.roll_perception();
 
+    personality.aggression += the_class.roll_aggression();
+    personality.bravery += the_class.roll_bravery();
+    personality.collector += the_class.roll_collector();
+    personality.altruism += the_class.roll_altruism();
+
+    personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
+                                         NPC_PERSONALITY_MAX );
+    personality.bravery = std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.collector = std::clamp( personality.collector, NPC_PERSONALITY_MIN,
+                                        NPC_PERSONALITY_MAX );
+    personality.altruism = std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
 
         set_skill_level( skill.ident(), level );
     }
 
-    if( type.is_null() ) { // Untyped; no particular specialization
-    } else if( type == NC_EVAC_SHOPKEEP || type == NC_BARTENDER || type == NC_JUNK_SHOPKEEP ) {
-        personality.collector += rng( 1, 5 );
-
-    } else if( type == NC_ARSONIST ) {
-        personality.aggression += rng( 0, 1 );
-        personality.collector += rng( 0, 2 );
-
-    } else if( type == NC_SOLDIER ) {
-        personality.aggression += rng( 1, 3 );
-        personality.bravery += rng( 0, 5 );
-
-    } else if( type == NC_HACKER ) {
-        personality.bravery -= rng( 1, 3 );
-        personality.aggression -= rng( 0, 2 );
-
-    } else if( type == NC_DOCTOR ) {
-        personality.aggression -= rng( 0, 4 );
-        cash += 10000 * rng( 0, 3 ) * rng( 0, 3 );
-
-    } else if( type == NC_TRADER ) {
-        personality.collector += rng( 1, 5 );
-        cash += 25000 * rng( 1, 10 );
-
-    } else if( type == NC_NINJA ) {
-        personality.bravery += rng( 0, 3 );
-        personality.collector -= rng( 1, 6 );
-        // TODO: give ninja his styles back
-
-    } else if( type == NC_COWBOY ) {
-        personality.aggression += rng( 0, 2 );
-        personality.bravery += rng( 1, 5 );
-
-    } else if( type == NC_SCIENTIST ) {
-        personality.aggression -= rng( 1, 5 );
-        personality.bravery -= rng( 2, 8 );
-        personality.collector += rng( 0, 2 );
-
-    } else if( type == NC_BOUNTY_HUNTER || type == NC_THUG ) {
-        personality.aggression += rng( 1, 6 );
-        personality.bravery += rng( 0, 5 );
-
-    } else if( type == NC_SCAVENGER ) {
-        personality.aggression += rng( 1, 3 );
-        personality.bravery += rng( 1, 4 );
-
-    }
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
@@ -1534,6 +1499,13 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
 void npc::stow_item( item &it )
 {
+    bool stow_bionic_weapon = is_using_bionic_weapon()
+                              && get_wielded_item().get_item() == &it;
+    if( stow_bionic_weapon ) {
+        deactivate_or_discharge_bionic_weapon( true );
+        return;
+    }
+
     bool avatar_sees = get_player_view().sees( pos() );
     if( wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
@@ -3510,8 +3482,9 @@ std::set<tripoint> npc::get_path_avoid() const
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
-        if( sees_dangerous_field( p ) ) {
+    for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
+        if( sees_dangerous_field( p ) || ( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) &&
+                                           !move_in_vehicle( const_cast<npc *>( this ), p ) ) ) {
             ret.insert( p );
         }
     }

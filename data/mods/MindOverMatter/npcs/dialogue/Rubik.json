@@ -6,7 +6,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EXODII_MERCHANT_danger_sense",
-        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
       }
     ]
   },

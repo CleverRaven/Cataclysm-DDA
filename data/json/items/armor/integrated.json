@@ -14,7 +14,8 @@
     "color": "light_green",
     "warmth": 1,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT" ],
+    "//": "bark can photosynthesize, so all of Plant's integrated armors are flagged transparent",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT", "TRANSPARENT" ],
     "armor": [
       {
         "material": [
@@ -41,9 +42,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 1,
+    "warmth": 8,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
@@ -66,9 +67,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 2,
+    "warmth": 8,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
@@ -91,9 +92,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 2,
+    "warmth": 12,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
@@ -131,9 +132,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 2,
+    "warmth": 10,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "OUTER", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "OUTER", "PADDED", "TRANSPARENT" ],
     "armor": [
       {
         "material": [
@@ -170,7 +171,7 @@
     "color": "white",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
@@ -261,6 +262,43 @@
     ]
   },
   {
+    "id": "integrated_ursine_fur_summer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "scruffy fur" },
+    "description": "While still formidable, this furry hide has lost a lot of its bulk to better endure the summer months.",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "black",
+    "warmth": 32,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 10 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_lupine_fur",
     "type": "ARMOR",
     "category": "armor",
@@ -291,6 +329,43 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "integrated_lupine_fur_summer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "summer coat" },
+    "description": "A covering of fur that has thinned out for the summer.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "dark_gray",
+    "warmth": 18,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "coverage": 100,
+        "encumbrance": 1
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -370,7 +445,16 @@
     "color": "light_red",
     "warmth": 7,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT", "NO_SALVAGE" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_SALVAGE",
+      "TRANSPARENT"
+    ],
     "armor": [
       {
         "material": [
@@ -526,7 +610,7 @@
     "color": "green",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -628,7 +712,8 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY" ],
+    "//": "Freshly molted bugs have semi-transparent chitin.",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.4 } ],
@@ -764,7 +849,7 @@
     "color": "brown",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2 } ],
@@ -1114,7 +1199,7 @@
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
     "armor": [
       {
         "material": [
@@ -1396,7 +1481,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1425,7 +1510,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1454,7 +1539,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1483,7 +1568,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
