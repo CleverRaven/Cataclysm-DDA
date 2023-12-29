@@ -40,6 +40,16 @@
     "replace": "recipe_lab_elec"
   },
   {
+    "id": "mean_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug"
+  },
+  {
+    "id": "nice_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug"
+  },
+  {
     "id": "ar15",
     "type": "MIGRATION",
     "replace": "modular_ar15",
