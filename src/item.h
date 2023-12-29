@@ -3183,4 +3183,12 @@ inline bool is_crafting_component( const item &component )
            !component.is_filthy();
 }
 
+/**
+ * Filter for empty crafting components first pass searches
+ */
+inline bool is_empty_crafting_component( const item &component )
+{
+    return component.is_container_empty() && is_crafting_component( component );
+}
+
 #endif // CATA_SRC_ITEM_H

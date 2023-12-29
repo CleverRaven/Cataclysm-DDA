@@ -1122,6 +1122,7 @@
           },
           { "item": "foodplace_snack_bar", "container-item": "fanny" },
           { "item": "foodplace_snack_bar" },
+          { "item": "foodplace_zero_drink" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       },
