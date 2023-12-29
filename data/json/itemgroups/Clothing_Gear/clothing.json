@@ -4518,7 +4518,7 @@
     "type": "item_group",
     "id": "aspirin_bottle_plastic_pill_painkiller_20",
     "subtype": "distribution",
-    "//": "This group was created automatically and may contain errors.",
+    "//": "Includes aspirin and other similar low-grade painkillers.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [
       { "item": "aspirin", "container-item": "null", "count": 20 },
