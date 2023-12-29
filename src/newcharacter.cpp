@@ -4284,7 +4284,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 no_name_entered = you.name.empty();
             }
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
-            you.male = one_in( 2 );
+            bool gender_choice = one_in( 2 );
+            you.male = gender_choice;
+            outfit = gender_choice;
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
                 no_name_entered = you.name.empty();
@@ -4297,6 +4299,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             outfit = !outfit;
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
+            outfit = you.male;
         } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
