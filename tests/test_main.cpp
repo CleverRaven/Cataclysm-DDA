@@ -177,7 +177,7 @@ static name_value_pair_t split_pair( const std::string &s, const char sep )
     }
 }
 
-static option_overrides_t extract_option_overrides( const std::string& option_overrides_string )
+static option_overrides_t extract_option_overrides( const std::string &option_overrides_string )
 {
     option_overrides_t ret;
     const char delim = ',';
@@ -199,7 +199,7 @@ static option_overrides_t extract_option_overrides( const std::string& option_ov
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
-    void testRunStarting( Catch::TestRunInfo const& testRunInfo ) {
+    void testRunStarting( Catch::TestRunInfo const & ) override {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
 
@@ -209,7 +209,7 @@ struct CataListener : Catch::TestEventListenerBase {
         start = std::chrono::system_clock::now();
     }
 
-    void testRunEnded( Catch::TestRunStats const& testRunStats ) {
+    void testRunEnded( Catch::TestRunStats const & ) override {
         end = std::chrono::system_clock::now();
     }
 
@@ -290,26 +290,26 @@ int main( int argc, const char *argv[] )
     std::string mods_string;
     std::string check_plural_str;
     auto cli = session.cli()
-        | Opt( mods_string, "mod1,mod2,…")
-        ["--mods"]
-        ("[CataclysmDDA] Loads the list of mods before executing tests.")
-        | Opt( user_dir, "dirname" )
-        ["--user-dir"]
-        ("[CataclysmDDA] Set user dir (where test world will be created)")
-        | Opt( dont_save )
-        ["--drop-world"] // "-D" conflicts with Catch2 own "--min-duration"
-        ("[CataclysmDDA] Don't save the world on test failure.")
-        | Opt( option_overrides , "n:v[,…]" )
-        ["--option_overrides"]
-        ("[CataclysmDDA] Name-value pairs of game options for tests (overrides config/options.json values).")
-        | Opt( error_fmt, "human-readable|github-action" )
-        ["--error-format"]
-        ("[CataclysmDDA] Format of error messages (default: human-readable)")
-        | Opt( check_plural_str, "none|certain|possbile" )
-        ["--check-plural"]
-        ("[CataclysmDDA] (TBW)")
-        ;
-    session.cli(cli);
+               | Opt( mods_string, "mod1,mod2,…" )
+               ["--mods"]
+               ( "[CataclysmDDA] Loads the list of mods before executing tests." )
+               | Opt( user_dir, "dirname" )
+               ["--user-dir"]
+               ( "[CataclysmDDA] Set user dir (where test world will be created)" )
+               | Opt( dont_save )
+               ["--drop-world"] // "-D" conflicts with Catch2 own "--min-duration"
+               ( "[CataclysmDDA] Don't save the world on test failure." )
+               | Opt( option_overrides, "n:v[,…]" )
+               ["--option_overrides"]
+               ( "[CataclysmDDA] Name-value pairs of game options for tests (overrides config/options.json values)." )
+               | Opt( error_fmt, "human-readable|github-action" )
+               ["--error-format"]
+               ( "[CataclysmDDA] Format of error messages (default: human-readable)" )
+               | Opt( check_plural_str, "none|certain|possbile" )
+               ["--check-plural"]
+               ( "[CataclysmDDA] (TBW)" )
+               ;
+    session.cli( cli );
 
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
@@ -323,10 +323,10 @@ int main( int argc, const char *argv[] )
         mods.insert( mods.begin(), MOD_INFORMATION_dda ); // @todo move unit test items to core
     }
 
-    if (user_dir.empty()) {
+    if( user_dir.empty() ) {
         user_dir = "./test_user_dir/";
     }
-    if (!string_ends_with(user_dir, "/")) {
+    if( !string_ends_with( user_dir, "/" ) ) {
         user_dir += "/";
     }
 
