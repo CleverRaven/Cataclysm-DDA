@@ -3070,10 +3070,8 @@
     "time": "26 h",
     "autolearn": true,
     "using": [ [ "steel_standard", 28 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } , { "id": "GRIND", "level": 2 } , { "id": "ANVIL", "level": 1 } ],
-	"tools": [
-      [ [ "forge", 400 ], [ "oxy_torch", 400 ] ]      
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "forge", 400 ], [ "oxy_torch", 400 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ]
   },
   {
