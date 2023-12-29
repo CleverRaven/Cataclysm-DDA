@@ -76,6 +76,7 @@
     "id": "reclining_seat",
     "copy-from": "seat",
     "comfort": 3,
+    "//": "reclining and bench seats are roomier than standard and are able to fit Large characters, if not comfortably",
     "description": "A soft seat with an adjustable backrest, making it a reasonably comfortable place to sleep.",
     "durability": 100,
     "size": "95 L",
