@@ -423,7 +423,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
-    bool gender_selection = ( rng( 1, 100 ) > 50 );
+    bool gender_selection = one_in( 2 );
     male = gender_selection;
     outfit = gender_selection;
     if( !MAP_SHARING::isSharing() ) {
