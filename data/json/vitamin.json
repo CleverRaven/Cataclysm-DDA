@@ -64,7 +64,7 @@
     "type": "vitamin",
     "vit_type": "drug",
     "name": { "str": "Blood thinner" },
-    "excess": "bleedrate_up",
+    "excess": "anticoagulant",
     "min": 0,
     "max": 4320,
     "rate": "100 s",
@@ -76,12 +76,12 @@
     "type": "vitamin",
     "vit_type": "drug",
     "name": { "str": "Ibuprofen" },
-    "excess": "ibuprofen_eff",
+    "excess": "nsaid_eff",
     "min": 0,
     "max": 432,
-    "//": "Takes 30 min to kick in, lasts 12 hours",
+    "//": "Takes 30 min to kick in, lasts 6 hours",
     "rate": "100 s",
-    "disease_excess": [ [ 10, 432 ] ]
+    "disease_excess": [ [ 10, 216 ] ]
   },
   {
     "id": "mutant_toxin",

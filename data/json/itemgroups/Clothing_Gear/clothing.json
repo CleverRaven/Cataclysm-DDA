@@ -894,7 +894,7 @@
       { "item": "sports_bra", "prob": 25 },
       { "item": "jacket_leather", "prob": 20 },
       { "item": "jacket_varsity", "prob": 10 },
-      { "prob": 30, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "prob": 30, "group": "bottle_otc_painkiller_20" },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
       { "group": "used_1st_aid", "prob": 20 },
@@ -4516,7 +4516,7 @@
   },
   {
     "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_20",
+    "id": "bottle_otc_painkiller_20",
     "subtype": "distribution",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
