@@ -773,12 +773,12 @@
     "copy-from": "holybook_abstract"
   },
   {
-    "id": "holybook_bahai",
+    "id": "holybook_camdomble",
     "type": "BOOK",
-    "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
-    "description": ".",
-    "weight": "540 g",
-    "volume": "1 L",
+    "name": { "str": "The Ogam and Ipade", "str_pl": "copies of The Ogam and Ipade" },
+    "description": "A good-sized book containing the Ogam (Ogã, a collection of sacred hymns that praise the Orishas, sung during rituals and ceremonies, an essential part of the worship and devotion to the deities), and the Ipade (Ipadê, a collection of sacred stories, myths, and legends that explain the origins of the Orishas, the creation of the world, and the history of the religion), directly linked to Afro-Brazilian religions such as Umbanda and Candomble.",
+    "weight": "900 g",
+    "volume": "1300 ml",
     "copy-from": "holybook_abstract"
   },
   {
