@@ -2737,7 +2737,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of Santa socks", "str_pl": "pairs of Santa socks" },
     "description": "A pair of comfortable red socks lightly trimmered with white faux fur.  Kind like the ones you'd hang on your fireplace, but wearable and lightweight.",
-    "copy_from": "socks",
+    "copy-from": "socks",
     "weight": "32 g",
     "volume": "250 ml",
     "price": 200,
