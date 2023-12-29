@@ -120,7 +120,6 @@
       { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
       { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
-
     ]
   },
   {
