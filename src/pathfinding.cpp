@@ -112,7 +112,7 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
         flags |= PathfindingFlag::Slow;
     }
 
-    if( !terrain.has_flag( ter_furn_flag::TFLAG_BURROWABLE ) ||
+    if( !terrain.has_flag( ter_furn_flag::TFLAG_BURROWABLE ) &&
         !terrain.has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
         flags |= PathfindingFlag::HardGround;
     }
@@ -442,7 +442,7 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
     }
 
 
-    const PathfindingFlags flags = cache.flags( from );
+    const PathfindingFlags flags = cache.flags( to );
     if( flags.is_set( PathfindingFlag::Obstacle ) ) {
         if( !settings.is_digging() ) {
             if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&

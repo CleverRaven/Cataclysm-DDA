@@ -345,14 +345,51 @@ tile_predicate ifchar( char c, const tile_predicate &f )
 }
 
 tile_predicate ter_set(
-    ter_str_id ter,
+    ter_str_id id,
     tripoint shift
 )
 {
     return [ = ]( map_test_case::tile t ) {
-        REQUIRE( ter.is_valid() );
+        REQUIRE( id.is_valid() );
         tripoint p = t.p + shift;
-        get_map().ter_set( p, ter );
+        get_map().ter_set( p, id );
+        return true;
+    };
+}
+
+tile_predicate ter_set(
+    ter_id id,
+    tripoint shift
+)
+{
+    return [ = ]( map_test_case::tile t ) {
+        tripoint p = t.p + shift;
+        get_map().ter_set( p, id );
+        return true;
+    };
+}
+
+tile_predicate furn_set(
+    furn_id id,
+    tripoint shift
+)
+{
+    return [ = ]( map_test_case::tile t ) {
+        tripoint p = t.p + shift;
+        get_map().furn_set( p, id );
+        return true;
+    };
+}
+
+tile_predicate trap_set(
+    trap_str_id id,
+    tripoint shift
+)
+{
+    return [ = ]( map_test_case::tile t ) {
+        REQUIRE( id.is_valid() );
+        tripoint p = t.p + shift;
+        get_map().trap_set( p, id );
         return true;
     };
 }

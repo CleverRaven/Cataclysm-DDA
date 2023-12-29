@@ -198,13 +198,25 @@ namespace tiles
 tile_predicate ifchar( char c, const tile_predicate &f );
 
 /**
- * Returns the function that sets the map `ter` at the `map_test_case::tile` coords to the given ter_id
- * @param ter ter id to set
+ * Returns the function that sets the map `ter/furn/trap` at the `map_test_case::tile` coords to the given id
+ * @param id id to set
  * @param shift shift from the current tile coordinates (e.g. to have the ability to set tiles above)
  * @return function that sets tiles
  */
 tile_predicate ter_set(
-    ter_str_id ter,
+    ter_str_id id,
+    tripoint shift = tripoint_zero
+);
+tile_predicate ter_set(
+    ter_id id,
+    tripoint shift = tripoint_zero
+);
+tile_predicate furn_set(
+    furn_id id,
+    tripoint shift = tripoint_zero
+);
+tile_predicate trap_set(
+    trap_str_id id,
     tripoint shift = tripoint_zero
 );
 
