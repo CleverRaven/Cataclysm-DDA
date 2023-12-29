@@ -1458,6 +1458,7 @@ std::string display::colorized_compass_text( const cardinal_direction dir, int w
 
 struct mtype_id_string_less {
     bool operator()( const mtype_id &lhs, const mtype_id &rhs ) const {
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         return lhs.str() < rhs.str();
     }
 };
