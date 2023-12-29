@@ -4284,9 +4284,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 no_name_entered = you.name.empty();
             }
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
-            bool gender_choice = one_in( 2 );
-            you.male = gender_choice;
-            outfit = gender_choice;
+            bool gender_selection = one_in( 2 );
+            you.male = gender_selection;
+            outfit = gender_selection;
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
                 no_name_entered = you.name.empty();
