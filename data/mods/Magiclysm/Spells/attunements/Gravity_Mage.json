@@ -128,7 +128,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": 30 },
+          { "value": "ATTACK_SPEED", "add": -30 },
           { "value": "BONUS_BLOCK", "add": 2 },
           { "value": "MELEE_DAMAGE", "multiply": 1 }
         ]
