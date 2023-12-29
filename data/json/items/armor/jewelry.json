@@ -43,7 +43,10 @@
     "id": "santa_ear",
     "type": "ARMOR",
     "name": { "str": "pair of candycane earrings", "str_pl": "pairs of candycane earrings" },
-    "description": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs. Claus style.",
+    "description": {
+      "str": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs. Claus style.",
+      "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
+    },
     "weight": "400 mg",
     "volume": "1 ml",
     "price": 100,
