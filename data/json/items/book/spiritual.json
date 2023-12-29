@@ -764,6 +764,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_taoism",
+    "type": "BOOK",
+    "name": { "str": "The Tao Te Ching", "str_pl": "copies of The Tao Te Ching" },
+    "description": "A stylized, hardcover English translation of the Tao Te Ching, also known as the Dao De Jing.  It is a Chinese philosophical and spiritual text believed to have been written by Laozi, a legendary figure in ancient Chinese history, and is considered one of the most important works in Taoism, an ancient Chinese philosophy and religion that emphasizes living in harmony with the Tao.",
+    "weight": "800 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_confucian",
+    "type": "BOOK",
+    "name": { "str": "The Four Books and Five Classics", "str_pl": "copies of The Four Books and Five Classics" },
+    "description": "A large hardcover book containing the two collections of ancient Chinese texts that have played a significant role in shaping Chinese culture, education, and philosophy.  These texts are considered foundational works in Confucianism and have been studied by scholars and students for centuries.",
+    "weight": "1000 g",
+    "volume": "1700 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_daime",
     "type": "BOOK",
     "name": { "str": "Cruzeiro", "str_pl": "copies of the Cruzeiro" },
@@ -773,7 +791,7 @@
     "copy-from": "holybook_abstract"
   },
   {
-    "id": "holybook_camdomble",
+    "id": "holybook_candomble",
     "type": "BOOK",
     "name": { "str": "The Ogam and Ipade", "str_pl": "copies of The Ogam and Ipade" },
     "description": "A good-sized book containing the Ogam (Ogã, a collection of sacred hymns that praise the Orishas, sung during rituals and ceremonies, an essential part of the worship and devotion to the deities), and the Ipade (Ipadê, a collection of sacred stories, myths, and legends that explain the origins of the Orishas, the creation of the world, and the history of the religion), directly linked to Afro-Brazilian religions such as Umbanda and Candomble.",
