@@ -579,8 +579,14 @@
   {
     "type": "MONSTER_FACTION",
     "name": "mosasaurus_hatchling",
-    "base_faction": "very_small_mixed",
+    "base_faction": "small_mixed",
     "friendly": [ "mosasaurus", "mosasaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "plesiosaurus",
+    "base_faction": "fishing_dino",
+    "friendly": [ "plesiosaurus" ]
   },
   {
     "type": "MONSTER_FACTION",
