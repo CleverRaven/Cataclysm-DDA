@@ -211,7 +211,7 @@
     "id": "holybook_confession",
     "type": "BOOK",
     "name": { "str": "Confession of Faith", "str_pl": "copies of the Confession of Faith" },
-    "description": "A rare English translation of the Confession of Faith, also known as the Belgic Confession. It is a collection of documents in Christian theology and written statements of belief or doctrines.  These confessions aim to summarize and articulate the core beliefs of particular Christian denominations and traditions.  It also serve as a guide for the members of the church to understand and uphold the essential teachings of their faith.  It is also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination.",
+    "description": "A rare English translation of the Confession of Faith, also known as the Belgic Confession.  It is a collection of documents in Christian theology and written statements of belief or doctrines.  These confessions aim to summarize and articulate the core beliefs of particular Christian denominations and traditions.  It also serve as a guide for the members of the church to understand and uphold the essential teachings of their faith.  It is also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination.",
     "weight": "420 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -592,7 +592,7 @@
     "id": "holybook_jagamas",
     "type": "BOOK",
     "name": { "str": "The Jain Agamas", "str_pl": "copies of the Jain Agamas" },
-    "description": "A paperback English translation of the Jain Agamas, the most authoritative and sacred scriptures in Jainism.  The Jain Agamas consist of two main categories: the Angas and the Upangas. The Angas are considered the primary scriptures, while the Upangas are supplementary texts that provide further explanations and commentaries on various aspects of Jain philosophy and practice.",
+    "description": "A paperback English translation of the Jain Agamas, the most authoritative and sacred scriptures in Jainism.  The Jain Agamas consist of two main categories: the Angas and the Upangas.  The Angas are considered the primary scriptures, while the Upangas are supplementary texts that provide further explanations and commentaries on various aspects of Jain philosophy and practice.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -688,6 +688,24 @@
     "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, Shamanic Rituals and folklore.",
     "weight": "600 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_chinese",
+    "type": "BOOK",
+    "name": { "str": "Classic of Mountains and Seas", "str_pl": "copies of the Classic of Mountains and Seas" },
+    "description": "A hardcover English translation of the Classic of Mountains and Seas (Shan Hai Jing).  This book primarily focuses on the description of various mythical creatures, gods, goddesses, rituals and geographical features of ancient China.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_koreantrip",
+    "type": "BOOK",
+    "name": { "str": "Tripitaka Koreana", "str_pl": "copies of the Tripitaka Koreana" },
+    "description": "An extremely large, huge English translation of the Tripitaka Koreana, a Korean collection of the Tripitaka that can be considered as the Korean Canon.",
+    "weight": "15000 g",
+    "volume": "20000 L",
     "copy-from": "holybook_abstract"
   },
   {
@@ -1293,7 +1311,7 @@
     "id": "holybook_bahai1",
     "type": "BOOK",
     "name": { "str": "Kitáb-i-Íqán", "str_pl": "copies of the Kitáb-i-Íqán" },
-    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha’u’llah, the founder of the Baha’i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history. This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha’i Faith in relation to other religions.",
+    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha’u’llah, the founder of the Baha’i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history.  This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha’i Faith in relation to other religions.",
     "weight": "1000 g",
     "volume": "1035 ml",
     "copy-from": "holybook_abstract"
