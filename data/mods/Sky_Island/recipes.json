@@ -35,6 +35,20 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "warp_skyward_beacon",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 m",
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 5 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "warphome",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
