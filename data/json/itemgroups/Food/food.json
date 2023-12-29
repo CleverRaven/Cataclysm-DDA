@@ -456,6 +456,11 @@
       { "item": "rootbeer", "prob": 40 },
       { "item": "crispycran", "prob": 35 },
       { "item": "purple_drink", "prob": 35 },
+      { "item": "zerocola", "prob": 35 },
+      { "item": "zeroorange", "prob": 35 },
+      { "item": "zerotropical", "prob": 35 },
+      { "item": "zeromdew", "prob": 35 },
+      { "item": "foodplace_zero_drink", "prob": 10 },
       { "item": "choc_drink", "prob": 25 }
     ]
   },
@@ -472,6 +477,11 @@
       { "item": "rootbeer", "prob": 40, "container-item": "bottle_plastic" },
       { "item": "crispycran", "prob": 35, "container-item": "bottle_plastic" },
       { "item": "purple_drink", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zerocola", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zeroorange", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zerotropical", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zeromdew", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "foodplace_zero_drink", "prob": 10, "container-item": "bottle_plastic" },
       { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" }
     ]
   },
@@ -530,6 +540,8 @@
       { "group": "candy_chocolate", "prob": 620 },
       { "group": "salty_snacks", "prob": 595 },
       { "item": "foodplace_snack_bar", "prob": 5 },
+      { "item": "foodplace_zero_drink", "prob": 5, "container-item": "bottle_plastic" },
+      { "item": "foodplace_zero_drink", "prob": 5 },
       { "item": "pemmican", "prob": 5 },
       { "prob": 10, "group": "granola_bag_plastic_4" },
       { "prob": 80, "group": "cookies_box_snack_4" },
@@ -863,6 +875,7 @@
     "entries": [
       { "item": "lemonade", "count": [ 0, 3 ] },
       { "item": "cola", "count": [ 0, 3 ] },
+      { "item": "zerocola", "count": [ 0, 3 ] },
       { "item": "sports_drink", "count": [ 0, 3 ] },
       { "item": "rootbeer", "count": [ 0, 3 ] },
       { "item": "pickle", "count": [ 0, 3 ] },

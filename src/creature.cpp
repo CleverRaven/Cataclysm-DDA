@@ -3035,7 +3035,7 @@ void Creature::process_damage_over_time()
             DoT->duration -= 1_turns;
             ++DoT;
         } else {
-            damage_over_time_map.erase( DoT );
+            DoT = damage_over_time_map.erase( DoT );
         }
     }
 }
