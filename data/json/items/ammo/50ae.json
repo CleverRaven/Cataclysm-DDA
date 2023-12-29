@@ -75,7 +75,7 @@
     "copy-from": "50ae_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".50 AE JHP" },
-    "description": ".50 Action Express ammunition loaded with a 325-grain jacketed flat-nose bullet, primarily for use in the Desert Eagle pistol.",
+    "description": ".50 Action Express ammunition loaded with a 300-grain jacketed hollowpoint bullet, primarily for use in the Desert Eagle pistol.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
   },
   {
