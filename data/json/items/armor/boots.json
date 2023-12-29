@@ -3259,7 +3259,10 @@
       {
         "id": "santa_stockings",
         "name": { "str": "pair of Christmas stockings", "str_pl": "pairs of Christmas stockings" },
-        "description": "A comfortable pair of red, white and green stockings with Christmas patterns on it, for Mrs. Claus style.",
+        "description": {
+          "str": "A comfortable pair of red, white and green stockings with Christmas patterns on it, for Mrs. Claus style.",
+          "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
+        },
         "weight": 1,
         "color": "green",
         "append": true
