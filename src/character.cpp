@@ -7974,7 +7974,7 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
                 capacity += vpinfo.size;
                 free_cargo += contents.free_volume();
             }
