@@ -1780,8 +1780,6 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
                "N: <color_c_white>+</color>                                " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
-        // Note that the order here is sensitive to monster ID order. If you are seeing errors here, you may have changed
-        // this order and these need to be rearranged.
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when disse…</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
@@ -2125,8 +2123,6 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
         REQUIRE( ava.sees( mon2 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  2 );
-        // Note that the order here is sensitive to monster ID order. If you are seeing errors here, you may have changed
-        // this order and these need to be rearranged.
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>" );
@@ -2146,8 +2142,6 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
         REQUIRE( ava.sees( mon3 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  3 );
-        // Note that the order here is sensitive to monster ID order. If you are seeing errors here, you may have changed
-        // this order and these need to be rearranged.
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"

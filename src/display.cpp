@@ -1456,6 +1456,12 @@ std::string display::colorized_compass_text( const cardinal_direction dir, int w
     return get_compass_for_direction( dir, width );
 }
 
+struct mtype_id_string_less {
+    bool operator()( const mtype_id &lhs, const mtype_id &rhs ) const {
+        return lhs.str() < rhs.str();
+    }
+};
+
 std::string display::colorized_compass_legend_text( int width, int max_height, int &height )
 {
     const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
@@ -1479,8 +1485,8 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
         }
     }
     // Note that the order here is significant. Some widget tests depend on the
-    // monsters being displayed in the order the underlying string IDs were interned.
-    std::map<mtype_id, int> mlist;
+    // monsters being displayed in this order.
+    std::map<mtype_id, int, mtype_id_string_less> mlist;
     for( const auto &mv : mon_visible.unique_mons ) {
         for( const std::pair<mtype_id, int> &m : mv ) {
             mlist[m.first] += m.second;
@@ -1697,8 +1703,8 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
         int cnt;
     };
     // Note that the order here is significant. Some widget tests depend on the
-    // monsters being displayed in the order the underlying string IDs were interned.
-    std::map<mtype_id, nearest_loc_and_cnt> all_mons;
+    // monsters being displayed in this order.
+    std::map<mtype_id, nearest_loc_and_cnt, mtype_id_string_less> all_mons;
     for( int loc = 0; loc < 9; loc++ ) {
         for( const std::pair<mtype_id, int> &mon : unique_mons[loc] ) {
             const auto mon_it = all_mons.find( mon.first );
