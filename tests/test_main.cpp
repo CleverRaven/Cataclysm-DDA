@@ -199,6 +199,20 @@ static option_overrides_t extract_option_overrides( const std::string& option_ov
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
+    void testRunStarting( Catch::TestRunInfo const& testRunInfo ) {
+        // TODO: Only init game if we're running tests that need it.
+        init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+
+        error_during_initialization = debug_has_error_been_observed();
+
+        DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
+        start = std::chrono::system_clock::now();
+    }
+
+    void testRunEnded( Catch::TestRunStats const& testRunStats ) {
+        end = std::chrono::system_clock::now();
+    }
+
     void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
@@ -242,6 +256,7 @@ struct CataListener : Catch::TestEventListenerBase {
 
         return TestEventListenerBase::assertionEnded( assertionStats );
     }
+
 };
 
 CATCH_REGISTER_LISTENER( CataListener )
@@ -364,21 +379,13 @@ int main( int argc, const char *argv[] )
     }
 
     try {
-        // TODO: Only init game if we're running tests that need it.
-        init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+        result = session.run();
     } catch( const std::exception &err ) {
         DebugLog( D_ERROR, DC_ALL ) << "Terminated:\n" << err.what();
         DebugLog( D_INFO, DC_ALL ) <<
                                    "Make sure that you're in the correct working directory and your data isn't corrupted.";
         return EXIT_FAILURE;
     }
-
-    bool error_during_initialization = debug_has_error_been_observed();
-
-    DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
-    const std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-    result = session.run();
-    const std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
 
     std::string world_name = world_generator->active_world->world_name;
     if( result == 0 || dont_save ) {
