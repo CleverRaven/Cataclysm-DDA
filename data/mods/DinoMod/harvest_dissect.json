@@ -130,9 +130,7 @@
     "id": "dissect_plesiosaurus",
     "type": "harvest",
     "message": "Slicing carefully into the scaly plesiosaurus body, you discover biological samples that may be useful",
-    "entries": [
-      { "drop": "lizard_sample_large", "type": "mutagen_group" }
-    ]
+    "entries": [ { "drop": "lizard_sample_large", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_CBM_DINO",
