@@ -580,7 +580,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": { "math": [ "u_spell_level('spell_melee_damage') * 2" ] } },
+          { "value": "ATTACK_SPEED", "add": { "math": [ "u_spell_level('spell_melee_damage') * -2" ] } },
           { "value": "BONUS_DODGE", "add": { "math": [ "u_spell_level('spell_melee_damage') / 10" ] } },
           { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_spell_level('spell_melee_damage') / 20" ] } }
         ]
