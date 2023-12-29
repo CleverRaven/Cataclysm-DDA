@@ -484,7 +484,6 @@
         [ "club_wooden", -1 ],
         [ "glass_macuahuitl", -1 ],
         [ "club_wooden", -1 ],
-        [ "homewrecker", -1 ],
         [ "makeshift_sap", -1 ],
         [ "shillelagh_fake", -1 ],
         [ "pipe", -1 ],
@@ -527,6 +526,7 @@
     "tools": [
       [
         [ "club_wooden_large", -1 ],
+        [ "homewrecker", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -566,7 +566,6 @@
         [ "club_wooden", -1 ],
         [ "nailbat", -1 ],
         [ "nailboard", -1 ],
-        [ "homewrecker", -1 ],
         [ "bwirebat", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
