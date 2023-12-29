@@ -1281,6 +1281,15 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_babylon",
+    "type": "BOOK",
+    "name": { "str": "Enuma Elish", "str_pl": "copies of the Enuma Elish" },
+    "description": "A paperback English translation of the Enuma Elish, an ancient collection of seven tablets that contain the Babylonian creation myth and cosmology.  It describes the birth of the gods, the formation of the universe, and the struggle for power among various deities.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_havamal",
     "type": "BOOK",
     "name": { "str": "Hávamál", "str_pl": "copies of Hávamál" },
