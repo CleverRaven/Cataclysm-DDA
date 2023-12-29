@@ -16,6 +16,20 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "psychic_shriek",
+    "cooldown": 5,
+    "move_cost": 100,
+    "range": 3,
+    "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 10 } ],
+    "hit_dmg_u": "%1$s shrieks at your %2$s!",
+    "hit_dmg_npc": "%1$s shrieks at <npcname>!",
+    "no_dmg_msg_u": "%1$s's shriek radiates out at you without doing any damage.",
+    "no_dmg_msg_npc": "%1$s's shriek radiates out at <npcname> without doing any damage.",
+    "miss_msg_u": "%s's shriek radiates at you, but you dodge!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "mind_blast_monster",
     "move_cost": 80,
     "cooldown": 15,
