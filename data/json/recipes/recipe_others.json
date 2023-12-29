@@ -3078,7 +3078,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "anvil_crude",
-	"id_suffix": "rail_stock",
+    "id_suffix": "rail_stock",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",

@@ -280,14 +280,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [
-      [ [ "drift", -1 ], [ "punch_nail", -1 ] ]
-    ],
+    "tools": [ [ [ "drift", -1 ], [ "punch_nail", -1 ] ] ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-	"components": [
-      [ [ "steel_lump", 1 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ]
-    ]
+    "components": [ [ [ "steel_lump", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
