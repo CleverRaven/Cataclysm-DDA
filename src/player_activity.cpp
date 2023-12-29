@@ -246,6 +246,7 @@ void player_activity::do_turn( Character &you )
                 !no_food_nearby_for_auto_consume ) {
                 int consume_moves = get_auto_consume_moves( you, true );
                 moves_left += consume_moves;
+                moves_total += consume_moves;
                 if( consume_moves == 0 ) {
                     no_food_nearby_for_auto_consume = true;
                 }
@@ -253,6 +254,7 @@ void player_activity::do_turn( Character &you )
             if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
                 int consume_moves = get_auto_consume_moves( you, false );
                 moves_left += consume_moves;
+                moves_total += consume_moves;
                 if( consume_moves == 0 ) {
                     no_drink_nearby_for_auto_consume = true;
                 }
