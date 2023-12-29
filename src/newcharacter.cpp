@@ -4299,7 +4299,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             outfit = !outfit;
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
-            outfit = you.male;
         } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
