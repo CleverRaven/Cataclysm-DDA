@@ -389,7 +389,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_pathfinding_cache_dirty(const tripoint_bub_ms& p);
+        void set_pathfinding_cache_dirty( const tripoint_bub_ms &p );
         /*@}*/
 
         void invalidate_map_cache( int zlev );
