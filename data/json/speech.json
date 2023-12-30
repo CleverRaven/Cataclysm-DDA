@@ -1705,19 +1705,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_frog" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_frog" ],
     "sound": "a choking sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_frog" ],
     "sound": "a slurping sound.",
     "volume": 20
   },
@@ -2113,7 +2113,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
+    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_frog" ],
     "sound": "a clear, high-pitched hum.",
     "volume": 15
   },
@@ -2528,7 +2528,14 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dog_samoyed", "mon_dog_mutant_mongrel", "mon_dog_mutant_loper", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_dog_samoyed",
+      "mon_dog_mutant_mongrel",
+      "mon_dog_mutant_loper",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon"
+    ],
     "sound": "BARK!",
     "volume": 40
   },
