@@ -1240,8 +1240,9 @@ float spell::spell_fail( const Character &guy ) const
     // Int 8, Metaphysics 2, level 1, difficulty 1 is effective level 26.5
     // Int 10, Metaphysics 5, level 4, difficulty 5 is effective level 27
     // Int 12, Metaphysics 8, level 7, difficulty 10 is effective level 33.5
-    const float two_thirds_power_level = static_cast<float>(get_effective_level()) / static_cast<float>
-        (1.5);
+    const float two_thirds_power_level = static_cast<float>( get_effective_level() ) /
+                                         static_cast<float>
+                                         ( 1.5 );
 
     const float psi_effective_skill = 2 * ((guy.get_skill_level(skill()) * 2) - get_difficulty(
         guy)) + (guy.get_int() * 1.5) + two_thirds_power_level;
