@@ -423,9 +423,9 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
-
-    male = ( rng( 1, 100 ) > 50 );
-    outfit = male;
+    bool gender_selection = one_in( 2 );
+    male = gender_selection;
+    outfit = gender_selection;
     if( !MAP_SHARING::isSharing() ) {
         play_now ? pick_name() : pick_name( true );
     } else {
@@ -4284,7 +4284,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 no_name_entered = you.name.empty();
             }
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
-            you.male = one_in( 2 );
+            bool gender_selection = one_in( 2 );
+            you.male = gender_selection;
+            outfit = gender_selection;
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
                 no_name_entered = you.name.empty();
