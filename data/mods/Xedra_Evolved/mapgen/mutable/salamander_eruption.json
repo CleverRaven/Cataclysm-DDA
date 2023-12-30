@@ -35,8 +35,8 @@
         " ": [ [ "t_dirt", 2 ], [ "t_region_groundcover", 7 ], [ "t_pit_shallow", 2 ], "t_lava" ],
         ",": [ "t_obsidian_floor" ],
         "-": [ "t_obsidian_wall" ],
-        "<": [ "t_ramp_up_low" ],
-        ">": [ "t_ramp_down_high" ]
+        "<": [ "t_slope_up" ],
+        ">": [ "t_slope_down" ]
       },
       "place_fields": [
         { "field": "fd_blood", "x": [ 3, 19 ], "y": [ 4, 20 ], "repeat": [ 30, 50 ] },
@@ -81,7 +81,7 @@
         "        ,,,   ,         ",
         "                        "
       ],
-      "terrain": { ",": [ "t_obsidian_roof" ], ">": [ "t_ramp_down_high" ] }
+      "terrain": { ",": [ "t_obsidian_roof" ], ">": [ "t_slope_down" ] }
     }
   },
   {
@@ -120,7 +120,7 @@
         "#": "t_rock",
         " ": [ [ "t_puddle_underground", 1 ], [ "t_obsidian_floor", 10 ] ],
         "~": "t_obsidian_floor",
-        ">": "t_ramp_up_low"
+        ">": "t_slope_up"
       },
       "nested": {
         " ": {
