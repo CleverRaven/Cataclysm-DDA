@@ -175,7 +175,7 @@
     "id": "biokin_change_appearance",
     "type": "SPELL",
     "name": "[Ψ]Flesh of Clay",
-    "description": "You can reshape your physical appearance, changing hair, skin, or eye color.  You own mother wouldn't recognize you when you're done.",
+    "description": "You can reshape your physical appearance, changing hair, skin, or eye color.  Your own mother wouldn't recognize you when you're done.",
     "message": "You physical appearance shifts!",
     "teachable": false,
     "valid_targets": [ "self" ],
