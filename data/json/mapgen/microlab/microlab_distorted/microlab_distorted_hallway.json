@@ -11,30 +11,6 @@
         { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 0 },
         { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 0, "y": 12 },
         { "chunks": [ "microlab_distorted_hallway_chunk" ], "x": 12, "y": 12 },
-        {
-          "chunks": [ "concrete_wall_ew" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "north": [ "special_rock", "special_deep_rock" ] }
-        },
-        {
-          "chunks": [ "concrete_wall_ns" ],
-          "x": 23,
-          "y": 0,
-          "neighbors": { "east": [ "special_rock", "special_deep_rock" ] }
-        },
-        {
-          "chunks": [ "concrete_wall_ew" ],
-          "x": 0,
-          "y": 23,
-          "neighbors": { "south": [ "special_rock", "special_deep_rock" ] }
-        },
-        {
-          "chunks": [ "concrete_wall_ns" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "west": [ "special_rock", "special_deep_rock" ] }
-        },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
         { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
