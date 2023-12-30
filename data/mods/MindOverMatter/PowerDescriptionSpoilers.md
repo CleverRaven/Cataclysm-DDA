@@ -6,6 +6,8 @@ A (C) after a power name indicates that it can be maintained by concentration.
 # Biokinesis
 **Note**: No biokinetic powers have a target listed because they only affect the psion. 
 
+**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 1.5% times the highest single biokinetic power the psion knows.
+
 ## Overcome Pain (C)
 *Difficulty*: 1<br />
 *Duration*: 5 minutes to 21 minutes 40 seconds, plus 20 to 75 seconds per level<br />
@@ -145,6 +147,8 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Electrokinesis
 
+**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 1 per four levels of the psion's highest-leveled electrokinetic power and reduces incoming pain by 0.7% times the level of the psion's highest-level electrokinetic power.
+
 ## Spark Sight (C)
 *Difficulty*: 1<br />
 *Target*: Self<br />
@@ -179,7 +183,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 3750, minus 115 per level to a minimum of 1450<br />
 *Channeling Time*: 85 moves, minus 6 moves per level to a minimum of 35<br />
 *Effects*: Build up a charge in the psion's body, zapping their targets 50% of the time for 3 to 10 damage, plus 1/3 (i.e., one point per three levels) to 1/1.5 damage per power level, and leaves a lightning field of intensity 1 to 4 at the enemy's location 50% of the time.  The power also provides electrical armor equal to the power level.<br />
-*Prerequisites*: Static Touch 6, Electrical Discharge 5<br />
+*Prerequisites*: Static Touch 5, Electrical Discharge 5<br />
 
 ## Electron Overflow (C)
 *Difficulty*: 3<br />
@@ -197,7 +201,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 75<br />
 *Effects*: Stuns the target by overloading their nervous system.  It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
-*Prerequisites*: Spark Sight 6, Voltaic Strikes 5<br />
+*Prerequisites*: Spark Sight 6, Voltaic Strikes 5 *or* Static Touch 8<br />
 
 ## Pain Suppression (C)
 *Difficulty*: 4<br />
@@ -205,5 +209,77 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 10 minutes to 25 minutes, plus 2 minutes to 4 minutes and 40 seconds per power level.<br />
 *Stamina Cost*: 4000, minus 105 per level to a minimum of 1250<br />
 *Channeling Time*: 125 moves, minus 4 moves per level to a minimum of 75<br />
-*Effects*: Passively recharge any UPS-compatible devices on the psion's person.<br />
-*Prerequisites*: Neural Spasms 4<br />
+*Effects*: Reduces incoming pain by 15% plus 2% per power level, to a maximum of 50% reduction, and increases the chance to remove pain during pain reduction checks by 10% plus 2% per power level to a maximum of 50% increased chance.<br />
+*Prerequisites*: Neural Spasms 4 *or* (Spark Sight 8 AND Electrical Discharge 8)<br />
+
+## Electrocutioner
+*Difficulty*: 5<br />
+*Target*: Line stretching 3 squares plus 0.7 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3500, minus 150 per level to a minimum of 1200<br />
+*Channeling Time*: 100 moves, minus 6 moves per level to a minimum of 35<br />
+*Effects*: Hurls a lightning bolt at a target within range, doing 20 to 45 electrical damage plus 2 to 4 per power level and leaving intensity 1 to 2 lightning fields in its wake.  This power causes additional sound at the target location.<br />
+*Prerequisites*: Voltaic Strikes 8 *or* Static Touch 12, Electrical Discharge 8<br />
+
+# Re-energize
+*Difficulty*: 6<br />
+*Target*: Adjacent vehicle or appliance<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7500, minus 150 per level to a minimum of 4500<br />
+*Channeling Time*: 15 seconds<br />
+*Effects*: Recharges the batteries of a vehicle or an electrical grid, restoring 250 to 500 power plus 125 to 250 per power level.<br />
+*Prerequisites*: Electron Overflow 10, Electrical Discharge 9 *or* Neural Spasms 7<br />
+
+# Analgesic Block
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 60 seconds to 2 minutes 30 seconds, plus 8 seconds to 13 seconds per power level<br />
+*Stamina Cost*: 4500, minus 125 per level to a minimum of 1750<br />
+*Channeling Time*: 75 moves, minus 4.5 moves per level to a minimum of 25<br />
+*Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
+*Prerequisites*: Pain Suppression 9<br />
+
+# Neuro-acceleration
+*Difficulty*: 6<br />
+*Target*: Self or ally within 1 square<br />
+*Duration*: 1 minute 30 seconds to 7 minutes 30 seconds, plus 15 to 27 seconds per level<br />
+*Stamina Cost*: 6000, minus 135 per level to a minimum of 2750<br />
+*Channeling Time*: 165 moves, minus 5.5 moves per level to a minimum of 75<br />
+*Effects*: Increases the target's reflexes and response time, adding 5 learning focus plus 1 per power level to a maximum of 35 learning focus, as well as 10 speed plus 1.5 per power level to a maximum of 60 speed.<br />
+*Prerequisites*: Electron Overflow 11 *or* Neural Spasms 6, Electrical Discharge 8 *or* Spark Sight 5<br />
+
+## Short Circuit
+*Difficulty*: 7<br />
+*Target*: One robot or cyborg within 1 square plus 0.7 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7500, minus 125 per level to a minimum of 4500<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 30<br />
+*Effects*: Overloads a robot or cyborg, completely short-circuiting it and destroying it, and releasing a cloud of sparks within 1 square of the target plus 0.4 squares per power level.  Yrax constructs do not function based on electricity and are immune to this power.<br />
+*Prerequisites*: Re-energize 8 *or* Electrocutioner 8 *or* Voltaic Strikes 13, Spark Sight 8<br />
+
+# Galvanic Aura
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: 60 seconds to 4 minutes 10 seconds, plus 15 seconds to 25 seconds per power level<br />
+*Stamina Cost*: 9000, minus 200 per level to a minimum of 4500<br />
+*Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 55<br />
+*Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds. It also provides electric armor equal to the power level and makes the psion and their gear immune to EMP blasts.<br />
+*Prerequisites*: Electrical Discharge 12, Electron Overflow 15 *or* Re-energize 6<br />
+
+# Ion Blast
+*Difficulty*: 9<br />
+*Target*: Line stretching 2 squares plus 0.7 squares per power level, causing an explosion with an AoE of 1 plus 1 per 4 power levels<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8500, minus 100 per level to a minimum of 4000<br />
+*Channeling Time*: 150 moves, minus 6 moves per level to a minimum of 65<br />
+*Effects*: Unleashes a lightning bolt that explodes at the target point. The explosion does 25 to 90 electrical damage plus 2 to 4.5 per power level. The bolt does 5 to 25 plus 0.5 to 2.5 per power level. Both the bolt and the explosion release lightning fields of intensity 3 to 7.<br />
+*Prerequisites*: Electrocutioner 10 *or* Short Circuit 6, Voltaic Strikes 8 *or* Static Touch 12<br />
+
+# Revivification
+*Difficulty*: 10<br />
+*Target*: One corpse within 2 squares plus 1 square per 4 power levels<br />
+*Duration*: Random but no longer than 12 minutes. The target has an escalating chance to collapse every turn of the effect, beginning at 0.0005% per second in the first minute, climbing to 0.01% per second at minute 4, 1% per second at minute 8, and reaching certainty at minute 12<br />
+*Stamina Cost*: 10000, minus 150 per level to a minimum of 6000<br />
+*Channeling Time*: 250 moves, minus 6 moves per level to a minimum of 125<br />
+*Effects*: Revives a single target with the REVIVES flag, charms it, and heals it for 50% to 80% of its hit points. The revived monster will be allied to you for the power's duration. You may repeatedly use Revivification on the same target as long as it's not pulped.<br />
+*Prerequisites*: Neuro-acceleration 8, Analgesic Block 6 *or* Pain Suppression 13<br />

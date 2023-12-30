@@ -320,8 +320,7 @@
     "casting_time_increment": -6,
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "electrokinetic_kill_robot": 7, "electrokinetic_lightning_aura": 12, "electrokinetic_lightning_blast": 14 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_recharge_vehicle",
@@ -360,7 +359,7 @@
     "id": "electrokinetic_pain_immune",
     "type": "SPELL",
     "name": "[Ψ]Analgesic Block",
-    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-Acceleration.",
+    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-acceleration.",
     "message": "The pain just…disappears.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -386,7 +385,7 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 1750,
-    "energy_increment": -155,
+    "energy_increment": -125,
     "base_casting_time": 75,
     "final_casting_time": 25,
     "casting_time_increment": -4.5
@@ -416,14 +415,14 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_speed_boost') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_speed_boost') * 2700) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
     "energy_source": "STAMINA",
     "base_energy_cost": 6000,
     "final_energy_cost": 2750,
-    "energy_increment": -185,
+    "energy_increment": -135,
     "base_casting_time": 165,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
@@ -529,8 +528,7 @@
     "energy_increment": -200,
     "base_casting_time": 150,
     "final_casting_time": 55,
-    "casting_time_increment": -8.5,
-    "learn_spells": { "electrokinetic_lightning_blast": 8 }
+    "casting_time_increment": -8.5
   },
   {
     "id": "electrokinetic_lightning_blast",
@@ -580,7 +578,7 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4000,
-    "energy_increment": -150,
+    "energy_increment": -100,
     "base_casting_time": 150,
     "final_casting_time": 65,
     "casting_time_increment": -6,
@@ -658,7 +656,7 @@
     "max_range": 50,
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
-    "final_energy_cost": 4500,
+    "final_energy_cost": 6000,
     "energy_increment": -150,
     "base_casting_time": 250,
     "final_casting_time": 125,
