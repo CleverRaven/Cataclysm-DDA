@@ -12200,8 +12200,7 @@ std::optional<tripoint> game::find_stairs( const map &mp, const int z_after, con
 }
 
 std::optional<tripoint> game::find_or_make_stairs( const map &mp, const int z_after,
-        bool &rope_ladder,
-        bool peeking, const tripoint &pos, bool pathfinding )
+        bool &rope_ladder, bool peeking, const tripoint &pos )
 {
     const bool is_avatar = u.pos() == pos;
     const int movez = z_after - pos.z;

@@ -295,7 +295,7 @@ class game
         */
         std::optional<tripoint> find_stairs( const map &mp, int z_after, const tripoint &pos );
         std::optional<tripoint> find_or_make_stairs( const map &mp, int z_after, bool &rope_ladder,
-                bool peeking, const tripoint &pos, bool pathfinding = false );
+                bool peeking, const tripoint &pos );
         /*
         * Prompt player on direction they want to climb up or down.
         */
