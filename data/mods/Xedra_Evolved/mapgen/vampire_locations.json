@@ -2,8 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_ground1", "lodge_ground2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_ground1", "lodgev_ground2" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -47,8 +46,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_2ndfloor1", "lodge_2ndfloor2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ] ],
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -104,8 +102,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_roof1", "lodge_roof2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_roof1", "lodgev_roof2" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -145,8 +142,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_basement_residential1", "lodge_basement_residential2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_basement_residential1", "lodgev_basement_residential2" ] ],
     "object": {
       "fill_ter": "t_soil",
       "rows": [
