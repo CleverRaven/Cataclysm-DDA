@@ -227,7 +227,7 @@
       { "item": "holybook_taoism", "prob": 10 },
       { "item": "holybook_confucian", "prob": 10 },
       { "item": "holybook_daime", "prob": 3 },
-      { "item": "holybook_camdomble", "prob": 3 },
+      { "item": "holybook_candomble", "prob": 3 },
       { "item": "holybook_siddur", "prob": 15 },
       { "item": "holybook_babylon", "prob": 5 },
       { "item": "holybook_bahai", "prob": 5 },
