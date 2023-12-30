@@ -155,6 +155,56 @@ class map_test_case
 
 };
 
+class map_test_case_3d
+{
+    public:
+        /**
+         *  Specifies the layers. Note that this is in reverse z order, so higher levels
+         *  are higher up in the text file they appear in.
+         *
+         *  0 z-level will correspond with the element in the middle, rounded down for odd numbers.
+         */
+        std::vector<map_test_case> layers;
+
+        /**
+         * Invokes callback for each tile of the input map.
+         * @param callback
+         */
+        void for_each_tile( const std::function<void( map_test_case::tile )> &callback );
+
+        // returns the used z levels in this test
+        std::vector<int> z_levels() const;
+
+        // transposes `setup` and `expected_results`
+        void transpose();
+
+        // reverses rows in `setup` and `expected_results`
+        void reflect_x();
+
+        // reverses columns in `setup` and `expected_results`
+        void reflect_y();
+
+        /**
+        * Generates (using catch2 GENERATE) every combination of three transformations and applies them to the test.
+        * See https://github.com/catchorg/Catch2/blob/master/docs/generators.md
+        * Test will be invoked for each combination of transformation.
+        * @param t test case to apply transformations to
+        * @return string info about applied transformations
+        */
+        std::string generate_transform_combinations();
+
+    private:
+        void do_internal_checks();
+
+        // flag that internal sanity checks are completed, resets on transformations
+        bool checks_complete = false;
+
+        // origin (0,0) of this `map_test_case` in `map` coordinates
+        // based on `anchor_map_pos` and `anchor_char`, lazily calculated when needed, reset on transformations
+        std::optional<tripoint> origin = std::nullopt;
+
+};
+
 // common helpers, used together with map_test_case
 namespace map_test_case_common
 {

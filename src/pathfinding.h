@@ -710,26 +710,12 @@ std::vector<tripoint_bub_ms> RealityBubblePathfinder::find_path_impl( AStar &imp
             }
         }
         if( flags.is_set( PathfindingFlag::RampUp ) ) {
-            for( int y = min.y(); y <= max.y(); ++y ) {
-                for( int x = min.x(); x <= max.x(); ++x ) {
-                    if( x == c.x() && y == c.y() ) {
-                        continue;
-                    }
-                    const tripoint_bub_ms above( x, y, c.z() + 1 );
-                    emit_fn( above );
-                }
-            }
+            const tripoint_bub_ms above( c.xy(), c.z() + 1 );
+            emit_fn( above );
         }
         if( flags.is_set( PathfindingFlag::RampDown ) ) {
-            for( int y = min.y(); y <= max.y(); ++y ) {
-                for( int x = min.x(); x <= max.x(); ++x ) {
-                    if( x == c.x() && y == c.y() ) {
-                        continue;
-                    }
-                    const tripoint_bub_ms below( x, y, c.z() - 1 );
-                    emit_fn( below );
-                }
-            }
+            const tripoint_bub_ms below( c.xy(), c.z() - 1 );
+            emit_fn( below );
         }
     } );
 }

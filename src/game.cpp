@@ -12163,42 +12163,51 @@ void game::start_hauling( const tripoint &pos )
     u.assign_activity( actor );
 }
 
-std::optional<tripoint> game::find_or_make_stairs( const map &mp, const int z_after,
-        bool &rope_ladder,
-        bool peeking, const tripoint &pos )
-{
-    const bool is_avatar = u.pos() == pos;
-    const int omtilesz = SEEX * 2;
-    real_coords rc( mp.getabs( pos.xy() ) );
-    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
-    tripoint omtile_align_end( omtile_align_start + point( -1 + omtilesz, -1 + omtilesz ) );
 
+std::optional<tripoint> game::find_stairs( const map &mp, const int z_after, const tripoint &pos )
+{
     // Try to find the stairs.
-    std::optional<tripoint> stairs;
-    int best = INT_MAX;
     const int movez = z_after - pos.z;
     const bool going_down_1 = movez == -1;
-    const bool going_up_1 = movez == 1;
     // If there are stairs on the same x and y as we currently are, use those
     if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint_below ) ) {
-        stairs.emplace( pos + tripoint_below );
+        return pos + tripoint_below;
     }
+    const bool going_up_1 = movez == 1;
     if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint_above ) ) {
-        stairs.emplace( pos + tripoint_above );
+        return pos + tripoint_above;
     }
+
     // We did not find stairs directly above or below, so search the map for them
-    if( !stairs.has_value() ) {
-        for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
-            if( rl_dist( u.pos(), dest ) <= best &&
-                ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
-                  ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
-                stairs.emplace( dest );
-                best = rl_dist( u.pos(), dest );
-            }
+    int best = INT_MAX;
+    std::optional<tripoint> stairs;
+    const int omtilesz = SEEX * 2 - 1;
+    real_coords rc( mp.getabs( pos.xy() ) );
+    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
+    tripoint omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+    for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
+        if( rl_dist( pos, dest ) <= best &&
+            ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
+              ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
+                                mp.ter( dest ) == t_manhole_cover ) ) ||
+              ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+            stairs.emplace( dest );
+            best = rl_dist( pos, dest );
         }
     }
+
+    return stairs;
+}
+
+std::optional<tripoint> game::find_or_make_stairs( const map &mp, const int z_after,
+        bool &rope_ladder,
+        bool peeking, const tripoint &pos, bool pathfinding )
+{
+    const bool is_avatar = u.pos() == pos;
+    const int movez = z_after - pos.z;
+
+    // Try to find the stairs.
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, pos );
 
     creature_tracker &creatures = get_creature_tracker();
     if( stairs.has_value() ) {

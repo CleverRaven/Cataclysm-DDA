@@ -202,6 +202,85 @@ void map_test_case::validate_anchor_point( const tripoint &p )
     REQUIRE( setup_anchor_char == *anchor_char );
 }
 
+void map_test_case_3d::for_each_tile( const std::function<void( map_test_case::tile )> &callback )
+{
+    do_internal_checks();
+    std::vector<int> zs = z_levels();
+    for( int i = 0; i < zs.size(); ++i ) {
+        const int z = zs[i];
+        layers[i].for_each_tile( [&]( map_test_case::tile t ) {
+            t.p.z = z;
+            callback( t );
+        } );
+    }
+}
+
+std::vector<int> map_test_case_3d::z_levels() const
+{
+    int midpoint = layers.size() / 2;
+    std::vector<int> levels;
+    for( int i = 0; i < layers.size(); ++i ) {
+        levels.push_back( i - midpoint + 1 );
+    }
+    std::reverse( levels.begin(), levels.end() );
+    return levels;
+}
+
+void map_test_case_3d::transpose()
+{
+    for( map_test_case &t : layers ) {
+        t.transpose();
+    }
+}
+
+void map_test_case_3d::reflect_x()
+{
+    for( map_test_case &t : layers ) {
+        t.reflect_x();
+    }
+}
+
+void map_test_case_3d::reflect_y()
+{
+    for( map_test_case &t : layers ) {
+        t.reflect_y();
+    }
+}
+
+std::string map_test_case_3d::generate_transform_combinations()
+{
+    std::ostringstream out;
+    if( GENERATE( false, true ) ) {
+        out << "__transpose";
+        transpose();
+    }
+    if( GENERATE( false, true ) ) {
+        out << "__reflect_x";
+        reflect_x();
+    }
+    if( GENERATE( false, true ) ) {
+        out << "__reflect_y";
+        reflect_y();
+    }
+    return out.str();
+}
+
+void map_test_case_3d::do_internal_checks()
+{
+    if( checks_complete ) {
+        return;
+    }
+    REQUIRE( layers.size() > 0 );
+    int height = layers[0].get_height();
+    int width = layers[0].get_width();
+    for( const map_test_case &t : layers ) {
+        REQUIRE( t.get_height() == height );
+        REQUIRE( t.get_width() == width );
+    }
+
+    checks_complete = true;
+}
+
 std::string map_test_case_common::printers::format_2d_array( const
         std::vector<std::vector<std::string>> &info )
 {

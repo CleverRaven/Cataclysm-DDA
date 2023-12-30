@@ -235,9 +235,7 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
         up_destinations_.erase( p );
         const tripoint_bub_ms up( p.xy(), p.z() + 1 );
         if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            bool rope_ladder = false;
-            if( std::optional<tripoint> dest = g->find_or_make_stairs( here,
-                                               p.z() - 1, rope_ladder, false, p.raw() ) ) {
+            if( std::optional<tripoint> dest = g->find_stairs( here, up.z(), p.raw() ) ) {
                 if( vertical_move_destination( here, ter_furn_flag::TFLAG_GOES_DOWN, *dest ) ) {
                     tripoint_bub_ms d( *dest );
                     flags |= PathfindingFlag::GoesUp;
@@ -265,9 +263,7 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
         down_destinations_.erase( p );
         const tripoint_bub_ms down( p.xy(), p.z() - 1 );
         if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            bool rope_ladder = false;
-            if( std::optional<tripoint> dest = g->find_or_make_stairs( here,
-                                               p.z(), rope_ladder, false, p.raw() ) ) {
+            if( std::optional<tripoint> dest = g->find_stairs( here, down.z(), p.raw() ) ) {
                 if( vertical_move_destination( here, ter_furn_flag::TFLAG_GOES_UP, *dest ) ) {
                     tripoint_bub_ms d( *dest );
                     flags |= PathfindingFlag::GoesDown;
@@ -435,8 +431,8 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
                    cache.flags( above_lower ).is_set( PathfindingFlag::Air ) ) ) {
                 return std::nullopt;
             }
-        } else if( !( from.z() < to.z() && from_flags.is_set( PathfindingFlag::RampUp ) ) ||
-                   !( from.z() > to.z() && from_flags.is_set( PathfindingFlag::RampDown ) ) ) {
+        } else if( !cache.flags( lower ).is_set( PathfindingFlag::RampUp ) &&
+                   !cache.flags( upper ).is_set( PathfindingFlag::RampDown ) ) {
             return std::nullopt;
         }
     }
