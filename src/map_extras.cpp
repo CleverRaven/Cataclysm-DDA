@@ -343,7 +343,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
         const int y_max = SEEY * 2 - bbox.p2.y - 1;
 
         // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-        wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
+        wreckage_pos = { std::clamp( c.x + offset.x, min.x, x_max ), std::clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
     }
     
     vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );

@@ -1479,7 +1479,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                                    recp, avail, *crafter, qry_comps, batch_size, fold_width, color, crafting_group );
 
             const int total_lines = info.size();
-            line_recipe_info = clamp( line_recipe_info, 0, total_lines - dataLines );
+            line_recipe_info = std::clamp( line_recipe_info, 0, total_lines - dataLines );
             for( int i = line_recipe_info; i < std::min( line_recipe_info + dataLines, total_lines ); ++i ) {
                 nc_color dummy = color;
                 print_colored_text( w_data, point( xpos, i - line_recipe_info ), dummy, color, info[i] );

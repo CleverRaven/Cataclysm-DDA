@@ -2234,7 +2234,7 @@ void known_magic::evaluate_opens_spellbook_data()
         if( spell_it != caster_level_adjustment_by_spell.end() ) {
             raw_level_adjust += spell_it->second;
         }
-        int final_level = clamp( sp->get_level() + static_cast<int>( raw_level_adjust ), 0,
+        int final_level = std::clamp( sp->get_level() + static_cast<int>( raw_level_adjust ), 0,
                                  sp->get_max_level( get_player_character() ) );
         sp->set_temp_level_adjustment( final_level - sp->get_level() );
     }
