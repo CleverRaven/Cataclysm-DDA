@@ -55,17 +55,17 @@ static const mod_id MOD_INFORMATION_dda( "dda" );
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
 
-std::vector<mod_id> mods;
-std::string user_dir;
-bool dont_save{ false };
-option_overrides_t option_overrides_for_test_suite;
-std::string error_fmt = "human-readable";
+static std::vector<mod_id> mods;
+static std::string user_dir;
+static bool dont_save{ false };
+static option_overrides_t option_overrides_for_test_suite;
+static std::string error_fmt = "human-readable";
 
-std::chrono::system_clock::time_point start;
-std::chrono::system_clock::time_point end;
-bool error_during_initialization{ false };
+static std::chrono::system_clock::time_point start;
+static std::chrono::system_clock::time_point end;
+static bool error_during_initialization{ false };
 
-static std::vector<mod_id> extract_mod_selection( const std::string &mod_string )
+static std::vector<mod_id> extract_mod_selection( const std::string_view mod_string )
 {
     std::vector<std::string> mod_names = string_split( mod_string, ',' );
     std::vector<mod_id> ret;
@@ -177,7 +177,7 @@ static name_value_pair_t split_pair( const std::string &s, const char sep )
     }
 }
 
-static option_overrides_t extract_option_overrides( const std::string &option_overrides_string )
+static option_overrides_t extract_option_overrides( const std::string_view option_overrides_string )
 {
     option_overrides_t ret;
     const char delim = ',';
@@ -185,13 +185,13 @@ static option_overrides_t extract_option_overrides( const std::string &option_ov
     size_t i = 0;
     size_t pos = option_overrides_string.find( delim );
     while( pos != std::string::npos ) {
-        std::string part = option_overrides_string.substr( i, pos );
+        std::string part = static_cast<std::string>( option_overrides_string.substr(i, pos) );
         ret.emplace_back( split_pair( part, sep ) );
         i = ++pos;
         pos = option_overrides_string.find( delim, pos );
     }
     // Handle last part
-    const std::string part = option_overrides_string.substr( i );
+    const std::string part = static_cast<std::string>( option_overrides_string.substr(i) );
     ret.emplace_back( split_pair( part, sep ) );
     return ret;
 }
@@ -202,7 +202,7 @@ struct CataListener : Catch::TestEventListenerBase {
     void testRunStarting( Catch::TestRunInfo const & ) override {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
-
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
         error_during_initialization = debug_has_error_been_observed();
 
         DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
@@ -289,7 +289,7 @@ int main( int argc, const char *argv[] )
     std::string option_overrides;
     std::string mods_string;
     std::string check_plural_str;
-    auto cli = session.cli()
+    Parser cli = session.cli()
                | Opt( mods_string, "mod1,mod2,…" )
                ["--mods"]
                ( "[CataclysmDDA] Loads the list of mods before executing tests." )
