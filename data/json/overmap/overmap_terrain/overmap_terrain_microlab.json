@@ -10,17 +10,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "microlab_rock_border",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "travel_cost_type": "impassable",
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "microlab_generic_edge",
     "copy-from": "microlab_generic"
   },
