@@ -176,6 +176,12 @@
     "replace": "cz600"
   },
   {
+    "id": "deagle_44",
+    "type": "MIGRATION",
+    "replace": "modular_deagle",
+    "contents": [ { "id": "retool_deagle_44", "count": 1 } ]
+  },
+  {
     "id": "mobile_memory_card_used",
     "type": "MIGRATION",
     "replace": "memory_card"

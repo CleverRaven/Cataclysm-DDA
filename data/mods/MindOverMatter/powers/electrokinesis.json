@@ -180,6 +180,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -198,12 +199,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 6500,
-    "final_energy_cost": 3500,
-    "energy_increment": -150,
-    "base_casting_time": 350,
-    "final_casting_time": 150,
-    "casting_time_increment": -9,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_personal_battery') > 0 ? 0 : max((6500 - (u_spell_level('electrokinetic_personal_battery') * 150)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_personal_battery') > 0 ? 10 : max((350 -(u_spell_level('electrokinetic_personal_battery') * 9)), 150)"
+      ]
+    },
     "learn_spells": { "electrokinetic_recharge_vehicle": 9, "electrokinetic_kill_robot": 14 }
   },
   {

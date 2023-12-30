@@ -4593,26 +4593,26 @@ bool mattack::parrot( monster *z )
 
 bool mattack::parrot_at_danger( monster *parrot )
 {
-    for( Creature &creature : g->all_creatures() ) {
-        if( !creature.is_hallucination() ) {
-            if( creature.is_avatar() || creature.is_npc() ) {
-                Character *character = creature.as_character();
-                if( one_in( 20 ) && character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
-                    parrot->sees( *character ) ) {
-                    parrot_common( parrot );
-                    return true;
-                }
+    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot]( Creature * creature ) {
+        if( !creature->is_hallucination() && one_in( 20 ) ) {
+            if( creature->is_avatar() || creature->is_npc() ) {
+                Character *character = creature->as_character();
+                return character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
+                       parrot->sees( *character );
             } else {
-                monster *monster = creature.as_monster();
-                if( one_in( 20 ) && ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                                      ( monster->anger > 0 &&
-                                        monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-                    parrot->sees( *monster ) ) {
-                    parrot_common( parrot );
-                    return true;
-                }
+                monster *monster = creature->as_monster();
+                return ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
+                         ( monster->anger > 0 &&
+                           monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
+                       parrot->sees( *monster );
             }
         }
+        return false;
+    } );
+
+    if( other ) {
+        parrot_common( parrot );
+        return true;
     }
 
     return false;
