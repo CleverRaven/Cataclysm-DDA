@@ -1244,8 +1244,8 @@ float spell::spell_fail( const Character &guy ) const
                                          static_cast<float>
                                          ( 1.5 );
 
-    const float psi_effective_skill = 2 * ((guy.get_skill_level(skill()) * 2) - get_difficulty(
-        guy)) + (guy.get_int() * 1.5) + two_thirds_power_level;
+    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
+            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( ( effective_skill > 30.0f && !has_flag(spell_flag::PSIONIC ) ) || ( psi_effective_skill > 40.0f && has_flag(spell_flag::PSIONIC ) ) ) {
         return 0.0f;
