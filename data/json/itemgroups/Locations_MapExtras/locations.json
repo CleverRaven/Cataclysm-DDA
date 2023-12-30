@@ -900,7 +900,8 @@
       [ "canister_empty", 45 ],
       [ "tongs", 10 ],
       [ "pressure_cooker", 10 ],
-      [ "sieve_steel", 10 ]
+      [ "sieve_steel", 10 ],
+      [ "hand_controls", 1 ]
     ]
   },
   {
