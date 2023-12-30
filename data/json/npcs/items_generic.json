@@ -130,6 +130,7 @@
       [ "jacket_leather", 20 ],
       [ "trenchcoat", 20 ],
       [ "jacket_jean", 20 ],
+      [ "vest_jean", 10 ],
       [ "jacket_windbreaker", 10 ],
       [ "folding_poncho", 10 ],
       [ "jacket_leather_mod", 5 ],
