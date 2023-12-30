@@ -249,7 +249,7 @@
     "id": "telekinetic_strength",
     "type": "SPELL",
     "name": "[Ψ]Enhance Strength (C)",
-    "description": "Focus your powers to allow you move much heavier objects and smash through walls.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "Focus your powers to allow you to move much heavier objects and smash through walls.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
