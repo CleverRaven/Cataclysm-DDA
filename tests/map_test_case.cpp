@@ -206,7 +206,7 @@ void map_test_case_3d::for_each_tile( const std::function<void( map_test_case::t
 {
     do_internal_checks();
     std::vector<int> zs = z_levels();
-    for( int i = 0; i < zs.size(); ++i ) {
+    for( std::size_t i = 0; i < zs.size(); ++i ) {
         const int z = zs[i];
         layers[i].for_each_tile( [&]( map_test_case::tile t ) {
             t.p.z = z;
@@ -217,10 +217,10 @@ void map_test_case_3d::for_each_tile( const std::function<void( map_test_case::t
 
 std::vector<int> map_test_case_3d::z_levels() const
 {
-    int midpoint = layers.size() / 2;
+    const int midpoint = layers.size() / 2;
     std::vector<int> levels;
-    for( int i = 0; i < layers.size(); ++i ) {
-        levels.push_back( i - midpoint + 1 );
+    for( std::size_t i = 0; i < layers.size(); ++i ) {
+        levels.push_back( static_cast<int>( i ) - midpoint + 1 );
     }
     std::reverse( levels.begin(), levels.end() );
     return levels;
@@ -228,6 +228,7 @@ std::vector<int> map_test_case_3d::z_levels() const
 
 void map_test_case_3d::transpose()
 {
+    checks_complete = false;
     for( map_test_case &t : layers ) {
         t.transpose();
     }
@@ -235,6 +236,7 @@ void map_test_case_3d::transpose()
 
 void map_test_case_3d::reflect_x()
 {
+    checks_complete = false;
     for( map_test_case &t : layers ) {
         t.reflect_x();
     }
@@ -242,6 +244,7 @@ void map_test_case_3d::reflect_x()
 
 void map_test_case_3d::reflect_y()
 {
+    checks_complete = false;
     for( map_test_case &t : layers ) {
         t.reflect_y();
     }

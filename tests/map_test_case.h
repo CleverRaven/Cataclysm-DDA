@@ -198,11 +198,6 @@ class map_test_case_3d
 
         // flag that internal sanity checks are completed, resets on transformations
         bool checks_complete = false;
-
-        // origin (0,0) of this `map_test_case` in `map` coordinates
-        // based on `anchor_map_pos` and `anchor_char`, lazily calculated when needed, reset on transformations
-        std::optional<tripoint> origin = std::nullopt;
-
 };
 
 // common helpers, used together with map_test_case

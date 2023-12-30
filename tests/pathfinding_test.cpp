@@ -4,6 +4,7 @@
 #include "mapdata.h"
 #include "map_helpers.h"
 #include "map_test_case.h"
+#include "monster.h"
 #include "pathfinding.h"
 #include "trap.h"
 #include "type_id.h"
@@ -83,6 +84,8 @@ struct pathfinding_test_case {
     std::vector<std::vector<std::string>> expected_results;
     tile_predicate set_up_tiles = fail;
     ter_id floor_terrain = t_floor;
+    std::function<std::vector<tripoint_bub_ms>( const map &, const tripoint_bub_ms &, const tripoint_bub_ms & )>
+    route;
 
     pathfinding_test_case( std::vector<std::string> setup, std::vector<std::string> expected_results ) {
         add_surrounding_walls( setup );
@@ -107,6 +110,32 @@ struct pathfinding_test_case {
     }
 
     void test_all( const PathfindingSettings &settings ) const {
+        test_all_fn( [&]( const map & here, const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
+            return here.route( from, to, settings );
+        } );
+    }
+
+    void test_all( const std::string &mon_id ) const {
+        test_all_fn( [&]( const map & here, const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
+            monster &mon = spawn_test_monster( mon_id, from.raw(), false );
+            mon.set_dest( here.getglobal( to ) );
+            int limit = 0;
+            std::vector<tripoint_bub_ms> route;
+            while( mon.pos_bub() != to ) {
+                // Less moves than normal to be sure we capture every tile.
+                mon.mod_moves( 50 );
+                mon.move();
+                if( mon.pos_bub() != from ) {
+                    route.push_back( mon.pos_bub() );
+                }
+                REQUIRE( ++limit < 200 );
+            }
+            return route;
+        } );
+    }
+
+    template <typename RouteFn>
+    void test_all_fn( RouteFn &&route_fn ) const {
         clear_map_and_put_player_underground();
 
         map_test_case_3d t;
@@ -153,8 +182,8 @@ struct pathfinding_test_case {
             }
 
             std::unordered_map<int, std::unordered_set<tripoint_bub_ms>> ps;
-            for( const tripoint_bub_ms &p : here.route( tripoint_bub_ms( *from ), tripoint_bub_ms( *to ),
-                    settings ) ) {
+            for( const tripoint_bub_ms &p : route_fn( here, tripoint_bub_ms( *from ),
+                    tripoint_bub_ms( *to ) ) ) {
                 ps[p.z()].insert( p );
             }
             std::vector<std::vector<std::string>> actual;
@@ -176,7 +205,7 @@ struct pathfinding_test_case {
 
 TEST_CASE( "pathfinding_basic", "[pathfinding]" )
 {
-    pathfinding_test_case t{
+    pathfinding_test_case t = GENERATE( pathfinding_test_case{
         {
             " f ",
             "   ",
@@ -187,17 +216,7 @@ TEST_CASE( "pathfinding_basic", "[pathfinding]" )
             " x ",
             " x ",
         }
-    };
-
-    PathfindingSettings settings;
-    settings.set_max_distance( 100 );
-    settings.set_max_cost( 100 * 100 );
-    t.test_all( settings );
-}
-
-TEST_CASE( "pathfinding_basic_wall", "[pathfinding]" )
-{
-    pathfinding_test_case t{
+    }, pathfinding_test_case {
         {
             "f  ",
             "## ",
@@ -208,7 +227,7 @@ TEST_CASE( "pathfinding_basic_wall", "[pathfinding]" )
             "##x",
             "xx ",
         }
-    };
+    } );
 
     PathfindingSettings settings;
     settings.set_max_distance( 100 );
@@ -1133,4 +1152,69 @@ TEST_CASE( "pathfinding_flying", "[pathfinding]" )
     settings.set_max_cost( 100 * 100 );
 
     t.test_all( settings );
+}
+
+
+TEST_CASE( "pathfinding_migo", "[pathfinding]" )
+{
+    pathfinding_test_case t = GENERATE( pathfinding_test_case{
+        // Straight Line
+        {
+            " f ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+        }
+    }, pathfinding_test_case{
+        // Around wall.
+        {
+            "f  ",
+            "## ",
+            "t  ",
+        },
+        {
+            "fx ",
+            "##x",
+            "xx ",
+        }
+    }, pathfinding_test_case{
+        // Zig zag.
+        {
+            "f  ",
+            "## ",
+            "   ",
+            " ##",
+            "   ",
+            "## ",
+            "t  ",
+        },
+        {
+            "fx ",
+            "##x",
+            " x ",
+            "x##",
+            " x ",
+            "##x",
+            "xx ",
+        }
+    }, pathfinding_test_case{
+        // Bash window
+        {
+            "f   ",
+            "##w#",
+            "t   ",
+        },
+        {
+            "fx  ",
+            "##x#",
+            "xx  ",
+        }
+    } );
+
+    t.set_up_tiles = ifchar( 'w', ter_set( t_window ) );
+    t.test_all( "mon_mi_go" );
 }
