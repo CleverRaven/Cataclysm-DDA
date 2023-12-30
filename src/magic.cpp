@@ -1249,7 +1249,6 @@ float spell::spell_fail( const Character &guy ) const
     if( ( effective_skill > 30.0f && !has_flag(spell_flag::PSIONIC ) ) || ( psi_effective_skill > 40.0f && has_flag(spell_flag::PSIONIC ) ) ) {
         return 0.0f;
     } else if( ( effective_skill || psi_effective_skill ) < 0.0f ) {
-    } else if( ( effective_skill || psi_effective_skill ) < 0.0f ) {
         return 1.0f;
     }
 
