@@ -1,7 +1,7 @@
 [
   {
     "type": "mutation_category",
-    "copy-from": "ALPHA",
+    "id": "ALPHA",
     "name": "Sigma",
     "threshold_mut": "THRESH_ALPHA",
     "mutagen_message": "You feel… better.  Somehow.  No, even better than that.",

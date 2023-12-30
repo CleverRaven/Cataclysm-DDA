@@ -88,4 +88,5 @@
       "activation_message": "You drink the sigma mutagen.",
       "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ]
     }
+  }
 ]

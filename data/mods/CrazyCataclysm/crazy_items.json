@@ -401,5 +401,17 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray"
+  },
+  {
+    "copy-from": "recipe_alpha",
+    "type": "BOOK",
+    "name": { "str": "PE050.1 \"Sigma\": Preliminary Report", "str_pl": "copies of PE050.1 \"Sigma\": Preliminary Report" },
+    "description": "This sheaf of papers--dated one week and six days before all this started--describes some new chemical formula, and its effects on human subjects.  Someone has drawn a picture of a bald man wearing a porkpie hat on it…"
+  },
+  {
+    "copy-from": "alpha_sample",
+    "type": "GENERIC",
+    "name": { "str": "sigma sample" },
+    "description": "A slurry of success and popularity but in a quiet way that commands respect."
   }
 ]
