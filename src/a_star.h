@@ -82,8 +82,12 @@ void AStarState<Node, Cost, VisitedSet, BestPathMap>::reset( const Node &start, 
     visited_.clear();
     best_paths_.clear();
 
-    // No clear method...
-    frontier_ = FrontierQueue();
+    // priority_queue doesn't have a clear method, so we cannot reuse it, and it may
+    // get quite large, so we explicitly create the underlying container and reserve
+    // space beforehand.
+    std::vector<FrontierNode> queue_data;
+    queue_data.reserve( 400 );
+    frontier_ = FrontierQueue( FirstElementGreaterThan(), std::move( queue_data ) );
 
     best_paths_.try_emplace( start, 0, start );
     frontier_.emplace( cost, start );

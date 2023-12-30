@@ -339,9 +339,43 @@ RealityBubblePathfinder::FastBestPathMap::try_emplace( const tripoint_bub_ms &ch
 namespace
 {
 
-float distance_metric( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+constexpr int one_axis = 50;
+constexpr int two_axis = 71;
+constexpr int three_axis = 87;
+
+int adjacent_octile_distance( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
 {
-    return trigdist ? octile_dist_exact( from, to ) : static_cast<float>( square_dist( from, to ) );
+    switch( std::abs( from.x() - to.x() ) + std::abs( from.y() - to.y() ) + std::abs(
+                from.z() - to.z() ) ) {
+        case 1:
+            return one_axis;
+        case 2:
+            return two_axis;
+        case 3:
+            return three_axis;
+        default:
+            return 0;
+    }
+}
+
+int octile_distance( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+{
+    const tripoint d( std::abs( from.x() - to.x() ), std::abs( from.y() - to.y() ),
+                      std::abs( from.z() - to.z() ) );
+    const int min = std::min( d.x, std::min( d.y, d.z ) );
+    const int max = std::max( d.x, std::max( d.y, d.z ) );
+    const int mid = d.x + d.y + d.z - min - max;
+    return ( three_axis - two_axis ) * min + ( two_axis - one_axis ) * mid + one_axis * max;
+}
+
+int adjacent_distance_metric( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+{
+    return trigdist ? adjacent_octile_distance( from, to ) : 50 * square_dist( from, to );
+}
+
+int distance_metric( const tripoint_bub_ms &from, const tripoint_bub_ms &to )
+{
+    return trigdist ? octile_distance( from, to ) : 50 * square_dist( from, to );
 }
 
 std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
@@ -421,6 +455,8 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
             if( settings.avoid_climb_stairway() ) {
                 return std::nullopt;
             }
+            // Stairs can teleport us, so we need to use non-adjacent calc.
+            return 2 * distance_metric( from, to );
         } else if( settings.is_flying() ) {
             const tripoint_bub_ms below_upper( upper.xy(), upper.z() - 1 );
             const tripoint_bub_ms above_lower( lower.xy(), lower.z() + 1 );
@@ -439,16 +475,15 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
         }
     }
 
-
-    const PathfindingFlags flags = cache.flags( to );
-    if( flags.is_set( PathfindingFlag::Obstacle ) ) {
+    const PathfindingFlags to_flags = cache.flags( to );
+    if( to_flags.is_set( PathfindingFlag::Obstacle ) ) {
         if( !settings.is_digging() ) {
-            if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
-                ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
-                const bool is_inside_door = flags.is_set( PathfindingFlag::InsideDoor );
+            if( to_flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
+                ( !to_flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
+                const bool is_inside_door = to_flags.is_set( PathfindingFlag::InsideDoor );
                 if( is_inside_door ) {
                     int dummy;
-                    const bool is_vehicle = flags.is_set( PathfindingFlag::Vehicle );
+                    const bool is_vehicle = to_flags.is_set( PathfindingFlag::Vehicle );
                     const bool is_outside = is_vehicle ? here.veh_at_internal( from.raw(),
                                             dummy ) != here.veh_at_internal( to.raw(), dummy ) : here.is_outside( from.raw() );
                     if( is_outside ) {
@@ -460,9 +495,9 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
     }
 
     // TODO: Move the move cost cache into map so this logic isn't duplicated.
-    const float mult = distance_metric( from, to ) * 25;
+    const int mult = adjacent_distance_metric( from, to );
     const int cost = cache.move_cost( from ) + cache.move_cost( to );
-    return static_cast<int>( mult * cost );
+    return static_cast<unsigned int>( mult * cost ) / 2;
 }
 
 }  // namespace
@@ -547,7 +582,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
     }
 
     // If expected path length is greater than max distance, allow only line path, like above
-    if( distance_metric( from, to ) > settings.max_distance() ) {
+    if( rl_dist( from, to ) > settings.max_distance() ) {
         return {};
     }
 
@@ -559,7 +594,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
         return transition_cost( *this, from, to, settings, cache );
     },
     []( const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
-        return 100 * distance_metric( from, to );
+        return 2 * distance_metric( from, to );
     } );
 }
 
