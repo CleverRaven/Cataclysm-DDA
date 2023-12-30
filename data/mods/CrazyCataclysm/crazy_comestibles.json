@@ -67,5 +67,25 @@
     "name": { "str_sp": "Powerthirst - Gun Flavor" },
     "description": "POWERTHIRST in new Gun flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
     "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1200 ], [ "mutagen_raptor", 1200 ] ]
-  }
+  },
+  {
+    "copy-from": "iv_mutagen_alpha",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "sigma mutagenic primer" },
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the sigma mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_alpha", 450, 550 ] ]
+    }
+  },
+  {
+    "copy-from": "mutagen_alpha",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "sigma mutagen" },
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the sigma mutagen.",
+      "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ]
+    }
 ]
