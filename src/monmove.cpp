@@ -1201,11 +1201,6 @@ void monster::move()
         }
     }
 
-    // We stumpled or took a ramp, which causes the path to be invalid.
-    if( !path.empty() && path.front() != here.getlocal( next_step ) ) {
-        path.clear();
-    }
-
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
@@ -1229,6 +1224,12 @@ void monster::move()
             } else if( drag_to != get_location() && creatures.creature_at( drag_to ) == nullptr ) {
                 dragged_foe->move_to( drag_to );
             }
+        }
+
+        // If we ended up in a place we didn't plan to, maybe we stumbled or fell, either way the path is
+        // invalid now.
+        if( !path.empty() && path.front() != pos() ) {
+            path.clear();
         }
     } else {
         moves = 0;
