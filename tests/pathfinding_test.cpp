@@ -18,7 +18,6 @@ static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
 static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
 static const ter_str_id ter_t_ramp_up_high( "t_ramp_up_high" );
 static const ter_str_id ter_t_ramp_up_low( "t_ramp_up_low" );
-static const ter_str_id ter_t_railroad_ramp_up_low( "t_railroad_ramp_up_low" );
 static const ter_str_id ter_t_shrub_blackberry( "t_shrub_blackberry" );
 static const ter_str_id ter_t_wall_wood_widened( "t_wall_wood_widened" );
 
@@ -29,9 +28,6 @@ static std::string pathfinding_test_info( map_test_case &t, const std::vector<st
         int z )
 {
     std::ostringstream out;
-    map &here = get_map();
-
-    using namespace map_test_case_common;
 
     out << "z level: " << z << '\n';
     out << "expected:\n" << printers::expected( t ) << '\n';
@@ -64,7 +60,7 @@ static void assert_route( map_test_case::tile t, const std::unordered_set<tripoi
 static void add_surrounding_walls( std::vector<std::string> &input )
 {
     for( std::string &s : input ) {
-        s = "#" + s + "#";
+        s = string_format( "#%s#", s );
     }
     int len = input[0].size();
     std::string wall( len, '#' );
@@ -139,9 +135,9 @@ struct pathfinding_test_case {
         clear_map_and_put_player_underground();
 
         map_test_case_3d t;
-        REQUIRE( setup.size() > 0 );
+        REQUIRE( !setup.empty() );
         REQUIRE( setup.size() == expected_results.size() );
-        for( int i = 0; i < setup.size(); ++i ) {
+        for( std::size_t i = 0; i < setup.size(); ++i ) {
             map_test_case tc;
             tc.setup = setup[i];
             tc.expected_results = expected_results[i];
@@ -182,17 +178,27 @@ struct pathfinding_test_case {
             }
 
             std::unordered_map<int, std::unordered_set<tripoint_bub_ms>> ps;
-            for( const tripoint_bub_ms &p : route_fn( here, tripoint_bub_ms( *from ),
-                    tripoint_bub_ms( *to ) ) ) {
-                ps[p.z()].insert( p );
+            {
+                // Prepare info string if the route fails.
+                std::ostringstream out;
+                // Don't print the roof.
+                for( std::size_t i = 1; i < z_levels.size(); ++i ) {
+                    out << printers::expected( t.layers[i] );
+                }
+                INFO( out.str() );
+                for( const tripoint_bub_ms &p : route_fn( here, tripoint_bub_ms( *from ),
+                        tripoint_bub_ms( *to ) ) ) {
+                    ps[p.z()].insert( p );
+                }
             }
             std::vector<std::vector<std::string>> actual;
-            for( int i = 0; i < z_levels.size(); ++i ) {
+            actual.reserve( z_levels.size() );
+            for( std::size_t i = 0; i < z_levels.size(); ++i ) {
                 actual.push_back( get_actual( t.layers[i].setup, ps[z_levels[i]] ) );
             }
             std::ostringstream out;
             // Don't print the roof.
-            for( int i = 1; i < z_levels.size(); ++i ) {
+            for( std::size_t  i = 1; i < z_levels.size(); ++i ) {
                 out << pathfinding_test_info( t.layers[i], actual[i], z_levels[i] );
             }
             INFO( out.str() );
@@ -1213,8 +1219,104 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
             "##x#",
             "xx  ",
         }
+    }, pathfinding_test_case{
+        // Down ramp
+        {
+            {
+                " f ",
+                "DDD",
+                "ddd",
+                "@@@",
+                "   ",
+            },
+            {
+                "###",
+                "###",
+                "UUU",
+                "uuu",
+                " t ",
+            }
+        },
+        {
+            {
+                " f ",
+                "DxD",
+                "ddd",  // Differs from pathfinder.
+                "@@@",
+                "   ",
+            },
+            {
+                "###",
+                "###",
+                "UxU",
+                "uxu",
+                " x ",
+            }
+        }
+    }, pathfinding_test_case{
+        // Up ramp
+        {
+            {
+                "   ",
+                "@@@",
+                "ddd",
+                "DDD",
+                "   ",
+                " t ",
+            },
+            {
+                " f ",
+                "uuu",
+                "UUU",
+                "###",
+                "###",
+                "###",
+            }
+        },
+        {
+            {
+                "   ",
+                "@@@",
+                "dxd",
+                "DxD",
+                " x ",
+                " x ",
+            },
+            {
+                " f ",
+                "uxu",
+                "UUU",  // Differs from pathfinder.
+                "###",
+                "###",
+                "###",
+            }
+        }
+    }, pathfinding_test_case {
+        // Open door
+        {
+            " f ",
+            "   ",
+            "#O#",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            "#x#",
+            " x ",
+            " x ",
+        }
     } );
 
-    t.set_up_tiles = ifchar( 'w', ter_set( t_window ) );
+    t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
+                     ifchar( 'U', ter_set( ter_t_ramp_up_high ) ) ||
+                     ifchar( 'D', ter_set( ter_t_ramp_down_high ) ) ||
+                     ifchar( 'u', ter_set( ter_t_ramp_up_low ) ) ||
+                     ifchar( 'd', ter_set( ter_t_ramp_down_low ) ) ||
+                     ifchar( '>', ter_set( t_stairs_down ) ) ||
+                     ifchar( '<', ter_set( t_stairs_up ) ) ||
+                     ifchar( 'O', ter_set( t_door_c ) );
+
     t.test_all( "mon_mi_go" );
 }

@@ -250,10 +250,7 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
         if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) ||
             terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ) {
             dependants_by_position_[up].push_back( p );
-            if( ( terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
-                  here.valid_move( p.raw(), up.raw(), false, true, true ) ) ||
-                ( terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
-                  here.valid_move( p.raw(), up.raw(), false, true ) ) ) {
+            if( here.valid_move( p.raw(), up.raw(), false, true, true ) ) {
                 flags |= PathfindingFlag::RampUp;
             }
         }
@@ -431,9 +428,14 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
                    cache.flags( above_lower ).is_set( PathfindingFlag::Air ) ) ) {
                 return std::nullopt;
             }
-        } else if( !cache.flags( lower ).is_set( PathfindingFlag::RampUp ) &&
-                   !cache.flags( upper ).is_set( PathfindingFlag::RampDown ) ) {
-            return std::nullopt;
+        } else if( to.z() > from.z() ) {
+            if( !cache.flags( to ).is_set( PathfindingFlag::RampDown ) ) {
+                return std::nullopt;
+            }
+        } else if( to.z() < from.z() ) {
+            if( !cache.flags( to ).is_set( PathfindingFlag::RampUp ) ) {
+                return std::nullopt;
+            }
         }
     }
 

@@ -273,7 +273,7 @@ void map_test_case_3d::do_internal_checks()
     if( checks_complete ) {
         return;
     }
-    REQUIRE( layers.size() > 0 );
+    REQUIRE( !layers.empty() );
     int height = layers[0].get_height();
     int width = layers[0].get_width();
     for( const map_test_case &t : layers ) {
