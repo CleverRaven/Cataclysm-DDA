@@ -1018,9 +1018,7 @@
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 1 ] ],
     "using": [ [ "tailoring_denim_patchwork", 6 ], [ "fastener_large", 1 ] ],
     "byproducts": [ [ "denim_patch", 6 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "vest_jean",
@@ -1035,9 +1033,7 @@
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 1 ] ],
     "using": [ [ "tailoring_denim_patchwork", 4 ], [ "fastener_large", 1 ] ],
     "byproducts": [ [ "denim_patch", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "vest_jean",
@@ -1050,10 +1046,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "byproducts": [ [ "denim_patch", 6 ] ],
-    "components": [ [ [ "jacket_jean", 1 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
-    ]
+    "components": [ [ [ "jacket_jean", 1 ] ] ]
   },
   {
     "result": "jacket_leather",
