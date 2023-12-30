@@ -305,9 +305,9 @@ RealityBubblePathfinder::FastTripointSet::emplace( const tripoint_bub_ms &p )
 {
     const int z = p.z() + OVERMAP_DEPTH;
     dirty_[z] = true;
-    const int i = p.y() * MAPSIZE_X + p.x();
-    const bool missing = !set_[z][i];
-    set_[z].set( i );
+    auto ref = set_[z][p.y() * MAPSIZE_X + p.x()];
+    const bool missing = !ref;
+    ref = true;
     return std::make_pair( NotIterator(), missing );
 }
 

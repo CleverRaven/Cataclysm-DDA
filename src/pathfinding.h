@@ -257,7 +257,7 @@ class RealityBubblePathfinder
                 void clear();
 
                 std::size_t count( const tripoint_bub_ms &p ) const {
-                    return set_[p.z() + OVERMAP_DEPTH].test( p.y() * MAPSIZE_X + p.x() );
+                    return set_[p.z() + OVERMAP_DEPTH][p.y() * MAPSIZE_X + p.x()];
                 }
 
             private:
