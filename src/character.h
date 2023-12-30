@@ -1656,6 +1656,8 @@ class Character : public Creature, public visitable
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
+        // Container of OMTs to highlight as having been revealed
+        std::vector<tripoint_abs_omt> map_revealed_omts;
         bool is_using_bionic_weapon() const;
         bionic_uid get_weapon_bionic_uid() const;
 
