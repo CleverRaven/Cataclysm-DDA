@@ -103,7 +103,7 @@
     "replace": "pistol_mag"
   },
   {
-    "id": [ "deaglemag", "hptjhpmag", "8x40_10_mag" ],
+    "id": [ "deaglemag", "deaglemag_357", "deaglemag_50", "hptjhpmag", "8x40_10_mag" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag"
   },

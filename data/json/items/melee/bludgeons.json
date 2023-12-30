@@ -871,7 +871,8 @@
     "longest_side": "90 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "price": 8000,
     "price_postapoc": 50,
     "melee_damage": { "bash": 35, "stab": 2 }
@@ -1439,6 +1440,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "MACES" ],
     "volume": "2200 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },

@@ -11729,11 +11729,11 @@ int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 
 bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( bp->has_flag( flag ) ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.first->has_flag( flag ) ) {
             return true;
         }
-        if( get_part( bp )->has_conditional_flag( flag ) ) {
+        if( elem.second.has_conditional_flag( flag ) ) {
             return true;
         }
     }

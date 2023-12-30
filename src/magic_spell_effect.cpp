@@ -1644,7 +1644,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( *walk_point == source ) {
+    if( here.getlocal( *walk_point ) == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1654,7 +1654,9 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         if( caster_you != nullptr ) {
             if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
                 !g->walk_move( here.getlocal( *walk_point ), false ) ) {
-                --walk_point;
+                if( walk_point != trajectory.begin() ) {
+                    --walk_point;
+                }
                 break;
             } else {
                 sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
