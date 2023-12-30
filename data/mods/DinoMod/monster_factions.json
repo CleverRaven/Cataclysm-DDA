@@ -579,7 +579,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "mosasaurus_hatchling",
-    "base_faction": "small_mixed",
+    "base_faction": "very_small_mixed",
     "friendly": [ "mosasaurus", "mosasaurus_juvenile" ]
   },
   {
