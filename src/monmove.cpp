@@ -58,7 +58,6 @@ static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
-static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
@@ -104,7 +103,6 @@ static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1"
 static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
-static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
 static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
 static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
@@ -114,7 +112,6 @@ static const mon_flag_str_id mon_flag_SEES( "SEES" );
 static const mon_flag_str_id mon_flag_SHORTACIDTRAIL( "SHORTACIDTRAIL" );
 static const mon_flag_str_id mon_flag_SLUDGETRAIL( "SLUDGETRAIL" );
 static const mon_flag_str_id mon_flag_SMALLSLUDGETRAIL( "SMALLSLUDGETRAIL" );
-static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
 static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
 static const mon_flag_str_id mon_flag_STUMBLES( "STUMBLES" );
 static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
@@ -1109,8 +1106,8 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > starting_pos.z && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, starting_pos ) ||
-                              !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
+                        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, starting_pos ) ||
+                            !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;
                         }

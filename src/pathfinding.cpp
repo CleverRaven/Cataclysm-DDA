@@ -305,6 +305,8 @@ RealityBubblePathfinder::FastTripointSet::emplace( const tripoint_bub_ms &p )
 {
     const int z = p.z() + OVERMAP_DEPTH;
     dirty_[z] = true;
+    // Note that this is a reference into the bitset, despite not being a reference.
+    // NOLINTNEXTLINE(cata-almost-never-auto)
     auto ref = set_[z][p.y() * MAPSIZE_X + p.x()];
     const bool missing = !ref;
     ref = true;
