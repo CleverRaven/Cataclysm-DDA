@@ -10316,8 +10316,7 @@ void map::invalidate_max_populated_zlev( int zlev )
     }
 }
 
-bool map::has_potential_los( const tripoint &from, const tripoint &to,
-                             bool bounds_check ) const
+bool map::has_potential_los( const tripoint &from, const tripoint &to ) const
 {
     const point key = sees_cache_key( from, to );
     char cached = skew_vision_cache.get( key, -1 );

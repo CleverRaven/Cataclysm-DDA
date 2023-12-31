@@ -354,15 +354,19 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
 
+    const FastDistanceApproximation target_range = rl_dist_fast( pos(), critter.pos() );
+    if( target_range > MAX_VIEW_DISTANCE ) {
+        return false;
+    }
+
     if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( has_flag( mon_flag_ALWAYS_SEES_YOU ) &&
             critter.is_avatar() ) ) {
         return true;
     }
 
-    const int wanted_range = rl_dist( pos(), critter.pos() );
     if( this->has_flag( mon_flag_ALL_SEEING ) ) {
         const monster *m = this->as_monster();
-        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
+        return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
@@ -394,7 +398,7 @@ bool Creature::sees( const Creature &critter ) const
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
-    if( wanted_range <= 1 ) {
+    if( target_range <= 1 ) {
         return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
     }
 
@@ -404,11 +408,11 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( ( wanted_range > 1 && critter.digging() &&
+    if( ( target_range > 2 && critter.digging() &&
           here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
-        ( critter.has_flag( mon_flag_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
+        ( critter.has_flag( mon_flag_CAMOUFLAGE ) && target_range > this->get_eff_per() ) ||
         ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
-          wanted_range > this->get_eff_per() &&
+          target_range > this->get_eff_per() &&
           ( critter.is_likely_underwater() ||
             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
             ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos() ) &&
@@ -466,7 +470,7 @@ bool Creature::sees( const Creature &critter ) const
 
             if( coverage < profile ) {
                 const int vision_modifier = std::max( 30 * ( 1 - coverage / profile ), 1 );
-                return vision_modifier >= wanted_range && visible( ch );
+                return target_range <= vision_modifier && visible( ch );
             }
             return false;
         }
@@ -479,19 +483,12 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     if( !fov_3d && posz() != t.z ) {
         return false;
     }
+    const FastDistanceApproximation target_range = rl_dist_fast( pos(), t );
+    if( range_mod > 0 && target_range > range_mod ) {
+        return false;
+    }
 
     map &here = get_map();
-
-    // player can use mirrors, so `has_potential_los` cannot be used
-    if( !this->is_avatar() && !here.has_potential_los( pos(), t ) ) {
-        return false;
-    }
-
-    const int target_range = rl_dist( pos(), t );
-    if( range_mod > 0 && range_mod < target_range ) {
-        return false;
-    }
-
     int range = 0;
     if( has_effect( effect_no_sight ) ) {
         range = 1;
@@ -506,12 +503,12 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
             range = std::max( sight_range( light_here ), sight_range( light_there ) );
         }
     }
-    if( range >= target_range ) {
+    if( target_range <= range ) {
         if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = get_player_character().visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
-            return adj_range >= target_range &&
+            return target_range <= adj_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
             return here.sees( pos(), t, range );
