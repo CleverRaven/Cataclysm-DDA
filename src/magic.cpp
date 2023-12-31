@@ -1236,24 +1236,26 @@ float spell::spell_fail( const Character &guy ) const
                                   guy.get_skill_level( skill() );
 
     // skill for psi powers downplays power level and is much more based on level and intelligence
-    // Int 8, Metaphysics 2, level 1 , difficulty 1 is effective level 26.5
+    // and goes up to 40 max--effective skill of 10 is 50% failure, effective skill of 40 is 0%
+    // Int 8, Metaphysics 2, level 1, difficulty 1 is effective level 26.5
     // Int 10, Metaphysics 5, level 4, difficulty 5 is effective level 27
-    // Int 12, Metaphysics 8, level 7, difficulty 10 is clamped at effective level 33.5
+    // Int 12, Metaphysics 8, level 7, difficulty 10 is effective level 33.5
+    const float two_thirds_power_level = static_cast<float>( get_effective_level() ) /
+                                         static_cast<float>
+                                         ( 1.5 );
 
-    const float half_power_level = static_cast<float>( get_effective_level() ) / static_cast<float>
-                                   ( 2 );
-
-    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 )  - get_difficulty(
-            guy ) ) + ( guy.get_int() * 1.5 ) + half_power_level;
+    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
+            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
-    if( effective_skill > 30.0f ) {
+    if( ( effective_skill > 30.0f && !has_flag( spell_flag::PSIONIC ) ) ||
+        ( psi_effective_skill > 40.0f && has_flag( spell_flag::PSIONIC ) ) ) {
         return 0.0f;
     } else if( ( effective_skill || psi_effective_skill ) < 0.0f ) {
         return 1.0f;
     }
 
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    float psi_fail_chance = std::pow( ( psi_effective_skill - 30.0f ) / 30.0f, 2 );
+    float psi_fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
 
     if( has_flag( spell_flag::SOMATIC ) &&
         !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
