@@ -234,6 +234,9 @@ struct FastDistanceApproximation {
             }
             return value;
         }
+        bool would_round_down_to_one() const {
+            return value <= 3;
+        }
 };
 
 inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
