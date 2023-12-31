@@ -181,13 +181,15 @@
       { "item": "holybook_sutras", "prob": 1 },
       { "item": "holybook_granth", "prob": 1 },
       { "item": "holybook_mormon", "prob": 1 },
+      { "item": "holybook_nag_hammadi", "prob": 1 },
       { "item": "holybook_kojiki", "prob": 1 },
       { "item": "holybook_pastafarian", "prob": 1 },
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
       { "item": "holybook_satanic", "prob": 1 },
-      { "item": "book_judaica_siddur", "prob": 1 }
+      { "item": "book_judaica_siddur", "prob": 1 },
+      { "item": "holybook_asatru", "prob": 1 }
     ]
   },
   {

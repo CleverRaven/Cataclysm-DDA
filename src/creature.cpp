@@ -383,11 +383,11 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     
-    if( has_effect( effect_telepathic_ignorance ) && critter.has_effect( effect_telepathic_ignorance_self ) ) {
+    if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 
-    if( !fov_3d && posz() != critter.posz() ) {
+    if( has_effect( effect_telepathic_ignorance ) && critter.has_effect( effect_telepathic_ignorance_self ) ) {
         return false;
     }
 
@@ -3041,7 +3041,7 @@ void Creature::process_damage_over_time()
             DoT->duration -= 1_turns;
             ++DoT;
         } else {
-            damage_over_time_map.erase( DoT );
+            DoT = damage_over_time_map.erase( DoT );
         }
     }
 }

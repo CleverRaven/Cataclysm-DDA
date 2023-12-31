@@ -241,7 +241,7 @@ void map::set_transparency_cache_dirty( const tripoint &p, bool field )
         if( !field ) {
             get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
             get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
-            set_visitable_zones_cache_dirty();
+            get_creature_tracker().invalidate_reachability_cache();
         }
     }
 }
@@ -1776,7 +1776,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
-        set_visitable_zones_cache_dirty();
+        get_creature_tracker().invalidate_reachability_cache();
     }
 
     if( old_f.has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) != new_f.has_flag(
@@ -1792,7 +1792,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     }
 
     if( ( old_f.movecost < 0 ) != ( new_f.movecost < 0 ) ) {
-        set_visitable_zones_cache_dirty();
+        get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -2270,7 +2270,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     }
 
     if( ( old_t.movecost == 0 ) != ( new_t.movecost == 0 ) ) {
-        set_visitable_zones_cache_dirty();
+        get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -6695,8 +6695,8 @@ void map::update_visibility_cache( const int zlev )
     }
 
 #if defined(TILES)
-    // clear previously cached visibility variables from cata_tiles
-    tilecontext->clear_draw_caches();
+    // Mark cata_tiles draw caches as dirty
+    tilecontext->set_draw_cache_dirty();
 #endif
 
     visibility_variables_cache.last_pos = player_character.pos();
@@ -9399,6 +9399,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         player_prev_pos = p;
         player_prev_range = sr;
         camera_cache_dirty = true;
+#if defined(TILES)
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+#endif
     }
     if( camera_cache_dirty ) {
         u.moncam_cache = mcache;

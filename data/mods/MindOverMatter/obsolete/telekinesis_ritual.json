@@ -4,7 +4,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "Enhance Strength",
     "id": "telekin_push_heavy_things",
-    "description": "Focus your powers to allow you move much heavier objects and smash through walls.  The concentration required means you will be unable to engage in combat with any real aptitude while concentrating.\n\n[(d)rop the Enhanced Strength to stop concentrating and regain your combat ability]",
+    "description": "Focus your powers to allow you to move much heavier objects and smash through walls.  The concentration required means you will be unable to engage in combat with any real aptitude while concentrating.\n\n[(d)rop the Enhanced Strength to stop concentrating and regain your combat ability]",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_RITUALS",
     "skill_used": "metaphysics",

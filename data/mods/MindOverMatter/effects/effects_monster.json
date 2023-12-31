@@ -190,6 +190,20 @@
   },
   {
     "type": "effect_type",
+    "id": "pigeon_aura",
+    "name": [ "" ],
+    "blood_analysis_description": "Blood sample contains noetic steroid particles and pigeon dander.",
+    "base_mods": { "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pigeon_aura_prep",
+    "rating": "neutral",
+    "blood_analysis_description": "Patient has allergens in blood stream.",
+    "base_mods": { "cough_chance": [ 2 ], "perspiration_chance": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_feral_regeneration",
     "name": [ "Feral Regeneration" ],
     "desc": [ "Your wounds are rapidly closing." ]

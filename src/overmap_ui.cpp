@@ -554,6 +554,7 @@ static void draw_ascii(
                              100;
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
+    const bool show_map_revealed = uistate.overmap_show_revealed_omts;
 
     const oter_id forest = oter_forest.id();
 
@@ -645,6 +646,8 @@ static void draw_ascii(
         size_t count = 0;
     };
     std::unordered_set<tripoint_abs_omt> npc_path_route;
+    std::unordered_set<tripoint_abs_omt> newly_revealed( player_character.map_revealed_omts.begin(),
+            player_character.map_revealed_omts.end() )  ;
     std::unordered_map<point_abs_omt, int> player_path_route;
     std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
     auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
@@ -782,6 +785,11 @@ static void draw_ascii(
                 // npc path
                 ter_color = c_red;
                 ter_sym = "!";
+            } else if( blink && show_map_revealed &&
+                       newly_revealed.find( omp ) != newly_revealed.end() ) {
+                // Revealed maps
+                ter_color = c_magenta;
+                ter_sym = "&";
             } else if( blink && showhordes &&
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
                        ( get_and_assign_los( los, player_character, omp, sight_points ) ||
@@ -1213,6 +1221,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
+        print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
@@ -1818,6 +1827,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_HORDES" );
     ictxt.register_action( "TOGGLE_LAND_USE_CODES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
+    ictxt.register_action( "TOGGLE_MAP_REVEALS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
@@ -1978,6 +1988,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
+        } else if( action == "TOGGLE_MAP_REVEALS" ) {
+            uistate.overmap_show_revealed_omts = !uistate.overmap_show_revealed_omts;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {

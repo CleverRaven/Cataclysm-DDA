@@ -1347,5 +1347,45 @@
       "AQUATIC"
     ],
     "armor": { "bash": 7, "cut": 16, "acid": 3, "heat": 15, "bullet": 14 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zlesiosaurus_scorched",
+    "name": { "str": "scorched plesiosaurus zombie" },
+    "copy-from": "mon_zosasaurus_scorched",
+    "looks_like": "mon_zhark",
+    "bodytype": "gator",
+    "speed": 10,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "weakpoint_sets": [ "wps_mosasaur_body" ],
+    "hp": 115,
+    "fungalize_into": "mon_zosasaurus_fungus",
+    "description": "A heavily-burned, aquatic zombie reptile that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "color": "i_brown",
+    "bleed_rate": 0,
+    "vision_day": 10,
+    "grab_strength": 10,
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 50 } ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
+    "harvest": "zed_dino_leather",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "GRABS",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "REVIVES_HEALTHY",
+      "NO_NECRO",
+      "FILTHY",
+      "SWIMS",
+      "AQUATIC"
+    ],
+    "armor": { "bash": 7, "cut": 16, "acid": 3, "heat": 15, "bullet": 14 }
   }
 ]

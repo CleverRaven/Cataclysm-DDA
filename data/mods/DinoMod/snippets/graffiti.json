@@ -21,10 +21,14 @@
       },
       {
         "id": "general_graffiti_dino_10",
+        "text": "This is a cartoon rendition of a long necked reptile with four fins for swimming."
+      },
+      {
+        "id": "general_graffiti_dino_11",
         "text": "This is a crudely spray painted tag adorned with dinosaur skulls."
       },
-      { "id": "general_graffiti_dino_11", "text": "KILL ALL DINOSAURS" },
-      { "id": "general_graffiti_dino_12", "text": "Don't believe the government, the dinosaurs are real!" }
+      { "id": "general_graffiti_dino_12", "text": "KILL ALL DINOSAURS" },
+      { "id": "general_graffiti_dino_13", "text": "Don't believe the government, the dinosaurs are real!" }
     ]
   }
 ]
