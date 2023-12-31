@@ -546,6 +546,42 @@ std::optional<int> map::move_cost( const tripoint_bub_ms &from, const tripoint_b
     return std::nullopt;
 }
 
+std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to,
+        const PathfindingSettings &settings ) const
+{
+
+    if( from == to || !inbounds( from ) || !inbounds( to ) ) {
+        return {};
+    }
+
+    RealityBubblePathfindingCache &cache = *pathfinding_cache();
+    cache.update( *this );
+
+    std::vector<tripoint_bub_ms> line_path = line_to( from, to );
+    const PathfindingFlags avoid = settings.avoid_mask() | PathfindingSettings::RoughTerrain;
+    // Check all points for all fast avoidance.
+    if( !std::any_of( line_path.begin(), line_path.end(), [&cache, avoid]( const tripoint_bub_ms & p ) {
+    return cache.flags( p ) & avoid;
+    } ) ) {
+        // Now do the slow check. Check if all the positions are valid.
+        if( std::all_of( line_path.begin(), line_path.end(), [this, &cache,
+              &settings]( const tripoint_bub_ms & p ) {
+        return position_cost( *this, p, settings, cache );
+        } ) ) {
+            // Now check that all the transitions between each position are valid.
+            const tripoint_bub_ms *prev = &from;
+            if( std::find_if_not( line_path.begin(), line_path.end(), [this, &prev, &cache,
+                  &settings]( const tripoint_bub_ms & p ) {
+            return transition_cost( *this, *std::exchange( prev, &p ), p, settings, cache ).has_value();
+            } ) == line_path.end() ) {
+                return line_path;
+            }
+        }
+    }
+    return {};
+}
+
 std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
         const PathfindingSettings &settings ) const
 {
@@ -558,26 +594,9 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
 
     // First, check for a simple straight line on flat ground.
     if( from.z() == to.z() ) {
-        std::vector<tripoint_bub_ms> line_path = line_to( from, to );
-        const PathfindingFlags avoid = settings.avoid_mask() | PathfindingSettings::RoughTerrain;
-        // Check all points for all fast avoidance.
-        if( !std::any_of( line_path.begin(), line_path.end(), [&cache, avoid]( const tripoint_bub_ms & p ) {
-        return cache.flags( p ) & avoid;
-        } ) ) {
-            // Now do the slow check. Check if all the positions are valid.
-            if( std::all_of( line_path.begin(), line_path.end(), [this, &cache,
-                  &settings]( const tripoint_bub_ms & p ) {
-            return position_cost( *this, p, settings, cache );
-            } ) ) {
-                // Now check that all the transitions between each position are valid.
-                const tripoint_bub_ms *prev = &from;
-                if( std::find_if_not( line_path.begin(), line_path.end(), [this, &prev, &cache,
-                      &settings]( const tripoint_bub_ms & p ) {
-                return transition_cost( *this, *std::exchange( prev, &p ), p, settings, cache ).has_value();
-                } ) == line_path.end() ) {
-                    return line_path;
-                }
-            }
+        std::vector<tripoint_bub_ms> line_path = straight_route( from, to, settings );
+        if( !line_path.empty() ) {
+            return line_path;
         }
     }
 

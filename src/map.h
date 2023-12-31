@@ -716,6 +716,8 @@ class map
                        const PathfindingSettings &settings ) const;
         std::optional<int> move_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                       const PathfindingSettings &settings ) const;
+        std::vector<tripoint_bub_ms> straight_route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                const PathfindingSettings &settings ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const PathfindingSettings &settings ) const;
 

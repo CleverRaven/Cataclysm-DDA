@@ -998,8 +998,21 @@ void monster::move()
                 path.clear();
                 // Temporarily allow bashing to find a path through bashable terrain.
                 settings.set_avoid_bashing( false );
-                for( const tripoint_bub_ms &p : here.route( pos_bub(), tripoint_bub_ms( local_dest ), settings ) ) {
-                    path.push_back( p.raw() );
+                if( can_pathfind() ) {
+                    for( const tripoint_bub_ms &p : here.route( pos_bub(), tripoint_bub_ms( local_dest ), settings ) ) {
+                        path.push_back( p.raw() );
+                    }
+                    if( path.empty() ) {
+                        increment_pathfinding_cd();
+                    }
+                } else {
+                    for( const tripoint_bub_ms &p : here.straight_route( pos_bub(), tripoint_bub_ms( local_dest ),
+                            settings ) ) {
+                        path.push_back( p.raw() );
+                    }
+                }
+                if( !path.empty() ) {
+                    reset_pathfinding_cd();
                 }
                 settings.set_avoid_bashing( true );
             }

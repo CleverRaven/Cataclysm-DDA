@@ -624,6 +624,23 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+
+        // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
+        time_point pathfinding_cd = calendar::turn;
+        time_duration pathfinding_backoff = 2_seconds;
+
+        bool can_pathfind() const {
+            return pathfinding_cd <= calendar::turn;
+        }
+        void reset_pathfinding_cd() {
+            pathfinding_cd = calendar::turn;
+            pathfinding_backoff = 2_seconds;
+        }
+        void increment_pathfinding_cd() {
+            pathfinding_cd = calendar::turn + pathfinding_backoff;
+            pathfinding_backoff = std::min( pathfinding_backoff * 2, 10_seconds );
+        }
+
         /** patrol points for monsters that can pathfind and have a patrol route! **/
         std::vector<tripoint_abs_ms> patrol_route;
         int next_patrol_point = -1;
