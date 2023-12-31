@@ -5,11 +5,14 @@
 #include "map_helpers.h"
 #include "map_test_case.h"
 #include "monster.h"
+#include "mtype.h"
 #include "pathfinding.h"
 #include "trap.h"
 #include "type_id.h"
 
 #include <vector>
+
+static const mon_flag_str_id mon_flag_STUMBLES( "STUMBLES" );
 
 static const ter_str_id ter_t_door_elocked( "t_door_elocked" );
 static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
@@ -115,6 +118,12 @@ struct pathfinding_test_case {
         test_all_fn( [&]( const map & here, const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
             monster &mon = spawn_test_monster( mon_id, from.raw(), false );
             mon.set_dest( here.getglobal( to ) );
+            // Disable random stumbling so the tests are deterministic.
+            const bool can_stumble = mon.type->has_flag( mon_flag_STUMBLES );
+            on_out_of_scope restore_stumbles( [&]() {
+                const_cast<mtype *>( mon.type )->set_flag( mon_flag_STUMBLES, can_stumble );
+            } );
+            const_cast<mtype *>( mon.type )->set_flag( mon_flag_STUMBLES, false );
             int limit = 0;
             std::vector<tripoint_bub_ms> route;
             while( mon.pos_bub() != to ) {
@@ -1160,6 +1169,7 @@ TEST_CASE( "pathfinding_flying", "[pathfinding]" )
     t.test_all( settings );
 }
 
+// Integration testing with monsters.
 
 TEST_CASE( "pathfinding_migo", "[pathfinding]" )
 {
@@ -1307,6 +1317,30 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
             " x ",
             " x ",
         }
+    }, pathfinding_test_case{
+        // Around trap
+        {
+            "f    ",
+            "##L# ",
+            "t    ",
+        },
+        {
+            "fxxx ",
+            "##L#x",
+            "xxxx ",
+        }
+    }, pathfinding_test_case{
+        // Around pit
+        {
+            "f    ",
+            "##p# ",
+            "t    ",
+        },
+        {
+            "fxxx ",
+            "##p#x",
+            "xxxx ",
+        }
     } );
 
     t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
@@ -1316,7 +1350,88 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
                      ifchar( 'd', ter_set( ter_t_ramp_down_low ) ) ||
                      ifchar( '>', ter_set( t_stairs_down ) ) ||
                      ifchar( '<', ter_set( t_stairs_up ) ) ||
+                     ifchar( 'L', trap_set( tr_landmine ) ) ||
+                     ifchar( 'p', ter_set( t_pit ) ) ||
                      ifchar( 'O', ter_set( t_door_c ) );
 
     t.test_all( "mon_mi_go" );
+}
+
+TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
+{
+    // Note that zombies only try straight lines to targets.
+    pathfinding_test_case t = GENERATE( pathfinding_test_case{
+        // Straight Line
+        {
+            " f ",
+            "   ",
+            "   ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+            " x ",
+            " x ",
+        }
+    }, pathfinding_test_case{
+        // Through trap
+        {
+            " f ",
+            "   ",
+            " L ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+            " x ",
+            " x ",
+        }
+
+    }, pathfinding_test_case{
+        // Through sharp
+        {
+            " f ",
+            "   ",
+            " s ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+            " x ",
+            " x ",
+        }
+
+    }, pathfinding_test_case{
+        // Through pit
+        {
+            " f ",
+            "   ",
+            " p ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+            " x ",
+            " x ",
+        }
+    } );
+
+    t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
+                     ifchar( 'L', trap_set( tr_landmine ) ) ||
+                     ifchar( 'p', ter_set( t_pit ) ) ||
+                     ifchar( 's', ter_set( ter_t_shrub_blackberry ) );
+
+    t.test_all( "mon_zombie" );
 }
