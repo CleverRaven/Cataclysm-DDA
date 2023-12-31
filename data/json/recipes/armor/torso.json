@@ -1101,10 +1101,7 @@
     "using": [ [ "sewing_standard", 100 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "jacket_jean", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_closures" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_closures" } ]
   },
   {
     "result": "vest_jean_mod",
@@ -1120,10 +1117,7 @@
     "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "jacket_jean", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_closures" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_closures" } ]
   },
   {
     "result": "jacket_leather_mod_ch",
