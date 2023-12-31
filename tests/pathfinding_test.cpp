@@ -1357,6 +1357,127 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
     t.test_all( "mon_mi_go" );
 }
 
+TEST_CASE( "pathfinding_migo_harrier", "[pathfinding]" )
+{
+    pathfinding_test_case t = GENERATE( pathfinding_test_case{
+        // Down
+        {
+            {
+                " f ",
+                "   ",
+                "   ",
+                "@@@",
+                "@@@",
+                "@@@",
+            },
+            {
+                "###",
+                "###",
+                "###",
+                "   ",
+                "   ",
+                " t ",
+            }
+        },
+        {
+            {
+                " f ",
+                " x ",
+                " x ",
+                "@@@",
+                "@@@",
+                "@@@",
+            },
+            {
+                "###",
+                "###",
+                "###",
+                " x ",
+                " x ",
+                " x ",
+            }
+        }
+    }, pathfinding_test_case{
+        // Up
+        {
+            {
+                "@@@",
+                "@@@",
+                "@@@",
+                "   ",
+                "   ",
+                " t ",
+            },
+            {
+                " f ",
+                "   ",
+                "   ",
+                "###",
+                "###",
+                "###",
+            }
+        },
+        {
+            {
+                "@@@",
+                "@@@",
+                "@@@",
+                " x ",
+                " x ",
+                " x ",
+            },
+            {
+                " f ",
+                " x ",
+                " x ",
+                "###",
+                "###",
+                "###",
+            }
+        }
+    }, pathfinding_test_case{
+        // Over
+        {
+            {
+                "@@@",
+                "@@@",
+                "@@@",
+                "@@@",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "   ",
+                "###",
+                "###",
+                "   ",
+                " t ",
+            }
+        },
+        {
+            {
+                "@@@",
+                "@@@",
+                "@x@",
+                "@x@",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                " x ",
+                "###",
+                "###",
+                " x ",
+                " x ",
+            }
+        }
+    } );
+
+    t.test_all( "mon_mi_go_flying" );
+}
+
 TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
 {
     // Note that zombies only try straight lines to targets.
