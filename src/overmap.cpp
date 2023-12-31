@@ -688,6 +688,7 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::known_down: return "KNOWN_DOWN";
         case oter_flags::known_up: return "KNOWN_UP";
         case oter_flags::river_tile: return "RIVER";
+        case oter_flags::bridge: return "BRIDGE";
         case oter_flags::has_sidewalk: return "SIDEWALK";
         case oter_flags::no_rotate: return "NO_ROTATE";
         case oter_flags::should_not_spawn: return "SHOULD_NOT_SPAWN";
