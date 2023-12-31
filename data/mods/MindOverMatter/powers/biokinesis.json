@@ -168,8 +168,7 @@
     "energy_increment": -190,
     "base_casting_time": 75,
     "final_casting_time": 15,
-    "casting_time_increment": -4.5,
-    "learn_spells": { "biokin_reflex_enhancey": 7, "biokin_combat_dance": 11 }
+    "casting_time_increment": -4.5
   },
   {
     "id": "biokin_change_appearance",
@@ -254,8 +253,7 @@
     "energy_increment": -165,
     "base_casting_time": 100,
     "final_casting_time": 35,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_reflex_enhance": 7, "biokin_combat_dance": 11 }
+    "casting_time_increment": -5.5
   },
   {
     "id": "biokin_climate_control",
