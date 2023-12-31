@@ -123,8 +123,6 @@ static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
-static const efftype_id effect_telepathic_ignorance( "telepathic_ignorance" );
-static const efftype_id effect_telepathic_ignorance_self( "telepathic_ignorance_self" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
