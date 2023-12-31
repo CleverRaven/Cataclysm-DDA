@@ -323,6 +323,16 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
         t.test_all( settings );
     }
 
+    SECTION( "dangerous fields" ) {
+        t.set_up_tiles = ifchar( 'W', field_set( fd_fire ) );
+        settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & id ) {
+            REQUIRE( id == fd_fire );
+            return true;
+        } );
+
+        t.test_all( settings );
+    }
+
     SECTION( "dangerous traps" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( t_floor ) + trap_set( tr_dissector ) );
         settings.set_avoid_dangerous_traps( true );
@@ -643,6 +653,18 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
         t.set_up_tiles = ifchar( 'W', ter_set( t_window ) );
         settings.set_bash_strength( 20 );
         settings.set_avoid_bashing( false );
+
+        t.test_all( settings );
+    }
+
+    SECTION( "dangerous fields" ) {
+        t.set_up_tiles = ifchar( 'W', field_set( fd_fire ) );
+        SECTION( "explicit implementation" ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & id ) {
+                REQUIRE( id == fd_fire );
+                return false;
+            } );
+        }
 
         t.test_all( settings );
     }
@@ -1421,6 +1443,18 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
             "##p#x",
             "xxxx ",
         }
+    }, pathfinding_test_case{
+        // Around dangerous field
+        {
+            "f    ",
+            "##F# ",
+            "t    ",
+        },
+        {
+            "fxxx ",
+            "##F#x",
+            "xxxx ",
+        }
     } );
 
     t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
@@ -1432,6 +1466,7 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
                      ifchar( '<', ter_set( t_stairs_up ) ) ||
                      ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
+                     ifchar( 'F', field_set( fd_fire ) ) ||
                      ifchar( 'O', ter_set( t_door_c ) );
 
     t.test_all( "mon_mi_go" );
@@ -1646,7 +1681,6 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
             " x ",
             " x ",
         }
-
     }, pathfinding_test_case{
         // Through sharp
         {
@@ -1663,7 +1697,6 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
             " x ",
             " x ",
         }
-
     }, pathfinding_test_case{
         // Through pit
         {
@@ -1680,11 +1713,28 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
             " x ",
             " x ",
         }
+    }, pathfinding_test_case{
+        // Through fire (and flames)
+        {
+            " f ",
+            "   ",
+            " F ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+            " x ",
+            " x ",
+        }
     } );
 
     t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
                      ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
+                     ifchar( 'F', field_set( fd_fire ) ) ||
                      ifchar( 's', ter_set( ter_t_shrub_blackberry ) );
 
     t.test_all( "mon_zombie" );

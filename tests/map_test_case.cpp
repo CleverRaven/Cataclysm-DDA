@@ -476,6 +476,20 @@ tile_predicate trap_set(
     };
 }
 
+tile_predicate field_set(
+    field_type_id id,
+    tripoint shift
+)
+{
+    return [ = ]( map_test_case::tile t ) {
+        REQUIRE( id.is_valid() );
+        tripoint p = t.p + shift;
+        get_map().mod_field_intensity( p, id, 3 );
+        get_map().mod_field_age( p, id, 100_turns );
+        return true;
+    };
+}
+
 } // namespace tiles
 
 } // namespace map_test_case_common
