@@ -8,7 +8,7 @@
       "and": [
         { "u_has_trait": "perk_quick_recovery" },
         { "x_in_y_chance": { "x": 3, "y": 4 } },
-        { "or": [ { "compare_string": [ "downed", { "context_val": "effect" } ] } ] }
+        { "compare_string": [ "downed", { "context_val": "effect" } ] }
       ]
     },
     "effect": [ { "u_lose_effect": "downed" } ]
