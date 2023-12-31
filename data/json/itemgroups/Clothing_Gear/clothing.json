@@ -726,11 +726,11 @@
         "collection": [
           { "item": "technician_shirt_gray", "prob": 100 },
           {
-            "distribution": [ 
-              { "item": "coat_rain", "prob": 30 }, 
+            "distribution": [
+              { "item": "coat_rain", "prob": 30 },
               { "item": "jacket_jean", "prob": 20 },
               { "item": "vest_jean", "prob": 10 },
-              { "item": "jacket_light", "prob": 40 } 
+              { "item": "jacket_light", "prob": 40 }
             ],
             "prob": 20
           }
