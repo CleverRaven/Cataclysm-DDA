@@ -460,9 +460,8 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
             // Stairs can teleport us, so we need to use non-adjacent calc.
             return 2 * distance_metric( from, to );
         } else if( settings.is_flying() ) {
-            const tripoint_bub_ms below_upper( upper.xy(), upper.z() - 1 );
             const tripoint_bub_ms above_lower( lower.xy(), lower.z() + 1 );
-            if( !( cache.flags( below_upper ).is_set( PathfindingFlag::Air ) ||
+            if( !( cache.flags( upper ).is_set( PathfindingFlag::Air ) ||
                    cache.flags( above_lower ).is_set( PathfindingFlag::Air ) ) ) {
                 return std::nullopt;
             }
@@ -479,6 +478,11 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
 
     const PathfindingFlags to_flags = cache.flags( to );
     if( to_flags.is_set( PathfindingFlag::Obstacle ) ) {
+        // Can't interact with obstacles across z-levels.
+        // TODO: allow this
+        if( is_vertical_movement ) {
+            return std::nullopt;
+        }
         if( !settings.is_digging() ) {
             if( to_flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
                 ( !to_flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
@@ -498,6 +502,12 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
 
     // TODO: Move the move cost cache into map so this logic isn't duplicated.
     const int mult = adjacent_distance_metric( from, to );
+
+    // Flying monsters aren't slowed down by terrain.
+    if( settings.is_flying() ) {
+        return 2 * mult;
+    }
+
     const int cost = cache.move_cost( from ) + cache.move_cost( to );
     return static_cast<unsigned int>( mult * cost ) / 2;
 }

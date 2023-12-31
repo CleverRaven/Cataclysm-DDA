@@ -214,11 +214,12 @@ PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) cons
 
     settings.set_is_flying( can_fly );
     if( can_fly ) {
-        settings.set_avoid_falling( false );
-    } else {
-        // Don't throw ourselves off cliffs if we have a concept of falling
-        settings.set_avoid_falling( avoid_fall );
+        avoid_fall = false;
     }
+
+    // Don't throw ourselves off cliffs if we have a concept of falling
+    settings.set_avoid_falling( avoid_fall );
+    settings.set_avoid_air( avoid_fall );
 
     // Don't enter open pits ever unless tiny, can fly or climb well
     settings.set_avoid_pits( avoid_fall && type->size != creature_size::tiny && !can_climb() );

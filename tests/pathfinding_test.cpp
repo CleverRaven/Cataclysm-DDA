@@ -1158,11 +1158,91 @@ TEST_CASE( "pathfinding_flying", "[pathfinding]" )
                 " x ",
             }
         }
+    }, pathfinding_test_case{
+        // Bash while flying
+        {
+            {
+                "@@@",
+                "@@@",
+                "#w#",
+                "   ",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "@@@",
+                "###",
+                "###",
+                "   ",
+                " t ",
+            }
+        },
+        {
+            {
+                "@@@",
+                "@x@",
+                "#x#",
+                " x ",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "@@@",
+                "###",
+                "###",
+                " x ",
+                " x ",
+            }
+        }
+    }, pathfinding_test_case{
+        // No bashing through floors
+        {
+            {
+                "   ",
+                "   ",
+                "#w#",
+                "   ",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "@@@",
+                "@@@",
+                "###",
+                "   ",
+                " t ",
+            }
+        },
+        {
+            {
+                "   ",
+                "   ",
+                "#w#",
+                "   ",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "@@@",
+                "@@@",
+                "###",
+                "   ",
+                " t ",
+            }
+        }
     } );
+
+    t.set_up_tiles = ifchar( 'w', ter_set( t_window ) );
 
     PathfindingSettings settings;
     settings.set_avoid_air( false );
     settings.set_is_flying( true );
+    settings.set_bash_strength( 20 );
+    settings.set_avoid_bashing( false );
     settings.set_max_distance( 100 );
     settings.set_max_cost( 100 * 100 );
 
@@ -1473,7 +1553,60 @@ TEST_CASE( "pathfinding_migo_shrike", "[pathfinding]" )
                 " x ",
             }
         }
+    }, pathfinding_test_case{
+        // Bash while flying
+        {
+            {
+                "@@@",
+                "@@@",
+                "#w#",
+                "   ",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "@@@",
+                "###",
+                "###",
+                "   ",
+                " t ",
+            }
+        },
+        {
+            {
+                "@@@",
+                "@x@",
+                "#x#",
+                " x ",
+                "@@@",
+                "@@@",
+            },
+            {
+                " f ",
+                "@@@",
+                "###",
+                "###",
+                " x ",
+                " x ",
+            }
+        }
+    }, pathfinding_test_case{
+        // Over pit
+        {
+            "f    ",
+            "##p# ",
+            "t    ",
+        },
+        {
+            "fx   ",
+            "##x# ",
+            "xx   ",
+        }
     } );
+
+    t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
+                     ifchar( 'p', ter_set( t_pit ) );
 
     t.test_all( "mon_mi_go_flying" );
 }
