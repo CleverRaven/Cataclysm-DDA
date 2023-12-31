@@ -726,7 +726,11 @@
         "collection": [
           { "item": "technician_shirt_gray", "prob": 100 },
           {
-            "distribution": [ { "item": "coat_rain", "prob": 30 }, { "item": "jacket_jean", "prob": 20 }, { "item": "jacket_light", "prob": 40 } ],
+            "distribution": [ 
+              { "item": "coat_rain", "prob": 30 }, 
+              { "item": "jacket_jean", "prob": 20 }, 
+              { "item": "vest_jean", "prob": 10 }, 
+              { "item": "jacket_light", "prob": 40 } ],
             "prob": 20
           }
         ]
@@ -1548,6 +1552,7 @@
       [ "jacket_windbreaker", 25 ],
       [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
+      [ "vest_jean", 15 ],
       [ "gosling_jacket", 3 ],
       [ "blazer", 35 ],
       [ "towel", 40 ],
@@ -2251,6 +2256,7 @@
       { "item": "jacket_varsity", "prob": 20 },
       { "item": "gosling_jacket", "prob": 5 },
       { "item": "jacket_jean", "prob": 35 },
+      { "item": "vest_jean", "prob": 20 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
       { "item": "tacjacket", "prob": 30 },
@@ -3472,6 +3478,7 @@
       [ "jacket_varsity", 20 ],
       [ "gosling_jacket", 5 ],
       [ "jacket_jean", 35 ],
+      [ "vest_jean", 20 ],
       [ "blazer", 35 ],
       [ "gloves_light", 35 ],
       [ "mittens", 30 ],
@@ -4194,6 +4201,7 @@
         "distribution": [
           { "item": "vest", "prob": 80 },
           { "item": "vest_leather", "prob": 20 },
+          { "item": "vest_jean", "prob": 25 },
           { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "blazer", "prob": 70 }
         ],
