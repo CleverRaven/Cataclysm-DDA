@@ -44,7 +44,8 @@
       [ "shorts_cargo", 10 ],
       [ "pants_cargo", 20 ],
       [ "b_shorts", 10 ],
-      [ "motorbike_pants", 5 ]
+      [ "motorbike_pants", 5 ],
+      [ "jeans_mod", 5 ]
     ]
   },
   {
@@ -59,6 +60,7 @@
       [ "pants_cargo", 20 ],
       [ "b_shorts", 10 ],
       [ "motorbike_pants", 5 ],
+      [ "jeans_mod", 5 ],
       [ "skirt", 20 ],
       [ "skirt_leather", 20 ],
       [ "nanoskirt", 5 ],

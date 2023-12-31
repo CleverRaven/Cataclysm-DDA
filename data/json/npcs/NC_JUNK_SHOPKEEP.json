@@ -39,6 +39,7 @@
       { "item": "pants_cargo", "prob": 40 },
       { "item": "shorts_cargo", "prob": 25 },
       { "item": "pants_army", "prob": 30 },
+      { "item": "jeans_mod", "prob": 15 },
       { "item": "pants_leather", "prob": 15 },
       { "item": "gloves_fingerless", "prob": 30 },
       { "item": "gloves_fingerless_mod", "prob": 10 },

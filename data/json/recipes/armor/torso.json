@@ -1173,7 +1173,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": "5 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ], [ "carbon", 10 ] ],
+    "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ], [ "carbon", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
     "proficiencies": [

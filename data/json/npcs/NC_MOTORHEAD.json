@@ -6,7 +6,8 @@
     "entries": [
       { "item": "jeans", "prob": 60 },
       { "item": "pants", "prob": 5 },
-      { "item": "motorbike_pants", "prob": 15 },
+      { "item": "motorbike_pants", "prob": 10 },
+      { "item": "jeans_mod", "prob": 5 }
       { "item": "pants_leather", "prob": 10 },
       { "item": "pants_cargo", "prob": 10 }
     ]
