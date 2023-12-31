@@ -1357,7 +1357,7 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
     t.test_all( "mon_mi_go" );
 }
 
-TEST_CASE( "pathfinding_migo_harrier", "[pathfinding]" )
+TEST_CASE( "pathfinding_migo_shrike", "[pathfinding]" )
 {
     pathfinding_test_case t = GENERATE( pathfinding_test_case{
         // Down

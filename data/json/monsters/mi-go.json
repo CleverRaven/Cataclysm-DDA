@@ -77,7 +77,7 @@
   {
     "id": "mon_mi_go_flying",
     "type": "MONSTER",
-    "name": { "str": "mi-go harrier" },
+    "name": { "str": "mi-go shrike" },
     "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which allow it to take to the air.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.",
     "default_faction": "mi-go",
     "bodytype": "migo",
