@@ -28,7 +28,7 @@ time_point calendar_ui::select_time_point( time_point initial_value, std::string
         // Arbitrary maximal value.
         const time_point max = calendar::turn_zero + time_duration::from_turns(
                                    std::numeric_limits<int>::max() / 2 );
-        return_value = std::max( std::min( max, return_value + offset ), calendar::turn_zero );
+        return_value = std::clamp( offset, calendar::turn_zero, max );
     };
 
     uilist smenu;

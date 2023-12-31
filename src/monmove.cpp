@@ -1419,8 +1419,8 @@ void monster::nursebot_operate( Character *dragged_foe )
                 : *target_cbm;
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-            const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                         static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+            //const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ), static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+            const float adjusted_skill = 33.0f;
 
             dragged_foe->cancel_activity();
             get_player_character().uninstall_bionic( real_target, *this, *dragged_foe, adjusted_skill );

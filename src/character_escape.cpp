@@ -190,9 +190,7 @@ bool Character::try_remove_grab( bool attacking )
         creature_tracker &creatures = get_creature_tracker();
 
         // No need to recalculate it in-loop, breaking previous grabs doesn't change skills
-        float skill_factor = std::min( 0.8f,
-                                       std::max( std::max( static_cast<float>( get_skill_level( skill_melee ) ) / 10, 0.1f ),
-                                               std::max( static_cast<float>( get_skill_level( skill_unarmed ) ) / 8, 0.1f ) ) );
+        float skill_factor = std::clamp( std::max( static_cast<float>( get_skill_level( skill_melee ) ) / 10, static_cast<float>( get_skill_level( skill_unarmed ) ) / 8 ), 0.1f, 0.8f );
         int grab_break_factor = has_grab_break_tec() ? 10 : 0;
         const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
 

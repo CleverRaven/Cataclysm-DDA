@@ -1395,8 +1395,7 @@ point display::mission_arrow_offset( const avatar &you, int width, int height )
                 arrow.y = 0;
             }
             // Clip to left/right edges
-            arrow.x = std::max( arrow.x, 0 );
-            arrow.x = std::min( arrow.x, width - 1 );
+            arrow.x = std::clamp( arrow.x, 0, width - 1 );
         } else {
             // If target to the east or west, arrow on left or right edge of minimap
             if( targ.x() > curs.x() ) {
@@ -1407,8 +1406,7 @@ point display::mission_arrow_offset( const avatar &you, int width, int height )
                 arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
             }
             // Clip to top/bottom edges
-            arrow.y = std::max( arrow.y, 0 );
-            arrow.y = std::min( arrow.y, height - 1 );
+            arrow.y = std::clamp( arrow.y, 0, height - 1 );
         }
         return arrow;
         //mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );

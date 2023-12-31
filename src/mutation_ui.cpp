@@ -182,8 +182,7 @@ void avatar::power_mutations()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        HEIGHT = std::min( TERMY, std::max( FULL_SCREEN_HEIGHT,
-                                            TITLE_HEIGHT + mutations_count + DESCRIPTION_HEIGHT + 5 ) );
+        HEIGHT = std::clamp( TITLE_HEIGHT + mutations_count + DESCRIPTION_HEIGHT + 5, FULL_SCREEN_HEIGHT, TERMY );
         WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
         const point START( ( TERMX - WIDTH ) / 2, ( TERMY - HEIGHT ) / 2 );
         wBio = catacurses::newwin( HEIGHT, WIDTH, START );

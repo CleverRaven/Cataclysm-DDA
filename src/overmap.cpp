@@ -5492,9 +5492,8 @@ void overmap::place_cities()
             } else {             // 17% huge
                 size = size * 2;
             }
-            // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all
-            size = std::max( size, 2 );
-            size = std::min( size, 55 );
+            // Ensure that cities are at least size 2, as city of size 1 is just a crossroad with no buildings at all, why is there a hardcoded max size here though?
+            size = std::clamp( size, 2, 55 );
             // TODO: put cities closer to the edge when they can span overmaps
             // don't draw cities across the edge of the map, they will get clipped
             point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );

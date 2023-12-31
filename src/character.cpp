@@ -1462,8 +1462,7 @@ int Character::swim_speed() const
     /** @EFFECT_DEX increases swim speed */
     ret -= str_cur * 6 + dex_cur * 4;
     if( worn_with_flag( flag_FLOTATION ) ) {
-        ret = std::min( ret, 400 );
-        ret = std::max( ret, 200 );
+        ret = std::clamp( ret, 200, 400 );
     }
     // If (ret > 500), we can not swim; so do not apply the underwater bonus.
     if( underwater && ret < 500 ) {
@@ -2518,7 +2517,7 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
 
         part.second.set_hp_max( std::max( new_max, 1 ) );
-        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
+        part.second.set_hp_cur( std::clamp( new_cur, 0, new_max ) );
     }
 }
 
@@ -4331,10 +4330,7 @@ void Character::mod_livestyle( int nhealthy )
     for( const trait_id &mut : get_mutations() ) {
         mut_rate *= mut.obj().healthy_rate;
     }
-    lifestyle += nhealthy * mut_rate;
-    // Clamp lifestyle between [-200, 200]
-    lifestyle = std::max( lifestyle, -200 );
-    lifestyle = std::min( lifestyle, 200 );
+    lifestyle = std::clamp( lifestyle + ( nhealthy * mut_rate ), -200, 200 );
 }
 void Character::set_daily_health( int nhealthy_mod )
 {

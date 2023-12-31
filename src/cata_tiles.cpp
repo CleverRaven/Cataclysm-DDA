@@ -336,8 +336,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 
     // Precalculate fog transparency
     // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
-    fog_alpha = is_isometric() ? std::min( std::max( int( 255.0f - 255.0f * pow( 155.0f / 255.0f,
-                                           zlevel_height / 100.0f ) ), 40 ), 150 ) : 100;
+    fog_alpha = is_isometric() ? std::clamp( int( 255.0f - 255.0f * pow( 155.0f / 255.0f, zlevel_height / 100.0f ) ), 40, 150 ) : 100;
 }
 
 void cata_tiles::reinit()
