@@ -290,6 +290,20 @@
     ]
   },
   {
+    "id": "on_hand_357",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "357mag_fmj", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "357mag_jhp", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "357mag_fmj", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "357mag_jhp", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "357mag_fmj", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "357mag_jhp", "prob": 30, "charges": [ 88, 160 ] }
+    ]
+  },
+  {
     "id": "on_hand_357_38mixed",
     "type": "item_group",
     "//": "a mixed collection of 357mag and 38 ammo that would be found with a gun that is compatible with both calibers. favors spawning 357mag ammo but will rarely spawn more 38",
@@ -314,6 +328,20 @@
         ],
         "prob": 30
       }
+    ]
+  },
+  {
+    "id": "on_hand_50ae",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "50ae_fmj", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "50ae_jhp", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "50ae_fmj", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "50ae_jhp", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "50ae_fmj", "prob": 30, "charges": [ 22, 40 ] },
+      { "item": "50ae_jhp", "prob": 30, "charges": [ 22, 40 ] }
     ]
   },
   {

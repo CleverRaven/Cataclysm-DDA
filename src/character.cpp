@@ -7974,7 +7974,10 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+            // Check for obstacles and appliances to prevent squishing when the part is
+            // not a vehicle or when the player is not actually entering the tile IE grabbing.
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) &&
+                !vp.part_with_feature( "APPLIANCE", false ) && !vp.part_with_feature( "OBSTACLE", false ) ) {
                 capacity += vpinfo.size;
                 free_cargo += contents.free_volume();
             }
@@ -11729,11 +11732,11 @@ int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 
 bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( bp->has_flag( flag ) ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.first->has_flag( flag ) ) {
             return true;
         }
-        if( get_part( bp )->has_conditional_flag( flag ) ) {
+        if( elem.second.has_conditional_flag( flag ) ) {
             return true;
         }
     }
