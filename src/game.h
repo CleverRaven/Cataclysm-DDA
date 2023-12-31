@@ -1091,14 +1091,6 @@ class game
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         queued_eocs queued_global_effect_on_conditions;
 
-        // setting that specifies which reachability zone cache to display
-        struct debug_reachability_zones_display {
-            public:
-                bool r_cache_vertical;
-                reachability_cache_quadrant quadrant;
-        } debug_rz_display = {}; // NOLINT(cata-serialize)
-        void display_reachability_zones(); // Displays reachability zones
-
         spell_events &spell_events_subscriber();
 
         pimpl<creature_tracker> critter_tracker;

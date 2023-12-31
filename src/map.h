@@ -40,7 +40,6 @@
 #include "mapdata.h"
 #include "maptile_fwd.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units.h"
@@ -414,9 +413,6 @@ class map
         bool has_potential_los( const tripoint &from, const tripoint &to,
                                 bool bounds_check = true ) const;
 
-        int reachability_cache_value( const tripoint &p, bool vertical_cache,
-                                      reachability_cache_quadrant quadrant ) const;
-
         /**
          * Callback invoked when a vehicle has moved.
          */
@@ -620,6 +616,7 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
