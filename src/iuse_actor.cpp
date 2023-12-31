@@ -1192,6 +1192,8 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
+        // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
+        get_avatar().map_revealed_omts.emplace_back( place );
     }
 }
 
@@ -1206,6 +1208,8 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
                                    p->global_omt_location().raw() ) );
+    // Clear highlight on previously revealed OMTs before revealing new ones
+    p->map_revealed_omts.clear();
     for( const auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );

@@ -56,7 +56,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460", "draco" ],
+    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50", "m1911-460", "draco" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },

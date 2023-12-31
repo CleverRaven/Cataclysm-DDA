@@ -8,6 +8,7 @@ acceleratrons
 accessorized
 accessorizing
 acclimatization
+accommodations
 accoustrement
 accuracies
 accurized
@@ -1015,6 +1016,7 @@ expansions
 explodin
 explosivity
 expounds
+extenders
 extensible
 extractors
 extradimensional
@@ -2298,6 +2300,7 @@ pleco
 plectrum
 pleistocene
 ples
+plesiosaurus
 plink
 plinker
 plinking
