@@ -427,7 +427,7 @@
     "color": "brown",
     "looks_like": "t_chaingate_c",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "SUPPORTS_ROOF" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "open": "t_chickenwire_gate_o",
@@ -460,7 +460,7 @@
     "color": "brown",
     "looks_like": "t_chaingate_o",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE", "SUPPORTS_ROOF" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "close": "t_chickenwire_gate_c",
@@ -694,13 +694,13 @@
     "color": "brown",
     "looks_like": "t_chainfence",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE", "SUPPORTS_ROOF" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
     "deconstruct": {
       "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [ { "item": "wire", "count": 20 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -708,7 +708,7 @@
       "sound": "metal rattling!",
       "sound_fail": "whack!",
       "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "wire", "count": [ 10, 20 ] } ]
     }
   },
   {
