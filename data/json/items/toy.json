@@ -392,7 +392,7 @@
       {
         "id": "toy_plush_crocodile",
         "name": { "str": "crocodile plushie" },
-        "description": "A soft and cuddly crocodile plushie with soft green scales, a big smile, and a long snout. When squeezed or touched, this plushie produces authentic hissing and growling sounds, just like a real crocodile.",
+        "description": "A soft and cuddly crocodile plushie with soft green scales, a big smile, and a long snout.  When squeezed or touched, this plushie produces authentic hissing and growling sounds, just like a real crocodile.",
         "weight": 1
       },
       {
@@ -674,7 +674,7 @@
       {
         "id": "toy_plush_cow",
         "name": { "str": "cow plushie" },
-        "description": "This very well-made cow plushie features soft, velvety fur in black and white patches, with endearing floppy ears and bright eyes,  together with a pair of soft horns and the typical cow udder.",
+        "description": "This very well-made cow plushie features soft, velvety fur in black and white patches, with endearing floppy ears and bright eyes, together with a pair of soft horns and the typical cow udder.",
         "weight": 1
       },
       {
