@@ -45,7 +45,8 @@
       { "item": "jacket_leather", "prob": 15 },
       { "item": "jacket_leather_mod", "prob": 5 },
       { "item": "touring_suit", "prob": 20 },
-      { "item": "jacket_jean", "prob": 15 }
+      { "item": "jacket_jean", "prob": 15 },
+      { "item": "jacket_jean_mod", "prob": 5 }
     ]
   },
   {
