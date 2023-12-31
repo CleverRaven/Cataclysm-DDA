@@ -9368,9 +9368,6 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
         seen_cache_dirty |= floor_cache_was_dirty;
-        if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
-            //get_cache( z - 1 ).r_up_cache->invalidate();
-        }
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);

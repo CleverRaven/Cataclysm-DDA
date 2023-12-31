@@ -502,7 +502,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
             // Looking at something from lighter area to darker area. Take the min.
             range = std::min( sight_range( light_here ), sight_range( light_there ) );
         } else {
-            // Looking at something from darker area to lighter area. Take the min.
+            // Looking at something from darker area to lighter area. Take the max.
             range = std::max( sight_range( light_here ), sight_range( light_there ) );
         }
     }
