@@ -2697,14 +2697,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "blanket", "prob": 50 },
-      { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
-      { "item": "left_leg_prosthetic", "prob": 20 },
-      { "item": "right_leg_prosthetic", "prob": 20 },
-      { "item": "left_arm_prosthetic", "prob": 20 },
-      { "item": "right_arm_prosthetic", "prob": 20 },
-      { "item": "left_arm_neuroprosthetic", "prob": 10 },
-      { "item": "right_arm_neuroprosthetic", "prob": 10 }
+      { "item": "blanket", "prob": 200 },
+      { "item": "cotton_patchwork", "prob": 400, "custom-flags": [ "FILTHY" ] },
+      { "item": "left_leg_prosthetic", "prob": 2 },
+      { "item": "right_leg_prosthetic", "prob": 2 },
+      { "item": "left_arm_prosthetic", "prob": 2 },
+      { "item": "right_arm_prosthetic", "prob": 2 },
+      { "item": "left_arm_neuroprosthetic", "prob": 1 },
+      { "item": "right_arm_neuroprosthetic", "prob": 1 }
     ]
   },
   {
