@@ -66,8 +66,7 @@
         "name": { "str": "ferret plushie" },
         "description": "A large plush ferret with cute beady eyes."
       },
-      { "id": "toy_plush_trex", "name": { "str": "T-rex plushie" }, "description": "A large plush t-rex."
-      },
+      { "id": "toy_plush_trex", "name": { "str": "T-rex plushie" }, "description": "A large plush t-rex." },
       {
         "id": "toy_plush_trice",
         "name": { "str": "triceratops plushie" },
