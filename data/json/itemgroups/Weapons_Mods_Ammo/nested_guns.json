@@ -2598,6 +2598,19 @@
     ]
   },
   {
+    "id": "nested_steyr_scout",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack. Extra magazine for the stock hold",
+    "subtype": "collection",
+    "entries": [
+      { "item": "steyr_scout", "charges-min": 0, "charges-max": 3 },
+      { "item": "steyr_scout_mag" },
+      { "item": "steyr_scout_mag", "prob": 50 },
+      { "item": "steyr_scout_mag", "prob": 50 },
+      { "group": "on_hand_450" }
+    ]
+  },
+  {
     "id": "nested_mk3",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
