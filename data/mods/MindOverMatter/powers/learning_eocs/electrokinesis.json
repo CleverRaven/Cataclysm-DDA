@@ -342,7 +342,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_electrokinetic_paralysis" },
       {
-        "u_message": "Use of your powers has led to an insight.  You could overload an organic target's nervous system, causing seizures and incapaciting them for a brief period, if you can figure out the technique.",
+        "u_message": "Use of your powers has led to an insight.  You could overload an organic target's nervous system, causing seizures and incapacitating them for a brief period, if you can figure out the technique.",
         "popup": true
       }
     ]
