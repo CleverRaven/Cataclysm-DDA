@@ -324,7 +324,7 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
     }
 
     SECTION( "dangerous traps" ) {
-        t.set_up_tiles = ifchar( 'W', ter_set( t_floor ) + trap_set( tr_landmine ) );
+        t.set_up_tiles = ifchar( 'W', ter_set( t_floor ) + trap_set( tr_dissector ) );
         settings.set_avoid_dangerous_traps( true );
 
         t.test_all( settings );
@@ -648,7 +648,7 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
     }
 
     SECTION( "dangerous traps" ) {
-        t.set_up_tiles = ifchar( 'W', ter_set( t_floor ) + trap_set( tr_landmine ) );
+        t.set_up_tiles = ifchar( 'W', ter_set( t_floor ) + trap_set( tr_dissector ) );
         settings.set_avoid_dangerous_traps( false );
 
         t.test_all( settings );
@@ -1350,7 +1350,7 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
                      ifchar( 'd', ter_set( ter_t_ramp_down_low ) ) ||
                      ifchar( '>', ter_set( t_stairs_down ) ) ||
                      ifchar( '<', ter_set( t_stairs_up ) ) ||
-                     ifchar( 'L', trap_set( tr_landmine ) ) ||
+                     ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
                      ifchar( 'O', ter_set( t_door_c ) );
 
@@ -1429,7 +1429,7 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
     } );
 
     t.set_up_tiles = ifchar( 'w', ter_set( t_window ) ) ||
-                     ifchar( 'L', trap_set( tr_landmine ) ) ||
+                     ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
                      ifchar( 's', ter_set( ter_t_shrub_blackberry ) );
 
