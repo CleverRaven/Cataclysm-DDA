@@ -1616,10 +1616,6 @@
     "id": "ss_merch_3",
     "//": "for cs_sex_shop, suits, dresses and large clothing",
     "items": [
-      [ "wolfsuit", 15 ],
-      [ "dinosuit", 15 ],
-      [ "felinesuit", 15 ],
-      [ "dragonsuit", 15 ],
       [ "bondage_suit", 10 ],
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 10 },
       [ "bodysuit_lycra", 5 ],
