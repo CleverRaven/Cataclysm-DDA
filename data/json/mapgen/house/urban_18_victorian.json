@@ -125,7 +125,7 @@
         ",": "t_linoleum_gray",
         ".": "t_shingle_flat_roof",
         "!": "t_gutter_drop",
-        "-": "t_gutter_south",
+        "-": "t_gutter",
         "#": "t_rock_wall",
         ")": "t_glass_roof"
       },
