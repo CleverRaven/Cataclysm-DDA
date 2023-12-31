@@ -382,13 +382,13 @@ bool Creature::sees( const Creature &critter ) const
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         return false;
     }
-    
     if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 
     // Used with the Mind over Matter power Obscurity, to telepathically erase yourself from a target's perceptions
-    if( has_effect( effect_telepathic_ignorance ) && critter.has_effect( effect_telepathic_ignorance_self ) ) {
+    if( has_effect( effect_telepathic_ignorance ) &&
+        critter.has_effect( effect_telepathic_ignorance_self ) ) {
         return false;
     }
 
