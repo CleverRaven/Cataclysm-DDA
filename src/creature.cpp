@@ -398,7 +398,7 @@ bool Creature::sees( const Creature &critter ) const
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
-    if( target_range.would_round_down_to_one() ) {
+    if( target_range.would_round_down_to_one_or_zero() ) {
         return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
     }
 
