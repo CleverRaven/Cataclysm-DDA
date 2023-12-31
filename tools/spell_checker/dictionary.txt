@@ -1241,6 +1241,7 @@ geometries
 gesticulates
 getups
 ghast
+ghillie
 gibbous
 giganotosaurus
 github
@@ -3124,6 +3125,8 @@ travelpack
 traversal
 travois
 treatin
+treefrog
+treefrogs
 treelines
 trenchcoat
 trenchcoats
