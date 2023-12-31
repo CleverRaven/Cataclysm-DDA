@@ -78,7 +78,7 @@
   {
     "type": "proficiency",
     "id": "prof_psionic_ritual",
-    "category": "prof_psionics",
+    "category": "prof_psionic",
     "name": { "str": "Thought-form Construction" },
     "description": "You are adept at the focused concentration and elaborate mental exercises required to practice more esoteric psionic abilities.",
     "can_learn": true,
@@ -113,7 +113,7 @@
   {
     "type": "proficiency",
     "id": "prof_psionic_morphic",
-    "category": "prof_psionics",
+    "category": "prof_psionic",
     "name": { "str": "Morphology Alteration" },
     "description": "You have mastered using psionics to affect the form of living beings.",
     "can_learn": true,
