@@ -243,10 +243,6 @@ bool monster::will_move_to( const tripoint &p ) const
         }
     }
 
-    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
-        return false;
-    }
-
     if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
         !here.has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
@@ -1884,6 +1880,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) {
             destination = find_closest_stair( p, ter_furn_flag::TFLAG_GOES_UP );
         }
+    }
+
+    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
+        return false;
     }
 
     // Allows climbing monsters to move on terrain with movecost <= 0
