@@ -90,7 +90,6 @@ static const efftype_id effect_disarmed( "disarmed" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
-static const efftype_id effect_effect_telepath_ignorance( "effect_telepath_ignorance" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
@@ -120,6 +119,8 @@ static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
+static const efftype_id effect_telepathic_ignorance( "telepathic_ignorance" );
+static const efftype_id effect_telepathic_ignorance_self( "telepathic_ignorance_self" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
@@ -1529,10 +1530,6 @@ monster_attitude monster::attitude( const Character *u ) const
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
-    }
-
-    if( has_effect( effect_telepath_ignorance ) && u->is_avatar() ) {
-        return MATT_IGNORE;
     }
 
     int effective_anger  = anger;

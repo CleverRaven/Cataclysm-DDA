@@ -1622,13 +1622,22 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_telepath_ignorance",
+    "id": "telepathic_ignorance",
     "name": [ "Ignorance" ],
     "desc": [ "You're positive that no one is there." ],
     "apply_message": "",
     "remove_message": "Wait a minute, there *is* someone there!",
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "hidden effect so the monster knows who to ignore",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "30 minutes"
   },
   {
     "type": "effect_type",
