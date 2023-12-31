@@ -242,6 +242,26 @@ TEST_CASE( "pathfinding_basic", "[pathfinding]" )
             "##x",
             "xx ",
         }
+    }, pathfinding_test_case{
+        // Spiral
+        {
+            "t     ",
+            "##### ",
+            "    # ",
+            " ## # ",
+            " #f # ",
+            " #### ",
+            "      ",
+        },
+        {
+            "xxxxx ",
+            "#####x",
+            " xx #x",
+            "x##x#x",
+            "x#f #x",
+            "x####x",
+            " xxxx ",
+        }
     } );
 
     PathfindingSettings settings;
@@ -299,6 +319,26 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
             " x ",
             "WWx",
             "xx ",
+        }
+    }, pathfinding_test_case{
+        // Spiral
+        {
+            "t     ",
+            "WWWWW ",
+            "    W ",
+            " WW W ",
+            " Wf W ",
+            " WWWW ",
+            "      ",
+        },
+        {
+            "xxxxx ",
+            "WWWWWx",
+            " xx Wx",
+            "xWWxWx",
+            "xWf Wx",
+            "xWWWWx",
+            " xxxx ",
         }
     } );
 
@@ -1318,6 +1358,26 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
             " x ",
             "##x",
             "xx ",
+        }
+    }, pathfinding_test_case{
+        // Spiral
+        {
+            "t     ",
+            "##### ",
+            "    # ",
+            " ## # ",
+            " #f # ",
+            " #### ",
+            "      ",
+        },
+        {
+            "xxxxx ",
+            "#####x",
+            " xx #x",
+            "x##x#x",
+            "x#f #x",
+            "x####x",
+            " xxxx ",
         }
     }, pathfinding_test_case{
         // Bash window
