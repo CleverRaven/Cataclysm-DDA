@@ -7969,16 +7969,15 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         vehicle &veh = vp_there->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::working );
+        auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
         for( vehicle_part *&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
-            const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
             // Check for obstacles and appliances to prevent squishing when the part is
             // not a vehicle or when the player is not actually entering the tile IE grabbing.
             if( !vp.part_with_feature( "CARGO_PASSABLE", false ) &&
                 !vp.part_with_feature( "APPLIANCE", false ) && !vp.part_with_feature( "OBSTACLE", false ) ) {
-                capacity += vpinfo.size;
+                capacity += contents.max_volume();
                 free_cargo += contents.free_volume();
             }
         }
