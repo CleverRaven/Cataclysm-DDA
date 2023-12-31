@@ -19,12 +19,7 @@
     "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "cut",
-        "amount": 6
-      }
-    ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
     "bleed_rate": 75,
     "vision_day": 50,
@@ -32,25 +27,11 @@
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
     "harvest": "mi-go",
-    "path_settings": {
-      "max_dist": 50,
-      "allow_open_doors": true,
-      "avoid_traps": true,
-      "avoid_sharp": true
-    },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
-      {
-        "id": "scratch",
-        "damage_max_instance": [
-          {
-            "damage_type": "cut",
-            "amount": 23,
-            "armor_multiplier": 0.8
-          }
-        ]
-      }
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "flags": [
       "SEES",
@@ -67,12 +48,7 @@
       "PRIORITIZE_TARGETS",
       "CORNERED_FIGHTER"
     ],
-    "armor": {
-      "bash": 4,
-      "cut": 12,
-      "bullet": 10,
-      "electric": 2
-    }
+    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_mi_go_flying",
