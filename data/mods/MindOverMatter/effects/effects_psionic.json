@@ -1694,7 +1694,17 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 17,
-    "removes_effects": [ "taint", "tindrift", "hallu", "hallucination_attacks", "visuals", "fearparalyze", "amigara", "psi_stunned" ],
+    "removes_effects": [
+      "taint",
+      "tindrift",
+      "hallu",
+      "hallucination_attacks",
+      "visuals",
+      "fearparalyze",
+      "amigara",
+      "psi_stunned",
+      "telepathic_ignorance"
+    ],
     "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
   },
   {
