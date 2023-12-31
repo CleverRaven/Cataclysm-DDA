@@ -2746,11 +2746,7 @@
     "id": "mil_base_iv",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "blood", "prob": 100 },
-      { "item": "saline", "prob": 80, "container-item": "bag_iv" },
-      { "item": "bag_iv", "prob": 50 }
-    ]
+    "entries": [ { "item": "blood", "prob": 100 }, { "group": "saline_bottle_random", "prob": 80 }, { "item": "bag_iv", "prob": 50 } ]
   },
   {
     "id": "mil_base_mess_hall",
