@@ -425,8 +425,7 @@
     "energy_increment": -135,
     "base_casting_time": 165,
     "final_casting_time": 75,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "electrokinetic_revive": 12 }
+    "casting_time_increment": -5.5
   },
   {
     "id": "electrokinetic_kill_robot",
@@ -464,8 +463,7 @@
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
     "targeted_monster_species": [ "CYBORG", "ROBOT" ],
-    "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ],
-    "learn_spells": { "electrokinetic_lightning_blast": 8 }
+    "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ]
   },
   {
     "id": "electrokinetic_kill_robot_sparks",
