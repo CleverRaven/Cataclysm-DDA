@@ -7969,7 +7969,7 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         vehicle &veh = vp_there->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
+        auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::working );
         for( vehicle_part *&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
