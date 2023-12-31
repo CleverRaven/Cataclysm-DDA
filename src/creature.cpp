@@ -348,6 +348,10 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     }
 
+    if( !fov_3d && posz() != critter.posz() ) {
+        return false;
+    }
+
     map &here = get_map();
 
     if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( has_flag( mon_flag_ALWAYS_SEES_YOU ) &&
@@ -359,11 +363,6 @@ bool Creature::sees( const Creature &critter ) const
     if( this->has_flag( mon_flag_ALL_SEEING ) ) {
         const monster *m = this->as_monster();
         return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
-    }
-
-    // player can use mirrors, so `has_potential_los` cannot be used
-    if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
-        return false;
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
@@ -395,31 +394,39 @@ bool Creature::sees( const Creature &critter ) const
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
-    if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
-        return visible( ch );
-    } else if( ( wanted_range > 1 && critter.digging() &&
-                 here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
-               ( critter.has_flag( mon_flag_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
-               ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
-                 wanted_range > this->get_eff_per() &&
-                 ( critter.is_likely_underwater() ||
-                   here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
-                   ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos() ) &&
-                     critter.get_size() < creature_size::medium ) ) ) ||
-               ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
-                 here.light_at( critter.pos() ) <= lit_level::LOW ) ||
-               critter.has_effect( effect_invisibility ) ||
-               ( !is_likely_underwater() && critter.is_likely_underwater() &&
-                 majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
-                                here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
-                                posz() != critter.posz() ) ) ||
-               ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
-                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
-                    std::abs( posz() - critter.posz() ) <= 1 ) ) ||
-               ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos() ) &&
-                 critter.has_flag( mon_flag_SMALL_HIDER ) &&
-                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
-                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
+    if( wanted_range <= 1 ) {
+        return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
+    }
+
+    // If we cannot see without any of the penalties below, bail now.
+    const bool sees_unadjusted = sees( critter.pos(), critter.is_avatar() );
+    if( !sees_unadjusted ) {
+        return false;
+    }
+
+    if( ( wanted_range > 1 && critter.digging() &&
+          here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
+        ( critter.has_flag( mon_flag_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
+        ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
+          wanted_range > this->get_eff_per() &&
+          ( critter.is_likely_underwater() ||
+            here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
+            ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos() ) &&
+              critter.get_size() < creature_size::medium ) ) ) ||
+        ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
+          here.light_at( critter.pos() ) <= lit_level::LOW ) ||
+        critter.has_effect( effect_invisibility ) ||
+        ( !is_likely_underwater() && critter.is_likely_underwater() &&
+          majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
+                         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
+                         posz() != critter.posz() ) ) ||
+        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
+          !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+             std::abs( posz() - critter.posz() ) <= 1 ) ) ||
+        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos() ) &&
+          critter.has_flag( mon_flag_SMALL_HIDER ) &&
+          !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+             std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -427,7 +434,7 @@ bool Creature::sees( const Creature &critter ) const
             const int coverage = std::max( here.obstacle_coverage( pos(), critter.pos() ),
                                            here.ledge_coverage( *this, critter.pos() ) );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
+                return visible( ch );
             }
             float size_modifier = 1.0f;
             switch( ch->get_size() ) {
@@ -459,12 +466,12 @@ bool Creature::sees( const Creature &critter ) const
 
             if( coverage < profile ) {
                 const int vision_modifier = std::max( 30 * ( 1 - coverage / profile ), 1 );
-                return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
+                return vision_modifier >= wanted_range && visible( ch );
             }
             return false;
         }
     }
-    return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
+    return visible( ch );
 }
 
 bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
@@ -474,32 +481,37 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     }
 
     map &here = get_map();
-    const int range_cur = sight_range( here.ambient_light_at( t ) );
-    const int range_day = sight_range( default_daylight_level() );
-    const int range_night = sight_range( 0 );
-    const int range_max = std::max( range_day, range_night );
-    const int range_min = std::min( range_cur, range_max );
-    const int wanted_range = rl_dist( pos(), t );
-    if( wanted_range <= range_min ||
-        ( wanted_range <= range_max &&
-          here.ambient_light_at( t ) > here.get_cache_ref( t.z ).natural_light_level_cache ) ) {
-        int range = 0;
-        if( here.ambient_light_at( t ) > here.get_cache_ref( t.z ).natural_light_level_cache ) {
-            range = MAX_VIEW_DISTANCE;
+
+    // player can use mirrors, so `has_potential_los` cannot be used
+    if( !this->is_avatar() && !here.has_potential_los( pos(), t ) ) {
+        return false;
+    }
+
+    const int target_range = rl_dist( pos(), t );
+    if( range_mod > 0 && range_mod < target_range ) {
+        return false;
+    }
+
+    int range = 0;
+    if( has_effect( effect_no_sight ) ) {
+        range = 1;
+    } else {
+        const float light_here = here.ambient_light_at( pos() );
+        const float light_there = here.ambient_light_at( t );
+        if( light_here > light_there ) {
+            // Looking at something from lighter area to darker area. Take the min.
+            range = std::min( sight_range( light_here ), sight_range( light_there ) );
         } else {
-            range = range_min;
+            // Looking at something from darker area to lighter area. Take the min.
+            range = std::max( sight_range( light_here ), sight_range( light_there ) );
         }
-        if( has_effect( effect_no_sight ) ) {
-            range = 1;
-        }
-        if( range_mod > 0 ) {
-            range = std::min( range, range_mod );
-        }
+    }
+    if( range >= target_range ) {
         if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = get_player_character().visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
-            return adj_range >= wanted_range &&
+            return adj_range >= target_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
             return here.sees( pos(), t, range );
