@@ -74,119 +74,124 @@ struct mon_flag {
     static const std::vector<mon_flag> &get_all();
 };
 
-extern mon_flag_id mon_flag_ACIDPROOF;
-extern mon_flag_id mon_flag_ACIDTRAIL;
-extern mon_flag_id mon_flag_ACID_BLOOD;
-extern mon_flag_id mon_flag_ALL_SEEING;
-extern mon_flag_id mon_flag_ALWAYS_SEES_YOU;
-extern mon_flag_id mon_flag_ALWAYS_VISIBLE;
-extern mon_flag_id mon_flag_ANIMAL;
-extern mon_flag_id mon_flag_AQUATIC;
-extern mon_flag_id mon_flag_ARTHROPOD_BLOOD;
-extern mon_flag_id mon_flag_ATTACKMON;
-extern mon_flag_id mon_flag_ATTACK_LOWER;
-extern mon_flag_id mon_flag_ATTACK_UPPER;
-extern mon_flag_id mon_flag_BADVENOM;
-extern mon_flag_id mon_flag_BASHES;
-extern mon_flag_id mon_flag_BILE_BLOOD;
-extern mon_flag_id mon_flag_BORES;
-extern mon_flag_id mon_flag_CAMOUFLAGE;
-extern mon_flag_id mon_flag_CANPLAY;
-extern mon_flag_id mon_flag_CAN_BE_CULLED;
-extern mon_flag_id mon_flag_CAN_DIG;
-extern mon_flag_id mon_flag_CAN_OPEN_DOORS;
-extern mon_flag_id mon_flag_CLIMBS;
-extern mon_flag_id mon_flag_COMBAT_MOUNT;
-extern mon_flag_id mon_flag_CONSOLE_DESPAWN;
-extern mon_flag_id mon_flag_CONVERSATION;
-extern mon_flag_id mon_flag_CORNERED_FIGHTER;
-extern mon_flag_id mon_flag_DEADLY_VIRUS;
-extern mon_flag_id mon_flag_DESTROYS;
-extern mon_flag_id mon_flag_DIGS;
-extern mon_flag_id mon_flag_DOGFOOD;
-extern mon_flag_id mon_flag_DRIPS_GASOLINE;
-extern mon_flag_id mon_flag_DRIPS_NAPALM;
-extern mon_flag_id mon_flag_DROPS_AMMO;
-extern mon_flag_id mon_flag_EATS;
-extern mon_flag_id mon_flag_ELECTRIC;
-extern mon_flag_id mon_flag_ELECTRIC_FIELD;
-extern mon_flag_id mon_flag_ELECTRONIC;
-extern mon_flag_id mon_flag_FILTHY;
-extern mon_flag_id mon_flag_FIREPROOF;
-extern mon_flag_id mon_flag_FIREY;
-extern mon_flag_id mon_flag_FISHABLE;
-extern mon_flag_id mon_flag_FLIES;
-extern mon_flag_id mon_flag_GOODHEARING;
-extern mon_flag_id mon_flag_GRABS;
-extern mon_flag_id mon_flag_GROUP_BASH;
-extern mon_flag_id mon_flag_GROUP_MORALE;
-extern mon_flag_id mon_flag_HARDTOSHOOT;
-extern mon_flag_id mon_flag_HAS_MIND;
-extern mon_flag_id mon_flag_HEARS;
-extern mon_flag_id mon_flag_HIT_AND_RUN;
-extern mon_flag_id mon_flag_HUMAN;
-extern mon_flag_id mon_flag_ID_CARD_DESPAWN;
-extern mon_flag_id mon_flag_IMMOBILE;
-extern mon_flag_id mon_flag_INSECTICIDEPROOF;
-extern mon_flag_id mon_flag_INTERIOR_AMMO;
-extern mon_flag_id mon_flag_KEENNOSE;
-extern mon_flag_id mon_flag_KEEP_DISTANCE;
-extern mon_flag_id mon_flag_LOUDMOVES;
-extern mon_flag_id mon_flag_MECH_DEFENSIVE;
-extern mon_flag_id mon_flag_MECH_RECON_VISION;
-extern mon_flag_id mon_flag_MILKABLE;
-extern mon_flag_id mon_flag_NEMESIS;
-extern mon_flag_id mon_flag_NEVER_WANDER;
-extern mon_flag_id mon_flag_NIGHT_INVISIBILITY;
-extern mon_flag_id mon_flag_NOGIB;
-extern mon_flag_id mon_flag_NOHEAD;
-extern mon_flag_id mon_flag_NOT_HALLUCINATION;
-extern mon_flag_id mon_flag_NO_BREATHE;
-extern mon_flag_id mon_flag_NO_BREED;
-extern mon_flag_id mon_flag_NO_FUNG_DMG;
-extern mon_flag_id mon_flag_NO_NECRO;
-extern mon_flag_id mon_flag_PACIFIST;
-extern mon_flag_id mon_flag_PARALYZEVENOM;
-extern mon_flag_id mon_flag_PATH_AVOID_DANGER_1;
-extern mon_flag_id mon_flag_PATH_AVOID_DANGER_2;
-extern mon_flag_id mon_flag_PATH_AVOID_FALL;
-extern mon_flag_id mon_flag_PATH_AVOID_FIRE;
-extern mon_flag_id mon_flag_PAY_BOT;
-extern mon_flag_id mon_flag_PET_HARNESSABLE;
-extern mon_flag_id mon_flag_PET_MOUNTABLE;
-extern mon_flag_id mon_flag_PET_WONT_FOLLOW;
-extern mon_flag_id mon_flag_PHOTOPHOBIC;
-extern mon_flag_id mon_flag_PLASTIC;
-extern mon_flag_id mon_flag_POISON;
-extern mon_flag_id mon_flag_PRIORITIZE_TARGETS;
-extern mon_flag_id mon_flag_PUSH_MON;
-extern mon_flag_id mon_flag_PUSH_VEH;
-extern mon_flag_id mon_flag_QUEEN;
-extern mon_flag_id mon_flag_RANGED_ATTACKER;
-extern mon_flag_id mon_flag_REVIVES;
-extern mon_flag_id mon_flag_REVIVES_HEALTHY;
-extern mon_flag_id mon_flag_RIDEABLE_MECH;
-extern mon_flag_id mon_flag_SEES;
-extern mon_flag_id mon_flag_SHORTACIDTRAIL;
-extern mon_flag_id mon_flag_SILENT_DISAPPEAR;
-extern mon_flag_id mon_flag_SLUDGEPROOF;
-extern mon_flag_id mon_flag_SLUDGETRAIL;
-extern mon_flag_id mon_flag_SMALLSLUDGETRAIL;
-extern mon_flag_id mon_flag_SMALL_HIDER;
-extern mon_flag_id mon_flag_SMELLS;
-extern mon_flag_id mon_flag_STUMBLES;
-extern mon_flag_id mon_flag_STUN_IMMUNE;
-extern mon_flag_id mon_flag_SUNDEATH;
-extern mon_flag_id mon_flag_SWARMS;
-extern mon_flag_id mon_flag_SWIMS;
-extern mon_flag_id mon_flag_VAMP_VIRUS;
-extern mon_flag_id mon_flag_VENOM;
-extern mon_flag_id mon_flag_VERMIN;
-extern mon_flag_id mon_flag_WARM;
-extern mon_flag_id mon_flag_WATER_CAMOUFLAGE;
-extern mon_flag_id mon_flag_WEBWALK;
-extern mon_flag_id mon_flag_WIELDED_WEAPON;
+// Fast access to monster flags used in game logic.
+//
+// These are only safe to use after set_mon_flag_ids is called during game load.
+// NOLINTNEXTLINE(cata-static-int_id-constants)
+extern mon_flag_id mon_flag_ACIDPROOF,
+       mon_flag_ACIDTRAIL,
+       mon_flag_ACID_BLOOD,
+       mon_flag_ALL_SEEING,
+       mon_flag_ALWAYS_SEES_YOU,
+       mon_flag_ALWAYS_VISIBLE,
+       mon_flag_ANIMAL,
+       mon_flag_AQUATIC,
+       mon_flag_ARTHROPOD_BLOOD,
+       mon_flag_ATTACKMON,
+       mon_flag_ATTACK_LOWER,
+       mon_flag_ATTACK_UPPER,
+       mon_flag_BADVENOM,
+       mon_flag_BASHES,
+       mon_flag_BILE_BLOOD,
+       mon_flag_BORES,
+       mon_flag_CAMOUFLAGE,
+       mon_flag_CANPLAY,
+       mon_flag_CAN_BE_CULLED,
+       mon_flag_CAN_DIG,
+       mon_flag_CAN_OPEN_DOORS,
+       mon_flag_CLIMBS,
+       mon_flag_COMBAT_MOUNT,
+       mon_flag_CONSOLE_DESPAWN,
+       mon_flag_CONVERSATION,
+       mon_flag_CORNERED_FIGHTER,
+       mon_flag_DEADLY_VIRUS,
+       mon_flag_DESTROYS,
+       mon_flag_DIGS,
+       mon_flag_DOGFOOD,
+       mon_flag_DRIPS_GASOLINE,
+       mon_flag_DRIPS_NAPALM,
+       mon_flag_DROPS_AMMO,
+       mon_flag_EATS,
+       mon_flag_ELECTRIC,
+       mon_flag_ELECTRIC_FIELD,
+       mon_flag_ELECTRONIC,
+       mon_flag_FILTHY,
+       mon_flag_FIREPROOF,
+       mon_flag_FIREY,
+       mon_flag_FISHABLE,
+       mon_flag_FLIES,
+       mon_flag_GOODHEARING,
+       mon_flag_GRABS,
+       mon_flag_GROUP_BASH,
+       mon_flag_GROUP_MORALE,
+       mon_flag_HARDTOSHOOT,
+       mon_flag_HAS_MIND,
+       mon_flag_HEARS,
+       mon_flag_HIT_AND_RUN,
+       mon_flag_HUMAN,
+       mon_flag_ID_CARD_DESPAWN,
+       mon_flag_IMMOBILE,
+       mon_flag_INSECTICIDEPROOF,
+       mon_flag_INTERIOR_AMMO,
+       mon_flag_KEENNOSE,
+       mon_flag_KEEP_DISTANCE,
+       mon_flag_LOUDMOVES,
+       mon_flag_MECH_DEFENSIVE,
+       mon_flag_MECH_RECON_VISION,
+       mon_flag_MILKABLE,
+       mon_flag_NEMESIS,
+       mon_flag_NEVER_WANDER,
+       mon_flag_NIGHT_INVISIBILITY,
+       mon_flag_NOGIB,
+       mon_flag_NOHEAD,
+       mon_flag_NOT_HALLUCINATION,
+       mon_flag_NO_BREATHE,
+       mon_flag_NO_BREED,
+       mon_flag_NO_FUNG_DMG,
+       mon_flag_NO_NECRO,
+       mon_flag_PACIFIST,
+       mon_flag_PARALYZEVENOM,
+       mon_flag_PATH_AVOID_DANGER_1,
+       mon_flag_PATH_AVOID_DANGER_2,
+       mon_flag_PATH_AVOID_FALL,
+       mon_flag_PATH_AVOID_FIRE,
+       mon_flag_PAY_BOT,
+       mon_flag_PET_HARNESSABLE,
+       mon_flag_PET_MOUNTABLE,
+       mon_flag_PET_WONT_FOLLOW,
+       mon_flag_PHOTOPHOBIC,
+       mon_flag_PLASTIC,
+       mon_flag_POISON,
+       mon_flag_PRIORITIZE_TARGETS,
+       mon_flag_PUSH_MON,
+       mon_flag_PUSH_VEH,
+       mon_flag_QUEEN,
+       mon_flag_RANGED_ATTACKER,
+       mon_flag_REVIVES,
+       mon_flag_REVIVES_HEALTHY,
+       mon_flag_RIDEABLE_MECH,
+       mon_flag_SEES,
+       mon_flag_SHORTACIDTRAIL,
+       mon_flag_SILENT_DISAPPEAR,
+       mon_flag_SLUDGEPROOF,
+       mon_flag_SLUDGETRAIL,
+       mon_flag_SMALLSLUDGETRAIL,
+       mon_flag_SMALL_HIDER,
+       mon_flag_SMELLS,
+       mon_flag_STUMBLES,
+       mon_flag_STUN_IMMUNE,
+       mon_flag_SUNDEATH,
+       mon_flag_SWARMS,
+       mon_flag_SWIMS,
+       mon_flag_VAMP_VIRUS,
+       mon_flag_VENOM,
+       mon_flag_VERMIN,
+       mon_flag_WARM,
+       mon_flag_WATER_CAMOUFLAGE,
+       mon_flag_WEBWALK,
+       mon_flag_WIELDED_WEAPON;
 
+// Initializes all hardcoded flags above. String flags must already be loaded.
 void set_mon_flag_ids();
 
 /** Used to store monster effects placed on attack */
