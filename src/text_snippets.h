@@ -126,9 +126,21 @@ class snippet_library
         std::unordered_map<snippet_id, translation> name_by_id;
         std::unordered_map<snippet_id, talk_effect_t> EOC_by_id;
 
+        struct weighted_id {
+            // Accumulated weight that increases in the direction of the vector, used for randomization
+            size_t weight_acc;
+            snippet_id value;
+        };
+
+        struct weighted_translation {
+            // Accumulated weight that increases in the direction of the vector, used for randomization
+            size_t weight_acc;
+            translation value;
+        };
+
         struct category_snippets {
-            std::vector<snippet_id> ids;
-            std::vector<translation> no_id;
+            std::vector<weighted_id> ids;
+            std::vector<weighted_translation> no_id;
         };
         std::unordered_map<std::string, category_snippets> snippets_by_category;
 
