@@ -5580,7 +5580,7 @@
     "ugliness": 2,
     "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few nearly vestigial digits, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges, keep warm in your sleep, and will take less damage if you fall.",
     "types": [ "ARMS", "HANDS" ],
-    "enchantments": [ "ENCH_WINGS_BIRD" ],
+    "enchantments": [ "ench_wings_bird" ],
     "prereqs": [ "ARM_FEATHERS" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
@@ -5611,10 +5611,8 @@
     "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
     "copy-from": "WINGS_INSECT",
     "valid": false,
-    "cost": -100,
-    "time": "1 s",
-    "stamina": true,
     "movecost_modifier": 0.75,
+    "enchantments": [ "ench_wings_insect_active" ],
     "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 }
   },
   {

@@ -203,7 +203,6 @@ struct mutation_branch {
         bool fatigue       = false;
         bool hunger        = false;
         bool thirst        = false;
-        bool stamina       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
