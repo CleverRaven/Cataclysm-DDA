@@ -214,8 +214,8 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                 critter.add_effect( effect_cramped_space, 2_turns, true );
                 return true; // Otherwise we add the effect and return true.
             }
-            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-                !vp.part_with_feature( "HUGE_OK", true ) ) {
+            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+                !vp.part_with_feature( "HUGE_OK", false ) ) {
                 critter.add_effect( effect_cramped_space, 2_turns, true );
                 return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
             }
