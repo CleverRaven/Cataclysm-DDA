@@ -2,9 +2,11 @@
 #ifndef CATA_SRC_INT_ID_H
 #define CATA_SRC_INT_ID_H
 
+#include <bitset>
 #include <functional>
 #include <string>
 #include <type_traits>
+#include <unordered_set>
 
 template<typename T>
 class string_id;
@@ -119,7 +121,7 @@ class int_id
 };
 
 // Fast set implementation for sequential int IDs. Only meant to be used with implementations based
-// on generic_factory, i.e. non-zero IDs that are sequential from 0.
+// on generic_factory, i.e. non-negative IDs that are sequential from 0.
 template <typename T, std::size_t kFastSize>
 class int_id_set
 {
