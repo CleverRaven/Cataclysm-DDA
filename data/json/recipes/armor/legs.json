@@ -274,6 +274,18 @@
     "byproducts": [ [ "denim_patch", 6 ], [ "scrap_denim", 15 ] ]
   },
   {
+    "result": "jeans_ripped",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "jeans", 1 ], [ "jeans_red", 1 ] ] ]
+  },
+  {
     "result": "jeans_mod",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -286,7 +298,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "components": [ [ [ "jeans", 1 ] ], [ [ "knee_pads", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
+    "components": [ [ [ "jeans", 1 ], [ "jeans_red", 1 ] ], [ [ "knee_pads", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_closures" } ]
   },
   {
