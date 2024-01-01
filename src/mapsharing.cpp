@@ -105,6 +105,18 @@ void MAP_SHARING::setDefaults()
 
 void ofstream_wrapper::open( const std::ios::openmode mode )
 {
+#if defined(_WIN32)
+    {   // Windows has strict rules for file naming
+        fs::path valid = path.root_path();
+        fs::path rel = path.relative_path();
+        for( auto &it : rel ) {
+            std::string item = it.generic_u8string();
+            item = ensure_valid_file_name( item );
+            valid /= utf8_to_wstr( item );
+        }
+        path = valid;
+    }
+#endif
     // Create a *unique* temporary path. No other running program should
     // use this path. If the file exists, it must be of a *former* program
     // instance and can safely be deleted.

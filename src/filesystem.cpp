@@ -82,6 +82,18 @@ std::string as_norm_dir( const std::string &path )
 {
     fs::path dir = fs::u8path( path ) / fs::path{};
     fs::path norm = dir.lexically_normal();
+#ifdef _WIN32
+    {   // Windows has strict rules for file naming
+        fs::path valid = norm.root_path();
+        fs::path rel = norm.relative_path();
+        for( auto &it : rel ) {
+            std::string item = it.generic_u8string();
+            item = ensure_valid_file_name( item );
+            valid /= utf8_to_wstr( item );
+        }
+        norm = valid;
+    }
+#endif
     std::string ret = norm.generic_u8string();
     if( "." == ret ) {
         ret = "./"; // TODO Change the many places that use strings instead of paths
