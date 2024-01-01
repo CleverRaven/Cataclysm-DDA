@@ -10916,7 +10916,7 @@ void Character::process_effects()
         if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
-            }
+        }
         bool is_cramped_space = false;
         vehicle &veh = vp_there->vehicle();
         units::volume capacity = 0_ml;
