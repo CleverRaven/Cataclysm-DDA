@@ -223,6 +223,24 @@ PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) cons
 {
     PathfindingSettings settings = type->path_settings.to_new_pathfinding_settings();
 
+    switch( get_size() ) {
+        case creature_size::tiny:
+            settings.set_avoid_restrict_tiny( true );
+            break;
+        case creature_size::small:
+            settings.set_avoid_restrict_small( true );
+            break;
+        case creature_size::medium:
+            settings.set_avoid_restrict_medium( true );
+            break;
+        case creature_size::large:
+            settings.set_avoid_restrict_large( true );
+            break;
+        case creature_size::huge:
+            settings.set_avoid_restrict_huge( true );
+            break;
+    }
+
     settings.set_avoid_bashing( avoid_bashing );
 
     settings.set_is_digging( digging() );
@@ -242,9 +260,6 @@ PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) cons
     // If we hate the sun, stay inside when it is out.
     settings.set_avoid_unsheltered( has_flag( mon_flag_SUNDEATH ) &&
                                     incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal );
-
-    // if a large critter, can't move through tight passages
-    settings.set_avoid_small_passages( get_size() > creature_size::medium );
 
     // Various avoiding behaviors.
 

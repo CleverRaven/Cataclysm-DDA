@@ -34,8 +34,12 @@ enum class PathfindingFlag : uint8_t {
     Pit,            // A pit you can fall into / climb out of.
     DeepWater,      // Deep water.
     Burrowable,     // Can burrow into
-    HardGround,     // Can not dig & burrow into
-    SmallPassage,   // Small passage for a small creature.
+    HardGround,     // Can not dig & burrow intotiny = 1,
+    RestrictTiny,    // Tiny cannot enter
+    RestrictSmall,  // Small cannot enter
+    RestrictMedium, // Medium cannot enter
+    RestrictLarge,  // Large cannot enter
+    RestrictHuge,   // Huge cannot enter
     Lava,           // Lava terrain
 };
 
@@ -208,13 +212,6 @@ class RealityBubblePathfindingSettings
             max_cost_ = v;
         }
 
-        PathfindingFlags &avoid_mask() {
-            return avoid_mask_;
-        }
-        const PathfindingFlags &avoid_mask() const {
-            return avoid_mask_;
-        }
-
         const tripoint_rel_ms &padding() const {
             return padding_;
         }
@@ -228,7 +225,6 @@ class RealityBubblePathfindingSettings
         bool allow_stairways_ = false;
         int max_cost_ = 0;
         tripoint_rel_ms padding_ = tripoint_rel_ms( 16, 16, 1 );
-        PathfindingFlags avoid_mask_ = PathfindingFlag::Air | PathfindingFlag::Impassable;
 };
 
 class RealityBubblePathfinder
@@ -376,11 +372,39 @@ class PathfindingSettings
             set( PathfindingFlag::DeepWater, v );
         }
 
-        bool avoid_small_passages() const {
-            return is_set( PathfindingFlag::SmallPassage );
+        bool avoid_restrict_tiny() const {
+            return is_set( PathfindingFlag::RestrictTiny );
         }
-        void set_avoid_small_passages( bool v = true ) {
-            set( PathfindingFlag::SmallPassage, v );
+        void set_avoid_restrict_tiny( bool v = true ) {
+            set( PathfindingFlag::RestrictTiny, v );
+        }
+
+        bool avoid_restrict_small() const {
+            return is_set( PathfindingFlag::RestrictSmall );
+        }
+        void set_avoid_restrict_small( bool v = true ) {
+            set( PathfindingFlag::RestrictSmall, v );
+        }
+
+        bool avoid_restrict_medium() const {
+            return is_set( PathfindingFlag::RestrictMedium );
+        }
+        void set_avoid_restrict_medium( bool v = true ) {
+            set( PathfindingFlag::RestrictMedium, v );
+        }
+
+        bool avoid_restrict_large() const {
+            return is_set( PathfindingFlag::RestrictLarge );
+        }
+        void set_avoid_restrict_large( bool v = true ) {
+            set( PathfindingFlag::RestrictLarge, v );
+        }
+
+        bool avoid_restrict_huge() const {
+            return is_set( PathfindingFlag::RestrictHuge );
+        }
+        void set_avoid_restrict_huge( bool v = true ) {
+            set( PathfindingFlag::RestrictHuge, v );
         }
 
         bool avoid_pits() const {
@@ -493,7 +517,7 @@ class PathfindingSettings
         }
 
         PathfindingFlags avoid_mask() const {
-            return rb_settings_.avoid_mask();
+            return avoid_mask_;
         }
 
         bool avoid_bashing() const {
@@ -522,13 +546,13 @@ class PathfindingSettings
 
     private:
         bool is_set( PathfindingFlags flag ) const {
-            return rb_settings_.avoid_mask().is_set( flag );
+            return avoid_mask_.is_set( flag );
         }
         void set( PathfindingFlags flags, bool v ) {
             if( v ) {
-                rb_settings_.avoid_mask().set_union( flags );
+                avoid_mask_.set_union( flags );
             } else {
-                rb_settings_.avoid_mask().set_clear( flags );
+                avoid_mask_.set_clear( flags );
             }
         }
 
@@ -537,6 +561,8 @@ class PathfindingSettings
             set( PathfindingFlag::Obstacle, !is_digging() && ( climb_cost() <= 0 || avoid_climbing() ) &&
                  avoid_opening_doors() && ( avoid_bashing() || bash_strength() <= 0 ) );
         }
+
+        PathfindingFlags avoid_mask_ = PathfindingFlag::Air | PathfindingFlag::Impassable;
 
         int max_distance_ = 0;
 

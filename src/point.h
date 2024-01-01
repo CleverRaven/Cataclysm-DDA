@@ -282,7 +282,7 @@ std::vector<point> closest_points_first( const point &center, int min_dist, int 
 
 template <typename PredicateFn>
 std::optional<point> find_point_closest_first( const point &center, int min_dist, int max_dist,
-        PredicateFn fn );
+        PredicateFn &&fn );
 
 inline constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 inline constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
@@ -359,7 +359,7 @@ inline const std::array<tripoint, 8> eight_horizontal_neighbors = { {
 
 template <typename PredicateFn>
 std::optional<point> find_point_closest_first( const point &center, int min_dist, int max_dist,
-        PredicateFn predicate_fn )
+        PredicateFn &&predicate_fn )
 {
     min_dist = std::max( min_dist, 0 );
     max_dist = std::max( max_dist, 0 );

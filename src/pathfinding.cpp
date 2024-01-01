@@ -119,6 +119,25 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
 
     if( veh ) {
         flags |= PathfindingFlag::Vehicle;
+
+        if( auto cargo = veh->cargo(); cargo && !cargo->has_feature( "CARGO_PASSABLE" ) ) {
+            const units::volume free_volume = cargo->items().free_volume();
+            if( free_volume < 11719_ml ) {
+                flags |= PathfindingFlag::RestrictTiny;
+            }
+            if( free_volume < 23438_ml ) {
+                flags |= PathfindingFlag::RestrictSmall;
+            }
+            if( free_volume < 46875_ml ) {
+                flags |= PathfindingFlag::RestrictMedium;
+            }
+            if( free_volume < 93750_ml ) {
+                flags |= PathfindingFlag::RestrictLarge;
+            }
+            if( free_volume < 187500_ml ) {
+                flags |= PathfindingFlag::RestrictHuge;
+            }
+        }
     }
 
     if( cost == 0 ) {
@@ -216,7 +235,8 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
     }
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
-        flags |= PathfindingFlag::SmallPassage;
+        flags |= PathfindingFlag::RestrictMedium | PathfindingFlag::RestrictLarge |
+                 PathfindingFlag::RestrictHuge;
     }
 
     if( !g->is_sheltered( p.raw() ) ) {

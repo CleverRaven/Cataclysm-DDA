@@ -449,11 +449,24 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
         t.test_all( settings );
     }
 
-    SECTION( "small passages" ) {
+    SECTION( "size" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( ter_t_wall_wood_widened ) );
-        settings.set_avoid_small_passages( true );
 
-        t.test_all( settings );
+        SECTION( "medium" ) {
+            settings.set_avoid_restrict_medium( true );
+
+            t.test_all( settings );
+        }
+        SECTION( "large" ) {
+            settings.set_avoid_restrict_large( true );
+
+            t.test_all( settings );
+        }
+        SECTION( "huge" ) {
+            settings.set_avoid_restrict_huge( true );
+
+            t.test_all( settings );
+        }
     }
 
     SECTION( "swimming" ) {
@@ -776,11 +789,19 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
         t.test_all( settings );
     }
 
-    SECTION( "small passages" ) {
+    SECTION( "size" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( ter_t_wall_wood_widened ) );
-        settings.set_avoid_small_passages( false );
 
-        t.test_all( settings );
+        SECTION( "tiny" ) {
+            settings.set_avoid_restrict_tiny( true );
+
+            t.test_all( settings );
+        }
+        SECTION( "small" ) {
+            settings.set_avoid_restrict_small( true );
+
+            t.test_all( settings );
+        }
     }
 
     SECTION( "swimming" ) {
