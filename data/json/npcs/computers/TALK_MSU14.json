@@ -78,7 +78,7 @@
   {
     "type": "talk_topic",
     "id": "MSU14_DOCS_SUCCESS",
-    "dynamic_line": "&Printing...",
+    "dynamic_line": "&Printing…",
     "responses": [
       {
         "text": "Return.",
