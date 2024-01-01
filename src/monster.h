@@ -161,7 +161,8 @@ class monster : public Creature
 
         std::string extended_description() const override;
         // Inverts color if inv==true
-        bool has_flag( const mon_flag_id &f ) const override; // Returns true if f is set (see mtype.h)
+        // // Returns true if f is set (see mtype.h)
+        bool has_flag( const mon_flag_id &f ) const final;
         // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
         bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND

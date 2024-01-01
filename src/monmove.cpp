@@ -82,45 +82,6 @@ static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
 
-static const mon_flag_str_id mon_flag_ACIDPROOF( "ACIDPROOF" );
-static const mon_flag_str_id mon_flag_ACIDTRAIL( "ACIDTRAIL" );
-static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_str_id mon_flag_ATTACKMON( "ATTACKMON" );
-static const mon_flag_str_id mon_flag_CAN_OPEN_DOORS( "CAN_OPEN_DOORS" );
-static const mon_flag_str_id mon_flag_DRIPS_GASOLINE( "DRIPS_GASOLINE" );
-static const mon_flag_str_id mon_flag_DRIPS_NAPALM( "DRIPS_NAPALM" );
-static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
-static const mon_flag_str_id mon_flag_FIREPROOF( "FIREPROOF" );
-static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
-static const mon_flag_str_id mon_flag_GROUP_MORALE( "GROUP_MORALE" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_INSECTICIDEPROOF( "INSECTICIDEPROOF" );
-static const mon_flag_str_id mon_flag_KEENNOSE( "KEENNOSE" );
-static const mon_flag_str_id mon_flag_KEEP_DISTANCE( "KEEP_DISTANCE" );
-static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_PACIFIST( "PACIFIST" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
-static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
-static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
-static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
-static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
-static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-static const mon_flag_str_id mon_flag_SHORTACIDTRAIL( "SHORTACIDTRAIL" );
-static const mon_flag_str_id mon_flag_SLUDGETRAIL( "SLUDGETRAIL" );
-static const mon_flag_str_id mon_flag_SMALLSLUDGETRAIL( "SMALLSLUDGETRAIL" );
-static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
-static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
-static const mon_flag_str_id mon_flag_STUMBLES( "STUMBLES" );
-static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
-static const mon_flag_str_id mon_flag_SWARMS( "SWARMS" );
-static const mon_flag_str_id mon_flag_WEBWALK( "WEBWALK" );
-
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 

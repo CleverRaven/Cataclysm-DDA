@@ -140,8 +140,6 @@ static const itype_id itype_nail( "nail" );
 
 static const material_id material_glass( "glass" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const mtype_id mon_zombie( "mon_zombie" );
 
 static const oter_str_id oter_deep_rock( "deep_rock" );
