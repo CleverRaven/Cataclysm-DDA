@@ -25,6 +25,8 @@ static const ter_str_id ter_t_shrub_blackberry( "t_shrub_blackberry" );
 static const ter_str_id ter_t_splitrail_fence( "t_splitrail_fence" );
 static const ter_str_id ter_t_wall_wood_widened( "t_wall_wood_widened" );
 
+static const vproto_id vehicle_prototype_engine_crane( "engine_crane" );
+
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
@@ -475,6 +477,13 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
 
         t.test_all( settings );
     }
+
+    SECTION( "vehicle" ) {
+        t.set_up_tiles = ifchar( 'W', vehicle_set( vehicle_prototype_engine_crane ) );
+        settings.set_avoid_vehicle( true );
+
+        t.test_all( settings );
+    }
 }
 
 TEST_CASE( "pathfinding_avoid_inside_door", "[pathfinding]" )
@@ -807,6 +816,13 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
     SECTION( "swimming" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( t_water_pool ) );
         settings.set_avoid_swimming( false );
+
+        t.test_all( settings );
+    }
+
+    SECTION( "vehicle" ) {
+        t.set_up_tiles = ifchar( 'W', vehicle_set( vehicle_prototype_engine_crane ) );
+        settings.set_avoid_vehicle( false );
 
         t.test_all( settings );
     }
@@ -1549,6 +1565,22 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
             " x ",
         }
     }, pathfinding_test_case{
+        // Over vehicle
+        {
+            " f ",
+            "   ",
+            "#v#",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            "#x#",
+            " x ",
+            " x ",
+        }
+    }, pathfinding_test_case{
         // Around trap
         {
             "f    ",
@@ -1591,8 +1623,7 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
                      ifchar( 'D', ter_set( ter_t_ramp_down_high ) ) ||
                      ifchar( 'u', ter_set( ter_t_ramp_up_low ) ) ||
                      ifchar( 'd', ter_set( ter_t_ramp_down_low ) ) ||
-                     ifchar( '>', ter_set( t_stairs_down ) ) ||
-                     ifchar( '<', ter_set( t_stairs_up ) ) ||
+                     ifchar( 'v', vehicle_set( vehicle_prototype_engine_crane ) ) ||
                      ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
                      ifchar( 'F', field_set( fd_fire ) ) ||
@@ -1842,6 +1873,23 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
             " x ",
             " x ",
         }
+
+    }, pathfinding_test_case{
+        // Through vehicle
+        {
+            " f ",
+            "   ",
+            " v ",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            " x ",
+            " x ",
+            " x ",
+        }
     }, pathfinding_test_case{
         // Through fire (and flames)
         {
@@ -1864,6 +1912,7 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
                      ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
                      ifchar( 'F', field_set( fd_fire ) ) ||
+                     ifchar( 'v', vehicle_set( vehicle_prototype_engine_crane ) ) ||
                      ifchar( 's', ter_set( ter_t_shrub_blackberry ) );
 
     t.test_all( "mon_zombie" );

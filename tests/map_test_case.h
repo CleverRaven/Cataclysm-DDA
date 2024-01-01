@@ -268,6 +268,10 @@ tile_predicate field_set(
     field_type_id id,
     tripoint shift = tripoint_zero
 );
+tile_predicate vehicle_set(
+    vproto_id id,
+    tripoint shift = tripoint_zero
+);
 
 /**
  * Function that prints encountered char and fails.

@@ -490,6 +490,19 @@ tile_predicate field_set(
     };
 }
 
+tile_predicate vehicle_set(
+    vproto_id id,
+    tripoint shift
+)
+{
+    return [ = ]( map_test_case::tile t ) {
+        REQUIRE( id.is_valid() );
+        tripoint p = t.p + shift;
+        get_map().add_vehicle( id, p, 0_degrees );
+        return true;
+    };
+}
+
 } // namespace tiles
 
 } // namespace map_test_case_common
