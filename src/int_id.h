@@ -118,6 +118,52 @@ class int_id
         int _id;
 };
 
+template <typename T, std::size_t kFastSize>
+class int_id_set
+{
+    public:
+        template <typename... Ts>
+        void emplace( Ts &&... ts ) {
+            insert( int_id<T>( std::forward<Ts>( ts )... ) );
+        }
+
+        void insert( int_id<T> id ) {
+            const int i = id.to_i();
+            if( i < fast_set_.size() ) {
+                fast_set_[i] = true;
+            } else {
+                slow_set_.insert( id );
+            }
+        }
+
+        void erase( int_id<T> id ) {
+            const int i = id.to_i();
+            if( i < fast_set_.size() ) {
+                fast_set_[i] = false;
+            } else {
+                slow_set_.erase( id );
+            }
+        }
+
+        bool contains( int_id<T> id ) const {
+            const int i = id.to_i();
+            if( i < fast_set_.size() ) {
+                return fast_set_[i];
+            } else {
+                return slow_set_.count( id );
+            }
+        }
+
+        void clear() {
+            fast_set_.reset();
+            slow_set_.clear();
+        }
+
+    private:
+        std::bitset<kFastSize> fast_set_;
+        std::unordered_set<int_id<T>> slow_set_;
+};
+
 // Support hashing of int based ids by forwarding the hash of the int.
 template<typename T>
 // NOLINTNEXTLINE(cert-dcl58-cpp)

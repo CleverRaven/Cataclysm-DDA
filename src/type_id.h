@@ -150,6 +150,7 @@ using mod_id = string_id<MOD_INFORMATION>;
 
 struct mon_flag;
 using mon_flag_id = int_id<mon_flag>;
+using mon_flag_id_set = int_id_set<mon_flag, 64 * 2>;
 using mon_flag_str_id = string_id<mon_flag>;
 
 class monfaction;

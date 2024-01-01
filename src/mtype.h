@@ -163,7 +163,7 @@ struct mtype {
         mon_action_defend sp_defense;
     private:
         ascii_art_id picture_id;
-        std::unordered_set<mon_flag_id> flags;
+        mon_flag_id_set flags;
         std::set<mon_flag_str_id> pre_flags_; // used only for initial loading
     public:
         mtype_id id;
@@ -383,7 +383,9 @@ struct mtype {
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag( const mon_flag_id &flag ) const;
+        bool has_flag( const mon_flag_id &flag ) const {
+            return flags.contains( flag );
+        }
         void set_flag( const mon_flag_id &flag, bool state = true );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;
