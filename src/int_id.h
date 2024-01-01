@@ -132,7 +132,7 @@ class int_id_set
         }
 
         void insert( int_id<T> id ) {
-            const int i = id.to_i();
+            const std::size_t i = static_cast<std::size_t>( id.to_i() );
             if( i < fast_set_.size() ) {
                 fast_set_[i] = true;
             } else {
@@ -141,7 +141,7 @@ class int_id_set
         }
 
         void erase( int_id<T> id ) {
-            const int i = id.to_i();
+            const std::size_t i = static_cast<std::size_t>( id.to_i() );
             if( i < fast_set_.size() ) {
                 fast_set_[i] = false;
             } else {
@@ -150,7 +150,7 @@ class int_id_set
         }
 
         bool contains( int_id<T> id ) const {
-            const int i = id.to_i();
+            const std::size_t i = static_cast<std::size_t>( id.to_i() );
             if( i < fast_set_.size() ) {
                 return fast_set_[i];
             } else {
