@@ -524,6 +524,7 @@ std::string ensure_valid_file_name( const std::string &file_name )
     const std::string invalid_chars = "\\/:?\"<>|";
 
     // do any replacement in the file name, if needed.
+#ifndef _WIN32
     std::string new_file_name = file_name;
     std::transform( new_file_name.begin(), new_file_name.end(),
     new_file_name.begin(), [&]( const char c ) {
@@ -534,4 +535,16 @@ std::string ensure_valid_file_name( const std::string &file_name )
     } );
 
     return new_file_name;
+#else // _WIN32
+    std::wstring new_file_name = utf8_to_wstr( file_name );
+    static const std::wstring winvalid_chars = utf8_to_wstr( invalid_chars );
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&]( const wchar_t c ) {
+        if( winvalid_chars.find( c ) != std::wstring::npos ) {
+            return wchar_t(replacement_char);
+        }
+        return c;
+    } );
+    return wstr_to_utf8( new_file_name );
+#endif
 }
