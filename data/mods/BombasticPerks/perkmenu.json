@@ -365,10 +365,7 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_vengeful", "target_var": { "context_val": "trait_id" } },
-          {
-            "set_string_var": "Requires handguns 2",
-            "target_var": { "context_val": "trait_requirement_description" }
-          },
+          { "set_string_var": "No requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
