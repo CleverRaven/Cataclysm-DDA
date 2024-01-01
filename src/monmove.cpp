@@ -239,6 +239,8 @@ PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) cons
         case creature_size::huge:
             settings.set_avoid_restrict_huge( true );
             break;
+        default:
+            break;
     }
 
     settings.set_avoid_bashing( avoid_bashing );
