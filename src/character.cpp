@@ -8006,8 +8006,8 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         }
         const optional_vpart_position vp = m.veh_at( dest_loc );
         // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
-        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-            !vp.part_with_feature( "HUGE_OK", true ) && !has_effect( effect_cramped_space ) ) {
+        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+            !vp.part_with_feature( "HUGE_OK", false ) && !has_effect( effect_cramped_space ) ) {
             add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
             add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
             c->add_effect( effect_cramped_space, 2_turns, true );
