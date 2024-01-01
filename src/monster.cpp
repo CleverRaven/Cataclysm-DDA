@@ -3355,7 +3355,7 @@ void monster::process_effects()
         for( vehicle_part *&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
             const vpart_info &vpinfo = part->info();
-            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
                 capacity += vpinfo.size;
                 free_cargo += contents.free_volume();
             }
@@ -3381,8 +3381,8 @@ void monster::process_effects()
                 return;
             }
         }
-        if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-            !vp.part_with_feature( "HUGE_OK", true ) ) {
+        if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+            !vp.part_with_feature( "HUGE_OK", false ) ) {
             if( !has_effect( effect_cramped_space ) ) {
                 add_effect( effect_cramped_space, 2_turns, true );
             }

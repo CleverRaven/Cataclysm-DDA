@@ -203,7 +203,7 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                     ( size == creature_size::medium && free_cargo < 46875_ml ) ||
                     ( size == creature_size::large && free_cargo < 93750_ml ) ||
                     ( size == creature_size::huge && free_cargo < 187500_ml ) ||
-                    ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", true ) ) ) {
+                    ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", false ) ) ) {
                     return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
                     // I'm sorry but you can't let a kaiju ride shotgun.
                 }
