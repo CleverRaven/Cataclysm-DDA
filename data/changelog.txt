@@ -88,6 +88,8 @@ There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free
 Make run_eocs/queue_eocs support variable objects
 Protein bars now give character a psychological trauma
 Adds sand to ocean beaches
+Toggle to highlight OMTs revealed by maps
+Adds extreme height chargen traits, adds tools for disabled drivers
 
 
 ## Content:
@@ -169,6 +171,14 @@ Vehicles spawn on bridges
 Added creatures to populate the new edge ocean.
 Major board game expansion
 Allow the Nunez family to move to Tacoma Commune if you help them set it up.
+Alternate Military Cargo Truck
+Added the Nag Hammadi Codices to spiritual.json
+Lockets can store photographs
+Add diet soda, because screw your free calories!
+Soldier enemies wear dogtags
+Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
+Modularize Desert Eagle, add .50 AE
+Adds the Steyr Scout rifle
 
 
 ## Interface:
@@ -220,6 +230,8 @@ Shows the starting location for a scenario when there is only one possible optio
 Show language selection window in options menu
 Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
+High characters now see fancy smiley faces and exclamations in their message log.
+Can't accidentally select full deconstruction if simple deconstruction is available
 
 
 ## Mods:
@@ -307,6 +319,24 @@ Add Bombastic Perk compatibility to Defense Mode.
 [MoM] Change electrokinetic overload
 [Sky Island] Allow selection of room teleport behavior
 [MOM] Allow high nether attunement to induce hallucinations.
+[Sky Island] Warp Pulse UI
+[MoM] Add four new powers
+[Sky Island] Add cosmetic constructions for warped shards
+Make Wakeful Rest check sleep deprivation when starting
+[Sky Island] Add dedicated crafting tab
+Paraclesian Map extras
+[DinoMod] ocean mosasaurus spawns
+Additional psychic fauna
+[MoM] Power learning revamp: Biokinesis
+[Sky Island] Allow difficulty selection for Warp Home spell
+[MoM] Migrate awakening variables from global to u_
+[MoM] Account for Seasonal Allergies in vitakinesis
+[MoM] Change success formula for psionic powers
+[MoM] Maintain science extra parity with mainline
+[Bombastic Perks] Add some new perks
+[DinoMod] plesiosaurus
+[MoM] Psi equation fixes
+[MoM] Add missing biokinesis recipes
 
 
 ## Balance:
@@ -356,6 +386,9 @@ Fragile Clothing will degrade if its dealt damage larger than 15% its armor valu
 Professions can start with specific recipes
 Food irradiation slows food decay to a quarter, instead of making it last forever
 Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
+Added sword tags back onto wooden training swords.
+Changes innawood weapon recipe tool type from "tongs" to "metalworking_tongs"
+Visitors Passes and Freight Badges no longer reveal roads
 
 
 ## Bugfixes:
@@ -461,6 +494,24 @@ Show correct bodypart in grabs
 Vehicle parts check creature size, increases storage of dumpster and vehicle parts
 Prevent softlock when sleeping in cramped spaces
 Invalidate draw point cache if viewport size or position changes
+Fix: Correct dynamic line for Olwen in godco
+Properly clamp npc personality traits
+Singular copy-from fix.
+clarify repeater mod installation and add a vanilla quest for them
+[MoM] Stop Photokinetics from learning non-existant recipes
+Fix Invisibility
+Remove doubled pigeon definition
+Using visitor's pass or freight badge tries to reveal TCL in larger radius
+Handle invalid mod pocket contents
+Some iterator fixes for Crushing Leap
+[Sky Island] Correct warped pond shard cost
+Add items to their corresponding melee practices
+[MoM] Fix two bugs
+Randomizing character description will produce a matching outfit
+Fixes zone farming segmentation fault
+[Sky Island] Fix Warped Beacon
+Add cooking 3 requirement to milkshake_deluxe (& _choc), see #70288
+[Bombastic Perks] Perk fixes
 
 
 ## Performance:
@@ -476,6 +527,8 @@ Precalculate visitable zones to optimize inter-monster aggression checks
 Reduced wait times in high traffic areas by ~15-20%
 Reduce time of selecting large amount of items in inventory menu
 Fix armor resistances hotspot exposed by NPC AI improvements
+Slightly fewer allocations in npc::process_turn
+Optimized creature iteration during monster planning and parrot_at_danger.
 
 
 ## Infrastructure:
@@ -530,6 +583,7 @@ Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
+Report game's RNG seed during testing
 
 
 ## I18N and A11Y:
