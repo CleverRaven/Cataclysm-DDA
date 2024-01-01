@@ -1,6 +1,57 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "SALINE_INFUSION_init",
+    "condition": { "or": [ { "u_has_flag": "INFECTION_IMMUNE" }, { "u_has_effect": "cannula_in_hand" } ] },
+    "effect": [
+      { "run_eoc_with": "SALINE_INFUSION", "variables": { "has_disinfectant": "1" } },
+      { "u_message": "DEBUG: you have infection_immune or cannula in hand, processing infusion", "type": "debug" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "DEBUG: you don't have infection_immune or cannula in hand, searching the disinfectant",
+        "type": "debug"
+      },
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "flags": [ "DISINFECTANT" ] } ],
+        "true_eocs": [
+          {
+            "id": "REMOVE_DISINFECTANT",
+            "effect": [
+              { "u_message": "DEBUG: found disinfectant, processing infusion", "type": "debug" },
+              { "math": [ "n_hp('ALL')", "=", "0" ] },
+              { "run_eoc_with": "SALINE_INFUSION", "variables": { "has_disinfectant": "1" } }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "INFUSE_WITHOUT_DISINFECTION",
+            "effect": [
+              { "u_message": "DEBUG: disinfectant not found, query to process", "type": "debug" },
+              {
+                "if": {
+                  "u_query": "You don't have any disinfectant to clean your skin.  Your arm may be infected after infusion.  Continue without disinfection?",
+                  "default": true
+                },
+                "then": [
+                  { "u_message": "DEBUG: processed without disinfectant", "type": "debug" },
+                  { "run_eoc_with": "SALINE_INFUSION", "variables": { "has_disinfectant": "0" } }
+                ],
+                "else": [
+                  { "u_message": "DEBUG: infusion stopped", "type": "debug" },
+                  { "u_message": "You decided to not risk your life until you find something to disinfect the skin." }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "SALINE_INFUSION",
     "//": "4 ml of saline per 1 ml of blood, rate 2L/hour.  1 ml of blood = 10 units of vitamin",
     "effect": [
@@ -8,7 +59,7 @@
       { "u_assign_activity": "ACT_SALINE_INFUSE", "duration": { "math": [ "_volume_of_saline / 0.55555556" ] } },
       { "u_consume_item": { "context_val": "bag_id" } },
       {
-        "u_message": "You prepare a saline solution, put a small nail in your vein, and patiently wait until all the liquid goes into your bloodstream.",
+        "u_message": "You prepare the tubing, insert the needle into a vein, and patiently wait for the saline solution to flow into your bloodstream.",
         "type": "good"
       }
     ]

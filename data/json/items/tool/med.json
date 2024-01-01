@@ -27,7 +27,7 @@
     "price_postapoc": 6,
     "symbol": ",",
     "color": "white",
-    "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE", "DISINFECTANT" ],
     "use_action": { "type": "heal", "disinfectant_power": 2, "bite": 0.3, "move_cost": 500 }
   },
   {
@@ -127,7 +127,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "DISINFECTANT" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 2,
@@ -150,7 +150,7 @@
     "material": [ "cotton" ],
     "symbol": "*",
     "color": "white",
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "DISINFECTANT" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 3,
@@ -215,6 +215,7 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "white",
+    "flags": [ "DISINFECTANT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -415,8 +416,8 @@
     "id": "saline_bag_250",
     "type": "GENERIC",
     "category": "drugs",
-    "name": { "str": "small saline bag" },
-    "description": "A small, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula.  Holds 250 ml of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
+    "name": { "str": "small saline infusion kit" },
+    "description": "A small, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 250 ml of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "looks_like": "bag_iv",
     "material": [
       { "type": "water", "portion": 991 },
@@ -435,12 +436,12 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Infuse saline",
-        "description": "You can use it to mitigate the blood loss consequences.",
+        "description": "You can use it to mitigate the consequences of blood loss.  Require health care 3 and some disinfectant.",
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_250",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_250", "volume_of_saline": "250" } },
+            "condition": { "math": [ "u_skill('firstaid')", ">=", "3" ] },
+            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_250", "volume_of_saline": "250" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -451,8 +452,8 @@
     "id": "saline_bag_500",
     "copy-from": "saline_bag_250",
     "type": "GENERIC",
-    "name": { "str": "medium saline bag" },
-    "description": "A sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula.  Holds 500 ml of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
+    "name": { "str": "medium saline infusion kit" },
+    "description": "A sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 500 ml of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "518 g",
     "volume": "590 ml",
     "price": 749,
@@ -463,12 +464,12 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Infuse saline",
-        "description": "You can use it to mitigate the blood loss consequences.",
+        "description": "You can use it to mitigate the consequences of blood loss.  Require health care 4.",
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_500",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_500", "volume_of_saline": "500" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_500", "volume_of_saline": "500" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -479,8 +480,8 @@
     "id": "saline_bag_1000",
     "copy-from": "saline_bag_250",
     "type": "GENERIC",
-    "name": { "str": "large saline bag" },
-    "description": "A large, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula.  Holds a liter of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
+    "name": { "str": "large saline infusion kit" },
+    "description": "A large, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds a liter of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "1028 g",
     "volume": "1180 ml",
     "price": 942,
@@ -491,12 +492,12 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Infuse saline",
-        "description": "You can use it to mitigate the blood loss consequences.",
+        "description": "You can use it to mitigate the consequences of blood loss.  Require health care 4.",
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_1000",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_1000", "volume_of_saline": "1000" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_1000", "volume_of_saline": "1000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -507,8 +508,8 @@
     "id": "saline_bag_2000",
     "copy-from": "saline_bag_250",
     "type": "GENERIC",
-    "name": { "str": "huge saline bag" },
-    "description": "A huge, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula.  Holds two liters of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
+    "name": { "str": "huge saline infusion kit" },
+    "description": "A huge, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds two liters of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "2048 g",
     "volume": "2360 ml",
     "price": 1399,
@@ -519,12 +520,12 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Infuse saline",
-        "description": "You can use it to mitigate the blood loss consequences.",
+        "description": "You can use it to mitigate the consequences of blood loss.  Require health care 4.",
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_2000",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_2000", "volume_of_saline": "2000" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_2000", "volume_of_saline": "2000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
