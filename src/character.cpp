@@ -10912,8 +10912,8 @@ void Character::process_effects()
         if( !vp_there ) {
             remove_effect( effect_cramped_space );
             return;
-            }
-            if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
+        }
+        if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
             }
