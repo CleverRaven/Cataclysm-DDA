@@ -3904,7 +3904,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
