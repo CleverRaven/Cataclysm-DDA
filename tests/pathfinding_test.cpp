@@ -23,9 +23,11 @@ static const ter_str_id ter_t_ramp_up_high( "t_ramp_up_high" );
 static const ter_str_id ter_t_ramp_up_low( "t_ramp_up_low" );
 static const ter_str_id ter_t_shrub_blackberry( "t_shrub_blackberry" );
 static const ter_str_id ter_t_splitrail_fence( "t_splitrail_fence" );
+static const ter_str_id ter_t_strconc_wall_b( "t_strconc_wall_b" );
 static const ter_str_id ter_t_wall_wood_widened( "t_wall_wood_widened" );
 
 static const vproto_id vehicle_prototype_engine_crane( "engine_crane" );
+static const vproto_id vehicle_prototype_welding_cart( "welding_cart" );
 
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
@@ -118,7 +120,7 @@ struct pathfinding_test_case {
     }
 
     void test_all( const std::string &mon_id ) const {
-        test_all_fn( [&]( const map & here, const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
+        test_all_fn( [&]( map & here, const tripoint_bub_ms & from, const tripoint_bub_ms & to ) {
             monster &mon = spawn_test_monster( mon_id, from.raw(), false );
             mon.set_dest( here.getglobal( to ) );
             // Disable random stumbling so the tests are deterministic.
@@ -130,6 +132,7 @@ struct pathfinding_test_case {
             int limit = 0;
             std::vector<tripoint_bub_ms> route;
             while( mon.pos_bub() != to ) {
+                here.vehmove();
                 // Less moves than normal to be sure we capture every tile.
                 mon.mod_moves( 50 );
                 mon.move();
@@ -177,7 +180,7 @@ struct pathfinding_test_case {
                              ifchar( ',', ter_set( t_dirt ) + ter_set( t_hole, tripoint_above ) + ter_set( t_hole,
                                      tripoint_above * 2 ) + ter_set( t_hole, tripoint_above * 3 ) + ter_set( t_hole,
                                              tripoint_above * 4 ) + ter_set( t_hole, tripoint_above * 5 ) ) ||
-                             ifchar( '#', ter_set( t_brick_wall ) ) ||
+                             ifchar( '#', ter_set( ter_t_strconc_wall_b ) ) ||
                              ifchar( 'f', ter_set( floor_terrain ) + set_from ) ||
                              ifchar( 't', ter_set( floor_terrain ) + set_to ) || set_up_tiles ||
                              fail );
@@ -481,6 +484,14 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
     SECTION( "vehicle" ) {
         t.set_up_tiles = ifchar( 'W', vehicle_set( vehicle_prototype_engine_crane ) );
         settings.set_avoid_vehicle( true );
+
+        t.test_all( settings );
+    }
+
+    SECTION( "impassable vehicle" ) {
+        t.set_up_tiles = ifchar( 'W', vehicle_set( vehicle_prototype_welding_cart ) );
+        settings.set_avoid_vehicle( false );
+        settings.set_avoid_bashing( true );
 
         t.test_all( settings );
     }
@@ -822,6 +833,15 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
 
     SECTION( "vehicle" ) {
         t.set_up_tiles = ifchar( 'W', vehicle_set( vehicle_prototype_engine_crane ) );
+        settings.set_avoid_vehicle( false );
+
+        t.test_all( settings );
+    }
+
+    SECTION( "bash vehicle" ) {
+        t.set_up_tiles = ifchar( 'W', vehicle_set( vehicle_prototype_welding_cart ) );
+        settings.set_bash_strength( 40 );
+        settings.set_avoid_bashing( false );
         settings.set_avoid_vehicle( false );
 
         t.test_all( settings );
@@ -1581,6 +1601,22 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
             " x ",
         }
     }, pathfinding_test_case{
+        // Through bashable vehicle
+        {
+            " f ",
+            "   ",
+            "#V#",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            "#x#",
+            " x ",
+            " x ",
+        }
+    }, pathfinding_test_case{
         // Around trap
         {
             "f    ",
@@ -1624,6 +1660,7 @@ TEST_CASE( "pathfinding_migo", "[pathfinding]" )
                      ifchar( 'u', ter_set( ter_t_ramp_up_low ) ) ||
                      ifchar( 'd', ter_set( ter_t_ramp_down_low ) ) ||
                      ifchar( 'v', vehicle_set( vehicle_prototype_engine_crane ) ) ||
+                     ifchar( 'V', vehicle_set( vehicle_prototype_welding_cart ) ) ||
                      ifchar( 'L', trap_set( tr_dissector ) ) ||
                      ifchar( 'p', ter_set( t_pit ) ) ||
                      ifchar( 'F', field_set( fd_fire ) ) ||
@@ -1873,7 +1910,6 @@ TEST_CASE( "pathfinding_zombie", "[pathfinding]" )
             " x ",
             " x ",
         }
-
     }, pathfinding_test_case{
         // Through vehicle
         {

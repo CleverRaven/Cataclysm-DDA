@@ -498,7 +498,7 @@ tile_predicate vehicle_set(
     return [ = ]( map_test_case::tile t ) {
         REQUIRE( id.is_valid() );
         tripoint p = t.p + shift;
-        get_map().add_vehicle( id, p, 0_degrees );
+        get_map().add_vehicle( id, p, 0_degrees, 0, 0 );
         return true;
     };
 }
