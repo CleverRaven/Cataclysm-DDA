@@ -213,7 +213,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "100  L",
+    "size": "100 L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
