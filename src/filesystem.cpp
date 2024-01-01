@@ -83,7 +83,8 @@ std::string as_norm_dir( const std::string &path )
     fs::path dir = fs::u8path( path ) / fs::path{};
     fs::path norm = dir.lexically_normal();
 #ifdef _WIN32
-    {   // Windows has strict rules for file naming
+    {
+        // Windows has strict rules for file naming
         fs::path valid = norm.root_path();
         fs::path rel = norm.relative_path();
         for( auto &it : rel ) {
@@ -553,7 +554,7 @@ std::string ensure_valid_file_name( const std::string &file_name )
     std::transform( new_file_name.begin(), new_file_name.end(),
     new_file_name.begin(), [&]( const wchar_t c ) {
         if( winvalid_chars.find( c ) != std::wstring::npos ) {
-            return wchar_t(replacement_char);
+            return wchar_t( replacement_char );
         }
         return c;
     } );
