@@ -1852,6 +1852,29 @@
     ]
   },
   {
+    "id": "skirt_denim",
+    "type": "ARMOR",
+    "name": { "str": "jkirt" },
+    "description": "A skirt made from denim.",
+    "//": "supossed to be a 10 oz denim skirt",
+    "weight": "300 g",
+    "volume": "700 ml",
+    "price": 3000,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "blue",
+    "warmth": 7,
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ],
+    "material_thickness": 0.65,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "skirt",
     "type": "ARMOR",
     "name": { "str": "skirt" },
