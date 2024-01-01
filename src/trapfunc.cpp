@@ -837,9 +837,10 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) || you->has_flag( json_flag_WINGS_2 ) ) ) {
-        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                    _( "<npcname> spreads their wings to slow their fall." ) );
+        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
+                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                        _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -889,9 +890,10 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) || you->has_flag( json_flag_WINGS_2 ) ) ) {
-        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                    _( "<npcname> spreads their wings to slow their fall." ) );
+        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
+                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                        _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -974,9 +976,10 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) || you->has_flag( json_flag_WINGS_2 ) ) ) {
-        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                    _( "<npcname> spreads their wings to slow their fall." ) );
+        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
+                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                        _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -1256,15 +1259,15 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     Character *you = dynamic_cast<Character *>( c );
     if( you == nullptr ) {
         c->setpos( where );
-            if( c->get_size() == creature_size::tiny ) {
-            height = std::max(0, height - 1);
-            }
-            if( c->has_effect( effect_weakened_gravity ) ) {
-            height = std::max(0, height - 1);
-            }
-            if( c->has_effect( effect_strengthened_gravity ) ) {
+        if( c->get_size() == creature_size::tiny ) {
+            height = std::max( 0, height - 1 );
+        }
+        if( c->has_effect( effect_weakened_gravity ) ) {
+            height = std::max( 0, height - 1 );
+        }
+        if( c->has_effect( effect_strengthened_gravity ) ) {
             height += 1;
-            }
+        }
         c->impact( height * 10, where );
         return true;
     }
@@ -1285,10 +1288,10 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         you->setpos( where );
     }
     if( you->get_size() == creature_size::tiny ) {
-        height = std::max(0, height - 1);
+        height = std::max( 0, height - 1 );
     }
     if( you->has_effect( effect_weakened_gravity ) ) {
-        height = std::max(0, height - 1);
+        height = std::max( 0, height - 1 );
     }
     if( you->has_effect( effect_strengthened_gravity ) ) {
         height += 1;
@@ -1296,12 +1299,12 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     if( you->can_fly() && you->has_flag( json_flag_WINGS_1 ) ) {
         you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                     _( "<npcname> spreads their wings to slow their fall." ) );
-        height = std::max(0, height - 1);
+        height = std::max( 0, height - 1 );
     }
     if( you->can_fly() && you->has_flag( json_flag_WINGS_2 ) ) {
         you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                     _( "<npcname> spreads their wings to slow their fall." ) );
-        height = std::max(0, height - 2);
+        height = std::max( 0, height - 2 );
     }
     if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,

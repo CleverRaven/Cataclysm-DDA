@@ -12488,17 +12488,18 @@ int Character::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
-bool Character::can_fly() 
+bool Character::can_fly()
 {
-        if( has_effect( effect_stunned ) || has_effect( effect_winded ) || has_effect( effect_narcosis ) ) {
+    if( has_effect( effect_stunned ) || has_effect( effect_winded ) || has_effect( effect_narcosis ) ) {
         return false;
-        }
-        if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ) && 100 * weight_carried() / weight_capacity() > 50 ) {
+    }
+    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ) &&
+        100 * weight_carried() / weight_capacity() > 50 ) {
         return false;
-        }
-        if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
+    }
+    if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
         return false;
-        }
+    }
     return true;
 }
 

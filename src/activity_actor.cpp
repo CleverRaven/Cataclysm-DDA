@@ -1467,112 +1467,114 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
 }
 
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
- {
+{
     tripoint heading = tripoint_zero;
-    if( jump_direction == 1 ){
-       heading = tripoint_south;
+    if( jump_direction == 1 ) {
+        heading = tripoint_south;
     }
-    if( jump_direction == 2 ){
-       heading = tripoint_south_west;
+    if( jump_direction == 2 ) {
+        heading = tripoint_south_west;
     }
-    if( jump_direction == 3 ){
+    if( jump_direction == 3 ) {
         heading = tripoint_west;
     }
-    if( jump_direction == 4 ){
+    if( jump_direction == 4 ) {
         heading = tripoint_north_west;
     }
-    if( jump_direction == 5 ){
+    if( jump_direction == 5 ) {
         heading = tripoint_north;
     }
-    if( jump_direction == 6 ){
+    if( jump_direction == 6 ) {
         heading = tripoint_north_east;
     }
-    if( jump_direction == 7 ){
+    if( jump_direction == 7 ) {
         heading = tripoint_east;
     }
-    if( jump_direction == 8 ){
+    if( jump_direction == 8 ) {
         heading = tripoint_south_east;
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-        if( get_map().tr_at( you.pos() ) != tr_ledge || heading == tripoint_zero ){
+    if( get_map().tr_at( you.pos() ) != tr_ledge || heading == tripoint_zero ) {
         you.add_msg_player_or_npc( m_good,
-                                _( "You come to a gentle landing." ),
-                                _( "<npcname> comes to a gentle landing." ) );
+                                   _( "You come to a gentle landing." ),
+                                   _( "<npcname> comes to a gentle landing." ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
         return;
     }   // Have we crashed into a wall?
-        if( get_map().impassable( checknewpos ) ) {
-                you.add_msg_player_or_npc( m_good,
-                                _( "You collide with %s, bringing an abrupt halt to your glide." ),
-                                _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ), get_map().tername( checknewpos.raw() ) );
-                you.remove_effect( effect_gliding );
-                you.gravity_check();
-                act.set_to_null();
+    if( get_map().impassable( checknewpos ) ) {
+        you.add_msg_player_or_npc( m_good,
+                                   _( "You collide with %s, bringing an abrupt halt to your glide." ),
+                                   _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
+                                   get_map().tername( checknewpos.raw() ) );
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+    }
+    Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
+    if( creature_ahead ) {
+        if( !you.dodge_check( 25, true ) ) {
+            you.add_msg_player_or_npc( m_good,
+                                       _( "You collide with %s, bringing an abrupt halt to your glide." ),
+                                       _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
+                                       creature_ahead->disp_name() );
+            you.remove_effect( effect_gliding );
+            you.gravity_check();
+            act.set_to_null();
         }
-                Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
-                if( creature_ahead ) {
-                    if( !you.dodge_check( 25, true ) ) {
-                        you.add_msg_player_or_npc( m_good,
-                            _( "You collide with %s, bringing an abrupt halt to your glide." ),
-                            _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ), creature_ahead->disp_name() );
-                    you.remove_effect( effect_gliding );
-                    you.gravity_check();
-                    act.set_to_null();
-                    }
-                you.add_msg_player_or_npc( m_good,
-                    _( "You deftly maneuver around %s." ),
-                    _( "<npcname> deftly maneuvers around %s." ), creature_ahead->disp_name() );
-        }
+        you.add_msg_player_or_npc( m_good,
+                                   _( "You deftly maneuver around %s." ),
+                                   _( "<npcname> deftly maneuvers around %s." ), creature_ahead->disp_name() );
+    }
     you.move_to( newpos );
     moved_tiles ++;
     if( moved_tiles >= glide_distance ) {
-    g->vertical_move( -1, false, false );
-    moved_tiles = 0;
+        g->vertical_move( -1, false, false );
+        moved_tiles = 0;
     }
     you.moves -= 50;
     get_map().update_visibility_cache( you.pos().z );
     get_map().update_visibility_cache( you.pos().x );
     get_map().update_visibility_cache( you.pos().y );
-       if( you.is_avatar() ) {
-       g->update_map( you );
-       }  
+    if( you.is_avatar() ) {
+        g->update_map( you );
+    }
 }
 
-glide_activity_actor::glide_activity_actor(Character *you, int jump_direction, int glide_distance)
-     : jump_direction(jump_direction), glide_distance(glide_distance)
+glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, int glide_distance )
+    : jump_direction( jump_direction ), glide_distance( glide_distance )
 {
-     you->add_effect( effect_gliding, 1_turns, true );
-     tripoint heading = tripoint_zero;
-     if( jump_direction == 1 ){
-         heading = tripoint_south;
-     }
-     if( jump_direction == 2 ){
-         heading = tripoint_south_west;
-     }
-     if( jump_direction == 3 ){
-         heading = tripoint_west;
-     }
-     if( jump_direction == 4 ){
-         heading = tripoint_north_west;
-     }
-     if( jump_direction == 5 ){
-         heading = tripoint_north;
-     }
-     if( jump_direction == 6 ){
-         heading = tripoint_north_east;
-     }
-     if( jump_direction == 7 ){
-         heading = tripoint_east;
-     }
-     if( jump_direction == 8 ){
-         heading = tripoint_south_west;
-     }
- }
+    you->add_effect( effect_gliding, 1_turns, true );
+    tripoint heading = tripoint_zero;
+    if( jump_direction == 1 ) {
+        heading = tripoint_south;
+    }
+    if( jump_direction == 2 ) {
+        heading = tripoint_south_west;
+    }
+    if( jump_direction == 3 ) {
+        heading = tripoint_west;
+    }
+    if( jump_direction == 4 ) {
+        heading = tripoint_north_west;
+    }
+    if( jump_direction == 5 ) {
+        heading = tripoint_north;
+    }
+    if( jump_direction == 6 ) {
+        heading = tripoint_north_east;
+    }
+    if( jump_direction == 7 ) {
+        heading = tripoint_east;
+    }
+    if( jump_direction == 8 ) {
+        heading = tripoint_south_west;
+    }
+}
 
- void glide_activity_actor::serialize( JsonOut &jsout ) const
+void glide_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
@@ -1596,22 +1598,22 @@ std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &js
 void glide_activity_actor::start( player_activity &act, Character &you )
 {
     you.add_msg_player_or_npc( m_good,
-        _( "You take wing." ),
-        _( "<npcname> takes wing." ) );
+                               _( "You take wing." ),
+                               _( "<npcname> takes wing." ) );
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
 
 void glide_activity_actor::finish( player_activity &act, Character &you )
 {
-         g->update_map( you );
-         you.add_msg_player_or_npc( m_good,
-                                 _( "You come to a gentle landing." ),
-                                 _( "<npcname> comes to a gentle landing." ) );
-         you.remove_effect( effect_gliding );
-         you.gravity_check();
-         act.set_to_null();
-         return;
+    g->update_map( you );
+    you.add_msg_player_or_npc( m_good,
+                               _( "You come to a gentle landing." ),
+                               _( "<npcname> comes to a gentle landing." ) );
+    you.remove_effect( effect_gliding );
+    you.gravity_check();
+    act.set_to_null();
+    return;
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,

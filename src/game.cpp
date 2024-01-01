@@ -11845,7 +11845,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) && ( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) != tr_ledge ) ) {
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+        ( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) != tr_ledge ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
@@ -12108,7 +12109,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
-    if( !wall_cling && ( get_map().tr_at( u.pos() ) == tr_ledge && !u.has_effect( effect_gliding ) ) )  {
+    if( !wall_cling && ( get_map().tr_at( u.pos() ) == tr_ledge &&
+                         !u.has_effect( effect_gliding ) ) )  {
         here.creature_on_trap( u, !force );
     }
 
@@ -12253,9 +12255,9 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
 
         return stairs;
     }
-    
-    if ( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) == tr_ledge ) {
-    return stairs;
+
+    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) == tr_ledge ) {
+        return stairs;
     }
 
     if( movez > 0 ) {

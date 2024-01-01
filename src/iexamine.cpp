@@ -5037,19 +5037,19 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
     if( jdy > 0 && jdx == 0 ) {
         jump_direction = 1; //south //THESE ARE ALL BACKWARDS FIX COMMENTS LATER
-    } else if( jdy > 0 && jdx < 0  ) {
+    } else if( jdy > 0 && jdx < 0 ) {
         jump_direction = 2; //southwest
-    } else if( jdy == 0 && jdx < 0  ) {
+    } else if( jdy == 0 && jdx < 0 ) {
         jump_direction = 3; //west
-    } else if( jdy < 0 && jdx < 0  ) {
+    } else if( jdy < 0 && jdx < 0 ) {
         jump_direction = 4; //northwest
-    } else if( jdy < 0 && jdx == 0  ) {
+    } else if( jdy < 0 && jdx == 0 ) {
         jump_direction = 5; //north
-    } else if( jdy < 0 && jdx > 0  ) {
+    } else if( jdy < 0 && jdx > 0 ) {
         jump_direction = 6; //northeast
-    } else if( jdy == 0 && jdx > 0  ) {
+    } else if( jdy == 0 && jdx > 0 ) {
         jump_direction = 7; //east
-    } else if( jdy > 0 && jdx > 0  ) {
+    } else if( jdy > 0 && jdx > 0 ) {
         jump_direction = 8; //southeast
     }
 
@@ -5069,9 +5069,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-        if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WINGGLIDE ) ) {
         cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
-        }
+    }
     cmenu.query();
 
 
@@ -5166,23 +5166,23 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             // The WINGGLIDE trait flag implies wings. GLIDE is to be used for things such as artifacts,
             // spells in mods etc. where characters are gliding without the use of wings.
             if( you.get_str() < 4 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
-                    add_msg( m_warning, _( "You are too weak to take wing." ) );
+                add_msg( m_warning, _( "You are too weak to take wing." ) );
             } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
-                    add_msg( m_warning, _( "You won't make it far without two functional wings." ) );                
+                add_msg( m_warning, _( "You won't make it far without two functional wings." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 50 ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
             } else {
                 int glide_distance = 4;
                 const weather_manager &weather = get_weather();
                 add_msg( m_info, _( "You glide away from the ledge." ) );
-                    if( std::abs(weather.winddirection - ( jump_direction * 45 ) % 360) <= 45 ) {
+                if( std::abs( weather.winddirection - ( jump_direction * 45 ) % 360 ) <= 45 ) {
                     add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
                     glide_distance += 1;
-                    }
-                    if( std::abs(weather.winddirection - ( jump_direction * 45 ) % 360) >= 315 ) {
+                }
+                if( std::abs( weather.winddirection - ( jump_direction * 45 ) % 360 ) >= 315 ) {
                     add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
                     glide_distance -= 1;
-                    }
+                }
                 you.as_avatar()->grab( object_type::NONE );
                 glide_activity_actor glide( &you, jump_direction, glide_distance );
                 you.assign_activity( glide );
@@ -5199,9 +5199,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     return;
                 }
                 // Step into open air, then fall...
-                    if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
+                if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
                     you.add_effect( effect_slow_descent, 1_seconds, false );
-                    }
+                }
                 you.setpos( examp );
                 you.gravity_check();
             } else {
