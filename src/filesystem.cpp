@@ -521,7 +521,7 @@ bool copy_file( const cata_path &source_path, const cata_path &dest_path )
 std::string ensure_valid_file_name( const std::string &file_name )
 {
     const char replacement_char = ' ';
-    const std::string invalid_chars = "\\/:?\"<>|";
+    static const std::string invalid_chars = "\\/:?\"<>|";
 
     // do any replacement in the file name, if needed.
 #ifndef _WIN32
@@ -545,6 +545,19 @@ std::string ensure_valid_file_name( const std::string &file_name )
         }
         return c;
     } );
+    // "Do not end a file or directory name with a space or a period."
+    // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
+    size_t shrink = 0;
+    for( auto it = new_file_name.rbegin(); it != new_file_name.rend(); ++it ) {
+        if( *it == ' ' || *it == '.' ) {
+            shrink++;
+        } else {
+            break;
+        }
+    }
+    if( shrink > 0 ) {
+        new_file_name.resize( new_file_name.size() - shrink );
+    }
     return wstr_to_utf8( new_file_name );
 #endif
 }
