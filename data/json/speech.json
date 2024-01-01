@@ -1705,19 +1705,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a choking sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a slurping sound.",
     "volume": 20
   },
