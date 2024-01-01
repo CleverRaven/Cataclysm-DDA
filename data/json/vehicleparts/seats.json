@@ -182,7 +182,6 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "size": "95 L",
     "type": "vehicle_part"
   }
 ]

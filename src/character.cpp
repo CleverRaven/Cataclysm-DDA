@@ -10904,34 +10904,31 @@ void Character::process_effects()
         terminating_effects.pop();
     }
 
-    // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( has_effect( effect_cramped_space ) && !in_vehicle ) {
-        remove_effect( effect_cramped_space );
-    }
-    // Check all of this here to ensure the player can't sit in a comfortable seat and then drop 50 liters of junk in their own lap.
-    if( in_vehicle ) {
+  // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
+    if( has_effect( effect_cramped_space ) ) {
         map &here = get_map();
         const tripoint your_pos = pos();
-        if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
-            npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
-        }
         const optional_vpart_position vp_there = here.veh_at( your_pos );
-        bool is_cramped_space = false;
-        if( vp_there ) {
-            vehicle &veh = vp_there->vehicle();
-            units::volume capacity = 0_ml;
-            units::volume free_cargo = 0_ml;
-            auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
-            for( vehicle_part *&part : cargo_parts ) {
-                vehicle_stack contents = veh.get_items( *part );
-                const vpart_info &vpinfo = part->info();
-                const optional_vpart_position vp = here.veh_at( your_pos );
-                if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
-                    capacity += vpinfo.size;
-                    free_cargo += contents.free_volume();
-                }
+            if( !vp_there ) {
+            remove_effect( effect_cramped_space );
+            return;
             }
+            if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
+            npc &as_npc = dynamic_cast<npc &>( *this );
+            as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
+            }
+        bool is_cramped_space = false;
+        vehicle &veh = vp_there->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
+        for( vehicle_part *&part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const optional_vpart_position vp = here.veh_at( your_pos );
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
+                capacity += contents.max_volume();
+                free_cargo += contents.free_volume();
+                }
             const creature_size size = get_size();
             if( capacity > 0_ml ) {
                 // Open-topped vehicle parts have more room.
@@ -10947,15 +10944,16 @@ void Character::process_effects()
                         add_effect( effect_cramped_space, 2_turns, true );
                     }
                     is_cramped_space = true;
+                    return;
                 }
             }
-            const optional_vpart_position vp = here.veh_at( your_pos );
-            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-                !vp.part_with_feature( "HUGE_OK", true ) ) {
+            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+                !vp.part_with_feature( "HUGE_OK", false ) ) {
                 if( !has_effect( effect_cramped_space ) ) {
                     add_effect( effect_cramped_space, 2_turns, true );
                 }
                 is_cramped_space = true;
+                return;
             }
         }
         if( !is_cramped_space ) {
