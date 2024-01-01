@@ -137,20 +137,20 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
             if( free_volume < 187500_ml ) {
                 flags |= PathfindingFlag::RestrictHuge;
             }
+            if( flags & PathfindingSettings::AnySizeRestriction ) {
+                flags |= PathfindingFlag::Obstacle;
+            }
         }
     }
 
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
+        flags |= PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge;
+        flags |= PathfindingFlag::Obstacle;
+    }
+
+    bool impassable = flags.is_set( PathfindingFlag::HardGround );
     if( cost == 0 ) {
         flags |= PathfindingFlag::Obstacle;
-
-        bool impassable = flags.is_set( PathfindingFlag::HardGround );
-        if( here.is_bashable( p.raw() ) ) {
-            if( const auto bash_range = here.bash_range( p.raw() ) ) {
-                flags |= PathfindingFlag::Bashable;
-                impassable = false;
-                bash_range_ref( p ) = *bash_range;
-            }
-        }
 
         if( terrain.open || furniture.open ) {
             impassable = false;
@@ -187,10 +187,20 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
             impassable = false;
             flags |= PathfindingFlag::Climmable;
         }
+    } else {
+        impassable = false;
+    }
 
-        if( impassable ) {
-            flags |= PathfindingFlag::Impassable;
+    if( flags.is_set( PathfindingFlag::Obstacle ) && here.is_bashable( p.raw() ) ) {
+        if( const auto bash_range = here.bash_range( p.raw() ) ) {
+            flags |= PathfindingFlag::Bashable;
+            impassable = false;
+            bash_range_ref( p ) = *bash_range;
         }
+    }
+
+    if( impassable ) {
+        flags |= PathfindingFlag::Impassable;
     }
 
     if( cost > std::numeric_limits<char>::max() ) {
@@ -232,11 +242,6 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_BURROWABLE ) ) {
         flags |= PathfindingFlag::Burrowable;
-    }
-
-    if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
-        flags |= PathfindingFlag::RestrictMedium | PathfindingFlag::RestrictLarge |
-                 PathfindingFlag::RestrictHuge;
     }
 
     if( !g->is_sheltered( p.raw() ) ) {
@@ -408,30 +413,63 @@ std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
         return std::nullopt;
     }
 
-    int cost = 0;
-    if( flags.is_set( PathfindingFlag::Obstacle ) ) {
-        if( settings.is_digging() ) {
-            if( !flags.is_set( PathfindingFlag::Burrowable ) ) {
-                return std::nullopt;
-            }
-        } else if( flags.is_set( PathfindingFlag::Climmable ) && !settings.avoid_climbing() &&
-                   settings.climb_cost() > 0 ) {
-            // Climbing fences
-            cost = settings.climb_cost();
-        } else if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
-                   ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
-            cost = flags.is_set( PathfindingFlag::LockedDoor ) ? 4 : 2;
-        } else if( flags.is_set( PathfindingFlag::Bashable ) ) {
+
+    std::optional<int> cost;
+    if( settings.is_digging() ) {
+        if( flags.is_set( PathfindingFlag::Obstacle ) && !flags.is_set( PathfindingFlag::Burrowable ) ) {
+            return std::nullopt;
+        }
+        cost = 0;
+    } else if( flags.is_set( PathfindingFlag::Obstacle ) ) {
+        if( flags.is_set( PathfindingFlag::Bashable ) ) {
             const auto [bash_min, bash_max] = cache.bash_range( p );
             const int bash_rating = settings.bash_rating_from_range( bash_min, bash_max );
             if( bash_rating >= 1 ) {
                 // Expected number of turns to bash it down
                 cost = 20 / bash_rating;
-            } else {
-                // Unbashable and unopenable from here
+            }
+        }
+        if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
+            ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
+            const int this_cost = flags.is_set( PathfindingFlag::LockedDoor ) ? 4 : 2;
+            cost = std::min( this_cost, cost.value_or( this_cost ) );
+        }
+        if( flags.is_set( PathfindingFlag::Climmable ) && !settings.avoid_climbing() &&
+            settings.climb_cost() > 0 ) {
+            // Climbing fences
+            const int this_cost = settings.climb_cost();
+            cost = std::min( this_cost, cost.value_or( this_cost ) );
+        }
+
+        // Don't check size restrictions if we can bash it down, open it, or climb over it.
+        if( !cost && ( flags & PathfindingSettings::AnySizeRestriction ) && settings.size_restriction() ) {
+            bool restricted = false;
+            switch( *settings.size_restriction() ) {
+                case creature_size::tiny:
+                    restricted = flags.is_set( PathfindingFlag::RestrictTiny );
+                    break;
+                case creature_size::small:
+                    restricted = flags.is_set( PathfindingFlag::RestrictSmall );
+                    break;
+                case creature_size::medium:
+                    restricted = flags.is_set( PathfindingFlag::RestrictMedium );
+                    break;
+                case creature_size::large:
+                    restricted = flags.is_set( PathfindingFlag::RestrictLarge );
+                    break;
+                case creature_size::huge:
+                    restricted = flags.is_set( PathfindingFlag::RestrictHuge );
+                    break;
+                default:
+                    break;
+            }
+            if( restricted ) {
                 return std::nullopt;
             }
-        } else {
+            cost = 0;
+        }
+
+        if( !cost ) {
             // Can't pass the obstacle at all.
             return std::nullopt;
         }
@@ -452,7 +490,7 @@ std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
         return std::nullopt;
     }
 
-    return cost * 50;
+    return cost.value_or( 0 ) * 50;
 }
 
 std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from,

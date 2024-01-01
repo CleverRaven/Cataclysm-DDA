@@ -4,6 +4,7 @@
 
 #include "a_star.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "game_constants.h"
 #include "mapdata.h"
 #include "type_id.h"
@@ -306,6 +307,9 @@ class PathfindingSettings
     public:
         static constexpr PathfindingFlags RoughTerrain = PathfindingFlag::Slow | PathfindingFlag::Obstacle |
                 PathfindingFlag::Vehicle | PathfindingFlag::Sharp | PathfindingFlag::DangerousTrap;
+        static constexpr PathfindingFlags AnySizeRestriction = PathfindingFlag::RestrictTiny |
+                PathfindingFlag::RestrictSmall |
+                PathfindingFlag::RestrictMedium | PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge;
 
         bool avoid_air() const {
             return is_set( PathfindingFlag::Air );
@@ -372,39 +376,11 @@ class PathfindingSettings
             set( PathfindingFlag::DeepWater, v );
         }
 
-        bool avoid_restrict_tiny() const {
-            return is_set( PathfindingFlag::RestrictTiny );
+        std::optional<creature_size> size_restriction() const {
+            return size_restriction_;
         }
-        void set_avoid_restrict_tiny( bool v = true ) {
-            set( PathfindingFlag::RestrictTiny, v );
-        }
-
-        bool avoid_restrict_small() const {
-            return is_set( PathfindingFlag::RestrictSmall );
-        }
-        void set_avoid_restrict_small( bool v = true ) {
-            set( PathfindingFlag::RestrictSmall, v );
-        }
-
-        bool avoid_restrict_medium() const {
-            return is_set( PathfindingFlag::RestrictMedium );
-        }
-        void set_avoid_restrict_medium( bool v = true ) {
-            set( PathfindingFlag::RestrictMedium, v );
-        }
-
-        bool avoid_restrict_large() const {
-            return is_set( PathfindingFlag::RestrictLarge );
-        }
-        void set_avoid_restrict_large( bool v = true ) {
-            set( PathfindingFlag::RestrictLarge, v );
-        }
-
-        bool avoid_restrict_huge() const {
-            return is_set( PathfindingFlag::RestrictHuge );
-        }
-        void set_avoid_restrict_huge( bool v = true ) {
-            set( PathfindingFlag::RestrictHuge, v );
+        void set_size_restriction( std::optional<creature_size> size_restriction = std::nullopt ) {
+            size_restriction_ = size_restriction;
         }
 
         bool avoid_pits() const {
@@ -564,6 +540,7 @@ class PathfindingSettings
 
         PathfindingFlags avoid_mask_ = PathfindingFlag::Air | PathfindingFlag::Impassable;
 
+        std::optional<creature_size> size_restriction_;
         int max_distance_ = 0;
 
         bool avoid_bashing_ = false;

@@ -223,25 +223,7 @@ PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) cons
 {
     PathfindingSettings settings = type->path_settings.to_new_pathfinding_settings();
 
-    switch( get_size() ) {
-        case creature_size::tiny:
-            settings.set_avoid_restrict_tiny( true );
-            break;
-        case creature_size::small:
-            settings.set_avoid_restrict_small( true );
-            break;
-        case creature_size::medium:
-            settings.set_avoid_restrict_medium( true );
-            break;
-        case creature_size::large:
-            settings.set_avoid_restrict_large( true );
-            break;
-        case creature_size::huge:
-            settings.set_avoid_restrict_huge( true );
-            break;
-        default:
-            break;
-    }
+    settings.set_size_restriction( get_size() );
 
     settings.set_avoid_bashing( avoid_bashing );
 

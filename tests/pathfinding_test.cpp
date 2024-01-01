@@ -457,18 +457,13 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
     SECTION( "size" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( ter_t_wall_wood_widened ) );
 
-        SECTION( "medium" ) {
-            settings.set_avoid_restrict_medium( true );
-
-            t.test_all( settings );
-        }
         SECTION( "large" ) {
-            settings.set_avoid_restrict_large( true );
+            settings.set_size_restriction( creature_size::large );
 
             t.test_all( settings );
         }
         SECTION( "huge" ) {
-            settings.set_avoid_restrict_huge( true );
+            settings.set_size_restriction( creature_size::huge );
 
             t.test_all( settings );
         }
@@ -813,12 +808,32 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
         t.set_up_tiles = ifchar( 'W', ter_set( ter_t_wall_wood_widened ) );
 
         SECTION( "tiny" ) {
-            settings.set_avoid_restrict_tiny( true );
+            settings.set_size_restriction( creature_size::tiny );
 
             t.test_all( settings );
         }
         SECTION( "small" ) {
-            settings.set_avoid_restrict_small( true );
+            settings.set_size_restriction( creature_size::small );
+
+            t.test_all( settings );
+        }
+
+        SECTION( "medium" ) {
+            settings.set_size_restriction( creature_size::medium );
+
+            t.test_all( settings );
+        }
+        SECTION( "large" ) {
+            settings.set_size_restriction( creature_size::large );
+            settings.set_avoid_bashing( false );
+            settings.set_bash_strength( 40 );
+
+            t.test_all( settings );
+        }
+        SECTION( "huge" ) {
+            settings.set_size_restriction( creature_size::huge );
+            settings.set_avoid_bashing( false );
+            settings.set_bash_strength( 40 );
 
             t.test_all( settings );
         }
