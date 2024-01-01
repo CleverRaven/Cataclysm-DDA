@@ -27,7 +27,7 @@
   {
     "id": "holybook_bible1",
     "type": "BOOK",
-    "name": { "str": "King James Bible", "str_pl": "copies of King James Bible" },
+    "name": { "str": "King James Bible", "str_pl": "copies of the King James Bible" },
     "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
     "weight": "368 g",
     "volume": "1 L",
@@ -36,7 +36,7 @@
   {
     "id": "holybook_bible2",
     "type": "BOOK",
-    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
+    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of the Eastern Orthodox Bible" },
     "description": "An English copy of the Eastern Orthodox translation of the Christian Bible.",
     "weight": "428 g",
     "volume": "1250 ml",
@@ -45,7 +45,7 @@
   {
     "id": "holybook_bible3",
     "type": "BOOK",
-    "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
+    "name": { "str": "Gideon Bible", "str_pl": "copies of the Gideon Bible" },
     "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
     "weight": "368 g",
     "volume": "1 L",
@@ -54,7 +54,7 @@
   {
     "id": "holybook_bible4",
     "type": "BOOK",
-    "name": { "str": "New American Bible", "str_pl": "copies of the New Bible" },
+    "name": { "str": "New American Bible", "str_pl": "copies of the New American Bible" },
     "description": "An English translation of the Bible first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
     "weight": "368 g",
     "volume": "1 L",
@@ -69,6 +69,213 @@
     },
     "description": "An English translation of the Bible published by the Watch Tower Bible and Tract Society, used and distributed by Jehovah's Witnesses",
     "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible6",
+    "type": "BOOK",
+    "name": { "str": "Holman Christian Bible", "str_pl": "copies of the Holman Christian Bible" },
+    "description": "An English translation of the Christian Bible by Holman Bible Publishers, developed by the Southern Baptist Convention.  It is primarily used within Baptist circles.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible7",
+    "type": "BOOK",
+    "name": { "str": "Douay-Rheims Bible", "str_pl": "copies of the Douay-Rheims Bible" },
+    "description": "An uncommon English translation of the Christian Bible, completed in 1609.  It is based on the Latin Vulgate, and remained popular among traditionalist Catholics.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible8",
+    "type": "BOOK",
+    "name": { "str": "Orthodox Tewahedo Biblical Canon", "str_pl": "copies of the Orthodox Tewahedo Biblical Canon" },
+    "description": "This is very rare English translation of the Orthodox Tewahedo Biblical Canon, a collection of religious texts that form the basis of the Ethiopian Orthodox Church’s faith and doctrine, probably acquired by a immigrant, collector or theologist.  This canon is distinct from the Protestant and Catholic biblical canons, as it contains additional books that are not part of the Hebrew Bible or the Old Testament.",
+    "weight": "850 g",
+    "volume": "2 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible9",
+    "type": "BOOK",
+    "name": { "str": "The Holy Piby", "str_pl": "copies of The Holy Piby" },
+    "description": "A compilation of texts and interpretations of the Christian Bible that focus on the history, culture, and religious beliefs of the Rastafarian community.  It aims to provide an alternative perspective on the origins of the world and its people, emphasizing the African roots of the Rastafarian faith.",
+    "weight": "468 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism",
+    "type": "BOOK",
+    "name": { "str": "The Common Catechism", "str_pl": "copies of The Common Catechism" },
+    "description": "A hardcover edition of 'The Common Catechism: A Book of Christian Faith', an ecumenical Christian catechism that is the result of Roman Catholic-Protestant dialogue and work.",
+    "weight": "760 g",
+    "volume": "1290 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism1",
+    "type": "BOOK",
+    "name": { "str": "Catechism of The Catholic Church", "str_pl": "copies of the Catechism of The Catholic Church" },
+    "description": "A hardcover, updated edition of the 'Catechism of The Catholic Church', a compendium of Catholic doctrine, teachings, beliefs, and moral guidance.  This book serves as a guide for Catholics to understand and deepen their faith, providing a systematic presentation of the essential teachings of the Catholic Church.",
+    "weight": "700 g",
+    "volume": "1140 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism2",
+    "type": "BOOK",
+    "name": { "str": "Westminster Catechism", "str_pl": "copies of the Westminster Catechism" },
+    "description": "The Westminster Shorter Catechism and the Westminster Larger Catechism into one single large, hardcover book.  It serves as the doctrinal standard in the Reformed tradition of Protestant Christianity, a concise and systematic summary of Christian beliefs, intended to be used for teaching and instruction (and also one of the Four Forms of Unity, depending on the denomination).  This catechism is also divided into a series of questions and answers, covering various aspects of theology, morality, and Christian living.",
+    "weight": "1100 g",
+    "volume": "2300 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism3",
+    "type": "BOOK",
+    "name": { "str": "Luther's Catechism", "str_pl": "copies of the Luther's Catechism" },
+    "description": "The Luther's Small Catechism and the Luther's Large Catechism into one single large, hardcover book.  It contains a summary of Christian doctrine and was intended to be used as a teaching tool for laypeople, particularly parents and pastors, to instruct them in the basic principles of the Christian faith.",
+    "weight": "1100 g",
+    "volume": "2300 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechismbudda",
+    "type": "BOOK",
+    "name": { "str": "Buddhist Catechism", "str_pl": "copies of the Buddhist Catechism" },
+    "description": "A paperback book written by Henry Steel Olcott and Published in 1881.  It serves as an introductory guide to Buddhism, providing a concise overview of its principles, practices, and history.  The book presents a series of questions and answers that cover various aspects of Buddhism, including the life of the Buddha, the Four Noble Truths, the Eightfold Path, karma, rebirth, meditation, and ethics.",
+    "weight": "400 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechismmuslim",
+    "type": "BOOK",
+    "name": { "str": "Safinatun Najah", "str_pl": "copies of the Safinatun Najah" },
+    "description": "A hardcover English translation of the Safinatun Najah, a renowned manual of Islamic jurisprudence, specifically focusing on the Shafi’i school of thought.  It serves as a comprehensive guide for Muslims seeking knowledge and understanding of the principles and practices of Islam.",
+    "weight": "630 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism5",
+    "type": "BOOK",
+    "name": { "str": "Heidelberg Catechism", "str_pl": "copies of the Heidelberg Catechism" },
+    "description": "A hardcover, updated edition of the 'Heidelberg Catechism', a Protestant confession of faith and also a guide for religious instruction, written in 1563 (and also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination).  The contents consists of 129 questions and answers, divided into three main sections: guilt, grace, and gratitude.  Each section addresses a different aspect of the Christian faith and is intended to be memorized and understood by believers.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism6",
+    "type": "BOOK",
+    "name": { "str": "Philaret Catechism", "str_pl": "copies of the Philaret Catechism" },
+    "description": "A hardcover English translation of the Philaret Catechism, written by the Metropolitan Philaret of Moscow in the 19th century.  This book serves as a comprehensive guide to the teachings and beliefs of the Eastern Orthodox Church, structured in a question-and-answer format and covers various aspects of Christian doctrine, including theology, morality, sacraments, prayer, and the Ten Commandments.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism7",
+    "type": "BOOK",
+    "name": { "str": "Keach's Catechism", "str_pl": "copies of the Keach's Catechism" },
+    "description": "A hardcover edition of the Keach's Catechism, a Reformed Baptist catechism consisting of a set of basic questions and answers from scripture teaching readers the basics of the Baptist faith.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_catechism8",
+    "type": "BOOK",
+    "name": { "str": "Pentecostal Catechism", "str_pl": "copies of the Pentecostal Catechism" },
+    "description": "A hardcover edition of the Pentecostal Catechism, a comprehensive guide to the beliefs, practices, and teachings of the Pentecostal movement within Christianity.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_dort",
+    "type": "BOOK",
+    "name": { "str": "Canons of Dort", "str_pl": "copies of the Canons of Dort" },
+    "description": "A rare English translation of the Canons of Dort, a significant theological document within the Reformed tradition.  It consists of five main points: The Corruption of Human Nature, Unconditional Election, Limited Atonement, Irresistible Grace and Perseverance of the Saints.  It is also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination.",
+    "weight": "200 g",
+    "volume": "400 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_confession",
+    "type": "BOOK",
+    "name": { "str": "Confession of Faith", "str_pl": "copies of the Confession of Faith" },
+    "description": "A rare English translation of the Confession of Faith, also known as the Belgic Confession.  It is a collection of documents in Christian theology and written statements of belief or doctrines.  These confessions aim to summarize and articulate the core beliefs of particular Christian denominations and traditions.  It also serve as a guide for the members of the church to understand and uphold the essential teachings of their faith.  It is also one of the Three Forms of Unity, or Four Forms of Unity, depending on the denomination.",
+    "weight": "420 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_orthodox",
+    "type": "BOOK",
+    "name": { "str": "The Orthodox Church", "str_pl": "copies of the The Orthodox Church" },
+    "description": "A paperback edition of 'The Orthodox Church: An Introduction to Eastern Christianity', written by Timothy Ware.  This book provides a comprehensive overview of the history, theology, and practices of the Eastern Orthodox Church, and an introduction to the Orthodox faith for those unfamiliar with it, as well as a deeper exploration for those seeking to deepen their understanding.",
+    "weight": "269 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_didascalia",
+    "type": "BOOK",
+    "name": { "str": "Didascalia Apostolorum", "str_pl": "copies of the Didascalia Apostolorum" },
+    "description": "A paperback English translation of the Didascalia Apostolorum, an ancient Christian text that provides instructions and guidelines for the organization and governance of the early Christian Church.  The Didascalia Apostolorum is attributed to the Twelve Apostles, and is believed to have been written in the third century AD.",
+    "weight": "400 g",
+    "volume": "800 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ladder",
+    "type": "BOOK",
+    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of the The Ladder of Divine Ascent" },
+    "description": "A commercial-grade, hardcover English edition of The Ladder of Divine Ascent, a well-known spiritual guidebook written in the 6th century by John Climacus, an Orthodox Christian monk.  This book is composed of many chapters, each representing a rung on the ladder, symbolizing the spiritual journey towards union with God.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_jaiva",
+    "type": "BOOK",
+    "name": { "str": "Jaiva Dharma", "str_pl": "copies of the Jaiva Dharma" },
+    "description": "A paperback English translation of the Jaiva Dharma, a significant philosophical and devotional book written by Srila Bhaktivinoda Thakura, a prominent spiritual leader and philosopher in the Gaudiya Vaishnava Hindu tradition.  This book delves into the essential teachings of the Bhagavad-gita and the Srimad-Bhagavatam, providing deep insights into the nature of the soul, its relationship with God, and the process of spiritual realization.",
+    "weight": "630 g",
+    "volume": "1004 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_zoro",
+    "type": "BOOK",
+    "name": { "str": "Book of the Counsels of Zoroaster", "str_pl": "copies of the Book of the Counsels of Zoroaster" },
+    "description": "This is a rare English translation of the 'Book of the Counsels of Zoroaster', also known as 'Pand-namag i Zardust', a post-Sasanian compendium of apothegms intended to instruct every Zoroastrian male, upon his attaining the age of fifteen years, in fundamental religious and ethical principles, as well as in the daily duties incumbent upon him.",
+    "weight": "830 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_anglican",
+    "type": "BOOK",
+    "name": { "str": "Anglican Book of Common Prayer", "str_pl": "copies of the Anglican Book of Common Prayer" },
+    "description": "A hardcover edition of the Anglican Book of Commom Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
+    "weight": "720 g",
+    "volume": "1100 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_kebra",
+    "type": "BOOK",
+    "name": { "str": "Kebra Negast", "str_pl": "copies of the Kebra Negast" },
+    "description": "A hardcover English translation of the Kebra Negast, also known as the Glory of the Kings.  It is an ancient Ethiopian text that holds significant religious and historical value for the Ethiopian Orthodox Church and the Rastafarian movement.  It is a compilation of sacred stories and legends that revolve around the life of King Solomon and the Queen of Sheba, as well as the birth and early life of King Menelik I, the founder of the Ethiopian Empire.",
+    "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
@@ -109,6 +316,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_nihon",
+    "type": "BOOK",
+    "name": { "str": "Nihon Shoki", "str_pl": "copies of the Nihon Shoki" },
+    "description": "Also known as 'Chronicles of Japan', it is considered one of the two most important and oldest chronicles of ancient Japan, the other being the Kojiki.  The Nihon Shoki covers the history of Japan with a compilation of myths, legends, religious practices, rituals and historical events.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_fudoki",
+    "type": "BOOK",
+    "name": { "str": "Fudoki", "str_pl": "copies of the Fudoki" },
+    "description": "A somewhat large paperback book containing a extensive compilation of historical records and chronicles that originated in ancient Japan (probably during the Nara and Heian periods).  It covers local legends, folklore, religious beliefs, agricultural practices, dialects, historical events, quantity and quality of resources, boundaries, topography, climate, flora, fauna, and cultural practices of several Japanese provinces at that time.",
+    "weight": "1300 g",
+    "volume": "2 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_mormon",
     "type": "BOOK",
     "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
@@ -116,6 +341,96 @@
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_nag_hammadi",
+    "type": "BOOK",
+    "name": { "str": "Nag Hammadi Codex", "str_pl": "Nag Hammadi Codices" },
+    "description": "A translation of some of the gnostic texts and early biblical apocrypha recovered from the Nag Hammadi library in Egypt.  Obviously heretical, but the zombies aren't the type to discriminate.",
+    "weight": "281 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "holybook_nag_hammadi_01",
+        "name": { "str": "Nag Hammadi Codex I", "str_pl": "copies of the first Nag Hammadi Codex" },
+        "description": "It contains the Prayer of the Apostle Paul, the Apocryphon of James, the Gospel of Truth, the Treatise on the Resurrection, and the Tripartite Tractate.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_02",
+        "name": { "str": "Nag Hammadi Codex II", "str_pl": "copies of the second Nag Hammadi Codex" },
+        "description": "It contains the Apocryphon of John (version 1), the Gospel of Thomas, the Gospel of Phillip, the Hypostasis of the Archons, On the Origin of the World, the Exegesis of the Soul, and the Book of Thomas the Contender.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_03",
+        "name": { "str": "Nag Hammadi Codex III", "str_pl": "copies of the third Nag Hammadi Codex" },
+        "description": "It contains the Apocryphon of John (version 2), Holy Book of the Great Invisible Spirit, Eugnostos the Blessed, The Sophia of Jesus Christ, and the Dialogue of the Savior.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_04",
+        "name": { "str": "Nag Hammadi Codex IV", "str_pl": "copies of the fourth Nag Hammadi Codex" },
+        "description": "It contains the Apocryphon of John (version 1) and Holy Book of the Great Invisible Spirit.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_05",
+        "name": { "str": "Nag Hammadi Codex V", "str_pl": "copies of the fifth Nag Hammadi Codex" },
+        "description": "It contains Eugenostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_06",
+        "name": { "str": "Nag Hammadi Codex VI", "str_pl": "copies of the sixth Nag Hammadi Codex" },
+        "description": "It contains the Acts of Peter and the Twelve Apostles, The Thunder/Perfect Mind, Authoritative Teaching, the Context of Our Great Power, fragments of Plato's Republic, The Discourse of the Eight and Ninth, the Prayer of Thanksgiving, and Asclepius.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_07",
+        "name": { "str": "Nag Hammadi Codex VII", "str_pl": "copies of the seventh Nag Hammadi Codex" },
+        "description": "It contains the Paraphrase of Shem, the Second Treatise of the Great Seth, Gnostic Apocalypse of Peter, the Teachings of Sylvanus, and the Three Steles of Seth.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_08",
+        "name": { "str": "Nag Hammadi Codex VIII", "str_pl": "copies of the eighth Nag Hammadi Codex" },
+        "description": "It contains Zostrianos and the Letter of Peter to Philip.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_09",
+        "name": { "str": "Nag Hammadi Codex IX", "str_pl": "copies of the ninth Nag Hammadi Codex" },
+        "description": "It contains Melchizedek, the Thought of Norea, and the Testimony of Truth.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_10",
+        "name": { "str": "Nag Hammadi Codex X", "str_pl": "copies of the tenth Nag Hammadi Codex" },
+        "description": "It contains Marsanes.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_11",
+        "name": { "str": "Nag Hammadi Codex XI", "str_pl": "copies of the eleventh Nag Hammadi Codex" },
+        "description": "It contains the Interpretation of Knowledge, a Valentinian Exposition, Allogenes, and Hypsiphrone.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_12",
+        "name": { "str": "Nag Hammadi Codex XII", "str_pl": "copies of the twelfth Nag Hammadi Codex" },
+        "description": "It contains the Sentences of Sextus, the Gospel of Truth, and various fragmented texts.",
+        "append": true
+      },
+      {
+        "id": "holybook_nag_hammadi_13",
+        "name": { "str": "Nag Hammadi Codex XIII", "str_pl": "copies of the thirteenth Nag Hammadi Codex" },
+        "description": "It contains Trimorphic Protennoia, On the Origin of the World, and various fragmented texts.",
+        "append": true
+      }
+    ]
   },
   {
     "id": "holybook_pastafarian",
@@ -157,6 +472,33 @@
     "flags": [ "INSPIRATIONAL" ]
   },
   {
+    "id": "holybook_wicca",
+    "type": "BOOK",
+    "name": { "str": "The Book of Shadows", "str_pl": "copies of The Book of Shadows" },
+    "description": "A dark hardcover copy of The Book of Shadows.  It serves as a personal journal and reference book for individual witches or covens.  Each practitioner may have their own unique version of The Book of Shadows, which contains their personal rituals, spells, invocations, herbal lore, divination methods, and other magical knowledge.  This one, apart from having a wide range of information directly printed on the pages, there are also blank pages for you to write on.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_satanic"
+  },
+  {
+    "id": "holybook_wicca1",
+    "type": "BOOK",
+    "name": { "str": "Witchcraft Today", "str_pl": "copies of Witchcraft Today" },
+    "description": "A hardcover book, written by Gerald Gardner and published in 1954.  It was once considered one of the foundational texts of modern Wicca and played a significant role in popularizing contemporary witchcraft.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_satanic"
+  },
+  {
+    "id": "holybook_wicca2",
+    "type": "BOOK",
+    "name": { "str": "The Spiral Dance", "str_pl": "copies of The Spiral Dance" },
+    "description": "A hardcover copy of the Spiral Dance, written by Starhawk, a prominent author, and activist in the fields of feminism, spirituality, and environmentalism.  First published in 1979, this book explores the beliefs, practices, and history of the Goddess movement, which is a spiritual and feminist response to patriarchal religions.  The Goddess movement seeks to reclaim and revive the worship of the divine feminine in various forms.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_scientology",
     "type": "BOOK",
     "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
@@ -184,11 +526,303 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_mahayana",
+    "type": "BOOK",
+    "name": { "str": "The Mahayana Sutras", "str_pl": "copies of The Mahayana Sutras" },
+    "description": "A hardcover English translation of the Mahayana Sutras, a collection of scriptures that form the foundation of Mahayana Buddhism.  Those cover a wide range of topics and teachings, including, but not limited to, discourses on meditation, ethics, philosophy, cosmology, and the nature of reality.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tibetan",
+    "type": "BOOK",
+    "name": { "str": "Tibetan Buddhist Canon", "str_pl": "copies of the Tibetan Buddhist Canon" },
+    "description": "A hardcover English translation of the Tibetan Buddhist Canon, also known as the Kangyur and Tengyur, or Vajrayana Canon.  It contains a vast collection of sacred texts that form the basis of the Buddhist teachings in Tibetan Buddhism.  It consists of two main parts: the Kangyur, which contains the translated words of the Buddha, and the Tengyur, which comprises commentaries by Indian and Tibetan scholars.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_gita",
+    "type": "BOOK",
+    "name": { "str": "The Bhagavad Gita", "str_pl": "copies of The Bhagavad Gita" },
+    "description": "A hardcover English translation of The Bhagavad Gita, a 700-verse Hindu scripture.  It is written in the form of a dialogue between Prince Arjuna and the god Krishna, who serves as his charioteer.  The conversation takes place on the battlefield of Kurukshetra just before the start of a great war between two factions of a royal family.",
+    "weight": "350 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mahabharata",
+    "type": "BOOK",
+    "name": { "str": "The Mahabharata", "str_pl": "copies of The Mahabharata" },
+    "description": "A large and complete hardcover English translation of The Mahabharata, the most revered and significant ancient texts in Indian literature and Hindu mythology.  It is an epic narrative that has been passed down through generations and has been a source of inspiration and guidance for millions of people before and possibly during and after the Cataclysm.  The epic is divided into 18 books or parvas, each focusing on different aspects of the story, such as the genealogy of the Pandavas, the education of the Pandavas, and the great war of Kurukshetra.",
+    "weight": "800 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ramayana",
+    "type": "BOOK",
+    "name": { "str": "The Ramayana", "str_pl": "copies of The Ramayana" },
+    "description": "A complete hardcover English translation of The Ramayana, an ancient Indian epic that holds great religious and cultural significance in Hinduism.  It is considered one of the two major Sanskrit epics of ancient Indian literature and tells the story of Prince Rama, an incarnation of Lord Vishnu, who embarks on a journey to rescue his wife Sita from the demon king Ravana.  The epic is divided into seven books, known as Kandas, and presents a narrative that encompasses themes of devotion, righteousness, duty, honor, love, and the triumph of good over evil.",
+    "weight": "800 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_puranas",
+    "type": "BOOK",
+    "name": { "str": "The Puranas", "str_pl": "copies of The Puranas" },
+    "description": "A hardcover English translation of The Puranas, a collection of ancient Indian texts that form an integral part of Hindu literature.  They are considered to be among the oldest and most authoritative scriptures in Hinduism, alongside the Vedas.  It consist of a vast collection of narratives, legends, genealogies, cosmology, theology, philosophy, and rituals related to Hinduism, and are classified into two main categories: Mahapuranas (major Puranas) and Upapuranas (minor Puranas).",
+    "weight": "600 g",
+    "volume": "1150 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_agamas",
+    "type": "BOOK",
+    "name": { "str": "The Agamas", "str_pl": "copies of The Agamas" },
+    "description": "A paperback English translation of The Agamas, a collection of scriptures in Hinduism that provide detailed guidelines for rituals, temple construction, worship practices, and philosophical teachings, and are considered authoritative texts by several Hindu sects, particularly those that follow the Shaiva and Shakta traditions.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_jagamas",
+    "type": "BOOK",
+    "name": { "str": "The Jain Agamas", "str_pl": "copies of the Jain Agamas" },
+    "description": "A paperback English translation of the Jain Agamas, the most authoritative and sacred scriptures in Jainism.  The Jain Agamas consist of two main categories: the Angas and the Upangas.  The Angas are considered the primary scriptures, while the Upangas are supplementary texts that provide further explanations and commentaries on various aspects of Jain philosophy and practice.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_sutras",
     "type": "BOOK",
     "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
     "description": "A collection of discourses attributed to the Buddha and his close disciples.",
     "weight": "496 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_zara",
+    "type": "BOOK",
+    "name": { "str": "The Zara Avesta", "str_pl": "copies of the Zara Avesta" },
+    "description": "A rare hardcover English translation of the Zara Avesta, a collection of sacred hymns, prayers, and liturgies, which are believed to have been revealed by Zoroaster himself.  It is considered an essential guide to living a righteous life in Zoroastrianism, as it provides moral teachings, ethical principles, and spiritual insights.",
+    "weight": "650 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_theogony",
+    "type": "BOOK",
+    "name": { "str": "Theogony", "str_pl": "copies of the Theogony" },
+    "description": "A paperback English translation of the Theogony, a Greek epic poem attributed to the ancient poet Hesiod.  It is one of the oldest surviving works of Greek literature and provides a comprehensive account of the origins and genealogies of the Greek gods, as well as the creation of the universe and the establishment of divine order.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_orphic",
+    "type": "BOOK",
+    "name": { "str": "The Orphic Hymns", "str_pl": "copies of The Orphic Hymns" },
+    "description": "A paperback English translation of The Orphic Hymns, a collection of ancient Greek hymns attributed to the legendary poet Orpheus.  These hymns are a significant source of information about Greek religion, philosophy, and literature.  It is divided in a set of 88 hymns, divided into 10 sections, and the hymns are dedicated to various gods and goddesses in the Greek pantheon, as well as to heroes and abstract concepts.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_golden",
+    "type": "BOOK",
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the The Orphic Gold Tablets" },
+    "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods’ will.",
+    "weight": "300 g",
+    "volume": "900 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_romancult",
+    "type": "BOOK",
+    "name": { "str": "Res Gestae Divi Augusti", "str_pl": "copies of the Res Gestae Divi Augusti" },
+    "description": "A rare, paperback English translation of the Res Gestae Divi Augusti, or 'Deeds of the Divine Augustus', a inscription commissioned by the Roman Emperor Augustus himself.  It is a list of his accomplishments and claims to divine status, emphasizing his role in the Roman Imperial Cult.  This inscription provides insight into the religious beliefs and practices surrounding the emperor during these stages of the Roman Imperial Cult",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_romancult2",
+    "type": "BOOK",
+    "name": { "str": "Historia Augusta", "str_pl": "copies of the Historia Augusta" },
+    "description": "A large, rare hardcover English translation of the Historia Augusta, a collection of biographies of Roman emperors.  It also contains information about the Imperial Roman Cult, including its rituals, symbols, and the role of such emperors in the cult.",
+    "weight": "600 g",
+    "volume": "1300 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_corpus",
+    "type": "BOOK",
+    "name": { "str": "The Corpus Hermeticum", "str_pl": "copies of The Corpus Hermeticum" },
+    "description": "A rare, paperback English translation of The Corpus Hermeticum, a collection of ancient philosophical and religious texts that are attributed to Hermes Trismegistus, a legendary figure in ancient Egyptian and Greek mythology.  The contents of this book consists of a series of dialogues or discourses that explore various philosophical and theological concepts.  These texts cover a wide range of topics, including cosmology, theology, metaphysics, ethics, and spirituality at the time.  The overarching theme throughout the Corpus Hermeticum is the pursuit of spiritual knowledge and the attainment of divine wisdom.",
+    "weight": "620 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mithraic",
+    "type": "BOOK",
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
+    "description": "A commercial-grade, paperback English edition of the The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tengriism",
+    "type": "BOOK",
+    "name": {
+      "str": "Tengriism: The Religion of Ancient Mongolia",
+      "str_pl": "copies of Tengriism: The Religion of Ancient Mongolia"
+    },
+    "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, Shamanic Rituals and folklore.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_chinese",
+    "type": "BOOK",
+    "name": { "str": "Classic of Mountains and Seas", "str_pl": "copies of the Classic of Mountains and Seas" },
+    "description": "A hardcover English translation of the Classic of Mountains and Seas (Shan Hai Jing).  This book primarily focuses on the description of various mythical creatures, gods, goddesses, rituals and geographical features of ancient China.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_koreantrip",
+    "type": "BOOK",
+    "name": { "str": "Tripitaka Koreana", "str_pl": "copies of the Tripitaka Koreana" },
+    "description": "An extremely large, huge English translation of the Tripitaka Koreana, a Korean collection of the Tripitaka that can be considered as the Korean Canon.",
+    "weight": "15000 g",
+    "volume": "20000 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_hawaii",
+    "type": "BOOK",
+    "name": { "str": "Moʻolelo", "str_pl": "copies of the Moʻolelo" },
+    "description": "A grass-cover English edition of the Moʻolelo, a collection of traditional Hawaiian stories, texts and oral traditions, that have been compiled, translated, and documented in written form.  This book also includes information on the deities and entities of the traditional religion of Hawaii, alongside rituals and practices.",
+    "weight": "550 g",
+    "volume": "1 L",
+    "material": [ "paper", "dry_plant" ],
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_maori",
+    "type": "BOOK",
+    "name": { "str": "Te Ao Māori", "str_pl": "copies of the Te Ao Māori" },
+    "description": "A collection of written oral traditions of the religion of the Maori people, including the Whakapapa (genealogy and the relationships between the living, the dead, and the natural world), the Tikanga (customs, traditions, and protocols that govern the daily lives of the Maori people), Waiata (songs that play a significant role in the Traditional Maori Religion), Pepeha (a personal statement that outlines one’s whakapapa, or genealogy, and connection to the land) and Taonga Tūtahi (sacred treasures and objects that hold spiritual significance for the Maori people), as well as inscriptions regarding the deities, entities and religious traditions of the Maori Religion.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_native",
+    "type": "BOOK",
+    "name": { "str": "The Native Religion of New England", "str_pl": "copies of The Native Religion of New England" },
+    "description": "A collection of written oral and recorded religious tradition of the many native groups and tribes of New England (such as the Wampanoag, Narragansett, Mohegan, and Penobscot).  This book also contain information regarding the deities, entities and religious characteristics and hierarchy of these groups, as well as historical, geographical, social, political and cultural information.",
+    "weight": "700 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_cao",
+    "type": "BOOK",
+    "name": { "str": "The Compilation of Divine Messages", "str_pl": "copies of The Compilation of Divine Messages" },
+    "description": "A hardcover English translation of the Thanh Ngon Hiep Tuyen (Compilation of Divine Messages), a compilation of divine messages received by Cao Dai mediums during séances in Cao Dai temples.  These messages are believed to be communication from various divine beings, including saints, sages, and deities.  The mediums serve as channels through which these messages are transmitted to the followers.",
+    "weight": "700 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_egypt",
+    "type": "BOOK",
+    "name": { "str": "The Pyramid Texts", "str_pl": "copies of The Pyramid Texts" },
+    "description": "A hardcover, English translation of The Pyramid Texts.  These texts were intended to guide the deceased pharaohs through the Egyptian afterlife, providing them with magical spells, hymns, and instructions for their journey.  The Pyramid Texts contain a wealth of information about ancient Egyptian beliefs in the afterlife, the gods, and the role of the pharaoh as a mediator between the mortal world and the divine.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_egypt1",
+    "type": "BOOK",
+    "name": { "str": "The Coffin Texts", "str_pl": "copies of The Coffin Texts" },
+    "description": "A hardcover, English translation of The Coffin Texts, a collection of magical spells and texts inscribed on the inner surfaces of wooden coffins.  These texts were intended to protect the deceased and ensure their safe passage through the Egyptian afterlife.  The Coffin Texts provide a insight into the religious beliefs of ancient Egyptians and its contemporary revival, Kemeticism.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_egypt2",
+    "type": "BOOK",
+    "name": { "str": "The Book of the Dead", "str_pl": "copies of The Book of the Dead" },
+    "description": "A hardcover, English translation of the Book of the Dead, a collection of funerary texts dating from the New Kingdom to the Greco-Roman period and contains spells and instructions to help the deceased navigate the Egyptian afterlife.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_umbanda",
+    "type": "BOOK",
+    "name": { "str": "Orishas and Their Deities", "str_pl": "copies of Orishas and Their Deities" },
+    "description": "A paperwork English edition of the Orishas and Their Deities (Orixás e Suas Divindades), written by José Honorato do Rego.  This book provides an extensive overview of the orishas and their associated deities.  It delves into the history, characteristics, and roles of these divine beings within the Umbanda religion, a syncretic Afro-Brazilian religion that combines elements of African, Indigenous Brazilian, and European traditions.",
+    "weight": "350 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_taoism",
+    "type": "BOOK",
+    "name": { "str": "The Tao Te Ching", "str_pl": "copies of The Tao Te Ching" },
+    "description": "A stylized, hardcover English translation of the Tao Te Ching, also known as the Dao De Jing.  It is a Chinese philosophical and spiritual text believed to have been written by Laozi, a legendary figure in ancient Chinese history, and is considered one of the most important works in Taoism, an ancient Chinese philosophy and religion that emphasizes living in harmony with the Tao.",
+    "weight": "800 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_confucian",
+    "type": "BOOK",
+    "name": { "str": "The Four Books and Five Classics", "str_pl": "copies of The Four Books and Five Classics" },
+    "description": "A large hardcover book containing the two collections of ancient Chinese texts that have played a significant role in shaping Chinese culture, education, and philosophy.  These texts are considered foundational works in Confucianism and have been studied by scholars and students for centuries.",
+    "weight": "1000 g",
+    "volume": "1700 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_daime",
+    "type": "BOOK",
+    "name": { "str": "Cruzeiro", "str_pl": "copies of the Cruzeiro" },
+    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and indigenous Brazilian beliefs.  It is considered a sacred scripture by the movement’s followers.",
+    "weight": "350 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_candomble",
+    "type": "BOOK",
+    "name": { "str": "The Ogam and Ipade", "str_pl": "copies of The Ogam and Ipade" },
+    "description": "A good-sized book containing the Ogam (Ogã, a collection of sacred hymns that praise the Orishas, sung during rituals and ceremonies, an essential part of the worship and devotion to the deities), and the Ipade (Ipadê, a collection of sacred stories, myths, and legends that explain the origins of the Orishas, the creation of the world, and the history of the religion), directly linked to Afro-Brazilian religions such as Umbanda and Candomble.",
+    "weight": "900 g",
+    "volume": "1300 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_siddur",
+    "type": "BOOK",
+    "name": { "str": "Siddur", "str_pl": "Siddurim" },
+    "description": "This is a lightweight collection of prayers and blessings that are recited by Jews during various parts of their daily lives, religious ceremonies, and festivals.",
+    "weight": "450 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
@@ -647,12 +1281,84 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_babylon",
+    "type": "BOOK",
+    "name": { "str": "Enuma Elish", "str_pl": "copies of the Enuma Elish" },
+    "description": "A paperback English translation of the Enuma Elish, an ancient collection of seven tablets that contain the Babylonian creation myth and cosmology.  It describes the birth of the gods, the formation of the universe, and the struggle for power among various deities.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_havamal",
     "type": "BOOK",
     "name": { "str": "Hávamál", "str_pl": "copies of Hávamál" },
     "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
     "weight": "292 g",
     "volume": "750 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_asatru",
+    "type": "BOOK",
+    "name": { "str": "The Asatru Edda: Sacred Lore of the North", "str_pl": "copies of The Asatru Edda: Sacred Lore of the North" },
+    "description": "A commercial-grade, hardcover English translation of The Asatru Edda.  It serves as a modern guide to the religious and mythological beliefs of the followers of Asatru, a contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
+    "weight": "672 g",
+    "volume": "1368 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai",
+    "type": "BOOK",
+    "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
+    "description": "A hardcover English translation of the Kitáb-i-Aqdas, also known as The Most Holy Book.  Written by Baha’u’llah, the founder of the Baha’i Faith, in a poetic and mystical style.  It encompasses a wide range of topics, including the nature of God, the purpose of human existence, the role of religion in society, and the principles governing human conduct.  It also contains laws and regulations that govern various aspects of Baha’i life, such as marriage, family life, and the administration of the Baha’i community.",
+    "weight": "1130 g",
+    "volume": "1290 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai1",
+    "type": "BOOK",
+    "name": { "str": "Kitáb-i-Íqán", "str_pl": "copies of the Kitáb-i-Íqán" },
+    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha’u’llah, the founder of the Baha’i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history.  This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha’i Faith in relation to other religions.",
+    "weight": "1000 g",
+    "volume": "1035 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai2",
+    "type": "BOOK",
+    "name": { "str": "The Hidden Words", "str_pl": "copies of The Hidden Words" },
+    "description": "A hardcover English translation of the Kalimát-i-Maknúnih, also known as the Hidden Words.  It was written by Baha’u’llah, the founder of the Baha’i Faith, during his exile in Baghdad.  This book covers a wide range of themes, including love, detachment, unity, humility, justice, and the recognition of God.  Each passage is concise and poetic, expressing profound spiritual truths in a simple yet profound manner.  One distinctive feature of this book is its universal appeal: while it was revealed within the context of the Bahá’í Faith, its teachings transcend religious boundaries and are applicable to people from all backgrounds.",
+    "weight": "900 g",
+    "volume": "699 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai3",
+    "type": "BOOK",
+    "name": { "str": "Baha'i Prayers", "str_pl": "copies of the Baha'i Prayers" },
+    "description": "A lightweight, paperback book containing a collection of prayers, meditations, and devotional readings that are used for personal reflection, worship, and spiritual nourishment for followers, adherents or sympathizers of the Baha'i Faith.",
+    "weight": "350 g",
+    "volume": "500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai4",
+    "type": "BOOK",
+    "name": { "str": "The Secret of Divine Civilization", "str_pl": "copies of The Secret of Divine Civilization" },
+    "description": "A hardcover English translation of the Risali-yi-madaniyyih, also known as The Secret of Divine Civilization.  It was written by ‘Abdu’l-Bahá, the son of Bahá’u’lláh, founder of the Bahá’í Faith.  This book addresses various aspects of social and economic development, advocating for progressive reforms and offering guidance on how societies can advance spiritually, intellectually, and materially.  It explores principles that can contribute to the progress and well-being of individuals and societies, emphasizing the importance of education, justice, equality, and unity.  A perfect book for rebuilding society once again.",
+    "weight": "826 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bahai5",
+    "type": "BOOK",
+    "name": { "str": "'Some Answered Questions'", "str_pl": "copies of 'Some Answered Questions'" },
+    "description": "A hardcover book containing a collection of transcriptions of table talks given by ‘Abdu’l‑Bahá in ‘Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá’í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha’is and those seeking to learn more about the religion.",
+    "weight": "540 g",
+    "volume": "1 L",
     "copy-from": "holybook_abstract"
   }
 ]

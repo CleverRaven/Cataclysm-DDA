@@ -93,6 +93,6 @@
     "effect": "map",
     "shape": "blast",
     "max_level": 1,
-    "min_aoe": { "math": [ "( 7 + (u_val('spell_level', 'spell: vampire_reveal_world_map') * 2.2) )" ] }
+    "min_aoe": { "math": [ "( 7 + (u_spell_level('vampire_reveal_world_map') * 2.2) )" ] }
   }
 ]

@@ -111,6 +111,13 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_pigeon",
+    "copy-from": "mon_pigeon",
+    "type": "MONSTER",
+    "extend": { "flags": [ "CANPLAY" ] },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_PIGEON_UPGRADE" }
+  },
+  {
     "id": "mon_zombie_regenerating",
     "copy-from": "mon_zombie_regenerating",
     "type": "MONSTER",

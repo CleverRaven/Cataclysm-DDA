@@ -1386,6 +1386,9 @@ class Character : public Creature, public visitable
         void dismount();
         void forced_dismount();
 
+        /** Attempt to enter a tile in a vehicle */
+        bool move_in_vehicle( Creature *c, const tripoint &dest_loc ) const;
+
         bool is_deaf() const;
         bool is_mute() const;
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
@@ -1653,6 +1656,8 @@ class Character : public Creature, public visitable
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
+        // Container of OMTs to highlight as having been revealed
+        std::unordered_set<tripoint_abs_omt> map_revealed_omts;
         bool is_using_bionic_weapon() const;
         bionic_uid get_weapon_bionic_uid() const;
 

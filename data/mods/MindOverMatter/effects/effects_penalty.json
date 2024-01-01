@@ -294,11 +294,7 @@
     "apply_message": "",
     "remove_message": "The glow from your skin fades.",
     "rating": "bad",
-    "enchantments": [
-      {
-        "values": [ { "value": "LUMINATION", "add": { "math": [ "50 + ( u_val('vitamin', 'name:vitamin_psionic_drain'))" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "50 + ( u_vitamin('vitamin_psionic_drain'))" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -401,5 +397,16 @@
     "base_mods": { "stamina_amount": [ -1000 ] },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "severe_hay_fever",
+    "name": [ "Severe Hay Fever" ],
+    "desc": [ "Your eyes are burning and your nose is gushing mucus." ],
+    "rating": "bad",
+    "resist_effects": [ "took_flumed" ],
+    "show_in_info": true,
+    "removes_effects": [ "hay_fever" ],
+    "base_mods": { "per_mod": [ -4 ], "int_mod": [ -3 ], "stamina_min": [ -75 ], "stamina_max": [ -225 ], "stamina_chance": [ 200 ] }
   }
 ]

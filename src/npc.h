@@ -56,6 +56,9 @@ class npc_class;
 class talker;
 class vehicle;
 
+constexpr int8_t NPC_PERSONALITY_MIN = -10;
+constexpr int8_t NPC_PERSONALITY_MAX = 10;
+
 namespace catacurses
 {
 class window;

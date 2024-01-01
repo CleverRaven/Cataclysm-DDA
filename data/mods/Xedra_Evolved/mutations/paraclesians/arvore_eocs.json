@@ -43,14 +43,14 @@
     "effect": [
       {
         "u_add_effect": "natures_commune",
-        "duration": { "math": [ "( 300 + (u_val('spell_level', 'spell: arvore_commune_with_nature') * 165)) " ] }
+        "duration": { "math": [ "( 300 + (u_spell_level('arvore_commune_with_nature') * 165)) " ] }
       },
       {
         "u_add_morale": "morale_forest_unity",
         "bonus": 10,
         "max_bonus": 15,
-        "duration": { "math": [ "( 300 + (u_val('spell_level', 'spell: arvore_commune_with_nature') * 165) )" ] },
-        "decay_start": { "math": [ "(( 300 + (u_val('spell_level', 'spell: arvore_commune_with_nature') * 165) ) / 2)" ] }
+        "duration": { "math": [ "( 300 + (u_spell_level('arvore_commune_with_nature') * 165) )" ] },
+        "decay_start": { "math": [ "(( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) / 2)" ] }
       }
     ],
     "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature.", "type": "bad" } ]
@@ -59,7 +59,7 @@
     "type": "effect_on_condition",
     "id": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
     "effect": {
-      "switch": { "math": [ "u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus')" ] },
+      "switch": { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')" ] },
       "cases": [
         {
           "case": 0,
@@ -67,9 +67,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_1",
               "duration": {
-                "math": [
-                  "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
-                ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -80,9 +78,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_2",
               "duration": {
-                "math": [
-                  "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
-                ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -93,9 +89,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_3",
               "duration": {
-                "math": [
-                  "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
-                ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -279,10 +273,10 @@
       { "u_set_hp": 45, "only_increase": false, "target_part": "leg_l" },
       { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: instability')", "=", "0" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
+      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
+      { "math": [ "u_vitamin('blood')", "=", "0" ] },
+      { "math": [ "u_vitamin('instability')", "=", "0" ] },
       { "math": [ "u_pain()", "=", "0" ] },
       { "math": [ "u_val('rad')", "=", "0" ] },
       { "u_lose_effect": "corroding" },

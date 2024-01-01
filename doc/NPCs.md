@@ -31,24 +31,32 @@ Format:
 ```json
 {
   "type": "npc_class",
-  "id": "NC_EXAMPLE",
-  "name": { "str": "Example NPC" },
-  "job_description": "I'm helping you learn the game.",
-  "common": false,
-  "sells_belongings": false,
-  "bonus_str": { "rng": [ -4, 0 ] },
-  "bonus_dex": { "rng": [ -2, 0 ] },
-  "bonus_int": { "rng": [ 1, 5 ] },
+  "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
+  "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
+  "job_description": "I'm helping you learn the game.",                    // Mandatory
+  "common": false,                                                         // Optional. Whether or not this class can appear via random generation.
+  "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
+  "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
+  "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
+  "bonus_int": { "one_in": 3 },                                            // Optional. This example adds 1 to the stat, but only about ~33.33% of the time (1 in 3).
+  "bonus_per": { "sum": [ { "constant": 100 }, { "dice": [ 10, 10 ] } ] }, // Optional. This example adds 100 + 10d10 (10 dice each with 10 sides) to the stat.
+  "bonus_aggression": { "rng": [ -4, 0 ] },                                // Optional. Modifies NPC's personality score like the above examples. Resulting value will be
+                                                                           // clamped to within a range of -10, 10. (e.g. if aggression would be -12 it's instead set to -10)
+  "bonus_bravery": 100,                                                    // Optional.
+  "bonus_collector": { "one_in": 3 },                                      // Optional.
+  "bonus_altruism": -10,                                                   // Optional.
   "skills": [
     {
-      "skill": "ALL",
+      "skill": "ALL",                                                      // Optional. Applies bonuses/penalties to skills like the examples above. `ALL` is a special string which
+                                                                           // applies to all skills not otherwise modified. See data/json/skills.json for a list of skill IDs.
       "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
     }
   ],
-  "worn_override": "NC_EXAMPLE_worn",
-  "carry_override": "NC_EXAMPLE_carried",
-  "weapon_override": "NC_EXAMPLE_weapon",
-  "shopkeeper_item_group": [
+  "worn_override": "NC_EXAMPLE_worn",                                      // Optional. Defines an [item group](ITEM_SPAWN.md) that replaces all of their worn items.
+  "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
+                                                                           // be carried will overflow(fall to the ground) when the NPC is loaded.
+  "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
+  "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
@@ -64,12 +72,9 @@ Format:
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
-  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
+  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]     // Optional
 }
 ```
-There are some items in the above template that may not be self explanatory:
-* `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
-* See also [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
 
 ### Shopkeeper NPC configuration
 `npc_class` supports several properties for configuring the behavior of NPCs that behave as shopkeepers:

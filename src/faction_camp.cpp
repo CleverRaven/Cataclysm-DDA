@@ -364,10 +364,10 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
             return _( "Choose New Leader" );
 
         case Camp_Hide_Mission:
-            return _( "Hide Mission" );
+            return _( "Hide Mission(s)" );
 
         case Camp_Reveal_Mission:
-            return _( "Reveal Hidden Mission" );
+            return _( "Reveal Hidden Mission(s)" );
 
         case Camp_Assign_Jobs:
             return _( "Assign Jobs" );
@@ -1267,7 +1267,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
               !hidden_missions[size_t( base_camps::all_directions.at( dir ).tab_order )].empty() ) ) {
             {
                 const mission_id miss_id = { Camp_Hide_Mission, "", {}, dir };
-                entry = string_format( _( "Hide a mission to clean up the UI." ) );
+                entry = string_format( _( "Hide one or more missions to clean up the UI." ) );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                                  entry );
             }
@@ -1278,7 +1278,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 }
 
                 const mission_id miss_id = { Camp_Reveal_Mission, "", {}, dir };
-                entry = string_format( _( "Reveal a mission previously hidden.\n"
+                entry = string_format( _( "Reveal one or more missions previously hidden.\n"
                                           "Current number of hidden missions: %d" ),
                                        count );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
@@ -1580,8 +1580,8 @@ void basecamp::choose_new_leader()
     time_point next_succession_chance = last_succession_time + succession_cooldown;
     int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
     if( next_succession_chance >= calendar::turn ) {
-        popup( _( "It's too early for that.  A new leader can be chosen in %s days." ),
-               to_days<int>( next_succession_chance - calendar::turn ) );
+        popup( _( "It's too early for that.  A new leader can be chosen in %s." ),
+               to_string( next_succession_chance - calendar::turn ) );
         return;
     }
     std::vector<std::string> choices;
@@ -5531,50 +5531,69 @@ void basecamp::handle_reveal_mission( const point &dir )
         return;
     }
     const base_camps::direction_data &base_data = base_camps::all_directions.at( dir );
-    std::vector<std::string> pos_names;
-    int choice = 0;
-    pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
 
-    for( ui_mission_id &id : hidden_missions[size_t( base_data.tab_order )] ) {
-        pos_names.push_back( name_display_of( id.id ) );
+    while( true ) {
+        std::vector<std::string> pos_names;
+        int choice = 0;
+        pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
+
+        for( ui_mission_id &id : hidden_missions[size_t( base_data.tab_order )] ) {
+            pos_names.push_back( name_display_of( id.id ) );
+        }
+
+        choice = uilist( _( "Select mission(s) to reveal, escape when done" ), pos_names );
+
+        if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
+            popup( _( "You're done for now…" ) );
+            return;
+        }
+
+        hidden_missions[size_t( base_data.tab_order )].erase( hidden_missions[size_t(
+                    base_data.tab_order )].begin() + choice );
     }
-
-    choice = uilist( _( "Select mission to reveal" ), pos_names );
-
-    if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
-        popup( _( "You choose to wait…" ) );
-        return;
-    }
-
-    hidden_missions[size_t( base_data.tab_order )].erase( hidden_missions[size_t(
-                base_data.tab_order )].begin() + choice );
 }
 
 void basecamp::handle_hide_mission( const point &dir )
 {
     const base_camps::direction_data &base_data = base_camps::all_directions.at( dir );
-    std::vector<std::string> pos_names;
-    std::vector<ui_mission_id> reference;
-    int choice = 0;
-    pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
-    reference.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
+    const size_t previously_hidden_count = hidden_missions[size_t( base_data.tab_order )].size();
 
-    for( ui_mission_id &miss_id : temp_ui_mission_keys[size_t( base_data.tab_order )] ) {
-        if( !miss_id.ret &&
-            miss_id.id.id != Camp_Reveal_Mission ) {
-            pos_names.push_back( name_display_of( miss_id.id ) );
-            reference.push_back( miss_id );
+    while( true ) {
+        std::vector<std::string> pos_names;
+        std::vector<ui_mission_id> reference;
+        int choice = 0;
+        pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
+        reference.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
+
+        for( ui_mission_id &miss_id : temp_ui_mission_keys[size_t( base_data.tab_order )] ) {
+            if( !miss_id.ret &&
+                miss_id.id.id != Camp_Reveal_Mission ) {
+
+                // Filter out the onces we're hiding in this loop, as temp_ui_mission_keys isn't refreshed
+                bool hidden = false;
+                for( size_t i = previously_hidden_count; i < hidden_missions[size_t( base_data.tab_order )].size();
+                     i++ ) {
+                    if( is_equal( hidden_missions[size_t( base_data.tab_order )].at( i ), miss_id ) ) {
+                        hidden = true;
+                        break;
+                    }
+                }
+                if( !hidden ) {
+                    pos_names.push_back( name_display_of( miss_id.id ) );
+                    reference.push_back( miss_id );
+                }
+            }
         }
+
+        choice = uilist( _( "Select mission(s) to hide, escape when done" ), pos_names );
+
+        if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
+            popup( _( "You're done for now…" ) );
+            return;
+        }
+
+        hidden_missions[size_t( base_data.tab_order )].push_back( reference[choice] );
     }
-
-    choice = uilist( _( "Select mission to hide" ), pos_names );
-
-    if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
-        popup( _( "You choose to wait…" ) );
-        return;
-    }
-
-    hidden_missions[size_t( base_data.tab_order )].push_back( reference[choice] );
 }
 
 // morale

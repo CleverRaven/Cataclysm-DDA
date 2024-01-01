@@ -386,5 +386,50 @@
     "ammo_type": [ "308" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 10 } } ]
+  },
+  {
+    "id": "steyr_scout_mag",
+    "looks_like": "exodiiminimag",
+    "type": "MAGAZINE",
+    "name": { "str": "scout rifle 5-round magazine" },
+    "description": "A proprietary 5-round steel box magazine for the scouting rifle.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "steyr_scout_mag",
+        "name": { "str": "Steyr Scout 5-round magazine" },
+        "description": "A proprietary 5-round steel box magazine for the Steyr Scout rifle."
+      }
+    ],
+    "weight": "80 g",
+    "volume": "200 ml",
+    "price": 1200,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "308" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ]
+  },
+  {
+    "id": "steyr_scout_mag_makeshift",
+    "copy-from": "steyr_scout_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "makeshift scout rifle 3-round magazine" },
+    "description": "A makeshift 3-round steel box magazine for the scouting rifle, held together by duct tape and hope.  You could probably fit this inside its stock!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "steyr_scout_mag_makeshift",
+        "name": { "str": "makeshift Steyr Scout 3-round magazine" },
+        "description": "A makeshift 3-round steel box magazine for the Steyr Scout rifle, held together by duct tape and hope.  You could probably fit this inside its stock!"
+      }
+    ],
+    "weight": "70 g",
+    "volume": "150 ml",
+    "price": 50,
+    "price_postapoc": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ]
   }
 ]
