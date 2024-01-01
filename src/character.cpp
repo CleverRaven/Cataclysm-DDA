@@ -10904,7 +10904,7 @@ void Character::process_effects()
         terminating_effects.pop();
     }
 
-  // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
+    // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
     if( has_effect( effect_cramped_space ) ) {
         map &here = get_map();
         const tripoint your_pos = pos();
