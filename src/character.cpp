@@ -10928,7 +10928,7 @@ void Character::process_effects()
             if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
                 capacity += contents.max_volume();
                 free_cargo += contents.free_volume();
-                }
+            }
             const creature_size size = get_size();
             if( capacity > 0_ml ) {
                 // Open-topped vehicle parts have more room.
