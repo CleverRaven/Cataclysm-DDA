@@ -169,7 +169,7 @@ inline T &&clang_tidy_no_translations( T &&t )
 
 #define add_msg_debug_if(condition, type, ...)                                                          \
     do {                                                                                                \
-        if( Messages::has_debug_filter( type ) && ( condition ) ) {                                     \
+        if( debug_mode && Messages::has_debug_filter( type ) && ( condition ) ) {                       \
             Messages::add_msg( m_debug, clang_tidy_no_translations( string_format( __VA_ARGS__ ) ) );   \
         }                                                                                               \
     } while( false )
