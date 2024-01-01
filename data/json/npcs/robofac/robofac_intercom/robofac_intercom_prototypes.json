@@ -146,16 +146,13 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
             {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
               "or": [
-                { "value": "robofac_armor_pieces_rig" },
-                { "value": "robofac_armor_pieces_basic" },
-                { "value": "robofac_armor_pieces_rubber" },
-                { "value": "robofac_armor_pieces_nomex" },
-                { "value": "robofac_armor_pieces_kevlar" },
-                { "value": "robofac_armor_pieces_military" }
+                { "u_has_var": { "value": "robofac_armor_pieces_rig" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_basic" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_rubber" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_nomex" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_kevlar" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_military" } }
               ]
             }
           ]
@@ -168,16 +165,13 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
             {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
               "or": [
-                { "value": "robofac_armor_pieces_rig" },
-                { "value": "robofac_armor_pieces_basic" },
-                { "value": "robofac_armor_pieces_rubber" },
-                { "value": "robofac_armor_pieces_nomex" },
-                { "value": "robofac_armor_pieces_kevlar" },
-                { "value": "robofac_armor_pieces_military" }
+                { "u_has_var": { "value": "robofac_armor_pieces_rig" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_basic" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_rubber" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_nomex" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_kevlar" } },
+                { "u_has_var": { "value": "robofac_armor_pieces_military" } }
               ]
             }
           ]
