@@ -5586,7 +5586,7 @@
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
-    "flags": [ "WINGS_2", "WINGGLIDE" ]
+    "flags": [ "WINGS_2", "WING_GLIDE" ]
   },
   {
     "type": "mutation",
@@ -5602,7 +5602,7 @@
     "restricts_gear": [ "torso" ],
     "flags": [ "WINGS_1" ],
     "active": true,
-    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 10 }
+    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 20 }
   },
   {
     "type": "mutation",
@@ -8037,6 +8037,7 @@
     "mixed_effect": true,
     "description": "Your arms have grown vibrantly-colored feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
     "category": [ "RAPTOR", "BIRD" ],
+    "flags": [ "WINGS_1" ],
     "changes_to": [ "WINGS_BIRD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },

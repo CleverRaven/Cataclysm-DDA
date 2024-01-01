@@ -137,6 +137,7 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+static const efftype_id effect_winded( "winded" );
 
 static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
@@ -186,7 +187,8 @@ static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
-static const json_character_flag json_flag_WINGGLIDE( "WINGGLIDE" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -5069,7 +5071,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WING_GLIDE ) ) {
         cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
     }
     cmenu.query();
@@ -5163,13 +5165,13 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 you.moves -= 100;
                 return;
             }
-            // The WINGGLIDE trait flag implies wings. GLIDE is to be used for things such as artifacts,
+            // The WING_GLIDE trait flag implies wings. GLIDE is to be used for things such as artifacts,
             // spells in mods etc. where characters are gliding without the use of wings.
-            if( you.get_str() < 4 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+            if( ( you.has_effect( effect_winded ) || you.get_str() < 4 ) && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
                 add_msg( m_warning, _( "You are too weak to take wing." ) );
-            } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
+            } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WING_ARMS ) ) {
                 add_msg( m_warning, _( "You won't make it far without two functional wings." ) );
-            } else if( 100 * you.weight_carried() / you.weight_capacity() > 50 ) {
+            } else if( 100 * you.weight_carried() / you.weight_capacity() > 50 && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
             } else {
                 int glide_distance = 4;
