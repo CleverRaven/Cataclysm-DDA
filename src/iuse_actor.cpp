@@ -1193,7 +1193,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     for( const tripoint_abs_omt &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
         // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
-        get_avatar().map_revealed_omts.emplace_back( place );
+        get_avatar().map_revealed_omts.emplace( place );
     }
 }
 
