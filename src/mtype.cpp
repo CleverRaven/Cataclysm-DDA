@@ -105,20 +105,12 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
     return special_attacks.find( attack_name ) != special_attacks.end();
 }
 
-bool mtype::has_flag( const mon_flag_id &flag ) const
-{
-    return flags.count( flag ) > 0;
-}
-
 void mtype::set_flag( const mon_flag_id &flag, bool state )
 {
     if( state ) {
         flags.emplace( flag );
     } else {
-        auto iter = flags.find( flag );
-        if( iter != flags.end() ) {
-            flags.erase( iter );
-        }
+        flags.erase( flag );
     }
 }
 
