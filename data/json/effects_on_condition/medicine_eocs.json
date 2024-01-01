@@ -59,6 +59,17 @@
       { "u_assign_activity": "ACT_SALINE_INFUSE", "duration": { "math": [ "_volume_of_saline / 0.55555556" ] } },
       { "u_consume_item": { "context_val": "bag_id" } },
       {
+        "set_string_var": "<context_val:bag_id>_empty",
+        "target_var": { "context_val": "bag_to_drop" },
+        "parse_tags": true
+      },
+      {
+        "if": { "math": [ "rand(100)", ">", "u_has_trait('INFRESIST') ? 96 : 90" ] },
+        "then": { "u_add_effect": "infected", "duration": 1, "target_part": "arm_l" }
+      },
+      { "u_add_effect": "infected", "duration": 0, "target_part": "arm_l" },
+      { "u_spawn_item": { "context_val": "bag_to_drop" }, "suppress_message": true },
+      {
         "u_message": "You prepare the tubing, insert the needle into a vein, and patiently wait for the saline solution to flow into your bloodstream.",
         "type": "good"
       }
