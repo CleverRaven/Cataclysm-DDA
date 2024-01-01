@@ -218,6 +218,8 @@ static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SHEAR( "SHEAR" );
 
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
@@ -1469,28 +1471,28 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
     tripoint heading = tripoint_zero;
-    if( jump_direction == 1 ) {
+    if( jump_direction == 0 ) {
         heading = tripoint_south;
     }
-    if( jump_direction == 2 ) {
+    if( jump_direction == 1 ) {
         heading = tripoint_south_west;
     }
-    if( jump_direction == 3 ) {
+    if( jump_direction == 2 ) {
         heading = tripoint_west;
     }
-    if( jump_direction == 4 ) {
+    if( jump_direction == 3 ) {
         heading = tripoint_north_west;
     }
-    if( jump_direction == 5 ) {
+    if( jump_direction == 4 ) {
         heading = tripoint_north;
     }
-    if( jump_direction == 6 ) {
+    if( jump_direction == 5 ) {
         heading = tripoint_north_east;
     }
-    if( jump_direction == 7 ) {
+    if( jump_direction == 6 ) {
         heading = tripoint_east;
     }
-    if( jump_direction == 8 ) {
+    if( jump_direction == 7 ) {
         heading = tripoint_south_east;
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
@@ -1514,8 +1516,9 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         act.set_to_null();
     }
     Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
-    if( creature_ahead ) {
-        if( !you.dodge_check( 25, true ) ) {
+    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium ) {
+        // Zombies are too stupid to avoid midair collision
+        if( !you.dodge_check( 25, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) && !creature_ahead->dodge_check( 25, true ) ) ) {
             you.add_msg_player_or_npc( m_good,
                                        _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                        _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
@@ -1548,28 +1551,28 @@ glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, 
 {
     you->add_effect( effect_gliding, 1_turns, true );
     tripoint heading = tripoint_zero;
-    if( jump_direction == 1 ) {
+    if( jump_direction == 0 ) {
         heading = tripoint_south;
     }
-    if( jump_direction == 2 ) {
+    if( jump_direction == 1 ) {
         heading = tripoint_south_west;
     }
-    if( jump_direction == 3 ) {
+    if( jump_direction == 2 ) {
         heading = tripoint_west;
     }
-    if( jump_direction == 4 ) {
+    if( jump_direction == 3 ) {
         heading = tripoint_north_west;
     }
-    if( jump_direction == 5 ) {
+    if( jump_direction == 4 ) {
         heading = tripoint_north;
     }
-    if( jump_direction == 6 ) {
+    if( jump_direction == 5 ) {
         heading = tripoint_north_east;
     }
-    if( jump_direction == 7 ) {
+    if( jump_direction == 6 ) {
         heading = tripoint_east;
     }
-    if( jump_direction == 8 ) {
+    if( jump_direction == 7 ) {
         heading = tripoint_south_west;
     }
 }

@@ -5038,21 +5038,21 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     int jump_direction = 0;
 
     if( jdy > 0 && jdx == 0 ) {
-        jump_direction = 1; //south //THESE ARE ALL BACKWARDS FIX COMMENTS LATER
+        jump_direction = 0; //south //THESE ARE ALL BACKWARDS FIX COMMENTS LATER
     } else if( jdy > 0 && jdx < 0 ) {
-        jump_direction = 2; //southwest
+        jump_direction = 1; //southwest
     } else if( jdy == 0 && jdx < 0 ) {
-        jump_direction = 3; //west
+        jump_direction = 2; //west
     } else if( jdy < 0 && jdx < 0 ) {
-        jump_direction = 4; //northwest
+        jump_direction = 3; //northwest
     } else if( jdy < 0 && jdx == 0 ) {
-        jump_direction = 5; //north
+        jump_direction = 4; //north
     } else if( jdy < 0 && jdx > 0 ) {
-        jump_direction = 6; //northeast
+        jump_direction = 5; //northeast
     } else if( jdy == 0 && jdx > 0 ) {
-        jump_direction = 7; //east
+        jump_direction = 6; //east
     } else if( jdy > 0 && jdx > 0 ) {
-        jump_direction = 8; //southeast
+        jump_direction = 7; //southeast
     }
 
     tripoint just_below = examp;
@@ -5170,21 +5170,29 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             if( ( you.has_effect( effect_winded ) || you.get_str() < 4 ) && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
                 add_msg( m_warning, _( "You are too weak to take wing." ) );
             } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WING_ARMS ) ) {
-                add_msg( m_warning, _( "You won't make it far without two functional wings." ) );
+                add_msg( m_warning, _( "You won't make it far without functional wings." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 50 && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
             } else {
                 int glide_distance = 4;
                 const weather_manager &weather = get_weather();
                 add_msg( m_info, _( "You glide away from the ledge." ) );
-                if( std::abs( weather.winddirection - ( jump_direction * 45 ) % 360 ) <= 45 ) {
+                int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
+                // Handle cases where the difference wraps around due to compass directions
+                angledifference = std::min( angledifference, 360 - angledifference );
+                if ( angledifference <= 45 && weather.windspeed >= 12 ) {
                     add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
                     glide_distance += 1;
-                }
-                if( std::abs( weather.winddirection - ( jump_direction * 45 ) % 360 ) >= 315 ) {
+                } 
+                // Check if the directions are greater than 135 degrees apart
+                else if ( angledifference >= 135 && weather.windspeed >= 12 ) {
                     add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
                     glide_distance -= 1;
                 }
+                if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
+                    add_msg( m_warning, _( "diagonal jump detected." ) );
+                    glide_distance = std::round(0.7 * glide_distance);
+                } 
                 you.as_avatar()->grab( object_type::NONE );
                 glide_activity_actor glide( &you, jump_direction, glide_distance );
                 you.assign_activity( glide );
