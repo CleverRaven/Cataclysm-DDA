@@ -2533,6 +2533,8 @@ class Character : public Creature, public visitable
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
+        /** Checks to see if the character is able to use their wings properly */
+        bool can_fly();
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 

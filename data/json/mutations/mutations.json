@@ -5595,17 +5595,27 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 4,
-    "description": "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
+    "description": "A large pair of translucent wings grow from your back.  They are too small to lift you, but if you're not weighed down, they can help a bit if you fall.  You can flutter them quickly to improve your move speed, but this is noisy and tires you out.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
+    "restricts_gear": [ "torso" ],
+    "flags": [ "WINGS_1" ],
     "active": true,
-    "cost": 3,
+    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_INSECT_active",
+    "name": { "str": "Insect Wings (Buzzing)" },
+    "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
+    "copy-from": "WINGS_INSECT",
+    "valid": false,
+    "cost": -100,
     "time": "1 s",
-    "fatigue": true,
-    "kcal": true,
-    "thirst": true,
-    "movecost_modifier": 0.75
+    "stamina": true,
+    "movecost_modifier": 0.75,
+    "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",

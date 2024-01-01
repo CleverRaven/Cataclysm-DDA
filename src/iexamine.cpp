@@ -131,6 +131,7 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -182,9 +183,10 @@ static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
-static const json_character_flag json_flag_WINGGLIDE( "WINGGLIDE" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_WINGGLIDE( "WINGGLIDE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -5066,7 +5068,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     }
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
-    cmenu.addentry( ledge_glide, true, 'f', _( "Fall down." ) );
+    cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
         if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WINGGLIDE ) ) {
         cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
         }
@@ -5167,7 +5169,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     add_msg( m_warning, _( "You are too weak to take wing." ) );
             } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WINGGLIDE ) ) {
                     add_msg( m_warning, _( "You won't make it far without two functional wings." ) );                
-            } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
+            } else if( 100 * you.weight_carried() / you.weight_capacity() > 50 ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
             } else {
                 int glide_distance = 4;
@@ -5197,6 +5199,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     return;
                 }
                 // Step into open air, then fall...
+                    if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
+                    you.add_effect( effect_slow_descent, 1_seconds, false );
+                    }
                 you.setpos( examp );
                 you.gravity_check();
             } else {

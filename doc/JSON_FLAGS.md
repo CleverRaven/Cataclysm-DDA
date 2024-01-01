@@ -360,6 +360,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns
+- ```ARM_WINGS``` You have wings instead of regular arms
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story
@@ -389,6 +390,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FEATHER_FALL``` You are immune to fall damage.
 - ```GILLS``` You can breathe underwater.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
+- ```GLIDE``` You can glide from ledges without the use of wings, as if by magic.
+- ```GLIDING``` You are in the process of gliding.
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
@@ -448,8 +451,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WEBBED_FEET``` You have webbings on your feet, supporting your swimming speed if not wearing footwear.
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
-- ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
-- ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
+- ```WINGS_1``` If you're not immobilized and have <50% burden, you reduce fall damage by 1 Z-level.
+- ```WINGS_2``` If you're not immobilized and have <50% burden, you reduce fall damage by 2 Z-levels.
+- ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` TBD
 
 

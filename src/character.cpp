@@ -308,6 +308,7 @@ static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
@@ -318,6 +319,7 @@ static const json_character_flag json_flag_INFRARED( "INFRARED" );
 static const json_character_flag json_flag_INSECTBLOOD( "INSECTBLOOD" );
 static const json_character_flag json_flag_INVERTEBRATEBLOOD( "INVERTEBRATEBLOOD" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
@@ -340,6 +342,9 @@ static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
+static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
+static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -7973,9 +7978,10 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
         for( vehicle_part *&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
-                capacity += contents.max_volume();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                capacity += vpinfo.size;
                 free_cargo += contents.free_volume();
             }
         }
@@ -8004,8 +8010,8 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         }
         const optional_vpart_position vp = m.veh_at( dest_loc );
         // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
-        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
-            !vp.part_with_feature( "HUGE_OK", false ) && !has_effect( effect_cramped_space ) ) {
+        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+            !vp.part_with_feature( "HUGE_OK", true ) && !has_effect( effect_cramped_space ) ) {
             add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
             add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
             c->add_effect( effect_cramped_space, 2_turns, true );
@@ -10903,30 +10909,33 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( has_effect( effect_cramped_space ) ) {
+    if( has_effect( effect_cramped_space ) && !in_vehicle ) {
+        remove_effect( effect_cramped_space );
+    }
+    // Check all of this here to ensure the player can't sit in a comfortable seat and then drop 50 liters of junk in their own lap.
+    if( in_vehicle ) {
         map &here = get_map();
         const tripoint your_pos = pos();
-        const optional_vpart_position vp_there = here.veh_at( your_pos );
-            if( !vp_there ) {
-            remove_effect( effect_cramped_space );
-            return;
-            }
-            if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
+        if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
-            }
+            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+        }
+        const optional_vpart_position vp_there = here.veh_at( your_pos );
         bool is_cramped_space = false;
-        vehicle &veh = vp_there->vehicle();
-        units::volume capacity = 0_ml;
-        units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
-        for( vehicle_part *&part : cargo_parts ) {
-            vehicle_stack contents = veh.get_items( *part );
-            const optional_vpart_position vp = here.veh_at( your_pos );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
-                capacity += contents.max_volume();
-                free_cargo += contents.free_volume();
+        if( vp_there ) {
+            vehicle &veh = vp_there->vehicle();
+            units::volume capacity = 0_ml;
+            units::volume free_cargo = 0_ml;
+            auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
+            for( vehicle_part *&part : cargo_parts ) {
+                vehicle_stack contents = veh.get_items( *part );
+                const vpart_info &vpinfo = part->info();
+                const optional_vpart_position vp = here.veh_at( your_pos );
+                if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                    capacity += vpinfo.size;
+                    free_cargo += contents.free_volume();
                 }
+            }
             const creature_size size = get_size();
             if( capacity > 0_ml ) {
                 // Open-topped vehicle parts have more room.
@@ -10942,16 +10951,15 @@ void Character::process_effects()
                         add_effect( effect_cramped_space, 2_turns, true );
                     }
                     is_cramped_space = true;
-                    return;
                 }
             }
-            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
-                !vp.part_with_feature( "HUGE_OK", false ) ) {
+            const optional_vpart_position vp = here.veh_at( your_pos );
+            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+                !vp.part_with_feature( "HUGE_OK", true ) ) {
                 if( !has_effect( effect_cramped_space ) ) {
                     add_effect( effect_cramped_space, 2_turns, true );
                 }
                 is_cramped_space = true;
-                return;
             }
         }
         if( !is_cramped_space ) {
@@ -11029,7 +11037,7 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
-    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect( effect_gliding ) ) {
+    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
         get_map().tr_at( pos() ).trigger( pos(), *this );
         get_map().update_visibility_cache( pos().z );
     }
@@ -12478,6 +12486,20 @@ int Character::impact( const int force, const tripoint &p )
     }
 
     return total_dealt;
+}
+
+bool Character::can_fly() 
+{
+        if( has_effect( effect_stunned ) || has_effect( effect_winded ) || has_effect( effect_narcosis ) ) {
+        return false;
+        }
+        if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ) && 100 * weight_carried() / weight_capacity() > 50 ) {
+        return false;
+        }
+        if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
+        return false;
+        }
+    return true;
 }
 
 // FIXME: Relies on hardcoded bash damage type

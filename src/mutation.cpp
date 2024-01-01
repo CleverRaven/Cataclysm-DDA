@@ -296,8 +296,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+    bool stamina = mut->stamina && get_stamina() >= 3400;
 
-    return !hunger && !fatigue && !thirst;
+    return !hunger && !fatigue && !thirst && !stamina;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -793,6 +794,9 @@ void Character::activate_mutation( const trait_id &mut )
         }
         if( mdata.fatigue ) {
             mod_fatigue( cost );
+        }
+        if( mdata.stamina ) {
+            mod_stamina( cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
@@ -2466,4 +2470,3 @@ std::string Character::visible_mutations( const int visibility_cap ) const
         return std::string();
     } );
 }
-

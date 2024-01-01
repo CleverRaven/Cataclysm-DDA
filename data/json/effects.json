@@ -4666,7 +4666,16 @@
     "id": "gliding",
     "name": [ "Gliding" ],
     "desc": [ "You are gliding through the air." ],
-    "flags": [ "HOVERING" ],
+    "flags": [ "GLIDING" ],
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "slow_descent",
+    "show_in_info": false,
+    "name": [ "Slow Descent" ],
+    "desc": [ "You are descending at a safe speed." ],
+    "flags": [ "FEATHER_FALL" ],
+    "max_duration": "1 s"
   }
 ]
