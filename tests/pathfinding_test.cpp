@@ -22,6 +22,7 @@ static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
 static const ter_str_id ter_t_ramp_up_high( "t_ramp_up_high" );
 static const ter_str_id ter_t_ramp_up_low( "t_ramp_up_low" );
 static const ter_str_id ter_t_shrub_blackberry( "t_shrub_blackberry" );
+static const ter_str_id ter_t_splitrail_fence( "t_splitrail_fence" );
 static const ter_str_id ter_t_wall_wood_widened( "t_wall_wood_widened" );
 
 using namespace map_test_case_common;
@@ -1307,6 +1308,53 @@ TEST_CASE( "pathfinding_flying", "[pathfinding]" )
     settings.set_avoid_bashing( false );
     settings.set_max_distance( 100 );
     settings.set_max_cost( 100 * 100 );
+
+    t.test_all( settings );
+}
+
+TEST_CASE( "pathfinding_digging", "[pathfinding]" )
+{
+    pathfinding_test_case t = GENERATE( pathfinding_test_case{
+        // Blocked by non-burrowable wall
+        {
+            " f ",
+            "   ",
+            "###",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            "   ",
+            "###",
+            "   ",
+            " t ",
+        }
+    }, pathfinding_test_case{
+        // Burrow under wall
+        {
+            " f ",
+            "   ",
+            "WWW",
+            "   ",
+            " t ",
+        },
+        {
+            " f ",
+            " x ",
+            "WxW",
+            " x ",
+            " x ",
+        }
+    } );
+
+    t.floor_terrain = t_dirt;
+    t.set_up_tiles = ifchar( 'W', ter_set( ter_t_splitrail_fence ) );
+
+    PathfindingSettings settings;
+    settings.set_max_distance( 100 );
+    settings.set_max_cost( 100 * 100 );
+    settings.set_is_digging( true );
 
     t.test_all( settings );
 }
