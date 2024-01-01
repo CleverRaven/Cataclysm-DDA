@@ -10909,7 +10909,7 @@ void Character::process_effects()
         map &here = get_map();
         const tripoint your_pos = pos();
         const optional_vpart_position vp_there = here.veh_at( your_pos );
-            if( !vp_there ) {
+        if( !vp_there ) {
             remove_effect( effect_cramped_space );
             return;
             }
