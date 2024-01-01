@@ -118,6 +118,8 @@ class int_id
         int _id;
 };
 
+// Fast set implementation for sequential int IDs. Only meant to be used with implementations based
+// on generic_factory, i.e. non-zero IDs that are sequential from 0.
 template <typename T, std::size_t kFastSize>
 class int_id_set
 {
