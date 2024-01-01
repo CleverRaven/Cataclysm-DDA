@@ -128,13 +128,13 @@ class snippet_library
 
         struct weighted_id {
             // Accumulated weight that increases in the direction of the vector, used for randomization
-            size_t weight_acc;
+            uint64_t weight_acc;
             snippet_id value;
         };
 
         struct weighted_translation {
             // Accumulated weight that increases in the direction of the vector, used for randomization
-            size_t weight_acc;
+            uint64_t weight_acc;
             translation value;
         };
 

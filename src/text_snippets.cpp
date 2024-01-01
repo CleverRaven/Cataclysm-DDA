@@ -41,7 +41,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
                 entry.throw_error( "Error reading snippet from JSON array" );
             }
             std::vector<weighted_translation> &no_id = snippets_by_category[category].no_id;
-            const size_t weight_acc = no_id.empty() ? 1 : no_id.back().weight_acc + 1;
+            const uint64_t weight_acc = no_id.empty() ? 1 : no_id.back().weight_acc + 1;
             no_id.emplace_back( weighted_translation{ weight_acc, text } );
         } else {
             JsonObject jo = entry.get_object();
@@ -56,7 +56,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         debugmsg( "snippet_library::add_snippet_from_json called after snippet_library::migrate_hash_to_id." );
     }
     hash_to_id_migration = std::nullopt;
-    size_t weight = 1;
+    uint64_t weight = 1;
     translation text;
     mandatory( jo, false, "text", text );
     optional( jo, false, "weight", weight, 1 );
@@ -70,7 +70,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
             jo.throw_error_at( "id", "Duplicate snippet id" );
         }
         std::vector<weighted_id> &ids = snippets_by_category[category].ids;
-        const size_t weight_acc = ids.empty() ? weight : ids.back().weight_acc + weight;
+        const uint64_t weight_acc = ids.empty() ? weight : ids.back().weight_acc + weight;
         ids.emplace_back( weighted_id{ weight_acc, id } );
         snippets_by_id[id] = text;
         if( jo.has_member( "effect_on_examine" ) ) {
@@ -81,7 +81,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         name_by_id[id] = name;
     } else {
         std::vector<weighted_translation> &no_id = snippets_by_category[category].no_id;
-        const size_t weight_acc = no_id.empty() ? weight : no_id.back().weight_acc + weight;
+        const uint64_t weight_acc = no_id.empty() ? weight : no_id.back().weight_acc + weight;
         no_id.emplace_back( weighted_translation{ weight_acc, text } );
     }
 }
@@ -144,14 +144,14 @@ void snippet_library::reload_names( const cata_path &path )
             if( jo.has_array( "name" ) ) {
                 for( const std::string n : jo.get_array( "name" ) ) {
                     for( category_snippets *const cat : cats ) {
-                        const size_t weight_acc = cat->no_id.empty() ? 1 : cat->no_id.back().weight_acc + 1;
+                        const uint64_t weight_acc = cat->no_id.empty() ? 1 : cat->no_id.back().weight_acc + 1;
                         cat->no_id.emplace_back( weighted_translation{ weight_acc, no_translation( n ) } );
                     }
                 }
             } else {
                 const std::string n = jo.get_string( "name" );
                 for( category_snippets *const cat : cats ) {
-                    const size_t weight_acc = cat->no_id.empty() ? 1 : cat->no_id.back().weight_acc + 1;
+                    const uint64_t weight_acc = cat->no_id.empty() ? 1 : cat->no_id.back().weight_acc + 1;
                     cat->no_id.emplace_back( weighted_translation{ weight_acc, no_translation( n ) } );
                 }
             }
@@ -263,7 +263,7 @@ snippet_id snippet_library::random_id_from_category( const std::string &cat ) co
     if( !it->second.no_id.empty() ) {
         debugmsg( "ids are required, but not specified for some snippets in category %s", cat );
     }
-    const size_t weight_sum =
+    const uint64_t weight_sum =
         it->second.ids.empty() ? 0 : it->second.ids.back().weight_acc;
     if( weight_sum == 0 ) {
         return snippet_id::NULL_ID();
@@ -274,10 +274,10 @@ snippet_id snippet_library::random_id_from_category( const std::string &cat ) co
     // so acceptable.
     // NOLINTNEXTLINE(cata-determinism)
     std::mt19937 generator( rng_bits() );
-    std::uniform_int_distribution<size_t> dis( 0, weight_sum - 1 );
+    std::uniform_int_distribution<uint64_t> dis( 0, weight_sum - 1 );
     const auto sit = std::upper_bound(
                          it->second.ids.begin(), it->second.ids.end(), dis( generator ),
-    []( const size_t loc, const weighted_id & wid ) {
+    []( const uint64_t loc, const weighted_id & wid ) {
         return loc < wid.weight_acc;
     } );
     return sit->value;
@@ -295,10 +295,10 @@ std::optional<translation> snippet_library::random_from_category( const std::str
     if( it == snippets_by_category.end() ) {
         return std::nullopt;
     }
-    const size_t ids_weighted_sum =
+    const uint64_t ids_weighted_sum =
         it->second.ids.empty() ? 0 : it->second.ids.back().weight_acc;
-    const size_t weight_sum = ids_weighted_sum +
-                              ( it->second.no_id.empty() ? 0 : it->second.no_id.back().weight_acc );
+    const uint64_t weight_sum = ids_weighted_sum +
+                                ( it->second.no_id.empty() ? 0 : it->second.no_id.back().weight_acc );
     if( weight_sum == 0 ) {
         return std::nullopt;
     }
@@ -308,19 +308,19 @@ std::optional<translation> snippet_library::random_from_category( const std::str
     // so acceptable.
     // NOLINTNEXTLINE(cata-determinism)
     std::mt19937 generator( seed );
-    std::uniform_int_distribution<size_t> dis( 0, weight_sum - 1 );
-    const size_t loc = dis( generator );
+    std::uniform_int_distribution<uint64_t> dis( 0, weight_sum - 1 );
+    const uint64_t loc = dis( generator );
     if( loc < ids_weighted_sum ) {
         const auto sit = std::upper_bound(
                              it->second.ids.begin(), it->second.ids.end(), loc,
-        []( const size_t loc, const weighted_id & wid ) {
+        []( const uint64_t loc, const weighted_id & wid ) {
             return loc < wid.weight_acc;
         } );
         return get_snippet_by_id( sit->value );
     } else {
         const auto sit = std::upper_bound(
                              it->second.no_id.begin(), it->second.no_id.end(), loc - ids_weighted_sum,
-        []( const size_t loc, const weighted_translation & wt ) {
+        []( const uint64_t loc, const weighted_translation & wt ) {
             return loc < wt.weight_acc;
         } );
         return sit->value;
