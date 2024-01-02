@@ -1122,6 +1122,7 @@
           },
           { "item": "foodplace_snack_bar", "container-item": "fanny" },
           { "item": "foodplace_snack_bar" },
+          { "item": "foodplace_zero_drink" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -1251,8 +1252,7 @@
           { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
           {
-            "item": "m4_cqbr",
-            "variant": "m4_cqbr",
+            "group": "m4_cqbr",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1788,8 +1788,7 @@
           { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
           {
-            "item": "m4_cqbr",
-            "variant": "m4_cqbr",
+            "group": "m4_cqbr",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
