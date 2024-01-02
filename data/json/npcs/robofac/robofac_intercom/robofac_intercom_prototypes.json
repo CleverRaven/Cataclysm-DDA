@@ -35,7 +35,7 @@
         "text": "[6 HGC] I'd like to buy the rest of the armor set now.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 6 } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
             { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
         },
@@ -147,12 +147,37 @@
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
             {
               "or": [
-                { "u_has_var": { "value": "robofac_armor_pieces_rig" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_basic" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_rubber" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_nomex" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_kevlar" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_military" } }
+                { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_basic",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_rubber",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_nomax",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_kevlar",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_military",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                }
               ]
             }
           ]
@@ -166,12 +191,37 @@
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
             {
               "or": [
-                { "u_has_var": { "value": "robofac_armor_pieces_rig" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_basic" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_rubber" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_nomex" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_kevlar" } },
-                { "u_has_var": { "value": "robofac_armor_pieces_military" } }
+                { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_basic",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_rubber",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_nomax",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_kevlar",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_military",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                }
               ]
             }
           ]
