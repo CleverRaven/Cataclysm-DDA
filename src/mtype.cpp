@@ -68,6 +68,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_DESTROYS,
             mon_flag_DIGS,
             mon_flag_DOGFOOD,
+            mon_flag_DORMANT,
             mon_flag_DRIPS_GASOLINE,
             mon_flag_DRIPS_NAPALM,
             mon_flag_DROPS_AMMO,
@@ -126,6 +127,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PUSH_MON,
             mon_flag_PUSH_VEH,
             mon_flag_QUEEN,
+            mon_flag_QUIETDEATH,
             mon_flag_RANGED_ATTACKER,
             mon_flag_REVIVES,
             mon_flag_REVIVES_HEALTHY,
@@ -183,6 +185,7 @@ void set_mon_flag_ids()
     mon_flag_DESTROYS = mon_flag_id( "DESTROYS" );
     mon_flag_DIGS = mon_flag_id( "DIGS" );
     mon_flag_DOGFOOD = mon_flag_id( "DOGFOOD" );
+    mon_flag_DORMANT = mon_flag_id( "DORMANT" );
     mon_flag_DRIPS_GASOLINE = mon_flag_id( "DRIPS_GASOLINE" );
     mon_flag_DRIPS_NAPALM = mon_flag_id( "DRIPS_NAPALM" );
     mon_flag_DROPS_AMMO = mon_flag_id( "DROPS_AMMO" );
@@ -241,6 +244,7 @@ void set_mon_flag_ids()
     mon_flag_PUSH_MON = mon_flag_id( "PUSH_MON" );
     mon_flag_PUSH_VEH = mon_flag_id( "PUSH_VEH" );
     mon_flag_QUEEN = mon_flag_id( "QUEEN" );
+    mon_flag_QUIETDEATH = mon_flag_id( "QUIETDEATH" );
     mon_flag_RANGED_ATTACKER = mon_flag_id( "RANGED_ATTACKER" );
     mon_flag_REVIVES = mon_flag_id( "REVIVES" );
     mon_flag_REVIVES_HEALTHY = mon_flag_id( "REVIVES_HEALTHY" );
