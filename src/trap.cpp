@@ -334,7 +334,7 @@ void trap::trigger( const tripoint &pos ) const
         chosen_corpse = &corpse;
         break;
     }
-    // chosen corpse doesn't actually do anything, but it's useful to include anyway.
+    // chosen corpse doesn't actually do anything, but needed to not break code below.
     return trigger( pos, nullptr, chosen_corpse );
 }
 

@@ -78,7 +78,7 @@
     "visibility": 3,
     "avoidance": 20,
     "difficulty": 99,
-    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY", "PROXIMITY" ],
     "action": "spell",
     "spell_data": { "id": "wake_up_dormant" },
     "trigger_message_u": "A zombie rises from the ground!",
