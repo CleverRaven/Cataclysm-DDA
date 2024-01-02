@@ -1493,7 +1493,7 @@
     ],
     "melee_damage": { "cut": 9 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -1522,7 +1522,7 @@
     ],
     "melee_damage": { "cut": 10 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -1551,7 +1551,7 @@
     ],
     "melee_damage": { "cut": 11 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -1580,7 +1580,7 @@
     ],
     "melee_damage": { "cut": 16 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   }
 ]
