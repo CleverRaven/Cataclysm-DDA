@@ -1527,20 +1527,30 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
 bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
 {
     if( critter == nullptr ) {
-        return false;
+        map &here = get_map();
+        trap tr = here.tr_at( p );
+        const spell trap_spell = tr.spell_data.get_spell();
+        npc dummy;
+        if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+            here.remove_trap( p );
+        }
+        // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
+        trap_spell.cast_all_effects( dummy, p );
+        trap_spell.make_sound( p, get_player_character() );
+        return true;
+    } else {
+        map &here = get_map();
+        trap tr = here.tr_at( p );
+        const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
+        npc dummy;
+        if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+            here.remove_trap( p );
+        }
+        // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
+        trap_spell.cast_all_effects( dummy, critter->pos() );
+        trap_spell.make_sound( p, get_player_character() );
+        return true;
     }
-    map &here = get_map();
-    trap tr = here.tr_at( p );
-    const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
-    npc dummy;
-    if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
-        here.remove_trap( p );
-    }
-    // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-    trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, get_player_character() );
-
-    return true;
 }
 
 bool trapfunc::snake( const tripoint &p, Creature *, item * )

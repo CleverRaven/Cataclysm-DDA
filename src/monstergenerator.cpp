@@ -896,6 +896,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
+
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
 
@@ -990,6 +991,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
+    optional( jo, was_loaded, "spawn_function", mspawn_effect );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -1702,6 +1704,21 @@ void monster_death_effect::load( const JsonObject &jo )
 }
 
 void monster_death_effect::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void monster_spawn_effect::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "message", spawn_message, to_translation( "The %s appears!" ) );
+    optional( jo, was_loaded, "effect", sp );
+    has_effect = sp.is_valid();
+    if (!has_effect) {
+        debugmsg( "monster_spawn_effect has no effect" );
+    }
+}
+
+void monster_spawn_effect::deserialize( const JsonObject &data )
 {
     load( data );
 }

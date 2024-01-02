@@ -165,6 +165,7 @@ static const mon_flag_str_id mon_flag_BADVENOM( "BADVENOM" );
 static const mon_flag_str_id mon_flag_CAN_DIG( "CAN_DIG" );
 static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
 static const mon_flag_str_id mon_flag_CORNERED_FIGHTER( "CORNERED_FIGHTER" );
+static const mon_flag_str_id mon_flag_DORMANT( "DORMANT" );
 static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
 static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
@@ -722,12 +723,30 @@ void monster::spawn( const tripoint &p )
 {
     set_pos_only( p );
     unset_dest();
+
+    // should never happen for dormants but why not support it 
+    add_msg_if_player_sees(*this, m_good, type->mspawn_effect.spawn_message.translated(), name());
+
+    if (type->mspawn_effect.has_effect) {
+        //Not a hallucination, go process the spawn effects.
+        spell spawn_spell = type->mspawn_effect.sp.get_spell(*this);
+        spawn_spell.cast_all_effects(*this, pos());
+    }
 }
 
 void monster::spawn( const tripoint_abs_ms &loc )
 {
     set_location( loc );
     unset_dest();
+
+    // should never happen for dormants but why not support it 
+    add_msg_if_player_sees(*this, m_good, type->mspawn_effect.spawn_message.translated(), name());
+
+    if (type->mspawn_effect.has_effect) {
+        //Not a hallucination, go process the spawn effects.
+        spell spawn_spell = type->mspawn_effect.sp.get_spell(*this);
+        spawn_spell.cast_all_effects(*this, pos());
+    }
 }
 
 std::string monster::get_name() const
@@ -3920,7 +3939,7 @@ void monster::on_load()
     // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
-        if( has_flag( mon_flag_REVIVES ) ) {
+        if( has_flag( mon_flag_REVIVES ) && !has_flag( mon_flag_DORMANT ) ) {
             regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_flesh ) || made_of( material_iflesh ) ||
                    made_of( material_veggy ) ) {

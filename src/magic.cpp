@@ -2993,6 +2993,13 @@ spell fake_spell::get_spell( const Creature &caster, int min_level_override ) co
     return sp;
 }
 
+// intended for spells without casters
+spell fake_spell::get_spell() const
+{
+    spell sp( id );
+    return sp;
+}
+
 void spell_events::notify( const cata::event &e )
 {
     switch( e.type() ) {

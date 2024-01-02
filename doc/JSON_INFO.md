@@ -3035,7 +3035,7 @@ See [MUTATIONS.md](MUTATIONS.md)
     },
     "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
     "trigger_message_npc": "A bear trap closes on <npcname>'s foot!", // This message will be printed when NPC or monster steps on a trap
-    "sound_threshold": 5 // Optional. Minimum volume of sound that will trigger this trap. Defaults to 0 (Will not trigger from sound).
+    "sound_threshold": [5,10] // Optional.  Minimum volume of sound that will trigger this trap. Defaults to [0,0] (Will not trigger from sound). If two values [min,max] are provided, trap triggers on a linearly increasing chance depending on volume, from 25% (min) to 100%(max). To always trigger at some noise, say noise level N, specify as [N,N]. IMPORTANT: Not all traps work with this system. Make sure to double check and test.
 ```
 
 ### Vehicle Groups

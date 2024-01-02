@@ -76,6 +76,7 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
+static const mon_flag_str_id mon_flag_DORMANT( "DORMANT" );
 static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
 static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 
@@ -1441,7 +1442,7 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint &ta
         for( item &corpse : here.i_at( aoe ) ) {
             const mtype *mt = corpse.get_mtype();
             if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
-                   mt->has_flag( mon_flag_REVIVES ) && mt->in_species( spec ) &&
+                   mt->has_flag( mon_flag_REVIVES ) && !mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) &&
                    !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
                 continue;
             }
@@ -1450,6 +1451,36 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint &ta
                 break;
             }
         }
+    }
+}
+
+// identical to above, but checks for REVIVES && DORMANT flag. Ignores NO_NECRO.
+void spell_effect::revive_dormant( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+    ::map &here = get_map();
+    const species_id spec( sp.effect_data() );
+    for( const tripoint &aoe : area ) {
+        for( item &corpse : here.i_at( aoe ) ) {
+            const mtype *mt = corpse.get_mtype();
+            if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
+                   mt->has_flag( mon_flag_REVIVES ) && mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) ) ) {
+                continue;
+            }
+            if( g->revive_corpse( aoe, corpse ) ) {
+                here.i_rem( aoe, &corpse );
+                break;
+            }
+        }
+    }
+}
+
+void spell_effect::add_trap( const spell &sp, Creature &caster, const tripoint &target )
+{
+    ::map &here = get_map();
+    const trap_id tr_id( sp.effect_data() );
+    if( here.tr_at(target) == tr_null ) {
+        here.trap_set(target, tr_id );
     }
 }
 
@@ -1753,7 +1784,8 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 }
 
-void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
+                                        const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
 
@@ -1774,7 +1806,8 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
     }
 }
 
-void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
+void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
+        const tripoint &target )
 {
     sp.make_sound( target, caster );
     int mass = caster.get_speed_base();

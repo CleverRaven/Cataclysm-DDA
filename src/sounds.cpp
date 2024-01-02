@@ -487,8 +487,11 @@ void sounds::process_sounds()
             for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
                 const int dist = sound_distance( source, tp );
                 const trap &tr = get_map().tr_at( tp );
-                if( tr.triggered_by_sound( vol, dist ) ) {
-                    tr.trigger( tp );
+                // Exclude traps that certainly won't hear the sound
+                if( vol * 2 > dist ) {
+                    if( tr.triggered_by_sound( vol, dist ) ) {
+                        tr.trigger( tp );
+                    }
                 }
             }
         }
