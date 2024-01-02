@@ -29,15 +29,15 @@
     "field": {
       "chance": 75,
         "extras": {
-          "mx_trees_map_salamander": 300,
-          "mx_trees_map_sylph": 300,
-          "mx_trees_map_ierde": 300,
-          "mx_forest_pond_homullus": 300,
-          "mx_forest_pond_avore": 300,
-          "mx_forest_pond_salamander_avore": 300,
-          "mx_pond_forest_undine": 300,
-          "mx_pond_forest_sylph_homullus": 300,
-          "mx_pond_forest_undine_ierde": 300
+          "mx_trees_map_salamander": 50,
+          "mx_trees_map_sylph": 50,
+          "mx_trees_map_ierde": 50,
+          "mx_forest_pond_homullus": 50,
+          "mx_forest_pond_avore": 50,
+          "mx_forest_pond_salamander_avore": 50,
+          "mx_pond_forest_undine": 50,
+          "mx_pond_forest_sylph_homullus": 50,
+          "mx_pond_forest_undine_ierde": 50
         }
       }
     }
