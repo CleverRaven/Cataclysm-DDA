@@ -157,6 +157,61 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_nether_player_hate( "nether_player_hate" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
+static const mon_flag_str_id mon_flag_ANIMAL( "ANIMAL" );
+static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
+static const mon_flag_str_id mon_flag_ATTACK_LOWER( "ATTACK_LOWER" );
+static const mon_flag_str_id mon_flag_ATTACK_UPPER( "ATTACK_UPPER" );
+static const mon_flag_str_id mon_flag_BADVENOM( "BADVENOM" );
+static const mon_flag_str_id mon_flag_CAN_DIG( "CAN_DIG" );
+static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_CORNERED_FIGHTER( "CORNERED_FIGHTER" );
+static const mon_flag_str_id mon_flag_DORMANT( "DORMANT" );
+static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
+static const mon_flag_str_id mon_flag_EATS( "EATS" );
+static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
+static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_FILTHY( "FILTHY" );
+static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_GOODHEARING( "GOODHEARING" );
+static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
+static const mon_flag_str_id mon_flag_HAS_MIND( "HAS_MIND" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_KEEP_DISTANCE( "KEEP_DISTANCE" );
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+static const mon_flag_str_id mon_flag_NEMESIS( "NEMESIS" );
+static const mon_flag_str_id mon_flag_NEVER_WANDER( "NEVER_WANDER" );
+static const mon_flag_str_id mon_flag_NOHEAD( "NOHEAD" );
+static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
+static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
+static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
+static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
+static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
+static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
+static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
+static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
+static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+static const mon_flag_str_id mon_flag_REVIVES_HEALTHY( "REVIVES_HEALTHY" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
+static const mon_flag_str_id mon_flag_STUN_IMMUNE( "STUN_IMMUNE" );
+static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
+static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
+static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
+static const mon_flag_str_id mon_flag_WARM( "WARM" );
+static const mon_flag_str_id mon_flag_WIELDED_WEAPON( "WIELDED_WEAPON" );
+
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
@@ -668,12 +723,30 @@ void monster::spawn( const tripoint &p )
 {
     set_pos_only( p );
     unset_dest();
+
+    // should never happen for dormants but why not support it 
+    add_msg_if_player_sees(*this, m_good, type->mspawn_effect.spawn_message.translated(), name());
+
+    if (type->mspawn_effect.has_effect) {
+        //Not a hallucination, go process the spawn effects.
+        spell spawn_spell = type->mspawn_effect.sp.get_spell(*this);
+        spawn_spell.cast_all_effects(*this, pos());
+    }
 }
 
 void monster::spawn( const tripoint_abs_ms &loc )
 {
     set_location( loc );
     unset_dest();
+
+    // should never happen for dormants but why not support it 
+    add_msg_if_player_sees(*this, m_good, type->mspawn_effect.spawn_message.translated(), name());
+
+    if (type->mspawn_effect.has_effect) {
+        //Not a hallucination, go process the spawn effects.
+        spell spawn_spell = type->mspawn_effect.sp.get_spell(*this);
+        spawn_spell.cast_all_effects(*this, pos());
+    }
 }
 
 std::string monster::get_name() const
@@ -3866,7 +3939,7 @@ void monster::on_load()
     // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
-        if( has_flag( mon_flag_REVIVES ) ) {
+        if( has_flag( mon_flag_REVIVES ) && !has_flag( mon_flag_DORMANT ) ) {
             regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_flesh ) || made_of( material_iflesh ) ||
                    made_of( material_veggy ) ) {
