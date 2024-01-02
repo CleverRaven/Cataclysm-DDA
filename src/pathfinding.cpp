@@ -71,11 +71,17 @@ void RealityBubblePathfindingCache::invalidate_dependants( const tripoint_bub_ms
     }
 }
 
-void RealityBubblePathfindingCache::update( const map &here )
+void RealityBubblePathfindingCache::update( const map &here, int min_z, int max_z )
 {
+    if( dirty_z_levels_.empty() && dirty_positions_.empty() ) {
+        return;
+    }
+
+    cata_assert( min_z <= max_z );
+
     const int size = here.getmapsize();
     for( const int z : dirty_z_levels_ ) {
-        if( !here.inbounds_z( z ) ) {
+        if( z < min_z || z > max_z || !here.inbounds_z( z ) ) {
             continue;
         }
         for( int y = 0; y < size * SEEY; ++y ) {
@@ -87,11 +93,15 @@ void RealityBubblePathfindingCache::update( const map &here )
         }
     }
     for( const int z : dirty_z_levels_ ) {
-        dirty_positions_.erase( z );
+        if( min_z <= z && z <= max_z ) {
+            dirty_positions_.erase( z );
+        }
     }
-    dirty_z_levels_.clear();
 
     for( const auto& [z, dirty_points] : dirty_positions_ ) {
+        if( z < min_z || z > max_z || !here.inbounds_z( z ) ) {
+            continue;
+        }
         for( const point_bub_ms &p : dirty_points ) {
             tripoint_bub_ms t( p, z );
             if( here.inbounds( t ) ) {
@@ -99,7 +109,11 @@ void RealityBubblePathfindingCache::update( const map &here )
             }
         }
     }
-    dirty_positions_.clear();
+
+    for( int i = min_z; i <= max_z; ++i ) {
+        dirty_z_levels_.erase( i );
+        dirty_positions_.erase( i );
+    }
 }
 
 void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_ms &p )
@@ -606,7 +620,7 @@ bool map::can_teleport( const tripoint_bub_ms &to, const PathfindingSettings &se
     if( !inbounds( to ) ) {
         return false;
     }
-    pathfinding_cache()->update( *this );
+    pathfinding_cache()->update( *this, to.z(), to.z() );
     return position_cost( *this, to, settings, *pathfinding_cache() ).has_value();
 }
 
@@ -619,7 +633,7 @@ bool map::can_move( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
     if( from == to ) {
         return true;
     }
-    pathfinding_cache()->update( *this );
+    pathfinding_cache()->update( *this, std::min( from.z(), to.z() ), std::max( from.z(), to.z() ) );
     if( position_cost( *this, to, settings, *pathfinding_cache() ).has_value() ) {
         return transition_cost( *this, from, to, settings, *pathfinding_cache() ).has_value();
     }
@@ -635,7 +649,7 @@ std::optional<int> map::move_cost( const tripoint_bub_ms &from, const tripoint_b
     if( from == to ) {
         return 0;
     }
-    pathfinding_cache()->update( *this );
+    pathfinding_cache()->update( *this, std::min( from.z(), to.z() ), std::max( from.z(), to.z() ) );
     if( const std::optional<int> p_cost = position_cost( *this, to, settings, *pathfinding_cache() ) ) {
         if( const std::optional<int> t_cost = transition_cost( *this, from, to, settings,
                                               *pathfinding_cache() ) ) {
@@ -655,7 +669,8 @@ std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &from,
     }
 
     RealityBubblePathfindingCache &cache = *pathfinding_cache();
-    cache.update( *this );
+    const int pad = settings.rb_settings().padding().z();
+    cache.update( *this, std::min( from.z(), to.z() ) - pad, std::max( from.z(), to.z() ) + pad );
 
     std::vector<tripoint_bub_ms> line_path = line_to( from, to );
     const PathfindingFlags avoid = settings.avoid_mask() | PathfindingSettings::RoughTerrain;
@@ -689,7 +704,8 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &from, const trip
     }
 
     RealityBubblePathfindingCache &cache = *pathfinding_cache();
-    cache.update( *this );
+    const int pad = settings.rb_settings().padding().z();
+    cache.update( *this, std::min( from.z(), to.z() ) - pad, std::max( from.z(), to.z() ) + pad );
 
     // First, check for a simple straight line on flat ground.
     if( from.z() == to.z() ) {

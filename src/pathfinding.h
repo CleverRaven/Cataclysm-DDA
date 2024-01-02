@@ -145,7 +145,7 @@ class RealityBubblePathfindingCache
             return down_destinations_.find( p )->second;
         }
 
-        void update( const map &here );
+        void update( const map &here, int min_z, int max_z );
 
         void invalidate( int z ) {
             dirty_z_levels_.emplace( z );
