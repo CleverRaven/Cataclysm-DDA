@@ -354,7 +354,7 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
 
-    const FastDistanceApproximation target_range = rl_dist_fast( pos(), critter.pos() );
+    const int target_range = rl_dist( pos(), critter.pos() );
     if( target_range > MAX_VIEW_DISTANCE ) {
         return false;
     }
@@ -398,7 +398,7 @@ bool Creature::sees( const Creature &critter ) const
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
-    if( target_range.would_round_down_to_one_or_zero() ) {
+    if( target_range <= 1 ) {
         return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
     }
 
@@ -483,7 +483,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     if( !fov_3d && posz() != t.z ) {
         return false;
     }
-    const FastDistanceApproximation target_range = rl_dist_fast( pos(), t );
+    const int target_range = rl_dist( pos(), t );
     if( range_mod > 0 && target_range > range_mod ) {
         return false;
     }

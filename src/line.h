@@ -214,31 +214,11 @@ struct FastDistanceApproximation {
             }
             return value >= rhs;
         }
-        template<typename T>
-        inline bool operator<( const T &rhs ) const {
-            if( trigdist ) {
-                return value < rhs * rhs;
-            }
-            return value < rhs;
-        }
-        template<typename T>
-        inline bool operator>( const T &rhs ) const {
-            if( trigdist ) {
-                return value > rhs * rhs;
-            }
-            return value > rhs;
-        }
         inline explicit operator int() const {
             if( trigdist ) {
                 return std::sqrt( value );
             }
             return value;
-        }
-        bool would_round_down_to_one_or_zero() const {
-            if( trigdist ) {
-                return value <= 3;
-            }
-            return value <= 1;
         }
 };
 
