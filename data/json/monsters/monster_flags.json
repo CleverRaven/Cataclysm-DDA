@@ -295,6 +295,11 @@
     "//": "Monster corpse can be revived by dormant corpse traps"
   },
   {
+    "id": "QUIETDEATH",
+    "type": "monster_flag",
+    "//": "Monster dies quietly and doesn't display a message."
+  },
+  {
     "id": "VERMIN",
     "type": "monster_flag",
     "//": "Obsolete flag labeling \"nuisance\" or \"scenery\" monsters, now used to prevent loading the same"

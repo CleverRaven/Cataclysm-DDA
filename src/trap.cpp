@@ -51,7 +51,6 @@ const trap_str_id tr_telepad( "tr_telepad" );
 const trap_str_id tr_temple_flood( "tr_temple_flood" );
 const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
 
-static const mon_flag_str_id mon_flag_DORMANT( "DORMANT" );
 static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
 static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 
