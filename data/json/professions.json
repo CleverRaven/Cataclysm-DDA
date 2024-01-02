@@ -2765,6 +2765,7 @@
     "items": {
       "both": {
         "entries": [
+          { "item": "santa_staff" },
           { "item": "santa_hat" },
           { "item": "santa_necklace" },
           { "item": "santa_wristwatch" },
@@ -2787,7 +2788,6 @@
           { "item": "boxer_briefs" },
           { "item": "socks" },
           { "item": "santa_boots" },
-          { "item": "santa_staff" },
           { "item": "santa_beard" }
         ]
       },
@@ -2798,8 +2798,7 @@
           { "item": "santa_dress" },
           { "item": "stockings", "variant": "santa_stockings" },
           { "item": "panties" },
-          { "item": "santa_shoes" },
-          { "item": "santa_knife" }
+          { "item": "santa_shoes" }
         ]
       }
     }
