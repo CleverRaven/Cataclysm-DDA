@@ -2761,10 +2761,7 @@
     "name": { "male": "Mall Santa", "female": "Mall Mrs Claus" },
     "description": "You had a seasonal job that involved portraying the iconic figure of Santa Claus or Mrs Claus at shopping malls, department stores, and other public places during the Christmas season.  Your figure, demeanor and personality had to embody the spirit of Christmas to bring joy to children and adults alike.  This involved greeting visitors, listening to their wishes and requests, taking photographs with them, and spreading holiday cheer.  You hope that your acting skills, sweet-talk and the minimal, probably comical gear you have are enough to get you through this and see another Christmas.",
     "points": 2,
-    "skills": [
-      { "level": 4, "name": "speech" },
-      { "level": 1, "name": "swimming" }
-    ],
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
         "entries": [
