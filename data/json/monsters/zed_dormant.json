@@ -44,7 +44,7 @@
     "speed": 1,
     "flags": [ "FILTHY", "REVIVES", "DORMANT", "NO_NECRO", "REVIVES_HEALTHY" ],
     "zombify_into": "mon_zombie_reawakened",
-    "special_attacks":[
+    "special_attacks": [
       {
         "id": "pseudo_dormant_trap_setup_attk",
         "type": "spell",
