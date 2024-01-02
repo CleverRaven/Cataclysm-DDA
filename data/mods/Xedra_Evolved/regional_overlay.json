@@ -26,8 +26,8 @@
           "mx_prison_bus": 150
         }
       },
-    "field": {
-      "chance": 75,
+      "field": {
+        "chance": 75,
         "extras": {
           "mx_trees_map_salamander": 50,
           "mx_trees_map_sylph": 50,
