@@ -371,10 +371,9 @@
           "and": [
             {
               "or": [
-                { "u_has_trait": "INSECT_ARMS" },
-                { "u_has_trait": "ARACHNID_ARMS" },
                 { "u_has_trait": "AMORPHOUS" },
-                { "u_has_trait": "ARM_TENTACLES" }
+                { "u_has_trait": "ARM_TENTACLES" },
+                { "u_has_trait": "WINGS_BIRD" }
               ]
             }
           ]

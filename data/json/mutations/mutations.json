@@ -447,6 +447,7 @@
     "allowed_items": [ "ARM_PROSTHETIC" ],
     "enchantments": [ "ENCH_NO_LEFT_ARM" ],
     "cancels": [
+      "ARM_FEATHERS",
       "BARBS",
       "NAILS",
       "CLAWS",
@@ -454,7 +455,6 @@
       "CLAWS_ST",
       "CLAWS_RETRACT",
       "CLAWS_TENTACLE",
-      "ARM_FEATHERS",
       "TALONS",
       "BENDY1",
       "PAWS",
@@ -480,6 +480,7 @@
     "allowed_items": [ "ARM_PROSTHETIC" ],
     "enchantments": [ "ENCH_NO_RIGHT_ARM" ],
     "cancels": [
+      "ARM_FEATHERS",
       "CRUSTACEAN_CLAW",
       "BARBS",
       "NAILS",
@@ -489,7 +490,6 @@
       "CLAWS_RETRACT",
       "CLAWS_TENTACLE",
       "TALONS",
-      "ARM_FEATHERS",
       "BENDY1",
       "PAWS",
       "PAWS_LARGE",
@@ -8076,7 +8076,7 @@
     "mixed_effect": true,
     "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
     "category": [ "RAPTOR", "BIRD" ],
-    "flags": [ "WINGS_1" ],
+    "flags": [ "WINGS_1", "ARM_WINGS" ],
     "changes_to": [ "WINGS_BIRD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
