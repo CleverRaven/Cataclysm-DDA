@@ -1,5 +1,4 @@
 #include "map.h"
-#include "map.h"
 
 #include <algorithm>
 #include <array>
