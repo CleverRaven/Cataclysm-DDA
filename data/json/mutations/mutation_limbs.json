@@ -1039,7 +1039,15 @@
     "hit_difficulty": 1.2,
     "is_limb": true,
     "limb_types": [ [ "arm", 0.7 ], [ "hand", 0.1 ] ],
-    "limb_scores": [ [ "grip", 0.3 ], [ "manip", 0.38 ], [ "lift", 0.42 ], [ "balance", 0.2 ], [ "block", 0.8 ], [ "swim", 0.25 ], [ "crawl", 0.3 ] ],
+    "limb_scores": [
+      [ "grip", 0.3 ],
+      [ "manip", 0.38 ],
+      [ "lift", 0.42 ],
+      [ "balance", 0.2 ],
+      [ "block", 0.8 ],
+      [ "swim", 0.25 ],
+      [ "crawl", 0.3 ]
+    ],
     "smash_message": "You buffet the %s with your wing.",
     "side": "left",
     "base_hp": 45,
