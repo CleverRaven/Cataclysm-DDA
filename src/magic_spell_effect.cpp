@@ -1467,7 +1467,8 @@ void spell_effect::revive_dormant( const spell &sp, Creature &caster, const trip
                    mt->has_flag( mon_flag_REVIVES ) && mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) ) ) {
                 continue;
             }
-            if( g->revive_corpse( aoe, corpse ) ) {
+            // relaxed revive with radius.
+            if( g->revive_corpse( aoe, corpse, 3 ) ) {
                 here.i_rem( aoe, &corpse );
                 break;
             }
@@ -1475,7 +1476,7 @@ void spell_effect::revive_dormant( const spell &sp, Creature &caster, const trip
     }
 }
 
-void spell_effect::add_trap( const spell &sp, Creature &caster, const tripoint &target )
+void spell_effect::add_trap( const spell &sp, Creature &, const tripoint &target )
 {
     ::map &here = get_map();
     const trap_id tr_id( sp.effect_data() );
