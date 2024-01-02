@@ -37,13 +37,13 @@
   {
     "id": "mon_pseudo_dormant_zombie",
     "type": "MONSTER",
-    "name": { "str": "dormant pseudo zombie" },
+    "name": { "str": "zombie" },
     "description": "Fake zombie used for spawning dormant zombies. If you see this, open an issue on github.",
     "copy-from": "mon_zombie",
     "hp": 5,
     "speed": 1,
     "flags": [ "FILTHY", "REVIVES", "DORMANT", "NO_NECRO", "REVIVES_HEALTHY", "QUIETDEATH" ],
-    "zombify_into": "mon_zombie_reawakened",
+    "zombify_into": "mon_zombie",
     "special_attacks": [
       {
         "id": "pseudo_dormant_trap_setup_attk",
@@ -54,30 +54,6 @@
         "monster_message": ""
       }
     ]
-  },
-  {
-    "id": "mon_zombie_reawakened",
-    "type": "MONSTER",
-    "name": { "str": "zombie" },
-    "copy-from": "mon_zombie",
-    "description": "What you thought was a corpse suddenly gets up and starts walking with sinister intent.",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "STUMBLES",
-      "WARM",
-      "GRABS",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "PUSH_MON",
-      "FILTHY",
-      "REVIVES",
-      "NO_NECRO",
-      "REVIVES_HEALTHY"
-    ],
-    "//": "We need to add NO_NECRO, since reviving corpses without triggering the trap won't presently remove the trap. TODO: fix in future PR."
   },
   {
     "type": "trap",
