@@ -1007,7 +1007,8 @@
     "//": "Corpses buried at a mass grave. No ferals, and few animals.",
     "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
+      { "monster": "mon_zombie", "weight": 132, "cost_multiplier": 0 },
+      { "monster": "mon_pseudo_dormant_zombie", "weight": 132, "cost_multiplier": 0 },
       { "monster": "mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
       { "monster": "mon_zombie_child", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
