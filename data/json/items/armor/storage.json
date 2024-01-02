@@ -766,11 +766,19 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "sided": "true",
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "90 L", "max_contains_weight": "150 kg", "moves": 300 } ],
-    "material_thickness": 3,
-    "armor": [ { "encumbrance": 35, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+        "armor_data": {
+      "sided": true,
+      "armor": [
+        {
+          "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5} ],
+          "encumbrance": 30,
+          "volume_encumber_modifier": 0.5,
+          "coverage": 5,
+          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+        }
+      ],
     "melee_damage": { "bash": 3 },
     "symbol": ")",
     "color": "red",
