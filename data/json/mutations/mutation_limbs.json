@@ -1084,10 +1084,7 @@
     "side": "right",
     "base_hp": 45,
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_fingers_r", "hand_wrist_r" ],
-    "armor": {
-      "cut": 3,
-      "bash": 4
-    },
+    "armor": { "cut": 3, "bash": 4 },
     "unarmed_damage": [ { "damage_type": "bash", "amount": -2 } ]
   }
 ]
