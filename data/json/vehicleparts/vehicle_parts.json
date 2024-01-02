@@ -213,7 +213,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "100  L",
+    "size": "100 L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
@@ -1199,7 +1199,7 @@
     "looks_like": "inflatable_airbag",
     "categories": [ "hull" ],
     "color": "green",
-    "size": "15 L",
+    "size": "85 L",
     "durability": 50,
     "item": "inflatable_section",
     "location": "structure",
@@ -2565,7 +2565,7 @@
     "comfort": 1,
     "item": "frame_wood",
     "location": "center",
-    "size": "62500 ml",
+    "size": "85 L",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
@@ -2582,6 +2582,7 @@
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
     "durability": 150,
+    "size": "95 L",
     "description": "A benchlike place to sit."
   },
   {
@@ -3039,7 +3040,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG", "CARGO_PASSABLE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "8", "symbols_broken": "*" } ]
@@ -3072,7 +3073,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },
