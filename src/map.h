@@ -1521,7 +1521,7 @@ class map
         void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
         void maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, bool may_avoid ) const;
         // Handles triggering a proximity trap. Similar but subtly different.
-        void maybe_trigger_prox_trap( const tripoint &pos, Creature &c, const bool may_avoid ) const;
+        void maybe_trigger_prox_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
