@@ -6458,5 +6458,10 @@
       "lab_surface_brick_basementD4_west": "special_earth",
       "lab_surface_brick_basementE4_west": "special_earth"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": { "microlab_rock_border": "special_rock" }
   }
 ]

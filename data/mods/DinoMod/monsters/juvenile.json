@@ -849,5 +849,20 @@
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_plesiosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "plesiosaurus juvenile",
+    "description": "A juvenile predatory aquatic reptile with large pointy teeth and a long neck.",
+    "default_faction": "plesiosaurus",
+    "copy-from": "mon_plesiosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 80,
+    "upgrades": { "age_grow": 365, "into": "mon_plesiosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
   }
 ]

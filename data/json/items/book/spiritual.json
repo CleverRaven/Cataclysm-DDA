@@ -526,6 +526,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_mozilla",
+    "type": "BOOK",
+    "name": { "str": "The Book of Mozilla", "str_pl": "copies of The Book of Mozilla" },
+    "description": "A mysterious deep-red book with the title 'The Book of Mozilla' at the front.  The contents of this book are written in some sort of easy-to-understand computer language and are a collection of prophetic and apocryphal verses of unknown origin.",
+    "weight": "250 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_frog",
+    "type": "BOOK",
+    "name": { "str": "The Blue Book of the Blue Frog", "str_pl": "copies of the Blue Book of the Blue Frog" },
+    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult’s followers must adhere to and also the practices and the religious and political hierarchy of this cult.  Not much for a scavenger.",
+    "weight": "320 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_mahayana",
     "type": "BOOK",
     "name": { "str": "The Mahayana Sutras", "str_pl": "copies of The Mahayana Sutras" },
