@@ -105,10 +105,14 @@
     "max_level": 1,
     "shape": "blast",
     "effect": "noise",
-    "flags": [ "NO_EXPLOSION_SFX", "LOUD" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
     "sound_type": "combat",
     "sound_id": "melee_attack",
-    "sound_variant": "monster_melee_hit"
+    "sound_variant": "monster_melee_hit",
+    "sound_description": "a zombie moaning!",
+    "min_damage": 60,
+    "max_damage": 60,
+    "//": "volume is damage/3, so 20"
   },
   {
     "type": "SPELL",
