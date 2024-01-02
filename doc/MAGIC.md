@@ -163,7 +163,7 @@ Below is a table of currently implemented effects, along with special rules for 
 
 Effect                 | Description
 ---                    |---
-`add_trap`             | Adds a trap in the target tile. This always succeeds (unless there is an existing trap) and only places 1 trap. The `effect_str` is the id of the trap.
+`add_trap`             | Adds a trap in the target tile.  This always succeeds (unless there is an existing trap) and only places 1 trap.  The `effect_str` is the id of the trap.
 `area_pull`            | Pulls `valid_targets` in its aoe toward the target location.  Currently, the pull distance is set to 1 (see `directed_push`).
 `area_push`            | Pushes `valid_targets` in its aoe away from the target location.  Currently, the push distance is set to 1 (see `directed_push`).
 `attack`               | Causes damage to `valid_targets` in its aoe, and applies `effect_str` named effect to targets.  To damage terrain use `bash`.
