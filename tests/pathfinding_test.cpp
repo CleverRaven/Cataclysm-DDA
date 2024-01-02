@@ -352,15 +352,6 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
     settings.set_max_distance( 100 );
     settings.set_max_cost( 100 * 100 );
 
-    SECTION( "air" ) {
-        t.set_up_tiles = ifchar( 'W', ter_set( t_hole ) );
-        settings.set_is_flying( false );
-        settings.set_avoid_air( true );
-        settings.set_avoid_falling( false );
-
-        t.test_all( settings );
-    }
-
     SECTION( "bashing" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( t_window ) );
         settings.set_bash_strength( 100 );
@@ -411,7 +402,6 @@ TEST_CASE( "pathfinding_avoid", "[pathfinding]" )
     SECTION( "falling" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( t_hole ) );
         settings.set_is_flying( false );
-        settings.set_avoid_air( false );
         settings.set_avoid_falling( true );
 
         t.test_all( settings );
@@ -639,7 +629,6 @@ TEST_CASE( "pathfinding_avoid_falling", "[pathfinding]" )
     PathfindingSettings settings;
     settings.set_max_distance( 100 );
     settings.set_max_cost( 100 * 100 );
-    settings.set_avoid_air( false );
     settings.set_is_flying( false );
     settings.set_avoid_falling( true );
 
@@ -713,7 +702,6 @@ TEST_CASE( "pathfinding_allow", "[pathfinding]" )
     SECTION( "air" ) {
         t.set_up_tiles = ifchar( 'W', ter_set( t_hole ) );
         settings.set_is_flying( true );
-        settings.set_avoid_air( false );
 
         t.test_all( settings );
     }
@@ -1082,7 +1070,6 @@ TEST_CASE( "pathfinding_allow_falling", "[pathfinding]" )
     PathfindingSettings settings;
     settings.set_max_distance( 100 );
     settings.set_max_cost( 100 * 100 );
-    settings.set_avoid_air( false );
     settings.set_is_flying( false );
     settings.set_avoid_falling( false );
 
@@ -1374,7 +1361,6 @@ TEST_CASE( "pathfinding_flying", "[pathfinding]" )
     t.set_up_tiles = ifchar( 'w', ter_set( t_window ) );
 
     PathfindingSettings settings;
-    settings.set_avoid_air( false );
     settings.set_is_flying( true );
     settings.set_bash_strength( 20 );
     settings.set_avoid_bashing( false );

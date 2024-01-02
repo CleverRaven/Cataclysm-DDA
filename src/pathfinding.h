@@ -36,7 +36,7 @@ enum class PathfindingFlag : uint8_t {
     DeepWater,      // Deep water.
     Burrowable,     // Can burrow into
     HardGround,     // Can not dig & burrow intotiny = 1,
-    RestrictTiny,    // Tiny cannot enter
+    RestrictTiny,   // Tiny cannot enter
     RestrictSmall,  // Small cannot enter
     RestrictMedium, // Medium cannot enter
     RestrictLarge,  // Large cannot enter
@@ -61,6 +61,10 @@ class PathfindingFlags
         }
         constexpr void set_clear( PathfindingFlags flags ) {
             flags_ &= ~flags.flags_;
+        }
+
+        constexpr void clear() {
+            flags_ = 0;
         }
 
         constexpr bool is_set( PathfindingFlag flag ) const {
@@ -311,18 +315,10 @@ class PathfindingSettings
                 PathfindingFlag::RestrictSmall |
                 PathfindingFlag::RestrictMedium | PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge;
 
-        bool avoid_air() const {
-            return is_set( PathfindingFlag::Air );
-        }
-        void set_avoid_air( bool v = true ) {
-            set( PathfindingFlag::Air, v );
-        }
-
         bool avoid_falling() const {
             return !rb_settings_.allow_falling();
         }
         void set_avoid_falling( bool v = true ) {
-            set_avoid_air( v );
             rb_settings_.set_allow_falling( !v );
         }
 
@@ -379,9 +375,10 @@ class PathfindingSettings
         std::optional<creature_size> size_restriction() const {
             return size_restriction_;
         }
-        void set_size_restriction( std::optional<creature_size> size_restriction = std::nullopt ) {
-            size_restriction_ = size_restriction;
+        PathfindingFlags size_restriction_mask() const {
+            return size_restriction_mask_;
         }
+        void set_size_restriction( std::optional<creature_size> size_restriction = std::nullopt );
 
         bool avoid_pits() const {
             return is_set( PathfindingFlag::Pit );
@@ -538,9 +535,10 @@ class PathfindingSettings
                  avoid_opening_doors() && ( avoid_bashing() || bash_strength() <= 0 ) );
         }
 
-        PathfindingFlags avoid_mask_ = PathfindingFlag::Air | PathfindingFlag::Impassable;
+        PathfindingFlags avoid_mask_ = PathfindingFlag::Impassable;
 
         std::optional<creature_size> size_restriction_;
+        PathfindingFlags size_restriction_mask_;
         int max_distance_ = 0;
 
         bool avoid_bashing_ = false;

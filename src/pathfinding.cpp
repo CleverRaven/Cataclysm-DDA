@@ -73,9 +73,13 @@ void RealityBubblePathfindingCache::invalidate_dependants( const tripoint_bub_ms
 
 void RealityBubblePathfindingCache::update( const map &here )
 {
+    const int size = here.getmapsize();
     for( const int z : dirty_z_levels_ ) {
-        for( int y = 0; y < MAPSIZE_Y; ++y ) {
-            for( int x = 0; x < MAPSIZE_X; ++x ) {
+        if( !here.inbounds_z( z ) ) {
+            continue;
+        }
+        for( int y = 0; y < size * SEEY; ++y ) {
+            for( int x = 0; x < size * SEEX; ++x ) {
                 const tripoint_bub_ms p( x, y, z );
                 invalidate_dependants( p );
                 update( here, p );
@@ -89,7 +93,10 @@ void RealityBubblePathfindingCache::update( const map &here )
 
     for( const auto& [z, dirty_points] : dirty_positions_ ) {
         for( const point_bub_ms &p : dirty_points ) {
-            update( here, tripoint_bub_ms( p, z ) );
+            tripoint_bub_ms t( p, z );
+            if( here.inbounds( t ) ) {
+                update( here, t );
+            }
         }
     }
     dirty_positions_.clear();
@@ -119,39 +126,13 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
 
     if( veh ) {
         flags |= PathfindingFlag::Vehicle;
-
-        if( auto cargo = veh->cargo(); cargo && !cargo->has_feature( "CARGO_PASSABLE" ) ) {
-            const units::volume free_volume = cargo->items().free_volume();
-            if( free_volume < 11719_ml ) {
-                flags |= PathfindingFlag::RestrictTiny;
-            }
-            if( free_volume < 23438_ml ) {
-                flags |= PathfindingFlag::RestrictSmall;
-            }
-            if( free_volume < 46875_ml ) {
-                flags |= PathfindingFlag::RestrictMedium;
-            }
-            if( free_volume < 93750_ml ) {
-                flags |= PathfindingFlag::RestrictLarge;
-            }
-            if( free_volume < 187500_ml ) {
-                flags |= PathfindingFlag::RestrictHuge;
-            }
-            if( flags & PathfindingSettings::AnySizeRestriction ) {
-                flags |= PathfindingFlag::Obstacle;
-            }
-        }
     }
 
-    if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
-        flags |= PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge;
-        flags |= PathfindingFlag::Obstacle;
-    }
-
+    bool try_to_bash = false;
     bool impassable = flags.is_set( PathfindingFlag::HardGround );
     if( cost == 0 ) {
         flags |= PathfindingFlag::Obstacle;
-
+        try_to_bash = true;
         if( terrain.open || furniture.open ) {
             impassable = false;
             flags |= PathfindingFlag::Door;
@@ -189,9 +170,37 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
         }
     } else {
         impassable = false;
+        // Size restrictions only apply to otherwise passable tiles.
+        if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
+            flags |= PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge;
+        }
+        if( veh ) {
+            if( auto cargo = veh->cargo(); cargo && !cargo->has_feature( "CARGO_PASSABLE" ) ) {
+                const units::volume free_volume = cargo->items().free_volume();
+                if( free_volume < 11719_ml ) {
+                    flags |= PathfindingFlag::RestrictTiny;
+                }
+                if( free_volume < 23438_ml ) {
+                    flags |= PathfindingFlag::RestrictSmall;
+                }
+                if( free_volume < 46875_ml ) {
+                    flags |= PathfindingFlag::RestrictMedium;
+                }
+                if( free_volume < 93750_ml ) {
+                    flags |= PathfindingFlag::RestrictLarge;
+                }
+                if( free_volume < 187500_ml ) {
+                    flags |= PathfindingFlag::RestrictHuge;
+                }
+            }
+        }
+
+        if( flags & PathfindingSettings::AnySizeRestriction ) {
+            try_to_bash = true;
+        }
     }
 
-    if( flags.is_set( PathfindingFlag::Obstacle ) && here.is_bashable( p.raw() ) ) {
+    if( try_to_bash && here.is_bashable( p.raw() ) ) {
         if( const auto bash_range = here.bash_range( p.raw() ) ) {
             flags |= PathfindingFlag::Bashable;
             impassable = false;
@@ -308,6 +317,33 @@ void RealityBubblePathfindingCache::update( const map &here, const tripoint_bub_
     flags_ref( p ) = flags;
 }
 
+void PathfindingSettings::set_size_restriction( std::optional<creature_size> size_restriction )
+{
+    size_restriction_mask_.clear();
+    if( size_restriction ) {
+        switch( *size_restriction ) {
+            case creature_size::tiny:
+                size_restriction_mask_ = PathfindingFlag::RestrictTiny;
+                break;
+            case creature_size::small:
+                size_restriction_mask_ = PathfindingFlag::RestrictSmall;
+                break;
+            case creature_size::medium:
+                size_restriction_mask_ = PathfindingFlag::RestrictMedium;
+                break;
+            case creature_size::large:
+                size_restriction_mask_ = PathfindingFlag::RestrictLarge;
+                break;
+            case creature_size::huge:
+                size_restriction_mask_ = PathfindingFlag::RestrictHuge;
+                break;
+            default:
+                break;
+        }
+    }
+    size_restriction_ = size_restriction;
+}
+
 int PathfindingSettings::bash_rating_from_range( int min, int max ) const
 {
     if( avoid_bashing_ ) {
@@ -413,66 +449,54 @@ std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
         return std::nullopt;
     }
 
-
     std::optional<int> cost;
-    if( settings.is_digging() ) {
-        if( flags.is_set( PathfindingFlag::Obstacle ) && !flags.is_set( PathfindingFlag::Burrowable ) ) {
-            return std::nullopt;
+    if( flags & ( PathfindingFlag::Obstacle | PathfindingSettings::AnySizeRestriction ) ) {
+        if( flags.is_set( PathfindingFlag::Obstacle ) ) {
+            if( settings.is_digging() ) {
+                if( !flags.is_set( PathfindingFlag::Burrowable ) ) {
+                    return std::nullopt;
+                }
+                cost = 0;
+            } else {
+                if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
+                    ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
+                    const int this_cost = flags.is_set( PathfindingFlag::LockedDoor ) ? 4 : 2;
+                    cost = std::min( this_cost, cost.value_or( this_cost ) );
+                }
+                if( flags.is_set( PathfindingFlag::Climmable ) && !settings.avoid_climbing() &&
+                    settings.climb_cost() > 0 ) {
+                    // Climbing fences
+                    const int this_cost = settings.climb_cost();
+                    cost = std::min( this_cost, cost.value_or( this_cost ) );
+                }
+            }
         }
-        cost = 0;
-    } else if( flags.is_set( PathfindingFlag::Obstacle ) ) {
+
         if( flags.is_set( PathfindingFlag::Bashable ) ) {
             const auto [bash_min, bash_max] = cache.bash_range( p );
             const int bash_rating = settings.bash_rating_from_range( bash_min, bash_max );
             if( bash_rating >= 1 ) {
                 // Expected number of turns to bash it down
-                cost = 20 / bash_rating;
+                const int this_cost = 20 / bash_rating;
+                cost = std::min( this_cost, cost.value_or( this_cost ) );
             }
-        }
-        if( flags.is_set( PathfindingFlag::Door ) && !settings.avoid_opening_doors() &&
-            ( !flags.is_set( PathfindingFlag::LockedDoor ) || !settings.avoid_unlocking_doors() ) ) {
-            const int this_cost = flags.is_set( PathfindingFlag::LockedDoor ) ? 4 : 2;
-            cost = std::min( this_cost, cost.value_or( this_cost ) );
-        }
-        if( flags.is_set( PathfindingFlag::Climmable ) && !settings.avoid_climbing() &&
-            settings.climb_cost() > 0 ) {
-            // Climbing fences
-            const int this_cost = settings.climb_cost();
-            cost = std::min( this_cost, cost.value_or( this_cost ) );
         }
 
         // Don't check size restrictions if we can bash it down, open it, or climb over it.
-        if( !cost && ( flags & PathfindingSettings::AnySizeRestriction ) && settings.size_restriction() ) {
-            bool restricted = false;
-            switch( *settings.size_restriction() ) {
-                case creature_size::tiny:
-                    restricted = flags.is_set( PathfindingFlag::RestrictTiny );
-                    break;
-                case creature_size::small:
-                    restricted = flags.is_set( PathfindingFlag::RestrictSmall );
-                    break;
-                case creature_size::medium:
-                    restricted = flags.is_set( PathfindingFlag::RestrictMedium );
-                    break;
-                case creature_size::large:
-                    restricted = flags.is_set( PathfindingFlag::RestrictLarge );
-                    break;
-                case creature_size::huge:
-                    restricted = flags.is_set( PathfindingFlag::RestrictHuge );
-                    break;
-                default:
-                    break;
-            }
-            if( restricted ) {
+        if( !cost && ( flags & PathfindingSettings::AnySizeRestriction ) ) {
+            // Any tile with a size restriction is passable otherwise.
+            if( flags & settings.size_restriction_mask() ) {
                 return std::nullopt;
             }
             cost = 0;
         }
 
         if( !cost ) {
-            // Can't pass the obstacle at all.
+            // Can't enter the tile at all.
             return std::nullopt;
         }
+    } else {
+        cost = 0;
     }
 
     const auto &maybe_avoid_dangerous_fields_fn = settings.maybe_avoid_dangerous_fields_fn();
@@ -490,7 +514,7 @@ std::optional<int> position_cost( const map &here, const tripoint_bub_ms &p,
         return std::nullopt;
     }
 
-    return cost.value_or( 0 ) * 50;
+    return *cost * 50;
 }
 
 std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from,
@@ -555,6 +579,11 @@ std::optional<int> transition_cost( const map &here, const tripoint_bub_ms &from
                     }
                 }
             }
+        }
+    } else if( to_flags.is_set( PathfindingFlag::Air ) ) {
+        // This is checking horizontal movement only.
+        if( settings.avoid_falling() && !settings.is_flying() ) {
+            return std::nullopt;
         }
     }
 
