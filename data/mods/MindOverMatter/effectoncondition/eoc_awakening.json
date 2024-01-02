@@ -60,7 +60,7 @@
     "id": "EOC_BIOKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you become aware of the sound of your heartbeat, of the blood rushing through your veins… and then a searing headache crashes through your brain, blotting out all other sensations. You tear your gaze away from the now-dark crystal but the pounding in your head remains.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you become aware of the sound of your heartbeat, of the blood rushing through your veins… and then a searing headache crashes through your brain, blotting out all other sensations.  You tear your gaze away from the now-dark crystal but the pounding in your head remains.",
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
@@ -226,7 +226,7 @@
     "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_SUCCESS",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal's inner light gradually intensifies, starting by revealing the hidden details of your surroundings and then unveiling the world in vivid clarity. It's not merely light, but a gentle luminescence that emanates a tranquil warmth. The air around you becomes suffused with a subtle, almost otherworldly radiance, as if you're witnessing a scene from a dream. Within this radiant spectacle, subtle patterns of light perform an elegant dance, and you find yourself captivated by their graceful movements. You reach out your free hand, allowing your fingers to interact with  the delicate light which seems to respond to your thoughts, and as the crystal's glow ultimately dissipates into obscurity, you're left with a lingering sense of wonder.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal's inner light gradually intensifies, starting by revealing the hidden details of your surroundings and then unveiling the world in vivid clarity.  It's not merely light, but a gentle luminescence that emanates a tranquil warmth.  The air around you becomes suffused with a subtle, almost otherworldly radiance, as if you're witnessing a scene from a dream.  Within this radiant spectacle, subtle patterns of light perform an elegant dance, and you find yourself captivated by their graceful movements.  You reach out your free hand, allowing your fingers to interact with the delicate light which seems to respond to your thoughts, and as the crystal's glow ultimately dissipates into obscurity, you're left with a lingering sense of wonder.",
         "popup": true
       },
       { "u_add_trait": "PHOTOKINETIC" },
@@ -245,7 +245,7 @@
     "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter. You start emanating light, but as time progresses, it hardens around your skin and tightens, causing you pain, its brightness leaving your head pounding and your eyes burning. As the light fades you look once more into the crystal, realizing it is now dark.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You start emanating light, but as time progresses, it hardens around your skin and tightens, causing you pain, its brightness leaving your head pounding and your eyes burning.  As the light fades you look once more into the crystal, realizing it is now dark.",
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
@@ -351,7 +351,7 @@
     "id": "EOC_TELEKIN_MATRIX_AWAKENING_SUCCESS",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You release your grasp on the crystal but it doesn't fall.  It floats, supported on nothingness, and as you watch it you become aware of the connections between objects. Gravity, attraction and repulsion, reveal themselves--you can see the weakened influence of gravity on the crystal, and with a thought you nudge it slightly. The crystal floats up in the air, stretching the connections between it at the ground, before they adjust to its new place. You tug on the connections, rotating the crystal, moving it from left to right, and as the light within it slowly fades away, you let go and the crystal drops back to your hand.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You release your grasp on the crystal but it doesn't fall.  It floats, supported on nothingness, and as you watch it you become aware of the connections between objects. Gravity, attraction and repulsion, reveal themselves--you can see the weakened influence of gravity on the crystal, and with a thought you nudge it slightly.  The crystal floats up in the air, stretching the connections between it at the ground, before they adjust to its new place.  You tug on the connections, rotating the crystal, moving it from left to right, and as the light within it slowly fades away, you let go and the crystal drops back to your hand.",
         "popup": true
       },
       { "u_add_trait": "TELEKINETIC" },
@@ -1237,7 +1237,7 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm. As you stand there, a sudden warmth envelops your being, far more radiant than the most brilliant of suns. It begins as a subtle glow deep within, and then it intensifies, growing brighter and brighter, until your entire consciousness is bathed in the incandescent brilliance. As the light fades, you notice the world is painted in more colors than you ever noticed before, the light seems to respond to your every thought.",
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  As you stand there, a sudden warmth envelops your being, far more radiant than the most brilliant of suns.  It begins as a subtle glow deep within, and then it intensifies, growing brighter and brighter, until your entire consciousness is bathed in the incandescent brilliance.  As the light fades, you notice the world is painted in more colors than you ever noticed before, the light seems to respond to your every thought.",
         "popup": true
       },
       { "u_add_trait": "PHOTOKINETIC" },
@@ -1251,7 +1251,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your vision blurs. Your vision is filled with light, twisting distance and making it impossible to judge your surroundings, and you fall to your knees as you struggle to resist the searing headache and disorientation of the ever-shifting light."
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your vision blurs.  Your vision is filled with light, twisting distance and making it impossible to judge your surroundings, and you fall to your knees as you struggle to resist the searing headache and disorientation of the ever-shifting light."
       },
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 3 s')" ] } },
@@ -1290,7 +1290,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your skin prickles.  The air grows warm, then hot, and sweat springs from every pore. The air around you takes on a lambent glow as the heat continues to rise, until your muscles give out and you collapse to your knees."
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your skin prickles.  The air grows warm, then hot, and sweat springs from every pore.  The air around you takes on a lambent glow as the heat continues to rise, until your muscles give out and you collapse to your knees."
       },
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
       { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },

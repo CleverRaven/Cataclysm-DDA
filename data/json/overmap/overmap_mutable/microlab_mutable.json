@@ -55,7 +55,7 @@
         "south": "microlab_to_microlab",
         "west": "microlab_to_microlab"
       },
-      "microlab_rock_border": { "overmap": "microlab_rock_border" },
+      "special_rock": { "overmap": "special_rock" },
       "microlab": {
         "overmap": "microlab_generic",
         "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
@@ -193,7 +193,7 @@
         "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }
       },
       "rock_divisor": {
-        "overmap": "microlab_rock_border",
+        "overmap": "special_rock",
         "north": "microlab_to_microlab",
         "south": "dmicrolab_to_dmicrolab",
         "east": { "id": "dmicrolab_to_dmicrolab", "type": "available", "alternatives": [ "microlab_to_microlab" ] },
@@ -238,10 +238,10 @@
           "//": "This is the main elevator and core mapgen piece for the portal lab, goes all the way down to hell.",
           "chunk": [
             { "overmap": "microlab_portal_dressroom", "pos": [ 0, 0, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ 1, 0, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ 2, 0, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ -1, 0, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ -2, 0, 0 ] },
+            { "overmap": "special_rock", "pos": [ 1, 0, 0 ] },
+            { "overmap": "special_rock", "pos": [ 2, 0, 0 ] },
+            { "overmap": "special_rock", "pos": [ -1, 0, 0 ] },
+            { "overmap": "special_rock", "pos": [ -2, 0, 0 ] },
             { "overmap": "firebreak", "pos": [ 0, 1, 0 ] },
             { "overmap": "portal_elevator", "pos": [ 0, 2, 0 ] },
             { "overmap": "portal_elevator", "pos": [ 0, 2, -2 ] },
@@ -268,10 +268,10 @@
             { "overmap": "nether", "pos": [ -1, 0, -8 ] },
             { "overmap": "nether", "pos": [ 0, 0, -8 ] },
             { "overmap": "nether", "pos": [ 1, 0, -8 ] },
-            { "overmap": "microlab_rock_border", "pos": [ 1, 1, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ 2, 1, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ -1, 1, 0 ] },
-            { "overmap": "microlab_rock_border", "pos": [ -2, 1, 0 ] }
+            { "overmap": "special_rock", "pos": [ 1, 1, 0 ] },
+            { "overmap": "special_rock", "pos": [ 2, 1, 0 ] },
+            { "overmap": "special_rock", "pos": [ -1, 1, 0 ] },
+            { "overmap": "special_rock", "pos": [ -2, 1, 0 ] }
           ],
           "max": 1
         }
