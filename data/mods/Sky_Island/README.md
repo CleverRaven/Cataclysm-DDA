@@ -40,7 +40,7 @@ You will be given four marked missions in your log every time you begin an exped
 These special resources can only be acquired by completing missions. Bring them safely home where they can be crafted into special items. These items provide unique powers, primarily to make it easier to bring more loot home. For instance, there's the Warped Lumberjack's Bag, which can _only_ hold sticks, planks, logs, and other raw wood materials, but holds an absolutely absurd amount and even reduces the weight of contained items. Another bag could let you bring animals home with you. You could invest in consumable pills which can extend the timer on your expeditions. There's even a very expensive item that will allow you to bring an entire autodoc home to your base -- if you can get it out safely!
 Warp shards can't buy you weapons, armor, food, or most useful supplies. Their primary use is making it easier to claim loot, but you still have to find it in the first place!
 
-To find these recipes just look under the "Warp" tab in your crafting menu, under "Other".
+To find these recipes just look under the "Warp" tab in your crafting menu.
 
 ## Warp Home Spell
 **In the event an exit did not generate or you otherwise need to get home** you have been provided with a personal spell to warp home directly. This is intended for bug fixing **ONLY** when your exit has not spawned properly. However, if you'd like to play a much easier version of the mod, I can't stop you from using it whenever you want. Be warned this will remove most of the challenge.

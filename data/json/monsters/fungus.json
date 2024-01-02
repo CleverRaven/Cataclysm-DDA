@@ -549,7 +549,7 @@
     "type": "MONSTER",
     "name": { "str": "fungal bee" },
     "description": "A mutant bee the size of a small dog.  It's fur, once used to collect pollen has been trapped with thousands of spores.  it moves erratically on the ground, seemingly having great difficulty to keep any sense of coordination as visible growths of mold worsen underneath the thin hairs.",
-    "copy-from": "mon_bee",
+    "copy-from": "mon_bee_fungus",
     "proportional": { "hp": 0.6, "speed": 1.1, "melee_dice_sides": 0.67 },
     "attack_effs": [ { "id": "venom_weaken", "duration": 75 } ],
     "volume": "15 L",

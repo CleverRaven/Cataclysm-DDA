@@ -1646,6 +1646,20 @@
   },
   {
     "type": "material",
+    "id": "rdx",
+    "copy-from": "plastic",
+    "name": "RDX",
+    "density": 1.806
+  },
+  {
+    "type": "material",
+    "id": "tnt",
+    "copy-from": "plastic",
+    "name": "TNT",
+    "density": 1.654
+  },
+  {
+    "type": "material",
     "id": "powder",
     "name": "Powder",
     "density": 1,
@@ -2489,6 +2503,7 @@
     "id": "blood",
     "name": "Blood",
     "copy-from": "water",
+    "density": 1.06,
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ]
   },
   {

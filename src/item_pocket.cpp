@@ -1331,15 +1331,33 @@ static int charges_per_volume_recursive( const units::volume &max_item_volume,
 
 ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) const
 {
-    if( it.has_flag( flag_NO_UNWIELD ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_MOD, _( "cannot unwield item" ) );
+    if( data->type == pocket_type::MIGRATION ) {
+        // migration pockets need to always succeed
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    if( data->type == pocket_type::MOD ) {
+        if( it.is_toolmod() || it.is_gunmod() ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
+        }
     }
 
     if( data->type == pocket_type::CORPSE ) {
         // corpses can't have items stored in them the normal way,
         // we simply don't want them to "spill"
         return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    if( data->type == pocket_type::SOFTWARE ) {
+        if( it.has_flag( flag_NO_DROP ) && it.has_flag( flag_IRREMOVABLE ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only immaterial items can go into software pocket" ) );
+        }
     }
 
     if( data->type == pocket_type::EBOOK ) {
@@ -1360,13 +1378,9 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
-    if( data->type == pocket_type::MOD ) {
-        if( it.is_toolmod() || it.is_gunmod() ) {
-            return ret_val<item_pocket::contain_code>::make_success();
-        } else {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
-        }
+    if( it.has_flag( flag_NO_UNWIELD ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_MOD, _( "cannot unwield item" ) );
     }
 
     if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ||
@@ -1456,12 +1470,6 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     if( copies_remaining <= 0 ) {
         return ret_val<item_pocket::contain_code>::make_success();
     }
-    if( data->type == pocket_type::CORPSE ) {
-        // corpses can't have items stored in them the normal way,
-        // we simply don't want them to "spill"
-        copies_remaining = 0;
-        return ret_val<item_pocket::contain_code>::make_success();
-    }
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
     if( data->type == pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         copies_remaining = 0;
@@ -1470,6 +1478,10 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
 
     if( !compatible.success() ) {
         return compatible;
+    }
+    if( !is_standard_type() ) {
+        copies_remaining = 0;
+        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     if( it.made_of( phase_id::LIQUID ) ) {
@@ -2185,8 +2197,7 @@ std::list<item> &item_pocket::edit_contents()
 ret_val<item *> item_pocket::insert_item( const item &it,
         const bool into_bottom, bool restack_charges, bool ignore_contents )
 {
-    ret_val<item_pocket::contain_code> containable = !is_standard_type() ?
-            ret_val<item_pocket::contain_code>::make_success() : can_contain( it, ignore_contents );
+    ret_val<item_pocket::contain_code> containable = can_contain( it, ignore_contents );
 
     if( !containable.success() ) {
         return ret_val<item *>::make_failure( nullptr, containable.str() );

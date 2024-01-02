@@ -560,7 +560,7 @@
     "id": "teleport_banish",
     "type": "SPELL",
     "name": "[Ψ]Oubliette",
-    "description": "Teleport the target through the nether to some other dimension.  They are technically not dead, but they are no longer your concern.  Oubliette will occasionally fail when used against very poweful enemies, or succeed but cause damage to the teleporter.",
+    "description": "Teleport the target through the nether to some other dimension.  They are technically not dead, but they are no longer your concern.  Oubliette will occasionally fail when used against very powerful enemies, or succeed but cause damage to the teleporter.",
     "message": "With a tremendous mental exertion, you hurl your target to another dimension!",
     "teachable": false,
     "valid_targets": [ "hostile" ],

@@ -1026,9 +1026,36 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         }
     } else {
         // Use up the components
-        for( const auto &it : con.requirements->get_components() ) {
-            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
-            used.splice( used.end(), tmp );
+        for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
+            for( const item_comp &comp : it ) {
+                comp_selection<item_comp> sel;
+                sel.use_from = usage_from::both;
+                sel.comp = comp;
+                std::list<item> empty_consumed = player_character.consume_items( sel, 1,
+                                                 is_empty_crafting_component );
+
+                int left_to_consume = 0;
+
+                if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
+                    int consumed = 0;
+                    for( item &itm : empty_consumed ) {
+                        consumed += itm.charges;
+                    }
+                    left_to_consume = comp.count - consumed;
+                } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
+                    left_to_consume = comp.count - empty_consumed.size();
+                }
+
+                if( left_to_consume > 0 ) {
+                    comp_selection<item_comp> remainder = sel;
+                    remainder.comp.count = 1;
+                    std::list<item>used_consumed = player_character.consume_items( remainder,
+                                                   left_to_consume, is_crafting_component );
+                    empty_consumed.splice( empty_consumed.end(), used_consumed );
+                }
+
+                used.splice( used.end(), empty_consumed );
+            }
         }
     }
     pc.components = used;
@@ -1260,6 +1287,10 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     if( here.has_furn( p ) ) {
+        // Can deconstruct furniture here, make sure regular deconstruction isn't available if easy deconstruction is possible
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
+            return false;
+        }
         return here.furn( p ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way

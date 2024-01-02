@@ -13,11 +13,7 @@
     },
     "effect": [
       {
-        "weighted_list_eocs": [
-          [ "minor_hallucinations", { "const": 10 } ],
-          [ "intermediate_hallucinations", { "const": 6 } ],
-          [ "bad_hallucinations", { "const": 4 } ]
-        ]
+        "weighted_list_eocs": [ [ "minor_hallucinations", 10 ], [ "intermediate_hallucinations", 6 ], [ "bad_hallucinations", 4 ] ]
       }
     ]
   },
@@ -27,11 +23,11 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "paranoid", { "const": 75 } ],
-          [ "grandiose", { "const": 25 } ],
-          [ "self_talk", { "const": 14 } ],
-          [ "weapon_talk_hallucination", { "const": 14 } ],
-          [ "false_npc_talk", { "const": 12 } ]
+          [ "paranoid", 75 ],
+          [ "grandiose", 25 ],
+          [ "self_talk", 14 ],
+          [ "weapon_talk_hallucination", 14 ],
+          [ "false_npc_talk", 12 ]
         ]
       }
     ]
@@ -41,20 +37,14 @@
     "id": "intermediate_hallucinations",
     "effect": [
       {
-        "weighted_list_eocs": [
-          [ "self_shout", { "const": 30 } ],
-          [ "hear_false_sound", { "const": 20 } ],
-          [ "formication", { "const": 20 } ],
-          [ "numbness", { "const": 15 } ],
-          [ "shaking", { "const": 10 } ]
-        ]
+        "weighted_list_eocs": [ [ "self_shout", 30 ], [ "hear_false_sound", 20 ], [ "formication", 20 ], [ "numbness", 15 ], [ "shaking", 10 ] ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "bad_hallucinations",
-    "effect": [ { "weighted_list_eocs": [ [ "creature_hallucinations", { "const": 20 } ], [ "visuals", { "const": 10 } ] ] } ]
+    "effect": [ { "weighted_list_eocs": [ [ "creature_hallucinations", 20 ], [ "visuals", 10 ] ] } ]
   },
   {
     "type": "effect_on_condition",

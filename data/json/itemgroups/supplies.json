@@ -55,32 +55,38 @@
   {
     "id": "sandbag",
     "type": "item_group",
-    "items": [ { "item": "material_sand", "count": 2000, "container-item": "bag_durasack" } ]
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_sand", "count": 2000 } ]
   },
   {
     "id": "sandbag_part",
     "type": "item_group",
-    "items": [ { "item": "material_sand", "count": [ 400, 1500 ], "container-item": "bag_durasack" } ]
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_sand", "count": [ 400, 1500 ] } ]
   },
   {
     "id": "gravelbag",
     "type": "item_group",
-    "items": [ { "item": "material_gravel", "count": 2000, "container-item": "bag_durasack" } ]
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_gravel", "count": 2000 } ]
   },
   {
     "id": "gravelbag_part",
     "type": "item_group",
-    "items": [ { "item": "material_gravel", "count": [ 400, 1500 ], "container-item": "bag_durasack" } ]
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_gravel", "count": [ 400, 1500 ] } ]
   },
   {
     "id": "earthbag",
     "type": "item_group",
-    "items": [ { "item": "material_soil", "count": 3, "container-item": "bag_durasack" } ]
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_soil", "count": 3 } ]
   },
   {
     "id": "earthbag_part",
     "type": "item_group",
-    "items": [ { "item": "material_soil", "count": [ 1, 2 ], "container-item": "bag_durasack" } ]
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_soil", "count": [ 1, 2 ] } ]
   },
   {
     "id": "paintcans",
@@ -660,7 +666,9 @@
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ],
-      [ "gas_forge", 2 ]
+      [ "gas_forge", 2 ],
+      [ "pedal_extenders", 1 ],
+      [ "hand_controls", 1 ]
     ]
   },
   {

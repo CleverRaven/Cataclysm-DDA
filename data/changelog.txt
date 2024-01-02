@@ -87,6 +87,7 @@ Allow for a "variant" field when using the add_trait effect
 There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free to add content for it.
 Make run_eocs/queue_eocs support variable objects
 Protein bars now give character a psychological trauma
+Adds sand to ocean beaches
 
 
 ## Content:
@@ -163,6 +164,11 @@ Add's more fungal insect monsters, fixes bugs I forgot in last PR.
 Adds most kinds of Arisaka rifles to the game, cartridges, and item spawns.
 update filter guide to indicate that flags were added as filter option following PR #70212
 Adds .45 LC cowboy loads and ballistics data
+Add a 1 cylinder diesel engine to the game.
+Vehicles spawn on bridges
+Added creatures to populate the new edge ocean.
+Major board game expansion
+Allow the Nunez family to move to Tacoma Commune if you help them set it up.
 
 
 ## Interface:
@@ -212,6 +218,8 @@ Show the mass of vitamins in food items
 Melee weapons tell you your skill is too low to see melee values instead of just hiding them
 Shows the starting location for a scenario when there is only one possible option.
 Show language selection window in options menu
+Hide AIM during directional prompts
+Keep displaying selected outfit throughout chargen
 
 
 ## Mods:
@@ -298,6 +306,7 @@ Add Bombastic Perk compatibility to Defense Mode.
 [Sky Island] teleporting items back home
 [MoM] Change electrokinetic overload
 [Sky Island] Allow selection of room teleport behavior
+[MOM] Allow high nether attunement to induce hallucinations.
 
 
 ## Balance:
@@ -448,6 +457,10 @@ prevent_death EOC can sometimes fail and lead to permadeath
 Adds annotations to construction menu entries done indoors, in trees, and that require supporting walls.
 Fix AIM allowing distant container interactions
 Show correct bodypart in grabs
+[MoM] Quell Walls
+Vehicle parts check creature size, increases storage of dumpster and vehicle parts
+Prevent softlock when sleeping in cramped spaces
+Invalidate draw point cache if viewport size or position changes
 
 
 ## Performance:
@@ -502,6 +515,9 @@ Add u_has_proficiency to EoC conditions
 JSON-ify hallucinations
 Parameterize new geography changes to overmaps
 Allow items to provide martial art techniques when not wielded
+Remove hardcoded mapgen for fields
+Simplify/jsonify NPC generation from npc classes
+Consolidate `suspendable` and `no_resume` activity parameters
 
 
 ## Build:
@@ -513,6 +529,7 @@ Fast Windows iteration with llvm-lib and lld-link
 Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
+Enable tests for merge queue
 
 
 ## I18N and A11Y:
