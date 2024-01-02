@@ -111,12 +111,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "teleport_blink", 2 ],
-      [ "teleport_slow", 2 ],
-      [ "teleport_transpose", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
