@@ -12307,7 +12307,7 @@
         { "id": "corpse_mon_woodlouse_manca", "fg": 5154 },
         { "id": "corpse_mon_woodpecker", "fg": 5155 },
         { "id": "corpse_mon_worm_larva", "fg": 5157 },
-        { "id": "corpse_mon_zombie", "fg": 5158 },
+        { "id": [ "corpse_mon_zombie", "corpse_mon_pseudo_dormant_zombie" ], "fg": 5158 },
         { "id": "corpse_mon_zombie_acidic", "fg": 5159 },
         { "id": "corpse_mon_zombie_biter", "fg": 5161 },
         { "id": "corpse_mon_zombie_child", "fg": 5163 },
