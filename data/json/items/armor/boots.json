@@ -108,8 +108,8 @@
     "name": { "str": "pair of Santa boots", "str_pl": "pairs of Santa boots" },
     "description": "A tough pair of black leather boots, trimmered with white faux fur.  For tough everyday work at the North Pole.",
     "copy-from": "boots",
-    "weight": "1060 g",
-    "volume": "2500 ml",
+    "weight": "1100 g",
+    "volume": "2700 ml",
     "price": 10000,
     "price_postapoc": 750,
     "to_hit": -1,
@@ -117,7 +117,7 @@
     "looks_like": "dress_shoes",
     "color": "black",
     "warmth": 20,
-    "environmental_protection": 2,
+    "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
     "armor": [
       {
@@ -132,7 +132,10 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [ 
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },  
+          { "type": "faux_fur", "covered_by_mat": 10, "thickness": 0.5 } 
+        ],
         "encumbrance": 12,
         "coverage": 100
       },
