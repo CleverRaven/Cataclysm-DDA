@@ -144,7 +144,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
-      "place_monsters": [ { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 } ]
+      "place_monster": [ { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 } ]
     }
   },
   {
@@ -180,9 +180,9 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
-      "place_monsters": [
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 },
-        { "monster": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+      "place_monster": [
+        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 },
+        { "monster": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -270,11 +270,11 @@
         "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
         "~": "t_water_dp"
       },
-      "place_monsters": [
+      "place_monster": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
         { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -331,11 +331,11 @@
         "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
         "~": "t_water_dp"
       },
-      "place_monsters": [
+      "place_monster": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
         { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -393,11 +393,11 @@
         "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
         "~": "t_water_dp"
       },
-      "place_monsters": [
+      "place_monster": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
         { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -455,11 +455,11 @@
         "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
         "~": "t_water_dp"
       },
-      "place_monsters": [
+      "place_monster": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
         { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   }
