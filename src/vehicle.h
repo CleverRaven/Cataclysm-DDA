@@ -1214,6 +1214,16 @@ class vehicle
         *  @returns part index or -1
         */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has link connection
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param to_ports if true, look for part with CABLE_PORTS flag. If false, BATTERY.
+        *  Either way, will also look for APPLIANCE
+        *  @returns part index or -1
+        */
+        int avail_linkable_part( const point &pt, bool to_ports ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag

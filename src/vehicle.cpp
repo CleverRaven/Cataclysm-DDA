@@ -2722,6 +2722,19 @@ int vehicle::avail_part_with_feature( const point &pt, const std::string &flag )
     return -1;
 }
 
+int vehicle::avail_linkable_part( const point &pt, bool to_ports ) const
+{
+    const std::string link_flag = to_ports ? "CABLE_PORTS" : "BATTERY";
+    for( const int p : parts_at_relative( pt, /* use_cache = */ false ) ) {
+        const vehicle_part &vp_here = this->part( p );
+        if( !vp_here.is_broken() &&
+            ( vp_here.info().has_flag( "APPLIANCE" ) || vp_here.info().has_flag( link_flag ) ) ) {
+            return p;
+        }
+    }
+    return -1;
+}
+
 bool vehicle::has_part( const std::string &flag, bool enabled ) const
 {
     for( const vpart_reference &vpr : get_all_parts() ) {

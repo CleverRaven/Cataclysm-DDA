@@ -4688,6 +4688,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             it.link().source = link_state::bio_cable;
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
         }
+
         it.update_link_traits();
         it.process( here, p, p->pos() );
         p->moves -= move_cost;
@@ -4721,6 +4722,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                    it.link().target == link_state::vehicle_battery ) {
             p->add_msg_if_player( m_good, _( "You link up the UPS and the vehicle." ) );
         }
+
         it.link().source = link_state::ups;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
@@ -4756,6 +4758,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                    it.link().target == link_state::vehicle_battery ) {
             p->add_msg_if_player( m_good, _( "You link up the solar pack and the vehicle." ) );
         }
+
         it.link().source = link_state::solarpack;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
@@ -4772,17 +4775,9 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
     map &here = get_map();
     // Selection: Attach electrical cable to vehicle ports / appliances, OR vehicle batteries.
 
-    // You used to be able to plug cables in anywhere on a vehicle, so there's extra effort here
-    // to inform players that they can only plug them into dashboards or electrical controls now.
     const auto can_link = [&here, &to_ports]( const tripoint & point ) {
         const optional_vpart_position ovp = here.veh_at( point );
-        if( !ovp ) {
-            return false;
-        }
-        if( to_ports ) {
-            return ovp.avail_part_with_feature( "CABLE_PORTS" ) || ovp.avail_part_with_feature( "APPLIANCE" );
-        }
-        return ovp.avail_part_with_feature( "BATTERY" ) || ovp.avail_part_with_feature( "APPLIANCE" );
+        return ovp && ovp->vehicle().avail_linkable_part( ovp->mount(), to_ports ) != -1;
     };
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
                                          "", can_link, false, false );
@@ -4791,8 +4786,14 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         return std::nullopt;
     }
     const tripoint &selection = *pnt_;
-
     const optional_vpart_position sel_vp = here.veh_at( selection );
+    if( !sel_vp ) {
+        p->add_msg_if_player( _( "There's no vehicle there." ) );
+        return std::nullopt;
+    }
+
+    // You used to be able to plug cables in anywhere on a vehicle, so there's extra effort here
+    // to inform players that they can only plug them into dashboards or electrical controls now.
     if( !can_link( selection ) ) {
         if( to_ports && sel_vp && sel_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
             p->add_msg_if_player( m_info,
@@ -4811,20 +4812,18 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
         // Starting a new connection to a vehicle or connecting a cable CBM to a vehicle.
         bool had_bio_link = it.link_has_state( link_state::bio_cable );
-        if( !it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
-                         link_state::vehicle_battery ).success() ) {
-            debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
+        ret_val<void> result = it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
+                                           link_state::vehicle_battery );
+        if( !result.success() ) {
+            p->add_msg_if_player( m_bad, result.str() );
+            return 0;
         }
 
         // Get the part name for the connection message, using the vehicle name as a fallback.
-        std::string sel_vp_name = sel_vp->vehicle().name;
-        std::optional<vpart_reference> sel_vp_ref;
-        if( ( sel_vp_ref = sel_vp.avail_part_with_feature( "APPLIANCE" ) ) ||
-            ( sel_vp_ref = sel_vp.avail_part_with_feature( "CABLE_PORTS" ) ) ||
-            ( sel_vp_ref = sel_vp.avail_part_with_feature( "BATTERY" ) ) ) {
-            sel_vp_name = sel_vp_ref->part().name( false );
-        }
-
+        const int part_index = sel_vp->vehicle().avail_linkable_part( sel_vp->mount(), to_ports );
+        const std::string sel_vp_name = part_index == -1 ? sel_vp->vehicle().name :
+                                        sel_vp->vehicle().part( part_index ).name( false );
+        
         if( had_bio_link ) {
             p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), sel_vp_name );
             it.link().source = link_state::bio_cable;
@@ -4838,6 +4837,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
     } else {
 
+        // Connecting two vehicles together.
         ret_val<void> result = it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
                                            link_state::vehicle_battery );
         if( !result.success() ) {
@@ -4848,6 +4848,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
             p->add_msg_if_player( m_good, result.str() );
         }
+
         if( it.typeId() != itype_power_cord ) {
             // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
             it.reset_link( p );
@@ -4881,31 +4882,20 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         return std::nullopt;
     }
 
-    vehicle *const sel_veh = &sel_vp->vehicle();
-    if( sel_veh->has_tow_attached() || sel_veh->is_towed() ||
-        sel_veh->is_towing() ) {
-        p->add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
-        return std::nullopt;
-    }
-    if( !sel_veh->is_external_part( selection ) ) {
-        p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
-        return std::nullopt;
-    }
-    if( !sel_veh->part( sel_vp->part_index() ).carried_stack.empty() ) {
-        p->add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
-        return std::nullopt;
-    }
-
     if( it.has_no_links() ) {
 
         // Starting a new tow cable connection.
-        if( !it.link_to( sel_vp ).success() ) {
-            debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
+        ret_val<void> result = it.link_to( sel_vp, link_state::vehicle_tow );
+        if( !result.success() ) {
+            p->add_msg_if_player( m_bad, result.str() );
+            return 0;
         }
         if( to_towing ) {
-            it.link().source = link_state::vehicle_tow; // Assign towing vehicle.
+            it.link().source = link_state::vehicle_tow;
+            it.link().target = link_state::no_link;
         } else {
-            it.link().target = link_state::vehicle_tow; // Assign towed vehicle.
+            it.link().source = link_state::no_link;
+            it.link().target = link_state::vehicle_tow;
         }
 
         p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
@@ -4927,6 +4917,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name,
             p->add_msg_if_player( m_good, result.str() );
         }
+
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.
     }

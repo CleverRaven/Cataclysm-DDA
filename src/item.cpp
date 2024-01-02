@@ -13329,32 +13329,44 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
 ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )
 {
     if( !can_link_up() ) {
-        return ret_val<void>::make_failure( _( "%s doesn't have a cable!" ), tname() );
+        return ret_val<void>::make_failure( _( "The %s doesn't have a cable!" ), type_name() );
+    }
+
+    // First, check if the desired link is actually possible.
+
+    if( link_type == link_state::vehicle_tow ) {
+        if( veh.has_tow_attached() || veh.is_towed() || veh.is_towing() ) {
+            return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
+        } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
+            return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
+        } else if( !veh.part( veh.part_at( mount ) ).carried_stack.empty() ) {
+            return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+        }
+    } else {
+        const link_up_actor *it_actor = static_cast<const link_up_actor *>
+                                        ( get_use( "link_up" )->get_actor_ptr() );
+        bool can_link_port = ( link_type == link_state::vehicle_port ||
+                               link_type == link_state::automatic ) &&
+                             it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
+                             veh.avail_linkable_part( mount, true ) != -1;
+
+        bool can_link_battery = ( link_type == link_state::vehicle_battery ||
+                                  link_type == link_state::automatic ) &&
+                                it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
+                                veh.avail_linkable_part( mount, false ) != -1;
+
+        if( !can_link_port && !can_link_battery ) {
+            return ret_val<void>::make_failure( _( "The %s can't connect to that." ), type_name() );
+        } else if( link_type == link_state::automatic ) {
+            link_type = can_link_port ? link_state::vehicle_port : link_state::vehicle_battery;
+        }
     }
 
     if( has_no_links() ) {
 
-        // Option 1: Start a new link to a vehicle/appliance.
+        // No link exists, so start a new link to a vehicle/appliance.
 
-        if( link_type != link_state::automatic ) {
-            link().target = link_type;
-        } else {
-            // Assign target based on the parts available at the connected mount point.
-            const link_up_actor *it_actor = static_cast<const link_up_actor *>
-                                            ( get_use( "link_up" )->get_actor_ptr() );
-            if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
-                ( veh.avail_part_with_feature( mount, "CABLE_PORTS" ) != -1 ||
-                  veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
-                link().target = link_state::vehicle_port;
-            } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
-                       ( veh.avail_part_with_feature( mount, "BATTERY" ) != -1 ||
-                         veh.avail_part_with_feature( mount, "APPLIANCE" ) != -1 ) ) {
-                link().target = link_state::vehicle_battery;
-            } else {
-                return ret_val<void>::make_failure( _( "%s can't connect to that." ), tname() );
-            }
-        }
-
+        link().target = link_type;
         link().t_veh = veh.get_safe_reference();
         link().t_abs_pos = get_map().getglobal( link().t_veh->global_pos3() );
         link().t_mount = mount;
@@ -13364,7 +13376,7 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         return ret_val<void>::make_success();
     }
 
-    // Option 2: There's already a connection, so link the previous vehicle/appliance to the new one.
+    // There's already a link, so connect the previous vehicle/appliance to the new one.
 
     if( !link_has_state( link_state::no_link ) ) {
         debugmsg( "Failed to connect the %s, both ends are already connected!", tname() );
