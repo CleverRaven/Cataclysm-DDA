@@ -8,6 +8,7 @@ acceleratrons
 accessorized
 accessorizing
 acclimatization
+accommodations
 accoustrement
 accuracies
 accurized
@@ -325,6 +326,7 @@ biosilicified
 biospheres
 biotracer
 bipod
+bipods
 birchbark
 birdhouses
 birdlike
@@ -490,6 +492,8 @@ cdc
 cdda
 cegamente
 centric
+centrigrade
+centrigrades
 centrosaurus
 centrum
 cepa
@@ -1013,6 +1017,7 @@ expansions
 explodin
 explosivity
 expounds
+extenders
 extensible
 extractors
 extradimensional
@@ -1239,6 +1244,7 @@ geometries
 gesticulates
 getups
 ghast
+ghillie
 gibbous
 giganotosaurus
 github
@@ -2296,6 +2302,7 @@ pleco
 plectrum
 pleistocene
 ples
+plesiosaurus
 plink
 plinker
 plinking
@@ -2380,6 +2387,7 @@ proficiently
 profusive
 promptus
 propellants
+proprietary
 propyl
 prosaurolophus
 prosaurulophus
@@ -2484,6 +2492,7 @@ razorsharp
 razzin
 rd
 reachability
+reactively
 reactivity
 readme
 reagents
@@ -2825,6 +2834,7 @@ spasming
 spearcat
 spearfisher
 spearfishers
+spearguns
 spearhand
 spearman
 spearmen
@@ -3121,6 +3131,8 @@ travelpack
 traversal
 travois
 treatin
+treefrog
+treefrogs
 treelines
 trenchcoat
 trenchcoats
@@ -3431,6 +3443,7 @@ woodsmanship
 woom
 woosh
 workarounds
+workbenches
 workcycle
 workshifts
 worldgen

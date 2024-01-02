@@ -377,6 +377,16 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
+bool avatar::has_mission_id( const mission_type_id &miss_id )
+{
+    for( mission *miss : active_missions ) {
+        if( miss->mission_id() == miss_id ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void avatar::remove_active_mission( mission &cur_mission )
 {
     cur_mission.remove_active_world_mission( cur_mission );

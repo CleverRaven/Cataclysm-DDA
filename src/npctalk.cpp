@@ -108,8 +108,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
-static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
@@ -3072,8 +3070,7 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                       suppress_message, flags_str, add_talker, target_location, force_equip );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
-    likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
-                                 itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( count, item_name );
 }
 
 void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view member )
@@ -3510,7 +3507,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
                 if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
-                    ( !passable_only || here.passable( target_pos ) ) &&
+                    ( !passable_only || here.passable( here.getlocal( target_pos ) ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
@@ -3896,7 +3893,7 @@ void talk_effect_fun_t::set_add_mission( const JsonObject &jo, std::string_view 
     };
 }
 
-const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewards() const
+const talk_effect_fun_t::likely_rewards_t &talk_effect_fun_t::get_likely_rewards() const
 {
     return likely_rewards;
 }
@@ -5259,9 +5256,17 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     std::vector<std::pair<effect_on_condition_id, std::function<double( dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
-        JsonObject weight = ja.next_object();
-        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
-                                conditional_t::get_get_dbl( weight ) );
+        if( ja.test_int() ) {
+            int weight = ja.next_int();
+            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc,
+            "" ), [weight]( dialogue const & ) {
+                return weight;
+            } );
+        } else {
+            JsonObject weight = ja.next_object();
+            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
+                                    conditional_t::get_get_dbl( weight ) );
+        }
     }
     function = [eoc_pairs]( dialogue & d ) {
         weighted_int_list<effect_on_condition_id> eocs;

@@ -118,9 +118,6 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
 
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
 static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );
 static const overmap_location_str_id overmap_location_source_of_drink( "source_of_drink" );
@@ -826,10 +823,12 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     personality.collector += the_class.roll_collector();
     personality.altruism += the_class.roll_altruism();
 
-    std::clamp( personality.aggression, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    std::clamp( personality.collector, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
+                                         NPC_PERSONALITY_MAX );
+    personality.bravery = std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.collector = std::clamp( personality.collector, NPC_PERSONALITY_MIN,
+                                        NPC_PERSONALITY_MAX );
+    personality.altruism = std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );

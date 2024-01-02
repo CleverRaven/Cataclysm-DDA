@@ -390,12 +390,6 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_visitable_zones_cache_dirty( bool dirty = true ) {
-            visitable_cache_dirty = dirty;
-        };
-        bool get_visitable_zones_cache_dirty() const {
-            return visitable_cache_dirty;
-        };
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -2282,13 +2276,6 @@ class map
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
 
-        // Tracks the dirtiness of the visitable zones cache, but that cache does not live here,
-        // it is distributed among the active monsters. This must be flipped when
-        // persistent visibility from terrain or furniture changes
-        // (this excludes vehicles and fields) or when persistent traversability changes,
-        // which means walls and floors.
-        bool visitable_cache_dirty = false;
-
     public:
         void queue_main_cleanup();
         bool is_main_cleanup_queued() const;
@@ -2355,6 +2342,9 @@ class map
 #if defined(TILES)
         bool draw_points_cache_dirty = true;
         std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
+        point prev_top_left;
+        point prev_bottom_right;
+        point prev_o;
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;
 #endif

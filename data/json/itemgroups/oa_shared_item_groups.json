@@ -17,6 +17,7 @@
       [ "plastic_shopping_bag", 50 ],
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
+      { "item": "wrapper_foil_roll", "prob": 8 },
       { "prob": 2, "group": "meth_bag_zipper_1_6" },
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       [ "string_6", 10 ],
