@@ -5578,7 +5578,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
-    "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few nearly vestigial digits, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges, keep warm in your sleep, and will take less damage if you fall.",
+    "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few fingers, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges and will take less damage if you fall, provided you're healthy and unburdened.",
     "types": [ "ARMS", "HANDS" ],
     "enchantments": [ "ench_wings_bird" ],
     "prereqs": [ "ARM_FEATHERS" ],
@@ -8031,11 +8031,11 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
-    "points": -1,
+    "points": 2,
     "visibility": 8,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your arms have grown vibrantly-colored feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
+    "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
     "category": [ "RAPTOR", "BIRD" ],
     "flags": [ "WINGS_1" ],
     "changes_to": [ "WINGS_BIRD" ],
@@ -8045,7 +8045,7 @@
       { "part": "hand_l", "neutral": 10 },
       { "part": "hand_r", "neutral": 10 }
     ],
-    "encumbrance_always": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
+    "encumbrance_always": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
     "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ]
   },
   {
