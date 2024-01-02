@@ -715,7 +715,7 @@ bool Character::can_recover_oxygen() const
 void Character::randomize_heartrate()
 {
     // assume starting character is sedentary so we have some room to go down for cardio hr lowering
-    avg_nat_bpm = rng_normal( 80, 100 );
+    avg_nat_bpm = rng_normal( 70, 90 );
 }
 
 void Character::randomize_blood()
