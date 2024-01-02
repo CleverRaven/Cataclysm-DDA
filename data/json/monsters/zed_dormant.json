@@ -21,7 +21,7 @@
     "type": "SPELL",
     "id": "pseudo_dormant_trap_setup",
     "name": { "str": "dormant corpse setup" },
-    "description": "you should not see this. sets up trap for dormant zombies.",
+    "description": "You should not see this.  Sets up trap for dormant zombies.",
     "valid_targets": [ "self" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
