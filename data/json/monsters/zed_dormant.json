@@ -23,14 +23,14 @@
     "description": "you should not see this. sets up trap for dormant zombies.",
     "valid_targets": [ "self" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX"],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 1,
     "shape": "blast",
     "min_aoe": 1,
     "max_aoe": 1,
     "effect": "add_trap",
     "effect_str": "tr_dormant_corpse",
-    "extra_effects": [ { "id": "kill_pseudo_zombie", "hit_self":true } ]
+    "extra_effects": [ { "id": "kill_pseudo_zombie", "hit_self": true } ]
   },
   {
     "id": "mon_pseudo_dormant_zombie",
@@ -40,13 +40,8 @@
     "copy-from": "mon_zombie",
     "hp": 5,
     "speed": 1,
-    "spawn_function": { "effect": { "id": "pseudo_dormant_trap_setup", "hit_self":true } },
-    "flags": [
-      "FILTHY",
-      "REVIVES",
-      "DORMANT",
-      "NO_NECRO"
-    ],
+    "spawn_function": { "effect": { "id": "pseudo_dormant_trap_setup", "hit_self": true } },
+    "flags": [ "FILTHY", "REVIVES", "DORMANT", "NO_NECRO" ],
     "zombify_into": "mon_zombie_reawakened"
   },
   {
@@ -86,9 +81,9 @@
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "action": "spell",
     "spell_data": { "id": "wake_up_dormant" },
-    "trigger_message_u": "A zombie rises from the ground!", 
-    "trigger_message_npc": "A zombie rises from the ground!", 
-    "sound_threshold": [15,25]
+    "trigger_message_u": "A zombie rises from the ground!",
+    "trigger_message_npc": "A zombie rises from the ground!",
+    "sound_threshold": [ 15, 25 ]
   },
   {
     "type": "SPELL",
@@ -97,7 +92,7 @@
     "description": "you should not see this. Causes all dormant corpses in the tile to revive.",
     "valid_targets": [ "ground" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX"],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 1,
     "shape": "blast",
     "min_aoe": 3,
