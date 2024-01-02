@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "kill_pseudo_zombie",
     "name": { "str": "kill pseudo zombie" },
-    "description": "you should not see this. kills pseudo zombie.",
+    "description": "You should not see this.  Kills pseudo zombie to turn it into a corpse for revival.",
     "valid_targets": [ "self" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE", "NO_FAIL" ],
