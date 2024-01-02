@@ -1091,10 +1091,11 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
                 const float athlete_form_bonus = muscle_user->get_proficiency_bonus( "athlete",
                                                  proficiency_bonus_type::strength );
                 if( muscle_user->has_trait_flag( json_flag_MUSCLE_VEH_BOOST ) ) {
-                muscle_veh_boost_bonus = 8;
+                    muscle_veh_boost_bonus = 8;
                 }
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus + muscle_veh_boost_bonus;
+                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus +
+                                                muscle_veh_boost_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
                 pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
