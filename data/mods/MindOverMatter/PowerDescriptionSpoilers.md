@@ -385,4 +385,4 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
 *Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
 *Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
-*Prerequisites*: Displacement 12, Gateway 6<br />
+*Prerequisites*: Displacement 12 *or* Oubliette 7, Gateway 6<br />
