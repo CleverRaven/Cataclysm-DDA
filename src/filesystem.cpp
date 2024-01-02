@@ -19,6 +19,8 @@
 #   include "platform_win.h"
 #endif
 
+static const std::string invalid_chars = "\\/:?\"<>|";
+
 bool assure_dir_exist( const std::string &path )
 {
     return assure_dir_exist( fs::u8path( path ) );
@@ -524,7 +526,6 @@ bool copy_file( const cata_path &source_path, const cata_path &dest_path )
 std::string ensure_valid_file_name( const std::string &file_name )
 {
     const char replacement_char = ' ';
-    static const std::string invalid_chars = "\\/:?\"<>|";
 
     // do any replacement in the file name, if needed.
     std::string new_file_name = file_name;
