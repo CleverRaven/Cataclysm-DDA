@@ -1345,13 +1345,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a choking sound.",
     "volume": 10
   },
@@ -2824,8 +2824,50 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_star_vampire" ],
+    "speaker": [ "mon_star_vampire", "mon_vocal_frog", "mon_vocal_bigfrog" ],
     "sound": "a high-pitched tittering.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a series of rising peeps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a steady patter of light, whistling chirps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_frog" ],
+    "sound": "a long, soft squeak.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a loud and guttural wailing.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a deep glottal shout.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a quick, rising yell.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a reverberating, open-throated scream.",
+    "volume": 70
   }
 ]

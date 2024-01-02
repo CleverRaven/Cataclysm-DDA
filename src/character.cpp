@@ -8018,10 +8018,12 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
         for( vehicle_part *&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
-            const vpart_info &vpinfo = part->info();
             const optional_vpart_position vp = m.veh_at( dest_loc );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
-                capacity += vpinfo.size;
+            // Check for obstacles and appliances to prevent squishing when the part is
+            // not a vehicle or when the player is not actually entering the tile IE grabbing.
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) &&
+                !vp.part_with_feature( "APPLIANCE", false ) && !vp.part_with_feature( "OBSTACLE", false ) ) {
+                capacity += contents.max_volume();
                 free_cargo += contents.free_volume();
             }
         }
@@ -8050,8 +8052,8 @@ bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
         }
         const optional_vpart_position vp = m.veh_at( dest_loc );
         // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
-        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-            !vp.part_with_feature( "HUGE_OK", true ) && !has_effect( effect_cramped_space ) ) {
+        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+            !vp.part_with_feature( "HUGE_OK", false ) && !has_effect( effect_cramped_space ) ) {
             add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
             add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
             c->add_effect( effect_cramped_space, 2_turns, true );
@@ -8992,7 +8994,7 @@ void Character::cancel_activity()
         backlog.front().auto_resume ) {
         backlog.front().auto_resume = false;
     }
-    if( activity && activity.is_suspendable() ) {
+    if( activity && activity.can_resume() ) {
         activity.allow_distractions();
         backlog.push_front( activity );
     }
@@ -10976,31 +10978,29 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( has_effect( effect_cramped_space ) && !in_vehicle ) {
-        remove_effect( effect_cramped_space );
-    }
-    // Check all of this here to ensure the player can't sit in a comfortable seat and then drop 50 liters of junk in their own lap.
-    if( in_vehicle ) {
+    if( has_effect( effect_cramped_space ) ) {
         map &here = get_map();
         const tripoint your_pos = pos();
+        const optional_vpart_position vp_there = here.veh_at( your_pos );
+        if( !vp_there ) {
+            remove_effect( effect_cramped_space );
+            return;
+        }
         if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
         }
-        const optional_vpart_position vp_there = here.veh_at( your_pos );
-        if( vp_there ) {
-            vehicle &veh = vp_there->vehicle();
-            units::volume capacity = 0_ml;
-            units::volume free_cargo = 0_ml;
-            auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
-            for( vehicle_part *&part : cargo_parts ) {
-                vehicle_stack contents = veh.get_items( *part );
-                const vpart_info &vpinfo = part->info();
-                const optional_vpart_position vp = here.veh_at( your_pos );
-                if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
-                    capacity += vpinfo.size;
-                    free_cargo += contents.free_volume();
-                }
+        bool is_cramped_space = false;
+        vehicle &veh = vp_there->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
+        for( vehicle_part *&part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const optional_vpart_position vp = here.veh_at( your_pos );
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
+                capacity += contents.max_volume();
+                free_cargo += contents.free_volume();
             }
             const creature_size size = get_size();
             if( capacity > 0_ml ) {
@@ -11016,19 +11016,22 @@ void Character::process_effects()
                     if( !has_effect( effect_cramped_space ) ) {
                         add_effect( effect_cramped_space, 2_turns, true );
                     }
+                    is_cramped_space = true;
                     return;
                 }
             }
-            const optional_vpart_position vp = here.veh_at( your_pos );
-            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
-                !vp.part_with_feature( "HUGE_OK", true ) ) {
+            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+                !vp.part_with_feature( "HUGE_OK", false ) ) {
                 if( !has_effect( effect_cramped_space ) ) {
                     add_effect( effect_cramped_space, 2_turns, true );
                 }
+                is_cramped_space = true;
                 return;
             }
         }
-        remove_effect( effect_cramped_space );
+        if( !is_cramped_space ) {
+            remove_effect( effect_cramped_space );
+        }
     }
 
     if( has_effect( effect_boomered ) && ( is_avatar() || is_npc() ) && one_in( 10 ) &&
@@ -11799,11 +11802,11 @@ int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 
 bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( bp->has_flag( flag ) ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.first->has_flag( flag ) ) {
             return true;
         }
-        if( get_part( bp )->has_conditional_flag( flag ) ) {
+        if( elem.second.has_conditional_flag( flag ) ) {
             return true;
         }
     }
