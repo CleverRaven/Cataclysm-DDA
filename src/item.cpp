@@ -6980,7 +6980,7 @@ std::string item::display_name( unsigned int quantity ) const
         } else {
             max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
         }
-        show_amt = ( !has_flag( flag_RELOAD_AND_SHOOT ) && !has_flag( flag_PSEUDO ) );
+        show_amt = !has_flag( flag_RELOAD_AND_SHOOT );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
@@ -7015,7 +7015,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( amount || show_amt ) {
+    if( ( amount || show_amt ) && !has_flag( flag_PSEUDO ) ) {
         if( is_money() ) {
             amt = " " + format_money( amount );
         } else {

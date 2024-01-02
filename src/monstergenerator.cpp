@@ -40,15 +40,6 @@
 
 static const material_id material_flesh( "flesh" );
 
-static const mon_flag_str_id mon_flag_BASHES( "BASHES" );
-static const mon_flag_str_id mon_flag_BORES( "BORES" );
-static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
-static const mon_flag_str_id mon_flag_DESTROYS( "DESTROYS" );
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
-static const mon_flag_str_id mon_flag_NOT_HALLUCINATION( "NOT_HALLUCINATION" );
-static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
-
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
 
 namespace

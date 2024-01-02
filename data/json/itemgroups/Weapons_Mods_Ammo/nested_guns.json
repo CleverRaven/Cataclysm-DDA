@@ -625,16 +625,55 @@
     "entries": [ { "item": "bond_410", "charges-min": 0, "charges-max": 2 }, { "group": "on_hand_45colt" } ]
   },
   {
-    "id": "nested_deagle_44",
+    "id": "nested_modular_deagle_357",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "deagle_44", "charges-min": 0, "charges-max": 2 },
+      { "group": "modular_deagle_357", "charges-min": 0, "charges-max": 9 },
+      { "item": "deaglemag_357" },
+      { "item": "deaglemag_357", "prob": 50 },
+      { "group": "on_hand_357" }
+    ]
+  },
+  {
+    "id": "nested_modular_deagle_44",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "group": "modular_deagle_44", "charges-min": 0, "charges-max": 8 },
       { "item": "deaglemag" },
       { "item": "deaglemag", "prob": 50 },
       { "group": "on_hand_44" }
+    ]
+  },
+  {
+    "id": "nested_modular_deagle_50",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "group": "modular_deagle_50", "charges-min": 0, "charges-max": 7 },
+      { "item": "deaglemag_50" },
+      { "item": "deaglemag_50", "prob": 50 },
+      { "group": "on_hand_50ae" }
+    ]
+  },
+  {
+    "id": "nested_modular_deagle_gold",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "group": "modular_deagle_50", "variant": "modular_deagle_gold", "charges-min": 0, "charges-max": 7 },
+      { "item": "deaglemag_50" },
+      { "item": "deaglemag_50", "prob": 50 },
+      { "group": "on_hand_50ae" }
     ]
   },
   {
@@ -2555,6 +2594,19 @@
       { "item": "ruger_arr", "charges-min": 0, "charges-max": 3 },
       { "item": "ruger_arr_mag" },
       { "item": "ruger_arr_mag", "prob": 50 },
+      { "group": "on_hand_450" }
+    ]
+  },
+  {
+    "id": "nested_steyr_scout",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack. Extra magazine for the stock hold",
+    "subtype": "collection",
+    "entries": [
+      { "item": "steyr_scout", "charges-min": 0, "charges-max": 3 },
+      { "item": "steyr_scout_mag" },
+      { "item": "steyr_scout_mag", "prob": 50 },
+      { "item": "steyr_scout_mag", "prob": 50 },
       { "group": "on_hand_450" }
     ]
   },

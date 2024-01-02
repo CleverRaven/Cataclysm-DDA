@@ -1430,6 +1430,7 @@
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
+      [ "hand_controls", 1 ],
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ]
     ]
@@ -1615,10 +1616,6 @@
     "id": "ss_merch_3",
     "//": "for cs_sex_shop, suits, dresses and large clothing",
     "items": [
-      [ "wolfsuit", 15 ],
-      [ "dinosuit", 15 ],
-      [ "felinesuit", 15 ],
-      [ "dragonsuit", 15 ],
       [ "bondage_suit", 10 ],
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 10 },
       [ "bodysuit_lycra", 5 ],
@@ -2104,6 +2101,7 @@
     "subtype": "collection",
     "items": [
       { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "group": "sandbag", "prob": 50 },
       { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" }
     ]
   },

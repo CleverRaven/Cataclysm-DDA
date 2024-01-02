@@ -77,7 +77,6 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
-static const mon_flag_str_id mon_flag_ALWAYS_VISIBLE( "ALWAYS_VISIBLE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -1353,6 +1352,17 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 std::max( max_mm_reg.y, southeast->y ) );
         }
     }
+
+    //invalidate draw_points_cache if viewport dimensions have changed
+    point top_left( min_col, min_row );
+    point bottom_right( max_col, max_row );
+    if( top_left != here.prev_top_left || bottom_right != here.prev_bottom_right || o != here.prev_o ) {
+        set_draw_cache_dirty();
+    }
+    here.prev_top_left = top_left;
+    here.prev_bottom_right = bottom_right;
+    here.prev_o = o;
+
     you.prepare_map_memory_region(
         here.getglobal( tripoint( min_mm_reg, center.z ) ),
         here.getglobal( tripoint( max_mm_reg, center.z ) )

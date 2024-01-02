@@ -136,7 +136,7 @@ class player_activity
          * possible if the player start the very same activity (with the same
          * parameters) again.
          */
-        bool is_suspendable() const;
+        bool can_resume() const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
