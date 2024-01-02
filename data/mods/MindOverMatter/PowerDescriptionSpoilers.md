@@ -221,7 +221,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Hurls a lightning bolt at a target within range, doing 20 to 45 electrical damage plus 2 to 4 per power level and leaving intensity 1 to 2 lightning fields in its wake.  This power causes additional sound at the target location.<br />
 *Prerequisites*: Voltaic Strikes 8 *or* Static Touch 12, Electrical Discharge 8<br />
 
-# Re-energize
+## Re-energize
 *Difficulty*: 6<br />
 *Target*: Adjacent vehicle or appliance<br />
 *Duration*: Instant<br />
@@ -230,7 +230,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Recharges the batteries of a vehicle or an electrical grid, restoring 250 to 500 power plus 125 to 250 per power level.<br />
 *Prerequisites*: Electron Overflow 10, Electrical Discharge 9 *or* Neural Spasms 7<br />
 
-# Analgesic Block
+## Analgesic Block
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 2 minutes 30 seconds, plus 8 seconds to 13 seconds per power level<br />
@@ -239,7 +239,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
 *Prerequisites*: Pain Suppression 9<br />
 
-# Neuro-acceleration
+## Neuro-acceleration
 *Difficulty*: 6<br />
 *Target*: Self or ally within 1 square<br />
 *Duration*: 1 minute 30 seconds to 7 minutes 30 seconds, plus 15 to 27 seconds per level<br />
@@ -257,7 +257,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Overloads a robot or cyborg, completely short-circuiting it and destroying it, and releasing a cloud of sparks within 1 square of the target plus 0.4 squares per power level.  Yrax constructs do not function based on electricity and are immune to this power.<br />
 *Prerequisites*: Re-energize 8 *or* Electrocutioner 8 *or* Voltaic Strikes 13, Spark Sight 8<br />
 
-# Galvanic Aura
+## Galvanic Aura
 *Difficulty*: 8<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 4 minutes 10 seconds, plus 15 seconds to 25 seconds per power level<br />
@@ -266,7 +266,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds. It also provides electric armor equal to the power level and makes the psion and their gear immune to EMP blasts.<br />
 *Prerequisites*: Electrical Discharge 12, Electron Overflow 15 *or* Re-energize 6<br />
 
-# Ion Blast
+## Ion Blast
 *Difficulty*: 9<br />
 *Target*: Line stretching 2 squares plus 0.7 squares per power level, causing an explosion with an AoE of 1 plus 1 per 4 power levels<br />
 *Duration*: Instant<br />
@@ -275,7 +275,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Unleashes a lightning bolt that explodes at the target point. The explosion does 25 to 90 electrical damage plus 2 to 4.5 per power level. The bolt does 5 to 25 plus 0.5 to 2.5 per power level. Both the bolt and the explosion release lightning fields of intensity 3 to 7.<br />
 *Prerequisites*: Electrocutioner 10 *or* Short Circuit 6, Voltaic Strikes 8 *or* Static Touch 12<br />
 
-# Revivification
+## Revivification
 *Difficulty*: 10<br />
 *Target*: One corpse within 2 squares plus 1 square per 4 power levels<br />
 *Duration*: Random but no longer than 12 minutes. The target has an escalating chance to collapse every turn of the effect, beginning at 0.0005% per second in the first minute, climbing to 0.01% per second at minute 4, 1% per second at minute 8, and reaching certainty at minute 12<br />
@@ -331,7 +331,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 2750, minus 85 per level to a minimum of 1500<br />
 *Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 30<br />
 *Effects*: Extangle the psion's position with the target's and then swap places, exchanging positions.<br />
-*Prerequisites*: Phase 7, Stutterstep 4<br />
+*Prerequisites*: Displacement 5, Extended Stride 5<br />
 
 ## Displacement 
 *Difficulty*: 4<br />
@@ -340,7 +340,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
 *Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
 *Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
-*Prerequisites*: Stutterstep 10 *or* Transposition 6<br />
+*Prerequisites*: Stutterstep 10, Phase 5 <br />
 
 ## Spacial Vortex 
 *Difficulty*: 5<br />
