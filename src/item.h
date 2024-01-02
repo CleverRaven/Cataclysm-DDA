@@ -1480,6 +1480,9 @@ class item : public visitable
         /// Returns true if the item has no active link, or if both link states are link_state::no_link.
         bool has_no_links() const;
 
+        /// Name to use for describing the link, whether it's its own item, like "extension cord", or secondary, like "smart phone's cable".
+        std::string link_name() const;
+
         /**
          * @brief Initializes the item's link_data and starts a connection to the specified vehicle position.
          * @param linked_vp An optional_vpart_position to connect the item to.

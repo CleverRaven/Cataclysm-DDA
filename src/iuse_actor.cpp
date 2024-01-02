@@ -4464,23 +4464,21 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
     }
 
     const bool is_cable_item = it.has_flag( flag_CABLE_SPOOL );
-    const std::string cable_name = is_cable_item ? it.type_name() :
-                                   string_format( _( "%s's cable" ), it.type_name() );
+    const bool unspooled = it.link_length() == -1;
+    const bool has_loose_end = !unspooled && is_cable_item ?
+                               it.link_has_state( link_state::no_link ) : it.has_no_links();
 
     const int respool_time_per_square = 200;
     const bool past_respool_threshold = it.link_length() > item::LINK_RESPOOL_THRESHOLD;
     const int respool_time_total = !past_respool_threshold ? 0 :
                                    ( it.link_length() - item::LINK_RESPOOL_THRESHOLD ) * respool_time_per_square;
-    const bool unspooled = it.link_length() == -1;
-    const bool has_loose_end = !unspooled && is_cable_item ?
-                               it.link_has_state( link_state::no_link ) : it.has_no_links();
 
     vehicle *t_veh = it.has_link_data() ? it.link().t_veh.get() : nullptr;
 
     uilist link_menu;
     if( !is_cable_item || it.has_no_links() ) {
         // This is either a device or a cable item without any connections.
-        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, t_veh ?
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
                                         string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
             link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
@@ -4524,7 +4522,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
 
     } else if( it.link_has_state( link_state::vehicle_tow ) ) {
         // Cables that started a tow can finish one or detach; nothing else.
-        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, t_veh ?
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
                                         string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
 
         link_menu.addentry( 10, has_loose_end && it.link().target == link_state::vehicle_tow, -1,
@@ -4569,7 +4567,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                 state_desc_rhs = _( "Cable Charger System" );
             }
         }
-        link_menu.text = string_format( _( "What to do with the %s?%s%s" ), cable_name,
+        link_menu.text = string_format( _( "What to do with the %s?%s%s" ), it.link_name(),
                                         state_desc_lhs, state_desc_rhs );
 
         // TODO: Allow plugging UPSes and Solar Packs into more than just bionics.
@@ -4648,7 +4646,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             return 0;
         } else {
             p->add_msg_if_player( m_info, string_format( is_cable_item ? _( "You detach the %s." ) :
-                                  _( "You gather the %s's cable up with it." ), it.type_name() ) );
+                                  _( "You gather the %s up with it." ), it.link_name() ) );
         }
         return 0;
     }
@@ -4823,7 +4821,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         const int part_index = sel_vp->vehicle().avail_linkable_part( sel_vp->mount(), to_ports );
         const std::string sel_vp_name = part_index == -1 ? sel_vp->vehicle().name :
                                         sel_vp->vehicle().part( part_index ).name( false );
-        
+
         if( had_bio_link ) {
             p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), sel_vp_name );
             it.link().source = link_state::bio_cable;
@@ -5020,9 +5018,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         extended.remove_item();
     }
 
-    p->add_msg_if_player( is_cable_item ? _( "You extend the %1$s with the %2$s." ) :
-                          _( "You extend the %1$s's cable with the %2$s." ),
-                          extended_ptr->type_name(), extension->type_name() );
+    p->add_msg_if_player( _( "You extend the %1$s with the %2$s." ),
+                          extended_ptr->link_name(), extension->type_name() );
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
     p->drop_invalid_inventory();

@@ -13306,6 +13306,11 @@ bool item::has_no_links() const
            link_->source == link_state::no_link && link_->target == link_state::no_link;
 }
 
+std::string item::link_name() const
+{
+    return has_flag( flag_CABLE_SPOOL ) ? label( 1 ) : string_format( " %s's cable", label( 1 ) );
+}
+
 ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
 {
     return linked_vp ? link_to( linked_vp->vehicle(), linked_vp->mount(), link_type ) :
@@ -13542,9 +13547,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     // Handle links to items in the inventory.
     if( link().source == link_state::solarpack ) {
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            add_msg_if_player_sees( pos, m_bad,
-                                    string_format( is_cable_item ? _( "The %s has come loose from the solar pack." ) :
-                                                   _( "The %s's cable has come loose from the solar pack." ), type_name() ) );
+            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the solar pack." ),
+                                    link_name() );
             reset_link( carrier );
             return false;
         }
@@ -13554,9 +13558,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     };
     if( link().source == link_state::ups ) {
         if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
-            add_msg_if_player_sees( pos, m_bad,
-                                    string_format( is_cable_item ? _( "The %s has come loose from the UPS." ) :
-                                                   _( "The %s's cable has come loose from the UPS." ), type_name() ) );
+            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the UPS." ), link_name() );
             reset_link( carrier );
             return false;
         }
@@ -13583,20 +13585,16 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
                            link().length, link().max_length );
         }
         if( link().length > link().max_length ) {
+            std::string cable_name = is_cable_item ? string_format( "over-extended %s", label( 1 ) ) :
+                                     string_format( "%s's over-extended cable", label( 1 ) );
             if( carrier != nullptr ) {
-                carrier->add_msg_if_player( m_bad,
-                                            string_format( is_cable_item ? _( "Your over-extended %s breaks loose!" ) :
-                                                    _( "Your %s's over-extended cable breaks loose!" ), type_name() ) );
+                carrier->add_msg_if_player( m_bad, _( "Your %s breaks loose!" ), cable_name );
             } else {
-                add_msg_if_player_sees( pos, m_bad,
-                                        string_format( is_cable_item ? _( "The over-extended %s breaks loose!" ) :
-                                                       _( "The %s's over-extended cable breaks loose!" ), type_name() ) );
+                add_msg_if_player_sees( pos, m_bad, _( "Your %s breaks loose!" ), cable_name );
             }
             return true;
         } else if( new_length + M_SQRT2 >= link().max_length + 1 && carrier != nullptr ) {
-            carrier->add_msg_if_player( m_warning,
-                                        string_format( is_cable_item ? _( "Your %s is stretched to its limit!" ) :
-                                                _( "Your %s's cable is stretched to its limit!" ), type_name() ) );
+            carrier->add_msg_if_player( m_warning, _( "Your %s is stretched to its limit!" ), link_name() );
         }
         return false;
     };
@@ -13843,13 +13841,9 @@ bool item::reset_link( Character *p, int vpart_index,
 
     if( loose_message ) {
         if( p != nullptr ) {
-            p->add_msg_if_player( m_warning,
-                                  string_format( is_cable_item ? _( "Your %s has come loose." ) :
-                                                 _( "Your %s's cable has come loose." ), type_name() ) );
+            p->add_msg_if_player( m_warning, _( "Your %s has come loose." ), link_name() );
         } else {
-            add_msg_if_player_sees( cable_position, m_warning,
-                                    string_format( is_cable_item ? _( "The %s has come loose." ) :
-                                                   _( "The %s's cable has come loose." ), type_name() ) );
+            add_msg_if_player_sees( cable_position, m_warning, _( "The %s has come loose." ), link_name() );
         }
     }
 
@@ -13860,9 +13854,7 @@ bool item::reset_link( Character *p, int vpart_index,
     }
 
     if( loose_message && p ) {
-        p->add_msg_if_player( m_info, string_format( is_cable_item ?
-                              _( "You reel in the %s and wind it up." ) :
-                              _( "You reel in the %s's cable and wind it up." ), tname() ) );
+        p->add_msg_if_player( m_info, _( "You reel in the %s and wind it up." ), link_name() );
     }
 
     link_.reset();
