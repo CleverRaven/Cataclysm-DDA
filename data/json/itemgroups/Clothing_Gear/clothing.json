@@ -714,7 +714,7 @@
     "type": "item_group",
     "//": "Pants often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [ { "item": "technician_pants_gray", "prob": 100 } ]
+    "entries": [ { "item": "technician_pants_gray", "prob": 60 }, { "item": "denim_overalls", "prob": 40 } ]
   },
   {
     "id": "clothing_work_torso",
@@ -810,6 +810,7 @@
       { "item": "toecaps", "prob": 30 },
       [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
+      [ "denim_overalls", 20 ],
       [ "technician_coveralls", 15 ],
       [ "technician_coveralls_h", 5 ],
       [ "apron_plastic", 30 ],
@@ -1708,6 +1709,7 @@
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "flag_jumpsuit", 2 ],
+      [ "denim_overalls", 10 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
       [ "flag_swimsuit", 2 ],
@@ -2466,6 +2468,7 @@
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       { "item": "cheerleader_top_short", "prob": 1 },
       { "item": "flag_jumpsuit", "prob": 2 },
+      { "item": "denim_overalls", "prob": 10 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
       { "item": "bodysuit_lycra", "prob": 5 },
@@ -2936,6 +2939,7 @@
       { "item": "toecaps", "prob": 30 },
       { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
+      { "item": "denim_coveralls", "prob": 15 },
       { "item": "technician_coveralls", "prob": 15 },
       { "item": "technician_coveralls_h", "prob": 5 },
       { "item": "gloves_rubber", "prob": 20 },

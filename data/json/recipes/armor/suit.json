@@ -1705,6 +1705,21 @@
     "using": [ [ "tailoring_felt_patchwork_simple", 36 ] ]
   },
   {
+    "result": "denim_overalls",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "22 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 20 ], [ "strap_large", 2 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "byproducts": [ [ "scrap_denim", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
     "result": "entry_suit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

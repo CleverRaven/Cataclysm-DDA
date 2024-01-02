@@ -1854,7 +1854,7 @@
   {
     "id": "skirt_denim",
     "type": "ARMOR",
-    "name": { "str": "jkirt" },
+    "name": { "str": "jean skirt" },
     "description": "A skirt made from denim.",
     "//": "supossed to be a 10 oz denim skirt",
     "weight": "300 g",
