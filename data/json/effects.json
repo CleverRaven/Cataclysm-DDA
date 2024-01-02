@@ -2045,6 +2045,7 @@
     "type": "effect_type",
     "id": "nsaid_eff",
     "//": "Blood pressure up.  Remember that this is divided by 10000, so maximum 5% increase.",
+    "//2": "NSAIDs are the drug family that includes ibuprofen.",
     "rating": "bad",
     "base_mods": { "blood_pressure_tick": [ 100 ], "blood_pressure_min": [ 2 ], "blood_pressure_max_val": [ 500 ] }
   },
