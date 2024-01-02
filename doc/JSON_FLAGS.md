@@ -406,6 +406,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```INVISIBLE``` You can't be seen.
 - ```LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
 - ```MEND_ALL``` You need no splint to heal broken bones.
+- ```MUSCLE_VEH_BOOST``` Something, such as buzzing insect wings, is speeding you up when you use a muscle-powered vehicle.
 - ```MYCUS_IMMUNE``` Critter is immune to fungal hase field (`fd_fungal_haze`)
 - ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
 - ```MYOPIC``` You are nearsighted - vision range is severely reduced without glasses.

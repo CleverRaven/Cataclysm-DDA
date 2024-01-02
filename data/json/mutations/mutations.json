@@ -5612,6 +5612,7 @@
     "copy-from": "WINGS_INSECT",
     "valid": false,
     "movecost_modifier": 0.75,
+    "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
     "enchantments": [ "ench_wings_insect_active" ],
     "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 }
   },
