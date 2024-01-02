@@ -454,7 +454,7 @@
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telepathic_invisibility') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        "min( (( (u_spell_level('telepathic_invisibility') * 1.5) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
     "max_range": 80,
