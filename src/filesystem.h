@@ -103,4 +103,7 @@ bool copy_file( const cata_path &source_path, const cata_path &dest_path );
  */
 std::string ensure_valid_file_name( const std::string &file_name );
 
+// On Windows, it checks for some validity of the path. See .cpp
+bool is_lexically_valid( const fs::path& );
+
 #endif // CATA_SRC_FILESYSTEM_H

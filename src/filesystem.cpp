@@ -39,6 +39,9 @@ bool assure_dir_exist( const fs::path &path )
     if( !is_dir ) {
         exists = fs::exists( p, ec );
         if( !exists ) {
+            if( !is_lexically_valid( p ) ) {
+                return false;
+            }
             created = fs::create_directories( p, ec );
             if( !created ) {
                 // TEMPORARY until we drop VS2019 support

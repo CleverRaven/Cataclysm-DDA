@@ -137,6 +137,9 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
     // TODO: exclusive I/O for other systems
     temp_path += fs::u8path( ".temp" );
 #endif
+    if( !is_lexically_valid( temp_path ) ) {
+        throw std::runtime_error( "path has an invalid name" );
+    }
 
     if( fs::exists( temp_path ) && !fs::is_directory( temp_path ) ) {
         std::error_code ec;
