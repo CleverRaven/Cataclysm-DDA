@@ -442,7 +442,6 @@
     "type": "item_group",
     "items": [
       [ "santa_staff", 1 ],
-      [ "santa_knife", 1 ],
       [ "cutlass_inferior", 1 ],
       [ "broadsword_inferior", 1 ],
       [ "nodachi_inferior", 1 ],
