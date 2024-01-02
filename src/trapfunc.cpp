@@ -58,8 +58,8 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
-static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
 static const itype_id itype_bullwhip( "bullwhip" );

@@ -51,9 +51,6 @@ const trap_str_id tr_telepad( "tr_telepad" );
 const trap_str_id tr_temple_flood( "tr_temple_flood" );
 const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
 
-static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-
 static const update_mapgen_id update_mapgen_none( "none" );
 
 namespace
@@ -386,7 +383,7 @@ bool trap::triggered_by_sound( int vol, int dist ) const
     }
     int sound_chance = 100;
     if( sound_range > 0 ) {
-        int sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
+        sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
     }
     //debugmsg("Sound chance: %d%%", sound_chance);
     return !is_null() && ( rng( 0, 100 ) <= sound_chance );
