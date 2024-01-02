@@ -44,8 +44,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of candycane earrings", "str_pl": "pairs of candycane earrings" },
     "description": {
-      "str": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs. Claus style.",
-      "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
+      "str": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs Claus style.",
     },
     "weight": "400 mg",
     "volume": "1 ml",
@@ -2050,7 +2049,7 @@
     "weight": "50 g",
     "volume": "50 ml",
     "price_postapoc": 10,
-    "description": "A official badge for identification, authority and recognition of someone who portrait Santa Claus or Mrs. Claus.  This is a symbol of respect and care for those who once worked to keep the Christmas Spirit alive."
+    "description": "A official badge for identification, authority and recognition of someone who portrait Santa Claus or Mrs Claus.  This is a symbol of respect and care for those who once worked to keep the Christmas Spirit alive."
   },
   {
     "id": "fur_cat_ears",
