@@ -37,7 +37,7 @@
   {
     "id": "mon_pseudo_dormant_zombie",
     "type": "MONSTER",
-    "name": { "str": "reawakened zombie_d" },
+    "name": { "str": "dormant pseudo zombie" },
     "description": "Fake zombie used for spawning dormant zombies. If you see this, open an issue on github.",
     "copy-from": "mon_zombie",
     "hp": 5,
@@ -58,7 +58,7 @@
   {
     "id": "mon_zombie_reawakened",
     "type": "MONSTER",
-    "name": { "str": "reawakened zombie" },
+    "name": { "str": "zombie" },
     "copy-from": "mon_zombie",
     "description": "What you thought was a corpse suddenly gets up and starts walking with sinister intent.",
     "flags": [
