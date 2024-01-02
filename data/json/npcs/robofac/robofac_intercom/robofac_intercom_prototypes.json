@@ -245,7 +245,7 @@
         "text": "My phase immersion suit has taken a serious beating.  Could someone repair it for me?",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "phase_immersion_suit", "count": 1 } },
+            { "u_has_items": { "item": "phase_immersion_suit", "count": 1 } },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
           ]
         },
@@ -255,7 +255,7 @@
         "text": "My RM13 combat armor has taken some damage.  Could someone repair it for me?",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "rm13_armor", "count": 1 } },
+            { "u_has_items": { "item": "rm13_armor", "count": 1 } },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
           ]
         },
@@ -315,7 +315,7 @@
         "text": "I've found this piece of XEDRA tech; it seems to offer some kind of protection.  I'm curious what you all can make of it.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "dimensional_anchor", "count": 1 } },
+            { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             {
               "not": { "u_has_var": "u_completed_anchor_pt_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
@@ -382,10 +382,7 @@
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
             {
-              "or": [
-                { "u_has_items": { "u_spawn_item": "pamd68", "count": 1 } },
-                { "u_has_items": { "u_spawn_item": "pamd71z", "count": 1 } }
-              ]
+              "or": [ { "u_has_items": { "item": "pamd68", "count": 1 } }, { "u_has_items": { "item": "pamd71z", "count": 1 } } ]
             }
           ]
         },
@@ -460,7 +457,7 @@
     "responses": [
       {
         "text": "[6 HGC] Let's see what this armor is capable of.",
-        "condition": { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 6 } },
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 6 },
           { "u_spawn_item": "robofac_military_skirt" },
@@ -509,7 +506,7 @@
     "responses": [
       {
         "text": "[8 HGC] A week is fine.",
-        "condition": { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 8 } },
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 8 },
           { "u_add_faction_trust": 2 },
@@ -546,7 +543,7 @@
         "text": "[3 HGC] Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 3 } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
             { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" }
           ]
         },
@@ -563,7 +560,7 @@
         "text": "[2 HGC] Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 2 } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
             { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_basic" }
           ]
         },
@@ -580,7 +577,7 @@
         "text": "[4 HGC] Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 4 } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
             { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_nomex" }
           ]
         },
@@ -597,7 +594,7 @@
         "text": "[4 HGC] Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 4 } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
             {
               "u_has_var": "u_armor_type",
               "type": "dialogue",
@@ -619,7 +616,7 @@
         "text": "[12 HGC] Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 12 } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
             {
               "u_has_var": "u_armor_type",
               "type": "dialogue",
@@ -730,8 +727,6 @@
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
-          { "u_spawn_item": "robofac_armor_rig" },
-          { "u_spawn_item": "robofac_head_rig" },
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
           { "u_spawn_item": "robofac_military_greaves" },
@@ -811,7 +806,7 @@
     "responses": [
       {
         "text": "[1 HGC, suit] See you tomorrow.",
-        "condition": { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 1 } },
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
@@ -857,7 +852,7 @@
     "responses": [
       {
         "text": "[1 HGC, armor] See you tomorrow.",
-        "condition": { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 1 } },
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
@@ -900,8 +895,8 @@
         "text": "[2 HGC, anchor] See you in five days.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 2 } },
-            { "u_has_items": { "u_spawn_item": "dimensional_anchor", "count": 1 } }
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+            { "u_has_items": { "item": "dimensional_anchor", "count": 1 } }
           ]
         },
         "effect": [
@@ -947,9 +942,9 @@
         "text": "[1 HGC, anchor, MDS] I'll see you in two days.",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "RobofacCoin", "count": 1 } },
-            { "u_has_items": { "u_spawn_item": "dimensional_anchor", "count": 1 } },
-            { "u_has_items": { "u_spawn_item": "robofac_armor_rig", "count": 1 } }
+            { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+            { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
+            { "u_has_items": { "item": "robofac_armor_rig", "count": 1 } }
           ]
         },
         "effect": [
@@ -995,9 +990,9 @@
         "text": "[5 12.3ln, PA md. 68 magazine, PA md. 68] Is this what you need?",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "pamd68", "count": 1 } },
-            { "u_has_items": { "u_spawn_item": "exodiiBRmag", "count": 1 } },
-            { "u_has_items": { "u_spawn_item": "123ln", "count": 5 } }
+            { "u_has_items": { "item": "pamd68", "count": 1 } },
+            { "u_has_items": { "item": "exodiiBRmag", "count": 1 } },
+            { "u_has_items": { "item": "123ln", "count": 5 } }
           ]
         },
         "effect": [
@@ -1011,9 +1006,9 @@
         "text": "[5 12.3ln, PS md. 71z magazine, PS md. 71z] Is this what you need?",
         "condition": {
           "and": [
-            { "u_has_items": { "u_spawn_item": "pamd71z", "count": 1 } },
-            { "u_has_items": { "u_spawn_item": "exodiiminimag", "count": 1 } },
-            { "u_has_items": { "u_spawn_item": "123ln", "count": 5 } }
+            { "u_has_items": { "item": "pamd71z", "count": 1 } },
+            { "u_has_items": { "item": "exodiiminimag", "count": 1 } },
+            { "u_has_items": { "item": "123ln", "count": 5 } }
           ]
         },
         "effect": [
