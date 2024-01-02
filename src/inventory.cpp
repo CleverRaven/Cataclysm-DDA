@@ -44,7 +44,7 @@ static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_heroin( "heroin" );
-static const itype_id itype_ibuprofen( " ibuprofen" );
+static const itype_id itype_ibuprofen( "ibuprofen" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
