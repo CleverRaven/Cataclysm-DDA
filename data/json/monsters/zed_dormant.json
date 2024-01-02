@@ -38,7 +38,7 @@
     "id": "mon_pseudo_dormant_zombie",
     "type": "MONSTER",
     "name": { "str": "zombie" },
-    "description": "Fake zombie used for spawning dormant zombies. If you see this, open an issue on github.",
+    "description": "Fake zombie used for spawning dormant zombies.  If you see this, open an issue on github.",
     "copy-from": "mon_zombie",
     "hp": 5,
     "speed": 1,
