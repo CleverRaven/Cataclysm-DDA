@@ -237,7 +237,7 @@
       "place_monsters": [ { "monster": "GROUP_GENIUS_IERDE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 } ]
     }
   },
-   {
+  {
     "id": "mx_forest_pond_homullus",
     "type": "map_extra",
     "name": { "str": "Stand of trees" },
