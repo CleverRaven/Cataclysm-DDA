@@ -190,7 +190,7 @@ Effect                 | Description
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
 `remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
 `revive`               | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
-`revive_dormant`       | Revives a dormant monster. The monster must have the `REVIVES` AND the `DORMANT` flag.
+`revive_dormant`       | Revives a dormant monster.  The monster must have the `REVIVES` AND the `DORMANT` flag.
 `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
 `slime_split`          | The slime splits into two large or normal slimes, depending on mass.  Note: hardcoded for `mon_blob`-type enemies, check the monster `death_function` + spell `summon` combination.
 `spawn_item`           | Spawns an item that will disappear at the end of its duration.  Default duration is 0.
