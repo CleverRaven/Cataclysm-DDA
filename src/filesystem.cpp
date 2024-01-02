@@ -538,19 +538,30 @@ std::string ensure_valid_file_name( const std::string &file_name )
     } );
 
     return new_file_name;
+}
+
+bool is_lexically_valid( const fs::path& path ) {
+#if defined(_WIN32)
+    // Windows has strict rules for file naming
+    fs::path valid = path.root_path();
+    fs::path rel = path.relative_path();
     // "Do not end a file or directory name with a space or a period."
     // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
-    size_t shrink = 0;
-    for( auto it = new_file_name.rbegin(); it != new_file_name.rend(); ++it ) {
-        if( *it == ' ' || *it == '.' ) {
-            shrink++;
-        } else {
-            break;
+    for( auto &it : rel ) {
+        std::string item = it.generic_u8string();
+        for( auto ch = item.rbegin(); ch != item.rend(); ++ch) {
+            if( *ch == ' ' || *ch == '.' ) {
+                return false;
+            } else {
+                break;
+            }
+        }
+        for( auto &it : item ) {
+            if( invalid_chars.find( it ) != std::string::npos ) {
+                return false;
+            }
         }
     }
-    if( shrink > 0 ) {
-        new_file_name.resize( new_file_name.size() - shrink );
-    }
-    return wstr_to_utf8( new_file_name );
 #endif
+    return true;
 }
