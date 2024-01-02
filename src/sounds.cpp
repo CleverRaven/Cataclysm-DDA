@@ -482,7 +482,7 @@ void sounds::process_sounds()
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
             }
         }
-        // Trigger sound-triggered traps
+        // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
             for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
                 const int dist = sound_distance( source, tp );
