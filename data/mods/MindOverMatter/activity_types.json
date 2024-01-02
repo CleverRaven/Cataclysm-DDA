@@ -6,5 +6,12 @@
     "interruptable": false,
     "verb": "meditating",
     "based_on": "time"
+  },
+  {
+    "id": "ACT_PSI_LEARNING_NEW_POWER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time"
   }
 ]

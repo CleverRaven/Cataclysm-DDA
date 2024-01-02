@@ -84,7 +84,7 @@
         "|,,,,,,,,,,,,,,,,,,,,,,.^|ffffffffffGfffffffffffffffffffffffffffffffff  ",
         "||wwww|||||wwww|||||wwww||                                              "
       ],
-      "palettes": [ "school_palette" ],
+      "palettes": [ "nohope_school_palette" ],
       "place_items": [  ],
       "place_item": [ { "item": "american_flag", "x": 36, "y": 56, "amount": 1 } ],
       "place_monsters": [
@@ -187,7 +187,7 @@
         "|~~~~~~~~~~~~~~~~~~~H...^|**********************************************",
         "||wwww|||||wwww|||||wwww||**********************************************"
       ],
-      "palettes": [ "school_palette" ],
+      "palettes": [ "nohope_school_palette" ],
       "place_items": [  ],
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
@@ -284,7 +284,7 @@
         "1zzzzzzzzzzzzzzzzzzzzzzzz2**********************************************",
         "54444444444444444444444445**********************************************"
       ],
-      "palettes": [ "school_palette" ],
+      "palettes": [ "nohope_school_palette" ],
       "place_items": [  ],
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
@@ -381,7 +381,7 @@
         "************************************************************************",
         "************************************************************************"
       ],
-      "palettes": [ "school_palette" ],
+      "palettes": [ "nohope_school_palette" ],
       "place_items": [  ],
       "place_nested": [
         { "chunks": [ [ "roof_16x16_help", 5 ], [ "null", 25 ] ], "x": [ 48, 54 ], "y": [ 6, 8 ] },
@@ -400,7 +400,7 @@
   },
   {
     "type": "palette",
-    "id": "school_palette",
+    "id": "nohope_school_palette",
     "terrain": {
       "*": "t_open_air",
       "~": "t_open_air_rooved",

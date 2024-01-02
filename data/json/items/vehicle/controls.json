@@ -148,5 +148,53 @@
     "price": 500000,
     "price_postapoc": 3000,
     "copy-from": "vehicle_controls"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hand_controls",
+    "name": { "str_sp": "hand controls" },
+    "description": "An accessibility tool for the paraplegic or very short, this is a simple pair of metal tubes that clamp to a vehicle's gas and brake pedals, allowing them to be operated by hand with the help of a trigger.",
+    "weight": "1200 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "volume": "740 ml",
+    "category": "veh_parts",
+    "price": 40000,
+    "price_postapoc": 40,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pedal_extenders",
+    "name": { "str_sp": "pedal extenders" },
+    "description": "These thick rubber pads can clamp securely onto a vehicle's gas and brake pedals, allowing even very short people to drive a car.",
+    "weight": "1200 g",
+    "to_hit": -1,
+    "color": "black",
+    "symbol": ",",
+    "material": [ "rubber", "steel" ],
+    "volume": "740 ml",
+    "category": "veh_parts",
+    "price": 10000,
+    "price_postapoc": 40,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pedal_extenders_makeshift",
+    "name": { "str_sp": "makeshift pedal extenders" },
+    "description": "It is probably not a great idea, but if you wanted to, you could tape these blocks to a vehicle's gas and brake pedals so that a kid or very short adult could drive.",
+    "weight": "388 g",
+    "to_hit": -1,
+    "color": "brown",
+    "symbol": ",",
+    "material": [ "wood" ],
+    "volume": "656 ml",
+    "category": "veh_parts",
+    "price": 2000,
+    "price_postapoc": 20,
+    "melee_damage": { "bash": 1 }
   }
 ]

@@ -220,6 +220,12 @@
   },
   {
     "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "LARGE_DRAGON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE_DRAGON",
     "flags": [ "LARGE" ],
     "name": { "str": "Inconvenient Draconic Growth" },

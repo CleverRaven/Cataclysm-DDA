@@ -678,9 +678,9 @@ bool vehicle::start_engine( vehicle_part &vp )
         return false;
     }
 
+    Character &player_character = get_player_character();
     const bool out_of_fuel = !auto_select_fuel( vp );
     if( out_of_fuel ) {
-        Character &player_character = get_player_character();
         if( vpi.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
             if( vpi.has_flag( "MUSCLE_ARMS" ) && !player_character.has_two_arms_lifting() ) {
@@ -695,6 +695,20 @@ bool vehicle::start_engine( vehicle_part &vp )
                      item::nname( vpi.fuel_type ) );
             return false;
         }
+    }
+
+    if( has_part( player_character.pos(), "NEED_LEG" ) &&
+        player_character.get_working_leg_count() < 1 &&
+        !has_part( player_character.pos(), "IGNORE_LEG_REQUIREMENT" ) ) {
+        add_msg( _( "You need at least one leg to control the %s." ), vp.name() );
+        return false;
+    }
+    if( has_part( player_character.pos(), "INOPERABLE_SMALL" ) &&
+        ( player_character.get_size() == creature_size::small ||
+          player_character.get_size() == creature_size::tiny ) &&
+        !has_part( player_character.pos(), "IGNORE_HEIGHT_REQUIREMENT" ) ) {
+        add_msg( _( "You are too short to reach the pedals!" ) );
+        return false;
     }
 
     const double dmg = vp.damage_percent();

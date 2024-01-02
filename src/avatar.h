@@ -191,6 +191,10 @@ class avatar : public Character
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
+        /**
+         * Returns true if character has the mission in their active missions list.
+         */
+        bool has_mission_id( const mission_type_id &miss_id );
 
         void remove_active_mission( mission &cur_mission );
 

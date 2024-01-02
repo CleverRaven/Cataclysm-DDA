@@ -8,12 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "biokin_physical_enhance", 2 ],
-      [ "biokin_overcome_pain", 2 ],
-      [ "biokin_flexibility", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
