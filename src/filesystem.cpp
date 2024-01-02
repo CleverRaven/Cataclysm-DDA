@@ -85,19 +85,6 @@ std::string as_norm_dir( const std::string &path )
 {
     fs::path dir = fs::u8path( path ) / fs::path{};
     fs::path norm = dir.lexically_normal();
-#ifdef _WIN32
-    {
-        // Windows has strict rules for file naming
-        fs::path valid = norm.root_path();
-        fs::path rel = norm.relative_path();
-        for( auto &it : rel ) {
-            std::string item = it.generic_u8string();
-            item = ensure_valid_file_name( item );
-            valid /= utf8_to_wstr( item );
-        }
-        norm = valid;
-    }
-#endif
     std::string ret = norm.generic_u8string();
     if( "." == ret ) {
         ret = "./"; // TODO Change the many places that use strings instead of paths
@@ -540,7 +527,6 @@ std::string ensure_valid_file_name( const std::string &file_name )
     static const std::string invalid_chars = "\\/:?\"<>|";
 
     // do any replacement in the file name, if needed.
-#ifndef _WIN32
     std::string new_file_name = file_name;
     std::transform( new_file_name.begin(), new_file_name.end(),
     new_file_name.begin(), [&]( const char c ) {
@@ -551,16 +537,6 @@ std::string ensure_valid_file_name( const std::string &file_name )
     } );
 
     return new_file_name;
-#else // _WIN32
-    std::wstring new_file_name = utf8_to_wstr( file_name );
-    static const std::wstring winvalid_chars = utf8_to_wstr( invalid_chars );
-    std::transform( new_file_name.begin(), new_file_name.end(),
-    new_file_name.begin(), [&]( const wchar_t c ) {
-        if( winvalid_chars.find( c ) != std::wstring::npos ) {
-            return wchar_t( replacement_char );
-        }
-        return c;
-    } );
     // "Do not end a file or directory name with a space or a period."
     // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
     size_t shrink = 0;
