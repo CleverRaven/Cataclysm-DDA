@@ -159,23 +159,6 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
-    "id": "bag_santa",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "Santa's toy sack" },
-    "description": "A large and sturdy red canvas sack for storing a lot of toys for children (or a lot of canned goods).  Preferred by bearded men on Christmas for gifting the good-behaved.",
-    "weight": "1000 g",
-    "volume": "3000 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "90 L", "max_contains_weight": "150 kg", "moves": 300 } ],
-    "symbol": ")",
-    "color": "red",
-    "flags": [ "COLLAPSE_CONTENTS" ]
-  },
-  {
     "id": "bag_canvas_small",
     "type": "GENERIC",
     "category": "container",
