@@ -729,6 +729,11 @@
     "weight": "122 g",
     "volume": "270 ml",
     "price_postapoc": 350,
+    "to_hit": 1,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "looks_like": "gloves_leather",
     "armor": [
       {
         "coverage": 75,

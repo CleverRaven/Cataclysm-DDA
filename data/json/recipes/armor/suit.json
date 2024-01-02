@@ -1656,7 +1656,7 @@
     "time": "4 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_denim_patchwork", 14 ] ]
+    "using": [ [ "tailoring_denim_patchwork", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {

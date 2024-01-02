@@ -1287,7 +1287,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standart", 30 ], [ "tailoring_cotton_patchwork", 4 ], [ "button", 5 ] ]
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_cotton_patchwork", 4 ], [ "button", 5 ] ]
   },
   {
     "result": "lsurvivor_armor",

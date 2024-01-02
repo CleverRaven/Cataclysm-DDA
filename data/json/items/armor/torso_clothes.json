@@ -557,7 +557,7 @@
     "name": { "str": "denim shirt" },
     "description": "A long sleeved button-down shirt made from denim.",
     "//": "This is for 12 oz denim shirt, which I found to be average",
-    "weight": "370 gr",
+    "weight": "370 g",
     "volume": "900 ml",
     "price": 5000,
     "price_postapoc": 50,

@@ -363,7 +363,7 @@
     "byproducts": [ [ "leather", 1 ] ]
   },
   {
-    "result": "skirt_demin",
+    "result": "skirt_denim",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",

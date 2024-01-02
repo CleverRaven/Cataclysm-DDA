@@ -530,11 +530,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "difficulty": 0,
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ "gloves_denim", 1 ] ],
+    "components": [ [ [ "gloves_denim", 1 ] ] ],
     "byproducts": [ [ "scrap_denim", 10 ] ]
   },
   {

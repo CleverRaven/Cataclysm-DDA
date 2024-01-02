@@ -1677,7 +1677,7 @@
     "looks_like": "coat_rain",
     "symbol": "[",
     "color": "blue",
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "warmth": 40,
     "material_thickness": 0.6
