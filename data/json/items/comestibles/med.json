@@ -134,7 +134,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some aspirin.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 720 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
   },
@@ -157,7 +157,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some ibuprofen.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 720 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 216 ] ]
   },
@@ -180,7 +180,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some naproxen.",
-      "effects": [ { "id": "pkill1_nsaid", "duration": 1500 } ]
+      "effects": [ { "id": "pkill1_nsaid", "duration": 18000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 432 ] ]
   },
@@ -203,7 +203,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some acetaminophen.",
-      "effects": [ { "id": "pkill1_acetaminophen", "duration": 720 } ]
+      "effects": [ { "id": "pkill1_acetaminophen", "duration": 9000 } ]
     }
   },
   {
