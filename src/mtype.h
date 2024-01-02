@@ -130,16 +130,6 @@ struct monster_death_effect {
     void deserialize( const JsonObject &data );
 };
 
-struct monster_spawn_effect {
-    bool was_loaded = false;
-    bool has_effect = false;
-    fake_spell sp;
-    translation spawn_message;
-
-    void load( const JsonObject &jo );
-    void deserialize( const JsonObject &data );
-};
-
 struct mount_item_data {
     /**
      * If this monster is a rideable mount that spawns with a tied item (leash), this is the tied item id
@@ -273,7 +263,6 @@ struct mtype {
 
     public:
         monster_death_effect mdeath_effect;
-        monster_spawn_effect mspawn_effect;
         ::weakpoints weakpoints;
 
     private:
