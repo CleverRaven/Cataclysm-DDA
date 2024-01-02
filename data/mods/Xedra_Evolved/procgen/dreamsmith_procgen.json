@@ -5,10 +5,10 @@
     "passive_add_procgen_values": [
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
+        "min_value": 1,
+        "max_value": 20,
         "type": "ATTACK_SPEED",
-        "increment": -1,
+        "increment": 1,
         "power_per_increment": 150,
         "ench_has": "WIELD"
       },
@@ -171,9 +171,9 @@
       {
         "weight": 100,
         "min_value": 0,
-        "max_value": -0.2,
+        "max_value": 0.2,
         "type": "ATTACK_SPEED",
-        "increment": -0.1,
+        "increment": 0.1,
         "power_per_increment": 2000,
         "ench_has": "WIELD"
       },
