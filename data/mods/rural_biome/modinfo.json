@@ -8,6 +8,7 @@
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.1",
-    "obsolete": true
+    "obsolete": true,
+    "//": "should not be deleted until actual biomes exist in the game"
   }
 ]
