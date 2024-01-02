@@ -1245,6 +1245,10 @@ bool mattack::resurrect( monster *z )
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
+        // check to ensure that we destroy any dormant zombie traps in the same tile.
+        if( here.tr_at( raised.first ) == trap_id( "tr_dormant_corpse" ) ) {
+            here.remove_trap( raised.first );
+        }
         if( sees_necromancer ) {
             add_msg( m_info, _( "You feel a strange pulse of energy from the %s." ), z->name() );
         }
