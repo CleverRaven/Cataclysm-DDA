@@ -62,7 +62,7 @@
     "//": "This zombie 'corpse' looks eerily like it could get up and start walking at any moment.",
     "color": "light_green",
     "symbol": "Z",
-    "visibility": 6,
+    "visibility": 8,
     "avoidance": 20,
     "difficulty": 99,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY", "PROXIMITY" ],
