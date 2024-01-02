@@ -309,7 +309,7 @@
       ]
     }
   },
- {
+  {
     "id": "mx_forest_pond_avore",
     "type": "map_extra",
     "name": { "str": "basin" },
