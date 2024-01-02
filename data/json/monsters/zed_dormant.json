@@ -89,12 +89,26 @@
     "visibility": 3,
     "avoidance": 20,
     "difficulty": 99,
-    "flags": [ "UNDODGEABLE", "AVATAR_ONLY", "PROXIMITY", "REVIVES_HEALTHY" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY", "PROXIMITY" ],
     "action": "spell",
     "spell_data": { "id": "wake_up_dormant" },
     "trigger_message_u": "A zombie rises from the ground!",
     "trigger_message_npc": "A zombie rises from the ground!",
-    "sound_threshold": [ 15, 25 ]
+    "sound_threshold": [ 10, 20 ]
+  },
+  {
+    "type": "SPELL",
+    "id": "cause_loud_moaning",
+    "name": { "str": "cause loud moaning" },
+    "description": "you should not see this. causes loud noise.",
+    "valid_targets": [ "ground", "ally" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "noise",
+    "flags": [ "NO_EXPLOSION_SFX", "LOUD" ],
+    "sound_type": "combat",
+    "sound_id": "melee_attack",
+    "sound_variant": "monster_melee_hit"
   },
   {
     "type": "SPELL",
@@ -103,12 +117,13 @@
     "description": "you should not see this. Causes all dormant corpses in the tile to revive.",
     "valid_targets": [ "ground" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
     "base_casting_time": 1,
     "shape": "blast",
-    "min_aoe": 3,
-    "max_aoe": 3,
+    "min_aoe": 1,
+    "max_aoe": 1,
     "effect": "revive_dormant",
-    "effect_str": "ZOMBIE"
+    "effect_str": "ZOMBIE",
+    "extra_effects": [ { "id": "cause_loud_moaning" } ]
   }
 ]

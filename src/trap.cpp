@@ -323,18 +323,7 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
 
 void trap::trigger( const tripoint &pos ) const
 {
-    item *chosen_corpse = nullptr;
-    ::map &here = get_map();
-    for( item &corpse : here.i_at( pos ) ) {
-        const mtype *mt = corpse.get_mtype();
-        if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active ) ) {
-            continue;
-        }
-        chosen_corpse = &corpse;
-        break;
-    }
-    // chosen corpse doesn't actually do anything, but needed to not break code below.
-    return trigger( pos, nullptr, chosen_corpse );
+    act( pos, nullptr, nullptr );
 }
 
 void trap::trigger( const tripoint &pos, Creature &creature ) const
@@ -392,6 +381,9 @@ bool trap::triggered_by_sound( int vol, int dist ) const
     const int sound_min = sound_threshold.first;
     const int sound_max = sound_threshold.second;
     const int sound_range = sound_max - sound_min;
+    if( sound_range <= 0 ) {
+        return false;
+    }
     if( volume < sound_min ) {
         return false;
     }
