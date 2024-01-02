@@ -142,9 +142,9 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "ARMOR_BASH", "add": 8.0 },
-          { "value": "ARMOR_CUT", "add": 8.0 },
-          { "value": "ARMOR_BULLET", "add": 8.0 },
+          { "value": "ARMOR_BASH", "add": -8.0 },
+          { "value": "ARMOR_CUT", "add": -8.0 },
+          { "value": "ARMOR_BULLET", "add": -8.0 },
           { "value": "ARMOR_ACID", "multiply": 0.0 }
         ]
       }
