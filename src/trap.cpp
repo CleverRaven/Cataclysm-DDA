@@ -320,6 +320,9 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
 
 void trap::trigger( const tripoint &pos ) const
 {
+    if( is_null() ) {
+        return;
+    }
     act( pos, nullptr, nullptr );
 }
 
