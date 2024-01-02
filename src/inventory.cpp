@@ -354,7 +354,13 @@ extern void remove_stale_inventory_quick_shortcuts();
 item *inventory::provide_pseudo_item( const item &tool )
 {
     if( !provisioned_pseudo_tools.insert( tool.typeId() ).second ) {
-        return nullptr; // already provided tool -> bail out
+        // already provided tool -> return existing
+        for( auto &stack : items ) {
+            if( stack.front().typeId() == tool.typeId() ) {
+                return &stack.front();
+            }
+        }
+        return nullptr;
     }
     item *res = &add_item( tool );
     res->set_flag( flag_PSEUDO );

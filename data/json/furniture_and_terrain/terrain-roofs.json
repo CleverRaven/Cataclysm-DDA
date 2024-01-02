@@ -66,7 +66,7 @@
     "name": "gutter drop",
     "description": "A spot in the gutter where the water flows into a downspout.  It looks flimsy.  You may be able to climb down here.",
     "symbol": "o",
-    "looks_like": "t_gutter_north",
+    "looks_like": "t_gutter",
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],

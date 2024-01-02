@@ -3204,8 +3204,11 @@ void unload_activity_actor::start( player_activity &act, Character & )
 
 void unload_activity_actor::finish( player_activity &act, Character &who )
 {
+    // Need to copy `target` here because `::unload` is static and `this` might be invalidated
+    // after `act.set_to_null()` has been called (so `this.target` might also be invalidated)
+    item_location target_copy = target;
     act.set_to_null();
-    unload( who, target );
+    unload( who, target_copy );
 }
 
 void unload_activity_actor::unload( Character &who, item_location &target )

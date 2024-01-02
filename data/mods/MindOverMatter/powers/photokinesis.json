@@ -498,6 +498,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
