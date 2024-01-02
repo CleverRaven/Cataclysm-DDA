@@ -1713,7 +1713,7 @@ void monster_spawn_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "message", spawn_message, to_translation( "The %s appears!" ) );
     optional( jo, was_loaded, "effect", sp );
     has_effect = sp.is_valid();
-    if (!has_effect) {
+    if( !has_effect ) {
         debugmsg( "monster_spawn_effect has no effect" );
     }
 }

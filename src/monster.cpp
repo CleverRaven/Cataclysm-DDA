@@ -724,13 +724,13 @@ void monster::spawn( const tripoint &p )
     set_pos_only( p );
     unset_dest();
 
-    // should never happen for dormants but why not support it 
-    add_msg_if_player_sees(*this, m_good, type->mspawn_effect.spawn_message.translated(), name());
+    // should never happen for dormants but why not support it
+    add_msg_if_player_sees( *this, m_good, type->mspawn_effect.spawn_message.translated(), name() );
 
-    if (type->mspawn_effect.has_effect) {
+    if( type->mspawn_effect.has_effect ) {
         //Not a hallucination, go process the spawn effects.
-        spell spawn_spell = type->mspawn_effect.sp.get_spell(*this);
-        spawn_spell.cast_all_effects(*this, pos());
+        spell spawn_spell = type->mspawn_effect.sp.get_spell( *this );
+        spawn_spell.cast_all_effects( *this, pos() );
     }
 }
 
@@ -739,13 +739,13 @@ void monster::spawn( const tripoint_abs_ms &loc )
     set_location( loc );
     unset_dest();
 
-    // should never happen for dormants but why not support it 
-    add_msg_if_player_sees(*this, m_good, type->mspawn_effect.spawn_message.translated(), name());
+    // should never happen for dormants but why not support it
+    add_msg_if_player_sees( *this, m_good, type->mspawn_effect.spawn_message.translated(), name() );
 
-    if (type->mspawn_effect.has_effect) {
+    if( type->mspawn_effect.has_effect ) {
         //Not a hallucination, go process the spawn effects.
-        spell spawn_spell = type->mspawn_effect.sp.get_spell(*this);
-        spawn_spell.cast_all_effects(*this, pos());
+        spell spawn_spell = type->mspawn_effect.sp.get_spell( *this );
+        spawn_spell.cast_all_effects( *this, pos() );
     }
 }
 

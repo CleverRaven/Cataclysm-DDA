@@ -1479,8 +1479,8 @@ void spell_effect::add_trap( const spell &sp, Creature &caster, const tripoint &
 {
     ::map &here = get_map();
     const trap_id tr_id( sp.effect_data() );
-    if( here.tr_at(target) == tr_null ) {
-        here.trap_set(target, tr_id );
+    if( here.tr_at( target ) == tr_null ) {
+        here.trap_set( target, tr_id );
     }
 }
 
