@@ -5165,18 +5165,15 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 you.moves -= 100;
                 return;
             }
-            // The WING_GLIDE trait flag implies wings. GLIDE is to be used for things such as artifacts,
-            // spells in mods etc. where characters are gliding without the use of wings.
-            if( ( you.has_effect( effect_winded ) || you.get_str() < 4 ) && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
-                add_msg( m_warning, _( "You are too weak to take wing." ) );
-            } else if( you.get_working_arm_count() < 1 && you.has_trait_flag( json_flag_WING_ARMS ) ) {
-                add_msg( m_warning, _( "You won't make it far without functional wings." ) );
-            } else if( 100 * you.weight_carried() / you.weight_capacity() > 50 && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+            // The carried weight check here is redundant, but we do it anyway for better player feedback
+            if( 100 * you.weight_carried() / you.weight_capacity() > 50 && you.has_trait_flag( json_flag_WING_GLIDE ) ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
+            } else if( !you.can_fly() ) {
+                add_msg( m_warning, _( "You are too weak to get airborne." ) );
             } else {
                 int glide_distance = 4;
                 const weather_manager &weather = get_weather();
-                add_msg( m_info, _( "You glide away from the ledge." ) );
+                add_msg( m_info, _( "You soar away from the ledge." ) );
                 int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
                 // Handle cases where the difference wraps around due to compass directions
                 angledifference = std::min( angledifference, 360 - angledifference );
@@ -5190,7 +5187,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     glide_distance -= 1;
                 }
                 if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
-                    add_msg( m_warning, _( "diagonal jump detected." ) );
                     glide_distance = std::round(0.7 * glide_distance);
                 } 
                 you.as_avatar()->grab( object_type::NONE );
