@@ -1519,7 +1519,8 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
     Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
     if( creature_ahead && creature_ahead->get_size() >= creature_size::medium ) {
         // Zombies are too stupid to avoid midair collision
-        if( !you.dodge_check( 25, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) && !creature_ahead->dodge_check( 25, true ) ) ) {
+        if( !you.dodge_check( 25, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
+                                              !creature_ahead->dodge_check( 25, true ) ) ) {
             you.add_msg_player_or_npc( m_bad,
                                        _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                        _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
@@ -1600,11 +1601,8 @@ std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &js
 
     return actor.clone();
 }
-void glide_activity_actor::start( player_activity &act, Character &you )
+void glide_activity_actor::start( player_activity &act, Character & )
 {
-    you.add_msg_player_or_npc( m_good,
-                               _( "You take wing." ),
-                               _( "<npcname> takes wing." ) );
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }

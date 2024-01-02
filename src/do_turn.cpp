@@ -447,7 +447,8 @@ bool do_turn()
     // Make sure players cant defy gravity by standing still, Looney tunes style.
     u.gravity_check();
 
-    if( m.impassable( u.pos() ) ) {
+    // If you're inside a wall or something and haven't been telefragged, let's get you out.
+    if( m.impassable( u.pos() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
         u.stagger();
     }
 

@@ -358,7 +358,7 @@ class glide_activity_actor : public activity_actor
             return activity_id( "ACT_GLIDE" );
         }
 
-        void start( player_activity &act, Character &you ) override;
+        void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &act, Character &you ) override;
 

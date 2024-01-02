@@ -11074,8 +11074,8 @@ void Character::stagger()
             vehicle &veh = vp_there->vehicle();
             if( veh.enclosed_at( dest ) ) {
                 blocked = true;
-                }
-            } 
+            }
+        }
         if( here.passable( dest ) && !blocked &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
             add_msg_player_or_npc( m_warning,
@@ -12542,8 +12542,10 @@ bool Character::can_fly()
     if( has_trait_flag( json_flag_GLIDE ) ) {
         return true;
     }
-    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) || has_trait_flag( json_flag_WING_GLIDE ) ) &&
-        ( 100 * weight_carried() / weight_capacity() > 50 || get_str() < 4 || has_effect( effect_winded ) ) ) {
+    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ||
+          has_trait_flag( json_flag_WING_GLIDE ) ) &&
+        ( 100 * weight_carried() / weight_capacity() > 50 || get_str() < 4 ||
+          has_effect( effect_winded ) ) ) {
         return false;
     }
     if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
