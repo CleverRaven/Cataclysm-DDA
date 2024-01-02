@@ -381,15 +381,15 @@ bool trap::triggered_by_sound( int vol, int dist ) const
     const int sound_min = sound_threshold.first;
     const int sound_max = sound_threshold.second;
     const int sound_range = sound_max - sound_min;
-    if( sound_range <= 0 ) {
-        return false;
-    }
     if( volume < sound_min ) {
         return false;
     }
-    const int sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
+    int sound_chance = 100;
+    if( sound_range > 0 ) {
+        int sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
+    }
     //debugmsg("Sound chance: %d%%", sound_chance);
-    return !is_null() && ( rng( 0, 100 ) < sound_chance );
+    return !is_null() && ( rng( 0, 100 ) <= sound_chance );
 }
 
 void trap::on_disarmed( map &m, const tripoint &p ) const
