@@ -20,7 +20,7 @@
     "type": "item_group",
     "id": "NC_FARMER_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "boots", "prob": 100 } ]
+    "entries": [ { "item": "boots", "prob": 90 }, { "item": "boots_denim", "prob": 10 } ]
   },
   {
     "type": "item_group",
