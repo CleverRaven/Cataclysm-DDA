@@ -17,9 +17,7 @@
 
 #if defined(_WIN32)
 #   include "platform_win.h"
-#endif
 
-static const std::string invalid_chars = "\\/:?\"<>|";
 static const std::array invalid_names = {
     std::string_view( "CON" ),
     std::string_view( "PRN" ),
@@ -48,6 +46,10 @@ static const std::array invalid_names = {
     std::string_view( "LPT9" ),
     std::string_view( "LPT" )
 };
+#endif
+
+
+static const std::string invalid_chars = "\\/:?\"<>|";
 
 bool assure_dir_exist( const std::string &path )
 {
