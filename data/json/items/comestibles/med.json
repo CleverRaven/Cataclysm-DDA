@@ -295,7 +295,6 @@
     "symbol": "!",
     "color": "light_green",
     "container": "bottle_plastic_pill_painkiller",
-    "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some sertraline." },
     "vitamins": [ [ "vit_ssri_antidepressant_pre", 216 ] ]
@@ -314,7 +313,6 @@
     "symbol": "!",
     "color": "light_green",
     "container": "bottle_plastic_pill_painkiller",
-    "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some venlafaxine." },
     "vitamins": [ [ "vit_snri_antidepressant_pre", 216 ] ]
@@ -331,9 +329,9 @@
     "price_postapoc": "50 cent",
     "material": [ "drug_filler" ],
     "symbol": "!",
+    "stim": 6,
     "color": "light_green",
     "container": "bottle_plastic_pill_painkiller",
-    "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some bupropion." },
     "vitamins": [ [ "vit_ndri_antidepressant_pre", 216 ] ]
