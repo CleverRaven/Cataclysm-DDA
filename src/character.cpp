@@ -363,11 +363,6 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
-static const mon_flag_str_id mon_flag_COMBAT_MOUNT( "COMBAT_MOUNT" );
-static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
-static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
 
@@ -10940,20 +10935,12 @@ void Character::process_effects()
                     ( size == creature_size::medium && free_cargo < 62500_ml ) ||
                     ( size == creature_size::large && free_cargo < 125000_ml ) ||
                     ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    if( !has_effect( effect_cramped_space ) ) {
-                        add_effect( effect_cramped_space, 2_turns, true );
-                    }
                     is_cramped_space = true;
-                    return;
                 }
             }
             if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
                 !vp.part_with_feature( "HUGE_OK", false ) ) {
-                if( !has_effect( effect_cramped_space ) ) {
-                    add_effect( effect_cramped_space, 2_turns, true );
-                }
                 is_cramped_space = true;
-                return;
             }
         }
         if( !is_cramped_space ) {

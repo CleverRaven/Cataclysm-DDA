@@ -35,12 +35,6 @@
       "math": [
         "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_see_electric') * 6)), 80)"
       ]
-    },
-    "learn_spells": {
-      "electrokinetic_personal_battery": 7,
-      "electrokinetic_reduce_pain": 12,
-      "electrokinetic_speed_boost": 14,
-      "electrokinetic_revive": 21
     }
   },
   {
@@ -53,7 +47,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -73,6 +67,8 @@
     },
     "min_range": 1,
     "max_range": 1,
+    "min_duration": 100,
+    "max_duration": 300,
     "field_id": "fd_electricity",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
@@ -86,13 +82,7 @@
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_description": "zzzaaaaapp!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": {
-      "electrokinetic_melee_attacks": 6,
-      "electrokinetic_paralysis": 8,
-      "electrokinetic_lightning_bolt": 12,
-      "electrokinetic_lightning_blast": 20
-    }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_zap_enemies",
@@ -113,12 +103,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_zap_enemies') * 8000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_zap_enemies') * 8000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_zap_enemies') * 24000) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_zap_enemies') * 22500) + 80000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -127,13 +117,7 @@
     "energy_increment": -120,
     "base_casting_time": 125,
     "final_casting_time": 45,
-    "casting_time_increment": -5,
-    "learn_spells": {
-      "electrokinetic_personal_battery": 8,
-      "electrokinetic_reduce_pain": 10,
-      "electrokinetic_paralysis": 13,
-      "electrokinetic_lightning_aura": 18
-    }
+    "casting_time_increment": -5
   },
   {
     "id": "electrokinetic_melee_attacks",
@@ -154,22 +138,21 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_melee_attacks') * 6500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_melee_attacks') * 5500) + 24000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_melee_attacks') * 21000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_melee_attacks') * 9000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
+    "base_energy_cost": 3750,
     "final_energy_cost": 1450,
     "energy_increment": -115,
-    "base_casting_time": 125,
-    "final_casting_time": 45,
-    "casting_time_increment": -5,
-    "learn_spells": { "electrokinetic_paralysis": 8, "electrokinetic_lightning_blast": 18 }
+    "base_casting_time": 85,
+    "final_casting_time": 35,
+    "casting_time_increment": -6
   },
   {
     "id": "electrokinetic_personal_battery",
@@ -208,8 +191,7 @@
       "math": [
         "u_effect_intensity('effect_electrokin_personal_battery') > 0 ? 10 : max((350 -(u_spell_level('electrokinetic_personal_battery') * 9)), 150)"
       ]
-    },
-    "learn_spells": { "electrokinetic_recharge_vehicle": 9, "electrokinetic_kill_robot": 14 }
+    }
   },
   {
     "id": "electrokinetic_paralysis",
@@ -228,15 +210,15 @@
     "effect_str": "stunned",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
-    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
+    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.15 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 10000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 10000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -252,13 +234,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": {
-      "electrokinetic_reduce_pain": 7,
-      "electrokinetic_speed_boost": 9,
-      "electrokinetic_pain_immune": 12,
-      "electrokinetic_revive": 16
-    }
+    "ignored_monster_species": [ "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "PLANT", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_reduce_pain",
@@ -296,12 +272,6 @@
       "math": [
         "u_effect_intensity('effect_electrokin_reduce_pain') > -1 ? 10 : max((125 -(u_spell_level('electrokinetic_reduce_pain') * 4)), 75)"
       ]
-    },
-    "learn_spells": {
-      "electrokinetic_personal_battery": 7,
-      "electrokinetic_pain_immune": 10,
-      "electrokinetic_speed_boost": 14,
-      "electrokinetic_revive": 21
     }
   },
   {
@@ -350,8 +320,7 @@
     "casting_time_increment": -6,
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "electrokinetic_kill_robot": 7, "electrokinetic_lightning_aura": 12, "electrokinetic_lightning_blast": 14 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "electrokinetic_recharge_vehicle",
@@ -390,7 +359,7 @@
     "id": "electrokinetic_pain_immune",
     "type": "SPELL",
     "name": "[Ψ]Analgesic Block",
-    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-Acceleration.",
+    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-acceleration.",
     "message": "The pain just…disappears.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -416,7 +385,7 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 1750,
-    "energy_increment": -155,
+    "energy_increment": -125,
     "base_casting_time": 75,
     "final_casting_time": 25,
     "casting_time_increment": -4.5
@@ -446,18 +415,17 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_speed_boost') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_speed_boost') * 2700) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
     "energy_source": "STAMINA",
     "base_energy_cost": 6000,
     "final_energy_cost": 2750,
-    "energy_increment": -185,
+    "energy_increment": -135,
     "base_casting_time": 165,
     "final_casting_time": 75,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "electrokinetic_revive": 12 }
+    "casting_time_increment": -5.5
   },
   {
     "id": "electrokinetic_kill_robot",
@@ -495,8 +463,7 @@
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
     "targeted_monster_species": [ "CYBORG", "ROBOT" ],
-    "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ],
-    "learn_spells": { "electrokinetic_lightning_blast": 8 }
+    "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ]
   },
   {
     "id": "electrokinetic_kill_robot_sparks",
@@ -559,8 +526,7 @@
     "energy_increment": -200,
     "base_casting_time": 150,
     "final_casting_time": 55,
-    "casting_time_increment": -8.5,
-    "learn_spells": { "electrokinetic_lightning_blast": 8 }
+    "casting_time_increment": -8.5
   },
   {
     "id": "electrokinetic_lightning_blast",
@@ -610,7 +576,7 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4000,
-    "energy_increment": -150,
+    "energy_increment": -100,
     "base_casting_time": 150,
     "final_casting_time": 65,
     "casting_time_increment": -6,
@@ -688,7 +654,7 @@
     "max_range": 50,
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
-    "final_energy_cost": 4500,
+    "final_energy_cost": 6000,
     "energy_increment": -150,
     "base_casting_time": 250,
     "final_casting_time": 125,
