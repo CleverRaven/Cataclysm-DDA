@@ -1,53 +1,9 @@
 [
   {
-    "//": "collapsed hallway",
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "lab_1side" ],
-    "weight": 25,
-    "object": {
-      "fill_ter": "t_thconc_floor",
-      "rows": [
-        "|----------..----------|",
-        "|         |..|         |",
-        "|         |..|         |",
-        "|         |..|         |",
-        "|         |..|         |",
-        "|         +..+         |",
-        "|         |..|         |",
-        "|         |..|         |",
-        "|         |..|         |",
-        "|         |..|         |",
-        "|---------|..|---------|",
-        "#####^^..............^##",
-        "#######^...........^^###",
-        "#####-----|..|--------##",
-        "###^^^....|..|##########",
-        "|#^.......|..|##########",
-        "|^........|..|##########",
-        "|.........|..|##########",
-        "|^........+.^###########",
-        "##^^...^^^|^############",
-        "###^^.^^^###############",
-        "########################",
-        "########################",
-        "########################"
-      ],
-      "palettes": [ "lab_palette" ],
-      "furniture": { "^": "f_rubble" },
-      "terrain": { "^": "t_thconc_floor" },
-      "place_nested": [
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 },
-        { "chunks": [ "lab_1side_border_doors" ], "x": 0, "y": 0 }
-      ]
-    }
-  },
-  {
     "//": "library + two lab rooms (filled in with '.' in order to ensure a normal t_thconc_floor inside)",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_1side" ],
+    "om_terrain": [ "tower_lab_1side" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -109,7 +65,7 @@
     "//": "military bunker",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_1side" ],
+    "om_terrain": [ "tower_lab_1side" ],
     "weight": 200,
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -192,26 +148,10 @@
     }
   },
   {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_barracks_turret",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_monster": [
-        {
-          "monster": "mon_turret_rifle",
-          "x": [ 10, 13 ],
-          "y": [ 15, 22 ],
-          "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] }
-        }
-      ]
-    }
-  },
-  {
     "//": "prisoner containment",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_1side" ],
+    "om_terrain": [ "tower_lab_1side" ],
     "weight": 200,
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -276,45 +216,6 @@
         { "chunks": [ [ "null", 95 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_1side_border_doors" ], "x": 0, "y": 0 }
       ]
-    }
-  },
-  {
-    "//": "Adds a hulk and smashes to rubble the doors for barracks and human containment.",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_hulk_smash",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_rubble": [ { "x": 11, "y": 4, "items": true }, { "x": 13, "y": 11, "items": true }, { "x": 12, "y": 13, "items": true } ],
-      "place_monster": [ { "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk" ], "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 } ],
-      "place_loot": [ { "group": "everyday_corpse", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": 2 } ],
-      "place_fields": [
-        { "field": "fd_blood", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 3, 5 ] },
-        { "field": "fd_gibs_flesh", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 0, 2 ] }
-      ]
-    }
-  },
-  {
-    "//": "Creates border doors for a lab_1side if-and-only-if final rotation would predict them existing.",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_1side_border_doors",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_nested": [
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": [ "lab" ] } },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": [ "lab" ] } }
-      ]
-    }
-  },
-  {
-    "//": "Adds a pair of doors in the center of the top entrance, as would be expected in a 1-sided lab section facing north or west.",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_north_doors",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "place_terrain": [ { "ter": "t_door_metal_lab_c", "x": 0, "y": 0 }, { "ter": "t_door_metal_lab_c", "x": 1, "y": 0 } ]
     }
   }
 ]
