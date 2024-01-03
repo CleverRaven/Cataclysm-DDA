@@ -10911,7 +10911,6 @@ void Character::process_effects()
         const optional_vpart_position vp_there = here.veh_at( your_pos );
         if( !vp_there ) {
             remove_effect( effect_cramped_space );
-            return;
         }
         if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
@@ -10940,17 +10939,11 @@ void Character::process_effects()
                     ( size == creature_size::medium && free_cargo < 62500_ml ) ||
                     ( size == creature_size::large && free_cargo < 125000_ml ) ||
                     ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    if( !has_effect( effect_cramped_space ) ) {
-                        add_effect( effect_cramped_space, 2_turns, true );
-                    }
                     is_cramped_space = true;
                 }
             }
             if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
                 !vp.part_with_feature( "HUGE_OK", false ) ) {
-                if( !has_effect( effect_cramped_space ) ) {
-                    add_effect( effect_cramped_space, 2_turns, true );
-                }
                 is_cramped_space = true;
             }
         }
