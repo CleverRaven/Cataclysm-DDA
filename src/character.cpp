@@ -10935,20 +10935,12 @@ void Character::process_effects()
                     ( size == creature_size::medium && free_cargo < 62500_ml ) ||
                     ( size == creature_size::large && free_cargo < 125000_ml ) ||
                     ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    if( !has_effect( effect_cramped_space ) ) {
-                        add_effect( effect_cramped_space, 2_turns, true );
-                    }
                     is_cramped_space = true;
-                    return;
                 }
             }
             if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
                 !vp.part_with_feature( "HUGE_OK", false ) ) {
-                if( !has_effect( effect_cramped_space ) ) {
-                    add_effect( effect_cramped_space, 2_turns, true );
-                }
                 is_cramped_space = true;
-                return;
             }
         }
         if( !is_cramped_space ) {
