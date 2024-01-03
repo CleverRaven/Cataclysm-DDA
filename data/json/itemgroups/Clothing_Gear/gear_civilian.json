@@ -32,7 +32,7 @@
       [ "machete_gimmick", 5 ],
       [ "teleumbrella", 20 ],
       [ "umbrella", 20 ],
-      { "prob": 100, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 100, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 100, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       [ "eyedrops", 50 ],
       { "item": "inhaler", "prob": 50, "charges-min": 10, "charges-max": 100 },

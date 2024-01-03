@@ -6,7 +6,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "group": "tobacco_products", "prob": 161 },
@@ -1112,7 +1112,7 @@
     "entries": [
       { "item": "weed", "prob": 30, "count": [ 1, 5 ] },
       { "prob": 30, "group": "coke_bag_zipper_1_8" },
-      { "prob": 40, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 40, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "syringe", "prob": 20 },
       { "prob": 10, "group": "meth_bag_zipper_1_6" },
@@ -1644,7 +1644,7 @@
       { "prob": 10, "group": "coke_bag_zipper_1_8" },
       { "group": "cigar_box_opened", "prob": 10, "count": [ 1, 2 ] },
       { "prob": 10, "group": "meth_bag_zipper_1_6" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       { "item": "mag_porn", "prob": 10 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 5 },
@@ -2035,7 +2035,7 @@
       [ "bikini_bottom", 5 ],
       [ "yoghurt", 12 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       [ "fitness_band", 10 ]
     ]
   },
@@ -2162,14 +2162,6 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_1_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
