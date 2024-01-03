@@ -80,7 +80,7 @@
     "min": 0,
     "max": 432,
     "rate": "100 s",
-    "disease_excess": [ [ 10, 216 ] ]
+    "disease_excess": [ [ 10, 432 ] ]
   },
   {
     "id": "vit_hypertensive",
@@ -91,7 +91,7 @@
     "min": 0,
     "max": 432,
     "rate": "100 s",
-    "disease_excess": [ [ 10, 216 ] ]
+    "disease_excess": [ [ 10, 432 ] ]
   },
   {
     "id": "vit_ssri_antidepressant_pre",
