@@ -108,17 +108,23 @@
     "extra_effects": [ { "id": "cause_loud_moaning" } ]
   },
   {
+    "//id_comment": "Should be mon_pseudo_dormant_ + $monster_id",
     "id": "mon_pseudo_dormant_zombie_fat",
     "type": "MONSTER",
+    "//name_comment": "Should be identical to $monster_name",
     "name": { "str": "fat zombie" },
     "copy-from": "mon_pseudo_dormant_zombie",
-    "looks_like": "corpse_mon_zombie_fat"
+    "//looks_like_comment": "Should be: corpse_mon_ + $monster_id",
+    "looks_like": "corpse_mon_zombie_fat",
+    "//zombify_into_comment": "Should be $monster_id",
+    "zombify_into": "mon_zombie_fat"
   },
   {
     "id": "mon_pseudo_dormant_zombie_tough",
     "type": "MONSTER",
     "name": { "str": "tough zombie" },
     "copy-from": "mon_pseudo_dormant_zombie",
-    "looks_like": "corpse_mon_zombie_tough"
+    "looks_like": "corpse_mon_zombie_tough",
+    "zombify_into": "mon_zombie_tough"
   }
 ]
