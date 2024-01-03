@@ -2069,6 +2069,7 @@
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
       { "item": "rucksack", "prob": 20 },
+      { "item": "backpack_denim", "prob": 8 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 },
       { "item": "leg_bag", "prob": 1 },
@@ -2101,6 +2102,7 @@
       { "item": "purse", "prob": 40 },
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
+      { "item": "backpack_denim", "prob": 8 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 }
     ]
@@ -3241,6 +3243,7 @@
       [ "runner_bag", 20 ],
       [ "molle_pack", 12 ],
       [ "backpack", 40 ],
+      [ "backpack_denim", 22 ],
       [ "backpack_leather", 32 ],
       [ "mbag", 26 ],
       [ "purse", 14 ],
@@ -4018,6 +4021,7 @@
           { "item": "daypack", "prob": 25 },
           { "item": "backpack_leather", "prob": 40 },
           { "item": "backpack", "prob": 85 },
+          { "item": "backpack_denim", "prob": 25 },
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
           { "item": "travelpack", "prob": 25 },

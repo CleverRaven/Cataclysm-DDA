@@ -59,7 +59,8 @@
     "entries": [
       { "item": "null", "prob": 20 },
       { "item": "backpack", "prob": 40 },
-      { "item": "backpack_leather", "prob": 40 },
+      { "item": "backpack_denim", "prob": 20 },
+      { "item": "backpack_leather", "prob": 20 },
       { "item": "rucksack", "prob": 5 }
     ]
   },

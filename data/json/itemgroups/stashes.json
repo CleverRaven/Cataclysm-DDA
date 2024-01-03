@@ -346,6 +346,13 @@
     "items": [ { "group": "child_bugout" } ]
   },
   {
+    "id": "child_bugout_bag_3",
+    "type": "item_group",
+    "container-item": "backpack_denim",
+    "on_overflow": "spill",
+    "items": [ { "group": "child_bugout" } ]
+  },
+  {
     "id": "child_bugout",
     "type": "item_group",
     "//": "a collection of items a kid could have haphazardly packed together before running away from home",

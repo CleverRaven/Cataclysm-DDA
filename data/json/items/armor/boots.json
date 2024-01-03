@@ -2155,7 +2155,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of jean sneakers", "str_pl": "pairss of jean sneakers" },
     "description": "A pair of denim shoes.  They are cool and that's about it.",
-    "//": "Denim part iz 10 oz."
+    "//": "Denim part is 10 oz.",
     "weight": "340 g",
     "volume": "1500 ml",
     "price": 5000,

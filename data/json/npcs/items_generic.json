@@ -271,6 +271,7 @@
     "items": [
       [ "null", 10 ],
       [ "backpack", 20 ],
+      [ "backpack_denim", 20 ],
       [ "backpack_leather", 20 ],
       [ "rucksack", 5 ],
       [ "mbag", 20 ],

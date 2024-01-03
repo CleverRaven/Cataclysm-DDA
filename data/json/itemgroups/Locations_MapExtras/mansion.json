@@ -555,6 +555,7 @@
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
       { "group": "loose_chess_pieces", "prob": 10, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
+      [ "backpack_denim", 5 ],
       [ "pom_poms", 30 ],
       [ "shuttlecock", 5 ],
       [ "baseball", 30 ],

@@ -76,8 +76,9 @@
     "id": "NC_COWBOY_storage",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 75 },
+      { "item": "null", "prob": 70 },
       { "item": "backpack", "prob": 10 },
+      { "item": "backpack_denim", "prob": 10 },
       { "item": "backpack_leather", "prob": 10 },
       { "item": "holster", "prob": 25 }
     ]
