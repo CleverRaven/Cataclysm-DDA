@@ -44,7 +44,7 @@ static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_heroin( "heroin" );
-static const itype_id itype_ibuprofen( " ibuprofen" );
+static const itype_id itype_ibuprofen( "ibuprofen" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
@@ -356,7 +356,13 @@ extern void remove_stale_inventory_quick_shortcuts();
 item *inventory::provide_pseudo_item( const item &tool )
 {
     if( !provisioned_pseudo_tools.insert( tool.typeId() ).second ) {
-        return nullptr; // already provided tool -> bail out
+        // already provided tool -> return existing
+        for( auto &stack : items ) {
+            if( stack.front().typeId() == tool.typeId() ) {
+                return &stack.front();
+            }
+        }
+        return nullptr;
     }
     item *res = &add_item( tool );
     res->set_flag( flag_PSEUDO );

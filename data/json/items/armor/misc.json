@@ -331,5 +331,20 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "dog_tag",
+    "type": "ARMOR",
+    "name": { "str_sp": "dog tag" },
+    "description": "An oval disk attached to a chain, worn by military personnel for identification.",
+    "weight": "5 g",
+    "volume": "1 ml",
+    "price": 10,
+    "price_postapoc": 1,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml"
   }
 ]

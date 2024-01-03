@@ -31,7 +31,6 @@ Proto-AI evolved from dimensional heuristics (the secrets of which are completel
 Energy storage among civilians is basically the same as real life earth, with a couple exceptions:
 - electrolytic hydrogen fuel cells are moderately more efficient, thanks to an early introduction of transdimensional tech.  As a result, fuel cell powered vehicles and other technologies are more common.
 - Li-ion batteries are no better, but are a bit cheaper and more common
-- Radioactive power sources such as betavoltaic cells and even radioisotope thermoelectric generators are more common owing to a generally less safe attitude towards consumers. These aren't any better than equivalent devices in reality... just more common.
 
 ### Powered Suits
 Due to the availability of fuel cells, powered exoskeletons for industrial work are extremely rare but do exist.  These suits are bulky but allow a degree of finesse that a crane or forklift can't match.  Their primary market is wealthy nerds.

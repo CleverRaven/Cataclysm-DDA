@@ -76,9 +76,6 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
-static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
 static const mtype_id mon_blob_large( "mon_blob_large" );
@@ -1644,7 +1641,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( *walk_point == source ) {
+    if( here.getlocal( *walk_point ) == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1654,7 +1651,9 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         if( caster_you != nullptr ) {
             if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
                 !g->walk_move( here.getlocal( *walk_point ), false ) ) {
-                --walk_point;
+                if( walk_point != trajectory.begin() ) {
+                    --walk_point;
+                }
                 break;
             } else {
                 sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );

@@ -130,7 +130,7 @@
     "description": "A wall of stacked earthbags, a bit taller than an average adult.",
     "required_str": -1,
     "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
-    "deconstruct": { "items": [ { "item": "earthbag", "count": 20 } ], "furn_set": "f_earthbag_half" },
+    "deconstruct": { "items": [ { "group": "earthbag", "count": 20 } ], "furn_set": "f_earthbag_half" },
     "bash": {
       "str_min": 24,
       "str_max": 80,

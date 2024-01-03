@@ -64,7 +64,7 @@
     "type": "vitamin",
     "vit_type": "drug",
     "name": { "str": "Blood thinner" },
-    "excess": "bleedrate_up",
+    "excess": "anticoagulant",
     "min": 0,
     "max": 4320,
     "rate": "100 s",

@@ -197,10 +197,6 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
-static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
-static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -3204,8 +3200,11 @@ void unload_activity_actor::start( player_activity &act, Character & )
 
 void unload_activity_actor::finish( player_activity &act, Character &who )
 {
+    // Need to copy `target` here because `::unload` is static and `this` might be invalidated
+    // after `act.set_to_null()` has been called (so `this.target` might also be invalidated)
+    item_location target_copy = target;
     act.set_to_null();
-    unload( who, target );
+    unload( who, target_copy );
 }
 
 void unload_activity_actor::unload( Character &who, item_location &target )

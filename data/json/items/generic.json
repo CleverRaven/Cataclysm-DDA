@@ -2523,20 +2523,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "dog_tag",
-    "name": { "str_sp": "dog tag" },
-    "description": "An oval disk attached to a chain, worn by military personnel for identification.",
-    "weight": "5 g",
-    "color": "light_gray",
-    "symbol": "[",
-    "material": [ "steel" ],
-    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
-    "volume": "1 ml",
-    "price": 0,
-    "price_postapoc": 0
-  },
-  {
-    "type": "GENERIC",
     "id": "dog_tag_dog",
     "name": { "str_sp": "dog tag" },
     "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.  It says \"<dog_name>\".",
