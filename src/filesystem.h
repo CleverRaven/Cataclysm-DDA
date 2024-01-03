@@ -105,9 +105,12 @@ std::string ensure_valid_file_name( const std::string &file_name );
 
 #if defined(_WIN32)
 // On Windows, it checks for some validity of the path. See .cpp
-bool is_lexically_valid( const fs::path& );
+bool is_lexically_valid( const fs::path & );
 #else
-constexpr bool is_lexically_valid( const fs::path& ) { return true; };
+constexpr bool is_lexically_valid( const fs::path & )
+{
+    return true;
+};
 #endif
 
 #endif // CATA_SRC_FILESYSTEM_H
