@@ -111,18 +111,6 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
 
-static const mon_flag_str_id mon_flag_ALL_SEEING( "ALL_SEEING" );
-static const mon_flag_str_id mon_flag_ALWAYS_SEES_YOU( "ALWAYS_SEES_YOU" );
-static const mon_flag_str_id mon_flag_ALWAYS_VISIBLE( "ALWAYS_VISIBLE" );
-static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_str_id mon_flag_CAMOUFLAGE( "CAMOUFLAGE" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_MECH_DEFENSIVE( "MECH_DEFENSIVE" );
-static const mon_flag_str_id mon_flag_NIGHT_INVISIBILITY( "NIGHT_INVISIBILITY" );
-static const mon_flag_str_id mon_flag_RANGED_ATTACKER( "RANGED_ATTACKER" );
-static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
-static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
-
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );

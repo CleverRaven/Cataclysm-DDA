@@ -206,8 +206,6 @@ static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
