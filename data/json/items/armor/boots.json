@@ -2196,7 +2196,7 @@
     ],
     "warmth": 25,
     "flags": [ "VARSIZE" ]
-  }
+  },
   {
     "id": "slippers",
     "type": "ARMOR",
