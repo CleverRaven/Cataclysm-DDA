@@ -1333,6 +1333,7 @@
     "subtype": "distribution",
     "items": [
       [ "jeans", 90 ],
+      [ "jeans_ripped", 10 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -1345,6 +1346,7 @@
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 10 ],
       [ "tank_top", 50 ],
       [ "undershirt", 30 ],
       [ "boxer_shorts", 30 ],
@@ -1377,6 +1379,8 @@
     "items": [
       { "item": "jeans", "prob": 50, "damage": [ 0, 2 ] },
       [ "jeans", 90 ],
+      { "item": "jeans_ripped", "prob": 5, "damage": [ 0, 2 ] },
+      [ "jeans_ripped", 10 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
       [ "pants", 75 ],
@@ -1392,6 +1396,7 @@
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 10 ],
       [ "tank_top", 50 ],
       [ "camisole", 30 ],
       [ "bra", 30 ],
@@ -1426,6 +1431,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "jeans", "prob": 90, "damage": [ 1, 3 ] },
+      { "item": "jeans", "prob": 10, "damage": [ 1, 3 ] },
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       { "item": "shorts_denim", "prob": 35, "damage": [ 1, 3 ] },
