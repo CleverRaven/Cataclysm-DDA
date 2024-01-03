@@ -77,7 +77,6 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
-static const mon_flag_str_id mon_flag_ALWAYS_VISIBLE( "ALWAYS_VISIBLE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 

@@ -118,9 +118,6 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
 
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
 static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );
 static const overmap_location_str_id overmap_location_source_of_drink( "source_of_drink" );

@@ -50,8 +50,6 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const event_statistic_id event_statistic_last_words( "last_words" );
 
-static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
-
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)

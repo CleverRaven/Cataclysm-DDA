@@ -138,8 +138,6 @@ static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
