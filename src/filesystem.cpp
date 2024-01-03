@@ -20,6 +20,34 @@
 #endif
 
 static const std::string invalid_chars = "\\/:?\"<>|";
+static const std::array invalid_names = {
+    std::string_view( "CON" ),
+    std::string_view( "PRN" ),
+    std::string_view( "AUX" ),
+    std::string_view( "NUL" ),
+    std::string_view( "COM0" ),
+    std::string_view( "COM1" ),
+    std::string_view( "COM2" ),
+    std::string_view( "COM3" ),
+    std::string_view( "COM4" ),
+    std::string_view( "COM5" ),
+    std::string_view( "COM6" ),
+    std::string_view( "COM7" ),
+    std::string_view( "COM8" ),
+    std::string_view( "COM9" ),
+    std::string_view( "COM" ),
+    std::string_view( "LPT0" ),
+    std::string_view( "LPT1" ),
+    std::string_view( "LPT2" ),
+    std::string_view( "LPT3" ),
+    std::string_view( "LPT4" ),
+    std::string_view( "LPT5" ),
+    std::string_view( "LPT6" ),
+    std::string_view( "LPT7" ),
+    std::string_view( "LPT8" ),
+    std::string_view( "LPT9" ),
+    std::string_view( "LPT" )
+};
 
 bool assure_dir_exist( const std::string &path )
 {
@@ -541,7 +569,8 @@ std::string ensure_valid_file_name( const std::string &file_name )
 }
 
 #if defined(_WIN32)
-bool is_lexically_valid( const fs::path& path ) {
+bool is_lexically_valid( const fs::path &path )
+{
     // Windows has strict rules for file naming
     fs::path valid = path.root_path();
     fs::path rel = path.relative_path();
@@ -554,6 +583,16 @@ bool is_lexically_valid( const fs::path& path ) {
         }
         for( auto &it : item ) {
             if( invalid_chars.find( it ) != std::string::npos ) {
+                return false;
+            }
+        }
+        for( auto &inv : invalid_names ) {
+            if( item == inv ) {
+                return false;
+            }
+            if( item.rfind( inv, 0 ) == 0 &&
+                item[ inv.size() ] == '.'
+              ) {
                 return false;
             }
         }
