@@ -62,7 +62,9 @@
       [ "motorbike_pants", 5 ],
       [ "jeans_mod", 5 ],
       [ "skirt", 20 ],
-      [ "skirt_leather", 20 ],
+      [ "skirt_long", 10 ],
+      [ "skirt_denim", 10 ],
+      [ "skirt_leather", 10 ],
       [ "nanoskirt", 5 ],
       [ "hot_pants", 20 ],
       [ "shorts_denim", 20 ]

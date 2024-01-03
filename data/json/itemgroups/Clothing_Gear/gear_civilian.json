@@ -358,6 +358,7 @@
       [ "hoodie", 65 ],
       [ "skirt", 75 ],
       [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
       [ "jacket_varsity", 20 ],

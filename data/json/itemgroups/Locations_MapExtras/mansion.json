@@ -1386,6 +1386,7 @@
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
       [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],

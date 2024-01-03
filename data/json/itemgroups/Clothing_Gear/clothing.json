@@ -1384,6 +1384,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "skirt", "prob": 5 },
+      { "item": "skirt_denim", "prob": 5 }
       { "item": "skirt_leather", "prob": 5 },
       { "item": "skirt_long", "prob": 5 },
       { "item": "leggings", "prob": 3 },
@@ -1401,6 +1402,7 @@
     "items": [
       [ "skirt", 40 ],
       [ "skirt_long", 40 ],
+      [ "skirt_denim", 15 ],
       [ "skirt_leather", 5 ],
       [ "dress", 120 ],
       [ "sundress", 50 ],
@@ -1483,6 +1485,7 @@
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_long", "prob": 25 },
+      { "item": "skirt_denim", "prob": 10 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
       { "item": "cheerleader_skirt", "prob": 1 },
@@ -1511,6 +1514,7 @@
       [ "breeches", 5 ],
       [ "skirt", 75 ],
       [ "skirt_long", 50 ],
+      [ "skirt_denim", 10 ],
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
@@ -1769,6 +1773,7 @@
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
       [ "skirt_long", 55 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "leggings", 15 ],
       [ "under_armor_shorts", 20 ],
@@ -2227,6 +2232,7 @@
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_long", "prob": 55 },
+      { "item": "skirt_denim", "prob": 10 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "tshirt", "prob": 70 },
       { "item": "longshirt", "prob": 80 },
@@ -2776,7 +2782,8 @@
       [ "pants", 75 ],
       [ "pants_cargo", 70 ],
       [ "skirt", 75 ],
-      [ "skirt_long", 60 ]
+      [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ]
     ]
   },
   {
@@ -3452,6 +3459,7 @@
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
       [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],
@@ -3917,6 +3925,7 @@
       { "item": "nanoskirt", "prob": 10 },
       { "item": "skirt", "prob": 50 },
       { "item": "skirt_long", "prob": 40 },
+      { "item": "skirt_denim", "prob": 20 },
       { "item": "skirt_leather", "prob": 10 }
     ]
   },
