@@ -10917,6 +10917,7 @@ void Character::process_effects()
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
         }
+        bool is_cramped_space = false;
         vehicle &veh = vp_there->vehicle();
         units::volume capacity = 0_ml;
         units::volume free_cargo = 0_ml;
@@ -10942,6 +10943,7 @@ void Character::process_effects()
                     if( !has_effect( effect_cramped_space ) ) {
                         add_effect( effect_cramped_space, 2_turns, true );
                     }
+                    is_cramped_space = true;
                 }
             }
             if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
@@ -10949,7 +10951,11 @@ void Character::process_effects()
                 if( !has_effect( effect_cramped_space ) ) {
                     add_effect( effect_cramped_space, 2_turns, true );
                 }
+                is_cramped_space = true;
             }
+        }
+        if( !is_cramped_space ) {
+            remove_effect( effect_cramped_space );
         }
     }
 
