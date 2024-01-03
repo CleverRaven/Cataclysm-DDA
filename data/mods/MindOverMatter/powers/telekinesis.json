@@ -88,9 +88,9 @@
   {
     "id": "telekinetic_slam_down",
     "type": "SPELL",
-    "name": "[Ψ]Flatten",
-    "description": "Knock something down with a burst of telekinetic force, doing a small amount of damage and downing them.",
-    "message": "Your target is slammed to the ground.",
+    "name": "[Ψ]Knockdown",
+    "description": "Slam something to the ground with a burst of telekinetic force, doing a small amount of damage and downing them.",
+    "message": "Your target is knocked to the ground.",
     "teachable": false,
     "valid_targets": [ "ally", "hostile", "ground" ],
     "spell_class": "TELEKINETIC",
