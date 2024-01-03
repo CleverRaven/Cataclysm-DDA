@@ -305,6 +305,79 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
+    "result": "glasses_monocle_crude_concave",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
+    "components": [
+      [ [ "lens", 1 ], [ "lens_small", 2 ], [ "lens_crude", 5 ] ],
+      [ [ "lead", 2 ], [ "copper", 2 ], [ "scrap", 2 ], [ "scrap_bronze", 2 ], [ "wire", 1 ] ]
+    ],
+    "byproducts": [ [ "glass_shard", 1 ] ],
+    "//": "The 5 crude lensi are for repeatedly trying until one gets a decent lens. Also where the shards come from.",
+    "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_metalworking" } ]
+  },
+  {
+    "result": "glasses_monocle_crude_convex",
+    "type": "recipe",
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
+    "components": [
+      [ [ "lens", 1 ], [ "lens_small", 2 ], [ "lens_crude", 5 ] ],
+      [ [ "lead", 2 ], [ "copper", 2 ], [ "scrap", 2 ], [ "scrap_bronze", 2 ], [ "wire", 1 ] ]
+    ],
+    "copy-from": "glasses_monocle_crude_concave"
+  },
+  {
+    "result": "glasses_monocle_polished_concave",
+    "type": "recipe",
+    "copy-from": "glasses_monocle_crude_concave",
+    "difficulty": 8,
+    "time": "18 h",
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
+      [ [ "forge", 75 ] ]
+    ],
+    "components": [
+      [ [ "cordage", 1, "LIST" ], [ "wire", 1 ] ],
+      [ [ "lens", 1 ], [ "lens_small", 2 ], [ "lens_crude", 10 ] ],
+      [ [ "gold_small", 2 ], [ "silver_small", 2 ], [ "platinum_small", 2 ], [ "wire", 1 ] ]
+    ]
+  },
+  {
+    "result": "glasses_monocle_polished_convex",
+    "type": "recipe",
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
+      [ [ "forge", 75 ] ]
+    ],
+    "components": [
+      [ [ "cordage", 1, "LIST" ], [ "wire", 1 ] ],
+      [ [ "lens", 1 ], [ "lens_small", 2 ], [ "lens_crude", 10 ] ],
+      [ [ "gold_small", 2 ], [ "silver_small", 2 ], [ "platinum_small", 2 ], [ "wire", 1 ] ]
+    ],
+    "copy-from": "glasses_monocle_polished_concave"
+  },
+  {
     "result": "goggles_swim",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

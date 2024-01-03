@@ -156,6 +156,124 @@
     "armor": [ { "coverage": 20, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
+    "id": "glasses_monocle_crude_concave",
+    "type": "ARMOR",
+    "name": { "str": "crude reading monocle" },
+    "//": "Handmade monocle. It's not pretty, but it gets the job done. Takes a long while to craft, and the heavy encumbrance partially simulates the flaws in the magnification. That said, simple optics are remarkably easy to make, dating back to at least the 14th century, and at most the 12th.",
+    "description": "A rather crude imitation of a monocle that just barely manages to help with reading, if you have no alternative. The large glass lens is difficult to keep in place, especially during moments of activity. It has a metal rim, supposedly to reduce worn discomfort.",
+    "weight": "32 g",
+    "volume": "15 ml",
+    "price": 500,
+    "price_postapoc": 25,
+    "to_hit": -2,
+    "material": [ "glass", "steel" ],
+    "symbol": "[",
+    "looks_like": "glasses_monocle",
+    "color": "cyan",
+    "material_thickness": 1,
+    "environmental_protection": 0,
+    "flags": [ "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT", "TRANSPARENT", "NO_SALVAGE", "HARD" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "glass", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "steel", "covered_by_mat": 2, "thickness": 0.2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 35,
+        "encumbrance": 18
+      }
+    ]
+  },
+  {
+    "id": "glasses_monocle_crude_convex",
+    "type": "ARMOR",
+    "copy-from": "glasses_monocle_crude_concave",
+    "name": { "str": "crude monocle" },
+    "description": "A rather crude imitation of a monocle, designed to be worn for as long as one needs the visual acuity, and not a second more.  The large glass lens is difficult to keep in place, especially during moments of activity. It has a metal rim, supposedly to reduce worn discomfort.",
+    "flags": [ "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT", "TRANSPARENT", "NO_SALVAGE", "HARD" ]
+  },
+  {
+    "id": "glasses_monocle_polished_concave",
+    "type": "ARMOR",
+    "//": "Handmade monocle. It's pretty and gets the job done. Less encumbering and more comfortable due to the care and effort put into it.",
+    "copy-from": "glasses_monocle_crude_concave",
+    "name": { "str": "hand-crafted reading monocle" },
+    "description": "While this is still clearly a hand-crafted monocle, the quality is actually rather decent. with noticeable effort put towards the comfort of the user. It has a very fancy metal rim, alongside a chain that connects to your clothes.  Perfect for reading literary classics or advanced technical manuals on an armchair, next to a fireplace.",
+    "weight": "16 g",
+    "volume": "5 ml",
+    "price": 2500,
+    "price_postapoc": 250,
+    "material": [ "glass", "gold" ],
+    "color": "yellow",
+    "flags": [ "SUPER_FANCY", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT", "TRANSPARENT", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "glass", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "gold", "covered_by_mat": 5, "thickness": 0.15 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 25,
+        "encumbrance": 10
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You take the monocle off, allowing it to hang loosely on your clothing.",
+      "target": "glasses_monocle_polished_concave_loose",
+      "menu_text": "Hang loose",
+      "need_worn": true
+    }
+  },
+  {
+    "id": "glasses_monocle_polished_concave_loose",
+    "type": "ARMOR",
+    "name": { "str": "hand-crafted reading monocle (loose)" },
+    "looks_like": "",
+    "copy-from": "glasses_monocle_polished_concave",
+    "use_action": {
+      "type": "transform",
+      "msg": "You put the monocle back on.",
+      "target": "glasses_monocle_polished_concave",
+      "menu_text": "Wear",
+      "need_worn": true
+    },
+    "flags": [ "FANCY", "FRAGILE", "TRANSPARENT", "NO_SALVAGE" ],
+    "//": "You can still keep the monocle around your clothing as a fashion statement, but it won't be as impressive.",
+    "armor": [  ],
+    "//2": "No coverage."
+  },
+  {
+    "id": "glasses_monocle_polished_convex",
+    "type": "ARMOR",
+    "copy-from": "glasses_monocle_polished_concave",
+    "name": { "str": "hand-crafted monocle" },
+    "description": "While this is still clearly a hand-crafted monocle, the quality is actually rather decent. with noticeable effort put towards the comfort of the user. It has a very fancy metal rim, alongside a chain that connects to your clothes. Perfect for hunting the most dangerous game of all.",
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT", "TRANSPARENT", "NO_SALVAGE" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You take the monocle off, allowing it to hang loosely on your clothing.",
+      "target": "glasses_monocle_polished_convex_loose",
+      "menu_text": "Hang loose",
+      "need_worn": true
+    }
+  },
+  {
+    "id": "glasses_monocle_polished_convex_loose",
+    "type": "ARMOR",
+    "name": { "str": "hand-crafted monocle (loose)" },
+    "description": "While this is still clearly a hand-crafted monocle, the quality is actually rather decent. with noticeable effort put towards the comfort of the user. It has a very fancy metal rim, alongside a chain that connects to your clothes. Perfect for hunting the most dangerous game of all.",
+    "copy-from": "glasses_monocle_polished_concave_loose",
+    "use_action": {
+      "type": "transform",
+      "msg": "You put the monocle back on.",
+      "target": "glasses_monocle_polished_convex",
+      "menu_text": "Wear",
+      "need_worn": true
+    }
+  },
+  {
     "id": "glasses_reading",
     "type": "ARMOR",
     "name": { "str": "pair of reading glasses", "str_pl": "pairs of reading glasses" },

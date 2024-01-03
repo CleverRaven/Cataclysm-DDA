@@ -7097,5 +7097,22 @@
       "qt_esbi_plate"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_monocles",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "monocles",
+    "description": "Recipes related to the construction of handmade monocles.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "glasses_monocle_polished_convex",
+      "glasses_monocle_polished_concave",
+      "glasses_monocle_crude_convex",
+      "glasses_monocle_crude_concave"
+    ],
+    "difficulty": 5
   }
 ]
