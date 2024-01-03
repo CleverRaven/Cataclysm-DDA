@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "office_palette",
     "terrain": {
-      "/": "t_open_air",
       " ": "t_null",
+      "/": "t_open_air",
       "%": "t_region_groundcover_urban",
       "~": "t_soil",
       "#": "t_concrete_wall",

@@ -2876,7 +2876,7 @@
     "id": "office_tower_hiddenlab",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "office_tower_2_a1_tower_lab_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "office_tower_2_a1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "office_tower_2_a2_north" },
       { "point": [ 2, 0, 0 ], "overmap": "office_tower_2_a3_north" },
       { "point": [ 0, 1, 0 ], "overmap": "office_tower_2_b1_north" },

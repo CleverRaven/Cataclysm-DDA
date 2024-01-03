@@ -6463,5 +6463,15 @@
     "type": "oter_id_migration",
     "//": "migrated in 0.H",
     "oter_ids": { "microlab_rock_border": "special_rock" }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "office_tower_2_a1_tower_lab_north": "office_tower_2_a1_north",
+      "office_tower_2_a1_tower_lab_east": "office_tower_2_a1_east",
+      "office_tower_2_a1_tower_lab_south": "office_tower_2_a1_south",
+      "office_tower_2_a1_tower_lab_west": "office_tower_2_a1_west"
+    }
   }
 ]

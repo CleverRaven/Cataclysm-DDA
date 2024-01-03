@@ -2,6 +2,83 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_office_tower_2_a1_tower_lab",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    e a hh              ",
+        "    e   tt              ",
+        "    c   hh              ",
+        "    S                   ",
+        "                        ",
+        "    hh  hh              ",
+        "    tt  tt              ",
+        "    hh  hh              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      dddx              ",
+        "       h                ",
+        "                        ",
+        "    ##E==#              ",
+        "    ''''''              ",
+        "    ''''''              ",
+        "    ''@<<@              ",
+        "       #                "
+      ],
+      "palettes": [ "office_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "@": "t_thconc_floor", "=": "t_door_metal_locked", "E": "t_card_science" },
+      "item": { "c": [ { "item": "microwave", "chance": 75 }, { "item": "coffeemaker", "chance": 75 } ] },
+      "place_monster": [ { "monster": "mon_zombie_scientist", "x": [ 7, 21 ], "y": [ 4, 10 ], "repeat": [ 1, 3 ] } ],
+      "monster": { "@": { "monster": "mon_turret_riot" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_office_tower_2_a1_no_tower_lab",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    A ???               ",
+        "    A                   ",
+        "    A    ^              ",
+        "                        ",
+        "                        ",
+        "    hh  hh              ",
+        "    tt  tt              ",
+        "    hh  hh              ",
+        "                        ",
+        "    a   ht              ",
+        "         h              ",
+        "    S                   ",
+        "    c   hh              ",
+        "    e   tt              ",
+        "    e   hh              ",
+        "    ###-##              ",
+        "  %%%#'''<              ",
+        " ssss-''RR              ",
+        "  %%%#''''              ",
+        "                        "
+      ],
+      "palettes": [ "office_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "item": { "c": [ { "item": "microwave", "chance": 75 }, { "item": "coffeemaker", "chance": 75 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [
       [ "office_tower_2_a1", "office_tower_2_a2", "office_tower_2_a3" ],
       [ "office_tower_2_b1", "office_tower_2_b2", "office_tower_2_b3" ]
@@ -13,25 +90,25 @@
         "ss%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ss____________________s",
         "s%%                                             %%s_s_ssssssssssssss_s_s",
         "s% ###VVV###VVV###VVV###VVV###VVV###VVV###VVV### %s___ssssssssssssss___s",
-        "s% #A.???.*x...x*x...x*x...x*x..hx*???.aw^....^# %s_ssssssssssssssssss_s",
-        "s% #A.....*dh..d*dh.hd*dh.hd*dh..d*?n...w...M..# %s_ssssssssssssssssss_s",
-        "s% #A....^*d..hd*d...d*d...d*d...d*.....w..hnh.# %s_ssssssssssssssssss_s",
+        "s% #......*x...x*x...x*x...x*x..hx*???.aw^....^# %s_ssssssssssssssssss_s",
+        "s% #......*dh..d*dh.hd*dh.hd*dh..d*?n...w...M..# %s_ssssssssssssssssss_s",
+        "s% #......*d..hd*d...d*d...d*d...d*.....w..hnh.# %s_ssssssssssssssssss_s",
         "s% #....................................+..hnh.# %s_ssssssssssssssssss_s",
         "s% V......*dh..d*d..hd*d...d*dh..d*.....w..hnh.V %s_ssssssssssssssssss_s",
-        "s% Vhh..hh*d..hd*dh..d*dh..d*d..hd*?n...wf..M..V %s_ssssssssssssssssss_s",
-        "s% #tt..tt*x...x*x...x*x..hx*x...x*??...wf...B.# %s_ssssssssssssssssss_s",
-        "s% #hh..hh***.*****.*****.*****.*****Y..######## %s_ssssssssssssssssss_s",
+        "s% V......*d..hd*dh..d*dh..d*d..hd*?n...wf..M..V %s_ssssssssssssssssss_s",
+        "s% #......*x...x*x...x*x..hx*x...x*??...wf...B.# %s_ssssssssssssssssss_s",
+        "s% #......***.*****.*****.*****.*****Y..######## %s_ssssssssssssssssss_s",
         "s% #......*x...x*x...x*x...x*x..hx*??...w^.AAAA# %s_ssssssssssssssssss_s",
-        "s% Va...ht*dh.hd*d..hd*dh..d*dh..d*?n...w......V %s_ssssssssssssssssss_s",
-        "s% V.....h*d...d*dh..d*d..hd*d...d*?....w.Md...V %s_ssssssssssssssssss_s",
-        "s% #S...................................+..dM.a# %s_ssssssssssssssssss_s",
-        "s% #c...hh*d...d*dh..d*d...d*d..hd*.....w.Md..f# %s_ssssssssssssssssss_s",
-        "s% #e...tt*dh..d*d..hd*dh.hd*dh..d*M....w..x..f# %s_ssssssssssssssssss_s",
-        "s% #e...hh*x..hx*x...x*x...x*x...x*M....w^....f#%%s___ssssssssssssss___s",
-        "s% ####-###**.*****.*****.*****.***.....########VVGGV_ssssssssssssss_s_s",
-        "s%%%%#'''<#f...f*f...f*f...f*f...f*.xd...^#iiiiV^...G__________________s",
-        "sssss-''RR#f...f*f...f*f...f*f...f*..d....-i..iV.ii.Gsssssssssssssssssss",
-        "s%%%%#''''#f...f*f...f*f...f*f...f*.hd....-i..iG.ii.V%%%%%%%%%%%%%%%%%ss",
+        "s% V......*dh.hd*d..hd*dh..d*dh..d*?n...w......V %s_ssssssssssssssssss_s",
+        "s% V......*d...d*dh..d*d..hd*d...d*?....w.Md...V %s_ssssssssssssssssss_s",
+        "s% #....................................+..dM.a# %s_ssssssssssssssssss_s",
+        "s% #......*d...d*dh..d*d...d*d..hd*.....w.Md..f# %s_ssssssssssssssssss_s",
+        "s% #......*dh..d*d..hd*dh.hd*dh..d*M....w..x..f# %s_ssssssssssssssssss_s",
+        "s% #......*x..hx*x...x*x...x*x...x*M....w^....f#%%s___ssssssssssssss___s",
+        "s% #......#**.*****.*****.*****.***.....########VVGGV_ssssssssssssss_s_s",
+        "s% #......#f...f*f...f*f...f*f...f*.xd...^#iiiiV^...G__________________s",
+        "s% #......#f...f*f...f*f...f*f...f*..d....-i..iV.ii.Gsssssssssssssssssss",
+        "s% #......#f...f*f...f*f...f*f...f*.hd....-i..iG.ii.V%%%%%%%%%%%%%%%%%ss",
         "s% ####-###################################i..iG...^V%               %%s",
         "s% #f....fff..hth.hth..coSee#A..x.^#.....f#i..iVGGVV##VVVVVVVVVVVVV## %s",
         "s% #f.........hth.hth.......#A..dh.#.hhh.f#i..iiiiiiiiiiiiiiiiiiiiii# %s",
@@ -60,7 +137,16 @@
       ],
       "palettes": [ "office_palette" ],
       "terrain": { " ": "t_region_groundcover", "_": "t_sidewalk", "i": "t_linoleum_gray", ".": "t_linoleum_white" },
-      "item": { "c": [ { "item": "microwave", "chance": 75 }, { "item": "coffeemaker", "chance": 75 } ] }
+      "item": { "c": [ { "item": "microwave", "chance": 75 }, { "item": "coffeemaker", "chance": 75 } ] },
+      "place_nested": [
+        { "chunks": [ "24x24_office_tower_2_a1_tower_lab" ], "x": 0, "y": 0, "neighbors": { "above": [ "lab" ] } },
+        {
+          "else_chunks": [ "24x24_office_tower_2_a1_no_tower_lab" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "above": [ "lab" ] }
+        }
+      ]
     }
   },
   {
@@ -255,51 +341,6 @@
         "                                                                        "
       ],
       "palettes": [ "roof_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "office_tower_2_a1_tower_lab" ],
-    "object": {
-      "fill_ter": "t_linoleum_white",
-      "rows": [
-        "ssssssssssssssssssssssss",
-        "ss%%%%%%%%%%%%%%%%%%%%%%",
-        "s%%                     ",
-        "s% ###VVV###VVV###VVV###",
-        "s% #e.a.hh*x...x*x...x*x",
-        "s% #e...tt*dh..d*dh.hd*d",
-        "s% #c...hh*d..hd*d...d*d",
-        "s% #S...................",
-        "s% V......*dh..d*d..hd*d",
-        "s% Vhh..hh*d..hd*dh..d*d",
-        "s% #tt..tt*x...x*x...x*x",
-        "s% #hh..hh***.*****.****",
-        "s% #......*x...x*x...x*x",
-        "s% V......*dh.hd*d..hd*d",
-        "s% V......*d...d*dh..d*d",
-        "s% #....................",
-        "s% #..dddx*d...d*dh..d*d",
-        "s% #...h..*dh..d*d..hd*d",
-        "s% #......*x..hx*x...x*x",
-        "s% ###E==##**.*****.****",
-        "s%   #''''#f...f*f...f*f",
-        "s%   #''''#f...f*f...f*f",
-        "s%   #@<<@#f...f*f...f*f",
-        "s% #####################"
-      ],
-      "palettes": [ "office_palette" ],
-      "terrain": {
-        " ": "t_region_groundcover",
-        ".": "t_linoleum_white",
-        "@": "t_thconc_floor",
-        "=": "t_door_metal_locked",
-        "E": "t_card_science"
-      },
-      "item": { "c": [ { "item": "microwave", "chance": 75 }, { "item": "coffeemaker", "chance": 75 } ] },
-      "place_monster": [ { "monster": "mon_zombie_scientist", "x": [ 7, 21 ], "y": [ 4, 10 ], "repeat": [ 1, 3 ] } ],
-      "monster": { "@": { "monster": "mon_turret_riot" } }
     }
   },
   {
