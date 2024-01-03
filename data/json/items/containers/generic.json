@@ -145,7 +145,7 @@
     "id": "saline_bag_2000_empty",
     "type": "GENERIC",
     "name": { "str": "huge liquid bag" },
-    "description": "Huge bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
+    "description": "Huge bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
     "weight": "40 g",
     "volume": "280 ml",
