@@ -181,7 +181,6 @@ struct fake_spell {
     spell get_spell( const Creature &caster, int min_level_override = 0 ) const;
     spell get_spell() const;
 
-
     bool is_valid() const;
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
