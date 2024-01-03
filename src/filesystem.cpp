@@ -540,8 +540,8 @@ std::string ensure_valid_file_name( const std::string &file_name )
     return new_file_name;
 }
 
-bool is_lexically_valid( const fs::path& path ) {
 #if defined(_WIN32)
+bool is_lexically_valid( const fs::path& path ) {
     // Windows has strict rules for file naming
     fs::path valid = path.root_path();
     fs::path rel = path.relative_path();
@@ -562,6 +562,6 @@ bool is_lexically_valid( const fs::path& path ) {
             }
         }
     }
-#endif
     return true;
 }
+#endif
