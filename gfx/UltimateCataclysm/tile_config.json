@@ -15711,7 +15711,6 @@
         {
           "id": [
             "corpse_mon_zombie",
-            "corpse_mon_pseudo_dormant_zombie",
             "corpse_mon_zombie_grappler",
             "corpse_mon_zombie_biter",
             "corpse_mon_zombie_hunter",
